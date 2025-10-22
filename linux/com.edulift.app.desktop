@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=EduLift
+Comment=Educational ride-sharing platform
+Exec=/workspace/.devcontainer/handle-edulift-url.sh %U
+Icon=edulift
+Type=Application
+Terminal=false
+Categories=Education;Utility;
+MimeType=x-scheme-handler/edulift;
+StartupNotify=true

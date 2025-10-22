@@ -1,0 +1,11 @@
+// Flutter E2E Flavor Configuration
+// Defines DART_DEFINES for E2E testing environment
+//
+// This file configures the iOS build to use the e2e flavor
+// by setting DART_DEFINES=RkxBVk9SPWUyZQ== (base64 encoded "FLAVOR=e2e")
+
+#include "Generated.xcconfig"
+
+// Set DART_DEFINES for e2e flavor
+// RkxBVk9SPWUyZQ== = base64("FLAVOR=e2e")
+DART_DEFINES=RkxBVk9SPWUyZQ==

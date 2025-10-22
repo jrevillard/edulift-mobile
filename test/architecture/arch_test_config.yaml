@@ -1,0 +1,150 @@
+# Architectural Testing Configuration
+# PRINCIPLE 0: RADICAL CANDOR - TRUTH ABOVE ALL
+
+# Performance optimization
+cache_enabled: true
+cache_directory: .arch_test_cache
+file_change_detection: true
+
+# Framework isolation rules
+domain_forbidden_packages:
+  - "package:flutter/"
+  - "package:dio/"
+  - "package:http/"
+  - "package:shared_preferences/"
+  - "package:hive/"
+  - "package:sqflite/"
+  - "package:connectivity_plus/"
+  - "package:device_info_plus/"
+
+# Naming conventions
+class_naming_rules:
+  repository_interfaces:
+    pattern: "*Repository"
+    required_layer: "domain"
+  repository_implementations:
+    pattern: "*RepositoryImpl"
+    required_layer: "data"
+  use_cases:
+    pattern: "*UseCase"
+    required_layer: "domain"
+  pages_screens:
+    patterns: ["*Page", "*Screen"]
+    required_layer: "presentation"
+
+# State management rules
+state_management:
+  immutable_state_required: true
+  provider_file_pattern: "*_provider.dart"
+  bloc_file_pattern: "*_bloc.dart"
+
+# Method signature constraints
+method_constraints:
+  domain_cannot_return: ["Widget", "BuildContext"]
+  domain_cannot_accept: ["BuildContext"]
+  entities_forbidden_methods: ["fromJson", "toJson"]
+  data_only_methods: ["fromJson", "toJson"]
+
+# Feature isolation
+feature_list:
+  - "auth"
+  - "family"
+  - "groups"
+  - "schedule"
+  - "dashboard"
+  - "onboarding"
+  - "invitations"
+
+# Allowed cross-feature exceptions
+cross_feature_exceptions:
+  schedule:
+    allowed_dependencies: ["family", "groups"]
+    reason: "Schedule coordinates family and group data"
+
+# Dependency cycle detection
+cycle_detection:
+  enabled: true
+  max_depth: 10
+  report_all_cycles: true
+
+# Error handling rules (NEW - CRITICAL)
+error_handling:
+  domain_forbidden_methods: ["throw", "try", "catch"]
+  required_return_types:
+    repositories: "Future<Either<Failure,"
+    usecases: "Future<Either<Failure,"
+  failure_types_required: true
+  exceptions_must_be_mapped: true
+
+# Mapper/transformer rules (NEW - HIGH PRIORITY)
+mapper_rules:
+  allowed_locations: ["data"]
+  naming_patterns: ["*Mapper", "*Transformer", "*Converter"]
+  domain_entities_cannot_have: ["fromJson", "toJson"]
+  data_dtos_must_have: ["fromJson", "toJson"]
+
+# Infrastructure layer definition (NEW - HIGH PRIORITY)
+infrastructure:
+  packages:
+    - "package:dio/"
+    - "package:http/"
+    - "package:firebase_"
+    - "package:cloud_firestore/"
+    - "package:sqflite/"
+    - "package:hive/"
+    - "package:shared_preferences/"
+    - "package:path_provider/"
+    - "package:connectivity_plus/"
+    - "package:device_info_plus/"
+    - "package:permission_handler/"
+    - "package:camera/"
+    - "package:image_picker/"
+    - "package:geolocator/"
+  allowed_layers: ["data", "infrastructure", "core"]
+  cannot_import_from: ["domain", "presentation"]
+
+# UseCase rules (NEW - HIGH PRIORITY)
+usecase_rules:
+  must_return_either: true
+  cannot_throw_exceptions: true
+  single_public_method: true
+  allowed_method_names: ["call", "execute", "invoke"]
+  must_use_dependency_injection: true
+
+# Test architecture rules (NEW - MEDIUM PRIORITY)
+test_architecture:
+  mirror_source_structure: true
+  mock_locations: ["test/fixtures/", "test/mocks/", "test/stubs/"]
+  helper_location: "test/helpers/"
+  golden_location: "test/goldens/"
+  widget_tests_cannot_import: ["data", "infrastructure"]
+  integration_test_location: ["integration_test/", "test/integration/"]
+
+# Enhanced BuildContext handling
+buildcontext_allowed_in:
+  - "presentation/**"
+  - "core/navigation/**"
+  - "core/theme/**"
+  - "core/localization/**"
+
+# Enhanced cross-feature rules
+cross_feature_rules:
+  shared_dependencies: ["auth", "core"]
+  explicit_exceptions:
+    schedule: ["family", "groups"]
+    dashboard: ["family", "schedule"]
+
+# Performance optimization (ENHANCED)
+performance:
+  incremental_check: true
+  cache_ttl: 3600
+  parallel_processing: true
+  skip_on_no_changes: true
+
+# Violation reporting (ENHANCED)
+reporting:
+  show_file_line_numbers: true
+  group_by_violation_type: true
+  severity_levels: ["critical", "high", "medium", "low"]
+  fail_on_severity: "high"
+  show_architecture_summary: true

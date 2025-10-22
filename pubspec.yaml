@@ -1,0 +1,157 @@
+name: edulift
+description: EduLift - Family Transportation Management
+publish_to: 'none'
+
+version: 2.0.0+1
+
+environment:
+  sdk: "^3.8.0"
+  flutter: ">=3.16.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+    
+  # Localization
+  flutter_localizations:
+    sdk: flutter
+  intl: any
+  
+  # State Management (Riverpod) - Compatible with Dart 3.2
+  flutter_riverpod: ^2.4.9
+  shared_preferences: ^2.3.3
+  
+  # Navigation - Compatible version
+  go_router: ^16.0.0
+  
+  # API Integration (Corrected Endpoints) - Compatible
+  dio: ^5.4.0
+  json_annotation: ^4.9.0
+  retrofit: ^4.0.3
+  
+  # Security (State-of-the-Art) - Compatible
+  flutter_secure_storage: ^10.0.0-beta.4
+  local_auth: ^2.1.6
+  crypto: ^3.0.3
+  pointycastle: ^4.0.0
+  
+  # Real-time Communication - Compatible
+  web_socket_channel: ^3.0.3
+  
+  # File Compression for Log Export
+  archive: ^3.6.1
+  
+  # Real Log Collection Backend for AppLogger
+  flutter_logs: ^2.2.1
+  
+  # Unified Notification System
+  flutter_local_notifications: ^18.0.1
+  firebase_messaging: ^15.1.0
+  permission_handler: ^11.3.1
+  
+  # Offline Storage & Sync - Hive CE for Flutter 3.35.1 compatibility
+  hive_ce: ^2.11.3
+  hive_ce_flutter: ^2.3.1
+  connectivity_plus: ^6.1.4
+  
+  # Utilities - Compatible
+  equatable: ^2.0.5
+  dartz: ^0.10.1
+  freezed_annotation: ^3.1.0
+
+  # Async utilities for CancelableOperation
+  async: ^2.11.0
+
+  # UUID Generation
+  uuid: ^4.5.1
+
+  # Timezone support for proper datetime handling
+  timezone: ^0.9.0
+  # flutter_native_timezone: ^2.0.0  # REMOVED - incompatible with AGP 8.0+, not needed (we use user profile timezone)
+
+  # Deep Links & Protocol Handlers
+  app_links: ^6.0.0
+  protocol_handler: ^0.2.0
+
+  # Firebase for Crashlytics and Analytics
+  firebase_core: ^3.6.0
+  firebase_crashlytics: ^4.1.3
+
+  share_plus: ^11.0.0
+  device_info_plus: ^11.0.0
+  package_info_plus: ^8.1.0
+  path_provider: ^2.1.5
+  # dio_certificate_pinning: ^5.0.0  # Temporarily disabled - package not found
+  local_auth_android: ^1.0.38
+  path: any
+
+  logging: any
+  logger: ^2.0.0
+  meta: any
+  riverpod_annotation: ^2.6.1
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+    
+  # Testing & Quality - Compatible with Dart 3.2
+  mockito: ^5.4.4
+  build_runner: ^2.4.13
+  json_serializable: ^6.7.1
+  freezed: ^3.1.0
+  coverage: ^1.6.0
+  hive_test: ^1.0.1
+  
+  # Flutter Driver for UI automation
+  flutter_driver:
+    sdk: flutter
+  test: any
+  
+  # Architectural Testing - ArchUnit equivalent for Dart
+  arch_test: ^0.1.0
+  
+  # Advanced Testing Dependencies - Phase 1.3 Compatibility Test
+  patrol: ^3.19.0
+  
+  # HTTP client for API integration tests
+  http: ^1.5.0
+  
+  # Code Generation for API - Compatible with Flutter 3.35.1
+  retrofit_generator: ^9.7.0
+  hive_ce_generator: ^1.9.2
+
+  integration_test:
+    sdk: flutter
+  state_notifier: any
+  http_mock_adapter: any
+  stream_channel: any
+  helpers: any
+  provider: any
+  path_provider_platform_interface: any
+  plugin_platform_interface: any
+
+
+  connectivity_plus_platform_interface: any
+  riverpod_generator: ^2.6.5
+  dead_code_analyzer: ^1.1.0
+
+# Patrol configuration for E2E testing
+  test_api: any
+patrol:
+  # Global timeout for tests (5 minutes max per test method)
+  timeout: 300s
+  # Retry failed tests once
+  retry: 0
+  # Default flavor for E2E tests (unified main.dart system)
+  flavor: e2e
+  # App name for E2E testing
+  app_name: EduLift E2E
+  # Package name for E2E flavor (with .e2e suffix from build.gradle.kts)
+  android:
+    package_name: com.edulift.app.e2e
+  # Bundle ID for iOS E2E flavor
+  ios:
+    bundle_id: com.edulift.app
+
+flutter:
+  uses-material-design: true
+  generate: true

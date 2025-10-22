@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "390712570284",
+    "project_id": "edulift-staging",
+    "storage_bucket": "edulift-staging.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:390712570284:android:c6b38aa4cf23bacd054a09",
+        "android_client_info": {
+          "package_name": "com.edulift.app.staging"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC2qc_U1Hz0JVt_7trVXJlJa1hbwEfzWNA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

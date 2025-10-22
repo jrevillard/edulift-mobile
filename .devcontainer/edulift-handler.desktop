@@ -1,0 +1,10 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=EduLift Protocol Handler
+Exec=/workspace/.devcontainer/handle-edulift-url.sh %u
+StartupNotify=false
+MimeType=x-scheme-handler/edulift;
+NoDisplay=true
+Terminal=false
+Categories=Network;

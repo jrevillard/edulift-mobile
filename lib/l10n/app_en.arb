@@ -1,0 +1,5419 @@
+{
+  "@@locale": "en",
+  "@@last_modified": "2025-09-06T18:50:00.000Z",
+  "about": "About",
+  "@about": {
+    "description": "About menu label"
+  },
+  "accept": "Accept",
+  "@accept": {
+    "description": "Accept invitation button text"
+  },
+  "accepted": "Accepted",
+  "@accepted": {
+    "description": "Accepted status label"
+  },
+  "acceptedInvitations": "Accepted",
+  "@acceptedInvitations": {
+    "description": "Accepted invitations label in stats"
+  },
+  "actionCannotBeUndone": "This action cannot be undone",
+  "@actionCannotBeUndone": {
+    "description": "Warning that leaving family cannot be reversed"
+  },
+  "actionCheckConnection": "Check your internet connection",
+  "@actionCheckConnection": {
+    "description": "Action step for checking internet connection"
+  },
+  "actionCheckEmail": "Check your email for a new login link",
+  "@actionCheckEmail": {
+    "description": "Action step for checking email for authentication link"
+  },
+  "actionFillRequired": "Make sure all required fields are filled",
+  "@actionFillRequired": {
+    "description": "Action step for completing required form fields"
+  },
+  "actionRestartApp": "Restart the app if the problem continues",
+  "@actionRestartApp": {
+    "description": "Action step for restarting the application"
+  },
+  "actionReviewInfo": "Review the information you entered",
+  "@actionReviewInfo": {
+    "description": "Action step for reviewing input information"
+  },
+  "actionSignOutSignIn": "Sign out and sign in again",
+  "@actionSignOutSignIn": {
+    "description": "Action step for re-authenticating"
+  },
+  "actionSwitchNetwork": "Switch to mobile data if using WiFi",
+  "@actionSwitchNetwork": {
+    "description": "Action step for switching network connection"
+  },
+  "actionTryAgain": "Try again",
+  "@actionTryAgain": {
+    "description": "Action step for retrying an operation"
+  },
+  "active": "Active",
+  "@active": {
+    "description": "Active status text"
+  },
+  "activeDays": "Active Days",
+  "@activeDays": {
+    "description": "Active days label"
+  },
+  "activeOverride": "Active Override",
+  "@activeOverride": {
+    "description": "Label for active seat override"
+  },
+  "add": "Add",
+  "@add": {
+    "description": "Add button text for floating action button"
+  },
+  "addChild": "Add child",
+  "@addChild": {
+    "description": "Add child button text"
+  },
+  "addEvent": "Add Event",
+  "@addEvent": {
+    "description": "Button to add event"
+  },
+  "addFirstTimeSlot": "Add First Time Slot",
+  "@addFirstTimeSlot": {
+    "description": "First time slot button"
+  },
+  "addFirstVehicle": "Add your first vehicle to start\\norganizing trips.",
+  "@addFirstVehicle": {
+    "description": "Message when no vehicles exist"
+  },
+  "addOrRemoveVehicles": "Add or remove vehicles",
+  "@addOrRemoveVehicles": {
+    "description": "Manage vehicles description"
+  },
+  "addOverride": "Add Override",
+  "@addOverride": {
+    "description": "Button text to add seat override"
+  },
+  "addSlot": "Add Slot",
+  "@addSlot": {
+    "description": "Add slot button"
+  },
+  "addTimeSlot": "Add Time Slot",
+  "@addTimeSlot": {
+    "description": "Dialog title for adding time slot"
+  },
+  "addTimeSlotsDescription": "Add time slots to define when vehicles can be scheduled",
+  "@addTimeSlotsDescription": {
+    "description": "Time slots help text"
+  },
+  "addVehicle": "Add vehicle",
+  "@addVehicle": {
+    "description": "Add vehicle page title"
+  },
+  "addVehicleTitle": "Add Vehicle",
+  "@addVehicleTitle": {
+    "description": "Add vehicle page title"
+  },
+  "addVehicleToSlot": "Add Vehicle",
+  "@addVehicleToSlot": {
+    "description": "Add vehicle to schedule slot button"
+  },
+  "addVehiclesToFamilyToStartScheduling": "Add vehicles to your family to start scheduling",
+  "@addVehiclesToFamilyToStartScheduling": {
+    "description": "Message when no vehicles exist for scheduling"
+  },
+  "additionalInformation": "Any additional information...",
+  "@additionalInformation": {
+    "description": "Hint text for additional notes"
+  },
+  "additionalNavigationOptions": "Additional navigation options would appear here",
+  "@additionalNavigationOptions": {
+    "description": "Placeholder for navigation options"
+  },
+  "additionalNotesOptional": "Additional Notes (Optional)",
+  "@additionalNotesOptional": {
+    "description": "Label for additional notes input"
+  },
+  "adjustCapacity": "Adjust Capacity",
+  "@adjustCapacity": {},
+  "adjustedCapacity": "Adjusted Capacity",
+  "@adjustedCapacity": {},
+  "adjustmentReason": "Reason for adjustment (optional)",
+  "@adjustmentReason": {},
+  "adjustmentReasonHint": "e.g., car seat, maintenance",
+  "@adjustmentReasonHint": {},
+  "admin": "Admin",
+  "@admin": {
+    "description": "Admin role label (short form)"
+  },
+  "adminCanManageMembers": "Admin can manage family members",
+  "@adminCanManageMembers": {
+    "description": "Description of admin role permissions"
+  },
+  "administrator": "Administrator",
+  "@administrator": {
+    "description": "Administrator role label"
+  },
+  "afternoon": "Afternoon",
+  "@afternoon": {
+    "description": "Afternoon time slot"
+  },
+  "age": "Age: {years} years",
+  "@age": {
+    "description": "Age display format",
+    "placeholders": {
+      "years": {
+        "type": "int",
+        "description": "Age in years"
+      }
+    }
+  },
+  "all": "All",
+  "@all": {
+    "description": "Filter option to show all items"
+  },
+  "allDays": "All Days",
+  "@allDays": {
+    "description": "All days selection option"
+  },
+  "allDaysSubtitle": "Every day",
+  "@allDaysSubtitle": {
+    "description": "All days option subtitle"
+  },
+  "appName": "EduLift",
+  "@appName": {
+    "description": "Application name"
+  },
+  "appVersion": "Version 1.0.0",
+  "@appVersion": {
+    "description": "Application version"
+  },
+  "applyChanges": "Apply Changes",
+  "@applyChanges": {},
+  "assignChildrenButton": "Assign {count, plural, =1{{count} Child} other{{count} Children}}",
+  "@assignChildrenButton": {
+    "description": "Assign children button text with ICU pluralization"
+  },
+  "assignChildrenToVehicles": "Assign children to vehicles",
+  "@assignChildrenToVehicles": {
+    "description": "Manage children description"
+  },
+  "assignNewAdminAndSwitch": "Assign New Admin and Switch",
+  "@assignNewAdminAndSwitch": {
+    "description": "Option to assign new admin before switching"
+  },
+  "assignNewAdminDesc": "Promote another member to admin, then join the new family",
+  "@assignNewAdminDesc": {
+    "description": "Description for assigning new admin"
+  },
+  "assignVehicleToSlot": "Assign a vehicle to this time slot",
+  "@assignVehicleToSlot": {
+    "description": "Add vehicle to slot description"
+  },
+  "assignedChildren": "Assigned Child",
+  "@assignedChildren": {},
+  "available": "Available",
+  "@available": {
+    "description": "Available status"
+  },
+  "availableOptions": "Available Options",
+  "@availableOptions": {
+    "description": "Section header for available options"
+  },
+  "availableSeats": "Available seats",
+  "@availableSeats": {
+    "description": "Label for available seat count"
+  },
+  "backToHome": "Back to home",
+  "@backToHome": {
+    "description": "Button text to return to home page"
+  },
+  "backToLogin": "Back to login",
+  "@backToLogin": {
+    "description": "Button text to go back to login page"
+  },
+  "basicInformation": "Basic information",
+  "@basicInformation": {
+    "description": "Section title for basic info"
+  },
+  "biometricAuthentication": "Biometric authentication",
+  "@biometricAuthentication": {
+    "description": "Biometric authentication button text"
+  },
+  "byLeavingFamilyYouWill": "By leaving this family, you will:",
+  "@byLeavingFamilyYouWill": {
+    "description": "Introduction to list of consequences of leaving family"
+  },
+  "cancel": "Cancel",
+  "@cancel": {
+    "description": "Generic cancel button text"
+  },
+  "cancelInvitation": "Cancel Invitation",
+  "@cancelInvitation": {
+    "description": "Action to cancel a pending invitation"
+  },
+  "cancelInvitationMessage": "They will no longer be able to join your family using this invitation.",
+  "@cancelInvitationMessage": {
+    "description": "Explanation message for cancelling invitation"
+  },
+  "cancelInvitationTitle": "Cancel Invitation",
+  "@cancelInvitationTitle": {
+    "description": "Title for cancel invitation dialog"
+  },
+  "cancelled": "Cancelled",
+  "@cancelled": {
+    "description": "Cancelled status label"
+  },
+  "capacity": "Capacity",
+  "@capacity": {
+    "description": "Generic capacity field label"
+  },
+  "capacityAdjustmentHint": "Temporarily adjust the number of available seats.",
+  "@capacityAdjustmentHint": {},
+  "capacityAndReasonRequired": "Capacity and reason are required",
+  "@capacityAndReasonRequired": {
+    "description": "Error when capacity and reason are not provided"
+  },
+  "capacityExceeded": "Capacity exceeded by {count}",
+  "@capacityExceeded": {
+    "description": "Warning when capacity is exceeded",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "description": "Number of seats over capacity"
+      }
+    }
+  },
+  "capacityHelpText": "Include the driver seat in the total count",
+  "@capacityHelpText": {
+    "description": "Help text explaining how to count vehicle capacity"
+  },
+  "capacityInformation": "Capacity Information",
+  "@capacityInformation": {
+    "description": "Section header for capacity information"
+  },
+  "car": "Car",
+  "@car": {
+    "description": "Car vehicle type"
+  },
+  "checkBackLater": "Check back later for new invitations",
+  "@checkBackLater": {
+    "description": "Message for non-admins when no invitations"
+  },
+  "checkYourEmail": "Check your email",
+  "@checkYourEmail": {
+    "description": "Main title on magic link page"
+  },
+  "checkingUser": "Checking user...",
+  "@checkingUser": {
+    "description": "Loading message when checking user status"
+  },
+  "childAddedSuccessfully": "Child \"{childName}\" added successfully",
+  "@childAddedSuccessfully": {
+    "description": "Success message after adding child",
+    "placeholders": {
+      "childName": {
+        "type": "String",
+        "description": "Full name of the added child"
+      }
+    }
+  },
+  "childDetailsTitle": "Child Details",
+  "@childDetailsTitle": {
+    "description": "Title for child details page"
+  },
+  "childIdLabel": "Child ID: {childId}",
+  "@childIdLabel": {
+    "description": "Label showing child ID",
+    "placeholders": {
+      "childId": {
+        "type": "String"
+      }
+    }
+  },
+  "childInfoDescription": "Add your child's information to include them in family management.",
+  "@childInfoDescription": {
+    "description": "Description for adding child information"
+  },
+  "childNameHint": "First or last name",
+  "@childNameHint": {},
+  "childAgeOptional": "Age (optional)",
+  "@childAgeOptional": {
+    "description": "Label for optional child age field"
+  },
+  "enterChildAge": "Enter age",
+  "@enterChildAge": {
+    "description": "Hint text for child age input field"
+  },
+  "childTransportCapacity": "{count, plural, =0{This vehicle cannot transport children (driver seat excluded)} =1{This vehicle can transport up to {count} child (driver seat excluded)} other{This vehicle can transport up to {count} children (driver seat excluded)}}",
+  "@childTransportCapacity": {
+    "description": "Child transport capacity with driver exclusion note and ICU pluralization",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "description": "Number of children that can be transported"
+      }
+    }
+  },
+  "childUpdatedSuccessfully": "Child updated successfully",
+  "@childUpdatedSuccessfully": {
+    "description": "Success message after updating child"
+  },
+  "children": "Children",
+  "@children": {
+    "description": "Children page title"
+  },
+  "childrenAssigned": "{count, plural, =1{{count} child assigned successfully} other{{count} children assigned successfully}}",
+  "@childrenAssigned": {
+    "description": "Children assigned successfully with ICU pluralization"
+  },
+  "childrenCount": "{count, plural, =1{{count} child} other{{count} children}}",
+  "@childrenCount": {
+    "description": "Count of children in family",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "description": "Number of children"
+      }
+    }
+  },
+  "childrenSelected": "{count, plural, =1{{count} child selected} other{{count} children selected}}",
+  "@childrenSelected": {
+    "description": "Children selected with ICU pluralization"
+  },
+  "chooseGroupForSchedule": "Choose a transport group to view its weekly schedule",
+  "@chooseGroupForSchedule": {
+    "description": "Group selection description"
+  },
+  "chooseResolution": "Choose Resolution",
+  "@chooseResolution": {
+    "description": "Section header for resolution options"
+  },
+  "clearAll": "Clear all",
+  "@clearAll": {},
+  "clearFilters": "Clear filters",
+  "@clearFilters": {
+    "description": "Menu item to clear filters"
+  },
+  "close": "Close",
+  "@close": {
+    "description": "Close button text"
+  },
+  "codeCopiedToClipboard": "Code copied to clipboard",
+  "@codeCopiedToClipboard": {
+    "description": "Success message when code is copied"
+  },
+  "codeExpired": "This code has expired",
+  "@codeExpired": {
+    "description": "Message for expired codes"
+  },
+  "codeForEmail": "Code for {email}:",
+  "@codeForEmail": {
+    "description": "Label for invitation code with email",
+    "placeholders": {
+      "email": {
+        "type": "String",
+        "description": "Email address"
+      }
+    }
+  },
+  "codeJoining": "Code joining",
+  "@codeJoining": {
+    "description": "Code joining type title"
+  },
+  "codes": "Codes",
+  "@codes": {
+    "description": "Tab label for invitation codes"
+  },
+  "comingSoon": "Coming soon",
+  "@comingSoon": {
+    "description": "Feature coming soon message"
+  },
+  "commonDepartureTimes": "Common departure times",
+  "@commonDepartureTimes": {
+    "description": "Section title for common departure times"
+  },
+  "compact": "Compact",
+  "@compact": {},
+  "configuration": "Configuration",
+  "@configuration": {
+    "description": "Configuration section title"
+  },
+  "configureSchedule": "Configure Schedule",
+  "@configureSchedule": {
+    "description": "Button to navigate to schedule configuration (admin only)"
+  },
+  "configureTimeSlots": "Configure Time Slots",
+  "@configureTimeSlots": {
+    "description": "Time slots configuration title"
+  },
+  "configureWeekdaySchedule": "Configure {weekday} schedule",
+  "@configureWeekdaySchedule": {
+    "description": "Configure specific weekday schedule title",
+    "placeholders": {
+      "weekday": {
+        "type": "String"
+      }
+    }
+  },
+  "confirm": "Confirm",
+  "@confirm": {
+    "description": "Confirm button text"
+  },
+  "confirmDelete": "Are you sure you want to delete",
+  "@confirmDelete": {
+    "description": "Delete confirmation message prefix"
+  },
+  "confirmLogout": "Confirm Sign Out",
+  "@confirmLogout": {
+    "description": "Logout confirmation title"
+  },
+  "confirmLogoutMessage": "Are you sure you want to sign out?",
+  "@confirmLogoutMessage": {
+    "description": "Logout confirmation message"
+  },
+  "confirmVehicleDeletion": "Are you sure you want to delete \"{vehicleName}\"?\n\nThis action is irreversible and will also delete\nall assignments for this vehicle.",
+  "@confirmVehicleDeletion": {
+    "description": "Confirmation message for vehicle deletion",
+    "placeholders": {
+      "vehicleName": {
+        "type": "String",
+        "description": "Name of the vehicle to delete"
+      }
+    }
+  },
+  "conflictResolution": "Conflict Resolution",
+  "@conflictResolution": {
+    "description": "Title for conflict resolution"
+  },
+  "conflictResolutionComingSoon": "Conflict resolution feature coming soon",
+  "@conflictResolutionComingSoon": {
+    "description": "Temporary message for upcoming feature"
+  },
+  "continueButton": "Continue",
+  "@continueButton": {
+    "description": "Continue button text"
+  },
+  "copyCode": "Copy Code",
+  "@copyCode": {
+    "description": "Button text to copy invitation code"
+  },
+  "createAccount": "Create account",
+  "@createAccount": {
+    "description": "Button text for account creation"
+  },
+  "createFamily": "Create Family",
+  "@createFamily": {
+    "description": "Button to create family"
+  },
+  "createGroup": "Create Group",
+  "@createGroup": {
+    "description": "Create group button text"
+  },
+  "createNewGroup": "Create New Group",
+  "@createNewGroup": {
+    "description": "Create new group title"
+  },
+  "createOverride": "Create Override",
+  "@createOverride": {
+    "description": "Button text to create seat override"
+  },
+  "createOverrideError": "Failed to create override. Please try again.",
+  "@createOverrideError": {
+    "description": "Error message when creating seat override fails"
+  },
+  "createSeatOverride": "Create Seat Override",
+  "@createSeatOverride": {
+    "description": "Title for create seat override form"
+  },
+  "createTransportGroupDescription": "Create a transport group to coordinate with other families",
+  "@createTransportGroupDescription": {
+    "description": "Create group description"
+  },
+  "createTrip": "Create Trip",
+  "@createTrip": {
+    "description": "Create trip page title"
+  },
+  "createVehicle": "Create Vehicle",
+  "@createVehicle": {
+    "description": "Create vehicle button text"
+  },
+  "createYourFamily": "Create Your Family",
+  "@createYourFamily": {
+    "description": "Header title for creating a new family"
+  },
+  "created": "Created",
+  "@created": {
+    "description": "Created date field label"
+  },
+  "createdOn": "Created on {date}",
+  "@createdOn": {
+    "description": "Created date format for invitations",
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "creating": "Creating...",
+  "@creating": {
+    "description": "Loading text when creating an item"
+  },
+  "dashboard": "Dashboard",
+  "@dashboard": {
+    "description": "Dashboard page title"
+  },
+  "criticalExpiringCount": "{count, plural, =1{{count} expiring in 2 hours or less} other{{count} expiring in 2 hours or less}}",
+  "@criticalExpiringCount": {
+    "description": "Critical expiring count message",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "currentCapacity": "Current: {count} {count, plural, =1{seat} other{seats}}",
+  "@currentCapacity": {
+    "description": "Current capacity display with pluralization",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "description": "Current capacity number"
+      }
+    }
+  },
+  "currentFamily": "Current family: {familyName}",
+  "@currentFamily": {
+    "description": "Current family name display",
+    "placeholders": {
+      "familyName": {
+        "type": "String"
+      }
+    }
+  },
+  "currentSeatsLabel": "Current: {count} seats",
+  "@currentSeatsLabel": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "currentSituation": "Current Situation",
+  "@currentSituation": {
+    "description": "Section header for current family situation"
+  },
+  "customTime": "Custom time",
+  "@customTime": {
+    "description": "Custom time option label"
+  },
+  "daysAgo": "{count, plural, =0{Today} =1{Yesterday} other{{count}d ago}}",
+  "@daysAgo": {
+    "description": "Relative date display with ICU pluralization",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "description": "Number of days ago"
+      }
+    }
+  },
+  "daysCount": "{count, plural, =1{{count} day} other{{count} days}}",
+  "@daysCount": {
+    "description": "Days count with ICU pluralization"
+  },
+  "decline": "Decline",
+  "@decline": {
+    "description": "Decline invitation button text"
+  },
+  "defaultCapacity": "Default: {count} {count, plural, =1{seat} other{seats}}",
+  "@defaultCapacity": {
+    "description": "Default capacity display with pluralization",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "description": "Number of seats"
+      }
+    }
+  },
+  "delete": "Delete",
+  "@delete": {
+    "description": "Generic delete button text"
+  },
+  "deleteAssignment": "Delete Assignment",
+  "@deleteAssignment": {
+    "description": "Delete assignment tooltip"
+  },
+  "deleteAssignmentTooltip": "Delete Assignment",
+  "@deleteAssignmentTooltip": {
+    "description": "Tooltip for delete assignment button"
+  },
+  "deleteFamily": "Delete Family",
+  "@deleteFamily": {
+    "description": "Option to delete family"
+  },
+  "deleteFamilyAndSwitch": "Delete Family and Switch",
+  "@deleteFamilyAndSwitch": {
+    "description": "Option to delete current family and switch"
+  },
+  "deleteFamilyConfirmation": "Delete Family",
+  "@deleteFamilyConfirmation": {
+    "description": "Dialog title for family deletion confirmation"
+  },
+  "deleteFamilyDesc": "Permanently delete your current family and join the new one",
+  "@deleteFamilyDesc": {
+    "description": "Description for deleting family"
+  },
+  "deleteFamilyLastMemberDesc": "Permanently delete this family since you are the only member",
+  "@deleteFamilyLastMemberDesc": {
+    "description": "Description for deleting family as last member"
+  },
+  "deleteFamilyWarning": "This will permanently delete the family '{familyName}' and all its data. This action cannot be undone.",
+  "@deleteFamilyWarning": {
+    "description": "Warning message for family deletion",
+    "placeholders": {
+      "familyName": {
+        "type": "String"
+      }
+    }
+  },
+  "deleteTimeSlotTooltip": "Delete time slot",
+  "@deleteTimeSlotTooltip": {
+    "description": "Delete button tooltip"
+  },
+  "deleteVehicle": "Delete vehicle",
+  "@deleteVehicle": {
+    "description": "Delete vehicle confirmation dialog title"
+  },
+  "demoteFromAdmin": "Demote from Admin",
+  "@demoteFromAdmin": {
+    "description": "Option to demote member from admin role"
+  },
+  "departureTimesSelected": "{count, plural, =1{{count} departure time selected} other{{count} departure times selected}}",
+  "@departureTimesSelected": {
+    "description": "Number of selected departure times with ICU pluralization"
+  },
+  "departureHours": "Departure Hours",
+  "@departureHours": {
+    "description": "Label for departure hours configuration section"
+  },
+  "description": "Description",
+  "@description": {
+    "description": "Generic description field label"
+  },
+  "developerTools": "Developer Tools",
+  "@developerTools": {
+    "description": "Developer tools section title"
+  },
+  "displayInvitationCode": "Display the invitation code",
+  "@displayInvitationCode": {
+    "description": "Description for show invitation code action"
+  },
+  "dragVehiclesToTimeSlots": "Drag vehicles to time slots",
+  "@dragVehiclesToTimeSlots": {
+    "description": "Instructions for drag and drop vehicles"
+  },
+  "edit": "Edit",
+  "@edit": {
+    "description": "Generic edit button text"
+  },
+  "editAssignment": "Edit Assignment",
+  "@editAssignment": {
+    "description": "Edit assignment tooltip"
+  },
+  "editAssignmentTooltip": "Edit Assignment",
+  "@editAssignmentTooltip": {
+    "description": "Tooltip for edit assignment button"
+  },
+  "editFunctionalityComingSoon": "Edit functionality coming soon",
+  "@editFunctionalityComingSoon": {
+    "description": "Placeholder message for unimplemented edit feature"
+  },
+  "editGroup": "Edit Group",
+  "@editGroup": {},
+  "editTimeSlot": "Edit Time Slot",
+  "@editTimeSlot": {
+    "description": "Dialog title for editing time slot"
+  },
+  "editTimeSlotTooltip": "Edit time slot",
+  "@editTimeSlotTooltip": {
+    "description": "Edit button tooltip"
+  },
+  "editVehicle": "Edit Vehicle",
+  "@editVehicle": {
+    "description": "Edit vehicle page title"
+  },
+  "editVehicleTitle": "Edit Vehicle",
+  "@editVehicleTitle": {
+    "description": "Edit vehicle page title"
+  },
+  "editVehicleTooltip": "Edit Vehicle",
+  "@editVehicleTooltip": {
+    "description": "Edit vehicle button tooltip"
+  },
+  "email": "Email",
+  "@email": {
+    "description": "Label for email field"
+  },
+  "emailAddress": "Email address",
+  "@emailAddress": {
+    "description": "Label for email input field"
+  },
+  "emailLabel": "Email: ",
+  "@emailLabel": {
+    "description": "Label for email display"
+  },
+  "emailRequired": "Email is required",
+  "@emailRequired": {
+    "description": "Validation error when email is missing"
+  },
+  "emergency": "Emergency",
+  "@emergency": {
+    "description": "Emergency seat override type"
+  },
+  "emergencyContact": "Emergency contact",
+  "@emergencyContact": {
+    "description": "Emergency contact field label"
+  },
+  "english": "English",
+  "@english": {
+    "description": "English language name"
+  },
+  "ensureOtherAdmins": "As an admin, ensure there are other admins in the family before leaving.",
+  "@ensureOtherAdmins": {
+    "description": "Warning for admin users about ensuring other admins exist"
+  },
+  "enterEmailOfFamilyMember": "Enter email of a family member",
+  "@enterEmailOfFamilyMember": {
+    "description": "Hint text for new admin email field"
+  },
+  "enterFamilyInvitationInstruction": "Please enter your family invitation code to continue",
+  "@enterFamilyInvitationInstruction": {
+    "description": "Instruction text for family invitation code entry"
+  },
+  "enterFullName": "Enter your full name",
+  "@enterFullName": {
+    "description": "Hint text for full name input field"
+  },
+  "enterGroupInvitationCodeTitle": "Enter Group Invitation Code",
+  "@enterGroupInvitationCodeTitle": {
+    "description": "Title for group invitation code entry"
+  },
+  "enterGroupInvitationInstruction": "Please enter your group invitation code to continue",
+  "@enterGroupInvitationInstruction": {
+    "description": "Instruction text for group invitation code entry"
+  },
+  "enterGroupName": "Enter group name",
+  "@enterGroupName": {
+    "description": "Group name hint"
+  },
+  "enterInvitationCode": "Enter invitation code",
+  "@enterInvitationCode": {
+    "description": "Invitation code hint"
+  },
+  "enterInvitationCodeTitle": "Enter Invitation Code",
+  "@enterInvitationCodeTitle": {
+    "description": "Title for manual invitation code entry"
+  },
+  "enterMemberEmail": "Enter member's email",
+  "@enterMemberEmail": {
+    "description": "Placeholder for member email input"
+  },
+  "enterMemberName": "Enter member's name",
+  "@enterMemberName": {
+    "description": "Placeholder for member name input"
+  },
+  "enterNewCapacity": "Enter new capacity",
+  "@enterNewCapacity": {
+    "description": "Hint text for capacity input"
+  },
+  "enterReceivedCode": "Enter received code",
+  "@enterReceivedCode": {
+    "description": "Hint text for code input field"
+  },
+  "enterTotalSeats": "Enter total seats",
+  "@enterTotalSeats": {
+    "description": "Placeholder text for total seats field"
+  },
+  "enterVehicleName": "Enter vehicle name",
+  "@enterVehicleName": {
+    "description": "Placeholder text for vehicle name field"
+  },
+  "errorAuth": "Authentication error",
+  "@errorAuth": {
+    "description": "Authentication error message"
+  },
+  "errorAuthAccessDenied": "Access denied",
+  "@errorAuthAccessDenied": {
+    "description": "Domain: Access denied"
+  },
+  "errorAuthAccountDisabled": "This account has been disabled. Please contact support",
+  "@errorAuthAccountDisabled": {
+    "description": "Domain: Account is disabled"
+  },
+  "errorAuthAccountLocked": "This account has been locked due to suspicious activity",
+  "@errorAuthAccountLocked": {
+    "description": "Domain: Account is locked"
+  },
+  "errorAuthAccountNotFound": "No account found with this email address",
+  "@errorAuthAccountNotFound": {
+    "description": "Domain: Account does not exist"
+  },
+  "errorAuthApiError": "API error. Please try again",
+  "@errorAuthApiError": {
+    "description": "Domain: API error"
+  },
+  "errorAuthBiometricAuthFailed": "Biometric authentication failed. Please try again",
+  "@errorAuthBiometricAuthFailed": {
+    "description": "Domain: Biometric auth failed"
+  },
+  "errorAuthBiometricLockout": "Biometric authentication is temporarily locked. Please try again later",
+  "@errorAuthBiometricLockout": {
+    "description": "Domain: Biometric lockout"
+  },
+  "errorAuthBiometricNotAvailable": "Biometric authentication is not available on this device",
+  "@errorAuthBiometricNotAvailable": {
+    "description": "Domain: Biometric not available"
+  },
+  "errorAuthBiometricNotEnabled": "Biometric authentication is not enabled",
+  "@errorAuthBiometricNotEnabled": {
+    "description": "Domain: Biometric not enabled"
+  },
+  "errorAuthBiometricNotEnrolled": "No biometric data enrolled. Please set up biometric authentication in your device settings",
+  "@errorAuthBiometricNotEnrolled": {
+    "description": "Domain: Biometric not enrolled"
+  },
+  "errorAuthConfigurationError": "Authentication configuration error. Please contact support",
+  "@errorAuthConfigurationError": {
+    "description": "Domain: Configuration error"
+  },
+  "errorAuthConnectionLost": "Connection lost. Please check your internet connection",
+  "@errorAuthConnectionLost": {
+    "description": "Domain: Connection lost"
+  },
+  "errorAuthCrossUserTokenAttempt": "Invalid token for this user",
+  "@errorAuthCrossUserTokenAttempt": {
+    "description": "Domain: Token belongs to different user"
+  },
+  "errorAuthDecryptionError": "Failed to decrypt authentication data",
+  "@errorAuthDecryptionError": {
+    "description": "Domain: Decryption error"
+  },
+  "errorAuthDeviceNotRecognized": "Device not recognized. Please verify your identity",
+  "@errorAuthDeviceNotRecognized": {
+    "description": "Domain: Device not recognized"
+  },
+  "errorAuthEmailAlreadyExists": "An account with this email already exists",
+  "@errorAuthEmailAlreadyExists": {
+    "description": "Domain: Email already registered"
+  },
+  "errorAuthEmailInvalid": "Please enter a valid email address",
+  "@errorAuthEmailInvalid": {
+    "description": "Validation: Email format is invalid"
+  },
+  "errorAuthEmailNotVerified": "Email address has not been verified",
+  "@errorAuthEmailNotVerified": {
+    "description": "Domain: Email not verified"
+  },
+  "errorAuthEmailRequired": "Email address is required",
+  "@errorAuthEmailRequired": {
+    "description": "Validation: Email is required"
+  },
+  "errorAuthEmailTooLong": "Email address is too long (maximum 254 characters)",
+  "@errorAuthEmailTooLong": {
+    "description": "Validation: Email exceeds maximum length"
+  },
+  "errorAuthEncryptionError": "Failed to encrypt authentication data",
+  "@errorAuthEncryptionError": {
+    "description": "Domain: Encryption error"
+  },
+  "errorAuthInsufficientPermissions": "You don't have permission to perform this action",
+  "@errorAuthInsufficientPermissions": {
+    "description": "Domain: Insufficient permissions"
+  },
+  "errorAuthInvalidCredentials": "Invalid email or password",
+  "@errorAuthInvalidCredentials": {
+    "description": "Domain: Credentials are invalid"
+  },
+  "errorAuthInvalidEmail": "Email address format is invalid",
+  "@errorAuthInvalidEmail": {
+    "description": "Domain: Email format invalid"
+  },
+  "errorAuthInvalidMagicLink": "This magic link is invalid or has already been used",
+  "@errorAuthInvalidMagicLink": {
+    "description": "Domain: Magic link is invalid"
+  },
+  "errorAuthInvalidRequest": "Invalid request. Please try again",
+  "@errorAuthInvalidRequest": {
+    "description": "Domain: Invalid request"
+  },
+  "errorAuthInvalidToken": "Authentication token is invalid",
+  "@errorAuthInvalidToken": {
+    "description": "Domain: Token is invalid"
+  },
+  "errorAuthInvalidVerificationCode": "Invalid verification code",
+  "@errorAuthInvalidVerificationCode": {
+    "description": "Domain: Verification code invalid"
+  },
+  "errorAuthInviteCodeExpired": "This invitation code has expired",
+  "@errorAuthInviteCodeExpired": {
+    "description": "Validation: Invite code has expired"
+  },
+  "errorAuthInviteCodeInvalid": "Please enter a valid invitation code (at least 6 characters)",
+  "@errorAuthInviteCodeInvalid": {
+    "description": "Validation: Invite code format is invalid"
+  },
+  "errorAuthIpBlocked": "Access temporarily blocked. Please try again later",
+  "@errorAuthIpBlocked": {
+    "description": "Domain: IP blocked"
+  },
+  "errorAuthMagicLinkAlreadyUsed": "This magic link has already been used",
+  "@errorAuthMagicLinkAlreadyUsed": {
+    "description": "Domain: Magic link already used"
+  },
+  "errorAuthMagicLinkExpired": "This magic link has expired. Please request a new one",
+  "@errorAuthMagicLinkExpired": {
+    "description": "Domain: Magic link expired"
+  },
+  "errorAuthMagicLinkTokenInvalid": "The magic link token is invalid or has expired",
+  "@errorAuthMagicLinkTokenInvalid": {
+    "description": "Validation: Magic link token is invalid"
+  },
+  "errorAuthMagicLinkTokenRequired": "Magic link token is required",
+  "@errorAuthMagicLinkTokenRequired": {
+    "description": "Validation: Magic link token is required"
+  },
+  "errorAuthMessage": "Your session has expired. Please sign in again.",
+  "@errorAuthMessage": {
+    "description": "Authentication error message"
+  },
+  "errorAuthMultipleSessions": "Multiple sessions detected. Please sign in again",
+  "@errorAuthMultipleSessions": {
+    "description": "Domain: Multiple sessions detected"
+  },
+  "errorAuthNameInvalidChars": "Name can only contain letters, spaces, hyphens, and apostrophes",
+  "@errorAuthNameInvalidChars": {
+    "description": "Validation: Name contains invalid characters"
+  },
+  "errorAuthNameMaxLength": "Name cannot exceed 50 characters",
+  "@errorAuthNameMaxLength": {
+    "description": "Validation: Name is too long"
+  },
+  "errorAuthNameMinLength": "Name must be at least 2 characters",
+  "@errorAuthNameMinLength": {
+    "description": "Validation: Name is too short"
+  },
+  "errorAuthNameRequired": "Full name is required",
+  "@errorAuthNameRequired": {
+    "description": "Validation: Name is required"
+  },
+  "errorAuthNetworkError": "Network error. Please check your internet connection",
+  "@errorAuthNetworkError": {
+    "description": "Domain: Network error"
+  },
+  "errorAuthOperationCancelled": "Operation cancelled",
+  "@errorAuthOperationCancelled": {
+    "description": "Domain: Operation cancelled"
+  },
+  "errorAuthPkceVerificationFailed": "Authentication verification failed",
+  "@errorAuthPkceVerificationFailed": {
+    "description": "Domain: PKCE verification failed"
+  },
+  "errorAuthResourceNotFound": "The requested resource was not found",
+  "@errorAuthResourceNotFound": {
+    "description": "Domain: Resource not found"
+  },
+  "errorAuthSecureStorageUnavailable": "Secure storage is not available on this device",
+  "@errorAuthSecureStorageUnavailable": {
+    "description": "Domain: Secure storage unavailable"
+  },
+  "errorAuthSecurityValidationFailed": "Security validation failed. Please try again",
+  "@errorAuthSecurityValidationFailed": {
+    "description": "Domain: Security validation failed"
+  },
+  "errorAuthServerError": "Server error. Please try again later",
+  "@errorAuthServerError": {
+    "description": "Domain: Server error"
+  },
+  "errorAuthSessionExpired": "Your session has expired. Please sign in again",
+  "@errorAuthSessionExpired": {
+    "description": "Domain: Session has expired"
+  },
+  "errorAuthStorageError": "Failed to save authentication data. Please try again",
+  "@errorAuthStorageError": {
+    "description": "Domain: Storage error"
+  },
+  "errorAuthSuspiciousActivity": "Suspicious activity detected. Please verify your identity",
+  "@errorAuthSuspiciousActivity": {
+    "description": "Domain: Suspicious activity"
+  },
+  "errorAuthTimeout": "Request timed out. Please try again",
+  "@errorAuthTimeout": {
+    "description": "Domain: Request timeout"
+  },
+  "errorAuthTitle": "Authentication Required",
+  "@errorAuthTitle": {
+    "description": "Authentication error title"
+  },
+  "errorAuthTokenExpired": "Your session has expired. Please sign in again",
+  "@errorAuthTokenExpired": {
+    "description": "Domain: Token has expired"
+  },
+  "errorAuthTokenMissing": "Authentication token is missing",
+  "@errorAuthTokenMissing": {
+    "description": "Domain: Token is missing"
+  },
+  "errorAuthTokenRefreshFailed": "Failed to refresh authentication. Please sign in again",
+  "@errorAuthTokenRefreshFailed": {
+    "description": "Domain: Token refresh failed"
+  },
+  "errorAuthTokenStorageError": "Failed to store authentication token",
+  "@errorAuthTokenStorageError": {
+    "description": "Domain: Token storage error"
+  },
+  "errorAuthTooManyAttempts": "Too many failed attempts. Please try again later",
+  "@errorAuthTooManyAttempts": {
+    "description": "Domain: Too many attempts"
+  },
+  "errorAuthUnknown": "An unexpected error occurred. Please try again",
+  "@errorAuthUnknown": {
+    "description": "Domain: Unknown error"
+  },
+  "errorAuthUserAlreadyInFamily": "This user is already member of another family",
+  "@errorAuthUserAlreadyInFamily": {
+    "description": "Domain: User already in family"
+  },
+  "errorAuthUserDataStorageError": "Failed to store user data",
+  "@errorAuthUserDataStorageError": {
+    "description": "Domain: User data storage error"
+  },
+  "errorAuthorizationMessage": "You don't have permission to perform this action.",
+  "@errorAuthorizationMessage": {
+    "description": "Authorization error message"
+  },
+  "errorAuthorizationTitle": "Access Denied",
+  "@errorAuthorizationTitle": {
+    "description": "Authorization error title"
+  },
+  "errorBiometricMessage": "Biometric authentication failed. Please try again or use your passcode.",
+  "@errorBiometricMessage": {
+    "description": "Biometric error message"
+  },
+  "errorBiometricTitle": "Biometric Error",
+  "@errorBiometricTitle": {
+    "description": "Biometric error title"
+  },
+  "errorChangingLanguage": "Error changing language",
+  "@errorChangingLanguage": {
+    "description": "Error message for language change"
+  },
+  "errorChildAgeNotNumber": "Child age must be a number",
+  "@errorChildAgeNotNumber": {
+    "description": "Validation error when child age is not a valid number"
+  },
+  "errorChildAgeRequired": "Child age is required",
+  "@errorChildAgeRequired": {
+    "description": "Validation error for missing child age"
+  },
+  "errorChildAgeTooOld": "Child age cannot exceed {maxAge} years",
+  "@errorChildAgeTooOld": {
+    "description": "Validation error when child age is above maximum",
+    "placeholders": {
+      "maxAge": {
+        "type": "int"
+      }
+    }
+  },
+  "errorChildAgeTooYoung": "Child age must be at least {minAge} year(s) old",
+  "@errorChildAgeTooYoung": {
+    "description": "Validation error when child age is below minimum",
+    "placeholders": {
+      "minAge": {
+        "type": "int"
+      }
+    }
+  },
+  "errorChildEmergencyContactInvalid": "Emergency contact format is invalid (phone or email required)",
+  "@errorChildEmergencyContactInvalid": {
+    "description": "Validation error when emergency contact format is not valid"
+  },
+  "errorChildEmergencyContactRequired": "Emergency contact is required",
+  "@errorChildEmergencyContactRequired": {
+    "description": "Validation error for missing emergency contact"
+  },
+  "errorChildGradeInvalid": "Grade format is invalid",
+  "@errorChildGradeInvalid": {
+    "description": "Validation error when grade format is not recognized"
+  },
+  "errorChildMedicalInfoTooLong": "Medical information is too long (maximum {maxLength} characters)",
+  "@errorChildMedicalInfoTooLong": {
+    "description": "Validation error when medical information exceeds length limit",
+    "placeholders": {
+      "maxLength": {
+        "type": "int"
+      }
+    }
+  },
+  "errorChildNameInvalidChars": "Child name contains invalid characters",
+  "@errorChildNameInvalidChars": {
+    "description": "Error message when child name has invalid characters"
+  },
+  "errorChildNameMaxLength": "Child name cannot exceed 30 characters",
+  "@errorChildNameMaxLength": {
+    "description": "Error message when child name is too long"
+  },
+  "errorChildNameMinLength": "Child name must be at least 2 characters",
+  "@errorChildNameMinLength": {
+    "description": "Error message when child name is too short"
+  },
+  "errorChildNameRequired": "Child name is required",
+  "@errorChildNameRequired": {
+    "description": "Error message when child name is empty"
+  },
+  "errorChildSchoolNameTooLong": "School name is too long (maximum {maxLength} characters)",
+  "@errorChildSchoolNameTooLong": {
+    "description": "Validation error when school name exceeds length limit",
+    "placeholders": {
+      "maxLength": {
+        "type": "int"
+      }
+    }
+  },
+  "errorChildSpecialNeedsTooLong": "Special needs information is too long (maximum {maxLength} characters)",
+  "@errorChildSpecialNeedsTooLong": {
+    "description": "Validation error when special needs information exceeds length limit",
+    "placeholders": {
+      "maxLength": {
+        "type": "int"
+      }
+    }
+  },
+  "errorConflictMessage": "Your data conflicts with recent changes. Please refresh and try again.",
+  "@errorConflictMessage": {
+    "description": "Conflict error message"
+  },
+  "errorConflictTitle": "Data Conflict",
+  "@errorConflictTitle": {
+    "description": "Conflict error title"
+  },
+  "errorEmailAlreadyExists": "This email address is already registered",
+  "@errorEmailAlreadyExists": {
+    "description": "Error message when email already exists in system"
+  },
+  "errorEmailInvalid": "Please enter a valid email address",
+  "@errorEmailInvalid": {
+    "description": "Error message when email format is invalid"
+  },
+  "errorEmailRequired": "Email address is required",
+  "@errorEmailRequired": {
+    "description": "Error message when email is empty"
+  },
+  "errorFailedToExportLogs": "Failed to export logs: {error}",
+  "@errorFailedToExportLogs": {
+    "description": "Error when exporting logs fails",
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "errorFailedToLeaveFamily": "Failed to leave family: {error}",
+  "@errorFailedToLeaveFamily": {
+    "description": "Error when leaving family fails",
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "errorFailedToRemoveMember": "Failed to remove member: {error}",
+  "@errorFailedToRemoveMember": {
+    "description": "Error when removing member fails",
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "errorFailedToUpdateRole": "Failed to update role: {error}",
+  "@errorFailedToUpdateRole": {
+    "description": "Error when updating role fails",
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "errorFamilyNameInvalidChars": "Family name contains invalid characters",
+  "@errorFamilyNameInvalidChars": {
+    "description": "Error message when family name has invalid characters"
+  },
+  "errorFamilyNameMaxLength": "Family name cannot exceed 50 characters",
+  "@errorFamilyNameMaxLength": {
+    "description": "Error message when family name is too long"
+  },
+  "errorFamilyNameMinLength": "Family name must be at least 2 characters",
+  "@errorFamilyNameMinLength": {
+    "description": "Error message when family name is too short"
+  },
+  "errorFamilyNameRequired": "Family name is required",
+  "@errorFamilyNameRequired": {
+    "description": "Error message when family name is empty"
+  },
+  "errorInsufficientPermissions": "You don't have permission to perform this action",
+  "@errorInsufficientPermissions": {
+    "description": "Error message when user lacks required permissions"
+  },
+  "errorInvalidData": "Invalid data provided. Please check your information and try again.",
+  "@errorInvalidData": {
+    "description": "Error message for generic data validation failures"
+  },
+  "errorInvitationCancelled": "This invitation has been cancelled",
+  "@errorInvitationCancelled": {
+    "description": "Error message when invitation has been cancelled by sender"
+  },
+  "errorInvitationCodeInvalid": "Please enter a valid invitation code",
+  "@errorInvitationCodeInvalid": {
+    "description": "Error message when invitation code is invalid"
+  },
+  "errorInvitationCodeRequired": "Invitation code is required",
+  "@errorInvitationCodeRequired": {
+    "description": "Error message when invitation code is empty"
+  },
+  "errorInvitationEmailMismatch": "This invitation was sent to a different email address. Please use the email address the invitation was sent to.",
+  "@errorInvitationEmailMismatch": {
+    "description": "Error message when user tries to accept invitation with different email"
+  },
+  "errorInvitationExpired": "This invitation has expired",
+  "@errorInvitationExpired": {
+    "description": "Error message when invitation code is expired"
+  },
+  "errorInvitationNotFound": "Invitation not found or has been revoked",
+  "@errorInvitationNotFound": {
+    "description": "Error message when invitation doesn't exist or was revoked"
+  },
+  "errorLoadingData": "Error loading data",
+  "@errorLoadingData": {
+    "description": "Error loading data message"
+  },
+  "errorLoadingLogLevel": "Error loading log level",
+  "@errorLoadingLogLevel": {
+    "description": "Error message when log level cannot be loaded"
+  },
+  "errorMemberAlreadyExists": "This member is already part of the family",
+  "@errorMemberAlreadyExists": {
+    "description": "Error message when trying to add existing member"
+  },
+  "errorMemberNotFound": "Member not found",
+  "@errorMemberNotFound": {
+    "description": "Error message when member doesn't exist"
+  },
+  "errorMessageTooLong": "{count, plural, =1{Message cannot exceed 1 character} other{Message cannot exceed {count} characters}}",
+  "@errorMessageTooLong": {
+    "description": "Error message when personal message is too long",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "description": "Maximum allowed character count"
+      }
+    }
+  },
+  "errorNetwork": "Network error occurred",
+  "@errorNetwork": {
+    "description": "Network error message"
+  },
+  "errorNetworkGeneral": "Connection error. Check your internet connection.",
+  "@errorNetworkGeneral": {
+    "description": "General network error message"
+  },
+  "errorNetworkMessage": "Please check your internet connection and try again.",
+  "@errorNetworkMessage": {
+    "description": "Network error message"
+  },
+  "errorNetworkTitle": "Connection Problem",
+  "@errorNetworkTitle": {
+    "description": "Network error title"
+  },
+  "errorOfflineMessage": "This feature is not available while offline. Please connect to the internet.",
+  "@errorOfflineMessage": {
+    "description": "Offline error message"
+  },
+  "errorOfflineTitle": "Offline Mode",
+  "@errorOfflineTitle": {
+    "description": "Offline error title"
+  },
+  "errorPageTitle": "Error",
+  "@errorPageTitle": {
+    "description": "Error page title"
+  },
+  "errorPendingInvitationExists": "An invitation to this email address is already pending",
+  "@errorPendingInvitationExists": {
+    "description": "Error message when trying to invite email that already has pending invitation"
+  },
+  "errorPermissionMessage": "This app needs permission to continue. Please grant the required permission.",
+  "@errorPermissionMessage": {
+    "description": "Permission error message"
+  },
+  "errorPermissionTitle": "Permission Required",
+  "@errorPermissionTitle": {
+    "description": "Permission error title"
+  },
+  "errorProcessingRequest": "Error processing request",
+  "@errorProcessingRequest": {
+    "description": "Error processing request message"
+  },
+  "errorRawMessage": "{message}",
+  "@errorRawMessage": {
+    "description": "Raw error message from server for user-friendly display"
+  },
+  "errorRoleInvalid": "Please select a valid role",
+  "@errorRoleInvalid": {
+    "description": "Error message when selected role is invalid"
+  },
+  "errorRoleRequired": "Role selection is required",
+  "@errorRoleRequired": {
+    "description": "Error message when role is not selected"
+  },
+  "errorServerGeneral": "Server error. Please try again later.",
+  "@errorServerGeneral": {
+    "description": "General server error message"
+  },
+  "errorServerMessage": "The server is currently experiencing issues. Please try again later.",
+  "@errorServerMessage": {
+    "description": "Server error message"
+  },
+  "errorServerTitle": "Server Error",
+  "@errorServerTitle": {
+    "description": "Server error title"
+  },
+  "errorStorageMessage": "There was a problem saving your data. Please try again.",
+  "@errorStorageMessage": {
+    "description": "Storage error message"
+  },
+  "errorStorageTitle": "Storage Problem",
+  "@errorStorageTitle": {
+    "description": "Storage error title"
+  },
+  "errorSyncMessage": "Unable to sync your data. Your changes will be saved when connection is restored.",
+  "@errorSyncMessage": {
+    "description": "Sync error message"
+  },
+  "errorSyncTitle": "Sync Failed",
+  "@errorSyncTitle": {
+    "description": "Sync error title"
+  },
+  "errorSystemMessage": "An unexpected system error occurred. Please try again.",
+  "@errorSystemMessage": {
+    "description": "System error message for fallback error handling"
+  },
+  "errorSystemTitle": "System Error",
+  "@errorSystemTitle": {
+    "description": "System error title for fallback error handling"
+  },
+  "errorTitle": "Error",
+  "@errorTitle": {
+    "description": "Generic error page title"
+  },
+  "errorUnexpected": "An error occurred.",
+  "@errorUnexpected": {
+    "description": "General unexpected error message"
+  },
+  "errorUnexpectedMessage": "Something went wrong. Please try again or contact support if the problem continues.",
+  "@errorUnexpectedMessage": {
+    "description": "Unexpected error message"
+  },
+  "errorUnexpectedTitle": "Unexpected Error",
+  "@errorUnexpectedTitle": {
+    "description": "Unexpected error title"
+  },
+  "errorUnknown": "An unknown error occurred",
+  "@errorUnknown": {
+    "description": "Generic unknown error message"
+  },
+  "errorValidation": "Validation error",
+  "@errorValidation": {
+    "description": "Validation error message"
+  },
+  "errorValidationMessage": "Please check the information you entered and try again.",
+  "@errorValidationMessage": {
+    "description": "Validation error message"
+  },
+  "errorValidationTitle": "Invalid Information",
+  "@errorValidationTitle": {
+    "description": "Validation error title"
+  },
+  "errorVehicleCapacityNotNumber": "Vehicle capacity must be a number",
+  "@errorVehicleCapacityNotNumber": {
+    "description": "Validation error for non-numeric vehicle capacity"
+  },
+  "errorVehicleCapacityRequired": "Vehicle capacity is required",
+  "@errorVehicleCapacityRequired": {
+    "description": "Validation error for empty vehicle capacity"
+  },
+  "errorVehicleCapacityTooHigh": "Vehicle capacity cannot exceed 10",
+  "@errorVehicleCapacityTooHigh": {
+    "description": "Validation error for vehicle capacity too high"
+  },
+  "errorVehicleCapacityTooLow": "Vehicle capacity must be at least 1",
+  "@errorVehicleCapacityTooLow": {
+    "description": "Validation error for vehicle capacity too low"
+  },
+  "errorVehicleDescriptionTooLong": "Vehicle description is too long",
+  "@errorVehicleDescriptionTooLong": {
+    "description": "Validation error for vehicle description length"
+  },
+  "errorVehicleNameInvalidChars": "Vehicle name contains invalid characters",
+  "@errorVehicleNameInvalidChars": {
+    "description": "Validation error for vehicle name invalid characters"
+  },
+  "errorVehicleNameMaxLength": "Vehicle name cannot exceed 50 characters",
+  "@errorVehicleNameMaxLength": {
+    "description": "Validation error for vehicle name maximum length"
+  },
+  "errorVehicleNameMinLength": "Vehicle name must be at least 2 characters",
+  "@errorVehicleNameMinLength": {
+    "description": "Validation error for vehicle name minimum length"
+  },
+  "errorVehicleNameRequired": "Vehicle name is required",
+  "@errorVehicleNameRequired": {
+    "description": "Validation error for empty vehicle name"
+  },
+  "estimatedLogSize": "Estimated log size: {sizeMB}MB",
+  "@estimatedLogSize": {
+    "description": "Shows estimated size of log files",
+    "placeholders": {
+      "sizeMB": {
+        "type": "String"
+      }
+    }
+  },
+  "event": "Event",
+  "@event": {
+    "description": "Event seat override type"
+  },
+  "expired": "Expired",
+  "@expired": {
+    "description": "Status indicating something has expired"
+  },
+  "expiredLabel": "Expired",
+  "@expiredLabel": {
+    "description": "Expired label for expired invitations"
+  },
+  "expires": "Expires: {date}",
+  "@expires": {
+    "description": "Expiry date display",
+    "placeholders": {
+      "date": {
+        "type": "String",
+        "description": "Formatted expiry date"
+      }
+    }
+  },
+  "expiresAtOptional": "Expires At (Optional)",
+  "@expiresAtOptional": {
+    "description": "Label for expiry date selection"
+  },
+  "expiresIn": "{days, plural, =0{Expires today} =1{Expires tomorrow} other{Expires in {days} days}}",
+  "@expiresIn": {
+    "description": "Message showing when something expires with pluralization",
+    "placeholders": {
+      "days": {
+        "type": "int",
+        "description": "Number of days until expiration"
+      }
+    }
+  },
+  "expiresInDays": "Expires in {days} days",
+  "@expiresInDays": {
+    "description": "Expiry message with days only",
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "expiresInDaysHours": "Expires in {days} days and {hours} hours",
+  "@expiresInDaysHours": {
+    "description": "Expiry message with days and hours",
+    "placeholders": {
+      "days": {
+        "type": "int"
+      },
+      "hours": {
+        "type": "int"
+      }
+    }
+  },
+  "dayLabel": "Day",
+  "@dayLabel": {
+    "description": "Day label for segmented button"
+  },
+  "expiresInHours": "Expires in {hours} hours",
+  "@expiresInHours": {
+    "description": "Expiry message with hours only",
+    "placeholders": {
+      "hours": {
+        "type": "int"
+      }
+    }
+  },
+  "expiresInHoursMinutes": "Expires in {hours} hours and {minutes} minutes",
+  "@expiresInHoursMinutes": {
+    "description": "Expiry message with hours and minutes",
+    "placeholders": {
+      "hours": {
+        "type": "int"
+      },
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "expiresInMinutes": "Expires in {minutes} minutes",
+  "@expiresInMinutes": {
+    "description": "Expiry message with minutes only",
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "expiresOn": "Expires: {date}",
+  "@expiresOn": {
+    "description": "Expiration date for pending invitation",
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "expiringIn3Days": "Expiring in 3 Days",
+  "@expiringIn3Days": {
+    "description": "Title for medium expiry warning"
+  },
+  "expiringSoon": "Expiring Soon",
+  "@expiringSoon": {
+    "description": "Status indicating something is expiring soon"
+  },
+  "expiringThisWeek": "Expiring This Week",
+  "@expiringThisWeek": {
+    "description": "Title for low expiry warning"
+  },
+  "expiringVeryShortly": "Expiring Very Soon",
+  "@expiringVeryShortly": {
+    "description": "Title for critical expiry warning"
+  },
+  "exportIncludesComprehensive": "Export includes comprehensive diagnostic information for support",
+  "@exportIncludesComprehensive": {
+    "description": "Comprehensive export information description"
+  },
+  "exportIncludesInfo": "Export includes app version, device info, recent logs, and diagnostic data",
+  "@exportIncludesInfo": {
+    "description": "Information about what's included in log export"
+  },
+  "exportLogsForSupport": "Export Logs for Support",
+  "@exportLogsForSupport": {
+    "description": "Button text to export logs for support team"
+  },
+  "exporting": "Exporting...",
+  "@exporting": {
+    "description": "Text shown while export is in progress"
+  },
+  "extend": "Extend",
+  "@extend": {
+    "description": "Button text to extend invitation"
+  },
+  "extended": "Extended",
+  "@extended": {},
+  "failed": "Failed",
+  "@failed": {
+    "description": "Failed status label"
+  },
+  "failedToAssignChildren": "Failed to assign children: {error}",
+  "@failedToAssignChildren": {
+    "description": "Error message when child assignment fails",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "description": "Error details"
+      }
+    }
+  },
+  "failedToCancel": "Failed to cancel: {error}",
+  "@failedToCancel": {
+    "description": "Error message when cancellation fails",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "description": "Error details"
+      }
+    }
+  },
+  "failedToCopyCode": "Failed to copy code: {error}",
+  "@failedToCopyCode": {
+    "description": "Error message when copying code fails",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "description": "Error details"
+      }
+    }
+  },
+  "failedToExportLogs": "Failed to export logs: {error}",
+  "@failedToExportLogs": {
+    "description": "Error message when log export fails",
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "failedToLeaveFamily": "Failed to leave family: {error}",
+  "@failedToLeaveFamily": {
+    "description": "Error message when leaving family fails",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "description": "The error message"
+      }
+    }
+  },
+  "failedToLoadGroups": "Failed to load groups",
+  "@failedToLoadGroups": {
+    "description": "Error message for loading groups"
+  },
+  "failedToLoadSchedule": "Failed to Load Schedule",
+  "@failedToLoadSchedule": {
+    "description": "Schedule loading error title"
+  },
+  "failedToLoadVehicles": "Failed to load vehicles: {error}",
+  "@failedToLoadVehicles": {
+    "description": "Vehicle loading error message",
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "failedToRemoveMember": "Failed to remove member: {error}",
+  "@failedToRemoveMember": {
+    "description": "Error message when member removal fails",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "description": "Error details"
+      }
+    }
+  },
+  "failedToSendInvitation": "Failed to send invitation",
+  "@failedToSendInvitation": {
+    "description": "Error message when invitation fails"
+  },
+  "failedToUpdateRole": "Failed to update role: {error}",
+  "@failedToUpdateRole": {
+    "description": "Error message when role update fails",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "description": "Error details"
+      }
+    }
+  },
+  "family": "Family",
+  "@family": {
+    "description": "Family type label"
+  },
+  "familyConflictTitle": "Family Conflict",
+  "@familyConflictTitle": {
+    "description": "Title for family conflict resolution dialog"
+  },
+  "familyCount": "{count, plural, =1{{count} family} other{{count} families}}",
+  "@familyCount": {
+    "description": "Family count with pluralization",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "familyInvitation": "Family invitation",
+  "@familyInvitation": {
+    "description": "Family invitation type title"
+  },
+  "familyInvitations": "Family Invitations",
+  "@familyInvitations": {
+    "description": "Title for family invitations section"
+  },
+  "familyMember": "Family Member",
+  "@familyMember": {
+    "description": "Family member role type"
+  },
+  "familyMemberActions": "Family Member Actions",
+  "@familyMemberActions": {
+    "description": "Title for family member actions screen"
+  },
+  "familyMemberDescription": "Regular family member with basic access",
+  "@familyMemberDescription": {
+    "description": "Description for family member role"
+  },
+  "familyMembers": "Family Members",
+  "@familyMembers": {
+    "description": "Family members section header"
+  },
+  "familyMembersCount": "{count, plural, =0{Family Members} =1{Family Members ({count})} other{Family Members ({count})}}",
+  "@familyMembersCount": {
+    "description": "Family members title with count and ICU pluralization",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "description": "Number of family members"
+      }
+    }
+  },
+  "currentUserLabel": ", current user",
+  "@currentUserLabel": {
+    "description": "Label appended to current user name in member list"
+  },
+  "youLabel": "(You)",
+  "@youLabel": {
+    "description": "Indicator showing current user in member list"
+  },
+  "weeksAgo": "{count, plural, =1{{count} week ago} other{{count} weeks ago}}",
+  "@weeksAgo": {
+    "description": "Relative date display in weeks with ICU pluralization",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "description": "Number of weeks ago"
+      }
+    }
+  },
+  "monthsAgo": "{count, plural, =1{{count} month ago} other{{count} months ago}}",
+  "@monthsAgo": {
+    "description": "Relative date display in months with ICU pluralization",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "description": "Number of months ago"
+      }
+    }
+  },
+  "yearsAgo": "{count, plural, =1{{count} year ago} other{{count} years ago}}",
+  "@yearsAgo": {
+    "description": "Relative date display in years with ICU pluralization",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "description": "Number of years ago"
+      }
+    }
+  },
+  "removeAdminRole": "Remove Admin Role",
+  "@removeAdminRole": {
+    "description": "Option to remove admin role from member"
+  },
+  "changeToRegularMember": "Change to regular member",
+  "@changeToRegularMember": {
+    "description": "Description of demoting admin action"
+  },
+  "grantAdminPermissions": "Grant admin permissions",
+  "@grantAdminPermissions": {
+    "description": "Description of promoting member to admin action"
+  },
+  "adminPermissionsInclude": "Admin permissions include:",
+  "@adminPermissionsInclude": {
+    "description": "Header for list of admin permissions"
+  },
+  "adminPermissionManageMembers": "• Manage family members",
+  "@adminPermissionManageMembers": {
+    "description": "Admin permission to manage family members"
+  },
+  "adminPermissionSendInvitations": "• Send invitations",
+  "@adminPermissionSendInvitations": {
+    "description": "Admin permission to send invitations"
+  },
+  "adminPermissionManageVehiclesChildren": "• Manage vehicles and children",
+  "@adminPermissionManageVehiclesChildren": {
+    "description": "Admin permission to manage vehicles and children"
+  },
+  "adminPermissionConfigureSettings": "• Configure family settings",
+  "@adminPermissionConfigureSettings": {
+    "description": "Admin permission to configure family settings"
+  },
+  "familyNameRequired": "Family name is required",
+  "@familyNameRequired": {
+    "description": "Validation error when family name is empty"
+  },
+  "familyNameTooLong": "Family name must be less than 50 characters",
+  "@familyNameTooLong": {
+    "description": "Validation error when family name is too long"
+  },
+  "familyNameTooShort": "Family name must be at least 2 characters",
+  "@familyNameTooShort": {
+    "description": "Validation error when family name is too short"
+  },
+  "fieldRequired": "This field is required",
+  "@fieldRequired": {
+    "description": "Validation message for required fields"
+  },
+  "filter": "Filter",
+  "@filter": {
+    "description": "Filter menu item"
+  },
+  "filterAll": "All",
+  "@filterAll": {
+    "description": "Filter option to show all invitations"
+  },
+  "filterExpired": "Expired",
+  "@filterExpired": {
+    "description": "Filter option to show expired invitations"
+  },
+  "filterExpiringSoon": "Expiring Soon",
+  "@filterExpiringSoon": {
+    "description": "Filter option to show expiring soon invitations"
+  },
+  "filterOptions": "Filter Options",
+  "@filterOptions": {
+    "description": "Title for filter options"
+  },
+  "filterPending": "Pending",
+  "@filterPending": {
+    "description": "Filter option to show pending invitations"
+  },
+  "firstName": "First name *",
+  "@firstName": {
+    "description": "First name field label"
+  },
+  "firstNameRequired": "First name is required",
+  "@firstNameRequired": {
+    "description": "First name required validation message"
+  },
+  "french": "French",
+  "@french": {
+    "description": "French language name"
+  },
+  "fri": "Fri",
+  "@fri": {
+    "description": "Friday abbreviation"
+  },
+  "friday": "Friday",
+  "@friday": {
+    "description": "Friday day name"
+  },
+  "fridayShort": "Fri",
+  "@fridayShort": {},
+  "fullName": "Full name",
+  "@fullName": {
+    "description": "Label for full name input field"
+  },
+  "generate": "Generate",
+  "@generate": {
+    "description": "Generate button text for FAB"
+  },
+  "generateCodes": "Generate codes",
+  "@generateCodes": {
+    "description": "Menu item to generate invitation codes"
+  },
+  "generateCodesTooltip": "Generate codes",
+  "@generateCodesTooltip": {
+    "description": "Tooltip for generate codes FAB"
+  },
+  "generateNewCode": "Generate new code",
+  "@generateNewCode": {
+    "description": "Tooltip for refresh button in code card"
+  },
+  "giveUpAdminPrivileges": "• Give up admin privileges",
+  "@giveUpAdminPrivileges": {
+    "description": "Consequence of leaving family - admin privileges"
+  },
+  "goBack": "Go Back",
+  "@goBack": {
+    "description": "Go back button text"
+  },
+  "goBackButton": "Go Back",
+  "@goBackButton": {
+    "description": "Button to go back"
+  },
+  "goToGroups": "Go to Groups",
+  "@goToGroups": {
+    "description": "Button text to navigate to groups"
+  },
+  "gotItButton": "Got it",
+  "@gotItButton": {
+    "description": "Button text to acknowledge"
+  },
+  "grantAdminRole": "Grant Admin Role",
+  "@grantAdminRole": {
+    "description": "Grant admin role button text"
+  },
+  "groupCreated": "Group created successfully",
+  "@groupCreated": {
+    "description": "Success message"
+  },
+  "groupCreatedSuccessfully": "Group created successfully\\!",
+  "@groupCreatedSuccessfully": {
+    "description": "Success message for group creation"
+  },
+  "groupCreatorInfo": "As the creator, you'll be the group administrator and can invite other families.",
+  "@groupCreatorInfo": {
+    "description": "Group creator information"
+  },
+  "groupDescription": "Group Description",
+  "@groupDescription": {
+    "description": "Group description field"
+  },
+  "groupDescriptionMaxLength": "Description cannot exceed 500 characters",
+  "@groupDescriptionMaxLength": {
+    "description": "Group description maximum length validation"
+  },
+  "groupDetails": "Group Details",
+  "@groupDetails": {
+    "description": "Group details title"
+  },
+  "groupInvitation": "Group invitation",
+  "@groupInvitation": {
+    "description": "Group invitation type title"
+  },
+  "groupInvitations": "Group Invitations",
+  "@groupInvitations": {
+    "description": "Group invitations section title"
+  },
+  "groupJoined": "Joined group successfully",
+  "@groupJoined": {
+    "description": "Success message"
+  },
+  "groupName": "Group Name",
+  "@groupName": {
+    "description": "Group name label"
+  },
+  "groupNameMaxLength": "Group name must be less than 50 characters",
+  "@groupNameMaxLength": {
+    "description": "Group name maximum length validation"
+  },
+  "groupNameMinLength": "Group name must be at least 3 characters",
+  "@groupNameMinLength": {
+    "description": "Group name minimum length validation"
+  },
+  "groupNameRequired": "Group name is required",
+  "@groupNameRequired": {
+    "description": "Group name required validation"
+  },
+  "groupNotFound": "Group Not Found",
+  "@groupNotFound": {
+    "description": "Error title when group not found"
+  },
+  "groupNotFoundMessage": "The selected group could not be found or you no longer have access to it.",
+  "@groupNotFoundMessage": {
+    "description": "Error message when group not found"
+  },
+  "groups": "Groups: {count}",
+  "@groups": {
+    "description": "Groups membership count",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "description": "Number of groups"
+      }
+    }
+  },
+  "groupsLabel": "Groups",
+  "@groupsLabel": {
+    "description": "Groups section label"
+  },
+  "help": "Help",
+  "@help": {
+    "description": "Help menu label"
+  },
+  "helperTextDefaultSeats": "Default: {count} {count, plural, =1{seat} other{seats}}",
+  "@helperTextDefaultSeats": {
+    "description": "Helper text showing default seat count",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "description": "Default seat count"
+      }
+    }
+  },
+  "hideVehicles": "Hide Vehicles",
+  "@hideVehicles": {
+    "description": "Tooltip for hide vehicles button"
+  },
+  "highExpiringCount": "{count, plural, =1{{count} expiring within 24 hours} other{{count} expiring within 24 hours}}",
+  "@highExpiringCount": {
+    "description": "High priority expiring count message",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "hoursAgo": "{count, plural, =1{{count} hour ago} other{{count} hours ago}}",
+  "@hoursAgo": {
+    "description": "Hours ago with ICU pluralization"
+  },
+  "implementationComingSoon": "Implementation coming soon",
+  "@implementationComingSoon": {
+    "description": "Message for upcoming features"
+  },
+  "incorrectConfirmation": "Confirmation text does not match",
+  "@incorrectConfirmation": {
+    "description": "Error message for incorrect confirmation text"
+  },
+  "instructionStep1": "1. Open your email app",
+  "@instructionStep1": {
+    "description": "First instruction step"
+  },
+  "instructionStep2": "2. Look for the EduLift email",
+  "@instructionStep2": {
+    "description": "Second instruction step"
+  },
+  "instructionStep3": "3. Click the login link",
+  "@instructionStep3": {
+    "description": "Third instruction step"
+  },
+  "instructionStep4": "4. You will be automatically logged in",
+  "@instructionStep4": {
+    "description": "Fourth instruction step"
+  },
+  "instructionsTitle": "Instructions:",
+  "@instructionsTitle": {
+    "description": "Title for the instructions section"
+  },
+  "invalid": "Invalid",
+  "@invalid": {
+    "description": "Invalid status label"
+  },
+  "invalidCapacityRange": "Please enter a valid capacity between 1 and 50",
+  "@invalidCapacityRange": {
+    "description": "Error for invalid capacity range"
+  },
+  "invalidEmail": "Invalid email address",
+  "@invalidEmail": {
+    "description": "Validation message for invalid email"
+  },
+  "invalidEmailFormat": "Please enter a valid email address",
+  "@invalidEmailFormat": {
+    "description": "Error message for invalid email format"
+  },
+  "invalidDeepLinkTitle": "Invalid Link",
+  "@invalidDeepLinkTitle": {
+    "description": "Title for invalid deep link error page"
+  },
+  "invalidDeepLinkMessage": "The link you followed is not valid or has expired. Please check the link and try again.",
+  "@invalidDeepLinkMessage": {
+    "description": "Error message for invalid deep link"
+  },
+  "invalidInvitationTitle": "Invalid Invitation",
+  "@invalidInvitationTitle": {
+    "description": "Title for invalid invitation error display"
+  },
+  "invalidTimeFormat": "Invalid time format. Use HH:MM (24-hour)",
+  "@invalidTimeFormat": {
+    "description": "Time validation error"
+  },
+  "invitationActions": "Invitation Actions",
+  "@invitationActions": {
+    "description": "Title for invitation actions dialog"
+  },
+  "invitationActionsTooltip": "Invitation actions for {email}",
+  "@invitationActionsTooltip": {
+    "description": "Tooltip for invitation actions button",
+    "placeholders": {
+      "email": {
+        "type": "String",
+        "description": "Email address"
+      }
+    }
+  },
+  "invitationAnalytics": "Invitation Analytics",
+  "@invitationAnalytics": {
+    "description": "Title for invitation analytics section"
+  },
+  "invitationCancelledFor": "Invitation cancelled for {email}",
+  "@invitationCancelledFor": {
+    "description": "Success message when invitation cancelled for specific email",
+    "placeholders": {
+      "email": {
+        "type": "String",
+        "description": "Email address of cancelled invitation"
+      }
+    }
+  },
+  "invitationCancelledSuccessfully": "Invitation cancelled successfully",
+  "@invitationCancelledSuccessfully": {
+    "description": "Success message when invitation is cancelled"
+  },
+  "invitationCode": "Invitation Code",
+  "@invitationCode": {
+    "description": "Invitation code label"
+  },
+  "invitationCodeCopied": "Invitation code copied to clipboard",
+  "@invitationCodeCopied": {
+    "description": "Success message when invitation code is copied"
+  },
+  "invitationCodeNotAvailable": "Invitation code not available",
+  "@invitationCodeNotAvailable": {
+    "description": "Error when invitation code cannot be found"
+  },
+  "invitationCodeRequired": "Invitation code is required",
+  "@invitationCodeRequired": {
+    "description": "Invitation code required validation"
+  },
+  "invitationExpired": "This invitation has expired",
+  "@invitationExpired": {
+    "description": "Message indicating an invitation has expired"
+  },
+  "invitationExpiredDesc": "This invitation has expired and is no longer valid",
+  "@invitationExpiredDesc": {
+    "description": "Description for expired invitation"
+  },
+  "invitationSentTo": "Invitation sent to {email}",
+  "@invitationSentTo": {
+    "description": "Success message when invitation is sent",
+    "placeholders": {
+      "email": {
+        "type": "String",
+        "description": "Email address"
+      }
+    }
+  },
+  "invitationStatistics": "Invitation statistics",
+  "@invitationStatistics": {
+    "description": "Statistics card title"
+  },
+  "invitationType": "Invitation Type",
+  "@invitationType": {
+    "description": "Label for invitation type selection"
+  },
+  "invitations": "Invitations",
+  "@invitations": {
+    "description": "Invitations page title"
+  },
+  "invitationsCount": "Invitations ({count})",
+  "@invitationsCount": {
+    "description": "Header with invitation count",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "description": "Number of invitations"
+      }
+    }
+  },
+  "invitationsExpiring": "{count} invitations expiring soon",
+  "@invitationsExpiring": {
+    "description": "Banner message for multiple expiring invitations",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "invite": "Invite",
+  "@invite": {
+    "description": "Invite action button"
+  },
+  "inviteFamilyMember": "Invite Family Member",
+  "@inviteFamilyMember": {
+    "description": "Invite family member button text"
+  },
+  "inviteFamilyMembers": "Invite to family",
+  "@inviteFamilyMembers": {
+    "description": "Menu item to invite family members"
+  },
+  "inviteMembersToStart": "Invite members to get started",
+  "@inviteMembersToStart": {
+    "description": "Call to action for admins when no invitations"
+  },
+  "inviteNewMember": "Invite New Member",
+  "@inviteNewMember": {
+    "description": "Button text to invite new family member"
+  },
+  "inviteToGroup": "Invite to group",
+  "@inviteToGroup": {
+    "description": "Menu item to invite to group"
+  },
+  "invitedToFamily": "Invited to join: {familyName}",
+  "@invitedToFamily": {
+    "description": "New family invitation display",
+    "placeholders": {
+      "familyName": {
+        "type": "String"
+      }
+    }
+  },
+  "join": "Join",
+  "@join": {
+    "description": "Join button text"
+  },
+  "joinFamily": "Join {familyName}",
+  "@joinFamily": {
+    "description": "Join family button text",
+    "placeholders": {
+      "familyName": {
+        "type": "String",
+        "description": "Name of the family to join"
+      }
+    }
+  },
+  "joinFamilyName": "Join {familyName}",
+  "@joinFamilyName": {
+    "description": "Button to join specific family",
+    "placeholders": {
+      "familyName": {
+        "type": "String"
+      }
+    }
+  },
+  "joinGroup": "Join Group",
+  "@joinGroup": {
+    "description": "Join group button text"
+  },
+  "joinGroupName": "Join {groupName}",
+  "@joinGroupName": {
+    "description": "Button to join specific group",
+    "placeholders": {
+      "groupName": {
+        "type": "String"
+      }
+    }
+  },
+  "joinWithCode": "Join with code",
+  "@joinWithCode": {
+    "description": "Menu item to join with code"
+  },
+  "joined": "Joined",
+  "@joined": {
+    "description": "Label for join date field"
+  },
+  "joiningInProgress": "Joining in progress...",
+  "@joiningInProgress": {
+    "description": "Loading text when joining with code"
+  },
+  "justNow": "just now",
+  "@justNow": {
+    "description": "Just now relative time"
+  },
+  "keepInvitation": "Keep Invitation",
+  "@keepInvitation": {
+    "description": "Button to keep invitation (cancel dialog)"
+  },
+  "labelFieldLabel": "Label",
+  "@labelFieldLabel": {
+    "description": "Label input field"
+  },
+  "labelHint": "School Drop-off",
+  "@labelHint": {
+    "description": "Label input hint"
+  },
+  "labelRequired": "Label cannot be empty",
+  "@labelRequired": {
+    "description": "Empty label validation"
+  },
+  "labelTooLong": "Label must be 50 characters or less",
+  "@labelTooLong": {
+    "description": "Label length validation"
+  },
+  "language": "Language",
+  "@language": {
+    "description": "Language section title"
+  },
+  "languageChanged": "Language changed successfully",
+  "@languageChanged": {
+    "description": "Success message for language change"
+  },
+  "lastAdminProtection": "Last Admin Protection",
+  "@lastAdminProtection": {
+    "description": "Title for last admin protection widget"
+  },
+  "lastAdminWarning": "You are the last admin of this family. You must assign a new admin or transfer ownership before leaving.",
+  "@lastAdminWarning": {
+    "description": "Warning message for last admin"
+  },
+  "lastExported": "Last exported: {timeAgo}",
+  "@lastExported": {
+    "description": "Shows when logs were last exported",
+    "placeholders": {
+      "timeAgo": {
+        "type": "String"
+      }
+    }
+  },
+  "lastName": "Last name *",
+  "@lastName": {
+    "description": "Last name field label"
+  },
+  "lastUpdated": "Last Updated",
+  "@lastUpdated": {
+    "description": "Last updated date field label"
+  },
+  "leave": "Leave",
+  "@leave": {
+    "description": "Button to leave page with unsaved changes"
+  },
+  "leaveButton": "Leave",
+  "@leaveButton": {
+    "description": "Button to leave page without saving"
+  },
+  "typeNameToConfirm": "To confirm, type the name exactly: {name}",
+  "@typeNameToConfirm": {
+    "description": "Instruction to type name to confirm action",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "pleaseTypeNameExactly": "Please type \"{name}\" exactly",
+  "@pleaseTypeNameExactly": {
+    "description": "Error message when name doesn't match",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "leaveFamily": "Leave Family",
+  "@leaveFamily": {
+    "description": "Option to leave the family"
+  },
+  "leaveFamilyAndJoinFamilyName": "Leave current family and join {familyName}",
+  "@leaveFamilyAndJoinFamilyName": {
+    "description": "Button text to leave current family and join invitation family",
+    "placeholders": {
+      "familyName": {
+        "type": "String"
+      }
+    }
+  },
+  "leaveFamilyConfirmation": "Are you sure you want to leave this family?",
+  "@leaveFamilyConfirmation": {
+    "description": "Confirmation message for leaving family"
+  },
+  "leaveFamilyTitle": "Leave Family",
+  "@leaveFamilyTitle": {
+    "description": "Title for leave family dialog"
+  },
+  "warning": "Warning",
+  "@warning": {
+    "description": "Warning label for critical actions"
+  },
+  "leaveFamilyWarningMessage": "You will lose access to all family data, schedules, and vehicles. This action cannot be undone.",
+  "@leaveFamilyWarningMessage": {
+    "description": "Warning message when leaving family"
+  },
+  "removeMemberWarningMessage": "This member will lose access to all family data. This action cannot be undone.",
+  "@removeMemberWarningMessage": {
+    "description": "Warning message when removing a member from family"
+  },
+  "memberActionsFor": "Member actions for {memberName}",
+  "@memberActionsFor": {
+    "description": "Tooltip for member actions menu",
+    "placeholders": {
+      "memberName": {
+        "type": "String",
+        "description": "Name of the member"
+      }
+    }
+  },
+  "leaveGroup": "Leave Group",
+  "@leaveGroup": {
+    "description": "Leave group button"
+  },
+  "leaveGroupTitle": "Leave Group",
+  "@leaveGroupTitle": {
+    "description": "Title for leave group dialog"
+  },
+  "byLeavingGroupYouWill": "By leaving this group, you will:",
+  "@byLeavingGroupYouWill": {
+    "description": "Introduction to list of consequences of leaving group"
+  },
+  "loseAccessGroupSchedules": "• Lose access to all group schedules",
+  "@loseAccessGroupSchedules": {
+    "description": "Consequence of leaving group - schedules"
+  },
+  "noLongerSeeGroupMembers": "• No longer see group families and members",
+  "@noLongerSeeGroupMembers": {
+    "description": "Consequence of leaving group - members"
+  },
+  "giveUpGroupAdminPrivileges": "• Give up group admin privileges",
+  "@giveUpGroupAdminPrivileges": {
+    "description": "Consequence of leaving group - admin privileges"
+  },
+  "ownerFamilyCannotLeave": "Note: The owner family cannot leave the group. Only members can leave.",
+  "@ownerFamilyCannotLeave": {
+    "description": "Warning that owner family cannot leave the group"
+  },
+  "failedToLeaveGroup": "Failed to leave group: {error}",
+  "@failedToLeaveGroup": {
+    "description": "Error message when leaving group fails",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "description": "Error details"
+      }
+    }
+  },
+  "linkExpiryInfo": "The link expires in 15 minutes for your security.",
+  "@linkExpiryInfo": {
+    "description": "Information about link expiration time"
+  },
+  "loading": "Loading...",
+  "@loading": {
+    "description": "General loading message"
+  },
+  "loadingError": "Loading error",
+  "@loadingError": {
+    "description": "Error message when loading fails"
+  },
+  "loadingErrorText": "Loading error",
+  "@loadingErrorText": {
+    "description": "Loading error title"
+  },
+  "loadingInvitations": "Loading invitations...",
+  "@loadingInvitations": {
+    "description": "Loading message when fetching invitations"
+  },
+  "loadingSentInvitations": "Loading sent invitations...",
+  "@loadingSentInvitations": {
+    "description": "Loading message when fetching sent invitations"
+  },
+  "loadingStatistics": "Loading statistics...",
+  "@loadingStatistics": {
+    "description": "Loading message when fetching statistics"
+  },
+  "loadingVehicles": "Loading vehicles...",
+  "@loadingVehicles": {
+    "description": "Loading message for vehicles"
+  },
+  "logExport": "Log Export",
+  "@logExport": {
+    "description": "Title for log export"
+  },
+  "logLevel": "Log Level",
+  "@logLevel": {
+    "description": "Label for log level setting"
+  },
+  "logLevelChangeFailed": "Failed to change log level: {error}",
+  "@logLevelChangeFailed": {
+    "description": "Log level change error",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "description": "Error details"
+      }
+    }
+  },
+  "logLevelChanged": "Log level changed to: {level}",
+  "@logLevelChanged": {
+    "description": "Log level change confirmation",
+    "placeholders": {
+      "level": {
+        "type": "String",
+        "description": "New log level"
+      }
+    }
+  },
+  "logLevelDescription": "Controls verbosity of app logging for debugging",
+  "@logLevelDescription": {
+    "description": "Description text for log level setting"
+  },
+  "logout": "Sign Out",
+  "@logout": {
+    "description": "Logout button"
+  },
+  "logsExportedSuccess": "📤 Logs exported and uploaded to Firebase successfully!",
+  "@logsExportedSuccess": {
+    "description": "Successful log export message - logs are automatically sent to Firebase"
+  },
+  "logExportUnsupportedPlatform": "Log export is only supported on mobile platforms (Android/iOS)",
+  "@logExportUnsupportedPlatform": {
+    "description": "Error when trying to export logs on desktop platforms"
+  },
+  "logExportNoDirectory": "No export directory found",
+  "@logExportNoDirectory": {
+    "description": "Error when log export directory doesn't exist"
+  },
+  "logExportNoFiles": "No log files found after export",
+  "@logExportNoFiles": {
+    "description": "Error when no ZIP files are found after log export"
+  },
+  "loseAccessSchedules": "• Lose access to all family schedules",
+  "@loseAccessSchedules": {
+    "description": "Consequence of leaving family - schedules"
+  },
+  "loseAccessVehicles": "• Lose access to family vehicles and assignments",
+  "@loseAccessVehicles": {
+    "description": "Consequence of leaving family - vehicles"
+  },
+  "magicLinkExpired": "Magic link has expired. Please request a new one.",
+  "@magicLinkExpired": {
+    "description": "Magic link expired error"
+  },
+  "magicLinkResent": "Login link resent",
+  "@magicLinkResent": {
+    "description": "Confirmation message when magic link is resent"
+  },
+  "magicLinkSent": "Magic link sent to your email",
+  "@magicLinkSent": {
+    "description": "Magic link sent confirmation"
+  },
+  "magicLinkSentDescription": "A secure login link has been sent to:",
+  "@magicLinkSentDescription": {
+    "description": "Description explaining where the magic link was sent"
+  },
+  "magicLinkSentTitle": "Login link sent",
+  "@magicLinkSentTitle": {
+    "description": "Title for magic link sent page"
+  },
+  "maintenance": "Maintenance",
+  "@maintenance": {
+    "description": "Maintenance seat override type"
+  },
+  "makeAdmin": "Make Admin",
+  "@makeAdmin": {
+    "description": "Option to make member an admin"
+  },
+  "makeAdminConfirmation": "Grant admin privileges to {name}?",
+  "@makeAdminConfirmation": {
+    "description": "Confirmation message for granting admin role",
+    "placeholders": {
+      "name": {
+        "type": "String",
+        "description": "Member name"
+      }
+    }
+  },
+  "manage": "Manage",
+  "@manage": {
+    "description": "Manage button text"
+  },
+  "manageChildren": "Manage Children",
+  "@manageChildren": {
+    "description": "Button to manage children in vehicle selection"
+  },
+  "manageFamily": "Manage Family",
+  "@manageFamily": {
+    "description": "Family management section"
+  },
+  "manageVehicles": "Manage Vehicles",
+  "@manageVehicles": {
+    "description": "Title for vehicle management modal"
+  },
+  "maxSeatsLabel": "Max: {max}",
+  "@maxSeatsLabel": {
+    "placeholders": {
+      "max": {
+        "type": "int"
+      }
+    }
+  },
+  "maxVehicles": "Max Vehicles",
+  "@maxVehicles": {
+    "description": "Max vehicles label"
+  },
+  "maximumTimeSlotsAllowed": "Maximum {count} time slots allowed",
+  "@maximumTimeSlotsAllowed": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    },
+    "description": "Error when max slots reached"
+  },
+  "member": "Member",
+  "@member": {
+    "description": "Member role label"
+  },
+  "memberActions": "Member Actions",
+  "@memberActions": {
+    "description": "Title for member actions menu"
+  },
+  "memberCount": "{count, plural, =1{1 member} other{{count} members}}",
+  "@memberCount": {
+    "description": "Number of members in family",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "memberDetails": "Member Details",
+  "@memberDetails": {
+    "description": "Title for member details dialog"
+  },
+  "memberRemovedFromFamily": "{memberName} removed from family",
+  "@memberRemovedFromFamily": {
+    "description": "Success message when member is removed from family",
+    "placeholders": {
+      "memberName": {
+        "type": "String"
+      }
+    }
+  },
+  "memberRole": "MEMBER",
+  "@memberRole": {
+    "description": "Default member role text"
+  },
+  "members": "members",
+  "@members": {
+    "description": "Members suffix"
+  },
+  "membersTabLabel": "Members",
+  "@membersTabLabel": {
+    "description": "Tab label for family members"
+  },
+  "minSeatsLabel": "Min: {min}",
+  "@minSeatsLabel": {
+    "placeholders": {
+      "min": {
+        "type": "int"
+      }
+    }
+  },
+  "minimumIntervalRequired": "Minimum {minutes} minutes required between time slots",
+  "@minimumIntervalRequired": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    },
+    "description": "Minimum interval error"
+  },
+  "minutesAgo": "{count}min ago",
+  "@minutesAgo": {
+    "description": "Minutes ago format for relative time",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "modifiedFrom": "modified from {original}",
+  "@modifiedFrom": {
+    "placeholders": {
+      "original": {
+        "type": "int"
+      }
+    }
+  },
+  "modifyTooltip": "Modifier",
+  "@modifyTooltip": {
+    "description": "Tooltip for modify button (French import)"
+  },
+  "mon": "Mon",
+  "@mon": {
+    "description": "Monday abbreviation"
+  },
+  "monday": "Monday",
+  "@monday": {
+    "description": "Monday day name"
+  },
+  "mondayShort": "Mon",
+  "@mondayShort": {},
+  "mondayToFridayShort": "Mon - Fri",
+  "@mondayToFridayShort": {
+    "description": "Short abbreviation for weekdays"
+  },
+  "monthView": "Month",
+  "@monthView": {
+    "description": "Month view option"
+  },
+  "monthViewImplementation": "Month view implementation",
+  "@monthViewImplementation": {
+    "description": "Message for month view"
+  },
+  "moreActionsFor": "More actions for",
+  "@moreActionsFor": {
+    "description": "Accessibility label for more actions"
+  },
+  "morning": "Morning",
+  "@morning": {
+    "description": "Morning time slot"
+  },
+  "monthLabel": "Month",
+  "@monthLabel": {
+    "description": "Month label for segmented button"
+  },
+  "myFamily": "My family",
+  "@myFamily": {
+    "description": "Family section title"
+  },
+  "name": "Name",
+  "@name": {
+    "description": "Label for name field"
+  },
+  "nameMaxLength": "Name cannot exceed 50 characters",
+  "@nameMaxLength": {
+    "description": "Vehicle name maximum length validation"
+  },
+  "nameMinLength": "Name must contain at least 2 characters",
+  "@nameMinLength": {
+    "description": "Vehicle name minimum length validation"
+  },
+  "nameOptional": "Name (optional)",
+  "@nameOptional": {
+    "description": "Label for optional name field"
+  },
+  "navigationDashboard": "Dashboard",
+  "@navigationDashboard": {
+    "description": "Navigation label for dashboard"
+  },
+  "navigationFamily": "Family",
+  "@navigationFamily": {
+    "description": "Navigation label for family"
+  },
+  "navigationGroups": "Groups",
+  "@navigationGroups": {
+    "description": "Navigation label for groups"
+  },
+  "navigationProfile": "Profile",
+  "@navigationProfile": {
+    "description": "Profile navigation label"
+  },
+  "navigationSchedule": "Schedule",
+  "@navigationSchedule": {
+    "description": "Navigation label for schedule"
+  },
+  "needGroupForSchedules": "You need to join or create a transport group to view schedules.",
+  "@needGroupForSchedules": {
+    "description": "Empty state message for no groups"
+  },
+  "newAdminEmail": "New Admin Email",
+  "@newAdminEmail": {
+    "description": "Label for new admin email field"
+  },
+  "newChild": "New child",
+  "@newChild": {
+    "description": "New child title"
+  },
+  "newFamilyInvitation": "New Family Invitation",
+  "@newFamilyInvitation": {
+    "description": "Section header for new family invitation"
+  },
+  "newInvitationUpdate": "New invitation update received",
+  "@newInvitationUpdate": {
+    "description": "New invitation update notification"
+  },
+  "nextWeek": "Next Week",
+  "@nextWeek": {
+    "description": "Tooltip for next week button"
+  },
+  "currentWeek": "Current Week",
+  "@currentWeek": {
+    "description": "Label for current week indicator"
+  },
+  "lastWeek": "Last Week",
+  "@lastWeek": {
+    "description": "Label for previous week"
+  },
+  "inWeeks": "{count, plural, =1{In {count} week} other{In {count} weeks}}",
+  "@inWeeks": {
+    "description": "Label for weeks in the future with ICU pluralization",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "noChildren": "No children",
+  "@noChildren": {
+    "description": "Message when no children are found"
+  },
+  "noChildrenAssigned": "No children assigned",
+  "@noChildrenAssigned": {
+    "description": "Message when no children are assigned to vehicles"
+  },
+  "vehiclesPlural": "{count, plural, =1{{count} vehicle} other{{count} vehicles}}",
+  "@vehiclesPlural": {
+    "description": "Display vehicle count with pluralization",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "unknownVehicle": "Unknown Vehicle",
+  "@unknownVehicle": {
+    "description": "Label for vehicle with no name"
+  },
+  "moreItems": "+{count} more",
+  "@moreItems": {
+    "description": "Label showing additional items count",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "noDaysConfigured": "No days configured",
+  "@noDaysConfigured": {
+    "description": "Message when no days are configured in schedule preview"
+  },
+  "noDepartureTimesSelected": "No departure times selected",
+  "@noDepartureTimesSelected": {
+    "description": "Message when no departure times are selected"
+  },
+  "noExpiryDate": "No expiry (single use)",
+  "@noExpiryDate": {
+    "description": "Text when no expiry date is set"
+  },
+  "noExpiryIssues": "No Expiry Issues",
+  "@noExpiryIssues": {
+    "description": "Title when no expiry issues"
+  },
+  "noFamily": "No family",
+  "@noFamily": {
+    "description": "No family found message"
+  },
+  "noFamilyFound": "No family found",
+  "@noFamilyFound": {
+    "description": "Message when no family is available"
+  },
+  "noFamilyIdAvailable": "No family ID available",
+  "@noFamilyIdAvailable": {
+    "description": "Error when family ID is not available"
+  },
+  "noFilteredInvitations": "No {filterType} invitations",
+  "@noFilteredInvitations": {
+    "description": "Message when no invitations match filter",
+    "placeholders": {
+      "filterType": {
+        "type": "String",
+        "description": "Type of filter applied"
+      }
+    }
+  },
+  "noInvitationCodes": "No invitation codes",
+  "@noInvitationCodes": {
+    "description": "Empty state title for no invitation codes"
+  },
+  "noInvitationCodesMessage": "Generate invitation codes\nto facilitate joining.",
+  "@noInvitationCodesMessage": {
+    "description": "Empty state message for no invitation codes"
+  },
+  "noInvitations": "No invitations",
+  "@noInvitations": {
+    "description": "Empty state title for no invitations"
+  },
+  "noInvitationsMessage": "You have no pending invitations.\nNew invitations will appear here.",
+  "@noInvitationsMessage": {
+    "description": "Empty state message for no invitations"
+  },
+  "noInvitationsYet": "No invitations yet",
+  "@noInvitationsYet": {
+    "description": "Message when no invitations exist"
+  },
+  "noLongerSeeFamilyMembers": "• No longer see family members and children",
+  "@noLongerSeeFamilyMembers": {
+    "description": "Consequence of leaving family - members"
+  },
+  "noPendingInvitations": "No pending invitations",
+  "@noPendingInvitations": {
+    "description": "Message when no pending invitations"
+  },
+  "noRecentActivity": "No recent activity",
+  "@noRecentActivity": {
+    "description": "Empty state message for no recent activity"
+  },
+  "noSentInvitations": "No sent invitations",
+  "@noSentInvitations": {
+    "description": "Empty state title for no sent invitations"
+  },
+  "noSentInvitationsMessage": "Invite members to your family\nor groups to get started.",
+  "@noSentInvitationsMessage": {
+    "description": "Empty state message for no sent invitations"
+  },
+  "noScheduleConfigured": "No schedule configured for this day",
+  "@noScheduleConfigured": {
+    "description": "Message shown when a day has no schedule configuration"
+  },
+  "noTimeSlotsConfigured": "No time slots configured",
+  "@noTimeSlotsConfigured": {
+    "description": "No time slots message"
+  },
+  "noTransportGroups": "No Transport Groups",
+  "@noTransportGroups": {
+    "description": "Empty state title"
+  },
+  "noTransportGroupsDescription": "Create or join a transport group to coordinate school trips with other families.",
+  "@noTransportGroupsDescription": {
+    "description": "Empty state description"
+  },
+  "noVehicles": "No vehicles",
+  "@noVehicles": {
+    "description": "Message when no vehicles are found"
+  },
+  "none": "None",
+  "@none": {
+    "description": "None status text"
+  },
+  "notAvailable": "Non disponible",
+  "@notAvailable": {
+    "description": "Not available text (French import)"
+  },
+  "notes": "Notes",
+  "@notes": {
+    "description": "Notes field label"
+  },
+  "notifications": "Notifications",
+  "@notifications": {
+    "description": "Notifications settings label"
+  },
+  "optionalDescription": "Optional description",
+  "@optionalDescription": {
+    "description": "Label for optional description field"
+  },
+  "overrideCapacity": "Override capacity",
+  "@overrideCapacity": {
+    "description": "Label for capacity override input field"
+  },
+  "overrideCapacityDisplay": "Override: {count}",
+  "@overrideCapacityDisplay": {
+    "description": "Override capacity display",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "description": "Override capacity number"
+      }
+    }
+  },
+  "overrideHistory": "Override History",
+  "@overrideHistory": {
+    "description": "Title for seat override history section"
+  },
+  "overrideType": "Override Type",
+  "@overrideType": {
+    "description": "Label for seat override type selection"
+  },
+  "pasteFromClipboard": "Paste from clipboard",
+  "@pasteFromClipboard": {
+    "description": "Paste from clipboard tooltip"
+  },
+  "pending": "Pending",
+  "@pending": {
+    "description": "Status indicating something is pending"
+  },
+  "pendingInvitations": "Pending Invitations",
+  "@pendingInvitations": {
+    "description": "Pending invitations badge label"
+  },
+  "pendingInvitationsStats": "Pending",
+  "@pendingInvitationsStats": {
+    "description": "Pending invitations label in stats"
+  },
+  "personalInformation": "Personal information",
+  "@personalInformation": {
+    "description": "Personal information section title"
+  },
+  "pleaseEnterNewAdminEmail": "Please enter an email for the new admin",
+  "@pleaseEnterNewAdminEmail": {
+    "description": "Error message for missing admin email"
+  },
+  "pleaseEnterValidNumber": "Please enter a valid number",
+  "@pleaseEnterValidNumber": {
+    "description": "Valid number validation message"
+  },
+  "previousWeek": "Previous Week",
+  "@previousWeek": {
+    "description": "Tooltip for previous week button"
+  },
+  "privacy": "Privacy",
+  "@privacy": {
+    "description": "Privacy settings label"
+  },
+  "processing": "Processing...",
+  "@processing": {
+    "description": "Processing status message"
+  },
+  "profile": "Profile",
+  "@profile": {
+    "description": "Profile page title"
+  },
+  "promoteAnotherAdmin": "Promote Another Admin",
+  "@promoteAnotherAdmin": {
+    "description": "Option to promote another member to admin"
+  },
+  "promoteAnotherAdminDesc": "Choose a family member to promote to admin role",
+  "@promoteAnotherAdminDesc": {
+    "description": "Description for promoting another admin"
+  },
+  "promoteToAdmin": "Promote to Admin",
+  "@promoteToAdmin": {
+    "description": "Action to promote a family to administrator role"
+  },
+  "quickConfigurations": "Quick Configurations",
+  "@quickConfigurations": {},
+  "realTimeUpdatesUnavailable": "Real-time updates unavailable. Tap refresh to load latest invitations.",
+  "@realTimeUpdatesUnavailable": {
+    "description": "Warning message when WebSocket connection is unavailable"
+  },
+  "reason": "Reason",
+  "@reason": {
+    "description": "Label for reason input field"
+  },
+  "received": "Received",
+  "@received": {
+    "description": "Tab label for received invitations"
+  },
+  "recentActivity": "Recent activity",
+  "@recentActivity": {
+    "description": "Recent activity section title"
+  },
+  "refresh": "Refresh",
+  "@refresh": {
+    "description": "Refresh button tooltip"
+  },
+  "rejected": "Rejected",
+  "@rejected": {
+    "description": "Rejected status label"
+  },
+  "rejectedInvitations": "Rejected",
+  "@rejectedInvitations": {
+    "description": "Rejected invitations label in stats"
+  },
+  "removeAdmin": "Remove Admin",
+  "@removeAdmin": {
+    "description": "Remove admin role button text"
+  },
+  "removeAdminConfirmation": "Remove admin privileges from {name}?",
+  "@removeAdminConfirmation": {
+    "description": "Confirmation message for removing admin role",
+    "placeholders": {
+      "name": {
+        "type": "String",
+        "description": "Member name"
+      }
+    }
+  },
+  "removeAdminNote": "Note: This member will lose admin privileges",
+  "@removeAdminNote": {
+    "description": "Note about admin privileges when removing member"
+  },
+  "removeMember": "Remove Member",
+  "@removeMember": {
+    "description": "Option to remove member from family"
+  },
+  "removeMemberConfirmation": "Are you sure you want to remove {memberName} from the family?",
+  "@removeMemberConfirmation": {
+    "description": "Confirmation message for removing member",
+    "placeholders": {
+      "memberName": {
+        "type": "String",
+        "description": "Name of the member to remove"
+      }
+    }
+  },
+  "removeMemberDialogAccessibilityLabel": "Remove Member Confirmation Dialog",
+  "@removeMemberDialogAccessibilityLabel": {
+    "description": "Accessibility label for remove member dialog"
+  },
+  "removeMemberFromFamily": "Remove member from this family",
+  "@removeMemberFromFamily": {
+    "description": "Description for removing member option"
+  },
+  "removeThisInvitation": "Remove this invitation",
+  "@removeThisInvitation": {
+    "description": "Description for cancel invitation action"
+  },
+  "removeTooltip": "Supprimer",
+  "@removeTooltip": {
+    "description": "Tooltip for remove button (French import)"
+  },
+  "removeYourselfFromFamily": "Remove yourself from this family",
+  "@removeYourselfFromFamily": {
+    "description": "Description for leaving family option"
+  },
+  "resend": "Resend",
+  "@resend": {
+    "description": "Button text to resend invitation"
+  },
+  "resendLink": "Resend link",
+  "@resendLink": {
+    "description": "Button text to resend magic link"
+  },
+  "reset": "Reset",
+  "@reset": {
+    "description": "Button to reset values to default"
+  },
+  "retry": "Retry",
+  "@retry": {
+    "description": "Retry button text"
+  },
+  "retryExport": "Retry Export",
+  "@retryExport": {
+    "description": "Button to retry export"
+  },
+  "revoke": "Revoke",
+  "@revoke": {
+    "description": "Revoke invitation menu item"
+  },
+  "revoked": "Revoked",
+  "@revoked": {
+    "description": "Revoked status label"
+  },
+  "reconnect": "Reconnect",
+  "@reconnect": {
+    "description": "Reconnect button text"
+  },
+  "resolve": "Resolve",
+  "@resolve": {
+    "description": "Resolve button text for conflicts"
+  },
+  "role": "Role",
+  "@role": {
+    "description": "Label for role field"
+  },
+  "roleLabel": "Role: {role}",
+  "@roleLabel": {
+    "description": "Label displaying a user's role",
+    "placeholders": {
+      "role": {
+        "type": "String",
+        "description": "The role name"
+      }
+    }
+  },
+  "roleUpdatedSuccessfully": "Role updated successfully for {name}",
+  "@roleUpdatedSuccessfully": {
+    "description": "Success message when role is updated",
+    "placeholders": {
+      "name": {
+        "type": "String",
+        "description": "Member name"
+      }
+    }
+  },
+  "sat": "Sat",
+  "@sat": {
+    "description": "Saturday abbreviation"
+  },
+  "saturday": "Saturday",
+  "@saturday": {
+    "description": "Saturday day name"
+  },
+  "saturdayShort": "Sat",
+  "@saturdayShort": {},
+  "saturdayToSundayShort": "Sat - Sun",
+  "@saturdayToSundayShort": {
+    "description": "Short abbreviation for weekend"
+  },
+  "save": "Save",
+  "@save": {
+    "description": "Save button text"
+  },
+  "saveChanges": "Save Changes",
+  "@saveChanges": {
+    "description": "Button to save changes"
+  },
+  "saved": "Saved",
+  "@saved": {
+    "description": "Successfully saved status"
+  },
+  "saving": "Saving...",
+  "@saving": {
+    "description": "Saving process message"
+  },
+  "schedule": "Schedule",
+  "@schedule": {
+    "description": "Schedule menu item"
+  },
+  "scheduleLabel": "Schedule",
+  "@scheduleLabel": {
+    "description": "Schedule navigation label"
+  },
+  "scheduleConfiguration": "Schedule Configuration",
+  "@scheduleConfiguration": {
+    "description": "Schedule configuration section"
+  },
+  "scheduleConfigurationUpdatedSuccessfully": "Schedule configuration updated successfully",
+  "@scheduleConfigurationUpdatedSuccessfully": {
+    "description": "Success message after saving schedule"
+  },
+  "scheduleCoordination": "Schedule Coordination",
+  "@scheduleCoordination": {
+    "description": "Schedule coordination header"
+  },
+  "scheduleCount": "{count, plural, =1{{count} schedule} other{{count} schedules}}",
+  "@scheduleCount": {
+    "description": "Schedule count with pluralization",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "schedulePreview": "Schedule Preview",
+  "@schedulePreview": {
+    "description": "Schedule preview title"
+  },
+  "scheduleRefreshed": "Schedule refreshed",
+  "@scheduleRefreshed": {
+    "description": "Message after refreshing schedule"
+  },
+  "school": "School",
+  "@school": {
+    "description": "School field label"
+  },
+  "schoolName": "School name",
+  "@schoolName": {
+    "description": "School field hint"
+  },
+  "search": "Search",
+  "@search": {
+    "description": "Search button tooltip and functionality"
+  },
+  "searchInvitations": "Search invitations...",
+  "@searchInvitations": {
+    "description": "Placeholder text for invitation search field"
+  },
+  "seatCapacityManagement": "Seat Capacity Management",
+  "@seatCapacityManagement": {
+    "description": "Title for seat capacity management section"
+  },
+  "seatingConfiguration": "Seating Configuration",
+  "@seatingConfiguration": {
+    "description": "Seating configuration section title"
+  },
+  "seats": "seats",
+  "@seats": {
+    "description": "Label for seat capacity (lowercase)"
+  },
+  "secureLogin": "Secure magic link login",
+  "@secureLogin": {
+    "description": "Secure login description"
+  },
+  "seeMemberInformation": "See member information and activity",
+  "@seeMemberInformation": {
+    "description": "Description for view member details option"
+  },
+  "select": "Select",
+  "@select": {
+    "description": "Select button text"
+  },
+  "selectAnotherGroup": "Select Another Group",
+  "@selectAnotherGroup": {
+    "description": "Button to go back to group selection"
+  },
+  "selectGroup": "Select a Group",
+  "@selectGroup": {
+    "description": "Group selection page title"
+  },
+  "selectLanguage": "Select your preferred language",
+  "@selectLanguage": {
+    "description": "Language selection description"
+  },
+  "selectMemberToPromote": "Select Member to Promote",
+  "@selectMemberToPromote": {
+    "description": "Dialog title for selecting member to promote"
+  },
+  "selectNewAdmin": "Select New Admin",
+  "@selectNewAdmin": {
+    "description": "Label for selecting new admin"
+  },
+  "sendInvitation": "Send Invitation",
+  "@sendInvitation": {
+    "description": "Button to send family invitation"
+  },
+  "sendInvitationTooltip": "Send invitation",
+  "@sendInvitationTooltip": {
+    "description": "Tooltip for send invitation FAB"
+  },
+  "sendMagicLink": "Send Magic Link",
+  "@sendMagicLink": {
+    "description": "Send magic link button text"
+  },
+  "sendingButton": "Sending...",
+  "@sendingButton": {
+    "description": "Button text while sending"
+  },
+  "sent": "Sent",
+  "@sent": {
+    "description": "Status label for sent items"
+  },
+  "serverError": "Server error. Please try again later",
+  "@serverError": {
+    "description": "Error for server errors (500+)"
+  },
+  "settings": "Settings",
+  "@settings": {
+    "description": "Settings label"
+  },
+  "showInvitationCode": "Show Invitation Code",
+  "@showInvitationCode": {
+    "description": "Action to display invitation code"
+  },
+  "showVehicles": "Show Vehicles",
+  "@showVehicles": {
+    "description": "Tooltip for show vehicles button"
+  },
+  "signInToJoin": "Sign In to Join {familyName}",
+  "@signInToJoin": {
+    "description": "Sign in to join button text",
+    "placeholders": {
+      "familyName": {
+        "type": "String",
+        "description": "Name of the family to join"
+      }
+    }
+  },
+  "signInToJoinFamilyName": "Sign In to Join {familyName}",
+  "@signInToJoinFamilyName": {
+    "description": "Button text to sign in and join family",
+    "placeholders": {
+      "familyName": {
+        "type": "String"
+      }
+    }
+  },
+  "signInToJoinGroupName": "Sign In to Join {groupName}",
+  "@signInToJoinGroupName": {
+    "description": "Button to sign in and join group",
+    "placeholders": {
+      "groupName": {
+        "type": "String"
+      }
+    }
+  },
+  "slotsConfigured": "{current}/{max} slots configured • {active} active",
+  "@slotsConfigured": {
+    "placeholders": {
+      "current": {
+        "type": "int"
+      },
+      "max": {
+        "type": "int"
+      },
+      "active": {
+        "type": "int"
+      }
+    },
+    "description": "Slots status text"
+  },
+  "slotsCount": "{count, plural, =1{{count} slot} other{{count} slots}}",
+  "@slotsCount": {
+    "description": "Number of time slots with ICU pluralization"
+  },
+  "stackTrace": "Stack Trace",
+  "@stackTrace": {},
+  "standard": "Standard",
+  "@standard": {},
+  "statistics": "Statistics",
+  "@statistics": {
+    "description": "Tab label for invitation statistics"
+  },
+  "statusAccepted": "ACCEPTED",
+  "@statusAccepted": {
+    "description": "Accepted status in uppercase"
+  },
+  "statusActive": "Active",
+  "@statusActive": {
+    "description": "Active status"
+  },
+  "statusCancelled": "CANCELLED",
+  "@statusCancelled": {
+    "description": "Cancelled status in uppercase"
+  },
+  "statusDeclined": "DECLINED",
+  "@statusDeclined": {
+    "description": "Declined status in uppercase"
+  },
+  "statusExpired": "EXPIRED",
+  "@statusExpired": {
+    "description": "Expired status in uppercase"
+  },
+  "statusExpiringSoon": "EXPIRING SOON",
+  "@statusExpiringSoon": {
+    "description": "Expiring soon status in uppercase"
+  },
+  "statusFailed": "FAILED",
+  "@statusFailed": {
+    "description": "Failed status in uppercase"
+  },
+  "statusInvalid": "INVALID",
+  "@statusInvalid": {
+    "description": "Invalid status in uppercase"
+  },
+  "statusPending": "PENDING",
+  "@statusPending": {
+    "description": "Pending status in uppercase"
+  },
+  "statusRevoked": "REVOKED",
+  "@statusRevoked": {
+    "description": "Revoked status in uppercase"
+  },
+  "stay": "Stay",
+  "@stay": {
+    "description": "Button to stay on current page"
+  },
+  "stayButton": "Stay",
+  "@stayButton": {
+    "description": "Button to stay on page"
+  },
+  "stayInCurrentFamily": "Stay in Current Family",
+  "@stayInCurrentFamily": {
+    "description": "Option to stay in current family"
+  },
+  "stayInCurrentFamilyDesc": "Decline the new invitation and remain in your current family",
+  "@stayInCurrentFamilyDesc": {
+    "description": "Description for staying in current family"
+  },
+  "successfullyJoinedGroup": "Successfully joined group\\!",
+  "@successfullyJoinedGroup": {
+    "description": "Success message for joining group"
+  },
+  "sun": "Sun",
+  "@sun": {
+    "description": "Sunday abbreviation"
+  },
+  "sunday": "Sunday",
+  "@sunday": {
+    "description": "Sunday day name"
+  },
+  "sundayShort": "Sun",
+  "@sundayShort": {},
+  "suv": "SUV",
+  "@suv": {
+    "description": "SUV vehicle type"
+  },
+  "switchToNewFamily": "Switch to New Family",
+  "@switchToNewFamily": {
+    "description": "Option to switch to new family"
+  },
+  "switchToNewFamilyDesc": "Leave your current family and join the new one",
+  "@switchToNewFamilyDesc": {
+    "description": "Description for switching to new family"
+  },
+  "sync": "Sync",
+  "@sync": {
+    "description": "Sync status badge text"
+  },
+  "tapToAddFirstTimeSlot": "Tap to add first time slot",
+  "@tapToAddFirstTimeSlot": {
+    "description": "Hint text for adding first time slot"
+  },
+  "temporary": "Temporary",
+  "@temporary": {
+    "description": "Temporary seat override type"
+  },
+  "thu": "Thu",
+  "@thu": {
+    "description": "Thursday abbreviation"
+  },
+  "thursday": "Thursday",
+  "@thursday": {
+    "description": "Thursday day name"
+  },
+  "thursdayShort": "Thu",
+  "@thursdayShort": {},
+  "time": "Time",
+  "@time": {
+    "description": "Time column header"
+  },
+  "timeAgoDays": "{days} day{plural} ago",
+  "@timeAgoDays": {
+    "description": "Time ago in days",
+    "placeholders": {
+      "days": {
+        "type": "int"
+      },
+      "plural": {
+        "type": "String"
+      }
+    }
+  },
+  "timeAgoHours": "{hours} hour{plural} ago",
+  "@timeAgoHours": {
+    "description": "Time ago in hours",
+    "placeholders": {
+      "hours": {
+        "type": "int"
+      },
+      "plural": {
+        "type": "String"
+      }
+    }
+  },
+  "timeAgoMinutes": "{minutes} minute{plural} ago",
+  "@timeAgoMinutes": {
+    "description": "Time ago in minutes",
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      },
+      "plural": {
+        "type": "String"
+      }
+    }
+  },
+  "timeAlreadySelected": "Time {time} is already selected",
+  "@timeAlreadySelected": {
+    "description": "Warning when time is already selected",
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "timeHint": "08:00",
+  "@timeHint": {
+    "description": "Time input hint text"
+  },
+  "timeIntervalError": "Time must be in 15-minute intervals (00, 15, 30, 45)",
+  "@timeIntervalError": {
+    "description": "Time interval validation"
+  },
+  "timeLabel": "Time (HH:MM)",
+  "@timeLabel": {
+    "description": "Time input field label"
+  },
+  "timePickerInstructions": "Select departure times by tapping on the time slots",
+  "@timePickerInstructions": {
+    "description": "Instructions for time picker widget"
+  },
+  "timeRange": "Time range: {range}",
+  "@timeRange": {
+    "description": "Time range display",
+    "placeholders": {
+      "range": {
+        "type": "String"
+      }
+    }
+  },
+  "timeSlotExists": "This time slot already exists",
+  "@timeSlotExists": {
+    "description": "Duplicate time slot error"
+  },
+  "timeSlots": "Time Slots",
+  "@timeSlots": {
+    "description": "Time slots section header in help dialog"
+  },
+  "timeSlotsSelected": "{count, plural, =0{No time slots selected} =1{{count} time slot selected} other{{count} time slots selected}}",
+  "@timeSlotsSelected": {
+    "description": "Number of selected time slots with ICU pluralization"
+  },
+  "today": "Today",
+  "@today": {
+    "description": "Today time indicator"
+  },
+  "total": "Total",
+  "@total": {
+    "description": "Label for total seats"
+  },
+  "totalChildrenCount": "{count, plural, =0{No children} =1{1 child} other{{count} children}}",
+  "@totalChildrenCount": {
+    "description": "Total children count with pluralization",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "description": "Number of children"
+      }
+    }
+  },
+  "totalMembersCount": "{count, plural, =0{No members} =1{1 member} other{{count} members}}",
+  "@totalMembersCount": {
+    "description": "Total members count with pluralization",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "description": "Number of family members"
+      }
+    }
+  },
+  "totalVehiclesCount": "{count, plural, =0{No vehicles} =1{1 vehicle} other{{count} vehicles}}",
+  "@totalVehiclesCount": {
+    "description": "Total vehicles count with pluralization",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "description": "Number of vehicles"
+      }
+    }
+  },
+  "totalCapacity": "Total capacity",
+  "@totalCapacity": {
+    "description": "Total capacity label in summary card"
+  },
+  "totalSeats": "Total: {count}",
+  "@totalSeats": {
+    "description": "Display of total seat count",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "description": "Total number of seats"
+      }
+    }
+  },
+  "totalSeatsHint": "Total number of seats",
+  "@totalSeatsHint": {
+    "description": "Vehicle capacity field hint text"
+  },
+  "transferOwnership": "Transfer Ownership",
+  "@transferOwnership": {
+    "description": "Option to transfer ownership"
+  },
+  "transferOwnershipDesc": "Transfer full ownership of the family to another member",
+  "@transferOwnershipDesc": {
+    "description": "Description for transferring ownership"
+  },
+  "transferOwnershipWarning": "This will transfer full ownership and admin rights to the selected member. This action cannot be undone.",
+  "@transferOwnershipWarning": {
+    "description": "Warning message for ownership transfer"
+  },
+  "transportGroups": "Transport Groups",
+  "@transportGroups": {
+    "description": "Transport groups page title"
+  },
+  "tripCreationFormToImplement": "Trip creation form to implement",
+  "@tripCreationFormToImplement": {
+    "description": "Placeholder message for trip creation form"
+  },
+  "tryAgain": "Try Again",
+  "@tryAgain": {
+    "description": "Retry button text"
+  },
+  "tue": "Tue",
+  "@tue": {
+    "description": "Tuesday abbreviation"
+  },
+  "tuesday": "Tuesday",
+  "@tuesday": {
+    "description": "Tuesday day name"
+  },
+  "tuesdayShort": "Tue",
+  "@tuesdayShort": {},
+  "typeToConfirm": "Type '{confirmText}' to confirm:",
+  "@typeToConfirm": {
+    "description": "Instruction for confirmation text",
+    "placeholders": {
+      "confirmText": {
+        "type": "String"
+      }
+    }
+  },
+  "universalInvitation": "Universal invitation",
+  "@universalInvitation": {
+    "description": "Universal invitation type title"
+  },
+  "unknownFamily": "Unknown Family",
+  "@unknownFamily": {
+    "description": "Default text when family name is unknown"
+  },
+  "unsavedChanges": "Unsaved Changes",
+  "@unsavedChanges": {
+    "description": "Dialog title for unsaved changes"
+  },
+  "unsavedChangesTitle": "Unsaved Changes",
+  "@unsavedChangesTitle": {
+    "description": "Dialog title for unsaved changes"
+  },
+  "updateVehicle": "Update Vehicle",
+  "@updateVehicle": {
+    "description": "Update vehicle button text"
+  },
+  "updating": "Updating",
+  "@updating": {
+    "description": "Generic updating status text"
+  },
+  "usage": "Usage",
+  "@usage": {
+    "description": "Usage indicator label"
+  },
+  "userMenu": "User Menu",
+  "@userMenu": {
+    "description": "User menu title"
+  },
+  "userProfileOptions": "User profile options would appear here",
+  "@userProfileOptions": {
+    "description": "User profile options placeholder text"
+  },
+  "userRole": "Role: {role}",
+  "@userRole": {
+    "description": "User role display",
+    "placeholders": {
+      "role": {
+        "type": "String"
+      }
+    }
+  },
+  "validateCode": "Validate Code",
+  "@validateCode": {
+    "description": "Button text to validate invitation code"
+  },
+  "validatingGroupInvitation": "Validating group invitation...",
+  "@validatingGroupInvitation": {
+    "description": "Loading message for group invitation validation"
+  },
+  "validatingInvitation": "Validating invitation...",
+  "@validatingInvitation": {
+    "description": "Validating invitation state text"
+  },
+  "van": "Van",
+  "@van": {
+    "description": "Van vehicle type"
+  },
+  "vehicleAddedSuccessfully": "Vehicle added successfully",
+  "@vehicleAddedSuccessfully": {
+    "description": "Success message when vehicle is added"
+  },
+  "vehicleAssignment": "Vehicle Assignment: {vehicleId}",
+  "@vehicleAssignment": {
+    "description": "Vehicle assignment display",
+    "placeholders": {
+      "vehicleId": {
+        "type": "String",
+        "description": "Vehicle identifier"
+      }
+    }
+  },
+  "vehicleCount": "{count, plural, =1{{count} vehicle} other{{count} vehicles}}",
+  "@vehicleCount": {
+    "description": "Vehicle count with ICU pluralization"
+  },
+  "vehicleDetails": "Vehicle details",
+  "@vehicleDetails": {
+    "description": "Title for vehicle information screen"
+  },
+  "vehicleId": "Vehicle ID",
+  "@vehicleId": {
+    "description": "Vehicle ID field label"
+  },
+  "vehicleInformation": "Vehicle Information",
+  "@vehicleInformation": {
+    "description": "Vehicle information section title"
+  },
+  "vehicleName": "Vehicle Name",
+  "@vehicleName": {
+    "description": "Vehicle name field label"
+  },
+  "vehicleNameRequired": "Vehicle name *",
+  "@vehicleNameRequired": {
+    "description": "Vehicle name field label with required indicator"
+  },
+  "vehicleNotFound": "Vehicle not found",
+  "@vehicleNotFound": {
+    "description": "Error when vehicle is not found"
+  },
+  "vehicleType": "Vehicle type",
+  "@vehicleType": {
+    "description": "Vehicle type selection section title"
+  },
+  "vehicleUpdatedSuccessfully": "Vehicle updated successfully",
+  "@vehicleUpdatedSuccessfully": {
+    "description": "Success message when vehicle is updated"
+  },
+  "vehicles": "Vehicles",
+  "@vehicles": {
+    "description": "Vehicles page title and section label"
+  },
+  "vehicleAddedSuccess": "{vehicleName} added successfully",
+  "@vehicleAddedSuccess": {
+    "description": "Success message when vehicle is added",
+    "placeholders": {
+      "vehicleName": {
+        "type": "String",
+        "description": "Name of the vehicle"
+      }
+    }
+  },
+  "vehicleFailedToAdd": "Failed to add vehicle: {error}",
+  "@vehicleFailedToAdd": {
+    "description": "Error message when vehicle addition fails",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "description": "Error details"
+      }
+    }
+  },
+  "vehicleAlreadyAssigned": "{vehicleName} is already assigned to this slot",
+  "@vehicleAlreadyAssigned": {
+    "description": "Info message when vehicle is already assigned to a slot",
+    "placeholders": {
+      "vehicleName": {
+        "type": "String",
+        "description": "Name of the vehicle"
+      }
+    }
+  },
+  "vehicleFailedToRemove": "Failed to remove vehicle: {error}",
+  "@vehicleFailedToRemove": {
+    "description": "Error message when vehicle removal fails",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "description": "Error details"
+      }
+    }
+  },
+  "vehicleRemovedSuccess": "{vehicleName} removed successfully",
+  "@vehicleRemovedSuccess": {
+    "description": "Success message when vehicle is removed",
+    "placeholders": {
+      "vehicleName": {
+        "type": "String",
+        "description": "Name of the vehicle"
+      }
+    }
+  },
+  "verificationFailedTitle": "Verification failed",
+  "@verificationFailedTitle": {
+    "description": "Title shown when magic link verification fails"
+  },
+  "view": "View",
+  "@view": {
+    "description": "View button text"
+  },
+  "viewAll": "View All",
+  "@viewAll": {
+    "description": "Button text to view all items"
+  },
+  "viewDetails": "View details",
+  "@viewDetails": {
+    "description": "View details action label"
+  },
+  "viewGroupSchedule": "View Group Schedule",
+  "@viewGroupSchedule": {
+    "description": "Button to view group schedule"
+  },
+  "viewMemberDetails": "View Member Details",
+  "@viewMemberDetails": {
+    "description": "Option to view member details"
+  },
+  "wed": "Wed",
+  "@wed": {
+    "description": "Wednesday abbreviation"
+  },
+  "wednesday": "Wednesday",
+  "@wednesday": {
+    "description": "Wednesday day name"
+  },
+  "wednesdayShort": "Wed",
+  "@wednesdayShort": {},
+  "weekLabel": "Week",
+  "@weekLabel": {
+    "description": "Week label for segmented button"
+  },
+  "weekView": "Week",
+  "@weekView": {
+    "description": "Week view option"
+  },
+  "weekViewImplementation": "Week view implementation",
+  "@weekViewImplementation": {
+    "description": "Message for week view"
+  },
+  "weekdaysCount": "{count, plural, =1{{count} weekday} other{{count} weekdays}}",
+  "@weekdaysCount": {
+    "description": "Weekdays count with ICU pluralization"
+  },
+  "weekdaysOnly": "Weekdays Only",
+  "@weekdaysOnly": {
+    "description": "Weekdays only selection option"
+  },
+  "weekendDaysCount": "{count, plural, =1{{count} weekend day} other{{count} weekend days}}",
+  "@weekendDaysCount": {
+    "description": "Weekend days count with ICU pluralization"
+  },
+  "weekendsOnly": "Weekends Only",
+  "@weekendsOnly": {
+    "description": "Weekends only selection option"
+  },
+  "weeklySchedule": "Weekly Schedule",
+  "@weeklySchedule": {
+    "description": "Weekly schedule page title"
+  },
+  "weeklySlotTotal": "{count, plural, =1{{count} slot per week} other{{count} slots per week}}",
+  "@weeklySlotTotal": {
+    "description": "Weekly slot total with ICU pluralization"
+  },
+  "welcomeNewUser": "Welcome! We see you're new. Please provide your name to complete your account.",
+  "@welcomeNewUser": {
+    "description": "Welcome message for new users who need to provide their name"
+  },
+  "welcomeToEduLiftLogin": "Welcome to EduLift",
+  "@welcomeToEduLiftLogin": {
+    "description": "Welcome message on login page"
+  },
+  "whyOverrideNeeded": "Why is this override needed?",
+  "@whyOverrideNeeded": {
+    "description": "Hint text for reason input"
+  },
+  "yesterday": "Yesterday",
+  "@yesterday": {
+    "description": "Yesterday time indicator"
+  },
+  "you": "You",
+  "@you": {
+    "description": "Label indicating current user"
+  },
+  "youAreLastAdmin": "You are the last admin",
+  "@youAreLastAdmin": {
+    "description": "Warning that user is the last admin"
+  },
+  "youAreLeavingAs": "You are leaving as: {role}",
+  "@youAreLeavingAs": {
+    "description": "Shows user's role when leaving family",
+    "placeholders": {
+      "role": {
+        "type": "String",
+        "description": "The user's role in the family"
+      }
+    }
+  },
+  "youHaveLeftFamily": "You have left the family",
+  "@youHaveLeftFamily": {
+    "description": "Success message after leaving family"
+  },
+  "youveBeenInvitedToJoin": "You've been invited to join",
+  "@youveBeenInvitedToJoin": {
+    "description": "Text shown when user has been invited to join a family"
+  },
+  "validGroupInvitation": "This group invitation is valid and ready to use.",
+  "@validGroupInvitation": {
+    "description": "Message shown when group invitation code is valid"
+  },
+  "verifyingMagicLink": "Verifying Magic Link",
+  "@verifyingMagicLink": {
+    "description": "Title shown while magic link is being verified"
+  },
+  "verifyingMagicLinkMessage": "Please wait while we verify your magic link...",
+  "@verifyingMagicLinkMessage": {
+    "description": "Message shown while magic link is being verified"
+  },
+  "verificationSuccessful": "Verification Successful",
+  "@verificationSuccessful": {
+    "description": "Title shown when magic link verification succeeds"
+  },
+  "welcomeAfterMagicLinkSuccess": "Welcome to EduLift! Taking you to your dashboard...",
+  "@welcomeAfterMagicLinkSuccess": {
+    "description": "Welcome message after successful magic link verification"
+  },
+  "secureAuthentication": "Secure Authentication",
+  "@secureAuthentication": {
+    "description": "Authentication security label"
+  },
+  "cancelChanges": "Cancel Changes",
+  "@cancelChanges": {
+    "description": "Button tooltip to cancel unsaved changes"
+  },
+  "saveConfiguration": "Save Configuration",
+  "@saveConfiguration": {
+    "description": "Button tooltip to save configuration"
+  },
+  "validation": "Validation",
+  "@validation": {
+    "description": "Validation section header"
+  },
+  "quickSelectionOptions": "Quick selection options",
+  "@quickSelectionOptions": {
+    "description": "Tooltip for weekday quick selection menu"
+  },
+  "activeScheduleDays": "Active Schedule Days",
+  "@activeScheduleDays": {
+    "description": "Header for weekday selector"
+  },
+  "daysSelected": "{count}/7 days selected",
+  "@daysSelected": {
+    "description": "Shows count of selected days",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "atLeastOneDayRequired": "At least one day must be selected",
+  "@atLeastOneDayRequired": {
+    "description": "Warning when trying to deselect last day"
+  },
+  "noDaysSelectedWarning": "No days selected. Schedule will be disabled.",
+  "@noDaysSelectedWarning": {
+    "description": "Warning when no days are selected"
+  },
+  "scheduleActive": "Schedule Active",
+  "@scheduleActive": {
+    "description": "Label showing schedule is active"
+  },
+  "weekdayAbbrevMon": "Mon",
+  "@weekdayAbbrevMon": {
+    "description": "Monday abbreviation"
+  },
+  "weekdayAbbrevTue": "Tue",
+  "@weekdayAbbrevTue": {
+    "description": "Tuesday abbreviation"
+  },
+  "weekdayAbbrevWed": "Wed",
+  "@weekdayAbbrevWed": {
+    "description": "Wednesday abbreviation"
+  },
+  "weekdayAbbrevThu": "Thu",
+  "@weekdayAbbrevThu": {
+    "description": "Thursday abbreviation"
+  },
+  "weekdayAbbrevFri": "Fri",
+  "@weekdayAbbrevFri": {
+    "description": "Friday abbreviation"
+  },
+  "weekdayAbbrevSat": "Sat",
+  "@weekdayAbbrevSat": {
+    "description": "Saturday abbreviation"
+  },
+  "weekdayAbbrevSun": "Sun",
+  "@weekdayAbbrevSun": {
+    "description": "Sunday abbreviation"
+  },
+  "weekendLabel": "Weekend",
+  "@weekendLabel": {
+    "description": "Weekend label badge"
+  },
+  "enterEmailAddress": "Enter email address",
+  "@enterEmailAddress": {
+    "description": "Placeholder for email input field"
+  },
+  "pleaseEnterValidEmail": "Please enter a valid email",
+  "@pleaseEnterValidEmail": {
+    "description": "Validation error for invalid email"
+  },
+  "invitationSentSuccessfully": "Invitation sent successfully",
+  "@invitationSentSuccessfully": {
+    "description": "Success message after sending invitation"
+  },
+  "addChildButton": "Add Child",
+  "@addChildButton": {
+    "description": "Button to add a child"
+  },
+  "saveVehicle": "Save Vehicle",
+  "@saveVehicle": {
+    "description": "Button to save vehicle"
+  },
+  "selectTimeSlot": "Select Time Slot",
+  "@selectTimeSlot": {
+    "description": "Button to select time slot"
+  },
+  "confirmSchedule": "Confirm Schedule",
+  "@confirmSchedule": {
+    "description": "Button to confirm schedule"
+  },
+  "scheduleConfirmed": "Schedule confirmed",
+  "@scheduleConfirmed": {
+    "description": "Success message after confirming schedule"
+  },
+  "scheduleDetails": "Schedule Details",
+  "@scheduleDetails": {
+    "description": "Schedule details page title"
+  },
+  "editSchedule": "Edit Schedule",
+  "@editSchedule": {
+    "description": "Button to edit schedule"
+  },
+  "welcomeOnboarding": "Welcome",
+  "@welcomeOnboarding": {
+    "description": "Welcome message in onboarding"
+  },
+  "getStarted": "Get Started",
+  "@getStarted": {
+    "description": "Get started button in onboarding"
+  },
+  "skipOnboarding": "Skip",
+  "@skipOnboarding": {
+    "description": "Skip button in onboarding"
+  },
+  "nextOnboarding": "Next",
+  "@nextOnboarding": {
+    "description": "Next button in onboarding"
+  },
+  "nameRequired": "Name is required",
+  "@nameRequired": {
+    "description": "Validation error when name is missing"
+  },
+  "dashboardTitle": "Dashboard",
+  "@dashboardTitle": {
+    "description": "Dashboard page title"
+  },
+  "createFamilyButton": "Create Family",
+  "@createFamilyButton": {
+    "description": "Button to create family"
+  },
+  "familyNameLabel": "Family Name",
+  "@familyNameLabel": {
+    "description": "Label for family name input"
+  },
+  "scheduleConfigSavedSuccess": "Schedule configuration saved successfully",
+  "@scheduleConfigSavedSuccess": {
+    "description": "Success message after saving schedule configuration"
+  },
+  "scheduleConfigSaveFailed": "Failed to save configuration: {error}",
+  "@scheduleConfigSaveFailed": {
+    "description": "Error message with dynamic error text",
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "saveOperationFailed": "Save operation did not complete successfully",
+  "@saveOperationFailed": {
+    "description": "Error message when save operation fails"
+  },
+  "scheduleConfigSaveException": "Failed to save configuration: {error}",
+  "@scheduleConfigSaveException": {
+    "description": "Error message with exception details",
+    "placeholders": {
+      "exception": {
+        "type": "String"
+      }
+    }
+  },
+  "changesCanceledReverted": "Changes canceled - reverted to original configuration",
+  "@changesCanceledReverted": {
+    "description": "Message when changes are canceled and reverted"
+  },
+  "unsavedChangesScheduleMessage": "You have unsaved changes to the schedule configuration. Are you sure you want to leave without saving?",
+  "@unsavedChangesScheduleMessage": {
+    "description": "Warning dialog for unsaved schedule changes"
+  },
+  "groupNotFoundOrNoAccess": "The group could not be found or you no longer have access to it.",
+  "@groupNotFoundOrNoAccess": {
+    "description": "Error message when group is not accessible"
+  },
+  "failedToLoadGroupDetails": "Failed to load group details",
+  "@failedToLoadGroupDetails": {
+    "description": "Error message when group details fail to load"
+  },
+  "yourNameLabel": "Your Name",
+  "@yourNameLabel": {
+    "description": "Label for name input field"
+  },
+  "enterFullNameHint": "Enter your full name",
+  "@enterFullNameHint": {
+    "description": "Hint text for full name input"
+  },
+  "personalMessageOptionalLabel": "Personal Message (Optional)",
+  "@personalMessageOptionalLabel": {
+    "description": "Label for optional personal message field"
+  },
+  "addPersonalMessageHint": "Add a personal message to your invitation...",
+  "@addPersonalMessageHint": {
+    "description": "Placeholder for personal message field"
+  },
+  "ageOptionalLabel": "Age (optional)",
+  "@ageOptionalLabel": {
+    "description": "Label for optional age input field"
+  },
+  "enterAgeHint": "Enter age",
+  "@enterAgeHint": {
+    "description": "Hint text for age input"
+  },
+  "yearsUnit": "years",
+  "@yearsUnit": {
+    "description": "Unit of time for age"
+  },
+  "enterFamilyNameHint": "Enter family name (e.g., Smith Family)",
+  "@enterFamilyNameHint": {
+    "description": "Hint text for family name input with example"
+  },
+  "describeFamilyOptionalHint": "Describe your family (optional)",
+  "@describeFamilyOptionalHint": {
+    "description": "Hint text for optional family description"
+  },
+  "familyInvitationCodeHint": "Family invitation code",
+  "@familyInvitationCodeHint": {
+    "description": "Hint text for invitation code input"
+  },
+  "enterEmailAddressHint": "Enter your email address",
+  "@enterEmailAddressHint": {
+    "description": "Hint text for email input field"
+  },
+  "nameTooShort": "Name must be at least 2 characters",
+  "@nameTooShort": {
+    "description": "Validation error when name is too short"
+  },
+  "familyNameCannotBeEmpty": "Family name cannot be empty",
+  "@familyNameCannotBeEmpty": {
+    "description": "Validation error when family name is empty"
+  },
+  "familyNameTooShortValidation": "Family name must be at least 2 characters",
+  "@familyNameTooShortValidation": {
+    "description": "Validation error when family name is too short"
+  },
+  "defaultGroupConfigInfo": "No schedule configured yet. Configure departure hours for each day and save to activate the schedule.",
+  "@defaultGroupConfigInfo": {
+    "description": "Information banner for new group default configuration"
+  },
+  "makeAdminTitle": "Make Admin",
+  "@makeAdminTitle": {
+    "description": "Dialog title for promoting user to admin"
+  },
+  "removeAdminRoleTitle": "Remove Admin Role",
+  "@removeAdminRoleTitle": {
+    "description": "Dialog title for removing admin role"
+  },
+  "makeAdminButton": "Make Admin",
+  "@makeAdminButton": {
+    "description": "Button text to make user admin"
+  },
+  "removeAdminButton": "Remove Admin",
+  "@removeAdminButton": {
+    "description": "Button text to remove admin role"
+  },
+  "addChildAction": "Add Child",
+  "@addChildAction": {
+    "description": "Action title to add a child"
+  },
+  "joinGroupAction": "Join a Group",
+  "@joinGroupAction": {
+    "description": "Action title to join a group"
+  },
+  "addVehicleAction": "Add Vehicle",
+  "@addVehicleAction": {
+    "description": "Action title to add a vehicle"
+  },
+  "configureScheduleTooltip": "Configure Schedule",
+  "@configureScheduleTooltip": {
+    "description": "Tooltip for schedule configuration button"
+  },
+  "manageChildrenTooltip": "Manage Children",
+  "@manageChildrenTooltip": {
+    "description": "Tooltip for manage children button"
+  },
+  "removeVehicleTooltip": "Remove Vehicle",
+  "@removeVehicleTooltip": {
+    "description": "Tooltip for remove vehicle button"
+  },
+  "editTimeTooltip": "Edit time",
+  "@editTimeTooltip": {
+    "description": "Tooltip for edit time button"
+  },
+  "deleteTimeTooltip": "Delete time",
+  "@deleteTimeTooltip": {
+    "description": "Tooltip for delete time button"
+  },
+  "resolveScheduleConflictsTooltip": "Resolve schedule conflicts",
+  "@resolveScheduleConflictsTooltip": {
+    "description": "Tooltip for conflict resolution button"
+  },
+  "refreshScheduleTooltip": "Refresh schedule",
+  "@refreshScheduleTooltip": {
+    "description": "Tooltip for refresh button"
+  },
+  "filterAndSortOptionsTooltip": "Filter and sort options",
+  "@filterAndSortOptionsTooltip": {
+    "description": "Tooltip for filter button"
+  },
+  "logoutTooltip": "Logout",
+  "@logoutTooltip": {
+    "description": "Tooltip for logout button"
+  },
+  "tryLoadingConfigAgainLabel": "Try loading configuration again",
+  "@tryLoadingConfigAgainLabel": {
+    "description": "Semantic label for retry button"
+  },
+  "switchToDayConfigurationLabel": "Switch to {day} configuration",
+  "@switchToDayConfigurationLabel": {
+    "description": "Semantic label for day selector",
+    "placeholders": {
+      "day": {
+        "type": "String"
+      }
+    }
+  },
+  "departureHoursConfiguredHint": "{count} departure hours configured",
+  "@departureHoursConfiguredHint": {
+    "description": "Semantic hint for configured departure hours",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "noDepartureHoursConfiguredHint": "No departure hours configured",
+  "@noDepartureHoursConfiguredHint": {
+    "description": "Semantic hint when no departure hours"
+  },
+  "viewScheduleConflictsLabel": "View schedule conflicts",
+  "@viewScheduleConflictsLabel": {
+    "description": "Semantic label for view conflicts button"
+  },
+  "refreshScheduleLabel": "Refresh schedule",
+  "@refreshScheduleLabel": {
+    "description": "Semantic label for refresh button"
+  },
+  "filterScheduleLabel": "Filter schedule",
+  "@filterScheduleLabel": {
+    "description": "Semantic label for filter button"
+  },
+  "eventAtTimeLabel": "{eventTitle} at {time}",
+  "@eventAtTimeLabel": {
+    "description": "Semantic label for event with time",
+    "placeholders": {
+      "eventTitle": {
+        "type": "String"
+      },
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "familyNameInputFieldLabel": "Family name input field",
+  "@familyNameInputFieldLabel": {
+    "description": "Semantic label for family name input field"
+  },
+  "familyDescriptionInputFieldLabel": "Family description input field",
+  "@familyDescriptionInputFieldLabel": {
+    "description": "Semantic label for family description input field"
+  },
+  "createFamilyButtonLabel": "Create family button",
+  "@createFamilyButtonLabel": {
+    "description": "Semantic label for create family button"
+  },
+  "cancelButtonLabel": "Cancel button",
+  "@cancelButtonLabel": {
+    "description": "Semantic label for cancel button"
+  },
+  "removeVehicle": "Remove Vehicle",
+  "@removeVehicle": {
+    "description": "Button to remove vehicle from selection"
+  },
+  "editTime": "Edit time",
+  "@editTime": {
+    "description": "Button to edit time slot"
+  },
+  "deleteTime": "Delete time",
+  "@deleteTime": {
+    "description": "Button to delete time slot"
+  },
+  "resolveScheduleConflicts": "Resolve schedule conflicts",
+  "@resolveScheduleConflicts": {
+    "description": "Action to resolve scheduling conflicts"
+  },
+  "refreshSchedule": "Refresh schedule",
+  "@refreshSchedule": {
+    "description": "Action to refresh schedule data"
+  },
+  "filterAndSortOptions": "Filter and sort options",
+  "@filterAndSortOptions": {
+    "description": "Options for filtering and sorting schedule"
+  },
+  "joinedDate": "Joined",
+  "@joinedDate": {
+    "description": "Label for member join date in family"
+  },
+  "enterAge": "Enter age",
+  "@enterAge": {
+    "description": "Placeholder for age input field"
+  },
+  "enterYourEmailAddress": "Enter your email address",
+  "@enterYourEmailAddress": {
+    "description": "Placeholder for email input field"
+  },
+  "biometricAuthenticationButton": "Biometric authentication button",
+  "@biometricAuthenticationButton": {
+    "description": "Semantic label for biometric authentication button"
+  },
+  "websocketConnectionStatus": "WebSocket connection status",
+  "@websocketConnectionStatus": {
+    "description": "Semantic label for WebSocket status indicator"
+  },
+  "welcomeSection": "Welcome Section",
+  "@welcomeSection": {
+    "description": "Semantic label for welcome section"
+  },
+  "currentDateAndDashboardDescription": "Current date and dashboard description",
+  "@currentDateAndDashboardDescription": {
+    "description": "Semantic label for current date and dashboard description"
+  },
+  "familyOverviewSection": "Family Overview Section",
+  "@familyOverviewSection": {
+    "description": "Semantic label for family overview section"
+  },
+  "welcomeIcon": "Welcome icon",
+  "@welcomeIcon": {
+    "description": "Semantic label for welcome icon"
+  },
+  "familyIcon": "Family icon",
+  "@familyIcon": {
+    "description": "Semantic label for family icon"
+  },
+  "loadingFamilyInformation": "Loading family information",
+  "@loadingFamilyInformation": {
+    "description": "Semantic label for loading state"
+  },
+  "errorLoadingFamilyInformation": "Error loading family information",
+  "@errorLoadingFamilyInformation": {
+    "description": "Semantic label for error state"
+  },
+  "errorIcon": "Error icon",
+  "@errorIcon": {
+    "description": "Semantic label for error icon"
+  },
+  "quickActionsSection": "Quick Actions Section",
+  "@quickActionsSection": {
+    "description": "Semantic label for quick actions section"
+  },
+  "recentActivitiesSection": "Recent Activities Section",
+  "@recentActivitiesSection": {
+    "description": "Semantic label for recent activities section"
+  },
+  "noRecentActivityIcon": "No recent activity icon",
+  "@noRecentActivityIcon": {
+    "description": "Semantic label for no activity icon"
+  },
+  "upcomingTripsSection": "Upcoming Trips Section",
+  "@upcomingTripsSection": {
+    "description": "Semantic label for upcoming trips section"
+  },
+  "noTripsScheduledIcon": "No trips scheduled icon",
+  "@noTripsScheduledIcon": {
+    "description": "Semantic label for no trips icon"
+  },
+  "unexpectedErrorOccurred": "An unexpected error occurred.",
+  "@unexpectedErrorOccurred": {
+    "description": "Generic unexpected error message"
+  },
+  "failedToSendMagicLink": "Failed to send magic link - empty response",
+  "@failedToSendMagicLink": {
+    "description": "Error message when magic link sending fails"
+  },
+  "vehicleNearCapacity": "Vehicle Near Capacity",
+  "@vehicleNearCapacity": {
+    "description": "WebSocket notification for vehicle near capacity"
+  },
+  "familyInvitationExpired": "Family Invitation Expired",
+  "@familyInvitationExpired": {
+    "description": "WebSocket notification for expired family invitation"
+  },
+  "groupMembershipUpdated": "Group Membership Updated",
+  "@groupMembershipUpdated": {
+    "description": "WebSocket notification for group membership update"
+  },
+  "dataRefresh": "Data Refresh",
+  "@dataRefresh": {
+    "description": "WebSocket notification for data refresh"
+  },
+  "viewConflictDetails": "View conflict details",
+  "@viewConflictDetails": {
+    "description": "Link to view schedule conflict details"
+  },
+  "attemptingToReconnect": "Attempting to reconnect...",
+  "@attemptingToReconnect": {
+    "description": "WebSocket reconnection status message"
+  },
+  "realtimeUpdatesActive": "Real-time updates are active",
+  "@realtimeUpdatesActive": {
+    "description": "WebSocket connected status message"
+  },
+  "connectingToRealtimeUpdates": "Connecting to real-time updates...",
+  "@connectingToRealtimeUpdates": {
+    "description": "WebSocket connecting status message"
+  },
+  "synchronizingData": "Synchronizing data...",
+  "@synchronizingData": {
+    "description": "Data synchronization status message"
+  },
+  "userAvatarFor": "User avatar for {userName}",
+  "@userAvatarFor": {
+    "description": "Semantic label for user avatar",
+    "placeholders": {
+      "userName": {
+        "type": "String"
+      }
+    }
+  },
+  "welcomeBackUser": "Welcome back, {userName}!",
+  "@welcomeBackUser": {
+    "description": "Welcome back message with user name",
+    "placeholders": {
+      "userName": {
+        "type": "String"
+      }
+    }
+  },
+  "currentDateAndDashboardDesc": "Current date and dashboard description",
+  "@currentDateAndDashboardDesc": {
+    "description": "Semantic label for current date display"
+  },
+  "yourTransportDashboard": "Your transport dashboard • {date}",
+  "@yourTransportDashboard": {
+    "description": "Transport dashboard title with date",
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "familyStatistics": "Family statistics: {members} members, {children} children, {vehicles} vehicles",
+  "@familyStatistics": {
+    "description": "Semantic label for family statistics",
+    "placeholders": {
+      "members": {
+        "type": "int"
+      },
+      "children": {
+        "type": "int"
+      },
+      "vehicles": {
+        "type": "int"
+      }
+    }
+  },
+  "registerForTransport": "Register for transport",
+  "@registerForTransport": {
+    "description": "Quick action description for adding a child"
+  },
+  "connectWithOtherFamilies": "Connect with other families",
+  "@connectWithOtherFamilies": {
+    "description": "Quick action description for joining a group"
+  },
+  "offerRidesToOthers": "Offer rides to others",
+  "@offerRidesToOthers": {
+    "description": "Quick action description for adding a vehicle"
+  },
+  "loggedInAs": "Logged in as",
+  "@loggedInAs": {
+    "description": "Label indicating user login status"
+  },
+  "toGetStartedSetupFamily": "To get started, you need to set up your family.",
+  "@toGetStartedSetupFamily": {
+    "description": "Instruction message for new users"
+  },
+  "settingUpOnboarding": "Setting up your onboarding...",
+  "@settingUpOnboarding": {
+    "description": "Loading message during onboarding setup"
+  },
+  "youveBeenInvitedToJoinFamily": "You've been invited to join a family!",
+  "@youveBeenInvitedToJoinFamily": {
+    "description": "Message when user has pending family invitation"
+  },
+  "acceptInvitationToCoordinate": "Accept the invitation to start coordinating with other families.",
+  "@acceptInvitationToCoordinate": {
+    "description": "Instruction to accept family invitation"
+  },
+  "chooseYourFamilySetup": "Choose Your Family Setup",
+  "@chooseYourFamilySetup": {
+    "description": "Title for family setup choice"
+  },
+  "joinExistingFamily": "Join Existing Family",
+  "@joinExistingFamily": {
+    "description": "Button text to join an existing family"
+  },
+  "groupMembersPageTitle": "{groupName} - Members",
+  "@groupMembersPageTitle": {
+    "description": "Group members page title",
+    "placeholders": {
+      "groupName": {
+        "type": "String"
+      }
+    }
+  },
+  "promoteToAdminConfirm": "Are you sure you want to promote \"{familyName}\" to Administrator? They will be able to manage group members and settings.",
+  "@promoteToAdminConfirm": {
+    "description": "Confirmation message for promoting family to admin",
+    "placeholders": {
+      "familyName": {
+        "type": "String"
+      }
+    }
+  },
+  "promote": "Promote",
+  "@promote": {
+    "description": "Promote button text"
+  },
+  "familyPromotedSuccess": "Family promoted to Admin successfully",
+  "@familyPromotedSuccess": {
+    "description": "Success message when family is promoted"
+  },
+  "failedToPromoteFamily": "Failed to promote family",
+  "@failedToPromoteFamily": {
+    "description": "Error message when promotion fails"
+  },
+  "demoteToMember": "Demote to Member",
+  "@demoteToMember": {
+    "description": "Action to demote a family to member role"
+  },
+  "demoteToMemberConfirm": "Are you sure you want to demote \"{familyName}\" to Member? They will lose administrative privileges.",
+  "@demoteToMemberConfirm": {
+    "description": "Confirmation message for demoting family to member",
+    "placeholders": {
+      "familyName": {
+        "type": "String"
+      }
+    }
+  },
+  "demote": "Demote",
+  "@demote": {
+    "description": "Demote button text"
+  },
+  "familyDemotedSuccess": "Family demoted to Member successfully",
+  "@familyDemotedSuccess": {
+    "description": "Success message when family is demoted"
+  },
+  "failedToDemoteFamily": "Failed to demote family",
+  "@failedToDemoteFamily": {
+    "description": "Error message when demotion fails"
+  },
+  "removeFamily": "Remove Family",
+  "@removeFamily": {
+    "description": "Action to remove a family from group"
+  },
+  "removeFamilyConfirm": "Are you sure you want to remove \"{familyName}\" from the group? This action cannot be undone.",
+  "@removeFamilyConfirm": {
+    "description": "Confirmation message for removing family",
+    "placeholders": {
+      "familyName": {
+        "type": "String"
+      }
+    }
+  },
+  "removeFamilyAction": "Remove",
+  "@removeFamilyAction": {
+    "description": "Remove button text in confirmation dialog"
+  },
+  "familyRemovedSuccess": "Family removed successfully",
+  "@familyRemovedSuccess": {
+    "description": "Success message when family is removed"
+  },
+  "failedToRemoveFamily": "Failed to remove family: {error}",
+  "@failedToRemoveFamily": {
+    "description": "Error message when removing a family from a group fails",
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "removeFromGroup": "Remove from Group",
+  "@removeFromGroup": {
+    "description": "Action menu item to remove family from group"
+  },
+  "cancelInvitationConfirm": "Are you sure you want to cancel the invitation for \"{familyName}\"?",
+  "@cancelInvitationConfirm": {
+    "description": "Confirmation message for canceling invitation",
+    "placeholders": {
+      "familyName": {
+        "type": "String"
+      }
+    }
+  },
+  "invitationCanceledSuccess": "Invitation canceled successfully",
+  "@invitationCanceledSuccess": {
+    "description": "Success message when invitation is canceled"
+  },
+  "failedToCancelInvitation": "Failed to cancel invitation: {error}",
+  "@failedToCancelInvitation": {
+    "description": "Error message when canceling invitation fails",
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "noInvitationIdFound": "No invitation ID found",
+  "@noInvitationIdFound": {
+    "description": "Error message when invitation ID is missing"
+  },
+  "anErrorOccurred": "An error occurred: {error}",
+  "@anErrorOccurred": {
+    "description": "Generic error message with error details",
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "roleOwner": "OWNER",
+  "@roleOwner": {
+    "description": "Owner role badge text"
+  },
+  "roleAdmin": "ADMIN",
+  "@roleAdmin": {
+    "description": "Admin role badge text"
+  },
+  "roleMember": "MEMBER",
+  "@roleMember": {
+    "description": "Member role badge text"
+  },
+  "rolePending": "PENDING",
+  "@rolePending": {
+    "description": "Pending invitation role badge text"
+  },
+  "roleMemberDescription": "Can view and join group trips",
+  "@roleMemberDescription": {
+    "description": "Description of member role permissions"
+  },
+  "roleAdminDescription": "Can manage group and invite members",
+  "@roleAdminDescription": {
+    "description": "Description of admin role permissions"
+  },
+  "noAdmins": "No admins",
+  "@noAdmins": {
+    "description": "Text shown when family has no admins"
+  },
+  "adminCountMore": "{firstName} (+{count} more)",
+  "@adminCountMore": {
+    "description": "Admin count with additional admins indicator",
+    "placeholders": {
+      "firstName": {
+        "type": "String"
+      },
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "yourFamily": "Your Family",
+  "@yourFamily": {
+    "description": "Indicator for user's own family"
+  },
+  "inviteFamily": "Invite Family",
+  "@inviteFamily": {
+    "description": "Button to invite a family to the group"
+  },
+  "inviteFamilyComingSoon": "Invite family feature coming soon",
+  "@inviteFamilyComingSoon": {
+    "description": "Placeholder message for invite family feature"
+  },
+  "noFamiliesYet": "No families yet",
+  "@noFamiliesYet": {
+    "description": "Empty state title when no families in group"
+  },
+  "inviteFamiliesToGetStarted": "Invite families to get started",
+  "@inviteFamiliesToGetStarted": {
+    "description": "Empty state message to invite families"
+  },
+  "loadingFamilies": "Loading families...",
+  "@loadingFamilies": {
+    "description": "Loading state message for families"
+  },
+  "failedToLoadFamilies": "Failed to load families",
+  "@failedToLoadFamilies": {
+    "description": "Error state title when loading families fails"
+  },
+  "inviteFamilyToGroup": "Invite Family to Group",
+  "@inviteFamilyToGroup": {
+    "description": "Title of invite family dialog"
+  },
+  "inviteFamilyToGroupSubtitle": "Search and invite families to join this group",
+  "@inviteFamilyToGroupSubtitle": {
+    "description": "Subtitle of invite family dialog"
+  },
+  "searchFamilies": "Search Families",
+  "@searchFamilies": {
+    "description": "Label for family search field"
+  },
+  "enterFamilyName": "Enter family name...",
+  "@enterFamilyName": {
+    "description": "Placeholder for family search field"
+  },
+  "inviteAs": "Invite as:",
+  "@inviteAs": {
+    "description": "Label for role selector"
+  },
+  "personalMessageOptional": "Personal Message (Optional)",
+  "@personalMessageOptional": {
+    "description": "Label for optional personal message field"
+  },
+  "searchResults": "Search Results",
+  "@searchResults": {
+    "description": "Header for search results section"
+  },
+  "refineSearchForMoreResults": "Showing maximum results. Refine your search to see more specific matches.",
+  "@refineSearchForMoreResults": {
+    "description": "Message shown when search results reach the limit"
+  },
+  "andXMore": "+{count} more",
+  "@andXMore": {
+    "description": "Indicator showing additional items not displayed",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "3"
+      }
+    }
+  },
+  "enterAtLeast2Characters": "Enter at least 2 characters to search",
+  "@enterAtLeast2Characters": {
+    "description": "Prompt to enter minimum characters for search"
+  },
+  "noFamiliesFound": "No families found",
+  "@noFamiliesFound": {
+    "description": "Empty state when search returns no results"
+  },
+  "alreadyInvited": "Already invited",
+  "@alreadyInvited": {
+    "description": "Badge shown when family is already invited"
+  },
+  "inviting": "Inviting...",
+  "@inviting": {
+    "description": "Button text while invitation is being sent"
+  },
+  "searchFailed": "Search failed: {error}",
+  "@searchFailed": {
+    "description": "Error message when search fails",
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "invitationSent": "Invitation sent to {familyName}",
+  "@invitationSent": {
+    "description": "Success message when invitation is sent",
+    "placeholders": {
+      "familyName": {
+        "type": "String"
+      }
+    }
+  },
+  "invitationFailed": "Invitation failed: {error}",
+  "@invitationFailed": {
+    "description": "Error message when invitation fails",
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "manageMembers": "Manage Members",
+  "@manageMembers": {
+    "description": "Title for member management section"
+  },
+  "manageMembersDescription": "Manage family members, roles, and invitations for this group",
+  "@manageMembersDescription": {
+    "description": "Description for member management section"
+  },
+  "pendingInvitation": "Pending Invitation",
+  "@pendingInvitation": {
+    "description": "Label for pending invitation status"
+  },
+  "cancelInvitationDescription": "Revoke this pending invitation",
+  "@cancelInvitationDescription": {
+    "description": "Description for cancel invitation action"
+  },
+  "promoteToAdminDescription": "Grant admin permissions to this family",
+  "@promoteToAdminDescription": {
+    "description": "Description for promote to admin action"
+  },
+  "demoteToMemberDescription": "Remove admin permissions from this family",
+  "@demoteToMemberDescription": {
+    "description": "Description for demote to member action"
+  },
+  "removeFamilyFromGroupDescription": "Remove this family from the group",
+  "@removeFamilyFromGroupDescription": {
+    "description": "Description for remove family action"
+  },
+  "promoteToAdminConfirmation": "Are you sure you want to promote {familyName} to group admin?",
+  "@promoteToAdminConfirmation": {
+    "description": "Confirmation message for promoting family to admin",
+    "placeholders": {
+      "familyName": {
+        "type": "String"
+      }
+    }
+  },
+  "adminCanManageGroupMembers": "Admins can manage group members and schedules",
+  "@adminCanManageGroupMembers": {
+    "description": "Note about admin permissions"
+  },
+  "demoteToMemberConfirmation": "Are you sure you want to demote {familyName} to member?",
+  "@demoteToMemberConfirmation": {
+    "description": "Confirmation message for demoting family to member",
+    "placeholders": {
+      "familyName": {
+        "type": "String"
+      }
+    }
+  },
+  "demoteToMemberNote": "This family will lose admin permissions",
+  "@demoteToMemberNote": {
+    "description": "Warning note for demotion"
+  },
+  "removeFamilyDialogAccessibilityLabel": "Remove family from group",
+  "@removeFamilyDialogAccessibilityLabel": {
+    "description": "Accessibility label for remove family dialog"
+  },
+  "removeFamilyConfirmation": "Are you sure you want to remove {familyName} from this group?",
+  "@removeFamilyConfirmation": {
+    "description": "Confirmation message for removing family from group",
+    "placeholders": {
+      "familyName": {
+        "type": "String"
+      }
+    }
+  },
+  "removeAdminFamilyNote": "Warning: This admin family will be removed from the group",
+  "@removeAdminFamilyNote": {
+    "description": "Warning note when removing admin family"
+  },
+  "invitedOn": "Invited on {date}",
+  "@invitedOn": {
+    "description": "Label showing when invitation was sent",
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "cancelInvitationConfirmation": "Are you sure you want to cancel the invitation for {familyName}?",
+  "@cancelInvitationConfirmation": {
+    "description": "Confirmation message for canceling invitation",
+    "placeholders": {
+      "familyName": {
+        "type": "String"
+      }
+    }
+  },
+  "cancelInvitationNote": "The family will not be able to join with this invitation link",
+  "@cancelInvitationNote": {
+    "description": "Note about canceling invitation"
+  },
+  "familyAlreadyInvited": "This family has already been invited to this group",
+  "@familyAlreadyInvited": {
+    "description": "Error when family already has pending invitation"
+  },
+  "familyAlreadyMember": "This family is already a member of this group",
+  "@familyAlreadyMember": {
+    "description": "Error when family is already a member"
+  },
+  "familyNotFound": "Family not found",
+  "@familyNotFound": {
+    "description": "Error when family doesn't exist"
+  },
+  "invalidInvitationCode": "Invalid or expired invitation code",
+  "@invalidInvitationCode": {
+    "description": "Error when invitation code is invalid or expired"
+  },
+  "insufficientPermissions": "You don't have permission to perform this action",
+  "@insufficientPermissions": {
+    "description": "Error for insufficient permissions"
+  },
+  "invalidRequest": "Invalid request. Please check your input",
+  "@invalidRequest": {
+    "description": "Error for bad request (400)"
+  },
+  "authenticationRequired": "Authentication required",
+  "@authenticationRequired": {
+    "description": "Error for unauthenticated request (401)"
+  },
+  "resourceNotFound": "Resource not found",
+  "@resourceNotFound": {
+    "description": "Error for resource not found (404)"
+  },
+  "conflictError": "This action conflicts with existing data",
+  "@conflictError": {
+    "description": "Error for conflict (409)"
+  },
+  "networkError": "Network connection error. Please check your internet connection",
+  "@networkError": {
+    "description": "Error for network connection issues"
+  },
+  "requestTimeout": "Request timed out. Please try again",
+  "@requestTimeout": {
+    "description": "Error for request timeout"
+  },
+  "unexpectedError": "An unexpected error occurred",
+  "@unexpectedError": {
+    "description": "Generic error fallback"
+  },
+  "groupManagement": "Group Management",
+  "@groupManagement": {
+    "description": "Title for group management context"
+  },
+  "invitationIsValid": "This group invitation is valid and ready to use.",
+  "@invitationIsValid": {
+    "description": "Message shown when group invitation is valid"
+  },
+  "invitedBy": "Invited by:",
+  "@invitedBy": {
+    "description": "Label for invitation sender"
+  },
+  "aGroup": "a group",
+  "@aGroup": {
+    "description": "Fallback text for unnamed group"
+  },
+  "connectionFullyConnected": "Fully Connected",
+  "@connectionFullyConnected": {
+    "description": "Connection status - HTTP and WebSocket connected"
+  },
+  "connectionLimitedConnectivity": "Limited Connectivity",
+  "@connectionLimitedConnectivity": {
+    "description": "Connection status - HTTP ok but WebSocket disconnected"
+  },
+  "connectionOffline": "Offline",
+  "@connectionOffline": {
+    "description": "Connection status - no HTTP connection"
+  },
+  "connectionStatusTitle": "Connection Status",
+  "@connectionStatusTitle": {
+    "description": "Title for connection status bottom sheet"
+  },
+  "connectionHttpStatus": "Internet Connection",
+  "@connectionHttpStatus": {
+    "description": "Label for HTTP connection status"
+  },
+  "connectionWebSocketStatus": "Real-time Updates",
+  "@connectionWebSocketStatus": {
+    "description": "Label for WebSocket connection status"
+  },
+  "connectionConnected": "Connected",
+  "@connectionConnected": {
+    "description": "Connected status"
+  },
+  "connectionDisconnected": "Disconnected",
+  "@connectionDisconnected": {
+    "description": "Disconnected status"
+  },
+  "snackbarBackOnline": "Back online. Syncing...",
+  "@snackbarBackOnline": {
+    "description": "Snackbar message when connection is restored"
+  },
+  "snackbarLimitedConnectivity": "Limited connectivity. Real-time updates may be delayed.",
+  "@snackbarLimitedConnectivity": {
+    "description": "Snackbar message for limited connectivity"
+  },
+  "snackbarOffline": "You're offline. Changes will sync when reconnected.",
+  "@snackbarOffline": {
+    "description": "Snackbar message for offline mode"
+  },
+  "midday": "Midday",
+  "@midday": {
+    "description": "Midday time slot label for schedule grid"
+  },
+  "evening": "Evening",
+  "@evening": {
+    "description": "Evening time slot label for schedule grid"
+  },
+  "night": "Night",
+  "@night": {
+    "description": "Night time slot label for schedule grid"
+  },
+  "unknown": "Unknown",
+  "@unknown": {
+    "description": "Unknown or unspecified value"
+  },
+  "unknownVehicle": "Unknown Vehicle",
+  "@unknownVehicle": {
+    "description": "Fallback name for vehicle with no name"
+  },
+  "currentlyAssigned": "Currently Assigned",
+  "@currentlyAssigned": {
+    "description": "Section header for currently assigned vehicles"
+  },
+  "availableVehicles": "Available Vehicles",
+  "@availableVehicles": {
+    "description": "Section header for available vehicles to assign"
+  },
+  "noVehiclesAvailable": "No Vehicles Available",
+  "@noVehiclesAvailable": {
+    "description": "Empty state title when no vehicles exist"
+  },
+  "addVehiclesToFamily": "Add vehicles to your family to assign them to schedules",
+  "@addVehiclesToFamily": {
+    "description": "Empty state description for adding vehicles"
+  },
+  "errorLoadingVehicles": "Error Loading Vehicles",
+  "@errorLoadingVehicles": {
+    "description": "Error state title when vehicles fail to load"
+  },
+  "vehiclesCount": "{count, plural, =0{No vehicles} =1{1 vehicle} other{{count} vehicles}}",
+  "@vehiclesCount": {
+    "description": "Count of vehicles assigned to a time slot",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "assigned": "Assigned",
+  "@assigned": {
+    "description": "Label for assigned section in vehicle list"
+  },
+  "assignVehicle": "Assign Vehicle",
+  "@assignVehicle": {
+    "description": "Button/section to assign a vehicle"
+  },
+  "availableCount": "{count, plural, =0{None available} =1{1 available} other{{count} available}}",
+  "@availableCount": {
+    "description": "Count of available vehicles",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "noVehiclesAssignedToTimeSlot": "No vehicles assigned to this time slot",
+  "@noVehiclesAssignedToTimeSlot": {
+    "description": "Warning when no vehicles are assigned to a specific time slot"
+  },
+  "allVehiclesAssigned": "All available vehicles are assigned",
+  "@allVehiclesAssigned": {
+    "description": "Info message when all vehicles are already assigned"
+  },
+  "expandTimeSlot": "Expand time slot {timeSlot}",
+  "@expandTimeSlot": {
+    "description": "Accessibility label for expanding a time slot",
+    "placeholders": {
+      "timeSlot": {
+        "type": "String"
+      }
+    }
+  },
+  "seatsCount": "{count, plural, =0{No seats} =1{1 seat} other{{count} seats}}",
+  "@seatsCount": {
+    "description": "Seat count display",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "seatOverride": "Seat Override",
+  "@seatOverride": {
+    "description": "Title for seat override section"
+  },
+  "adjustCapacityForTrip": "Adjust capacity for this trip",
+  "@adjustCapacityForTrip": {
+    "description": "Subtitle for seat override section"
+  },
+  "temporarilyAdjustCapacity": "Temporarily adjust vehicle capacity (e.g., wheelchair configuration)",
+  "@temporarilyAdjustCapacity": {
+    "description": "Description for seat override feature"
+  },
+  "leaveEmptyForDefault": "Leave empty for default ({capacity, plural, =0{no seats} =1{1 seat} other{{capacity} seats}})",
+  "@leaveEmptyForDefault": {
+    "description": "Helper text for seat override field",
+    "placeholders": {
+      "capacity": {
+        "type": "int"
+      }
+    }
+  },
+  "overrideMustBeBetween": "Override must be between 0 and 50 seats",
+  "@overrideMustBeBetween": {
+    "description": "Validation error for seat override range"
+  },
+  "cannotDetermineWeek": "Cannot determine week for schedule",
+  "@cannotDetermineWeek": {
+    "description": "Error when week cannot be determined"
+  },
+  "seatOverrideUpdated": "Seat override updated",
+  "@seatOverrideUpdated": {
+    "description": "Success message after updating seat override"
+  },
+  "seatOverrideActive": "Seat override active",
+  "@seatOverrideActive": {
+    "description": "Tooltip when seat override is active"
+  },
+  "overrideDetails": "Override: {override} ({base} base)",
+  "@overrideDetails": {
+    "description": "Display override and base capacity",
+    "placeholders": {
+      "override": {
+        "type": "int"
+      },
+      "base": {
+        "type": "int"
+      }
+    }
+  },
+  "scheduleConfigurationRequired": "Schedule configuration required",
+  "@scheduleConfigurationRequired": {
+    "description": "Title shown when group has no schedule config"
+  },
+  "setupTimeSlotsToEnableScheduling": "This group needs schedule configuration. Set up time slots to enable scheduling.",
+  "@setupTimeSlotsToEnableScheduling": {
+    "description": "Description explaining why schedule is not available"
+  },
+  "contactAdministratorToSetupTimeSlots": "Contact a group administrator to set up time slots.",
+  "@contactAdministratorToSetupTimeSlots": {
+    "description": "Message for non-admin users when config is missing"
+  },
+  "navigateToPreviousWeek": "Navigate to previous week",
+  "@navigateToPreviousWeek": {
+    "description": "Semantic label for previous week navigation button"
+  },
+  "navigateToNextWeek": "Navigate to next week",
+  "@navigateToNextWeek": {
+    "description": "Semantic label for next week navigation button"
+  },
+  "emptySlotTapToAddVehicle": "Empty slot for {day} at {time}, tap to add vehicle",
+  "@emptySlotTapToAddVehicle": {
+    "description": "Semantic label for empty schedule slot",
+    "placeholders": {
+      "day": {
+        "type": "String"
+      },
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "slotWithVehiclesTapToManage": "{day} at {time} with {count, plural, =1{1 vehicle} other{{count} vehicles}}, tap to manage",
+  "@slotWithVehiclesTapToManage": {
+    "description": "Semantic label for filled schedule slot",
+    "placeholders": {
+      "day": {
+        "type": "String"
+      },
+      "time": {
+        "type": "String"
+      },
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "manageChildrenForVehicle": "Manage children for {vehicleName}",
+  "@manageChildrenForVehicle": {
+    "description": "Semantic label for manage children button",
+    "placeholders": {
+      "vehicleName": {
+        "type": "String"
+      }
+    }
+  },
+  "removeVehicleFromSlot": "Remove {vehicleName} from this slot",
+  "@removeVehicleFromSlot": {
+    "description": "Semantic label for remove vehicle button",
+    "placeholders": {
+      "vehicleName": {
+        "type": "String"
+      }
+    }
+  },
+  "assignChildToVehicle": "Assign {childName} to vehicle",
+  "@assignChildToVehicle": {
+    "description": "Semantic label for assign child checkbox",
+    "placeholders": {
+      "childName": {
+        "type": "String"
+      }
+    }
+  },
+  "removeChildFromVehicle": "Remove {childName} from vehicle",
+  "@removeChildFromVehicle": {
+    "description": "Semantic label for unassign child checkbox",
+    "placeholders": {
+      "childName": {
+        "type": "String"
+      }
+    }
+  },
+  "hasPendingChanges": "Has pending offline changes",
+  "@hasPendingChanges": {
+    "description": "Tooltip for offline changes indicator"
+  },
+  "childAssignmentComingSoon": "Child assignment feature coming soon",
+  "@childAssignmentComingSoon": {
+    "description": "Placeholder message for child assignment feature"
+  },
+  "seatOverrideUpdateFailed": "Failed to update seat override: {error}",
+  "@seatOverrideUpdateFailed": {
+    "description": "Error message when seat override update fails",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "description": "Error details"
+      }
+    }
+  },
+  "saveAssignments": "Save ({count})",
+  "@saveAssignments": {
+    "description": "Save button text with assignment count",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "description": "Number of assignments to save"
+      }
+    }
+  },
+  "vehicleCapacityFull": "Cannot assign child: vehicle full",
+  "@vehicleCapacityFull": {
+    "description": "Error message when trying to assign child to full vehicle"
+  },
+  "assignmentsSavedSuccessfully": "Assignments saved successfully",
+  "@assignmentsSavedSuccessfully": {
+    "description": "Success message after saving child assignments"
+  },
+  "selectWeekHelpText": "Select week",
+  "@selectWeekHelpText": {
+    "description": "Help text for date picker to select a week"
+  },
+  "weekPickerHelperText": "Select any date to jump to that week",
+  "@weekPickerHelperText": {
+    "description": "Helper text explaining week picker behavior"
+  },
+  "vehiclesAssigned": "{count, plural, =0{No vehicles} =1{1 vehicle} other{{count} vehicles}}",
+  "@vehiclesAssigned": {
+    "description": "Number of vehicles assigned to a time slot",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "description": "Number of vehicles"
+      }
+    }
+  },
+  "noVehiclesAssigned": "No vehicles assigned",
+  "@noVehiclesAssigned": {
+    "description": "Message when no vehicles are assigned to a time slot"
+  },
+  "expandTimeSlot": "Expand {timeSlot}",
+  "@expandTimeSlot": {
+    "description": "Semantic label to expand time slot section",
+    "placeholders": {
+      "timeSlot": {
+        "type": "String",
+        "description": "Time slot label"
+      }
+    }
+  },
+  "collapseTimeSlot": "Collapse {timeSlot}",
+  "@collapseTimeSlot": {
+    "description": "Semantic label to collapse time slot section",
+    "placeholders": {
+      "timeSlot": {
+        "type": "String",
+        "description": "Time slot label"
+      }
+    }
+  },
+  "cannotAddVehiclesToPastSlots": "Cannot add vehicles to past time slots",
+  "@cannotAddVehiclesToPastSlots": {
+    "description": "Error message when user tries to add vehicles to past time slots"
+  },
+  "vehicleNotFoundInFamily": "The vehicle \"{vehicleName}\" (ID: {vehicleId}) is assigned to this time slot but no longer exists in your family.",
+  "@vehicleNotFoundInFamily": {
+    "description": "Error message when an assigned vehicle is no longer found in the family",
+    "placeholders": {
+      "vehicleName": {
+        "type": "String",
+        "description": "Vehicle name"
+      },
+      "vehicleId": {
+        "type": "String",
+        "description": "Vehicle ID"
+      }
+    }
+  },
+  "contactSupportOrRemoveAssignment": "Please contact support or remove this assignment.",
+  "@contactSupportOrRemoveAssignment": {
+    "description": "Instruction message when an assigned vehicle is no longer found"
+  },
+  "removeAssignment": "Remove Assignment",
+  "@removeAssignment": {
+    "description": "Button label to remove a problematic assignment"
+  },
+  "timesShownInYourTimezone": "Times shown in your timezone",
+  "@timesShownInYourTimezone": {
+    "description": "Message indicating times are shown in user's timezone"
+  },
+  "timezoneLabel": "Timezone",
+  "@timezoneLabel": {
+    "description": "Label for timezone"
+  },
+  "timesShownInTimezone": "Times shown in your timezone ({timezone})",
+  "@timesShownInTimezone": {
+    "description": "Message with specific timezone displayed",
+    "placeholders": {
+      "timezone": {
+        "type": "String",
+        "example": "Europe/Paris"
+      }
+    }
+  }
+}

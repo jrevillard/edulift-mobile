@@ -1,0 +1,106 @@
+# EduLift Mobile E2E Testing - Docker Compose Configuration
+# Dedicated services for mobile app E2E testing with Patrol
+# Separate from web E2E tests with different ports and database
+
+services:
+  postgres-mobile-e2e:
+    image: postgres:15-alpine
+    container_name: edulift-postgres-mobile-e2e
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: edulift_mobile_e2e
+      POSTGRES_USER: edulift_user
+      POSTGRES_PASSWORD: edulift_password
+    networks:
+      - edulift-mobile-e2e
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U edulift_user -d edulift_mobile_e2e"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  redis-mobile-e2e:
+    image: redis:7-alpine
+    container_name: edulift-redis-mobile-e2e
+    restart: unless-stopped
+    command: redis-server --appendonly yes
+    networks:
+      - edulift-mobile-e2e
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
+  mailpit-mobile-e2e:
+    image: axllent/mailpit:latest
+    container_name: edulift-mailpit-mobile-e2e
+    restart: unless-stopped
+    ports:
+      - "8031:8025"  # Web UI port
+      - "8027:1025"  # SMTP port
+    networks:
+      - edulift-mobile-e2e
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:8025"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  backend-mobile-e2e:
+    build:
+      context: ../../backend
+      dockerfile: Dockerfile.dev
+    container_name: edulift-backend-mobile-e2e
+    ports:
+      - "8030:3001"  # Expose backend on host port 8030 for host.docker.internal access
+    networks:
+      - edulift-mobile-e2e  # Pour communiquer avec postgres/redis
+      - dev-network         # Pour communiquer avec DevContainer/emulator
+    environment:
+      NODE_ENV: test
+      DATABASE_URL: postgresql://edulift_user:edulift_password@postgres-mobile-e2e:5432/edulift_mobile_e2e
+      REDIS_URL: redis://redis-mobile-e2e:6379
+      JWT_SECRET: mobile-e2e-test-access-secret-key-very-long
+      JWT_ACCESS_SECRET: mobile-e2e-test-access-secret-key-very-long
+      JWT_REFRESH_SECRET: mobile-e2e-test-refresh-secret-key-very-long
+      # Email configuration for Mailpit
+      EMAIL_HOST: mailpit-mobile-e2e
+      EMAIL_PORT: 1025
+      EMAIL_ENCRYPTION: NONE
+      EMAIL_USER: mobile-e2e-test@edulift.com
+      EMAIL_PASSWORD: test-password
+      FRONTEND_URL: http://localhost:8030
+      CORS_ORIGIN: "http://localhost:8030,http://10.0.2.2:8030"
+      PORT: 3001
+    depends_on:
+      postgres-mobile-e2e:
+        condition: service_healthy
+      redis-mobile-e2e:
+        condition: service_healthy
+      mailpit-mobile-e2e:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:3001/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+    command: >
+      sh -c "
+        echo 'Waiting for PostgreSQL to be ready...' &&
+        while ! nc -z postgres-mobile-e2e 5432; do sleep 1; done &&
+        echo 'PostgreSQL is ready!' &&
+        echo 'Running Prisma migrations...' &&
+        npx prisma db push --skip-generate &&
+        echo 'Database ready!' &&
+        echo 'Starting development server...' &&
+        npm run dev
+      "
+
+networks:
+  edulift-mobile-e2e:
+    driver: bridge
+  # Réseau externe partagé avec le DevContainer pour communication directe
+  dev-network:
+    external: true
+    name: dev-network

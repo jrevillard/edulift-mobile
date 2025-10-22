@@ -1,0 +1,11 @@
+// Flutter Development Flavor Configuration
+// Defines DART_DEFINES for development environment
+//
+// This file configures the iOS build to use the development flavor
+// by setting DART_DEFINES=RkxBVk9SPWRldmVsb3BtZW50 (base64 encoded "FLAVOR=development")
+
+#include "Generated.xcconfig"
+
+// Set DART_DEFINES for development flavor
+// RkxBVk9SPWRldmVsb3BtZW50 = base64("FLAVOR=development")
+DART_DEFINES=RkxBVk9SPWRldmVsb3BtZW50

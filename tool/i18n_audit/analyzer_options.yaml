@@ -1,0 +1,50 @@
+# Custom analyzer configuration for hardcoded string detection
+analyzer:
+  plugins:
+    - custom_lint
+
+custom_lint:
+  rules:
+    # Detect hardcoded strings in UI widgets
+    hardcoded_string_in_text_widget:
+      severity: warning
+      include:
+        - "lib/**"
+      exclude:
+        - "lib/l10n/**"
+        - "lib/generated/l10n/**"
+        - "test/**"
+        - "integration_test/**"
+        - "**/*.g.dart"
+        - "**/*.freezed.dart"
+
+    # Detect hardcoded strings in button labels
+    hardcoded_string_in_button:
+      severity: warning
+      include:
+        - "lib/**"
+      exclude:
+        - "lib/l10n/**"
+        - "lib/generated/l10n/**"
+        - "test/**"
+        - "integration_test/**"
+        - "**/*.g.dart"
+        - "**/*.freezed.dart"
+
+    # Detect hardcoded strings in tooltips
+    hardcoded_string_in_tooltip:
+      severity: warning
+      include:
+        - "lib/**"
+      exclude:
+        - "lib/l10n/**"
+        - "lib/generated/l10n/**"
+        - "test/**"
+        - "integration_test/**"
+        - "**/*.g.dart"
+        - "**/*.freezed.dart"
+
+linter:
+  rules:
+    # Additional rules for internationalization
+    - avoid_hardcoded_strings_in_ui

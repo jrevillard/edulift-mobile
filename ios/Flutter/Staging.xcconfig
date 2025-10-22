@@ -1,0 +1,11 @@
+// Flutter Staging Flavor Configuration  
+// Defines DART_DEFINES for staging environment
+//
+// This file configures the iOS build to use the staging flavor
+// by setting DART_DEFINES=RkxBVk9SPXN0YWdpbmc= (base64 encoded "FLAVOR=staging")
+
+#include "Generated.xcconfig"
+
+// Set DART_DEFINES for staging flavor
+// RkxBVk9SPXN0YWdpbmc= = base64("FLAVOR=staging")
+DART_DEFINES=RkxBVk9SPXN0YWdpbmc=

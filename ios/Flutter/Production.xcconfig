@@ -1,0 +1,11 @@
+// Flutter Production Flavor Configuration
+// Defines DART_DEFINES for production environment
+//
+// This file configures the iOS build to use the production flavor
+// by setting DART_DEFINES=RkxBVk9SPXByb2R1Y3Rpb24= (base64 encoded "FLAVOR=production")
+
+#include "Generated.xcconfig"
+
+// Set DART_DEFINES for production flavor  
+// RkxBVk9SPXByb2R1Y3Rpb24= = base64("FLAVOR=production")
+DART_DEFINES=RkxBVk9SPXByb2R1Y3Rpb24=

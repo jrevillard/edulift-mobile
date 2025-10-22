@@ -1,0 +1,43 @@
+{
+  "timestamp": "",
+  "tool": "i18n_audit_toolchain",
+  "version": "1.0.0",
+  "summary": {
+    "total_findings": 0,
+    "critical_issues": 0,
+    "high_priority": 0,
+    "medium_priority": 0,
+    "low_priority": 0,
+    "files_analyzed": 0
+  },
+  "findings": [
+    {
+      "id": "finding_001",
+      "type": "hardcoded_string",
+      "severity": "warning",
+      "file": "lib/features/example/example_widget.dart",
+      "line": 42,
+      "column": 15,
+      "description": "Hardcoded string found in Text widget",
+      "recommendation": "Replace with AppLocalizations.of(context).exampleString",
+      "code_snippet": "Text('Hello World')",
+      "status": "unresolved"
+    }
+  ],
+  "statistics": {
+    "by_severity": {
+      "critical": 0,
+      "high": 0,
+      "medium": 0,
+      "low": 0,
+      "warning": 0
+    },
+    "by_type": {
+      "hardcoded_string": 0,
+      "missing_translation": 0,
+      "inconsistent_translation": 0,
+      "invalid_pluralization": 0,
+      "reverted_internationalization": 0
+    }
+  }
+}
