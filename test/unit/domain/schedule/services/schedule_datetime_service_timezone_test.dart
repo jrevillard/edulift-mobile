@@ -27,7 +27,7 @@ void main() {
         expect(result!.isUtc, isTrue);
 
         // Should be Monday of week 43, 2025 at 07:00 UTC
-        final expected = DateTime.utc(2025, 10, 20, 7, 0);
+        final expected = DateTime.utc(2025, 10, 20, 7);
         expect(result, equals(expected));
 
         // Verify the result is exactly what we expect (no timezone conversion applied)
@@ -67,8 +67,8 @@ void main() {
 
       test('should handle different time formats correctly', () {
         final testCases = {
-          '00:00': DateTime.utc(2025, 10, 20, 0, 0), // Midnight
-          '12:00': DateTime.utc(2025, 10, 20, 12, 0), // Noon
+          '00:00': DateTime.utc(2025, 10, 20), // Midnight
+          '12:00': DateTime.utc(2025, 10, 20, 12), // Noon
           '23:59': DateTime.utc(2025, 10, 20, 23, 59), // End of day
           '15:30': DateTime.utc(2025, 10, 20, 15, 30), // Afternoon
         };
@@ -88,13 +88,13 @@ void main() {
 
       test('should handle abbreviated day names', () {
         final testCases = {
-          'Mon': DateTime.utc(2025, 10, 20, 9, 0),
-          'Tue': DateTime.utc(2025, 10, 21, 9, 0),
-          'Wed': DateTime.utc(2025, 10, 22, 9, 0),
-          'Thu': DateTime.utc(2025, 10, 23, 9, 0),
-          'Fri': DateTime.utc(2025, 10, 24, 9, 0),
-          'Sat': DateTime.utc(2025, 10, 25, 9, 0),
-          'Sun': DateTime.utc(2025, 10, 26, 9, 0),
+          'Mon': DateTime.utc(2025, 10, 20, 9),
+          'Tue': DateTime.utc(2025, 10, 21, 9),
+          'Wed': DateTime.utc(2025, 10, 22, 9),
+          'Thu': DateTime.utc(2025, 10, 23, 9),
+          'Fri': DateTime.utc(2025, 10, 24, 9),
+          'Sat': DateTime.utc(2025, 10, 25, 9),
+          'Sun': DateTime.utc(2025, 10, 26, 9),
         };
 
         for (final entry in testCases.entries) {
@@ -112,9 +112,9 @@ void main() {
 
       test('should handle different weeks correctly', () {
         final testCases = {
-          '2025-W01': DateTime.utc(2024, 12, 30, 10, 0), // Week 1 starts on Monday Dec 30, 2024
-          '2025-W02': DateTime.utc(2025, 1, 6, 10, 0),   // Week 2 starts on Monday Jan 6, 2025
-          '2025-W52': DateTime.utc(2025, 12, 22, 10, 0), // Week 52 starts on Monday Dec 22, 2025
+          '2025-W01': DateTime.utc(2024, 12, 30, 10), // Week 1 starts on Monday Dec 30, 2024
+          '2025-W02': DateTime.utc(2025, 1, 6, 10),   // Week 2 starts on Monday Jan 6, 2025
+          '2025-W52': DateTime.utc(2025, 12, 22, 10), // Week 52 starts on Monday Dec 22, 2025
         };
 
         for (final entry in testCases.entries) {
@@ -150,11 +150,11 @@ void main() {
           expect(result.minute, equals(0));
 
           // The full datetime should match exactly
-          final expected = DateTime.utc(2025, 10, 20, 7, 0);
+          final expected = DateTime.utc(2025, 10, 20, 7);
           expect(result, equals(expected));
 
           // Verify it's NOT the wrong converted time (04:00 UTC from the original bug)
-          final wrongResult = DateTime.utc(2025, 10, 20, 4, 0);
+          final wrongResult = DateTime.utc(2025, 10, 20, 4);
           expect(result, isNot(equals(wrongResult)));
         });
 

@@ -23,6 +23,8 @@ part 'api_response_wrapper.freezed.dart';
 /// ```
 @freezed
 abstract class ApiResponse<T> with _$ApiResponse<T> {
+  const ApiResponse._();
+
   const factory ApiResponse({
     required bool success,
     T? data,

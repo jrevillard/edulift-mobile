@@ -12,7 +12,6 @@ part 'group_dto.g.dart';
 /// Backend API returns: group_api_client.dart lines 272-305 (GroupData class)
 @Freezed(toJson: true)
 abstract class GroupDto with _$GroupDto implements DomainConverter<Group> {
-  @JsonSerializable(includeIfNull: false)
   const factory GroupDto({
     required String id,
     required String name,

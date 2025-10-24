@@ -18,6 +18,7 @@ part 'schedule_slot_dto.g.dart';
 abstract class ScheduleSlotDto
     with _$ScheduleSlotDto
     implements DomainConverter<ScheduleSlot> {
+  const ScheduleSlotDto._();
   const factory ScheduleSlotDto({
     // Only fields that exist in backend ScheduleSlot schema
     required String id,
@@ -33,8 +34,6 @@ abstract class ScheduleSlotDto
 
   factory ScheduleSlotDto.fromJson(Map<String, dynamic> json) =>
       _$ScheduleSlotDtoFromJson(json);
-
-  const ScheduleSlotDto._();
 
   @override
   ScheduleSlot toDomain() {

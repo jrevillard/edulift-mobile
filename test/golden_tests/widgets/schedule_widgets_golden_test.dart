@@ -391,16 +391,8 @@ void main() {
     GroupDataFactory.resetCounters();
     FamilyDataFactory.resetCounters();
 
-    // CRITICAL: Prevent all real network calls during golden tests
-    setupGoldenTestNetworkOverrides();
-
     // Initialize timezone database for all schedule tests
     tz.initializeTimeZones();
-  });
-
-  // Clean up network overrides after all tests complete
-  tearDownAll(() {
-    clearGoldenTestNetworkOverrides();
   });
 
   group('Schedule Widgets - Golden Tests (Real Production Code)', () {

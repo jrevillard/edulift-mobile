@@ -1,6 +1,9 @@
 // Phase 3 Golden Tests - Invitation Widgets
 // Tests for InviteMemberWidget and FamilyInvitationManagementWidget
 
+@Tags(['golden'])
+library;
+
 import 'package:edulift/features/family/presentation/widgets/invitation_management_widget.dart';
 import 'package:edulift/features/family/presentation/widgets/invite_member_widget.dart';
 import 'package:edulift/features/family/providers.dart';
@@ -20,8 +23,8 @@ import '../../support/golden/device_configurations.dart';
 import '../../support/golden/theme_configurations.dart';
 import '../../support/factories/test_data_factory.dart';
 import '../../test_mocks/generated_mocks.mocks.dart';
+import '../../support/network_mocking.dart';
 
-@Tags(['golden'])
 void main() {
   setUp(() {
     TestDataFactory.resetSeed();
@@ -59,6 +62,8 @@ void main() {
       familyRepositoryComposedProvider.overrideWithValue(mockFamilyRepo),
       invitationRepositoryComposedProvider.overrideWithValue(mockInvitationRepo),
       nav.navigationStateProvider.overrideWith((ref) => nav.NavigationStateNotifier()),
+      // CRITICAL: Prevent all real network calls during golden tests
+      ...getAllNetworkMockOverrides(),
     ];
   }
 

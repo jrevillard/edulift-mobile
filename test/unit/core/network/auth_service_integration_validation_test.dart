@@ -123,7 +123,6 @@ void main() {
           id: 'user-789',
           email: 'biometric@example.com',
           name: 'Biometric User',
-          timezone: 'UTC',
           createdAt: DateTime.now(),
           updatedAt: DateTime.now(),
         );

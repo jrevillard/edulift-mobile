@@ -25,7 +25,7 @@ void main() {
       mockRepository = MockGroupScheduleRepository();
       mockDateTimeService = const ScheduleDateTimeService();
       usecase = AssignVehicleToSlot(mockRepository, dateTimeService: mockDateTimeService);
-      testDateTime = DateTime(2025, 10, 27, 5, 0); // Expected UTC time after fix
+      testDateTime = DateTime(2025, 10, 27, 5); // Expected UTC time after fix
     });
 
     group('Timezone Handling - Regression Tests', () {
@@ -379,7 +379,7 @@ void main() {
 
 /// Extended dummy values specifically for Schedule domain entities
 void _provideScheduleDummyValues() {
-  final testDateTime = DateTime(2025, 10, 27, 5, 0);
+  final testDateTime = DateTime(2025, 10, 27, 5);
 
   // Dummy VehicleAssignment for Result<VehicleAssignment, ApiFailure>
   final dummyVehicleAssignment = VehicleAssignment(

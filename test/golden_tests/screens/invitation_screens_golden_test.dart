@@ -2,6 +2,9 @@
 // Tests for InviteMemberPage, InviteFamilyPage, FamilyInvitationPage,
 // GroupInvitationPage, and ConfigureFamilyInvitationPage
 
+@Tags(['golden'])
+library;
+
 import 'package:edulift/features/family/presentation/pages/family_invitation_page.dart';
 import 'package:edulift/features/family/presentation/pages/invite_member_page.dart';
 import 'package:edulift/features/groups/presentation/pages/configure_family_invitation_page.dart';
@@ -15,8 +18,8 @@ import '../../support/golden/golden_test_wrapper.dart';
 import '../../support/golden/device_configurations.dart';
 import '../../support/golden/theme_configurations.dart';
 import '../../support/factories/test_data_factory.dart';
+import '../../support/network_mocking.dart';
 
-@Tags(['golden'])
 void main() {
   setUp(() {
     TestDataFactory.resetSeed();
@@ -26,6 +29,10 @@ void main() {
     testWidgets('invite member page - light theme', (tester) async {
       final overrides = [
         nav.navigationStateProvider.overrideWith((ref) => nav.NavigationStateNotifier()),
+      // CRITICAL: Prevent all real network calls during golden tests
+
+      ...getAllNetworkMockOverrides(),
+
       ];
 
       await GoldenTestWrapper.testScreen(
@@ -41,6 +48,10 @@ void main() {
     testWidgets('invite member page - dark theme', (tester) async {
       final overrides = [
         nav.navigationStateProvider.overrideWith((ref) => nav.NavigationStateNotifier()),
+      // CRITICAL: Prevent all real network calls during golden tests
+
+      ...getAllNetworkMockOverrides(),
+
       ];
 
       await GoldenTestWrapper.testScreen(
@@ -58,6 +69,10 @@ void main() {
     testWidgets('invite family page - light theme', (tester) async {
       final overrides = [
         nav.navigationStateProvider.overrideWith((ref) => nav.NavigationStateNotifier()),
+      // CRITICAL: Prevent all real network calls during golden tests
+
+      ...getAllNetworkMockOverrides(),
+
       ];
 
       await GoldenTestWrapper.testScreen(
@@ -73,6 +88,10 @@ void main() {
     testWidgets('invite family page - dark theme', (tester) async {
       final overrides = [
         nav.navigationStateProvider.overrideWith((ref) => nav.NavigationStateNotifier()),
+      // CRITICAL: Prevent all real network calls during golden tests
+
+      ...getAllNetworkMockOverrides(),
+
       ];
 
       await GoldenTestWrapper.testScreen(
@@ -91,6 +110,10 @@ void main() {
         (tester) async {
       final overrides = [
         nav.navigationStateProvider.overrideWith((ref) => nav.NavigationStateNotifier()),
+      // CRITICAL: Prevent all real network calls during golden tests
+
+      ...getAllNetworkMockOverrides(),
+
       ];
 
       await GoldenTestWrapper.testScreen(
@@ -107,6 +130,10 @@ void main() {
         (tester) async {
       final overrides = [
         nav.navigationStateProvider.overrideWith((ref) => nav.NavigationStateNotifier()),
+      // CRITICAL: Prevent all real network calls during golden tests
+
+      ...getAllNetworkMockOverrides(),
+
       ];
 
       await GoldenTestWrapper.testScreen(
@@ -123,6 +150,10 @@ void main() {
         (tester) async {
       final overrides = [
         nav.navigationStateProvider.overrideWith((ref) => nav.NavigationStateNotifier()),
+      // CRITICAL: Prevent all real network calls during golden tests
+
+      ...getAllNetworkMockOverrides(),
+
       ];
 
       await GoldenTestWrapper.testScreen(
@@ -139,6 +170,10 @@ void main() {
         (tester) async {
       final overrides = [
         nav.navigationStateProvider.overrideWith((ref) => nav.NavigationStateNotifier()),
+      // CRITICAL: Prevent all real network calls during golden tests
+
+      ...getAllNetworkMockOverrides(),
+
       ];
 
       await GoldenTestWrapper.testScreen(
@@ -157,6 +192,10 @@ void main() {
         (tester) async {
       final overrides = [
         nav.navigationStateProvider.overrideWith((ref) => nav.NavigationStateNotifier()),
+      // CRITICAL: Prevent all real network calls during golden tests
+
+      ...getAllNetworkMockOverrides(),
+
       ];
 
       await GoldenTestWrapper.testScreen(
@@ -173,6 +212,10 @@ void main() {
         (tester) async {
       final overrides = [
         nav.navigationStateProvider.overrideWith((ref) => nav.NavigationStateNotifier()),
+      // CRITICAL: Prevent all real network calls during golden tests
+
+      ...getAllNetworkMockOverrides(),
+
       ];
 
       await GoldenTestWrapper.testScreen(
@@ -189,6 +232,10 @@ void main() {
         (tester) async {
       final overrides = [
         nav.navigationStateProvider.overrideWith((ref) => nav.NavigationStateNotifier()),
+      // CRITICAL: Prevent all real network calls during golden tests
+
+      ...getAllNetworkMockOverrides(),
+
       ];
 
       await GoldenTestWrapper.testScreen(
@@ -205,6 +252,10 @@ void main() {
         (tester) async {
       final overrides = [
         nav.navigationStateProvider.overrideWith((ref) => nav.NavigationStateNotifier()),
+      // CRITICAL: Prevent all real network calls during golden tests
+
+      ...getAllNetworkMockOverrides(),
+
       ];
 
       await GoldenTestWrapper.testScreen(
@@ -223,6 +274,10 @@ void main() {
         (tester) async {
       final overrides = [
         nav.navigationStateProvider.overrideWith((ref) => nav.NavigationStateNotifier()),
+      // CRITICAL: Prevent all real network calls during golden tests
+
+      ...getAllNetworkMockOverrides(),
+
       ];
 
       await GoldenTestWrapper.testScreen(
@@ -244,6 +299,10 @@ void main() {
         (tester) async {
       final overrides = [
         nav.navigationStateProvider.overrideWith((ref) => nav.NavigationStateNotifier()),
+      // CRITICAL: Prevent all real network calls during golden tests
+
+      ...getAllNetworkMockOverrides(),
+
       ];
 
       await GoldenTestWrapper.testScreen(
@@ -266,6 +325,10 @@ void main() {
         (tester) async {
       final overrides = [
         nav.navigationStateProvider.overrideWith((ref) => nav.NavigationStateNotifier()),
+      // CRITICAL: Prevent all real network calls during golden tests
+
+      ...getAllNetworkMockOverrides(),
+
       ];
 
       await GoldenTestWrapper.testScreen(

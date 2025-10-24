@@ -65,4 +65,4 @@ excluded_tools: [ replace_symbol_body , insert_after_symbol, insert_before_symbo
 # (contrary to the memories, which are loaded on demand).
 initial_prompt: ""
 
-project_name: "mobile_app"
+project_name: "workspace"

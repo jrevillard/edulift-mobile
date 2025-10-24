@@ -12,6 +12,7 @@ part 'schedule_config_dto.g.dart';
 abstract class ScheduleConfigDto
     with _$ScheduleConfigDto
     implements DomainConverter<ScheduleConfig> {
+  const ScheduleConfigDto._();
   const factory ScheduleConfigDto({
     // Core ScheduleConfig fields from API
     required String id,
@@ -28,8 +29,6 @@ abstract class ScheduleConfigDto
 
   factory ScheduleConfigDto.fromJson(Map<String, dynamic> json) =>
       _$ScheduleConfigDtoFromJson(json);
-
-  const ScheduleConfigDto._();
 
   @override
   ScheduleConfig toDomain() {

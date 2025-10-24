@@ -15,6 +15,7 @@ part 'schedule_slot_child_dto.g.dart';
 abstract class ScheduleSlotChildDto
     with _$ScheduleSlotChildDto
     implements DomainConverter<ChildAssignment> {
+  const ScheduleSlotChildDto._();
   const factory ScheduleSlotChildDto({
     // Core fields from ScheduleSlotChild Prisma schema
     // Optional because simplified list responses may omit them
@@ -27,8 +28,6 @@ abstract class ScheduleSlotChildDto
     ChildDto? child, // Full child object when included
     // Note: scheduleSlot and vehicleAssignment are also returned but not needed for domain
   }) = _ScheduleSlotChildDto;
-
-  const ScheduleSlotChildDto._();
 
   factory ScheduleSlotChildDto.fromJson(Map<String, dynamic> json) =>
       _$ScheduleSlotChildDtoFromJson(json);

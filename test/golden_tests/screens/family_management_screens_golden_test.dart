@@ -1,6 +1,9 @@
 // EduLift - Family Management Screens Golden Tests
 // Phase 2: Complete visual coverage for family management screens
 
+@Tags(['golden'])
+library;
+
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:edulift/core/navigation/navigation_state.dart' as nav;
@@ -12,13 +15,17 @@ import 'package:edulift/features/family/presentation/pages/add_vehicle_page.dart
 import '../../support/golden/golden_test_wrapper.dart';
 import '../../support/golden/device_configurations.dart';
 import '../../support/golden/theme_configurations.dart';
+import '../../support/network_mocking.dart';
 
-@Tags(['golden'])
 void main() {
   group('CreateFamilyPage - Golden Tests', () {
     testWidgets('CreateFamilyPage - light theme', (tester) async {
       final overrides = [
         nav.navigationStateProvider.overrideWith((ref) => nav.NavigationStateNotifier()),
+      // CRITICAL: Prevent all real network calls during golden tests
+
+      ...getAllNetworkMockOverrides(),
+
       ];
 
       await GoldenTestWrapper.testScreen(
@@ -34,6 +41,10 @@ void main() {
     testWidgets('CreateFamilyPage - dark theme', (tester) async {
       final overrides = [
         nav.navigationStateProvider.overrideWith((ref) => nav.NavigationStateNotifier()),
+      // CRITICAL: Prevent all real network calls during golden tests
+
+      ...getAllNetworkMockOverrides(),
+
       ];
 
       await GoldenTestWrapper.testScreen(
@@ -51,6 +62,10 @@ void main() {
     testWidgets('AddChildPage - light theme', (tester) async {
       final overrides = [
         nav.navigationStateProvider.overrideWith((ref) => nav.NavigationStateNotifier()),
+      // CRITICAL: Prevent all real network calls during golden tests
+
+      ...getAllNetworkMockOverrides(),
+
       ];
 
       await GoldenTestWrapper.testScreen(
@@ -66,6 +81,10 @@ void main() {
     testWidgets('AddChildPage - dark theme', (tester) async {
       final overrides = [
         nav.navigationStateProvider.overrideWith((ref) => nav.NavigationStateNotifier()),
+      // CRITICAL: Prevent all real network calls during golden tests
+
+      ...getAllNetworkMockOverrides(),
+
       ];
 
       await GoldenTestWrapper.testScreen(
@@ -83,6 +102,10 @@ void main() {
     testWidgets('AddVehiclePage - light theme', (tester) async {
       final overrides = [
         nav.navigationStateProvider.overrideWith((ref) => nav.NavigationStateNotifier()),
+      // CRITICAL: Prevent all real network calls during golden tests
+
+      ...getAllNetworkMockOverrides(),
+
       ];
 
       await GoldenTestWrapper.testScreen(
@@ -98,6 +121,10 @@ void main() {
     testWidgets('AddVehiclePage - dark theme', (tester) async {
       final overrides = [
         nav.navigationStateProvider.overrideWith((ref) => nav.NavigationStateNotifier()),
+      // CRITICAL: Prevent all real network calls during golden tests
+
+      ...getAllNetworkMockOverrides(),
+
       ];
 
       await GoldenTestWrapper.testScreen(

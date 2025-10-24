@@ -16,6 +16,7 @@ part 'schedule_slot_with_details_dto.g.dart';
 abstract class ScheduleSlotWithDetailsDto
     with _$ScheduleSlotWithDetailsDto
     implements DomainConverter<ScheduleSlot> {
+  const ScheduleSlotWithDetailsDto._();
   const factory ScheduleSlotWithDetailsDto({
     // Core ScheduleSlot fields
     required String id,
@@ -39,8 +40,6 @@ abstract class ScheduleSlotWithDetailsDto
 
   factory ScheduleSlotWithDetailsDto.fromJson(Map<String, dynamic> json) =>
       _$ScheduleSlotWithDetailsDtoFromJson(json);
-
-  const ScheduleSlotWithDetailsDto._();
 
   @override
   ScheduleSlot toDomain() {
@@ -121,6 +120,7 @@ abstract class ScheduleSlotWithDetailsDto
 abstract class VehicleAssignmentDetailsDto
     with _$VehicleAssignmentDetailsDto
     implements DomainConverter<VehicleAssignment> {
+  const VehicleAssignmentDetailsDto._();
   const factory VehicleAssignmentDetailsDto({
     required String id,
     @JsonKey(name: 'scheduleSlotId') required String scheduleSlotId,
@@ -131,8 +131,6 @@ abstract class VehicleAssignmentDetailsDto
 
   factory VehicleAssignmentDetailsDto.fromJson(Map<String, dynamic> json) =>
       _$VehicleAssignmentDetailsDtoFromJson(json);
-
-  const VehicleAssignmentDetailsDto._();
 
   @override
   VehicleAssignment toDomain() {
@@ -160,6 +158,7 @@ abstract class VehicleAssignmentDetailsDto
 abstract class ChildAssignmentDetailsDto
     with _$ChildAssignmentDetailsDto
     implements DomainConverter<ChildAssignment> {
+  const ChildAssignmentDetailsDto._();
   const factory ChildAssignmentDetailsDto({
     required String vehicleAssignmentId,
     required ChildDetailsDto child,
@@ -167,8 +166,6 @@ abstract class ChildAssignmentDetailsDto
 
   factory ChildAssignmentDetailsDto.fromJson(Map<String, dynamic> json) =>
       _$ChildAssignmentDetailsDtoFromJson(json);
-
-  const ChildAssignmentDetailsDto._();
 
   @override
   ChildAssignment toDomain() {

@@ -210,8 +210,8 @@ return $default(_that.success,_that.data,_that.errorMessage,_that.errorCode,_tha
 /// @nodoc
 
 
-class _ApiResponse<T> implements ApiResponse<T> {
-  const _ApiResponse({required this.success, this.data, this.errorMessage, this.errorCode, this.statusCode, final  Map<String, dynamic> metadata = const {}}): _metadata = metadata;
+class _ApiResponse<T> extends ApiResponse<T> {
+  const _ApiResponse({required this.success, this.data, this.errorMessage, this.errorCode, this.statusCode, final  Map<String, dynamic> metadata = const {}}): _metadata = metadata,super._();
   
 
 @override final  bool success;

@@ -1,6 +1,9 @@
 // EduLift - Family Widgets Extended Golden Tests
 // Phase 2: Additional family widgets not covered in main test file
 
+@Tags(['golden'])
+library;
+
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -18,7 +21,6 @@ import '../../support/golden/theme_configurations.dart';
 import '../../support/factories/family_data_factory.dart';
 import '../../support/factories/test_data_factory.dart';
 
-@Tags(['golden'])
 void main() {
   setUpAll(() {
     FamilyDataFactory.resetCounters();

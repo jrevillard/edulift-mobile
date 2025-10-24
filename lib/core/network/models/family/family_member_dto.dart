@@ -24,6 +24,7 @@ abstract class UserDto with _$UserDto {
 abstract class FamilyMemberDto
     with _$FamilyMemberDto
     implements DomainConverter<FamilyMember> {
+  const FamilyMemberDto._();
   const factory FamilyMemberDto({
     required String id,
     required String userId,
@@ -35,8 +36,6 @@ abstract class FamilyMemberDto
 
   factory FamilyMemberDto.fromJson(Map<String, dynamic> json) =>
       _$FamilyMemberDtoFromJson(json);
-
-  const FamilyMemberDto._();
 
   @override
   FamilyMember toDomain() {

@@ -12,12 +12,17 @@ import 'package:edulift/core/presentation/widgets/settings/settings_page.dart';
 import '../../support/golden/golden_test_wrapper.dart';
 import '../../support/golden/device_configurations.dart';
 import '../../support/golden/theme_configurations.dart';
+import '../../support/network_mocking.dart';
 
 void main() {
   group('Phase 4: Settings Screens Golden Tests', () {
     testWidgets('SettingsPage - Light Theme', (tester) async {
       final overrides = [
         nav.navigationStateProvider.overrideWith((ref) => nav.NavigationStateNotifier()),
+      // CRITICAL: Prevent all real network calls during golden tests
+
+      ...getAllNetworkMockOverrides(),
+
       ];
 
       await GoldenTestWrapper.testScreen(
@@ -33,6 +38,10 @@ void main() {
     testWidgets('SettingsPage - Dark Theme', (tester) async {
       final overrides = [
         nav.navigationStateProvider.overrideWith((ref) => nav.NavigationStateNotifier()),
+      // CRITICAL: Prevent all real network calls during golden tests
+
+      ...getAllNetworkMockOverrides(),
+
       ];
 
       await GoldenTestWrapper.testScreen(

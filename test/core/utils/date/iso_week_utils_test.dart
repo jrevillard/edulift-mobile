@@ -116,7 +116,7 @@ void main() {
         final date = getMondayOfISOWeek(2024, 1, 'Europe/Paris');
 
         final location = tz.getLocation('Europe/Paris');
-        final expected = tz.TZDateTime(location, 2024, 1, 1).toUtc();
+        final expected = tz.TZDateTime(location, 2024).toUtc();
 
         expect(date.toIso8601String(), expected.toIso8601String());
       });
@@ -127,7 +127,7 @@ void main() {
         final date = getMondayOfISOWeek(2024, 1, 'Asia/Tokyo');
 
         final location = tz.getLocation('Asia/Tokyo');
-        final expected = tz.TZDateTime(location, 2024, 1, 1).toUtc();
+        final expected = tz.TZDateTime(location, 2024).toUtc();
 
         expect(date.toIso8601String(), expected.toIso8601String());
       });
@@ -187,7 +187,7 @@ void main() {
         final location = tz.getLocation('Europe/Paris');
 
         // Week should start on Monday 2024-01-01 00:00 CET
-        final expectedStart = tz.TZDateTime(location, 2024, 1, 1).toUtc();
+        final expectedStart = tz.TZDateTime(location, 2024).toUtc();
 
         // Week should end on Sunday 2024-01-07 23:59:59.999 CET
         final expectedEnd = tz.TZDateTime(

@@ -17,6 +17,7 @@ import 'package:edulift/core/domain/entities/user.dart';
 import '../../support/golden/golden_test_wrapper.dart';
 import '../../support/golden/device_configurations.dart';
 import '../../support/golden/theme_configurations.dart';
+import '../../support/network_mocking.dart';
 
 void main() {
   /// Helper function to create common provider overrides
@@ -32,6 +33,8 @@ void main() {
     return [
       currentUserProvider.overrideWith((ref) => testUser),
       nav.navigationStateProvider.overrideWith((ref) => nav.NavigationStateNotifier()),
+      // CRITICAL: Prevent all real network calls during golden tests
+      ...getAllNetworkMockOverrides(),
     ];
   }
   group('Phase 4: Invitation Components Golden Tests', () {

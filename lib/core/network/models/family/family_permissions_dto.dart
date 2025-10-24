@@ -11,6 +11,7 @@ part 'family_permissions_dto.g.dart';
 abstract class FamilyPermissionsDto
     with _$FamilyPermissionsDto
     implements DomainConverter<FamilyPermissions> {
+  const FamilyPermissionsDto._();
   const factory FamilyPermissionsDto({
     required String id,
     required String familyId,
@@ -30,8 +31,6 @@ abstract class FamilyPermissionsDto
 
   factory FamilyPermissionsDto.fromJson(Map<String, dynamic> json) =>
       _$FamilyPermissionsDtoFromJson(json);
-
-  const FamilyPermissionsDto._();
 
   @override
   FamilyPermissions toDomain() {

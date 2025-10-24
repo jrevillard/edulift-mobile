@@ -118,7 +118,7 @@ String getISOWeekString(DateTime datetime, [String timezone = 'UTC']) {
 /// @returns Number of weeks (52 or 53)
 int getWeeksInYear(int year, [String timezone = 'UTC']) {
   final location = tz.getLocation(timezone);
-  final jan1 = tz.TZDateTime(location, year, 1, 1);
+  final jan1 = tz.TZDateTime(location, year);
   final dec31 = tz.TZDateTime(location, year, 12, 31);
 
   // Check if Jan 1 is Thursday or (Wednesday and leap year)
