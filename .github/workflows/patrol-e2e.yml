@@ -1,0 +1,123 @@
+name: Patrol E2E Tests
+
+on:
+  workflow_dispatch:
+    inputs:
+      test_target:
+        description: 'Test file to run'
+        required: true
+        default: 'integration_test/profile_e2e_test.dart'
+        type: choice
+        options:
+          - integration_test/profile_e2e_test.dart
+          - integration_test/profile_timezone_checkbox_test.dart
+          - all
+      flavor:
+        description: 'App flavor to test'
+        required: true
+        default: 'e2e'
+        type: choice
+        options:
+          - development
+          - e2e
+          - staging
+
+env:
+  FLUTTER_VERSION: '3.24.3'
+  JAVA_VERSION: '17'
+
+jobs:
+  patrol-e2e-android:
+    name: Patrol E2E Android
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout mobile code
+        uses: actions/checkout@v4
+      
+      - name: Checkout backend code
+        uses: actions/checkout@v4
+        with:
+          repository: jrevillard/edulift
+          path: backend
+      
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          java-version: ${{ env.JAVA_VERSION }}
+          distribution: 'temurin'
+      
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          channel: 'stable'
+          cache: true
+      
+      - name: Get dependencies
+        run: flutter pub get
+      
+      - name: Run code generation
+        run: flutter packages pub run build_runner build --delete-conflicting-outputs
+      
+      - name: Create dev-network
+        run: docker network create dev-network || true
+      
+      - name: Start E2E backend services
+        run: |
+          cd integration_test
+          docker compose up -d
+      
+      - name: Wait for backend readiness
+        run: |
+          timeout 120 bash -c '
+            until curl -f http://localhost:8030/health; do
+              echo "Backend not ready, waiting..."
+              sleep 5
+            done
+          '
+          echo "Backend is ready!"
+      
+      - name: Enable KVM group permissions
+        run: |
+          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+          sudo udevadm control --reload-rules
+          sudo udevadm trigger --name-match=kvm
+      
+      - name: Run Patrol E2E tests with emulator
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 33
+          target: google_apis
+          arch: x86_64
+          profile: Pixel_6_API_33
+          script: |
+            cd integration_test
+            chmod +x run_patrol_tests.sh
+            if [ "${{ github.event.inputs.test_target }}" = "all" ]; then
+              ./run_patrol_tests.sh --flavor ${{ github.event.inputs.flavor }}
+            else
+              ./run_patrol_tests.sh --flavor ${{ github.event.inputs.flavor }} --target ${{ github.event.inputs.test_target }}
+            fi
+      
+      - name: Collect logs
+        if: always()
+        run: |
+          cd integration_test
+          docker compose logs --no-color > ../patrol_docker_logs.txt
+      
+      - name: Stop services
+        if: always()
+        run: |
+          cd integration_test
+          docker compose down -v
+      
+      - name: Upload test results
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: patrol-e2e-results
+          path: |
+            integration_test/build/
+            integration_test/screenshots/
+            patrol_docker_logs.txt
