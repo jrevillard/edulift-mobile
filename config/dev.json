@@ -1,0 +1,12 @@
+{
+  "APP_NAME": "EduLift Dev",
+  "API_BASE_URL": "http://localhost:3001",
+  "WS_URL": "ws://localhost:3001",
+  "ENVIRONMENT": "development",
+  "DEBUG_MODE": "true",
+  "LOG_LEVEL": "debug",
+  "SENTRY_DSN": "",
+  "FIREBASE_OPTIONS": {
+    "enabled": false
+  }
+}
