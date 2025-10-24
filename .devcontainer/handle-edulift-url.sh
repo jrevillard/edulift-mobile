@@ -5,7 +5,7 @@ URL="$1"
 echo "[$(date)] Handling EduLift URL: $URL" >> /tmp/edulift-handler.log
 
 # Extract the Flutter app's PID if it's running
-FLUTTER_PID=$(pgrep -f "flutter_tester|mobile_app" | head -1)
+FLUTTER_PID=$(pgrep -f "/workspace/build/linux/x64/debug/bundle/edulift" | head -1)
 
 if [ -n "$FLUTTER_PID" ]; then
     echo "[$(date)] Found Flutter app with PID: $FLUTTER_PID" >> /tmp/edulift-handler.log
@@ -28,6 +28,6 @@ if [ -n "$FLUTTER_PID" ]; then
 else
     echo "[$(date)] Flutter app not running!" >> /tmp/edulift-handler.log
     echo "❌ Flutter app not running. Start it with:"
-    echo "   cd /workspace/mobile_app && flutter run -d linux"
+    echo "   cd /workspace && flutter run -d linux"
     exit 1
 fi

@@ -108,7 +108,12 @@ RUN npm install -g @anthropic-ai/claude-code \
   && npm install -g happy-coder \
   && npm install -g @musistudio/claude-code-router \
   && npm install -g @qwen-code/qwen-code@latest \
-  && npm install -g firebase-tools
+  && npm install -g firebase-tool \
+  # Load helper functions in shell profile
+  && if ! grep -q "Z.ai GLM" ~/.zshrc; then \
+    echo "# Z.ai GLM" >> ~/.zshrc && \
+    echo "alias claude-glm=\"source ~/.claude/glm-env && claude\"" >> ~/.zshrc \
+  fi
 
 # Copy and set up firewall script
 COPY setup-edulift-node.sh setup-edulift-sudo.sh /usr/local/bin/
