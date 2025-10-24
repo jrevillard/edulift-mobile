@@ -348,7 +348,6 @@ void main() {
           id: userData['id'] as String,
           email: userData['email'] as String,
           name: userData['name'] as String,
-          timezone: 'UTC',
           createdAt: DateTime.now(),
           updatedAt: DateTime.now(),
         );
@@ -375,7 +374,6 @@ void main() {
           id: userData['id'] as String,
           email: userData['email'] as String,
           name: userData['name'] as String,
-          timezone: 'UTC',
           createdAt: DateTime.now(),
           updatedAt: DateTime.now(),
         );

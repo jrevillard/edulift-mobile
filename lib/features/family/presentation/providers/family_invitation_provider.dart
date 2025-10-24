@@ -239,7 +239,9 @@ class FamilyInvitationNotifier extends StateNotifier<FamilyInvitationState> {
         return false;
       },
       (invitation) async {
-        state = state.copyWith(isLoading: false, hasFamily: true);
+        // FIX: Don't set hasFamily=true here - causes UI to show "leave family" button
+        // before navigation to dashboard. Let router detect family via loadFamily() below.
+        state = state.copyWith(isLoading: false);
 
         // CRITICAL FIX: Reload family provider to update state immediately
         // This ensures router sees family != null without needing to invalidate

@@ -248,7 +248,7 @@ void main() {
     group('isPastDate - User Timezone Tests', () {
       test('should check if date is past in user timezone', () {
         // Create a datetime that is definitely in the past (2020)
-        final pastDate = DateTime.utc(2020, 1, 1, 12, 0);
+        final pastDate = DateTime.utc(2020, 1, 1, 12);
 
         // Check in different timezones - should be past in all
         expect(
@@ -298,7 +298,7 @@ void main() {
 
         // Create a time during DST transition (this will be adjusted by timezone lib)
         // Create a time before the DST date
-        final beforeDst = tz.TZDateTime(nyLocation, 2025, 3, 9, 10, 0);
+        final beforeDst = tz.TZDateTime(nyLocation, 2025, 3, 9, 10);
         final beforeDstUtc = beforeDst.toUtc();
 
         // The "before" time should be past when checking from "after" time perspective
@@ -313,7 +313,7 @@ void main() {
       });
 
       test('should use UTC as default when timezone is null', () {
-        final pastDate = DateTime.utc(2020, 1, 1, 12, 0);
+        final pastDate = DateTime.utc(2020, 1, 1, 12);
 
         // Should default to UTC when timezone not provided
         expect(
@@ -324,7 +324,7 @@ void main() {
       });
 
       test('should handle invalid timezone gracefully', () {
-        final pastDate = DateTime.utc(2020, 1, 1, 12, 0);
+        final pastDate = DateTime.utc(2020, 1, 1, 12);
 
         // Invalid timezone should fallback to UTC comparison
         expect(
@@ -367,7 +367,7 @@ void main() {
       });
 
       test('should reject past datetime with error message', () {
-        final pastDate = DateTime.utc(2020, 1, 1, 12, 0);
+        final pastDate = DateTime.utc(2020, 1, 1, 12);
 
         final result = service.validateScheduleDateTime(
           pastDate,
@@ -381,7 +381,7 @@ void main() {
       });
 
       test('should include timezone abbreviation in error message', () {
-        final pastDate = DateTime.utc(2020, 1, 1, 12, 0);
+        final pastDate = DateTime.utc(2020, 1, 1, 12);
 
         final result = service.validateScheduleDateTime(
           pastDate,

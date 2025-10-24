@@ -1,6 +1,9 @@
 // EduLift - Schedule Screens Golden Tests
 // Comprehensive visual regression tests for schedule screens using REAL production pages
 
+@Tags(['golden'])
+library;
+
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:timezone/data/latest_all.dart' as tz;
@@ -194,12 +197,8 @@ class _PreInitializedScheduleConfigNotifier extends GroupScheduleConfigNotifier 
   }
 }
 
-@Tags(['golden'])
 void main() {
   setUpAll(() async {
-    // CRITICAL: Prevent all real network calls during golden tests
-    setupGoldenTestNetworkOverrides();
-
     // Initialize timezone database to prevent LocationNotFoundException
     tz.initializeTimeZones();
 
@@ -207,11 +206,6 @@ void main() {
     GroupDataFactory.resetCounters();
     FamilyDataFactory.resetCounters();
     TestDataFactory.resetSeed();
-  });
-
-  // Clean up network overrides after all tests complete
-  tearDownAll(() {
-    clearGoldenTestNetworkOverrides();
   });
 
   group('Schedule Page - Golden Tests (Real Production Code)', () {
@@ -283,6 +277,8 @@ void main() {
         createMockedGroupsProvider(groupsState),
         createMockedScheduleConfigProvider(groups[0].id, scheduleConfig),
         nav.navigationStateProvider.overrideWith((ref) => nav.NavigationStateNotifier()),
+        // CRITICAL: Prevent all real network calls during golden tests
+        ...getAllNetworkMockOverrides(),
       ];
 
       await GoldenTestWrapper.testScreen(
@@ -311,6 +307,8 @@ void main() {
         createMockedScheduleRepositoryProvider([]),
         createMockedGroupsProvider(groupsState),
         nav.navigationStateProvider.overrideWith((ref) => nav.NavigationStateNotifier()),
+        // CRITICAL: Prevent all real network calls during golden tests
+        ...getAllNetworkMockOverrides(),
       ];
 
       await GoldenTestWrapper.testScreen(
@@ -417,6 +415,8 @@ void main() {
         createMockedGroupsProvider(groupsState),
         createMockedScheduleConfigProvider(groups[0].id, scheduleConfig),
         nav.navigationStateProvider.overrideWith((ref) => nav.NavigationStateNotifier()),
+        // CRITICAL: Prevent all real network calls during golden tests
+        ...getAllNetworkMockOverrides(),
       ];
 
       await GoldenTestWrapper.testScreen(
@@ -454,6 +454,8 @@ void main() {
         createMockedGroupsProvider(groupsState),
         createMockedScheduleConfigProvider(groups[0].id, scheduleConfig),
         nav.navigationStateProvider.overrideWith((ref) => nav.NavigationStateNotifier()),
+        // CRITICAL: Prevent all real network calls during golden tests
+        ...getAllNetworkMockOverrides(),
       ];
 
       await GoldenTestWrapper.testScreen(
@@ -491,6 +493,8 @@ void main() {
         createMockedGroupsProvider(groupsState),
         createMockedScheduleConfigProvider(groups[0].id, scheduleConfig),
         nav.navigationStateProvider.overrideWith((ref) => nav.NavigationStateNotifier()),
+        // CRITICAL: Prevent all real network calls during golden tests
+        ...getAllNetworkMockOverrides(),
       ];
 
       await GoldenTestWrapper.testScreen(
@@ -528,6 +532,8 @@ void main() {
         createMockedGroupsProvider(groupsState),
         createMockedScheduleConfigProvider(groups[0].id, scheduleConfig),
         nav.navigationStateProvider.overrideWith((ref) => nav.NavigationStateNotifier()),
+        // CRITICAL: Prevent all real network calls during golden tests
+        ...getAllNetworkMockOverrides(),
       ];
 
       await GoldenTestWrapper.testScreen(

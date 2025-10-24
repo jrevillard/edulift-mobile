@@ -48,15 +48,14 @@ services:
       retries: 3
 
   backend-mobile-e2e:
-    build:
-      context: ../../backend
-      dockerfile: Dockerfile.dev
+    image: jrevillard/edulift-backend:latest
+    pull_policy: always
     container_name: edulift-backend-mobile-e2e
     ports:
-      - "8030:3001"  # Expose backend on host port 8030 for host.docker.internal access
+      - "8030:3001"  # Expose backend on host port 8030 for mobile emulator access
     networks:
       - edulift-mobile-e2e  # Pour communiquer avec postgres/redis
-      - dev-network         # Pour communiquer avec DevContainer/emulator
+      # Note: Mobile accesses backend via host network (10.0.2.2:8030 or localhost:8030)
     environment:
       NODE_ENV: test
       DATABASE_URL: postgresql://edulift_user:edulift_password@postgres-mobile-e2e:5432/edulift_mobile_e2e
@@ -85,22 +84,10 @@ services:
       interval: 30s
       timeout: 10s
       retries: 5
-    command: >
-      sh -c "
-        echo 'Waiting for PostgreSQL to be ready...' &&
-        while ! nc -z postgres-mobile-e2e 5432; do sleep 1; done &&
-        echo 'PostgreSQL is ready!' &&
-        echo 'Running Prisma migrations...' &&
-        npx prisma db push --skip-generate &&
-        echo 'Database ready!' &&
-        echo 'Starting development server...' &&
-        npm run dev
-      "
 
 networks:
   edulift-mobile-e2e:
     driver: bridge
-  # Réseau externe partagé avec le DevContainer pour communication directe
-  dev-network:
-    external: true
-    name: dev-network
+    # Note: Mobile emulator accesses backend via host network mapping
+    # Android: http://10.0.2.2:8030
+    # iOS: http://localhost:8030

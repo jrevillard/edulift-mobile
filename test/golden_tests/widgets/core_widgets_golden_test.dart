@@ -1,6 +1,9 @@
 // EduLift - Core Design System Widgets Golden Tests
 // Tests for core adaptive widgets and design system components
 
+@Tags(['golden'])
+library;
+
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -12,7 +15,6 @@ import '../../support/golden/device_configurations.dart';
 import '../../support/golden/theme_configurations.dart';
 import '../../support/factories/group_data_factory.dart';
 
-@Tags(['golden'])
 void main() {
   group('Core Design System Widgets - Golden Tests', () {
     testWidgets('AdaptiveButton - all variants', (tester) async {

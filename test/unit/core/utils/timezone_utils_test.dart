@@ -23,7 +23,7 @@ void main() {
   int getCurrentUtcOffset(String timezoneName) {
     final location = tz.getLocation(timezoneName);
     final now = DateTime.now();
-    final tzNow = tz.TZDateTime(location, now.year, now.month, now.day, 12, 0);
+    final tzNow = tz.TZDateTime(location, now.year, now.month, now.day, 12);
     return tzNow.timeZoneOffset.inHours;
   }
 

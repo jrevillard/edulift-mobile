@@ -1,0 +1,19 @@
+# Dart Test Configuration for EduLift Mobile
+# This file configures test tags and other test runner settings
+
+# Define custom test tags
+tags:
+  # Golden/snapshot tests - visual regression tests
+  golden:
+    description: Visual regression tests using golden files
+    skip: false
+
+  # Integration tests - full app integration tests
+  integration:
+    description: Full integration tests with multiple components
+    skip: false
+
+  # Unit tests (default tag, all tests without explicit tags)
+  unit:
+    description: Fast unit tests for business logic
+    skip: false

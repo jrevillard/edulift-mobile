@@ -114,3 +114,7 @@ For detailed testing guidelines, see [test/AGENTS.md](./test/AGENTS.md) which co
 - Efficient test commands
 - JSON test result analysis
 - Common testing patterns and anti-patterns
+
+Always use context7 when I need code generation, setup or configuration steps, or
+library/API documentation. This means you should automatically use the Context7 MCP
+tools to resolve library id and get library docs without me having to explicitly ask.

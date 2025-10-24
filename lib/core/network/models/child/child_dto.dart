@@ -9,6 +9,7 @@ part 'child_dto.g.dart';
 /// Mirrors backend Child API response structure exactly
 @freezed
 abstract class ChildDto with _$ChildDto implements DomainConverter<Child> {
+  const ChildDto._();
   const factory ChildDto({
     String? id,
     String? name,
@@ -20,8 +21,6 @@ abstract class ChildDto with _$ChildDto implements DomainConverter<Child> {
 
   factory ChildDto.fromJson(Map<String, dynamic> json) =>
       _$ChildDtoFromJson(json);
-
-  const ChildDto._();
 
   @override
   Child toDomain() {
@@ -53,6 +52,7 @@ abstract class ChildDto with _$ChildDto implements DomainConverter<Child> {
 /// Wraps the list response from the children endpoint
 @freezed
 abstract class FamilyChildrenResponseDto with _$FamilyChildrenResponseDto {
+  const FamilyChildrenResponseDto._();
   const factory FamilyChildrenResponseDto({
     required List<ChildDto> children,
     @Default(0) int totalCount,
@@ -60,8 +60,6 @@ abstract class FamilyChildrenResponseDto with _$FamilyChildrenResponseDto {
 
   factory FamilyChildrenResponseDto.fromJson(Map<String, dynamic> json) =>
       _$FamilyChildrenResponseDtoFromJson(json);
-
-  const FamilyChildrenResponseDto._();
 
   /// Create from API response list
   factory FamilyChildrenResponseDto.fromApiResponse(

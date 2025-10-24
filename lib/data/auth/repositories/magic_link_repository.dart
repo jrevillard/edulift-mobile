@@ -179,7 +179,7 @@ class MagicLinkRepositoryImpl implements IMagicLinkService {
 
           if (storeTokensResult.isErr) {
             AppLogger.error('[AUTH] CRITICAL: Failed to store tokens before invitation processing');
-            return Left(ApiFailure(
+            return const Left(ApiFailure(
               code: 'auth.token_storage_failed',
               message: 'Failed to store authentication tokens',
               statusCode: 500,

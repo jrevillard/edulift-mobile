@@ -217,8 +217,8 @@ return $default(_that.id,_that.name,_that.description,_that.familyId,_that.invit
 }
 
 /// @nodoc
+@JsonSerializable()
 
-@JsonSerializable(includeIfNull: false)
 class _GroupDto extends GroupDto {
   const _GroupDto({required this.id, required this.name, this.description, required this.familyId, @JsonKey(name: 'invite_code') this.inviteCode, required this.createdAt, required this.updatedAt, this.userRole, this.joinedAt, final  Map<String, dynamic>? ownerFamily, this.familyCount, this.scheduleCount}): _ownerFamily = ownerFamily,super._();
   factory _GroupDto.fromJson(Map<String, dynamic> json) => _$GroupDtoFromJson(json);

@@ -1,6 +1,9 @@
 // EduLift - Family Screens Golden Tests
 // Comprehensive visual regression tests for family screens using REAL production pages
 
+@Tags(['golden'])
+library;
+
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mockito/mockito.dart';
@@ -28,6 +31,7 @@ import '../../support/factories/family_data_factory.dart';
 import '../../support/factories/test_data_factory.dart';
 import '../../test_mocks/generated_mocks.mocks.dart';
 import '../../support/mock_fallbacks.dart';
+import '../../support/network_mocking.dart';
 
 /// Custom FamilyNotifier that pre-initializes with test data
 /// This avoids the async loadFamily() call that causes "Family not available" errors
@@ -71,7 +75,6 @@ class _PreInitializedFamilyNotifier extends family_provider.FamilyNotifier {
   }
 }
 
-@Tags(['golden'])
 void main() {
   // Reset factories before tests
   setUpAll(() {
@@ -151,6 +154,10 @@ void main() {
         currentUserProvider.overrideWith((ref) => testUser),
         createMockedFamilyProvider(testFamily),
         nav.navigationStateProvider.overrideWith((ref) => nav.NavigationStateNotifier()),
+      // CRITICAL: Prevent all real network calls during golden tests
+
+      ...getAllNetworkMockOverrides(),
+
       ];
 
       await GoldenTestWrapper.testScreen(
@@ -192,6 +199,10 @@ void main() {
         currentUserProvider.overrideWith((ref) => testUser),
         createMockedFamilyProvider(testFamily),
         nav.navigationStateProvider.overrideWith((ref) => nav.NavigationStateNotifier()),
+      // CRITICAL: Prevent all real network calls during golden tests
+
+      ...getAllNetworkMockOverrides(),
+
       ];
 
       await GoldenTestWrapper.testScreen(
@@ -217,6 +228,10 @@ void main() {
         currentUserProvider.overrideWith((ref) => testUser),
         createMockedFamilyProvider(null), // No family for empty state
         nav.navigationStateProvider.overrideWith((ref) => nav.NavigationStateNotifier()),
+      // CRITICAL: Prevent all real network calls during golden tests
+
+      ...getAllNetworkMockOverrides(),
+
       ];
 
       await GoldenTestWrapper.testEmptyState(
@@ -253,6 +268,10 @@ void main() {
         currentUserProvider.overrideWith((ref) => testUser),
         createMockedFamilyProvider(testFamily),
         nav.navigationStateProvider.overrideWith((ref) => nav.NavigationStateNotifier()),
+      // CRITICAL: Prevent all real network calls during golden tests
+
+      ...getAllNetworkMockOverrides(),
+
       ];
 
       await GoldenTestWrapper.testScreen(
@@ -294,6 +313,10 @@ void main() {
         currentUserProvider.overrideWith((ref) => testUser),
         createMockedFamilyProvider(testFamily),
         nav.navigationStateProvider.overrideWith((ref) => nav.NavigationStateNotifier()),
+      // CRITICAL: Prevent all real network calls during golden tests
+
+      ...getAllNetworkMockOverrides(),
+
       ];
 
       await GoldenTestWrapper.testScreen(
@@ -329,6 +352,10 @@ void main() {
         currentUserProvider.overrideWith((ref) => testUser),
         createMockedFamilyProvider(testFamily),
         nav.navigationStateProvider.overrideWith((ref) => nav.NavigationStateNotifier()),
+      // CRITICAL: Prevent all real network calls during golden tests
+
+      ...getAllNetworkMockOverrides(),
+
       ];
 
       await GoldenTestWrapper.testScreen(
@@ -370,6 +397,10 @@ void main() {
         currentUserProvider.overrideWith((ref) => testUser),
         createMockedFamilyProvider(testFamily),
         nav.navigationStateProvider.overrideWith((ref) => nav.NavigationStateNotifier()),
+      // CRITICAL: Prevent all real network calls during golden tests
+
+      ...getAllNetworkMockOverrides(),
+
       ];
 
       await GoldenTestWrapper.testScreen(

@@ -24,6 +24,7 @@ abstract class InvitedByUser with _$InvitedByUser {
 abstract class FamilyInvitationDto
     with _$FamilyInvitationDto
     implements DomainConverter<FamilyInvitation> {
+  const FamilyInvitationDto._();
   const factory FamilyInvitationDto({
     required String id,
     required String familyId,
@@ -44,8 +45,6 @@ abstract class FamilyInvitationDto
 
   factory FamilyInvitationDto.fromJson(Map<String, dynamic> json) =>
       _$FamilyInvitationDtoFromJson(json);
-
-  const FamilyInvitationDto._();
 
   // Override toDomain to return FamilyInvitation instead of generic Invitation
   @override

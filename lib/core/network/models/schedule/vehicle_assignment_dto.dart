@@ -12,6 +12,7 @@ part 'vehicle_assignment_dto.g.dart';
 abstract class VehicleAssignmentDto
     with _$VehicleAssignmentDto
     implements DomainConverter<VehicleAssignment> {
+  const VehicleAssignmentDto._();
   const factory VehicleAssignmentDto({
     // Core fields from backend API response (EXACT match to API)
     required String id,
@@ -28,8 +29,6 @@ abstract class VehicleAssignmentDto
 
   factory VehicleAssignmentDto.fromJson(Map<String, dynamic> json) =>
       _$VehicleAssignmentDtoFromJson(json);
-
-  const VehicleAssignmentDto._();
 
   @override
   VehicleAssignment toDomain() {

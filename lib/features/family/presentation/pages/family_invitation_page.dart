@@ -504,6 +504,7 @@ class _FamilyInvitationPageState extends ConsumerState<FamilyInvitationPage>
 
     // Not authenticated - show sign in options + cancel
     if (!state.isAuthenticated) {
+
       return Column(
         children: [
           _buildUnauthenticatedActions(invitation, theme, isTablet),

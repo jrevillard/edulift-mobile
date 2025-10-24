@@ -12,6 +12,7 @@ part 'family_dto.g.dart';
 /// Mirrors backend Family API response structure exactly
 @freezed
 abstract class FamilyDto with _$FamilyDto implements DomainConverter<Family> {
+  const FamilyDto._();
   const factory FamilyDto({
     required String id,
     required String name,
@@ -24,8 +25,6 @@ abstract class FamilyDto with _$FamilyDto implements DomainConverter<Family> {
 
   factory FamilyDto.fromJson(Map<String, dynamic> json) =>
       _$FamilyDtoFromJson(json);
-
-  const FamilyDto._();
 
   @override
   Family toDomain() {

@@ -11,6 +11,7 @@ part 'vehicle_dto.g.dart';
 abstract class VehicleDto
     with _$VehicleDto
     implements DomainConverter<Vehicle> {
+  const VehicleDto._();
   const factory VehicleDto({
     required String id,
     required String name,
@@ -23,8 +24,6 @@ abstract class VehicleDto
 
   factory VehicleDto.fromJson(Map<String, dynamic> json) =>
       _$VehicleDtoFromJson(json);
-
-  const VehicleDto._();
 
   @override
   Vehicle toDomain() {
