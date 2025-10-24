@@ -39,13 +39,11 @@ void main() {
             AuthStateMockFactory.createAuthenticatedWithFamily();
 
         final overrides = [
-          authStateProvider.overrideWith(
-            (ref) {
-              final notifier = TestAuthNotifier.withRef(ref);
-              notifier.state = mockAuthState;
-              return notifier;
-            },
-          ),
+          authStateProvider.overrideWith((ref) {
+            final notifier = TestAuthNotifier.withRef(ref);
+            notifier.state = mockAuthState;
+            return notifier;
+          }),
           currentUserProvider.overrideWith((ref) => mockAuthState.user),
         ];
 
@@ -102,13 +100,11 @@ void main() {
             AuthStateMockFactory.createAuthenticatedWithoutFamily();
 
         final overrides = [
-          authStateProvider.overrideWith(
-            (ref) {
-              final notifier = TestAuthNotifier.withRef(ref);
-              notifier.state = mockAuthState;
-              return notifier;
-            },
-          ),
+          authStateProvider.overrideWith((ref) {
+            final notifier = TestAuthNotifier.withRef(ref);
+            notifier.state = mockAuthState;
+            return notifier;
+          }),
           currentUserProvider.overrideWith((ref) => mockAuthState.user),
         ];
 
@@ -166,13 +162,11 @@ void main() {
             AuthStateMockFactory.createAuthenticatedWithoutFamily();
 
         final overrides = [
-          authStateProvider.overrideWith(
-            (ref) {
-              final notifier = TestAuthNotifier.withRef(ref);
-              notifier.state = mockAuthState;
-              return notifier;
-            },
-          ),
+          authStateProvider.overrideWith((ref) {
+            final notifier = TestAuthNotifier.withRef(ref);
+            notifier.state = mockAuthState;
+            return notifier;
+          }),
           currentUserProvider.overrideWith((ref) => mockAuthState.user),
         ];
 
@@ -222,13 +216,11 @@ void main() {
             AuthStateMockFactory.createAuthenticatedWithoutFamily();
 
         final overrides = [
-          authStateProvider.overrideWith(
-            (ref) {
-              final notifier = TestAuthNotifier.withRef(ref);
-              notifier.state = mockAuthState;
-              return notifier;
-            },
-          ),
+          authStateProvider.overrideWith((ref) {
+            final notifier = TestAuthNotifier.withRef(ref);
+            notifier.state = mockAuthState;
+            return notifier;
+          }),
           currentUserProvider.overrideWith((ref) => mockAuthState.user),
         ];
 
@@ -276,13 +268,11 @@ void main() {
             AuthStateMockFactory.createAuthenticatedWithFamily();
 
         final overrides = [
-          authStateProvider.overrideWith(
-            (ref) {
-              final notifier = TestAuthNotifier.withRef(ref);
-              notifier.state = mockAuthState;
-              return notifier;
-            },
-          ),
+          authStateProvider.overrideWith((ref) {
+            final notifier = TestAuthNotifier.withRef(ref);
+            notifier.state = mockAuthState;
+            return notifier;
+          }),
           currentUserProvider.overrideWith((ref) => mockAuthState.user),
         ];
 
@@ -346,13 +336,11 @@ void main() {
             AuthStateMockFactory.createAuthenticatedWithFamily();
 
         final overrides = [
-          authStateProvider.overrideWith(
-            (ref) {
-              final notifier = TestAuthNotifier.withRef(ref);
-              notifier.state = mockAuthState;
-              return notifier;
-            },
-          ),
+          authStateProvider.overrideWith((ref) {
+            final notifier = TestAuthNotifier.withRef(ref);
+            notifier.state = mockAuthState;
+            return notifier;
+          }),
           currentUserProvider.overrideWith((ref) => mockAuthState.user),
         ];
 
@@ -408,13 +396,11 @@ void main() {
             AuthStateMockFactory.createAuthenticatedWithFamily();
 
         final overrides = [
-          authStateProvider.overrideWith(
-            (ref) {
-              final notifier = TestAuthNotifier.withRef(ref);
-              notifier.state = mockAuthState;
-              return notifier;
-            },
-          ),
+          authStateProvider.overrideWith((ref) {
+            final notifier = TestAuthNotifier.withRef(ref);
+            notifier.state = mockAuthState;
+            return notifier;
+          }),
           currentUserProvider.overrideWith((ref) => mockAuthState.user),
         ];
 
@@ -455,13 +441,11 @@ void main() {
             AuthStateMockFactory.createAuthenticatedWithoutFamily();
 
         final overrides = [
-          authStateProvider.overrideWith(
-            (ref) {
-              final notifier = TestAuthNotifier.withRef(ref);
-              notifier.state = mockAuthState;
-              return notifier;
-            },
-          ),
+          authStateProvider.overrideWith((ref) {
+            final notifier = TestAuthNotifier.withRef(ref);
+            notifier.state = mockAuthState;
+            return notifier;
+          }),
           currentUserProvider.overrideWith((ref) => mockAuthState.user),
         ];
 

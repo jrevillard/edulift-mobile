@@ -28,9 +28,7 @@ class _ScheduleSlotExample extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
             child: Text(
               'Driver',
-              style: TextStyle(
-                color: AppColors.onPrimaryContainer(context),
-              ),
+              style: TextStyle(color: AppColors.onPrimaryContainer(context)),
             ),
           ),
           const SizedBox(height: 8),
@@ -40,9 +38,7 @@ class _ScheduleSlotExample extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
             child: Text(
               'Child',
-              style: TextStyle(
-                color: AppColors.onSecondaryContainer(context),
-              ),
+              style: TextStyle(color: AppColors.onSecondaryContainer(context)),
             ),
           ),
         ],
@@ -95,12 +91,7 @@ class _CapacityIndicatorExample extends StatelessWidget {
     return Column(
       children: [
         // OK capacity (0-70%)
-        _buildCapacityBar(
-          context,
-          'Vehicle A',
-          0.5,
-          AppColors.capacityOk,
-        ),
+        _buildCapacityBar(context, 'Vehicle A', 0.5, AppColors.capacityOk),
         // Warning capacity (70-90%)
         _buildCapacityBar(
           context,
@@ -211,9 +202,7 @@ class _ResourceStatusExample extends StatelessWidget {
       decoration: BoxDecoration(
         color: color,
         borderRadius: BorderRadius.circular(8),
-        border: Border.all(
-          color: AppColors.borderThemed(context),
-        ),
+        border: Border.all(color: AppColors.borderThemed(context)),
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -227,9 +216,7 @@ class _ResourceStatusExample extends StatelessWidget {
           ),
           Text(
             status,
-            style: TextStyle(
-              color: AppColors.textSecondaryThemed(context),
-            ),
+            style: TextStyle(color: AppColors.textSecondaryThemed(context)),
           ),
         ],
       ),

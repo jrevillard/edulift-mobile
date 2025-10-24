@@ -45,13 +45,13 @@ class _PreInitializedFamilyNotifier extends family_provider.FamilyNotifier {
     Ref ref, {
     required entities.Family? initialFamily,
   }) : super(
-          getFamilyUsecase,
-          childrenService,
-          leaveFamilyUsecase,
-          familyRepository,
-          invitationRepository,
-          ref,
-        ) {
+         getFamilyUsecase,
+         childrenService,
+         leaveFamilyUsecase,
+         familyRepository,
+         invitationRepository,
+         ref,
+       ) {
     // Pre-set the state with test data to avoid async initialization issues
     if (initialFamily != null) {
       state = family_provider.FamilyState(
@@ -112,8 +112,11 @@ void main() {
         return Result.ok(testFamily);
       });
 
-      when(mockInvitationRepository.getPendingInvitations(familyId: anyNamed('familyId')))
-          .thenAnswer((_) async => const Result.ok([]));
+      when(
+        mockInvitationRepository.getPendingInvitations(
+          familyId: anyNamed('familyId'),
+        ),
+      ).thenAnswer((_) async => const Result.ok([]));
 
       // Create a custom notifier that pre-sets the state
       final notifier = _PreInitializedFamilyNotifier(
@@ -131,7 +134,9 @@ void main() {
   }
 
   group('Family Management Screen - Golden Tests (Real Production Code)', () {
-    testWidgets('FamilyManagementScreen - members tab with data', (tester) async {
+    testWidgets('FamilyManagementScreen - members tab with data', (
+      tester,
+    ) async {
       final testUser = User(
         id: 'user-1',
         email: 'admin@example.com',
@@ -146,18 +151,17 @@ void main() {
         name: 'Test Family 0',
         createdAt: DateTime.now(),
         updatedAt: DateTime.now(),
-      ).copyWith(
-        members: members,
-      );
+      ).copyWith(members: members);
 
       final overrides = [
         currentUserProvider.overrideWith((ref) => testUser),
         createMockedFamilyProvider(testFamily),
-        nav.navigationStateProvider.overrideWith((ref) => nav.NavigationStateNotifier()),
-      // CRITICAL: Prevent all real network calls during golden tests
+        nav.navigationStateProvider.overrideWith(
+          (ref) => nav.NavigationStateNotifier(),
+        ),
 
-      ...getAllNetworkMockOverrides(),
-
+        // CRITICAL: Prevent all real network calls during golden tests
+        ...getAllNetworkMockOverrides(),
       ];
 
       await GoldenTestWrapper.testScreen(
@@ -170,7 +174,9 @@ void main() {
       );
     });
 
-    testWidgets('FamilyManagementScreen - members tab with edge cases', (tester) async {
+    testWidgets('FamilyManagementScreen - members tab with edge cases', (
+      tester,
+    ) async {
       final testUser = User(
         id: 'user-2',
         email: 'test@example.com',
@@ -191,18 +197,17 @@ void main() {
         name: 'Test Family 1',
         createdAt: DateTime.now(),
         updatedAt: DateTime.now(),
-      ).copyWith(
-        members: members,
-      );
+      ).copyWith(members: members);
 
       final overrides = [
         currentUserProvider.overrideWith((ref) => testUser),
         createMockedFamilyProvider(testFamily),
-        nav.navigationStateProvider.overrideWith((ref) => nav.NavigationStateNotifier()),
-      // CRITICAL: Prevent all real network calls during golden tests
+        nav.navigationStateProvider.overrideWith(
+          (ref) => nav.NavigationStateNotifier(),
+        ),
 
-      ...getAllNetworkMockOverrides(),
-
+        // CRITICAL: Prevent all real network calls during golden tests
+        ...getAllNetworkMockOverrides(),
       ];
 
       await GoldenTestWrapper.testScreen(
@@ -215,7 +220,9 @@ void main() {
       );
     });
 
-    testWidgets('FamilyManagementScreen - members tab empty state', (tester) async {
+    testWidgets('FamilyManagementScreen - members tab empty state', (
+      tester,
+    ) async {
       final testUser = User(
         id: 'user-3',
         email: 'new@example.com',
@@ -227,11 +234,12 @@ void main() {
       final overrides = [
         currentUserProvider.overrideWith((ref) => testUser),
         createMockedFamilyProvider(null), // No family for empty state
-        nav.navigationStateProvider.overrideWith((ref) => nav.NavigationStateNotifier()),
-      // CRITICAL: Prevent all real network calls during golden tests
+        nav.navigationStateProvider.overrideWith(
+          (ref) => nav.NavigationStateNotifier(),
+        ),
 
-      ...getAllNetworkMockOverrides(),
-
+        // CRITICAL: Prevent all real network calls during golden tests
+        ...getAllNetworkMockOverrides(),
       ];
 
       await GoldenTestWrapper.testEmptyState(
@@ -245,7 +253,9 @@ void main() {
       );
     });
 
-    testWidgets('FamilyManagementScreen - children tab with data', (tester) async {
+    testWidgets('FamilyManagementScreen - children tab with data', (
+      tester,
+    ) async {
       final testUser = User(
         id: 'user-4',
         email: 'parent@example.com',
@@ -260,18 +270,17 @@ void main() {
         name: 'Test Family 2',
         createdAt: DateTime.now(),
         updatedAt: DateTime.now(),
-      ).copyWith(
-        children: children,
-      );
+      ).copyWith(children: children);
 
       final overrides = [
         currentUserProvider.overrideWith((ref) => testUser),
         createMockedFamilyProvider(testFamily),
-        nav.navigationStateProvider.overrideWith((ref) => nav.NavigationStateNotifier()),
-      // CRITICAL: Prevent all real network calls during golden tests
+        nav.navigationStateProvider.overrideWith(
+          (ref) => nav.NavigationStateNotifier(),
+        ),
 
-      ...getAllNetworkMockOverrides(),
-
+        // CRITICAL: Prevent all real network calls during golden tests
+        ...getAllNetworkMockOverrides(),
       ];
 
       await GoldenTestWrapper.testScreen(
@@ -284,7 +293,9 @@ void main() {
       );
     });
 
-    testWidgets('FamilyManagementScreen - children tab with edge cases', (tester) async {
+    testWidgets('FamilyManagementScreen - children tab with edge cases', (
+      tester,
+    ) async {
       final testUser = User(
         id: 'user-5',
         email: 'test2@example.com',
@@ -305,18 +316,17 @@ void main() {
         name: 'Test Family 3',
         createdAt: DateTime.now(),
         updatedAt: DateTime.now(),
-      ).copyWith(
-        children: children,
-      );
+      ).copyWith(children: children);
 
       final overrides = [
         currentUserProvider.overrideWith((ref) => testUser),
         createMockedFamilyProvider(testFamily),
-        nav.navigationStateProvider.overrideWith((ref) => nav.NavigationStateNotifier()),
-      // CRITICAL: Prevent all real network calls during golden tests
+        nav.navigationStateProvider.overrideWith(
+          (ref) => nav.NavigationStateNotifier(),
+        ),
 
-      ...getAllNetworkMockOverrides(),
-
+        // CRITICAL: Prevent all real network calls during golden tests
+        ...getAllNetworkMockOverrides(),
       ];
 
       await GoldenTestWrapper.testScreen(
@@ -329,7 +339,9 @@ void main() {
       );
     });
 
-    testWidgets('FamilyManagementScreen - vehicles tab with data', (tester) async {
+    testWidgets('FamilyManagementScreen - vehicles tab with data', (
+      tester,
+    ) async {
       final testUser = User(
         id: 'user-6',
         email: 'driver@example.com',
@@ -344,18 +356,17 @@ void main() {
         name: 'Test Family 4',
         createdAt: DateTime.now(),
         updatedAt: DateTime.now(),
-      ).copyWith(
-        vehicles: vehicles,
-      );
+      ).copyWith(vehicles: vehicles);
 
       final overrides = [
         currentUserProvider.overrideWith((ref) => testUser),
         createMockedFamilyProvider(testFamily),
-        nav.navigationStateProvider.overrideWith((ref) => nav.NavigationStateNotifier()),
-      // CRITICAL: Prevent all real network calls during golden tests
+        nav.navigationStateProvider.overrideWith(
+          (ref) => nav.NavigationStateNotifier(),
+        ),
 
-      ...getAllNetworkMockOverrides(),
-
+        // CRITICAL: Prevent all real network calls during golden tests
+        ...getAllNetworkMockOverrides(),
       ];
 
       await GoldenTestWrapper.testScreen(
@@ -368,7 +379,9 @@ void main() {
       );
     });
 
-    testWidgets('FamilyManagementScreen - vehicles tab with edge cases', (tester) async {
+    testWidgets('FamilyManagementScreen - vehicles tab with edge cases', (
+      tester,
+    ) async {
       final testUser = User(
         id: 'user-7',
         email: 'test3@example.com',
@@ -389,18 +402,17 @@ void main() {
         name: 'Test Family 5',
         createdAt: DateTime.now(),
         updatedAt: DateTime.now(),
-      ).copyWith(
-        vehicles: vehicles,
-      );
+      ).copyWith(vehicles: vehicles);
 
       final overrides = [
         currentUserProvider.overrideWith((ref) => testUser),
         createMockedFamilyProvider(testFamily),
-        nav.navigationStateProvider.overrideWith((ref) => nav.NavigationStateNotifier()),
-      // CRITICAL: Prevent all real network calls during golden tests
+        nav.navigationStateProvider.overrideWith(
+          (ref) => nav.NavigationStateNotifier(),
+        ),
 
-      ...getAllNetworkMockOverrides(),
-
+        // CRITICAL: Prevent all real network calls during golden tests
+        ...getAllNetworkMockOverrides(),
       ];
 
       await GoldenTestWrapper.testScreen(

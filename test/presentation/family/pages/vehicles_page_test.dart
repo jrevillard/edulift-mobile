@@ -9,7 +9,9 @@ import 'package:edulift/generated/l10n/app_localizations.dart';
 
 void main() {
   group('VehiclesPage Tests', () {
-    testWidgets('should display vehicles page correctly', (WidgetTester tester) async {
+    testWidgets('should display vehicles page correctly', (
+      WidgetTester tester,
+    ) async {
       await tester.pumpWidget(
         const ProviderScope(
           child: MaterialApp(

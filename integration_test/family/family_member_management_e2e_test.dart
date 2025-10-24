@@ -138,7 +138,10 @@ void main() {
 
       // Wait for invitation cards to appear and stabilize before verification
       for (final invitation in testInvitations) {
-        await InvitationFlowHelper.waitForInvitationCard($, invitation['email']!);
+        await InvitationFlowHelper.waitForInvitationCard(
+          $,
+          invitation['email']!,
+        );
       }
 
       // Verify invitation cards exist with proper keys using helper
@@ -149,18 +152,24 @@ void main() {
 
       // STEP A: Optional - Verify invitation code before cancellation (separate concern)
       // This verifies the email-to-UI code matching following the real UX flow
-      debugPrint('🔍 OPTIONAL: Verifying invitation code before cancellation...');
-      final codeVerificationResult = await InvitationFlowHelper.verifyInvitationCodeBeforeCancellation(
-        $,
-        testInvitationEmail,
+      debugPrint(
+        '🔍 OPTIONAL: Verifying invitation code before cancellation...',
       );
+      final codeVerificationResult =
+          await InvitationFlowHelper.verifyInvitationCodeBeforeCancellation(
+            $,
+            testInvitationEmail,
+          );
 
       expect(
         codeVerificationResult['success'],
         equals(true),
-        reason: 'Invitation code should match between email and UI: ${codeVerificationResult['reason']}',
+        reason:
+            'Invitation code should match between email and UI: ${codeVerificationResult['reason']}',
       );
-      debugPrint('✅ Code verification passed: ${codeVerificationResult['emailCode']} == ${codeVerificationResult['uiCode']}');
+      debugPrint(
+        '✅ Code verification passed: ${codeVerificationResult['emailCode']} == ${codeVerificationResult['uiCode']}',
+      );
 
       // STEP B: Perform FOCUSED invitation cancellation test (single responsibility)
       // This focuses ONLY on the cancellation flow without mixing in code verification
@@ -200,18 +209,21 @@ void main() {
       // Test duplicate invitation error - Use an email that actually exists
       // We need to use an invitation that was just sent and still exists in the system
       // testInvitations[1] should still exist as we only cancelled testInvitations[0]
-      final remainingInvitations = testInvitations.where((invitation) =>
-        invitation['email'] != testInvitationEmail
-      ).toList();
+      final remainingInvitations = testInvitations
+          .where((invitation) => invitation['email'] != testInvitationEmail)
+          .toList();
 
       expect(
         remainingInvitations.isNotEmpty,
         true,
-        reason: 'Should have at least one remaining invitation for duplicate test',
+        reason:
+            'Should have at least one remaining invitation for duplicate test',
       );
 
       final duplicateEmail = remainingInvitations.first['email']!;
-      debugPrint('🔄 Testing duplicate invitation with existing email: $duplicateEmail');
+      debugPrint(
+        '🔄 Testing duplicate invitation with existing email: $duplicateEmail',
+      );
 
       await $.tap(find.byKey(const Key('floating_action_button_tab_0')));
       await $.waitUntilVisible(
@@ -236,11 +248,14 @@ void main() {
       // Verify that duplicate invitation error is displayed
       // The duplicate invitation should remain in the form (not sent successfully)
       // and the form should still be visible (not automatically closed)
-      final emailFieldAfterDuplicate = find.byKey(const Key('email_address_field'));
+      final emailFieldAfterDuplicate = find.byKey(
+        const Key('email_address_field'),
+      );
       expect(
         $(emailFieldAfterDuplicate).visible,
         true,
-        reason: 'Email field should still be visible after duplicate attempt - form should not close on error',
+        reason:
+            'Email field should still be visible after duplicate attempt - form should not close on error',
       );
 
       // Verify the email is still in the field (indicating the invitation was not sent)
@@ -250,11 +265,14 @@ void main() {
         expect(
           currentText,
           equals(duplicateEmail),
-          reason: 'Email should remain in field after duplicate error - indicating invitation was not sent',
+          reason:
+              'Email should remain in field after duplicate error - indicating invitation was not sent',
         );
       }
 
-      debugPrint('✅ Duplicate invitation error handling verified - form remained open with email preserved');
+      debugPrint(
+        '✅ Duplicate invitation error handling verified - form remained open with email preserved',
+      );
 
       // Always ensure we return to members tab via cancel button
       final cancelButton = find.byKey(const Key('invite_member_cancel_button'));

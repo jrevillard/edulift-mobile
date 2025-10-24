@@ -36,65 +36,77 @@ void main() {
       expect(errorResult.classification.severity, ErrorSeverity.minor);
     });
 
-    test('ErrorHandlerService should properly classify 422 validation errors', () {
-      // Arrange
-      final errorHandlerService = ErrorHandlerService(UserMessageService());
-      final apiFailure = ApiFailure.validationError(
-        message: 'This user is already a member of a family',
-      );
+    test(
+      'ErrorHandlerService should properly classify 422 validation errors',
+      () {
+        // Arrange
+        final errorHandlerService = ErrorHandlerService(UserMessageService());
+        final apiFailure = ApiFailure.validationError(
+          message: 'This user is already a member of a family',
+        );
 
-      // Act - Test the classification logic
-      final classification = errorHandlerService.classifyError(apiFailure);
+        // Act - Test the classification logic
+        final classification = errorHandlerService.classifyError(apiFailure);
 
-      // Assert - Verify 422 errors are classified as validation
-      expect(classification.category, ErrorCategory.validation);
-      expect(classification.severity, ErrorSeverity.minor);
-      expect(classification.isRetryable, isTrue);
-      expect(classification.requiresUserAction, isTrue);
-      expect(classification.analysisData['type'], 'api');
-      expect(classification.analysisData['status_code'], 422);
-    });
+        // Assert - Verify 422 errors are classified as validation
+        expect(classification.category, ErrorCategory.validation);
+        expect(classification.severity, ErrorSeverity.minor);
+        expect(classification.isRetryable, isTrue);
+        expect(classification.requiresUserAction, isTrue);
+        expect(classification.analysisData['type'], 'api');
+        expect(classification.analysisData['status_code'], 422);
+      },
+    );
 
-    test('UserMessageService should generate user-friendly messages for validation errors', () {
-      // Arrange
-      final userMessageService = UserMessageService();
-      const classification = ErrorClassification(
-        category: ErrorCategory.validation,
-        severity: ErrorSeverity.minor,
-        isRetryable: true,
-        requiresUserAction: true,
-        analysisData: {'type': 'validation'},
-      );
-      final context = ErrorContext.authOperation('send_magic_link');
+    test(
+      'UserMessageService should generate user-friendly messages for validation errors',
+      () {
+        // Arrange
+        final userMessageService = UserMessageService();
+        const classification = ErrorClassification(
+          category: ErrorCategory.validation,
+          severity: ErrorSeverity.minor,
+          isRetryable: true,
+          requiresUserAction: true,
+          analysisData: {'type': 'validation'},
+        );
+        final context = ErrorContext.authOperation('send_magic_link');
 
-      // Act
-      final userMessage = userMessageService.generateMessage(
-        classification,
-        context,
-      );
+        // Act
+        final userMessage = userMessageService.generateMessage(
+          classification,
+          context,
+        );
 
-      // Assert - Verify user-friendly message generation
-      expect(userMessage.titleKey, 'Invalid Information');
-      expect(userMessage.messageKey, 'Please check the information you entered and try again.');
-      expect(userMessage.canRetry, isTrue);
-      expect(userMessage.severity, ErrorSeverity.minor);
-    });
+        // Assert - Verify user-friendly message generation
+        expect(userMessage.titleKey, 'Invalid Information');
+        expect(
+          userMessage.messageKey,
+          'Please check the information you entered and try again.',
+        );
+        expect(userMessage.canRetry, isTrue);
+        expect(userMessage.severity, ErrorSeverity.minor);
+      },
+    );
 
-    test('ErrorContext.authOperation should create proper context for auth operations', () {
-      // Arrange & Act
-      final context = ErrorContext.authOperation(
-        'send_magic_link',
-        metadata: const {'email': 'test@example.com', 'has_invite': false},
-      );
+    test(
+      'ErrorContext.authOperation should create proper context for auth operations',
+      () {
+        // Arrange & Act
+        final context = ErrorContext.authOperation(
+          'send_magic_link',
+          metadata: const {'email': 'test@example.com', 'has_invite': false},
+        );
 
-      // Assert
-      expect(context.operation, 'send_magic_link');
-      expect(context.feature, 'AUTH');
-      expect(context.metadata['email'], 'test@example.com');
-      expect(context.metadata['has_invite'], false);
-      expect(context.timestamp, isA<DateTime>());
-      expect(context.sessionId, isNotEmpty);
-    });
+        // Assert
+        expect(context.operation, 'send_magic_link');
+        expect(context.feature, 'AUTH');
+        expect(context.metadata['email'], 'test@example.com');
+        expect(context.metadata['has_invite'], false);
+        expect(context.timestamp, isA<DateTime>());
+        expect(context.sessionId, isNotEmpty);
+      },
+    );
 
     group('Error Category to Failure Type Mapping', () {
       test('should map validation errors to ValidationFailure', () {

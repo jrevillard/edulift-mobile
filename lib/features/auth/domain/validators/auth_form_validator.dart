@@ -40,7 +40,7 @@ class AuthFormValidator {
 
     // RFC 5322 compliant email regex (simplified)
     final emailPattern = RegExp(
-      r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
+      r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$',
     );
     if (!emailPattern.hasMatch(trimmed)) {
       return AuthValidationError.emailInvalid;

@@ -60,7 +60,9 @@ void main() {
       );
     });
 
-    testWidgets('MemberActionBottomSheet - long name edge case', (tester) async {
+    testWidgets('MemberActionBottomSheet - long name edge case', (
+      tester,
+    ) async {
       final longNameMember = FamilyDataFactory.createMemberWithLongName();
 
       await GoldenTestWrapper.testWidget(
@@ -79,7 +81,8 @@ void main() {
     });
 
     testWidgets('MemberActionBottomSheet - special characters', (tester) async {
-      final specialCharsMember = FamilyDataFactory.createMemberWithSpecialChars();
+      final specialCharsMember =
+          FamilyDataFactory.createMemberWithSpecialChars();
 
       await GoldenTestWrapper.testWidget(
         tester: tester,
@@ -114,7 +117,9 @@ void main() {
       );
     });
 
-    testWidgets('MemberActionBottomSheet - high contrast theme', (tester) async {
+    testWidgets('MemberActionBottomSheet - high contrast theme', (
+      tester,
+    ) async {
       final member = FamilyDataFactory.createRealisticMember(index: 3);
 
       await GoldenTestWrapper.testWidget(
@@ -132,7 +137,9 @@ void main() {
       );
     });
 
-    testWidgets('MemberActionBottomSheet - large font accessibility', (tester) async {
+    testWidgets('MemberActionBottomSheet - large font accessibility', (
+      tester,
+    ) async {
       final member = FamilyDataFactory.createRealisticMember(index: 4);
 
       await GoldenTestWrapper.testWidget(
@@ -175,14 +182,18 @@ void main() {
         tester: tester,
         states: {
           'admin': MemberActionBottomSheet(
-            member: FamilyDataFactory.createRealisticMember(role: FamilyRole.admin),
+            member: FamilyDataFactory.createRealisticMember(
+              role: FamilyRole.admin,
+            ),
             canManageRoles: true,
             onViewDetails: () {},
             onChangeRole: () {},
             onRemoveMember: () {},
           ),
           'member': MemberActionBottomSheet(
-            member: FamilyDataFactory.createRealisticMember(role: FamilyRole.member),
+            member: FamilyDataFactory.createRealisticMember(
+              role: FamilyRole.member,
+            ),
             canManageRoles: true,
             onViewDetails: () {},
             onChangeRole: () {},

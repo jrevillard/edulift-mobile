@@ -52,7 +52,7 @@ void main() {
           familyId: 'family-456',
           userId: 'user-789',
           role: FamilyRole.admin,
-      status: 'ACTIVE',
+          status: 'ACTIVE',
           joinedAt: testJoinedAt,
         );
 
@@ -71,7 +71,7 @@ void main() {
           familyId: 'family-456',
           userId: 'user-789',
           role: FamilyRole.member,
-      status: 'ACTIVE',
+          status: 'ACTIVE',
           joinedAt: testJoinedAt,
         );
 
@@ -88,7 +88,7 @@ void main() {
           familyId: 'family-456',
           userId: 'user-789',
           role: FamilyRole.admin,
-      status: 'ACTIVE',
+          status: 'ACTIVE',
           joinedAt: testJoinedAt,
         );
 
@@ -104,7 +104,7 @@ void main() {
           familyId: 'family-456',
           userId: 'user-789',
           role: FamilyRole.member,
-      status: 'ACTIVE',
+          status: 'ACTIVE',
           joinedAt: testJoinedAt,
         );
 
@@ -120,7 +120,7 @@ void main() {
           familyId: 'family-456',
           userId: 'user-789',
           role: FamilyRole.admin,
-      status: 'ACTIVE',
+          status: 'ACTIVE',
           joinedAt: testJoinedAt,
         );
 
@@ -129,7 +129,7 @@ void main() {
           familyId: 'family-456',
           userId: 'user-789',
           role: FamilyRole.member,
-      status: 'ACTIVE',
+          status: 'ACTIVE',
           joinedAt: testJoinedAt,
         );
 
@@ -149,7 +149,7 @@ void main() {
           familyId: 'family-456',
           userId: 'user-789',
           role: FamilyRole.admin,
-      status: 'ACTIVE',
+          status: 'ACTIVE',
           joinedAt: testJoinedAt,
         );
 
@@ -158,7 +158,7 @@ void main() {
           familyId: 'family-456',
           userId: 'user-789',
           role: FamilyRole.admin,
-      status: 'ACTIVE',
+          status: 'ACTIVE',
           joinedAt: testJoinedAt,
         );
       });
@@ -224,7 +224,7 @@ void main() {
           familyId: 'family-456',
           userId: 'user-789',
           role: FamilyRole.admin,
-      status: 'ACTIVE',
+          status: 'ACTIVE',
           joinedAt: testJoinedAt,
         );
       });
@@ -299,7 +299,7 @@ void main() {
           familyId: 'family-456',
           userId: 'user-789',
           role: FamilyRole.admin,
-      status: 'ACTIVE',
+          status: 'ACTIVE',
           joinedAt: testJoinedAt,
         );
       });
@@ -320,7 +320,7 @@ void main() {
           familyId: 'family-456',
           userId: 'user-789',
           role: FamilyRole.admin,
-      status: 'ACTIVE',
+          status: 'ACTIVE',
           joinedAt: testJoinedAt,
         );
 
@@ -329,7 +329,7 @@ void main() {
           familyId: 'family-456',
           userId: 'user-789',
           role: FamilyRole.member,
-      status: 'ACTIVE',
+          status: 'ACTIVE',
           joinedAt: testJoinedAt,
         );
 
@@ -388,7 +388,7 @@ void main() {
           familyId: 'family-456',
           userId: 'user-789',
           role: FamilyRole.admin,
-      status: 'ACTIVE',
+          status: 'ACTIVE',
           joinedAt: testJoinedAt,
         );
 
@@ -411,7 +411,7 @@ void main() {
           familyId: 'family-456',
           userId: 'user-789',
           role: FamilyRole.member,
-      status: 'ACTIVE',
+          status: 'ACTIVE',
           joinedAt: testJoinedAt,
         );
 
@@ -432,7 +432,7 @@ void main() {
           familyId: 'family-456',
           userId: 'user-789',
           role: FamilyRole.admin,
-      status: 'ACTIVE',
+          status: 'ACTIVE',
           joinedAt: testJoinedAt,
         );
 
@@ -448,7 +448,7 @@ void main() {
           familyId: 'family-456',
           userId: 'user-789',
           role: FamilyRole.admin,
-      status: 'ACTIVE',
+          status: 'ACTIVE',
           joinedAt: testJoinedAt,
         );
 
@@ -472,7 +472,7 @@ void main() {
           familyId: 'family-456',
           userId: 'user-789',
           role: FamilyRole.admin,
-      status: 'ACTIVE',
+          status: 'ACTIVE',
           joinedAt: pastDate,
         );
 
@@ -481,7 +481,7 @@ void main() {
           familyId: 'family-456',
           userId: 'user-789',
           role: FamilyRole.member,
-      status: 'ACTIVE',
+          status: 'ACTIVE',
           joinedAt: futureDate,
         );
 
@@ -497,7 +497,7 @@ void main() {
           familyId: 'family-1',
           userId: 'user-789',
           role: FamilyRole.admin,
-      status: 'ACTIVE',
+          status: 'ACTIVE',
           joinedAt: testJoinedAt,
         );
 
@@ -506,7 +506,7 @@ void main() {
           familyId: 'family-2',
           userId: 'user-789',
           role: FamilyRole.member,
-      status: 'ACTIVE',
+          status: 'ACTIVE',
           joinedAt: testJoinedAt,
         );
 

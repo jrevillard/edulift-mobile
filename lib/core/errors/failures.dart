@@ -248,12 +248,13 @@ class ApiFailure extends Failure {
   );
 
   /// Create an ApiFailure from validation errors.
-  factory ApiFailure.validationError({String? message, String? code}) => ApiFailure(
-    message: message,
-    code: code ?? 'api.validation_error',
-    statusCode: 422,
-    details: const {'type': 'validation_error'},
-  );
+  factory ApiFailure.validationError({String? message, String? code}) =>
+      ApiFailure(
+        message: message,
+        code: code ?? 'api.validation_error',
+        statusCode: 422,
+        details: const {'type': 'validation_error'},
+      );
 
   /// Create an ApiFailure from cache errors.
   factory ApiFailure.cacheError({String? message, String? code}) => ApiFailure(

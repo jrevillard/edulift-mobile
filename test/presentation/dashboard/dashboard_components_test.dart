@@ -17,8 +17,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:edulift/features/dashboard/presentation/pages/dashboard_page.dart';
 import 'package:edulift/features/dashboard/domain/entities/dashboard_entities.dart';
 import 'package:edulift/features/dashboard/presentation/providers/dashboard_providers.dart';
-import 'package:edulift/core/domain/entities/family.dart'
-    as entities;
+import 'package:edulift/core/domain/entities/family.dart' as entities;
 import 'package:edulift/core/domain/entities/family.dart';
 import 'package:edulift/features/family/providers.dart';
 import 'package:edulift/core/services/app_state_provider.dart';

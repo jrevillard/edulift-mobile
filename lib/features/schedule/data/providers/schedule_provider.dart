@@ -48,12 +48,18 @@ class ScheduleState {
 
   // Helper methods for mobile UI
   List<ScheduleSlot> getSlotsForDay(String day) {
-    return scheduleSlots.where((slot) => slot.dayOfWeek.fullName == day).toList();
+    return scheduleSlots
+        .where((slot) => slot.dayOfWeek.fullName == day)
+        .toList();
   }
 
   ScheduleSlot? getSlotForDayAndTime(String day, String time) {
     return scheduleSlots
-        .where((slot) => slot.dayOfWeek.fullName == day && slot.timeOfDay.toApiFormat() == time)
+        .where(
+          (slot) =>
+              slot.dayOfWeek.fullName == day &&
+              slot.timeOfDay.toApiFormat() == time,
+        )
         .firstOrNull;
   }
 

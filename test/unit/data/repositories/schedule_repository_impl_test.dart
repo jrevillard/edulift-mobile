@@ -60,32 +60,39 @@ void main() {
       test('returns cached data when available and not expired', () async {
         // Arrange
         final now = DateTime.now();
-        final timestamp = now.millisecondsSinceEpoch - 30 * 60 * 1000; // 30 min ago
+        final timestamp =
+            now.millisecondsSinceEpoch - 30 * 60 * 1000; // 30 min ago
 
-        when(mockLocalDataSource.getCachedWeeklySchedule(testGroupId, testWeek))
-            .thenAnswer((_) async => testSlots);
+        when(
+          mockLocalDataSource.getCachedWeeklySchedule(testGroupId, testWeek),
+        ).thenAnswer((_) async => testSlots);
 
-        when(mockLocalDataSource.getCacheMetadata(testGroupId))
-            .thenAnswer((_) async => {
-          'timestamp_$testWeek': timestamp,
-        });
+        when(
+          mockLocalDataSource.getCacheMetadata(testGroupId),
+        ).thenAnswer((_) async => {'timestamp_$testWeek': timestamp});
 
         // Act
-        final result = await repository.getWeeklySchedule(testGroupId, testWeek);
+        final result = await repository.getWeeklySchedule(
+          testGroupId,
+          testWeek,
+        );
 
         // Assert
         expect(result.isOk, isTrue);
         expect(result.unwrap(), equals(testSlots));
 
         // Verify cache was checked but API was NOT called
-        verify(mockLocalDataSource.getCachedWeeklySchedule(testGroupId, testWeek)).called(1);
+        verify(
+          mockLocalDataSource.getCachedWeeklySchedule(testGroupId, testWeek),
+        ).called(1);
         verify(mockLocalDataSource.getCacheMetadata(testGroupId)).called(1);
       });
 
       test('fetches from API when cache is empty', () async {
         // Arrange
-        when(mockLocalDataSource.getCachedWeeklySchedule(testGroupId, testWeek))
-            .thenAnswer((_) async => []);
+        when(
+          mockLocalDataSource.getCachedWeeklySchedule(testGroupId, testWeek),
+        ).thenAnswer((_) async => []);
 
         // Note: Repository internally uses NetworkErrorHandler
         // which calls getWeeklyScheduleForGroup on the API client
@@ -97,9 +104,14 @@ void main() {
         // TODO: Refactor repository to allow better testability
 
         // For now, just verify cache was checked
-        final result = await repository.getWeeklySchedule(testGroupId, testWeek);
+        final result = await repository.getWeeklySchedule(
+          testGroupId,
+          testWeek,
+        );
 
-        verify(mockLocalDataSource.getCachedWeeklySchedule(testGroupId, testWeek)).called(1);
+        verify(
+          mockLocalDataSource.getCachedWeeklySchedule(testGroupId, testWeek),
+        ).called(1);
 
         // Result will be an error since we haven't mocked the NetworkErrorHandler properly
         expect(result.isErr, isTrue);
@@ -110,34 +122,44 @@ void main() {
         final now = DateTime.now();
         final timestamp = now.millisecondsSinceEpoch - 2 * 60 * 60 * 1000;
 
-        when(mockLocalDataSource.getCachedWeeklySchedule(testGroupId, testWeek))
-            .thenAnswer((_) async => testSlots);
+        when(
+          mockLocalDataSource.getCachedWeeklySchedule(testGroupId, testWeek),
+        ).thenAnswer((_) async => testSlots);
 
-        when(mockLocalDataSource.getCacheMetadata(testGroupId))
-            .thenAnswer((_) async => {
-          'timestamp_$testWeek': timestamp,
-        });
+        when(
+          mockLocalDataSource.getCacheMetadata(testGroupId),
+        ).thenAnswer((_) async => {'timestamp_$testWeek': timestamp});
 
         // Act
-        final result = await repository.getWeeklySchedule(testGroupId, testWeek);
+        final result = await repository.getWeeklySchedule(
+          testGroupId,
+          testWeek,
+        );
 
         // Assert - should return stale cache when offline
         expect(result.isOk, isTrue);
         expect(result.unwrap(), equals(testSlots));
 
-        verify(mockLocalDataSource.getCachedWeeklySchedule(testGroupId, testWeek)).called(1);
+        verify(
+          mockLocalDataSource.getCachedWeeklySchedule(testGroupId, testWeek),
+        ).called(1);
       });
 
       test('returns network error when offline and no cache', () async {
         // Arrange
-        when(mockLocalDataSource.getCachedWeeklySchedule(testGroupId, testWeek))
-            .thenAnswer((_) async => []);
+        when(
+          mockLocalDataSource.getCachedWeeklySchedule(testGroupId, testWeek),
+        ).thenAnswer((_) async => []);
 
-        when(mockLocalDataSource.getCacheMetadata(testGroupId))
-            .thenAnswer((_) async => <String, dynamic>{});
+        when(
+          mockLocalDataSource.getCacheMetadata(testGroupId),
+        ).thenAnswer((_) async => <String, dynamic>{});
 
         // Act
-        final result = await repository.getWeeklySchedule(testGroupId, testWeek);
+        final result = await repository.getWeeklySchedule(
+          testGroupId,
+          testWeek,
+        );
 
         // Assert
         expect(result.isErr, isTrue);
@@ -147,39 +169,49 @@ void main() {
 
       test('handles cache miss with no metadata', () async {
         // Arrange
-        when(mockLocalDataSource.getCachedWeeklySchedule(testGroupId, testWeek))
-            .thenAnswer((_) async => []);
+        when(
+          mockLocalDataSource.getCachedWeeklySchedule(testGroupId, testWeek),
+        ).thenAnswer((_) async => []);
 
-        when(mockLocalDataSource.getCacheMetadata(testGroupId))
-            .thenAnswer((_) async => <String, dynamic>{});
+        when(
+          mockLocalDataSource.getCacheMetadata(testGroupId),
+        ).thenAnswer((_) async => <String, dynamic>{});
 
         // Act
-        final result = await repository.getWeeklySchedule(testGroupId, testWeek);
+        final result = await repository.getWeeklySchedule(
+          testGroupId,
+          testWeek,
+        );
 
         // Assert - will be error since we can't mock NetworkErrorHandler
         expect(result.isErr, isTrue);
 
-        verify(mockLocalDataSource.getCachedWeeklySchedule(testGroupId, testWeek)).called(1);
+        verify(
+          mockLocalDataSource.getCachedWeeklySchedule(testGroupId, testWeek),
+        ).called(1);
       });
 
       test('handles expired cache correctly', () async {
         // Arrange - cache is 2 hours old (expired, TTL is 1 hour)
         final now = DateTime.now();
-        final expiredTimestamp = now.millisecondsSinceEpoch - 2 * 60 * 60 * 1000;
+        final expiredTimestamp =
+            now.millisecondsSinceEpoch - 2 * 60 * 60 * 1000;
 
-        when(mockLocalDataSource.getCachedWeeklySchedule(testGroupId, testWeek))
-            .thenAnswer((_) async => testSlots);
+        when(
+          mockLocalDataSource.getCachedWeeklySchedule(testGroupId, testWeek),
+        ).thenAnswer((_) async => testSlots);
 
-        when(mockLocalDataSource.getCacheMetadata(testGroupId))
-            .thenAnswer((_) async => {
-          'timestamp_$testWeek': expiredTimestamp,
-        });
+        when(
+          mockLocalDataSource.getCacheMetadata(testGroupId),
+        ).thenAnswer((_) async => {'timestamp_$testWeek': expiredTimestamp});
 
         // Act
         await repository.getWeeklySchedule(testGroupId, testWeek);
 
         // Assert - should attempt API fetch via NetworkErrorHandler (which will fail in this test)
-        verify(mockLocalDataSource.getCachedWeeklySchedule(testGroupId, testWeek)).called(1);
+        verify(
+          mockLocalDataSource.getCachedWeeklySchedule(testGroupId, testWeek),
+        ).called(1);
       });
     });
 
@@ -191,8 +223,9 @@ void main() {
 
       test('stores pending operation when offline', () async {
         // Arrange
-        when(mockLocalDataSource.storePendingOperation(any))
-            .thenAnswer((_) async {});
+        when(
+          mockLocalDataSource.storePendingOperation(any),
+        ).thenAnswer((_) async {});
 
         // Act
         final result = await repository.upsertScheduleSlot(
@@ -207,22 +240,27 @@ void main() {
         final failure = result.unwrapErr();
         expect(failure.code, contains('validation'));
 
-        verifyNever(mockLocalDataSource.storePendingOperation(argThat(
-          predicate<Map<String, dynamic>>((op) {
-            return op['type'] == 'upsert_slot' &&
-                   op['groupId'] == testGroupId &&
-                   op['day'] == testDay &&
-                   op['time'] == testTime &&
-                   op['week'] == testWeek &&
-                   op['retryCount'] == 0;
-          }),
-        )));
+        verifyNever(
+          mockLocalDataSource.storePendingOperation(
+            argThat(
+              predicate<Map<String, dynamic>>((op) {
+                return op['type'] == 'upsert_slot' &&
+                    op['groupId'] == testGroupId &&
+                    op['day'] == testDay &&
+                    op['time'] == testTime &&
+                    op['week'] == testWeek &&
+                    op['retryCount'] == 0;
+              }),
+            ),
+          ),
+        );
       });
 
       test('requires network connection for writes', () async {
         // Arrange
-        when(mockLocalDataSource.storePendingOperation(any))
-            .thenAnswer((_) async {});
+        when(
+          mockLocalDataSource.storePendingOperation(any),
+        ).thenAnswer((_) async {});
 
         // Act
         final result = await repository.upsertScheduleSlot(
@@ -244,57 +282,76 @@ void main() {
         const testGroupId = 'group-123';
         const testWeek = '2025-W10';
 
-        when(mockLocalDataSource.getCachedWeeklySchedule(testGroupId, testWeek))
-            .thenAnswer((_) async => []);
+        when(
+          mockLocalDataSource.getCachedWeeklySchedule(testGroupId, testWeek),
+        ).thenAnswer((_) async => []);
 
-        when(mockLocalDataSource.getCacheMetadata(testGroupId))
-            .thenAnswer((_) async => <String, dynamic>{});
+        when(
+          mockLocalDataSource.getCacheMetadata(testGroupId),
+        ).thenAnswer((_) async => <String, dynamic>{});
 
         // Act
         await repository.getWeeklySchedule(testGroupId, testWeek);
 
         // Assert - cache should be checked FIRST
-        verify(mockLocalDataSource.getCachedWeeklySchedule(testGroupId, testWeek)).called(1);
+        verify(
+          mockLocalDataSource.getCachedWeeklySchedule(testGroupId, testWeek),
+        ).called(1);
       });
     });
 
     group('offline handling', () {
       test('returns appropriate error when offline with no cache', () async {
         // Arrange
-        when(mockLocalDataSource.getCachedWeeklySchedule(any, any))
-            .thenAnswer((_) async => []);
-        when(mockLocalDataSource.getCacheMetadata(any))
-            .thenAnswer((_) async => <String, dynamic>{});
+        when(
+          mockLocalDataSource.getCachedWeeklySchedule(any, any),
+        ).thenAnswer((_) async => []);
+        when(
+          mockLocalDataSource.getCacheMetadata(any),
+        ).thenAnswer((_) async => <String, dynamic>{});
 
         // Act
         const testGroupId = 'group-1';
         const testWeek = '2025-W10';
-        final result = await repository.getWeeklySchedule(testGroupId, testWeek);
+        final result = await repository.getWeeklySchedule(
+          testGroupId,
+          testWeek,
+        );
 
         // Assert
         expect(result.isErr, isTrue);
       });
 
-      test('upsertScheduleSlot returns validation error (deprecated)', () async {
-        // Arrange
-        when(mockLocalDataSource.storePendingOperation(any))
-            .thenAnswer((_) async {});
+      test(
+        'upsertScheduleSlot returns validation error (deprecated)',
+        () async {
+          // Arrange
+          when(
+            mockLocalDataSource.storePendingOperation(any),
+          ).thenAnswer((_) async {});
 
-        // Act
-        final result = await repository.upsertScheduleSlot('group-1', 'Monday', '08:00', '2025-W10');
+          // Act
+          final result = await repository.upsertScheduleSlot(
+            'group-1',
+            'Monday',
+            '08:00',
+            '2025-W10',
+          );
 
-        // Assert - upsertScheduleSlot is deprecated
-        expect(result.isErr, isTrue);
-        expect(result.unwrapErr().code, contains('validation'));
-        verifyNever(mockLocalDataSource.storePendingOperation(any));
-      });
+          // Assert - upsertScheduleSlot is deprecated
+          expect(result.isErr, isTrue);
+          expect(result.unwrapErr().code, contains('validation'));
+          verifyNever(mockLocalDataSource.storePendingOperation(any));
+        },
+      );
     });
 
     group('error handling', () {
       test('handles cache read errors gracefully', () async {
         // Arrange
-        when(mockLocalDataSource.getCachedWeeklySchedule(any, any))
-            .thenThrow(Exception('Cache read failed'));
+        when(
+          mockLocalDataSource.getCachedWeeklySchedule(any, any),
+        ).thenThrow(Exception('Cache read failed'));
 
         // Act & Assert
         expect(
@@ -305,13 +362,18 @@ void main() {
 
       test('handles errors from NetworkErrorHandler gracefully', () async {
         // Arrange
-        when(mockLocalDataSource.getCachedWeeklySchedule(any, any))
-            .thenAnswer((_) async => []);
-        when(mockLocalDataSource.getCacheMetadata(any))
-            .thenAnswer((_) async => <String, dynamic>{});
+        when(
+          mockLocalDataSource.getCachedWeeklySchedule(any, any),
+        ).thenAnswer((_) async => []);
+        when(
+          mockLocalDataSource.getCacheMetadata(any),
+        ).thenAnswer((_) async => <String, dynamic>{});
 
         // Act & Assert - Repository may not throw but return error Result
-        final result = await repository.getWeeklySchedule('group-1', '2025-W10');
+        final result = await repository.getWeeklySchedule(
+          'group-1',
+          '2025-W10',
+        );
         expect(result.isErr, isTrue);
       });
     });
@@ -322,13 +384,18 @@ void main() {
         final now = DateTime.now();
         final freshTimestamp = now.millisecondsSinceEpoch - 30 * 60 * 1000;
 
-        when(mockLocalDataSource.getCachedWeeklySchedule(any, any))
-            .thenAnswer((_) async => []);
-        when(mockLocalDataSource.getCacheMetadata(any))
-            .thenAnswer((_) async => <String, dynamic>{'timestamp_2025-W10': freshTimestamp});
+        when(
+          mockLocalDataSource.getCachedWeeklySchedule(any, any),
+        ).thenAnswer((_) async => []);
+        when(mockLocalDataSource.getCacheMetadata(any)).thenAnswer(
+          (_) async => <String, dynamic>{'timestamp_2025-W10': freshTimestamp},
+        );
 
         // Act
-        final result = await repository.getWeeklySchedule('group-1', '2025-W10');
+        final result = await repository.getWeeklySchedule(
+          'group-1',
+          '2025-W10',
+        );
 
         // Assert - should use cache if fresh
         expect(result.isOk, isTrue);
@@ -339,10 +406,12 @@ void main() {
         final now = DateTime.now();
         final staleTimestamp = now.millisecondsSinceEpoch - 90 * 60 * 1000;
 
-        when(mockLocalDataSource.getCachedWeeklySchedule(any, any))
-            .thenAnswer((_) async => []);
-        when(mockLocalDataSource.getCacheMetadata(any))
-            .thenAnswer((_) async => <String, dynamic>{'timestamp_2025-W10': staleTimestamp});
+        when(
+          mockLocalDataSource.getCachedWeeklySchedule(any, any),
+        ).thenAnswer((_) async => []);
+        when(mockLocalDataSource.getCacheMetadata(any)).thenAnswer(
+          (_) async => <String, dynamic>{'timestamp_2025-W10': staleTimestamp},
+        );
 
         // Act
         await repository.getWeeklySchedule('group-1', '2025-W10');
@@ -370,13 +439,18 @@ void main() {
           ),
         ];
 
-        when(mockLocalDataSource.getCachedWeeklySchedule(any, any))
-            .thenAnswer((_) async => staleData);
-        when(mockLocalDataSource.getCacheMetadata(any))
-            .thenAnswer((_) async => <String, dynamic>{'timestamp_2025-W10': staleTimestamp});
+        when(
+          mockLocalDataSource.getCachedWeeklySchedule(any, any),
+        ).thenAnswer((_) async => staleData);
+        when(mockLocalDataSource.getCacheMetadata(any)).thenAnswer(
+          (_) async => <String, dynamic>{'timestamp_2025-W10': staleTimestamp},
+        );
 
         // Act
-        final result = await repository.getWeeklySchedule('group-1', '2025-W10');
+        final result = await repository.getWeeklySchedule(
+          'group-1',
+          '2025-W10',
+        );
 
         // Assert - should return stale cache rather than fail
         expect(result.isOk, isTrue);

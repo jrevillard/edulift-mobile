@@ -20,31 +20,32 @@ class ResponsiveBreakpoints {
 
   /// Check if current screen is mobile size
   static bool isMobile(BuildContext context) =>
-    MediaQuery.of(context).size.width < mobile;
+      MediaQuery.of(context).size.width < mobile;
 
   /// Check if current screen is tablet size
   static bool isTablet(BuildContext context) =>
-    MediaQuery.of(context).size.width >= mobile &&
-    MediaQuery.of(context).size.width < desktop;
+      MediaQuery.of(context).size.width >= mobile &&
+      MediaQuery.of(context).size.width < desktop;
 
   /// Check if current screen is desktop size
   static bool isDesktop(BuildContext context) =>
-    MediaQuery.of(context).size.width >= desktop;
+      MediaQuery.of(context).size.width >= desktop;
 
   /// Check if current screen is wide desktop size
   static bool isWideDesktop(BuildContext context) =>
-    MediaQuery.of(context).size.width >= wide;
+      MediaQuery.of(context).size.width >= wide;
 
   /// Check if current screen is tablet or larger
   static bool isTabletOrLarger(BuildContext context) =>
-    MediaQuery.of(context).size.width >= mobile;
+      MediaQuery.of(context).size.width >= mobile;
 
   /// Check if current screen is desktop or larger
   static bool isDesktopOrLarger(BuildContext context) =>
-    MediaQuery.of(context).size.width >= desktop;
+      MediaQuery.of(context).size.width >= desktop;
 
   /// Get adaptive padding based on screen size
-  static EdgeInsets getAdaptivePadding(BuildContext context, {
+  static EdgeInsets getAdaptivePadding(
+    BuildContext context, {
     double? mobileHorizontal,
     double? mobileVertical,
     double? mobileAll,
@@ -85,7 +86,8 @@ class ResponsiveBreakpoints {
   }
 
   /// Get adaptive spacing based on screen size
-  static double getAdaptiveSpacing(BuildContext context, {
+  static double getAdaptiveSpacing(
+    BuildContext context, {
     double? mobile,
     double? tablet,
     double? desktop,
@@ -102,7 +104,8 @@ class ResponsiveBreakpoints {
   }
 
   /// Get adaptive icon size based on screen size
-  static double getAdaptiveIconSize(BuildContext context, {
+  static double getAdaptiveIconSize(
+    BuildContext context, {
     double? mobile,
     double? tablet,
     double? desktop,
@@ -132,7 +135,8 @@ class ResponsiveBreakpoints {
   }
 
   /// Get adaptive button height based on screen size
-  static double getAdaptiveButtonHeight(BuildContext context, {
+  static double getAdaptiveButtonHeight(
+    BuildContext context, {
     double? mobile,
     double? tablet,
     double? desktop,
@@ -159,7 +163,8 @@ class ResponsiveBreakpoints {
   }
 
   /// Get number of columns for grid layouts based on screen size
-  static int getGridColumns(BuildContext context, {
+  static int getGridColumns(
+    BuildContext context, {
     int? mobile,
     int? tablet,
     int? desktop,
@@ -216,7 +221,8 @@ extension ResponsiveContext on BuildContext {
   bool get isCompactHeight => ResponsiveBreakpoints.isCompactHeight(this);
 
   /// Check if screen is very compact height
-  bool get isVeryCompactHeight => ResponsiveBreakpoints.isVeryCompactHeight(this);
+  bool get isVeryCompactHeight =>
+      ResponsiveBreakpoints.isVeryCompactHeight(this);
 
   /// Get adaptive padding
   EdgeInsets getAdaptivePadding({
@@ -282,18 +288,14 @@ extension ResponsiveContext on BuildContext {
   );
 
   /// Get grid columns
-  int getGridColumns({
-    int? mobile,
-    int? tablet,
-    int? desktop,
-    int? wide,
-  }) => ResponsiveBreakpoints.getGridColumns(
-    this,
-    mobile: mobile,
-    tablet: tablet,
-    desktop: desktop,
-    wide: wide,
-  );
+  int getGridColumns({int? mobile, int? tablet, int? desktop, int? wide}) =>
+      ResponsiveBreakpoints.getGridColumns(
+        this,
+        mobile: mobile,
+        tablet: tablet,
+        desktop: desktop,
+        wide: wide,
+      );
 
   /// Get maximum content width
   double get maxContentWidth => ResponsiveBreakpoints.getMaxContentWidth(this);

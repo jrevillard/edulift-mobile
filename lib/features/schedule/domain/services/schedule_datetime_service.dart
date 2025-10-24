@@ -29,11 +29,7 @@ class ScheduleDateTimeService {
   /// IMPORTANT: This method does NOT perform timezone conversion.
   /// It builds the DateTime object as-is. Timezone conversion should
   /// be handled in the presentation layer if needed.
-  DateTime? calculateDateTimeFromSlot(
-    String day,
-    String time,
-    String week,
-  ) {
+  DateTime? calculateDateTimeFromSlot(String day, String time, String week) {
     try {
       final weekStart = calculateWeekStartDate(week);
       if (weekStart == null) return null;
@@ -72,10 +68,14 @@ class ScheduleDateTimeService {
         minute,
       );
 
-      _logger.fine('Calculated datetime: day=$day, time=$time, week=$week → UTC: ${utcDateTime.toIso8601String()}');
+      _logger.fine(
+        'Calculated datetime: day=$day, time=$time, week=$week → UTC: ${utcDateTime.toIso8601String()}',
+      );
       return utcDateTime;
     } catch (e) {
-      _logger.warning('Failed to calculate datetime: day=$day, time=$time, week=$week, error: $e');
+      _logger.warning(
+        'Failed to calculate datetime: day=$day, time=$time, week=$week, error: $e',
+      );
       return null;
     }
   }
@@ -85,7 +85,9 @@ class ScheduleDateTimeService {
   DateTime calculateWeekEndDate(DateTime weekStart) {
     // Week ends on Sunday at 23:59:59.999
     // Add 7 days to get to next Monday, then subtract 1 millisecond
-    return weekStart.add(const Duration(days: 7)).subtract(const Duration(milliseconds: 1));
+    return weekStart
+        .add(const Duration(days: 7))
+        .subtract(const Duration(milliseconds: 1));
   }
 
   /// Check if a date is in the past based on user's timezone
@@ -109,7 +111,9 @@ class ScheduleDateTimeService {
   bool isPastDate(DateTime dateTime, {String? userTimezone}) {
     try {
       final timezone = userTimezone ?? 'UTC';
-      _logger.fine('Checking if date is past: $dateTime in timezone: $timezone');
+      _logger.fine(
+        'Checking if date is past: $dateTime in timezone: $timezone',
+      );
 
       // Get the timezone location
       final location = tz.getLocation(timezone);
@@ -124,7 +128,7 @@ class ScheduleDateTimeService {
       final isPast = dateTimeInUserTz.isBefore(nowInUserTz);
 
       _logger.fine(
-        'Date comparison: $dateTimeInUserTz (slot) vs $nowInUserTz (now) in $timezone → isPast: $isPast'
+        'Date comparison: $dateTimeInUserTz (slot) vs $nowInUserTz (now) in $timezone → isPast: $isPast',
       );
 
       return isPast;
@@ -161,12 +165,13 @@ class ScheduleDateTimeService {
         final tzAbbr = dateTimeInUserTz.timeZoneName;
 
         _logger.warning(
-          'Schedule datetime validation failed: datetime is in the past ($dateTimeInUserTz $tzAbbr)'
+          'Schedule datetime validation failed: datetime is in the past ($dateTimeInUserTz $tzAbbr)',
         );
 
         return ScheduleDateTimeValidationResult(
           isValid: false,
-          errorMessage: 'Cannot create schedule for past time. '
+          errorMessage:
+              'Cannot create schedule for past time. '
               'Selected time has already passed in your timezone ($tzAbbr).',
         );
       }

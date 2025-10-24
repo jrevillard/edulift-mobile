@@ -44,10 +44,12 @@ class _SchedulePageState extends ConsumerState<SchedulePage>
       }
     });
   }
+
   void _initializeCurrentWeek() {
     final now = DateTime.now();
     _currentWeek = getISOWeekString(now);
   }
+
   void _loadScheduleData() {
     // ✅ FIX: Invalidate the auto-dispose provider to trigger reload
     // This ensures the UI fetches fresh data using the modern provider system
@@ -68,7 +70,8 @@ class _SchedulePageState extends ConsumerState<SchedulePage>
             groupId: _selectedGroupId!,
             day: day,
             time: time,
-            week: _currentWeek);
+            week: _currentWeek,
+          );
 
       // Refresh is handled by invalidation in the notifier
       // No need to call _loadScheduleData() - provider will auto-refresh
@@ -128,7 +131,9 @@ class _SchedulePageState extends ConsumerState<SchedulePage>
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
       builder: (context) => VehicleSelectionModal(
-        key: ValueKey('vehicle-modal-${scheduleSlot.week}-${scheduleSlot.dayOfWeek.name}-${DateTime.now().millisecondsSinceEpoch}'),
+        key: ValueKey(
+          'vehicle-modal-${scheduleSlot.week}-${scheduleSlot.dayOfWeek.name}-${DateTime.now().millisecondsSinceEpoch}',
+        ),
         groupId: _selectedGroupId!,
         scheduleSlot: scheduleSlot,
       ),
@@ -141,11 +146,13 @@ class _SchedulePageState extends ConsumerState<SchedulePage>
   }
 
   void _showErrorSnackBar(String message) {
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      content: Text(message),
-      backgroundColor: Colors.red[600],
-      behavior: SnackBarBehavior.floating,
-    ));
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(message),
+        backgroundColor: Colors.red[600],
+        behavior: SnackBarBehavior.floating,
+      ),
+    );
   }
 
   @override
@@ -159,13 +166,12 @@ class _SchedulePageState extends ConsumerState<SchedulePage>
         : const AsyncValue<List<ScheduleSlot>>.data([]);
 
     final vehiclesState = ref.watch(
-        familyVehiclesProvider.select((vehicles) => AsyncValue.data(vehicles)));
+      familyVehiclesProvider.select((vehicles) => AsyncValue.data(vehicles)),
+    );
 
     // ✨ NOUVEAU: Watch schedule config pour les créneaux dynamiques
     final scheduleConfigState = _selectedGroupId != null
-        ? ref.watch(
-            groupScheduleConfigProvider(_selectedGroupId!),
-          )
+        ? ref.watch(groupScheduleConfigProvider(_selectedGroupId!))
         : const AsyncValue<ScheduleConfig?>.data(null);
 
     final theme = Theme.of(context);
@@ -196,8 +202,13 @@ class _SchedulePageState extends ConsumerState<SchedulePage>
             child: groupsState.isLoading && groupsState.groups.isEmpty
                 ? const Center(child: CircularProgressIndicator())
                 : groupsState.error != null && groupsState.groups.isEmpty
-                    ? _buildErrorState(groupsState.error!)
-                    : _buildMainContent(groupsState.groups, scheduleAsync, vehiclesState, scheduleConfigState),
+                ? _buildErrorState(groupsState.error!)
+                : _buildMainContent(
+                    groupsState.groups,
+                    scheduleAsync,
+                    vehiclesState,
+                    scheduleConfigState,
+                  ),
           ),
         ],
       ),
@@ -220,7 +231,8 @@ class _SchedulePageState extends ConsumerState<SchedulePage>
     Group? selectedGroup;
     try {
       selectedGroup = groups.firstWhere(
-          (group) => group.id == _selectedGroupId);
+        (group) => group.id == _selectedGroupId,
+      );
     } catch (e) {
       selectedGroup = null;
     }
@@ -230,7 +242,11 @@ class _SchedulePageState extends ConsumerState<SchedulePage>
     }
 
     // Mobile-first layout - full width (sidebar removed per Phase 3 plan)
-    return _buildScheduleContent(selectedGroup, scheduleAsync, scheduleConfigState);
+    return _buildScheduleContent(
+      selectedGroup,
+      scheduleAsync,
+      scheduleConfigState,
+    );
   }
 
   Widget _buildScheduleContent(
@@ -239,7 +255,8 @@ class _SchedulePageState extends ConsumerState<SchedulePage>
     AsyncValue<ScheduleConfig?> scheduleConfigState,
   ) {
     // Check if config is null or error (matching web behavior)
-    final hasConfigError = scheduleConfigState.hasError || scheduleConfigState.value == null;
+    final hasConfigError =
+        scheduleConfigState.hasError || scheduleConfigState.value == null;
 
     if (hasConfigError) {
       return _buildConfigRequiredState(selectedGroup);
@@ -253,7 +270,9 @@ class _SchedulePageState extends ConsumerState<SchedulePage>
       data: (scheduleSlots) => RefreshIndicator(
         onRefresh: () async {
           // Invalidate current week schedule to force reload
-          ref.invalidate(weeklyScheduleProvider(_selectedGroupId!, _currentWeek));
+          ref.invalidate(
+            weeklyScheduleProvider(_selectedGroupId!, _currentWeek),
+          );
 
           // Small delay for smooth animation
           await Future.delayed(const Duration(milliseconds: 300));
@@ -294,10 +313,9 @@ class _SchedulePageState extends ConsumerState<SchedulePage>
             Text(
               AppLocalizations.of(context).needGroupForSchedules,
               textAlign: TextAlign.center,
-              style: Theme.of(context)
-                  .textTheme
-                  .bodyMedium
-                  ?.copyWith(color: Colors.grey[500]),
+              style: Theme.of(
+                context,
+              ).textTheme.bodyMedium?.copyWith(color: Colors.grey[500]),
             ),
             const SizedBox(height: 32),
             ElevatedButton.icon(
@@ -333,18 +351,16 @@ class _SchedulePageState extends ConsumerState<SchedulePage>
             children: [
               Text(
                 AppLocalizations.of(context).selectGroup,
-                style: Theme.of(context)
-                    .textTheme
-                    .headlineSmall
-                    ?.copyWith(fontWeight: FontWeight.w600),
+                style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                  fontWeight: FontWeight.w600,
+                ),
               ),
               const SizedBox(height: 8),
               Text(
                 AppLocalizations.of(context).chooseGroupForSchedule,
-                style: Theme.of(context)
-                    .textTheme
-                    .bodyMedium
-                    ?.copyWith(color: Colors.grey[600]),
+                style: Theme.of(
+                  context,
+                ).textTheme.bodyMedium?.copyWith(color: Colors.grey[600]),
               ),
               const SizedBox(height: 24),
               Expanded(
@@ -381,9 +397,9 @@ class _SchedulePageState extends ConsumerState<SchedulePage>
                                 children: [
                                   Icon(
                                     Icons.groups,
-                                    color: Theme.of(context)
-                                        .colorScheme
-                                        .primary,
+                                    color: Theme.of(
+                                      context,
+                                    ).colorScheme.primary,
                                     size: 24,
                                   ),
                                   const SizedBox(width: 8),
@@ -394,7 +410,8 @@ class _SchedulePageState extends ConsumerState<SchedulePage>
                                           .textTheme
                                           .titleMedium
                                           ?.copyWith(
-                                              fontWeight: FontWeight.w600),
+                                            fontWeight: FontWeight.w600,
+                                          ),
                                       maxLines: 1,
                                       overflow: TextOverflow.ellipsis,
                                     ),
@@ -403,8 +420,9 @@ class _SchedulePageState extends ConsumerState<SchedulePage>
                               ),
                               const Spacer(),
                               Text(
-                                AppLocalizations.of(context)
-                                    .familyCount(familyCount),
+                                AppLocalizations.of(
+                                  context,
+                                ).familyCount(familyCount),
                                 style: Theme.of(context).textTheme.bodySmall
                                     ?.copyWith(color: Colors.grey[600]),
                               ),
@@ -439,10 +457,9 @@ class _SchedulePageState extends ConsumerState<SchedulePage>
             const SizedBox(height: 16),
             Text(
               AppLocalizations.of(context).groupNotFound,
-              style: Theme.of(context)
-                  .textTheme
-                  .headlineSmall
-                  ?.copyWith(color: Colors.orange[600]),
+              style: Theme.of(
+                context,
+              ).textTheme.headlineSmall?.copyWith(color: Colors.orange[600]),
             ),
             const SizedBox(height: 8),
             Text(
@@ -476,10 +493,9 @@ class _SchedulePageState extends ConsumerState<SchedulePage>
             const SizedBox(height: 16),
             Text(
               AppLocalizations.of(context).failedToLoadSchedule,
-              style: Theme.of(context)
-                  .textTheme
-                  .headlineSmall
-                  ?.copyWith(color: Colors.red[600]),
+              style: Theme.of(
+                context,
+              ).textTheme.headlineSmall?.copyWith(color: Colors.red[600]),
             ),
             const SizedBox(height: 8),
             Text(error, textAlign: TextAlign.center),
@@ -506,10 +522,9 @@ class _SchedulePageState extends ConsumerState<SchedulePage>
             const SizedBox(height: 16),
             Text(
               AppLocalizations.of(context).errorLoadingData,
-              style: Theme.of(context)
-                  .textTheme
-                  .headlineSmall
-                  ?.copyWith(color: Colors.red[600]),
+              style: Theme.of(
+                context,
+              ).textTheme.headlineSmall?.copyWith(color: Colors.red[600]),
             ),
             const SizedBox(height: 8),
             Text(error, textAlign: TextAlign.center),
@@ -539,7 +554,6 @@ class _SchedulePageState extends ConsumerState<SchedulePage>
         return 'MEMBER';
     }
   }
-
 
   Widget _buildConfigRequiredState(Group selectedGroup) {
     final l10n = AppLocalizations.of(context);
@@ -571,9 +585,9 @@ class _SchedulePageState extends ConsumerState<SchedulePage>
             // Title
             Text(
               l10n.scheduleConfigurationRequired,
-              style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                fontWeight: FontWeight.w600,
-              ),
+              style: Theme.of(
+                context,
+              ).textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.w600),
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: 10),
@@ -592,10 +606,12 @@ class _SchedulePageState extends ConsumerState<SchedulePage>
             if (isAdmin)
               ElevatedButton.icon(
                 onPressed: () {
-                  ref.read(navigationStateProvider.notifier).navigateTo(
-                    route: '/groups/$_selectedGroupId/manage',
-                    trigger: NavigationTrigger.userNavigation,
-                  );
+                  ref
+                      .read(navigationStateProvider.notifier)
+                      .navigateTo(
+                        route: '/groups/$_selectedGroupId/manage',
+                        trigger: NavigationTrigger.userNavigation,
+                      );
                 },
                 icon: const Icon(Icons.settings),
                 label: Text(l10n.configureSchedule),
@@ -610,7 +626,9 @@ class _SchedulePageState extends ConsumerState<SchedulePage>
                   color: Theme.of(context).colorScheme.primaryContainer,
                   borderRadius: BorderRadius.circular(8),
                   border: Border.all(
-                    color: Theme.of(context).colorScheme.primary.withValues(alpha: 0.3),
+                    color: Theme.of(
+                      context,
+                    ).colorScheme.primary.withValues(alpha: 0.3),
                   ),
                 ),
                 child: Row(
@@ -626,7 +644,9 @@ class _SchedulePageState extends ConsumerState<SchedulePage>
                       child: Text(
                         l10n.contactAdministratorToSetupTimeSlots,
                         style: TextStyle(
-                          color: Theme.of(context).colorScheme.onPrimaryContainer,
+                          color: Theme.of(
+                            context,
+                          ).colorScheme.onPrimaryContainer,
                           fontSize: 14,
                         ),
                         textAlign: TextAlign.center,
@@ -644,7 +664,9 @@ class _SchedulePageState extends ConsumerState<SchedulePage>
             OutlinedButton(
               onPressed: () {
                 if (_selectedGroupId != null) {
-                  ref.invalidate(groupScheduleConfigProvider(_selectedGroupId!));
+                  ref.invalidate(
+                    groupScheduleConfigProvider(_selectedGroupId!),
+                  );
                 }
               },
               child: Text(l10n.tryAgain),

@@ -22,7 +22,9 @@ class ComprehensiveFamilyDataServiceImpl
   Future<Result<String?, Failure>> cacheFamilyData() async {
     try {
       // Use GetFamilyUsecase to fetch and cache family data
-      final familyDataResult = await _getFamilyUsecase.call(get_family_usecase.NoParams());
+      final familyDataResult = await _getFamilyUsecase.call(
+        get_family_usecase.NoParams(),
+      );
 
       if (familyDataResult.isOk) {
         // Successfully cached family data
@@ -40,8 +42,11 @@ class ComprehensiveFamilyDataServiceImpl
       }
     } catch (e) {
       // Convert any unexpected exceptions to ApiFailure
-      return Result.err(ApiFailure.serverError(
-          message: 'Failed to cache family data: ${e.toString()}'));
+      return Result.err(
+        ApiFailure.serverError(
+          message: 'Failed to cache family data: ${e.toString()}',
+        ),
+      );
     }
   }
 
@@ -62,8 +67,11 @@ class ComprehensiveFamilyDataServiceImpl
       }
     } catch (e) {
       // Convert any unexpected exceptions to ApiFailure
-      return Result.err(ApiFailure.serverError(
-          message: 'Failed to clear family data: ${e.toString()}'));
+      return Result.err(
+        ApiFailure.serverError(
+          message: 'Failed to clear family data: ${e.toString()}',
+        ),
+      );
     }
   }
 }

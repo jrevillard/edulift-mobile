@@ -32,10 +32,11 @@ class FamilyInvitationManagementWidget extends ConsumerStatefulWidget {
 
 class _FamilyInvitationManagementWidgetState
     extends ConsumerState<FamilyInvitationManagementWidget> {
-
   // Admin permission getter - using provider for real-time permission checks
   bool get isAdmin {
-    final admin = ref.watch(canPerformMemberActionsComposedProvider(widget.familyId));
+    final admin = ref.watch(
+      canPerformMemberActionsComposedProvider(widget.familyId),
+    );
     return admin;
   }
 
@@ -98,9 +99,7 @@ class _FamilyInvitationManagementWidgetState
 
     return Text(
       localizations.invitationsCount(count),
-      style: theme.textTheme.titleMedium?.copyWith(
-        fontWeight: FontWeight.w600,
-      ),
+      style: theme.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w600),
     );
   }
 
@@ -126,7 +125,9 @@ class _FamilyInvitationManagementWidgetState
               Icon(
                 Icons.mail_outline,
                 size: 48,
-                color: theme.colorScheme.onSurfaceVariant.withValues(alpha: 0.5),
+                color: theme.colorScheme.onSurfaceVariant.withValues(
+                  alpha: 0.5,
+                ),
               ),
               const SizedBox(height: 16),
               Text(
@@ -164,18 +165,21 @@ class _FamilyInvitationManagementWidgetState
     );
   }
 
-  Widget _buildInvitationCard(BuildContext context, FamilyInvitation invitation) {
+  Widget _buildInvitationCard(
+    BuildContext context,
+    FamilyInvitation invitation,
+  ) {
     final theme = Theme.of(context);
     final localizations = AppLocalizations.of(context);
     final colorScheme = theme.colorScheme;
     final isExpired = invitation.isExpired;
-    final daysUntilExpiration = invitation.expiresAt.difference(DateTime.now()).inDays;
+    final daysUntilExpiration = invitation.expiresAt
+        .difference(DateTime.now())
+        .inDays;
     final isExpiringSoon = daysUntilExpiration <= 2 && daysUntilExpiration > 0;
 
     return Card(
-      key: Key(
-        'invitation_card_${invitation.email}_${invitation.status.name}',
-      ),
+      key: Key('invitation_card_${invitation.email}_${invitation.status.name}'),
       margin: const EdgeInsets.only(bottom: 8),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12),
@@ -323,7 +327,9 @@ class _FamilyInvitationManagementWidgetState
                 key: Key('invitation_more_vert_button_${invitation.email}'),
                 onPressed: () => _showInvitationActions(invitation),
                 icon: const Icon(Icons.more_vert),
-                tooltip: localizations.invitationActionsTooltip(invitation.email),
+                tooltip: localizations.invitationActionsTooltip(
+                  invitation.email,
+                ),
               )
             : null,
 
@@ -337,7 +343,9 @@ class _FamilyInvitationManagementWidgetState
 
   /// Show invitation actions in bottom sheet (like member actions)
   void _showInvitationActions(FamilyInvitation invitation) {
-    AppLogger.debug('FamilyInvitationManagementWidget: Showing invitation actions for ${invitation.id}');
+    AppLogger.debug(
+      'FamilyInvitationManagementWidget: Showing invitation actions for ${invitation.id}',
+    );
 
     final theme = Theme.of(context);
     final hasCode = _extractInvitationCode(invitation) != null;
@@ -430,7 +438,9 @@ class _FamilyInvitationManagementWidgetState
     );
   }
 
-  List<FamilyInvitation> _getSortedInvitations(List<FamilyInvitation> invitations) {
+  List<FamilyInvitation> _getSortedInvitations(
+    List<FamilyInvitation> invitations,
+  ) {
     // Sort by creation date (newest first)
     final sorted = List<FamilyInvitation>.from(invitations);
     sorted.sort((a, b) => b.createdAt.compareTo(a.createdAt));
@@ -444,17 +454,21 @@ class _FamilyInvitationManagementWidgetState
           .read(familyComposedProvider.notifier)
           .cancelInvitation(invitationId);
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text(localizations.invitationCancelledSuccessfully),
-          backgroundColor: AppColors.success,
-        ));
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(localizations.invitationCancelledSuccessfully),
+            backgroundColor: AppColors.success,
+          ),
+        );
       }
     } catch (e) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text(localizations.failedToCancel(e.toString())),
-          backgroundColor: AppColors.error,
-        ));
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(localizations.failedToCancel(e.toString())),
+            backgroundColor: AppColors.error,
+          ),
+        );
       }
     }
   }
@@ -467,10 +481,12 @@ class _FamilyInvitationManagementWidgetState
 
     if (invitationCode == null) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text(localizations.invitationCodeNotAvailable),
-          backgroundColor: AppColors.error,
-        ));
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(localizations.invitationCodeNotAvailable),
+            backgroundColor: AppColors.error,
+          ),
+        );
       }
       return;
     }
@@ -496,16 +512,14 @@ class _FamilyInvitationManagementWidgetState
                 width: double.infinity,
                 padding: const EdgeInsets.all(16),
                 decoration: BoxDecoration(
-                  color: Theme.of(context)
-                      .colorScheme
-                      .surfaceContainerHighest
-                      .withValues(alpha: 0.3),
+                  color: Theme.of(
+                    context,
+                  ).colorScheme.surfaceContainerHighest.withValues(alpha: 0.3),
                   borderRadius: BorderRadius.circular(8),
                   border: Border.all(
-                    color: Theme.of(context)
-                        .colorScheme
-                        .outline
-                        .withValues(alpha: 0.3),
+                    color: Theme.of(
+                      context,
+                    ).colorScheme.outline.withValues(alpha: 0.3),
                   ),
                 ),
                 child: SelectableText(
@@ -554,17 +568,21 @@ class _FamilyInvitationManagementWidgetState
     try {
       await Clipboard.setData(ClipboardData(text: code));
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text(localizations.invitationCodeCopied),
-          backgroundColor: AppColors.success,
-        ));
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(localizations.invitationCodeCopied),
+            backgroundColor: AppColors.success,
+          ),
+        );
       }
     } catch (e) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text(localizations.failedToCopyCode(e.toString())),
-          backgroundColor: AppColors.error,
-        ));
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(localizations.failedToCopyCode(e.toString())),
+            backgroundColor: AppColors.error,
+          ),
+        );
       }
     }
   }

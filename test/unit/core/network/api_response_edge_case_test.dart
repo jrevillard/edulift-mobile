@@ -28,10 +28,7 @@ void main() {
       });
 
       test('should handle null data gracefully', () {
-        final wrapperData = {
-          'success': true,
-          'data': null,
-        };
+        final wrapperData = {'success': true, 'data': null};
 
         final apiResponse = ApiResponse.fromBackendWrapper(
           wrapperData,
@@ -128,16 +125,19 @@ void main() {
             'id': '123',
             'profile': {
               'name': 'Test User',
-              'settings': {'theme': 'dark'}
-            }
-          }
+              'settings': {'theme': 'dark'},
+            },
+          },
         };
 
         final response = ApiResponse<Map<String, dynamic>>.success(complexData);
 
         expect(response.success, isTrue);
         expect(response.data!['user']['id'], equals('123'));
-        expect(response.data!['user']['profile']['settings']['theme'], equals('dark'));
+        expect(
+          response.data!['user']['profile']['settings']['theme'],
+          equals('dark'),
+        );
       });
 
       test('should handle list of maps', () {
@@ -146,7 +146,9 @@ void main() {
           {'id': '2', 'name': 'Item 2'},
         ];
 
-        final response = ApiResponse<List<Map<String, dynamic>>>.success(listData);
+        final response = ApiResponse<List<Map<String, dynamic>>>.success(
+          listData,
+        );
 
         expect(response.success, isTrue);
         expect(response.data, hasLength(2));

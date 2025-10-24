@@ -20,7 +20,11 @@ void main() {
         const week = '2025-W43'; // Week starting Oct 20, 2025
 
         // Act
-        final result = dateTimeService.calculateDateTimeFromSlot(day, time, week);
+        final result = dateTimeService.calculateDateTimeFromSlot(
+          day,
+          time,
+          week,
+        );
 
         // Assert
         expect(result, isNotNull);
@@ -59,9 +63,21 @@ void main() {
             '2025-W43',
           );
 
-          expect(result, isNotNull, reason: 'Result should not be null for ${entry.key}');
-          expect(result!.isUtc, isTrue, reason: 'Result should be in UTC for ${entry.key}');
-          expect(result, equals(entry.value), reason: 'Incorrect datetime for ${entry.key}');
+          expect(
+            result,
+            isNotNull,
+            reason: 'Result should not be null for ${entry.key}',
+          );
+          expect(
+            result!.isUtc,
+            isTrue,
+            reason: 'Result should be in UTC for ${entry.key}',
+          );
+          expect(
+            result,
+            equals(entry.value),
+            reason: 'Incorrect datetime for ${entry.key}',
+          );
         }
       });
 
@@ -80,9 +96,21 @@ void main() {
             '2025-W43',
           );
 
-          expect(result, isNotNull, reason: 'Result should not be null for ${entry.key}');
-          expect(result!.isUtc, isTrue, reason: 'Result should be in UTC for ${entry.key}');
-          expect(result, equals(entry.value), reason: 'Incorrect datetime for ${entry.key}');
+          expect(
+            result,
+            isNotNull,
+            reason: 'Result should not be null for ${entry.key}',
+          );
+          expect(
+            result!.isUtc,
+            isTrue,
+            reason: 'Result should be in UTC for ${entry.key}',
+          );
+          expect(
+            result,
+            equals(entry.value),
+            reason: 'Incorrect datetime for ${entry.key}',
+          );
         }
       });
 
@@ -104,17 +132,44 @@ void main() {
             '2025-W43',
           );
 
-          expect(result, isNotNull, reason: 'Result should not be null for ${entry.key}');
-          expect(result!.isUtc, isTrue, reason: 'Result should be in UTC for ${entry.key}');
-          expect(result, equals(entry.value), reason: 'Incorrect datetime for ${entry.key}');
+          expect(
+            result,
+            isNotNull,
+            reason: 'Result should not be null for ${entry.key}',
+          );
+          expect(
+            result!.isUtc,
+            isTrue,
+            reason: 'Result should be in UTC for ${entry.key}',
+          );
+          expect(
+            result,
+            equals(entry.value),
+            reason: 'Incorrect datetime for ${entry.key}',
+          );
         }
       });
 
       test('should handle different weeks correctly', () {
         final testCases = {
-          '2025-W01': DateTime.utc(2024, 12, 30, 10), // Week 1 starts on Monday Dec 30, 2024
-          '2025-W02': DateTime.utc(2025, 1, 6, 10),   // Week 2 starts on Monday Jan 6, 2025
-          '2025-W52': DateTime.utc(2025, 12, 22, 10), // Week 52 starts on Monday Dec 22, 2025
+          '2025-W01': DateTime.utc(
+            2024,
+            12,
+            30,
+            10,
+          ), // Week 1 starts on Monday Dec 30, 2024
+          '2025-W02': DateTime.utc(
+            2025,
+            1,
+            6,
+            10,
+          ), // Week 2 starts on Monday Jan 6, 2025
+          '2025-W52': DateTime.utc(
+            2025,
+            12,
+            22,
+            10,
+          ), // Week 52 starts on Monday Dec 22, 2025
         };
 
         for (final entry in testCases.entries) {
@@ -124,9 +179,21 @@ void main() {
             entry.key,
           );
 
-          expect(result, isNotNull, reason: 'Result should not be null for ${entry.key}');
-          expect(result!.isUtc, isTrue, reason: 'Result should be in UTC for ${entry.key}');
-          expect(result, equals(entry.value), reason: 'Incorrect datetime for ${entry.key}');
+          expect(
+            result,
+            isNotNull,
+            reason: 'Result should not be null for ${entry.key}',
+          );
+          expect(
+            result!.isUtc,
+            isTrue,
+            reason: 'Result should be in UTC for ${entry.key}',
+          );
+          expect(
+            result,
+            equals(entry.value),
+            reason: 'Incorrect datetime for ${entry.key}',
+          );
         }
       });
 
@@ -140,7 +207,11 @@ void main() {
           const time = '07:00'; // This is what user clicks on
           const week = '2025-W43';
 
-          final result = dateTimeService.calculateDateTimeFromSlot(day, time, week);
+          final result = dateTimeService.calculateDateTimeFromSlot(
+            day,
+            time,
+            week,
+          );
 
           expect(result, isNotNull);
           expect(result!.isUtc, isTrue);
@@ -166,8 +237,16 @@ void main() {
           const time = '14:30';
           const week = '2025-W43';
 
-          final result1 = dateTimeService.calculateDateTimeFromSlot(day, time, week);
-          final result2 = dateTimeService.calculateDateTimeFromSlot(day, time, week);
+          final result1 = dateTimeService.calculateDateTimeFromSlot(
+            day,
+            time,
+            week,
+          );
+          final result2 = dateTimeService.calculateDateTimeFromSlot(
+            day,
+            time,
+            week,
+          );
 
           expect(result1, isNotNull);
           expect(result2, isNotNull);
@@ -219,7 +298,7 @@ void main() {
       test('should calculate correct week start dates', () {
         final testCases = {
           '2025-W01': DateTime.utc(2024, 12, 30), // Monday of week 1
-          '2025-W02': DateTime.utc(2025, 1, 6),   // Monday of week 2
+          '2025-W02': DateTime.utc(2025, 1, 6), // Monday of week 2
           '2025-W43': DateTime.utc(2025, 10, 20), // Monday of week 43
           '2025-W52': DateTime.utc(2025, 12, 22), // Monday of week 52
         };
@@ -227,13 +306,41 @@ void main() {
         for (final entry in testCases.entries) {
           final result = dateTimeService.calculateWeekStartDate(entry.key);
 
-          expect(result, isNotNull, reason: 'Week start should not be null for ${entry.key}');
-          expect(result!.isUtc, isTrue, reason: 'Week start should be in UTC for ${entry.key}');
-          expect(result.year, equals(entry.value.year), reason: 'Year mismatch for ${entry.key}');
-          expect(result.month, equals(entry.value.month), reason: 'Month mismatch for ${entry.key}');
-          expect(result.day, equals(entry.value.day), reason: 'Day mismatch for ${entry.key}');
-          expect(result.hour, equals(0), reason: 'Hour should be 0 for ${entry.key}');
-          expect(result.minute, equals(0), reason: 'Minute should be 0 for ${entry.key}');
+          expect(
+            result,
+            isNotNull,
+            reason: 'Week start should not be null for ${entry.key}',
+          );
+          expect(
+            result!.isUtc,
+            isTrue,
+            reason: 'Week start should be in UTC for ${entry.key}',
+          );
+          expect(
+            result.year,
+            equals(entry.value.year),
+            reason: 'Year mismatch for ${entry.key}',
+          );
+          expect(
+            result.month,
+            equals(entry.value.month),
+            reason: 'Month mismatch for ${entry.key}',
+          );
+          expect(
+            result.day,
+            equals(entry.value.day),
+            reason: 'Day mismatch for ${entry.key}',
+          );
+          expect(
+            result.hour,
+            equals(0),
+            reason: 'Hour should be 0 for ${entry.key}',
+          );
+          expect(
+            result.minute,
+            equals(0),
+            reason: 'Minute should be 0 for ${entry.key}',
+          );
         }
       });
 
@@ -247,7 +354,10 @@ void main() {
       test('should validate future dates correctly', () {
         final futureDate = DateTime.now().add(const Duration(days: 1)).toUtc();
 
-        final isPast = dateTimeService.isPastDate(futureDate, userTimezone: 'UTC');
+        final isPast = dateTimeService.isPastDate(
+          futureDate,
+          userTimezone: 'UTC',
+        );
         expect(isPast, isFalse);
 
         final validation = dateTimeService.validateScheduleDateTime(
@@ -259,9 +369,14 @@ void main() {
       });
 
       test('should validate past dates correctly', () {
-        final pastDate = DateTime.now().subtract(const Duration(days: 1)).toUtc();
+        final pastDate = DateTime.now()
+            .subtract(const Duration(days: 1))
+            .toUtc();
 
-        final isPast = dateTimeService.isPastDate(pastDate, userTimezone: 'UTC');
+        final isPast = dateTimeService.isPastDate(
+          pastDate,
+          userTimezone: 'UTC',
+        );
         expect(isPast, isTrue);
 
         final validation = dateTimeService.validateScheduleDateTime(

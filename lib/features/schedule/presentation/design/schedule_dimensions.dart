@@ -86,14 +86,18 @@ class ScheduleDimensions {
   static const double radiusXl = AppSpacing.radiusXl; // 16.0
 
   /// Semantic radius configurations for Schedule components
-  static const BorderRadius cardRadius =
-      BorderRadius.all(Radius.circular(radiusMd));
-  static const BorderRadius modalRadius =
-      BorderRadius.all(Radius.circular(radiusLg));
-  static const BorderRadius buttonRadius =
-      BorderRadius.all(Radius.circular(radiusSm));
-  static const BorderRadius pillRadius =
-      BorderRadius.all(Radius.circular(100.0));
+  static const BorderRadius cardRadius = BorderRadius.all(
+    Radius.circular(radiusMd),
+  );
+  static const BorderRadius modalRadius = BorderRadius.all(
+    Radius.circular(radiusLg),
+  );
+  static const BorderRadius buttonRadius = BorderRadius.all(
+    Radius.circular(radiusSm),
+  );
+  static const BorderRadius pillRadius = BorderRadius.all(
+    Radius.circular(100.0),
+  );
 
   // ============================================================================
   // ELEVATION

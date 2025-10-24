@@ -38,7 +38,8 @@ enum InvitationError {
   inviteOperationFailed,
   acceptOperationFailed,
   cancelOperationFailed,
-  validateOperationFailed}
+  validateOperationFailed,
+}
 
 /// Extension to provide localization keys for invitation errors
 extension InvitationErrorLocalization on InvitationError {
@@ -87,6 +88,7 @@ extension InvitationErrorLocalization on InvitationError {
       case InvitationError.cancelOperationFailed:
         return 'errorCancelOperationFailed';
       case InvitationError.validateOperationFailed:
-        return 'errorValidateOperationFailed';}
+        return 'errorValidateOperationFailed';
+    }
   }
 }

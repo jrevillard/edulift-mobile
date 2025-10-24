@@ -11,20 +11,22 @@ import '../../themes/app_colors.dart';
 
 /// Connection status combining HTTP and WebSocket connectivity
 enum ConnectionStatus {
-  fullyConnected,      // Both HTTP and WebSocket connected
+  fullyConnected, // Both HTTP and WebSocket connected
   limitedConnectivity, // HTTP ok, but WebSocket down (no real-time updates)
-  offline,             // No HTTP connection
+  offline, // No HTTP connection
 }
 
 /// Provider for unified connection status
 /// Prioritizes: HTTP offline > WebSocket issues > All connected
 final unifiedConnectionStatusProvider = Provider<ConnectionStatus>((ref) {
   // Check HTTP connectivity (connectivityProvider returns AsyncValue<bool>)
-  final httpConnected = ref.watch(connectivityProvider).when(
-    data: (isConnected) => isConnected,
-    loading: () => true, // Assume connected while loading
-    error: (_, __) => false,
-  );
+  final httpConnected = ref
+      .watch(connectivityProvider)
+      .when(
+        data: (isConnected) => isConnected,
+        loading: () => true, // Assume connected while loading
+        error: (_, __) => false,
+      );
 
   // Check WebSocket status
   final wsStatus = ref.watch(webSocketConnectionStatusNotifierProvider);
@@ -170,8 +172,9 @@ class UnifiedConnectionIndicator extends ConsumerWidget {
                 child: ElevatedButton.icon(
                   onPressed: () {
                     ref
-                        .read(webSocketConnectionStatusNotifierProvider
-                            .notifier)
+                        .read(
+                          webSocketConnectionStatusNotifierProvider.notifier,
+                        )
                         .retryConnection();
                     Navigator.of(context).pop();
                   },
@@ -205,16 +208,16 @@ class UnifiedConnectionIndicator extends ConsumerWidget {
         const SizedBox(width: 12),
         Text(
           label,
-          style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                fontWeight: FontWeight.w600,
-              ),
+          style: Theme.of(
+            context,
+          ).textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.w600),
         ),
         const Spacer(),
         Text(
           status,
           style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                color: Theme.of(context).colorScheme.onSurfaceVariant,
-              ),
+            color: Theme.of(context).colorScheme.onSurfaceVariant,
+          ),
         ),
       ],
     );

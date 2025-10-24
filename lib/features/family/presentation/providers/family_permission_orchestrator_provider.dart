@@ -37,7 +37,9 @@ class FamilyPermissionOrchestratedState extends Equatable {
   /// Check if current user is admin
   bool get isCurrentUserAdmin {
     final isAdmin = currentUserRole == FamilyRole.admin;
-    AppLogger.debug('FamilyPermissionOrchestratedState: currentUserRole=$currentUserRole, isCurrentUserAdmin=$isAdmin');
+    AppLogger.debug(
+      'FamilyPermissionOrchestratedState: currentUserRole=$currentUserRole, isCurrentUserAdmin=$isAdmin',
+    );
     return isAdmin;
   }
 
@@ -68,7 +70,8 @@ class FamilyPermissionOrchestratorNotifier
          const FamilyPermissionOrchestratedState(
            permissions: AsyncValue.loading(),
            actions: FamilyMemberActionsState(),
-         )) {
+         ),
+       ) {
     // CRITICAL: Listen to auth changes continuously for TRUE reactive architecture
     ref.listen(currentUserProvider, (previous, next) {
       if (next == null && previous != null) {
@@ -128,7 +131,9 @@ class FamilyPermissionOrchestratorNotifier
 
       // Auto-refresh permissions if members list changed
       if (_membersChanged(previousMembers, currentMembers)) {
-        AppLogger.debug('FamilyPermissionOrchestratorNotifier: Family members changed, auto-refreshing permissions');
+        AppLogger.debug(
+          'FamilyPermissionOrchestratorNotifier: Family members changed, auto-refreshing permissions',
+        );
         final permissionNotifier = ref.read(familyPermissionProvider.notifier);
         permissionNotifier.loadFamilyPermissions(
           currentUserId: authState.user!.id,
@@ -139,7 +144,10 @@ class FamilyPermissionOrchestratorNotifier
   }
 
   /// Helper to check if family members list changed
-  bool _membersChanged(List<FamilyMember> previous, List<FamilyMember> current) {
+  bool _membersChanged(
+    List<FamilyMember> previous,
+    List<FamilyMember> current,
+  ) {
     if (previous.length != current.length) return true;
 
     // Compare member IDs and roles for changes
@@ -183,10 +191,14 @@ class FamilyPermissionOrchestratorNotifier
 
   /// Initialize permissions for the family
   Future<void> initializePermissions() async {
-    AppLogger.debug('FamilyPermissionOrchestratorNotifier: Initializing permissions for family $familyId');
+    AppLogger.debug(
+      'FamilyPermissionOrchestratorNotifier: Initializing permissions for family $familyId',
+    );
     final authState = ref.read(authStateProvider);
     if (authState.user == null) {
-      AppLogger.warning('FamilyPermissionOrchestratorNotifier: No authenticated user found');
+      AppLogger.warning(
+        'FamilyPermissionOrchestratorNotifier: No authenticated user found',
+      );
       return;
     }
     AppLogger.debug(
@@ -194,18 +206,25 @@ class FamilyPermissionOrchestratorNotifier
     );
     final familyState = ref.read(familyProvider);
     if (familyState.family == null) {
-      AppLogger.warning('FamilyPermissionOrchestratorNotifier: No family data available');
+      AppLogger.warning(
+        'FamilyPermissionOrchestratorNotifier: No family data available',
+      );
       return;
     }
 
     final membersInfo = familyState.family!.members
-        .map((m) => '    - ${m.displayNameOrLoading} (${m.userId}) - Role: ${m.role}')
+        .map(
+          (m) =>
+              '    - ${m.displayNameOrLoading} (${m.userId}) - Role: ${m.role}',
+        )
         .join('\n');
-    AppLogger.debug('👥 FamilyPermissionOrchestrator: Family loaded:\n'
-        '  - Family ID: ${familyState.family!.id}\n'
-        '  - Family name: ${familyState.family!.name}\n'
-        '  - Total members: ${familyState.family!.members.length}\n'
-        '$membersInfo');
+    AppLogger.debug(
+      '👥 FamilyPermissionOrchestrator: Family loaded:\n'
+      '  - Family ID: ${familyState.family!.id}\n'
+      '  - Family name: ${familyState.family!.name}\n'
+      '  - Total members: ${familyState.family!.members.length}\n'
+      '$membersInfo',
+    );
 
     final permissionNotifier = ref.read(familyPermissionProvider.notifier);
     permissionNotifier.loadFamilyPermissions(
@@ -213,7 +232,9 @@ class FamilyPermissionOrchestratorNotifier
       familyMembers: familyState.family!.members,
     );
     state = state.copyWith(lastSyncedAt: DateTime.now());
-    AppLogger.debug('FamilyPermissionOrchestratorNotifier: Permissions initialization completed');
+    AppLogger.debug(
+      'FamilyPermissionOrchestratorNotifier: Permissions initialization completed',
+    );
   }
 
   /// Get the family member actions notifier for delegation
@@ -227,7 +248,9 @@ class FamilyPermissionOrchestratorNotifier
 
     final familyState = ref.read(familyProvider);
     if (familyState.family == null) {
-      AppLogger.warning('FamilyPermissionOrchestratorNotifier: No family data available');
+      AppLogger.warning(
+        'FamilyPermissionOrchestratorNotifier: No family data available',
+      );
       return;
     }
 
@@ -248,7 +271,9 @@ class FamilyPermissionOrchestratorNotifier
     await Future.delayed(const Duration(milliseconds: 500));
     final familyState = ref.read(familyProvider);
     if (familyState.family == null) {
-      AppLogger.warning('FamilyPermissionOrchestratorNotifier: No family data available');
+      AppLogger.warning(
+        'FamilyPermissionOrchestratorNotifier: No family data available',
+      );
       return;
     }
 
@@ -288,16 +313,15 @@ class FamilyPermissionOrchestratorNotifier
 /// CRITICAL FIX: Use autoDispose with keepAlive to prevent disposal during navigation
 final familyPermissionOrchestratorProvider = StateNotifierProvider.family
     .autoDispose<
-      FamilyPermissionOrchestratorNotifier, FamilyPermissionOrchestratedState,
-      String>((ref, familyId) {
+      FamilyPermissionOrchestratorNotifier,
+      FamilyPermissionOrchestratedState,
+      String
+    >((ref, familyId) {
       // ARCHITECTURE FIX: Keep alive to prevent disposal during tab navigation
       // This prevents re-fetching permissions on every navigation
       ref.keepAlive();
-      return FamilyPermissionOrchestratorNotifier(
-        familyId: familyId,
-        ref: ref,
-      );
-});
+      return FamilyPermissionOrchestratorNotifier(familyId: familyId, ref: ref);
+    });
 
 /// Convenience providers for UI components
 
@@ -309,13 +333,17 @@ final canPerformMemberActionsProvider = Provider.autoDispose.family<bool, String
   ref,
   familyId,
 ) {
-  AppLogger.debug('canPerformMemberActionsProvider: Watching permissions for family $familyId');
+  AppLogger.debug(
+    'canPerformMemberActionsProvider: Watching permissions for family $familyId',
+  );
   final orchestratedState = ref.watch(
     familyPermissionOrchestratorProvider(familyId),
   );
   final isAdmin = orchestratedState.isCurrentUserAdmin;
 
-  AppLogger.debug('canPerformMemberActionsProvider: Returning isAdmin=$isAdmin for family $familyId');
+  AppLogger.debug(
+    'canPerformMemberActionsProvider: Returning isAdmin=$isAdmin for family $familyId',
+  );
   return isAdmin;
 });
 
@@ -350,4 +378,4 @@ final permissionSyncStatusProvider =
         lastSyncedAt: orchestratedState.lastSyncedAt,
         hasError: orchestratedState.hasError,
       );
-});
+    });

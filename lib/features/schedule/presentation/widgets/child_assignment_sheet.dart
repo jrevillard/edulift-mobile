@@ -57,9 +57,7 @@ class _ChildAssignmentSheetState extends ConsumerState<ChildAssignmentSheet> {
         return Container(
           decoration: BoxDecoration(
             color: Theme.of(context).scaffoldBackgroundColor,
-            borderRadius: const BorderRadius.vertical(
-              top: Radius.circular(20),
-            ),
+            borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
           ),
           child: Column(
             children: [
@@ -67,9 +65,13 @@ class _ChildAssignmentSheetState extends ConsumerState<ChildAssignmentSheet> {
               Container(
                 width: 40,
                 height: 4,
-                margin: const EdgeInsets.symmetric(vertical: ScheduleDimensions.spacingMd),
+                margin: const EdgeInsets.symmetric(
+                  vertical: ScheduleDimensions.spacingMd,
+                ),
                 decoration: BoxDecoration(
-                  color: AppColors.onSurfaceVariant(context).withValues(alpha: 0.4),
+                  color: AppColors.onSurfaceVariant(
+                    context,
+                  ).withValues(alpha: 0.4),
                   borderRadius: BorderRadius.circular(2),
                 ),
               ),
@@ -106,7 +108,9 @@ class _ChildAssignmentSheetState extends ConsumerState<ChildAssignmentSheet> {
                     ...widget.availableChildren.map(
                       (child) => _buildChildCard(child),
                     ),
-                    const SizedBox(height: 80), // Space for bottom buttons (fixed height needed)
+                    const SizedBox(
+                      height: 80,
+                    ), // Space for bottom buttons (fixed height needed)
                   ],
                 ),
               ),
@@ -127,7 +131,9 @@ class _ChildAssignmentSheetState extends ConsumerState<ChildAssignmentSheet> {
         vertical: ScheduleDimensions.spacingMd,
       ),
       decoration: BoxDecoration(
-        border: Border(bottom: BorderSide(color: AppColors.borderThemed(context))),
+        border: Border(
+          bottom: BorderSide(color: AppColors.borderThemed(context)),
+        ),
       ),
       child: Row(
         children: [
@@ -150,9 +156,9 @@ class _ChildAssignmentSheetState extends ConsumerState<ChildAssignmentSheet> {
               children: [
                 Text(
                   'Assign Children',
-                  style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                    fontWeight: FontWeight.w600,
-                  ),
+                  style: Theme.of(
+                    context,
+                  ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w600),
                 ),
                 Text(
                   widget.vehicleAssignment.vehicleName,
@@ -174,21 +180,25 @@ class _ChildAssignmentSheetState extends ConsumerState<ChildAssignmentSheet> {
     final baseCapacity = widget.vehicleAssignment.capacity;
     final hasOverride = widget.vehicleAssignment.hasOverride;
 
-    final percentage = effectiveCapacity > 0 ? usedSeats / effectiveCapacity : 0.0;
+    final percentage = effectiveCapacity > 0
+        ? usedSeats / effectiveCapacity
+        : 0.0;
 
     // Use domain logic through temporary vehicle assignment for capacity status
     final tempAssignment = widget.vehicleAssignment.copyWith(
-      childAssignments: _selectedChildIds.map((id) =>
-        ChildAssignment(
-          id: id,
-          childId: id,
-          assignmentType: 'temp',
-          assignmentId: 'temp',
-          status: AssignmentStatus.pending,
-          createdAt: DateTime.now(),
-          updatedAt: DateTime.now(),
-        )
-      ).toList(),
+      childAssignments: _selectedChildIds
+          .map(
+            (id) => ChildAssignment(
+              id: id,
+              childId: id,
+              assignmentType: 'temp',
+              assignmentId: 'temp',
+              status: AssignmentStatus.pending,
+              createdAt: DateTime.now(),
+              updatedAt: DateTime.now(),
+            ),
+          )
+          .toList(),
     );
     final status = tempAssignment.capacityStatus();
 
@@ -250,7 +260,9 @@ class _ChildAssignmentSheetState extends ConsumerState<ChildAssignmentSheet> {
               Flexible(
                 child: Text(
                   'Override: $effectiveCapacity ($baseCapacity base)',
-                  style: AppTextStyles.overline.copyWith(color: AppColors.warning),
+                  style: AppTextStyles.overline.copyWith(
+                    color: AppColors.warning,
+                  ),
                   overflow: TextOverflow.ellipsis,
                   maxLines: 1,
                 ),
@@ -305,7 +317,9 @@ class _ChildAssignmentSheetState extends ConsumerState<ChildAssignmentSheet> {
 
               // Child avatar
               CircleAvatar(
-                backgroundColor: Theme.of(context).primaryColor.withValues(alpha: 0.1),
+                backgroundColor: Theme.of(
+                  context,
+                ).primaryColor.withValues(alpha: 0.1),
                 child: Text(
                   child.initials,
                   style: TextStyle(
@@ -373,7 +387,9 @@ class _ChildAssignmentSheetState extends ConsumerState<ChildAssignmentSheet> {
               child: OutlinedButton(
                 onPressed: _isLoading ? null : () => Navigator.pop(context),
                 style: OutlinedButton.styleFrom(
-                  padding: const EdgeInsets.symmetric(vertical: ScheduleDimensions.spacingMd),
+                  padding: const EdgeInsets.symmetric(
+                    vertical: ScheduleDimensions.spacingMd,
+                  ),
                   shape: const RoundedRectangleBorder(
                     borderRadius: ScheduleDimensions.cardRadius,
                   ),
@@ -387,7 +403,9 @@ class _ChildAssignmentSheetState extends ConsumerState<ChildAssignmentSheet> {
               child: ElevatedButton(
                 onPressed: _canSave ? _saveAssignments : null,
                 style: ElevatedButton.styleFrom(
-                  padding: const EdgeInsets.symmetric(vertical: ScheduleDimensions.spacingMd),
+                  padding: const EdgeInsets.symmetric(
+                    vertical: ScheduleDimensions.spacingMd,
+                  ),
                   backgroundColor: _canSave
                       ? Theme.of(context).primaryColor
                       : AppColors.textSecondaryThemed(context),
@@ -404,7 +422,11 @@ class _ChildAssignmentSheetState extends ConsumerState<ChildAssignmentSheet> {
                           color: Colors.white,
                         ),
                       )
-                    : Text(AppLocalizations.of(context).saveAssignments(_selectedChildIds.length)),
+                    : Text(
+                        AppLocalizations.of(
+                          context,
+                        ).saveAssignments(_selectedChildIds.length),
+                      ),
               ),
             ),
           ],
@@ -588,22 +610,26 @@ class _ChildAssignmentSheetState extends ConsumerState<ChildAssignmentSheet> {
             // Conflict - Check specific error code for targeted messaging
             if (error.code == 'schedule.child_already_assigned') {
               // Child already assigned to another vehicle
-              errorMessage = error.message ??
+              errorMessage =
+                  error.message ??
                   'This child is already assigned to another vehicle for this time slot. '
-                  'Please check the schedule and try again.';
+                      'Please check the schedule and try again.';
               errorColor = AppColors.warning;
               errorIcon = Icons.warning_amber_rounded;
               canRetry = true;
             } else if (error.code == 'schedule.capacity_exceeded_race') {
               // Capacity race condition
-              errorMessage = 'Vehicle capacity changed. Another parent just assigned a child. '
+              errorMessage =
+                  'Vehicle capacity changed. Another parent just assigned a child. '
                   'Please refresh and try again.';
               errorColor = AppColors.warning;
               errorIcon = Icons.warning_amber_rounded;
               canRetry = true;
             } else {
               // Generic 409 conflict
-              errorMessage = error.message ?? 'Conflict detected. Please refresh and try again.';
+              errorMessage =
+                  error.message ??
+                  'Conflict detected. Please refresh and try again.';
               errorColor = AppColors.warning;
               errorIcon = Icons.warning_amber_rounded;
               canRetry = true;
@@ -612,21 +638,25 @@ class _ChildAssignmentSheetState extends ConsumerState<ChildAssignmentSheet> {
 
           case 400:
             // Validation error
-            errorMessage = error.message ?? 'Invalid assignment. Please check your selection.';
+            errorMessage =
+                error.message ??
+                'Invalid assignment. Please check your selection.';
             errorColor = AppColors.error;
             errorIcon = Icons.error_outline;
             break;
 
           case 403:
             // Permission denied
-            errorMessage = 'You don\'t have permission to assign children to this vehicle.';
+            errorMessage =
+                'You don\'t have permission to assign children to this vehicle.';
             errorColor = AppColors.error;
             errorIcon = Icons.block;
             break;
 
           default:
             // Generic server error
-            errorMessage = error.message ?? 'An error occurred. Please try again.';
+            errorMessage =
+                error.message ?? 'An error occurred. Please try again.';
             errorColor = AppColors.error;
             errorIcon = Icons.error;
         }
@@ -642,18 +672,20 @@ class _ChildAssignmentSheetState extends ConsumerState<ChildAssignmentSheet> {
               ],
             ),
             backgroundColor: errorColor,
-            action: canRetry ? SnackBarAction(
-              label: 'Refresh',
-              textColor: Colors.white,
-              onPressed: () {
-                // Refresh et fermer
-                ref.invalidate(weeklyScheduleProvider);
-                Navigator.pop(context);
-              },
-            ) : null,
+            action: canRetry
+                ? SnackBarAction(
+                    label: 'Refresh',
+                    textColor: Colors.white,
+                    onPressed: () {
+                      // Refresh et fermer
+                      ref.invalidate(weeklyScheduleProvider);
+                      Navigator.pop(context);
+                    },
+                  )
+                : null,
             duration: canRetry
-              ? const Duration(seconds: 8)
-              : const Duration(seconds: 4),
+                ? const Duration(seconds: 8)
+                : const Duration(seconds: 4),
           ),
         );
 
@@ -672,7 +704,8 @@ class _ChildAssignmentSheetState extends ConsumerState<ChildAssignmentSheet> {
             assignmentId: widget.vehicleAssignment.id,
             childId: childId,
             slotId: widget.slotId, // Use reliable slotId from widget parameter
-            childAssignmentId: childId, // Use childId as the assignment identifier
+            childAssignmentId:
+                childId, // Use childId as the assignment identifier
           );
 
       if (result.isErr) {
@@ -690,7 +723,8 @@ class _ChildAssignmentSheetState extends ConsumerState<ChildAssignmentSheet> {
         switch (error.statusCode) {
           case 409:
             // Conflict - Child no longer assigned
-            errorMessage = 'Assignment changed while editing. Please refresh and try again.';
+            errorMessage =
+                'Assignment changed while editing. Please refresh and try again.';
             errorColor = AppColors.warning;
             errorIcon = Icons.warning_amber_rounded;
             canRetry = true;
@@ -712,7 +746,8 @@ class _ChildAssignmentSheetState extends ConsumerState<ChildAssignmentSheet> {
 
           default:
             // Generic server error
-            errorMessage = error.message ?? 'Failed to unassign child. Please try again.';
+            errorMessage =
+                error.message ?? 'Failed to unassign child. Please try again.';
             errorColor = AppColors.error;
             errorIcon = Icons.error;
         }
@@ -728,18 +763,20 @@ class _ChildAssignmentSheetState extends ConsumerState<ChildAssignmentSheet> {
               ],
             ),
             backgroundColor: errorColor,
-            action: canRetry ? SnackBarAction(
-              label: 'Refresh',
-              textColor: Colors.white,
-              onPressed: () {
-                // Refresh et fermer
-                ref.invalidate(weeklyScheduleProvider);
-                Navigator.pop(context);
-              },
-            ) : null,
+            action: canRetry
+                ? SnackBarAction(
+                    label: 'Refresh',
+                    textColor: Colors.white,
+                    onPressed: () {
+                      // Refresh et fermer
+                      ref.invalidate(weeklyScheduleProvider);
+                      Navigator.pop(context);
+                    },
+                  )
+                : null,
             duration: canRetry
-              ? const Duration(seconds: 8)
-              : const Duration(seconds: 4),
+                ? const Duration(seconds: 8)
+                : const Duration(seconds: 4),
           ),
         );
 
@@ -756,7 +793,9 @@ class _ChildAssignmentSheetState extends ConsumerState<ChildAssignmentSheet> {
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text(AppLocalizations.of(context).assignmentsSavedSuccessfully),
+          content: Text(
+            AppLocalizations.of(context).assignmentsSavedSuccessfully,
+          ),
           backgroundColor: AppColors.success,
         ),
       );

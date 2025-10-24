@@ -4,8 +4,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:edulift/features/family/presentation/providers/family_provider.dart';
 import 'package:edulift/core/domain/entities/family.dart';
-import 'package:edulift/core/domain/entities/family.dart'
-    as entities;
+import 'package:edulift/core/domain/entities/family.dart' as entities;
 
 void main() {
   group('FamilyProvider Vehicle Integration Tests', () {

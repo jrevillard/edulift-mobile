@@ -33,7 +33,8 @@ class InvitationLoadingState extends StatelessWidget {
 
     // Get type-specific message
     final message = invitationType == InvitationType.family
-        ? l10n.validatingInvitation // ✅ Existing key
+        ? l10n
+              .validatingInvitation // ✅ Existing key
         : l10n.validatingGroupInvitation; // ✅ New key
 
     return Column(

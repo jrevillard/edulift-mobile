@@ -17,50 +17,59 @@ void main() {
       expect(context.feature, 'AUTH');
     });
 
-    test('should verify ErrorHandlerService classifies 422 validation errors correctly', () {
-      // Arrange
-      final errorHandlerService = ErrorHandlerService(UserMessageService());
-      final apiFailure = ApiFailure.validationError(
-        message: 'This user is already a member of a family',
-      );
+    test(
+      'should verify ErrorHandlerService classifies 422 validation errors correctly',
+      () {
+        // Arrange
+        final errorHandlerService = ErrorHandlerService(UserMessageService());
+        final apiFailure = ApiFailure.validationError(
+          message: 'This user is already a member of a family',
+        );
 
-      // Act - Test the classification logic
-      final classification = errorHandlerService.classifyError(apiFailure);
+        // Act - Test the classification logic
+        final classification = errorHandlerService.classifyError(apiFailure);
 
-      // Assert - Verify 422 errors are classified as validation
-      expect(classification.category, ErrorCategory.validation);
-      expect(classification.severity, ErrorSeverity.minor);
-      // Comment out failing assertions to see what's actually happening
-      // expect(classification.isRetryable, isTrue);
-      expect(classification.requiresUserAction, isTrue);
-      expect(classification.analysisData['type'], 'api');
-      expect(classification.analysisData['status_code'], 422);
-    });
+        // Assert - Verify 422 errors are classified as validation
+        expect(classification.category, ErrorCategory.validation);
+        expect(classification.severity, ErrorSeverity.minor);
+        // Comment out failing assertions to see what's actually happening
+        // expect(classification.isRetryable, isTrue);
+        expect(classification.requiresUserAction, isTrue);
+        expect(classification.analysisData['type'], 'api');
+        expect(classification.analysisData['status_code'], 422);
+      },
+    );
 
-    test('should verify UserMessageService generates user-friendly messages for validation errors', () {
-      // Arrange
-      final userMessageService = UserMessageService();
-      const classification = ErrorClassification(
-        category: ErrorCategory.validation,
-        severity: ErrorSeverity.minor,
-        isRetryable: true,
-        requiresUserAction: true,
-        analysisData: {'type': 'validation', 'status_code': 422},
-      );
-      final context = ErrorContext.authOperation('send_magic_link');
+    test(
+      'should verify UserMessageService generates user-friendly messages for validation errors',
+      () {
+        // Arrange
+        final userMessageService = UserMessageService();
+        const classification = ErrorClassification(
+          category: ErrorCategory.validation,
+          severity: ErrorSeverity.minor,
+          isRetryable: true,
+          requiresUserAction: true,
+          analysisData: {'type': 'validation', 'status_code': 422},
+        );
+        final context = ErrorContext.authOperation('send_magic_link');
 
-      // Act
-      final userMessage = userMessageService.generateMessage(
-        classification,
-        context,
-      );
+        // Act
+        final userMessage = userMessageService.generateMessage(
+          classification,
+          context,
+        );
 
-      // Assert - Verify user-friendly message generation
-      expect(userMessage.titleKey, 'Invalid Information');
-      expect(userMessage.messageKey, 'Please check the information you entered and try again.');
-      expect(userMessage.canRetry, isTrue);
-      expect(userMessage.severity, ErrorSeverity.minor);
-    });
+        // Assert - Verify user-friendly message generation
+        expect(userMessage.titleKey, 'Invalid Information');
+        expect(
+          userMessage.messageKey,
+          'Please check the information you entered and try again.',
+        );
+        expect(userMessage.canRetry, isTrue);
+        expect(userMessage.severity, ErrorSeverity.minor);
+      },
+    );
 
     test('should verify ErrorContext.authOperation creates proper context', () {
       // Arrange & Act

@@ -29,7 +29,12 @@ class SendMagicLinkParams {
   final String? redirectUrl;
   final String? inviteCode;
 
-  SendMagicLinkParams({required this.email, this.name, this.redirectUrl, this.inviteCode});
+  SendMagicLinkParams({
+    required this.email,
+    this.name,
+    this.redirectUrl,
+    this.inviteCode,
+  });
 
   @override
   bool operator ==(Object other) {

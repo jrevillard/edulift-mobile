@@ -37,7 +37,9 @@ void main() {
             expect(location, isNotNull);
             expect(location.name, equals(timezone.iana));
           } catch (e) {
-            fail('Timezone "${timezone.iana}" is not valid in timezone database: $e');
+            fail(
+              'Timezone "${timezone.iana}" is not valid in timezone database: $e',
+            );
           }
         }
       });
@@ -56,7 +58,10 @@ void main() {
           expect(displayName, contains(timezone.offset));
 
           // Should be properly formatted: "City (UTC+X)" (allowing special characters)
-          expect(displayName, matches(r'^[\w\s\(\)\-\u00C0-\u017F]+ \(UTC[+-][0-9:]+.*\)$'));
+          expect(
+            displayName,
+            matches(r'^[\w\s\(\)\-\u00C0-\u017F]+ \(UTC[+-][0-9:]+.*\)$'),
+          );
         }
       });
     });
@@ -114,7 +119,10 @@ void main() {
         expect(offsets.any((offset) => offset.contains('UTC-8')), isTrue);
 
         // Should cover DST offsets
-        expect(offsets.any((offset) => offset.contains('/')), isTrue); // Indicates DST
+        expect(
+          offsets.any((offset) => offset.contains('/')),
+          isTrue,
+        ); // Indicates DST
       });
 
       test('includes important business and population centers', () {
@@ -140,14 +148,16 @@ void main() {
         final timezones = getAllTimezones();
 
         // Search by city name
-        final yorkResults = timezones.where((tz) =>
-          tz.city.toLowerCase().contains('york')).toList();
+        final yorkResults = timezones
+            .where((tz) => tz.city.toLowerCase().contains('york'))
+            .toList();
         expect(yorkResults, isNotEmpty);
         expect(yorkResults.any((tz) => tz.city.contains('New York')), isTrue);
 
         // Search by partial city name
-        final yorkPartialResults = timezones.where((tz) =>
-          tz.city.toLowerCase().contains('york')).toList();
+        final yorkPartialResults = timezones
+            .where((tz) => tz.city.toLowerCase().contains('york'))
+            .toList();
         expect(yorkPartialResults, isNotEmpty);
       });
 
@@ -155,29 +165,39 @@ void main() {
         final timezones = getAllTimezones();
 
         // Search by IANA timezone name
-        final americaResults = timezones.where((tz) =>
-          tz.iana.toLowerCase().contains('america')).toList();
+        final americaResults = timezones
+            .where((tz) => tz.iana.toLowerCase().contains('america'))
+            .toList();
         expect(americaResults, isNotEmpty);
-        expect(americaResults.length, greaterThan(5)); // Multiple American timezones
+        expect(
+          americaResults.length,
+          greaterThan(5),
+        ); // Multiple American timezones
 
         // Search by region
-        final europeResults = timezones.where((tz) =>
-          tz.iana.toLowerCase().contains('europe')).toList();
+        final europeResults = timezones
+            .where((tz) => tz.iana.toLowerCase().contains('europe'))
+            .toList();
         expect(europeResults, isNotEmpty);
-        expect(europeResults.length, greaterThan(10)); // Multiple European timezones
+        expect(
+          europeResults.length,
+          greaterThan(10),
+        ); // Multiple European timezones
       });
 
       test('search is case-insensitive', () {
         final timezones = getAllTimezones();
 
         // Test lowercase search
-        final lowercaseResults = timezones.where((tz) =>
-          tz.city.toLowerCase().contains('paris')).toList();
+        final lowercaseResults = timezones
+            .where((tz) => tz.city.toLowerCase().contains('paris'))
+            .toList();
         expect(lowercaseResults, isNotEmpty);
 
         // Test uppercase search (should still work with toLowerCase)
-        final uppercaseResults = timezones.where((tz) =>
-          tz.city.toLowerCase().contains('paris')).toList();
+        final uppercaseResults = timezones
+            .where((tz) => tz.city.toLowerCase().contains('paris'))
+            .toList();
         expect(uppercaseResults, isNotEmpty);
 
         // Both should return same results
@@ -188,14 +208,19 @@ void main() {
         final timezones = getAllTimezones();
 
         // Search for partial city name
-        final angelesResults = timezones.where((tz) =>
-          tz.city.toLowerCase().contains('angeles')).toList();
+        final angelesResults = timezones
+            .where((tz) => tz.city.toLowerCase().contains('angeles'))
+            .toList();
         expect(angelesResults, isNotEmpty);
-        expect(angelesResults.any((tz) => tz.city.contains('Los Angeles')), isTrue);
+        expect(
+          angelesResults.any((tz) => tz.city.contains('Los Angeles')),
+          isTrue,
+        );
 
         // Search for partial timezone name
-        final yorkResults = timezones.where((tz) =>
-          tz.iana.toLowerCase().contains('york')).toList();
+        final yorkResults = timezones
+            .where((tz) => tz.iana.toLowerCase().contains('york'))
+            .toList();
         expect(yorkResults, isNotEmpty);
         expect(yorkResults.any((tz) => tz.iana == 'America/New_York'), isTrue);
       });
@@ -204,8 +229,9 @@ void main() {
         final timezones = getAllTimezones();
 
         // Empty search should match all
-        final emptyResults = timezones.where((tz) =>
-          tz.city.toLowerCase().contains('')).toList();
+        final emptyResults = timezones
+            .where((tz) => tz.city.toLowerCase().contains(''))
+            .toList();
         expect(emptyResults.length, equals(timezones.length));
       });
     });
@@ -215,8 +241,11 @@ void main() {
         final timezones = getAllTimezones();
 
         // Find timezones with complex offsets (non-hourly)
-        final complexOffsets = timezones.where((tz) =>
-          tz.offset.contains(':30') || tz.offset.contains(':45')).toList();
+        final complexOffsets = timezones
+            .where(
+              (tz) => tz.offset.contains(':30') || tz.offset.contains(':45'),
+            )
+            .toList();
 
         expect(complexOffsets, isNotEmpty);
 
@@ -224,15 +253,19 @@ void main() {
         expect(complexOffsets.any((tz) => tz.iana == 'Asia/Kolkata'), isTrue);
 
         // Should include some Australian timezones
-        expect(complexOffsets.any((tz) => tz.iana.startsWith('Australia/')), isTrue);
+        expect(
+          complexOffsets.any((tz) => tz.iana.startsWith('Australia/')),
+          isTrue,
+        );
       });
 
       test('handles timezone with DST information', () {
         final timezones = getAllTimezones();
 
         // Find timezones with DST (indicated by slash in offset)
-        final dstTimezones = timezones.where((tz) =>
-          tz.offset.contains('/')).toList();
+        final dstTimezones = timezones
+            .where((tz) => tz.offset.contains('/'))
+            .toList();
 
         expect(dstTimezones, isNotEmpty);
 
@@ -247,8 +280,9 @@ void main() {
         final timezones = getAllTimezones();
 
         // Find timezones without DST (no slash in offset)
-        final nonDstTimezones = timezones.where((tz) =>
-          !tz.offset.contains('/')).toList();
+        final nonDstTimezones = timezones
+            .where((tz) => !tz.offset.contains('/'))
+            .toList();
 
         expect(nonDstTimezones, isNotEmpty);
 
@@ -257,7 +291,10 @@ void main() {
 
         // Some equatorial regions don't observe DST
         expect(nonDstTimezones.any((tz) => tz.city.contains('Dubai')), isTrue);
-        expect(nonDstTimezones.any((tz) => tz.city.contains('Singapore')), isTrue);
+        expect(
+          nonDstTimezones.any((tz) => tz.city.contains('Singapore')),
+          isTrue,
+        );
       });
     });
 
@@ -280,8 +317,9 @@ void main() {
         final stopwatch = Stopwatch()..start();
 
         // Simulate searching for "New"
-        final results = timezones.where((tz) =>
-          tz.city.toLowerCase().contains('new')).toList();
+        final results = timezones
+            .where((tz) => tz.city.toLowerCase().contains('new'))
+            .toList();
 
         stopwatch.stop();
 

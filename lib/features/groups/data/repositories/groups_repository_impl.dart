@@ -48,9 +48,13 @@ class GroupsRepositoryImpl implements domain.GroupRepository {
           serviceName: 'groups',
           config: RetryConfig.quick,
           onSuccess: (groupDtos) async {
-            final groups = groupDtos.map((dto) => GroupDto.fromJson(dto).toDomain()).toList();
+            final groups = groupDtos
+                .map((dto) => GroupDto.fromJson(dto).toDomain())
+                .toList();
             await _localDataSource.cacheUserGroups(groups);
-            AppLogger.info('[GROUPS] User groups cached successfully after network success');
+            AppLogger.info(
+              '[GROUPS] User groups cached successfully after network success',
+            );
           },
           context: {
             'feature': 'groups_management',
@@ -61,7 +65,9 @@ class GroupsRepositoryImpl implements domain.GroupRepository {
 
     return result.when(
       ok: (groupDtos) {
-        final groups = groupDtos.map((dto) => GroupDto.fromJson(dto).toDomain()).toList();
+        final groups = groupDtos
+            .map((dto) => GroupDto.fromJson(dto).toDomain())
+            .toList();
         return Result.ok(groups);
       },
       err: (failure) async {
@@ -81,11 +87,16 @@ class GroupsRepositoryImpl implements domain.GroupRepository {
           try {
             final cachedGroups = await _localDataSource.getUserGroups();
             if (cachedGroups != null && cachedGroups.isNotEmpty) {
-              AppLogger.info('[GROUPS] Network error - returning cached groups (Principe 0)');
+              AppLogger.info(
+                '[GROUPS] Network error - returning cached groups (Principe 0)',
+              );
               return Result.ok(cachedGroups);
             }
           } catch (cacheError) {
-            AppLogger.warning('[GROUPS] Failed to retrieve cache after network error', cacheError);
+            AppLogger.warning(
+              '[GROUPS] Failed to retrieve cache after network error',
+              cacheError,
+            );
           }
         }
 
@@ -107,7 +118,9 @@ class GroupsRepositoryImpl implements domain.GroupRepository {
           onSuccess: (groupDto) async {
             final group = GroupDto.fromJson(groupDto).toDomain();
             await _localDataSource.cacheGroup(group);
-            AppLogger.info('[GROUPS] Group cached successfully after network success');
+            AppLogger.info(
+              '[GROUPS] Group cached successfully after network success',
+            );
           },
           context: {
             'feature': 'groups_management',
@@ -125,7 +138,9 @@ class GroupsRepositoryImpl implements domain.GroupRepository {
       err: (failure) async {
         // BUSINESS LOGIC: 404 means group doesn't exist or was deleted
         if (failure.statusCode == 404 || failure.code == 'api.not_found') {
-          AppLogger.info('[GROUPS] Group not found (404) - removing from cache');
+          AppLogger.info(
+            '[GROUPS] Group not found (404) - removing from cache',
+          );
           try {
             await _localDataSource.removeGroup(groupId);
           } catch (e) {
@@ -139,11 +154,16 @@ class GroupsRepositoryImpl implements domain.GroupRepository {
           try {
             final cachedGroup = await _localDataSource.getGroup(groupId);
             if (cachedGroup != null) {
-              AppLogger.info('[GROUPS] Network error - returning cached group (Principe 0)');
+              AppLogger.info(
+                '[GROUPS] Network error - returning cached group (Principe 0)',
+              );
               return Result.ok(cachedGroup);
             }
           } catch (cacheError) {
-            AppLogger.warning('[GROUPS] Failed to retrieve cache after network error', cacheError);
+            AppLogger.warning(
+              '[GROUPS] Failed to retrieve cache after network error',
+              cacheError,
+            );
           }
         }
 
@@ -167,8 +187,7 @@ class GroupsRepositoryImpl implements domain.GroupRepository {
       if (command.settings != null)
         'settings': {
           'allowAutoAssignment': command.settings!.allowAutoAssignment,
-          'requireParentalApproval':
-              command.settings!.requireParentalApproval,
+          'requireParentalApproval': command.settings!.requireParentalApproval,
           'groupColor': command.settings!.groupColor,
           'enableNotifications': command.settings!.enableNotifications,
           'privacyLevel': command.settings!.privacyLevel.name,
@@ -176,27 +195,28 @@ class GroupsRepositoryImpl implements domain.GroupRepository {
     };
 
     // Use NetworkErrorHandler for automatic retry, circuit breaker, and proper error handling
-    final result = await _networkErrorHandler.executeRepositoryOperation<Map<String, dynamic>>(
-      () => _remoteDataSource.createGroup(groupData),
-      operationName: 'groups.createGroup',
-      strategy: CacheStrategy.networkOnly, // Write operation = network-only
-      serviceName: 'groups',
-      config: RetryConfig.quick,
-      onSuccess: (groupDto) async {
-        // CACHE AUTO-UPDATE: Update cache automatically on network success
-        final group = GroupDto.fromJson(groupDto).toDomain();
-        await _localDataSource.cacheGroup(group);
-        AppLogger.info('Group created and cached successfully', {
-          'groupId': group.id,
-          'name': command.name,
-        });
-      },
-      context: {
-        'feature': 'groups_management',
-        'operation_type': 'create',
-        'name': command.name,
-      },
-    );
+    final result = await _networkErrorHandler
+        .executeRepositoryOperation<Map<String, dynamic>>(
+          () => _remoteDataSource.createGroup(groupData),
+          operationName: 'groups.createGroup',
+          strategy: CacheStrategy.networkOnly, // Write operation = network-only
+          serviceName: 'groups',
+          config: RetryConfig.quick,
+          onSuccess: (groupDto) async {
+            // CACHE AUTO-UPDATE: Update cache automatically on network success
+            final group = GroupDto.fromJson(groupDto).toDomain();
+            await _localDataSource.cacheGroup(group);
+            AppLogger.info('Group created and cached successfully', {
+              'groupId': group.id,
+              'name': command.name,
+            });
+          },
+          context: {
+            'feature': 'groups_management',
+            'operation_type': 'create',
+            'name': command.name,
+          },
+        );
 
     return result.when(
       ok: (groupDto) => Result.ok(GroupDto.fromJson(groupDto).toDomain()),
@@ -207,27 +227,28 @@ class GroupsRepositoryImpl implements domain.GroupRepository {
   @override
   Future<Result<Group, ApiFailure>> joinGroup(String invitationCode) async {
     // Use NetworkErrorHandler for automatic retry, circuit breaker, and proper error handling
-    final result = await _networkErrorHandler.executeRepositoryOperation<Map<String, dynamic>>(
-      () => _remoteDataSource.joinGroup(invitationCode),
-      operationName: 'groups.joinGroup',
-      strategy: CacheStrategy.networkOnly, // Write operation = network-only
-      serviceName: 'groups',
-      config: RetryConfig.quick,
-      onSuccess: (groupDto) async {
-        // CACHE AUTO-UPDATE: Update cache automatically on network success
-        final group = GroupDto.fromJson(groupDto).toDomain();
-        await _localDataSource.cacheGroup(group);
-        AppLogger.info('Joined group and cached successfully', {
-          'groupId': group.id,
-          'invitationCode': invitationCode,
-        });
-      },
-      context: {
-        'feature': 'groups_management',
-        'operation_type': 'create',
-        'invitationCode': invitationCode,
-      },
-    );
+    final result = await _networkErrorHandler
+        .executeRepositoryOperation<Map<String, dynamic>>(
+          () => _remoteDataSource.joinGroup(invitationCode),
+          operationName: 'groups.joinGroup',
+          strategy: CacheStrategy.networkOnly, // Write operation = network-only
+          serviceName: 'groups',
+          config: RetryConfig.quick,
+          onSuccess: (groupDto) async {
+            // CACHE AUTO-UPDATE: Update cache automatically on network success
+            final group = GroupDto.fromJson(groupDto).toDomain();
+            await _localDataSource.cacheGroup(group);
+            AppLogger.info('Joined group and cached successfully', {
+              'groupId': group.id,
+              'invitationCode': invitationCode,
+            });
+          },
+          context: {
+            'feature': 'groups_management',
+            'operation_type': 'create',
+            'invitationCode': invitationCode,
+          },
+        );
 
     return result.when(
       ok: (groupDto) => Result.ok(GroupDto.fromJson(groupDto).toDomain()),
@@ -268,28 +289,29 @@ class GroupsRepositoryImpl implements domain.GroupRepository {
     Map<String, dynamic> updates,
   ) async {
     // Use NetworkErrorHandler for automatic retry, circuit breaker, and proper error handling
-    final result = await _networkErrorHandler.executeRepositoryOperation<Map<String, dynamic>>(
-      () => _remoteDataSource.updateGroup(groupId, updates),
-      operationName: 'groups.updateGroup',
-      strategy: CacheStrategy.networkOnly, // Write operation = network-only
-      serviceName: 'groups',
-      config: RetryConfig.quick,
-      onSuccess: (groupDto) async {
-        // CACHE AUTO-UPDATE: Update cache automatically on network success
-        final group = GroupDto.fromJson(groupDto).toDomain();
-        await _localDataSource.cacheGroup(group);
-        AppLogger.info('Group updated and cached successfully', {
-          'groupId': groupId,
-          'updates': updates,
-        });
-      },
-      context: {
-        'feature': 'groups_management',
-        'operation_type': 'update',
-        'groupId': groupId,
-        'updates': updates,
-      },
-    );
+    final result = await _networkErrorHandler
+        .executeRepositoryOperation<Map<String, dynamic>>(
+          () => _remoteDataSource.updateGroup(groupId, updates),
+          operationName: 'groups.updateGroup',
+          strategy: CacheStrategy.networkOnly, // Write operation = network-only
+          serviceName: 'groups',
+          config: RetryConfig.quick,
+          onSuccess: (groupDto) async {
+            // CACHE AUTO-UPDATE: Update cache automatically on network success
+            final group = GroupDto.fromJson(groupDto).toDomain();
+            await _localDataSource.cacheGroup(group);
+            AppLogger.info('Group updated and cached successfully', {
+              'groupId': groupId,
+              'updates': updates,
+            });
+          },
+          context: {
+            'feature': 'groups_management',
+            'operation_type': 'update',
+            'groupId': groupId,
+            'updates': updates,
+          },
+        );
 
     return result.when(
       ok: (groupDto) => Result.ok(GroupDto.fromJson(groupDto).toDomain()),
@@ -329,18 +351,20 @@ class GroupsRepositoryImpl implements domain.GroupRepository {
     String code,
   ) async {
     // Use NetworkErrorHandler for automatic retry, circuit breaker, and proper error handling
-    final result = await _networkErrorHandler.executeRepositoryOperation<GroupInvitationValidationData>(
-      () => _remoteDataSource.validateGroupInvitation(code),
-      operationName: 'groups.validateInvitation',
-      strategy: CacheStrategy.networkOnly, // Validation must be fresh from server
-      serviceName: 'groups',
-      config: RetryConfig.quick,
-      context: {
-        'feature': 'groups_management',
-        'operation_type': 'read',
-        'invitationCode': code,
-      },
-    );
+    final result = await _networkErrorHandler
+        .executeRepositoryOperation<GroupInvitationValidationData>(
+          () => _remoteDataSource.validateGroupInvitation(code),
+          operationName: 'groups.validateInvitation',
+          strategy:
+              CacheStrategy.networkOnly, // Validation must be fresh from server
+          serviceName: 'groups',
+          config: RetryConfig.quick,
+          context: {
+            'feature': 'groups_management',
+            'operation_type': 'read',
+            'invitationCode': code,
+          },
+        );
 
     return result.when(
       ok: (validationDto) => Result.ok(validationDto),
@@ -361,9 +385,13 @@ class GroupsRepositoryImpl implements domain.GroupRepository {
           serviceName: 'groups',
           config: RetryConfig.quick,
           onSuccess: (familyDtos) async {
-            final families = familyDtos.map((dto) => GroupFamily.fromDto(dto)).toList();
+            final families = familyDtos
+                .map((dto) => GroupFamily.fromDto(dto))
+                .toList();
             await _localDataSource.cacheGroupFamilies(groupId, families);
-            AppLogger.info('[GROUPS] Group families cached successfully after network success');
+            AppLogger.info(
+              '[GROUPS] Group families cached successfully after network success',
+            );
           },
           context: {
             'feature': 'groups_management',
@@ -375,7 +403,9 @@ class GroupsRepositoryImpl implements domain.GroupRepository {
 
     return result.when(
       ok: (familyDtos) {
-        final families = familyDtos.map((dto) => GroupFamily.fromDto(dto)).toList();
+        final families = familyDtos
+            .map((dto) => GroupFamily.fromDto(dto))
+            .toList();
         return Result.ok(families);
       },
       err: (failure) async {
@@ -385,7 +415,10 @@ class GroupsRepositoryImpl implements domain.GroupRepository {
           try {
             await _localDataSource.clearGroupFamilies(groupId);
           } catch (e) {
-            AppLogger.warning('[GROUPS] Failed to clear group families cache', e);
+            AppLogger.warning(
+              '[GROUPS] Failed to clear group families cache',
+              e,
+            );
           }
           return const Result.ok([]);
         }
@@ -393,13 +426,20 @@ class GroupsRepositoryImpl implements domain.GroupRepository {
         // HTTP 0 / Network error: fallback to cache (Principe 0)
         if (failure.statusCode == 0 || failure.statusCode == 503) {
           try {
-            final cachedFamilies = await _localDataSource.getGroupFamilies(groupId);
+            final cachedFamilies = await _localDataSource.getGroupFamilies(
+              groupId,
+            );
             if (cachedFamilies != null && cachedFamilies.isNotEmpty) {
-              AppLogger.info('[GROUPS] Network error - returning cached families (Principe 0)');
+              AppLogger.info(
+                '[GROUPS] Network error - returning cached families (Principe 0)',
+              );
               return Result.ok(cachedFamilies);
             }
           } catch (cacheError) {
-            AppLogger.warning('[GROUPS] Failed to retrieve cache after network error', cacheError);
+            AppLogger.warning(
+              '[GROUPS] Failed to retrieve cache after network error',
+              cacheError,
+            );
           }
         }
 
@@ -419,43 +459,43 @@ class GroupsRepositoryImpl implements domain.GroupRepository {
     Map<String, dynamic> updates,
   ) async {
     // Use NetworkErrorHandler for automatic retry, circuit breaker, and proper error handling
-    final result = await _networkErrorHandler.executeRepositoryOperation<GroupFamilyData>(
-      () => _remoteDataSource.updateFamilyRole(groupId, familyId, updates),
-      operationName: 'groups.updateFamilyRole',
-      strategy: CacheStrategy.networkOnly, // Write operation = network-only
-      serviceName: 'groups',
-      config: RetryConfig.quick,
-      onSuccess: (familyDto) async {
-        // CACHE AUTO-UPDATE: Refresh the group families cache after role update
-        try {
-          final familiesResult = await getGroupFamilies(groupId);
-          if (familiesResult.isOk) {
-            await _localDataSource.cacheGroupFamilies(
-              groupId,
-              familiesResult.value!,
+    final result = await _networkErrorHandler
+        .executeRepositoryOperation<GroupFamilyData>(
+          () => _remoteDataSource.updateFamilyRole(groupId, familyId, updates),
+          operationName: 'groups.updateFamilyRole',
+          strategy: CacheStrategy.networkOnly, // Write operation = network-only
+          serviceName: 'groups',
+          config: RetryConfig.quick,
+          onSuccess: (familyDto) async {
+            // CACHE AUTO-UPDATE: Refresh the group families cache after role update
+            try {
+              final familiesResult = await getGroupFamilies(groupId);
+              if (familiesResult.isOk) {
+                await _localDataSource.cacheGroupFamilies(
+                  groupId,
+                  familiesResult.value!,
+                );
+              }
+            } catch (e) {
+              AppLogger.warning(
+                '[GROUPS] Failed to refresh families cache after role update',
+                e,
+              );
+              // Don't fail the operation if cache refresh fails
+            }
+            AppLogger.info(
+              'Family role updated and cache refreshed successfully',
+              {'groupId': groupId, 'familyId': familyId, 'updates': updates},
             );
-          }
-        } catch (e) {
-          AppLogger.warning(
-            '[GROUPS] Failed to refresh families cache after role update',
-            e,
-          );
-          // Don't fail the operation if cache refresh fails
-        }
-        AppLogger.info('Family role updated and cache refreshed successfully', {
-          'groupId': groupId,
-          'familyId': familyId,
-          'updates': updates,
-        });
-      },
-      context: {
-        'feature': 'groups_management',
-        'operation_type': 'update',
-        'groupId': groupId,
-        'familyId': familyId,
-        'updates': updates,
-      },
-    );
+          },
+          context: {
+            'feature': 'groups_management',
+            'operation_type': 'update',
+            'groupId': groupId,
+            'familyId': familyId,
+            'updates': updates,
+          },
+        );
 
     return result.when(
       ok: (familyDto) => Result.ok(GroupFamily.fromDto(familyDto)),
@@ -492,10 +532,10 @@ class GroupsRepositoryImpl implements domain.GroupRepository {
           );
           // Don't fail the operation if cache refresh fails
         }
-        AppLogger.info('Family removed from group and cache refreshed successfully', {
-          'groupId': groupId,
-          'familyId': familyId,
-        });
+        AppLogger.info(
+          'Family removed from group and cache refreshed successfully',
+          {'groupId': groupId, 'familyId': familyId},
+        );
       },
       context: {
         'feature': 'groups_management',
@@ -542,20 +582,26 @@ class GroupsRepositoryImpl implements domain.GroupRepository {
   Future<Result<List<FamilySearchResult>, ApiFailure>>
   searchFamiliesForInvitation(String groupId, String? query, int? limit) async {
     // Use NetworkErrorHandler for automatic retry, circuit breaker, and proper error handling
-    final result = await _networkErrorHandler.executeRepositoryOperation<List<Map<String, dynamic>>>(
-      () => _remoteDataSource.searchFamiliesForInvitation(groupId, query, limit),
-      operationName: 'groups.searchFamiliesForInvitation',
-      strategy: CacheStrategy.networkOnly, // Search always requires fresh data
-      serviceName: 'groups',
-      config: RetryConfig.quick,
-      context: {
-        'feature': 'groups_management',
-        'operation_type': 'read',
-        'groupId': groupId,
-        'query': query,
-        'limit': limit,
-      },
-    );
+    final result = await _networkErrorHandler
+        .executeRepositoryOperation<List<Map<String, dynamic>>>(
+          () => _remoteDataSource.searchFamiliesForInvitation(
+            groupId,
+            query,
+            limit,
+          ),
+          operationName: 'groups.searchFamiliesForInvitation',
+          strategy:
+              CacheStrategy.networkOnly, // Search always requires fresh data
+          serviceName: 'groups',
+          config: RetryConfig.quick,
+          context: {
+            'feature': 'groups_management',
+            'operation_type': 'read',
+            'groupId': groupId,
+            'query': query,
+            'limit': limit,
+          },
+        );
 
     return result.when(
       ok: (resultsJson) {
@@ -582,7 +628,12 @@ class GroupsRepositoryImpl implements domain.GroupRepository {
   ) async {
     // Use NetworkErrorHandler for automatic retry, circuit breaker, and proper error handling
     final result = await _networkErrorHandler.executeRepositoryOperation<void>(
-      () => _remoteDataSource.inviteFamilyToGroup(groupId, familyId, role, message),
+      () => _remoteDataSource.inviteFamilyToGroup(
+        groupId,
+        familyId,
+        role,
+        message,
+      ),
       operationName: 'groups.inviteFamilyToGroup',
       strategy: CacheStrategy.networkOnly, // Write operation = network-only
       serviceName: 'groups',
@@ -604,11 +655,10 @@ class GroupsRepositoryImpl implements domain.GroupRepository {
           );
           // Don't fail the operation if cache refresh fails
         }
-        AppLogger.info('Family invited to group and cache refreshed successfully', {
-          'groupId': groupId,
-          'familyId': familyId,
-          'role': role,
-        });
+        AppLogger.info(
+          'Family invited to group and cache refreshed successfully',
+          {'groupId': groupId, 'familyId': familyId, 'role': role},
+        );
       },
       context: {
         'feature': 'groups_management',

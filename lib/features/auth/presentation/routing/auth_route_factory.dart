@@ -53,10 +53,12 @@ class AuthRouteFactory implements AppRouteFactory {
           builder: (context, ref, child) {
             // Add debug logging to verify the fix
             WidgetsBinding.instance.addPostFrameCallback((_) {
-              AppLogger.info('🔧 PROVIDER_FIX: Consumer wrapper ensuring proper provider scope\n'
+              AppLogger.info(
+                '🔧 PROVIDER_FIX: Consumer wrapper ensuring proper provider scope\n'
                 '   - GoRouter builder context hashCode: ${context.hashCode}\n'
                 '   - Consumer ref.hashCode: ${ref.hashCode}\n'
-                '   - This should match other parts of the app');
+                '   - This should match other parts of the app',
+              );
             });
             return MagicLinkVerifyPage(
               token: token,

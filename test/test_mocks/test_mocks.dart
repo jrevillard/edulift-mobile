@@ -408,9 +408,13 @@ void _setupResultDummies() {
   provideDummy(const Result<List<FamilyMember>, ApiFailure>.ok([]));
 
   // FamilyInvitation domain Results - CRITICAL FIX FOR MissingDummyValueError
-  provideDummy(Result<FamilyInvitation, Failure>.ok(_createDummyFamilyInvitation()));
+  provideDummy(
+    Result<FamilyInvitation, Failure>.ok(_createDummyFamilyInvitation()),
+  );
   provideDummy(const Result<List<FamilyInvitation>, Failure>.ok([]));
-  provideDummy(Result<FamilyInvitation, ApiFailure>.ok(_createDummyFamilyInvitation()));
+  provideDummy(
+    Result<FamilyInvitation, ApiFailure>.ok(_createDummyFamilyInvitation()),
+  );
   provideDummy(const Result<List<FamilyInvitation>, ApiFailure>.ok([]));
 
   // Child domain Results
@@ -551,7 +555,7 @@ FamilyMember _createDummyFamilyMember() {
     familyId: 'dummy-family-id',
     userId: 'dummy-user-id',
     role: FamilyRole.member,
-      status: 'ACTIVE',
+    status: 'ACTIVE',
     joinedAt: DateTime.now(),
   );
 }

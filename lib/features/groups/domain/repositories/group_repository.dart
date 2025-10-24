@@ -30,10 +30,14 @@ abstract class GroupRepository {
   Future<Result<void, ApiFailure>> leaveGroup(String groupId);
 
   /// Validate group invitation code
-  Future<Result<GroupInvitationValidationData, ApiFailure>> validateInvitation(String code);
+  Future<Result<GroupInvitationValidationData, ApiFailure>> validateInvitation(
+    String code,
+  );
 
   /// Get families in a group
-  Future<Result<List<GroupFamily>, ApiFailure>> getGroupFamilies(String groupId);
+  Future<Result<List<GroupFamily>, ApiFailure>> getGroupFamilies(
+    String groupId,
+  );
 
   /// Update family role in a group (admin only)
   Future<Result<GroupFamily, ApiFailure>> updateFamilyRole(
@@ -55,11 +59,8 @@ abstract class GroupRepository {
   );
 
   /// Search families for invitation (cache-first pattern)
-  Future<Result<List<FamilySearchResult>, ApiFailure>> searchFamiliesForInvitation(
-    String groupId,
-    String? query,
-    int? limit,
-  );
+  Future<Result<List<FamilySearchResult>, ApiFailure>>
+  searchFamiliesForInvitation(String groupId, String? query, int? limit);
 
   /// Invite a family to the group (server-first pattern)
   Future<Result<void, ApiFailure>> inviteFamilyToGroup(

@@ -504,24 +504,21 @@ void main() {
         );
 
         // Generate a large number of schedule slots
-        final largeScheduleSlots = List.generate(
-          100,
-          (index) {
-            final hour = (index % 10).toString().padLeft(2, '0');
-            final minute = ((index * 15) % 60).toString().padLeft(2, '0');
-            return ScheduleSlot(
-              id: 'slot-$index',
-              groupId: 'large-group',
-              dayOfWeek: DayOfWeek.monday,
-              timeOfDay: TimeOfDayValue.parse('$hour:$minute'),
-              week: '2024-W03',
-              maxVehicles: index % 5 + 1,
-              createdAt: testDateTime,
-              updatedAt: testDateTime,
-              vehicleAssignments: const [],
-            );
-          },
-        );
+        final largeScheduleSlots = List.generate(100, (index) {
+          final hour = (index % 10).toString().padLeft(2, '0');
+          final minute = ((index * 15) % 60).toString().padLeft(2, '0');
+          return ScheduleSlot(
+            id: 'slot-$index',
+            groupId: 'large-group',
+            dayOfWeek: DayOfWeek.monday,
+            timeOfDay: TimeOfDayValue.parse('$hour:$minute'),
+            week: '2024-W03',
+            maxVehicles: index % 5 + 1,
+            createdAt: testDateTime,
+            updatedAt: testDateTime,
+            vehicleAssignments: const [],
+          );
+        });
 
         when(
           mockRepository.getWeeklySchedule(any, any),

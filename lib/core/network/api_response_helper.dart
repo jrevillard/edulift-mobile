@@ -41,7 +41,10 @@ class ApiResponseHelper {
   /// final response = ApiResponseHelper.wrapSuccess(authDto);
   /// return response.unwrap(); // Explicit, clear, reusable
   /// ```
-  static ApiResponse<T> wrapSuccess<T>(T data, {Map<String, dynamic>? metadata}) {
+  static ApiResponse<T> wrapSuccess<T>(
+    T data, {
+    Map<String, dynamic>? metadata,
+  }) {
     return ApiResponse<T>.success(data, metadata: metadata);
   }
 
@@ -71,7 +74,6 @@ class ApiResponseHelper {
   /// }
   /// ```
   static ApiResponse<T> handleError<T>(dynamic error) {
-
     // Handle DioException with regular ApiException in error field
     if (error is DioException && error.error is ApiException) {
       final apiException = error.error as ApiException;
@@ -99,10 +101,7 @@ class ApiResponseHelper {
         error.message,
         errorCode: 'api.not_found',
         statusCode: 404,
-        metadata: {
-          'type': 'no_family',
-          'resource': 'Family',
-        },
+        metadata: {'type': 'no_family', 'resource': 'Family'},
       );
     }
 
@@ -123,10 +122,11 @@ class ApiResponseHelper {
         final responseData = error.response!.data;
         if (responseData is Map) {
           // Try common backend error message fields
-          message = responseData['error']?.toString() ??
-                    responseData['message']?.toString() ??
-                    responseData['detail']?.toString() ??
-                    'API error';
+          message =
+              responseData['error']?.toString() ??
+              responseData['message']?.toString() ??
+              responseData['detail']?.toString() ??
+              'API error';
           errorCode = responseData['code']?.toString() ?? 'api.error';
         } else if (responseData is String) {
           message = responseData;
@@ -134,8 +134,11 @@ class ApiResponseHelper {
         }
       } else {
         message = error.message ?? 'Network error';
-        errorCode = statusCode >= 400 && statusCode < 500 ? 'api.client_error' :
-                    statusCode >= 500 ? 'api.server_error' : 'network.error';
+        errorCode = statusCode >= 400 && statusCode < 500
+            ? 'api.client_error'
+            : statusCode >= 500
+            ? 'api.server_error'
+            : 'network.error';
       }
 
       return ApiResponse<T>.error(
@@ -146,7 +149,8 @@ class ApiResponseHelper {
           'type': error.type.toString(),
           'original_error': error.toString(),
           'response_data': error.response?.data, // Preserve for debugging
-          'is_network_error': statusCode == 0, // Explicit flag for network errors
+          'is_network_error':
+              statusCode == 0, // Explicit flag for network errors
         },
       );
     }
@@ -175,9 +179,7 @@ class ApiResponseHelper {
   /// );
   /// return response.unwrap(); // Explicit unwrap with full error context
   /// ```
-  static Future<ApiResponse<T>> execute<T>(
-    Future<T> Function() apiCall,
-  ) async {
+  static Future<ApiResponse<T>> execute<T>(Future<T> Function() apiCall) async {
     try {
       final result = await apiCall();
       return wrapSuccess(result);
@@ -205,9 +207,7 @@ class ApiResponseHelper {
   ///   if (apiException.isValidationError) { ... }
   /// }
   /// ```
-  static Future<T> executeAndUnwrap<T>(
-    Future<T> Function() apiCall,
-  ) async {
+  static Future<T> executeAndUnwrap<T>(Future<T> Function() apiCall) async {
     final response = await execute<T>(apiCall);
     return response.unwrap(); // Will throw ApiException with full context
   }

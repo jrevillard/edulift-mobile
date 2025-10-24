@@ -121,10 +121,7 @@ class ThemeConfigurations {
           fontWeight: FontWeight.bold,
           color: Color(0xFF1976D2),
         ),
-        titleLarge: TextStyle(
-          fontSize: 22,
-          fontWeight: FontWeight.w600,
-        ),
+        titleLarge: TextStyle(fontSize: 22, fontWeight: FontWeight.w600),
         bodyLarge: TextStyle(fontSize: 16),
         bodyMedium: TextStyle(fontSize: 14),
       ),

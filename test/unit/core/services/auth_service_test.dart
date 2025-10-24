@@ -211,7 +211,7 @@ void main() {
           accessToken: 'access-token',
           refreshToken: 'mock_refresh_token',
           expiresIn: 900,
-          
+
           user: userDto,
         );
 
@@ -226,7 +226,6 @@ void main() {
         when(
           mockAuthLocalDatasource.storeUserData(any),
         ).thenAnswer((_) async => const Result.ok(null));
-
 
         // Act
         final result = await authService.authenticateWithMagicLink(token);
@@ -356,7 +355,6 @@ void main() {
           mockAuthApiClient.enableBiometricAuth(any),
         ).thenAnswer((_) async => userProfileDto);
 
-
         // Act
         final result = await authService.enableBiometricAuth();
 
@@ -381,7 +379,6 @@ void main() {
         when(
           mockAuthApiClient.disableBiometricAuth(any),
         ).thenAnswer((_) async => userProfileDto);
-
 
         // Act
         final result = await authService.disableBiometricAuth();

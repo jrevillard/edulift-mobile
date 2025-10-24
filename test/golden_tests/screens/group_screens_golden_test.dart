@@ -90,18 +90,17 @@ void main() {
       );
 
       final testGroups = GroupDataFactory.createLargeGroupList(count: 5);
-      final groupsState = GroupsState(
-        groups: testGroups,
-      );
+      final groupsState = GroupsState(groups: testGroups);
 
       final overrides = [
         currentUserProvider.overrideWith((ref) => testUser),
         createMockedGroupsProvider(groupsState),
-        nav.navigationStateProvider.overrideWith((ref) => nav.NavigationStateNotifier()),
-      // CRITICAL: Prevent all real network calls during golden tests
+        nav.navigationStateProvider.overrideWith(
+          (ref) => nav.NavigationStateNotifier(),
+        ),
 
-      ...getAllNetworkMockOverrides(),
-
+        // CRITICAL: Prevent all real network calls during golden tests
+        ...getAllNetworkMockOverrides(),
       ];
 
       await GoldenTestWrapper.testScreen(
@@ -130,18 +129,17 @@ void main() {
         GroupDataFactory.createDraftGroup(),
       ];
 
-      final groupsState = GroupsState(
-        groups: testGroups,
-      );
+      final groupsState = GroupsState(groups: testGroups);
 
       final overrides = [
         currentUserProvider.overrideWith((ref) => testUser),
         createMockedGroupsProvider(groupsState),
-        nav.navigationStateProvider.overrideWith((ref) => nav.NavigationStateNotifier()),
-      // CRITICAL: Prevent all real network calls during golden tests
+        nav.navigationStateProvider.overrideWith(
+          (ref) => nav.NavigationStateNotifier(),
+        ),
 
-      ...getAllNetworkMockOverrides(),
-
+        // CRITICAL: Prevent all real network calls during golden tests
+        ...getAllNetworkMockOverrides(),
       ];
 
       await GoldenTestWrapper.testScreen(
@@ -168,11 +166,12 @@ void main() {
       final overrides = [
         currentUserProvider.overrideWith((ref) => testUser),
         createMockedGroupsProvider(groupsState),
-        nav.navigationStateProvider.overrideWith((ref) => nav.NavigationStateNotifier()),
-      // CRITICAL: Prevent all real network calls during golden tests
+        nav.navigationStateProvider.overrideWith(
+          (ref) => nav.NavigationStateNotifier(),
+        ),
 
-      ...getAllNetworkMockOverrides(),
-
+        // CRITICAL: Prevent all real network calls during golden tests
+        ...getAllNetworkMockOverrides(),
       ];
 
       await GoldenTestWrapper.testEmptyState(
@@ -195,18 +194,17 @@ void main() {
         updatedAt: DateTime.now(),
       );
 
-      const groupsState = GroupsState(
-        isLoading: true,
-      );
+      const groupsState = GroupsState(isLoading: true);
 
       final overrides = [
         currentUserProvider.overrideWith((ref) => testUser),
         createMockedGroupsProvider(groupsState),
-        nav.navigationStateProvider.overrideWith((ref) => nav.NavigationStateNotifier()),
-      // CRITICAL: Prevent all real network calls during golden tests
+        nav.navigationStateProvider.overrideWith(
+          (ref) => nav.NavigationStateNotifier(),
+        ),
 
-      ...getAllNetworkMockOverrides(),
-
+        // CRITICAL: Prevent all real network calls during golden tests
+        ...getAllNetworkMockOverrides(),
       ];
 
       await GoldenTestWrapper.testLoadingState(
@@ -229,18 +227,17 @@ void main() {
         updatedAt: DateTime.now(),
       );
 
-      const groupsState = GroupsState(
-        error: 'errorNetworkGeneral',
-      );
+      const groupsState = GroupsState(error: 'errorNetworkGeneral');
 
       final overrides = [
         currentUserProvider.overrideWith((ref) => testUser),
         createMockedGroupsProvider(groupsState),
-        nav.navigationStateProvider.overrideWith((ref) => nav.NavigationStateNotifier()),
-      // CRITICAL: Prevent all real network calls during golden tests
+        nav.navigationStateProvider.overrideWith(
+          (ref) => nav.NavigationStateNotifier(),
+        ),
 
-      ...getAllNetworkMockOverrides(),
-
+        // CRITICAL: Prevent all real network calls during golden tests
+        ...getAllNetworkMockOverrides(),
       ];
 
       await GoldenTestWrapper.testErrorState(
@@ -270,11 +267,12 @@ void main() {
       final overrides = [
         currentUserProvider.overrideWith((ref) => testUser),
         createMockedGroupsProvider(groupsState),
-        nav.navigationStateProvider.overrideWith((ref) => nav.NavigationStateNotifier()),
-      // CRITICAL: Prevent all real network calls during golden tests
+        nav.navigationStateProvider.overrideWith(
+          (ref) => nav.NavigationStateNotifier(),
+        ),
 
-      ...getAllNetworkMockOverrides(),
-
+        // CRITICAL: Prevent all real network calls during golden tests
+        ...getAllNetworkMockOverrides(),
       ];
 
       await GoldenTestWrapper.testScreen(

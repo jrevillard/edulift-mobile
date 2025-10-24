@@ -15,10 +15,7 @@ class InvalidDeepLinkPage extends ConsumerWidget {
   /// The malformed deep link path that caused the error
   final String? invalidPath;
 
-  const InvalidDeepLinkPage({
-    super.key,
-    this.invalidPath,
-  });
+  const InvalidDeepLinkPage({super.key, this.invalidPath});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -35,11 +32,7 @@ class InvalidDeepLinkPage extends ConsumerWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Icon(
-                  Icons.link_off,
-                  size: 80,
-                  color: theme.colorScheme.error,
-                ),
+                Icon(Icons.link_off, size: 80, color: theme.colorScheme.error),
                 const SizedBox(height: 24),
                 Text(
                   l10n.invalidDeepLinkTitle,
@@ -62,7 +55,9 @@ class InvalidDeepLinkPage extends ConsumerWidget {
                   Container(
                     padding: const EdgeInsets.all(12),
                     decoration: BoxDecoration(
-                      color: theme.colorScheme.errorContainer.withValues(alpha: 0.3),
+                      color: theme.colorScheme.errorContainer.withValues(
+                        alpha: 0.3,
+                      ),
                       borderRadius: BorderRadius.circular(8),
                     ),
                     child: Text(
@@ -86,10 +81,12 @@ class InvalidDeepLinkPage extends ConsumerWidget {
                       } else {
                         // No navigation history - go to dashboard
                         // Router will redirect to login/onboarding if needed
-                        ref.read(navigationStateProvider.notifier).navigateTo(
-                          route: '/dashboard',
-                          trigger: NavigationTrigger.userNavigation,
-                        );
+                        ref
+                            .read(navigationStateProvider.notifier)
+                            .navigateTo(
+                              route: '/dashboard',
+                              trigger: NavigationTrigger.userNavigation,
+                            );
                       }
                     },
                     icon: Icon(canGoBack ? Icons.arrow_back : Icons.close),

@@ -30,7 +30,9 @@ void main() {
   });
 
   group('PromoteToAdminConfirmationDialog - Golden Tests', () {
-    testWidgets('PromoteToAdminConfirmationDialog - light theme', (tester) async {
+    testWidgets('PromoteToAdminConfirmationDialog - light theme', (
+      tester,
+    ) async {
       final family = GroupDataFactory.createRealisticGroupFamily(
         role: GroupFamilyRole.member,
       );
@@ -38,26 +40,28 @@ void main() {
       await GoldenTestWrapper.testWidget(
         tester: tester,
         widget: PromoteToAdminConfirmationDialog(
-            family: family,
-            groupId: 'test-group-id',
-            onSuccess: () {},
-          ),
+          family: family,
+          groupId: 'test-group-id',
+          onSuccess: () {},
+        ),
         testName: 'promote_admin_dialog_light',
         devices: DeviceConfigurations.defaultSet,
         themes: [ThemeConfigurations.light],
       );
     });
 
-    testWidgets('PromoteToAdminConfirmationDialog - dark theme', (tester) async {
+    testWidgets('PromoteToAdminConfirmationDialog - dark theme', (
+      tester,
+    ) async {
       final family = GroupDataFactory.createGroupFamilyWithLongName();
 
       await GoldenTestWrapper.testWidget(
         tester: tester,
         widget: PromoteToAdminConfirmationDialog(
-            family: family,
-            groupId: 'test-group-id',
-            onSuccess: () {},
-          ),
+          family: family,
+          groupId: 'test-group-id',
+          onSuccess: () {},
+        ),
         testName: 'promote_admin_dialog_dark',
         devices: DeviceConfigurations.defaultSet,
         themes: [ThemeConfigurations.dark],
@@ -66,7 +70,9 @@ void main() {
   });
 
   group('DemoteToMemberConfirmationDialog - Golden Tests', () {
-    testWidgets('DemoteToMemberConfirmationDialog - light theme', (tester) async {
+    testWidgets('DemoteToMemberConfirmationDialog - light theme', (
+      tester,
+    ) async {
       final family = GroupDataFactory.createRealisticGroupFamily(
         role: GroupFamilyRole.admin,
       );
@@ -74,17 +80,19 @@ void main() {
       await GoldenTestWrapper.testWidget(
         tester: tester,
         widget: DemoteToMemberConfirmationDialog(
-            family: family,
-            groupId: 'test-group-id',
-            onSuccess: () {},
-          ),
+          family: family,
+          groupId: 'test-group-id',
+          onSuccess: () {},
+        ),
         testName: 'demote_member_dialog_light',
         devices: DeviceConfigurations.defaultSet,
         themes: [ThemeConfigurations.light],
       );
     });
 
-    testWidgets('DemoteToMemberConfirmationDialog - dark theme', (tester) async {
+    testWidgets('DemoteToMemberConfirmationDialog - dark theme', (
+      tester,
+    ) async {
       final family = GroupDataFactory.createRealisticGroupFamily(
         role: GroupFamilyRole.admin,
       );
@@ -92,10 +100,10 @@ void main() {
       await GoldenTestWrapper.testWidget(
         tester: tester,
         widget: DemoteToMemberConfirmationDialog(
-            family: family,
-            groupId: 'test-group-id',
-            onSuccess: () {},
-          ),
+          family: family,
+          groupId: 'test-group-id',
+          onSuccess: () {},
+        ),
         testName: 'demote_member_dialog_dark',
         devices: DeviceConfigurations.defaultSet,
         themes: [ThemeConfigurations.dark],
@@ -110,10 +118,10 @@ void main() {
       await GoldenTestWrapper.testWidget(
         tester: tester,
         widget: RemoveFamilyConfirmationDialog(
-            family: family,
-            groupId: 'test-group-id',
-            onSuccess: () {},
-          ),
+          family: family,
+          groupId: 'test-group-id',
+          onSuccess: () {},
+        ),
         testName: 'remove_family_dialog_light',
         devices: DeviceConfigurations.defaultSet,
         themes: [ThemeConfigurations.light],
@@ -126,10 +134,10 @@ void main() {
       await GoldenTestWrapper.testWidget(
         tester: tester,
         widget: RemoveFamilyConfirmationDialog(
-            family: family,
-            groupId: 'test-group-id',
-            onSuccess: () {},
-          ),
+          family: family,
+          groupId: 'test-group-id',
+          onSuccess: () {},
+        ),
         testName: 'remove_family_dialog_dark',
         devices: DeviceConfigurations.defaultSet,
         themes: [ThemeConfigurations.dark],
@@ -138,32 +146,36 @@ void main() {
   });
 
   group('CancelInvitationConfirmationDialog - Golden Tests', () {
-    testWidgets('CancelInvitationConfirmationDialog - light theme', (tester) async {
+    testWidgets('CancelInvitationConfirmationDialog - light theme', (
+      tester,
+    ) async {
       final family = GroupDataFactory.createPendingGroupFamily();
 
       await GoldenTestWrapper.testWidget(
         tester: tester,
         widget: CancelInvitationConfirmationDialog(
-            family: family,
-            groupId: 'test-group-id',
-            onSuccess: () {},
-          ),
+          family: family,
+          groupId: 'test-group-id',
+          onSuccess: () {},
+        ),
         testName: 'cancel_invitation_dialog_light',
         devices: DeviceConfigurations.defaultSet,
         themes: [ThemeConfigurations.light],
       );
     });
 
-    testWidgets('CancelInvitationConfirmationDialog - dark theme', (tester) async {
+    testWidgets('CancelInvitationConfirmationDialog - dark theme', (
+      tester,
+    ) async {
       final family = GroupDataFactory.createPendingGroupFamily();
 
       await GoldenTestWrapper.testWidget(
         tester: tester,
         widget: CancelInvitationConfirmationDialog(
-            family: family,
-            groupId: 'test-group-id',
-            onSuccess: () {},
-          ),
+          family: family,
+          groupId: 'test-group-id',
+          onSuccess: () {},
+        ),
         testName: 'cancel_invitation_dialog_dark',
         devices: DeviceConfigurations.defaultSet,
         themes: [ThemeConfigurations.dark],
@@ -176,10 +188,10 @@ void main() {
       await GoldenTestWrapper.testWidget(
         tester: tester,
         widget: const LeaveGroupConfirmationDialog(
-            groupId: 'test-group-id',
-            groupName: 'Covoiturage École Primaire',
-            userRole: GroupMemberRole.member,
-          ),
+          groupId: 'test-group-id',
+          groupName: 'Covoiturage École Primaire',
+          userRole: GroupMemberRole.member,
+        ),
         testName: 'leave_group_dialog_light',
         devices: DeviceConfigurations.defaultSet,
         themes: [ThemeConfigurations.light],
@@ -190,10 +202,10 @@ void main() {
       await GoldenTestWrapper.testWidget(
         tester: tester,
         widget: const LeaveGroupConfirmationDialog(
-            groupId: 'test-group-id',
-            groupName: 'Covoiturage École Müller-O\'Brien & Søren',
-            userRole: GroupMemberRole.admin,
-          ),
+          groupId: 'test-group-id',
+          groupName: 'Covoiturage École Müller-O\'Brien & Søren',
+          userRole: GroupMemberRole.admin,
+        ),
         testName: 'leave_group_dialog_dark',
         devices: DeviceConfigurations.defaultSet,
         themes: [ThemeConfigurations.dark],
@@ -202,7 +214,9 @@ void main() {
   });
 
   group('FamilyActionBottomSheet - Golden Tests', () {
-    testWidgets('FamilyActionBottomSheet - member family - light theme', (tester) async {
+    testWidgets('FamilyActionBottomSheet - member family - light theme', (
+      tester,
+    ) async {
       final family = GroupDataFactory.createRealisticGroupFamily(
         role: GroupFamilyRole.member,
       );
@@ -210,17 +224,19 @@ void main() {
       await GoldenTestWrapper.testWidget(
         tester: tester,
         widget: FamilyActionBottomSheet(
-            family: family,
-            onPromoteToAdmin: () {},
-            onRemoveFamily: () {},
-          ),
+          family: family,
+          onPromoteToAdmin: () {},
+          onRemoveFamily: () {},
+        ),
         testName: 'family_action_sheet_member_light',
         devices: DeviceConfigurations.defaultSet,
         themes: [ThemeConfigurations.light],
       );
     });
 
-    testWidgets('FamilyActionBottomSheet - admin family - dark theme', (tester) async {
+    testWidgets('FamilyActionBottomSheet - admin family - dark theme', (
+      tester,
+    ) async {
       final family = GroupDataFactory.createRealisticGroupFamily(
         role: GroupFamilyRole.admin,
       );
@@ -228,25 +244,27 @@ void main() {
       await GoldenTestWrapper.testWidget(
         tester: tester,
         widget: FamilyActionBottomSheet(
-            family: family,
-            onDemoteToMember: () {},
-            onRemoveFamily: () {},
-          ),
+          family: family,
+          onDemoteToMember: () {},
+          onRemoveFamily: () {},
+        ),
         testName: 'family_action_sheet_admin_dark',
         devices: DeviceConfigurations.defaultSet,
         themes: [ThemeConfigurations.dark],
       );
     });
 
-    testWidgets('FamilyActionBottomSheet - pending invitation - light theme', (tester) async {
+    testWidgets('FamilyActionBottomSheet - pending invitation - light theme', (
+      tester,
+    ) async {
       final family = GroupDataFactory.createPendingGroupFamily();
 
       await GoldenTestWrapper.testWidget(
         tester: tester,
         widget: FamilyActionBottomSheet(
-            family: family,
-            onCancelInvitation: () {},
-          ),
+          family: family,
+          onCancelInvitation: () {},
+        ),
         testName: 'family_action_sheet_pending_light',
         devices: DeviceConfigurations.defaultSet,
         themes: [ThemeConfigurations.light],
@@ -255,45 +273,65 @@ void main() {
   });
 
   group('WeekdaySelector - Golden Tests', () {
-    testWidgets('WeekdaySelector - weekdays selected - light theme', (tester) async {
-      final selectedDays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
+    testWidgets('WeekdaySelector - weekdays selected - light theme', (
+      tester,
+    ) async {
+      final selectedDays = [
+        'Monday',
+        'Tuesday',
+        'Wednesday',
+        'Thursday',
+        'Friday',
+      ];
 
       await GoldenTestWrapper.testWidget(
         tester: tester,
         widget: WeekdaySelector(
-            selectedDays: selectedDays,
-            onSelectionChanged: (days) {},
-          ),
+          selectedDays: selectedDays,
+          onSelectionChanged: (days) {},
+        ),
         testName: 'weekday_selector_weekdays_light',
         devices: DeviceConfigurations.defaultSet,
         themes: [ThemeConfigurations.light],
       );
     });
 
-    testWidgets('WeekdaySelector - all days selected - dark theme', (tester) async {
-      final selectedDays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+    testWidgets('WeekdaySelector - all days selected - dark theme', (
+      tester,
+    ) async {
+      final selectedDays = [
+        'Monday',
+        'Tuesday',
+        'Wednesday',
+        'Thursday',
+        'Friday',
+        'Saturday',
+        'Sunday',
+      ];
 
       await GoldenTestWrapper.testWidget(
         tester: tester,
         widget: WeekdaySelector(
-            selectedDays: selectedDays,
-            onSelectionChanged: (days) {},
-          ),
+          selectedDays: selectedDays,
+          onSelectionChanged: (days) {},
+        ),
         testName: 'weekday_selector_all_dark',
         devices: DeviceConfigurations.defaultSet,
         themes: [ThemeConfigurations.dark],
       );
     });
 
-    testWidgets('WeekdaySelector - partial selection - light theme', (tester) async {
+    testWidgets('WeekdaySelector - partial selection - light theme', (
+      tester,
+    ) async {
       final selectedDays = ['Monday', 'Wednesday', 'Friday'];
 
       await GoldenTestWrapper.testWidget(
         tester: tester,
         widget: WeekdaySelector(
-            selectedDays: selectedDays,
-            onSelectionChanged: (days) {},
-          ),
+          selectedDays: selectedDays,
+          onSelectionChanged: (days) {},
+        ),
         testName: 'weekday_selector_partial_light',
         devices: DeviceConfigurations.defaultSet,
         themes: [ThemeConfigurations.light],
@@ -302,19 +340,24 @@ void main() {
   });
 
   group('Group Widgets - Large Lists Volume Testing', () {
-    testWidgets('Group families list - 20+ items for scroll validation - light theme', (tester) async {
-      final families = GroupDataFactory.createLargeGroupFamilyList(count: 22);
+    testWidgets(
+      'Group families list - 20+ items for scroll validation - light theme',
+      (tester) async {
+        final families = GroupDataFactory.createLargeGroupFamilyList(count: 22);
 
-      await GoldenTestWrapper.testWidget(
-        tester: tester,
-        widget: SizedBox(
+        await GoldenTestWrapper.testWidget(
+          tester: tester,
+          widget: SizedBox(
             height: 600,
             child: ListView.builder(
               itemCount: families.length,
               itemBuilder: (context, index) {
                 final family = families[index];
                 return Card(
-                  margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                  margin: const EdgeInsets.symmetric(
+                    horizontal: 8,
+                    vertical: 4,
+                  ),
                   child: ListTile(
                     leading: CircleAvatar(
                       child: Text(family.name.substring(0, 1).toUpperCase()),
@@ -332,18 +375,21 @@ void main() {
               },
             ),
           ),
-        testName: 'group_families_list_large_light',
-        devices: DeviceConfigurations.defaultSet,
-        themes: [ThemeConfigurations.light],
-      );
-    });
+          testName: 'group_families_list_large_light',
+          devices: DeviceConfigurations.defaultSet,
+          themes: [ThemeConfigurations.light],
+        );
+      },
+    );
 
-    testWidgets('Group families list - 20+ items with mixed states - dark theme', (tester) async {
-      final families = GroupDataFactory.createLargeGroupFamilyList(count: 24);
+    testWidgets(
+      'Group families list - 20+ items with mixed states - dark theme',
+      (tester) async {
+        final families = GroupDataFactory.createLargeGroupFamilyList(count: 24);
 
-      await GoldenTestWrapper.testWidget(
-        tester: tester,
-        widget: SizedBox(
+        await GoldenTestWrapper.testWidget(
+          tester: tester,
+          widget: SizedBox(
             height: 600,
             child: ListView.builder(
               itemCount: families.length,
@@ -351,7 +397,9 @@ void main() {
                 final family = families[index];
                 return ListTile(
                   leading: Icon(
-                    family.isPending ? Icons.hourglass_empty : Icons.family_restroom,
+                    family.isPending
+                        ? Icons.hourglass_empty
+                        : Icons.family_restroom,
                     color: family.isPending ? Colors.orange : Colors.blue,
                   ),
                   title: Text(family.name),
@@ -373,10 +421,11 @@ void main() {
               },
             ),
           ),
-        testName: 'group_families_list_mixed_dark',
-        devices: DeviceConfigurations.defaultSet,
-        themes: [ThemeConfigurations.dark],
-      );
-    });
+          testName: 'group_families_list_mixed_dark',
+          devices: DeviceConfigurations.defaultSet,
+          themes: [ThemeConfigurations.dark],
+        );
+      },
+    );
   });
 }

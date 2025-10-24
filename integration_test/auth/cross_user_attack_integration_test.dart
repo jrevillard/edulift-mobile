@@ -68,7 +68,9 @@ void main() {
         'errorAuthInvalidToken',
         timeout: const Duration(seconds: 6),
       );
-      debugPrint('✅ Cross-user magic link properly rejected by service layer security');
+      debugPrint(
+        '✅ Cross-user magic link properly rejected by service layer security',
+      );
       debugPrint('📝 Error message: "$errorMessage"');
 
       // STEP 4: Test proper recovery navigation after security rejection

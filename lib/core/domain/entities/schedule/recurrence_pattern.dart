@@ -249,14 +249,14 @@ class RecurrencePattern extends Equatable {
 
   @override
   List<Object?> get props => [
-        id,
-        frequency,
-        interval,
-        daysOfWeek,
-        daysOfMonth,
-        monthsOfYear,
-        endDate,
-        occurrences,
-        metadata,
-      ];
+    id,
+    frequency,
+    interval,
+    daysOfWeek,
+    daysOfMonth,
+    monthsOfYear,
+    endDate,
+    occurrences,
+    metadata,
+  ];
 }

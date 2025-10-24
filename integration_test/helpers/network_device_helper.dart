@@ -62,7 +62,9 @@ class NetworkDeviceHelper {
     } catch (e) {
       if (kDebugMode) {
         print('⚠️ NetworkDevice: Failed to enable airplane mode: $e');
-        print('   This may require manual device permissions or may not be supported on this platform');
+        print(
+          '   This may require manual device permissions or may not be supported on this platform',
+        );
       }
       rethrow;
     }
@@ -70,7 +72,9 @@ class NetworkDeviceHelper {
 
   /// Disable airplane mode to restore network connectivity
   /// This returns the device to normal network operation
-  static Future<void> disableAirplaneMode(PatrolIntegrationTester patrol) async {
+  static Future<void> disableAirplaneMode(
+    PatrolIntegrationTester patrol,
+  ) async {
     try {
       await patrol.native.disableAirplaneMode();
       _isAirplaneModeEnabled = false;
@@ -177,7 +181,9 @@ class NetworkDeviceHelper {
 
   /// Reset all network settings to normal operation
   /// This ensures both WiFi and cellular are enabled and airplane mode is off
-  static Future<void> resetToNormalNetwork(PatrolIntegrationTester patrol) async {
+  static Future<void> resetToNormalNetwork(
+    PatrolIntegrationTester patrol,
+  ) async {
     if (kDebugMode) {
       print('🔄 NetworkDevice: Resetting to normal network state...');
     }
@@ -355,22 +361,30 @@ class NetworkDeviceState {
 /// Extension methods for easier network testing scenarios
 extension NetworkDeviceTestExtensions on NetworkDeviceHelper {
   /// Quick setup for offline mode testing
-  static Future<void> simulateOfflineMode(PatrolIntegrationTester patrol) async {
+  static Future<void> simulateOfflineMode(
+    PatrolIntegrationTester patrol,
+  ) async {
     await NetworkDeviceHelper.enableAirplaneMode(patrol);
   }
 
   /// Quick setup for WiFi-only testing
-  static Future<void> simulateWifiOnlyMode(PatrolIntegrationTester patrol) async {
+  static Future<void> simulateWifiOnlyMode(
+    PatrolIntegrationTester patrol,
+  ) async {
     await NetworkDeviceHelper.disableCellular(patrol);
   }
 
   /// Quick setup for cellular-only testing
-  static Future<void> simulateCellularOnlyMode(PatrolIntegrationTester patrol) async {
+  static Future<void> simulateCellularOnlyMode(
+    PatrolIntegrationTester patrol,
+  ) async {
     await NetworkDeviceHelper.disableWifi(patrol);
   }
 
   /// Quick setup for poor connectivity testing
-  static Future<void> simulatePoorConnectivity(PatrolIntegrationTester patrol) async {
+  static Future<void> simulatePoorConnectivity(
+    PatrolIntegrationTester patrol,
+  ) async {
     await NetworkDeviceHelper.simulateNetworkHiccup(
       patrol,
       disconnectDuration: const Duration(seconds: 2),
@@ -394,7 +408,9 @@ class NetworkDeviceDebug {
   }
 
   /// Validate that device controls are working as expected
-  static Future<bool> validateDeviceControls(PatrolIntegrationTester patrol) async {
+  static Future<bool> validateDeviceControls(
+    PatrolIntegrationTester patrol,
+  ) async {
     if (kDebugMode) {
       print('🧪 NetworkDevice: Running validation tests...');
     }

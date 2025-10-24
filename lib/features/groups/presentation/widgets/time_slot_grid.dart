@@ -197,7 +197,9 @@ class _TimeSlotGridState extends ConsumerState<TimeSlotGrid> {
       builder: (context) => StatefulBuilder(
         builder: (context, setDialogState) => AlertDialog(
           contentPadding: context.getAdaptivePadding(
-            mobileAll: 16, tabletAll: 20, desktopAll: 24
+            mobileAll: 16,
+            tabletAll: 20,
+            desktopAll: 24,
           ),
           title: Text(
             _editingIndex! < _workingSlots.length
@@ -255,7 +257,11 @@ class _TimeSlotGridState extends ConsumerState<TimeSlotGrid> {
                     ),
                     child: Row(
                       children: [
-                        Icon(Icons.error, color: AppColors.errorThemed(context), size: 16),
+                        Icon(
+                          Icons.error,
+                          color: AppColors.errorThemed(context),
+                          size: 16,
+                        ),
                         const SizedBox(width: 8),
                         Expanded(
                           child: Text(
@@ -330,17 +336,35 @@ class _TimeSlotGridState extends ConsumerState<TimeSlotGrid> {
               onPressed: _workingSlots.length < widget.maxSlots
                   ? _addTimeSlot
                   : null,
-              icon: Icon(Icons.add, size: context.getAdaptiveIconSize(mobile: 16, tablet: 18, desktop: 20)),
+              icon: Icon(
+                Icons.add,
+                size: context.getAdaptiveIconSize(
+                  mobile: 16,
+                  tablet: 18,
+                  desktop: 20,
+                ),
+              ),
               label: Text(AppLocalizations.of(context).addSlot),
               style: ElevatedButton.styleFrom(
                 padding: context.getAdaptivePadding(
-                  mobileHorizontal: 12, mobileVertical: 6,
-                  tabletHorizontal: 16, tabletVertical: 8,
-                  desktopHorizontal: 20, desktopVertical: 10
+                  mobileHorizontal: 12,
+                  mobileVertical: 6,
+                  tabletHorizontal: 16,
+                  tabletVertical: 8,
+                  desktopHorizontal: 20,
+                  desktopVertical: 10,
                 ),
                 minimumSize: Size(
-                  context.getAdaptiveSpacing(mobile: 120, tablet: 140, desktop: 160),
-                  context.getAdaptiveButtonHeight(mobile: 40, tablet: 44, desktop: 48)
+                  context.getAdaptiveSpacing(
+                    mobile: 120,
+                    tablet: 140,
+                    desktop: 160,
+                  ),
+                  context.getAdaptiveButtonHeight(
+                    mobile: 40,
+                    tablet: 44,
+                    desktop: 48,
+                  ),
                 ),
               ),
             ),
@@ -414,7 +438,12 @@ class _TimeSlotGridState extends ConsumerState<TimeSlotGrid> {
     // Use responsive grid layout for better utilization of space
     return LayoutBuilder(
       builder: (context, constraints) {
-        final columns = context.getGridColumns(mobile: 1, tablet: 2, desktop: 3, wide: 4);
+        final columns = context.getGridColumns(
+          mobile: 1,
+          tablet: 2,
+          desktop: 3,
+          wide: 4,
+        );
 
         if (columns == 1) {
           // Single column layout for mobile
@@ -430,8 +459,16 @@ class _TimeSlotGridState extends ConsumerState<TimeSlotGrid> {
           return GridView.builder(
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: columns,
-              crossAxisSpacing: context.getAdaptiveSpacing(mobile: 8, tablet: 12, desktop: 16),
-              mainAxisSpacing: context.getAdaptiveSpacing(mobile: 8, tablet: 12, desktop: 16),
+              crossAxisSpacing: context.getAdaptiveSpacing(
+                mobile: 8,
+                tablet: 12,
+                desktop: 16,
+              ),
+              mainAxisSpacing: context.getAdaptiveSpacing(
+                mobile: 8,
+                tablet: 12,
+                desktop: 16,
+              ),
               childAspectRatio: context.isDesktop ? 2.5 : 2.0,
             ),
             itemCount: _workingSlots.length,
@@ -449,20 +486,30 @@ class _TimeSlotGridState extends ConsumerState<TimeSlotGrid> {
     // Get user timezone and convert time for display
     final currentUser = ref.watch(currentUserProvider);
     final userTimezone = currentUser?.timezone;
-    final displayTime = TimezoneFormatter.formatTimeSlot(slot.time, userTimezone);
+    final displayTime = TimezoneFormatter.formatTimeSlot(
+      slot.time,
+      userTimezone,
+    );
 
     return Card(
       margin: EdgeInsets.only(
-        bottom: context.getAdaptiveSpacing(mobile: 6, tablet: 8, desktop: 12)
+        bottom: context.getAdaptiveSpacing(mobile: 6, tablet: 8, desktop: 12),
       ),
       child: ListTile(
         contentPadding: context.getAdaptivePadding(
-          mobileHorizontal: 12, mobileVertical: 8,
-          tabletHorizontal: 16, tabletVertical: 12,
-          desktopHorizontal: 20, desktopVertical: 16
+          mobileHorizontal: 12,
+          mobileVertical: 8,
+          tabletHorizontal: 16,
+          tabletVertical: 12,
+          desktopHorizontal: 20,
+          desktopVertical: 16,
         ),
         leading: CircleAvatar(
-          radius: context.getAdaptiveIconSize(mobile: 18, tablet: 20, desktop: 22),
+          radius: context.getAdaptiveIconSize(
+            mobile: 18,
+            tablet: 20,
+            desktop: 22,
+          ),
           backgroundColor: slot.isActive
               ? theme.colorScheme.primary.withValues(alpha: 0.1)
               : theme.colorScheme.onSurface.withValues(alpha: 0.5),
@@ -471,7 +518,11 @@ class _TimeSlotGridState extends ConsumerState<TimeSlotGrid> {
             color: slot.isActive
                 ? theme.colorScheme.primary
                 : theme.colorScheme.onSurface.withValues(alpha: 0.5),
-            size: context.getAdaptiveIconSize(mobile: 16, tablet: 18, desktop: 20),
+            size: context.getAdaptiveIconSize(
+              mobile: 16,
+              tablet: 18,
+              desktop: 20,
+            ),
           ),
         ),
         title: Text(

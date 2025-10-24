@@ -40,10 +40,14 @@ class VehicleUpdateEvent implements WebSocketEvent {
         json['updateType'] ?? json['type'] ?? 'updated',
       ),
       vehicleData: json['vehicleData'] != null
-          ? VehicleWebSocketExtension.fromWebSocketEventData(json['vehicleData'] as Map<String, dynamic>)
+          ? VehicleWebSocketExtension.fromWebSocketEventData(
+              json['vehicleData'] as Map<String, dynamic>,
+            )
           : json['data'] != null
-              ? VehicleWebSocketExtension.fromWebSocketEventData(json['data'] as Map<String, dynamic>)
-              : null,
+          ? VehicleWebSocketExtension.fromWebSocketEventData(
+              json['data'] as Map<String, dynamic>,
+            )
+          : null,
       familyId: json['familyId'],
       updatedBy: json['updatedBy'],
       timestamp: DateTime.tryParse(json['timestamp'] ?? '') ?? DateTime.now(),
@@ -823,10 +827,14 @@ class ChildUpdateEvent implements WebSocketEvent {
         json['updateType'] ?? json['type'] ?? 'updated',
       ),
       childData: json['childData'] != null
-          ? ChildWebSocketExtension.fromWebSocketEventData(json['childData'] as Map<String, dynamic>)
+          ? ChildWebSocketExtension.fromWebSocketEventData(
+              json['childData'] as Map<String, dynamic>,
+            )
           : json['data'] != null
-              ? ChildWebSocketExtension.fromWebSocketEventData(json['data'] as Map<String, dynamic>)
-              : null,
+          ? ChildWebSocketExtension.fromWebSocketEventData(
+              json['data'] as Map<String, dynamic>,
+            )
+          : null,
       familyId: json['familyId'],
       updatedBy: json['updatedBy'],
       timestamp: DateTime.tryParse(json['timestamp'] ?? '') ?? DateTime.now(),

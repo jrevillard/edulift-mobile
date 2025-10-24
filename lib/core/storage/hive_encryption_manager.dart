@@ -19,7 +19,8 @@ import '../utils/app_logger.dart';
 /// - Data is lost on app restart (acceptable in development)
 class HiveEncryptionManager {
   // Singleton pattern
-  static final HiveEncryptionManager _instance = HiveEncryptionManager._internal();
+  static final HiveEncryptionManager _instance =
+      HiveEncryptionManager._internal();
   factory HiveEncryptionManager() => _instance;
   HiveEncryptionManager._internal();
 
@@ -78,11 +79,15 @@ class HiveEncryptionManager {
           value: base64Encode(key),
         );
         _encryptionKey = key;
-        AppLogger.info('🔐 HiveEncryptionManager: Generated new secure encryption key');
+        AppLogger.info(
+          '🔐 HiveEncryptionManager: Generated new secure encryption key',
+        );
       } else {
         // Use existing key
         _encryptionKey = base64Decode(keyString);
-        AppLogger.info('🔐 HiveEncryptionManager: Loaded existing encryption key from secure storage');
+        AppLogger.info(
+          '🔐 HiveEncryptionManager: Loaded existing encryption key from secure storage',
+        );
       }
 
       _initialized = true;

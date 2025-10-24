@@ -82,9 +82,7 @@ void main() {
     });
 
     test('Domain layer cannot import infrastructure packages', () {
-      final domainFiles = findDartFiles(
-        'lib',
-      )
+      final domainFiles = findDartFiles('lib')
           .where((file) => isInLayer(file.path, 'domain'))
           .where((file) => !file.path.endsWith('firebase_options.dart'))
           .toList();

@@ -38,11 +38,7 @@ class _CancelInvitationConfirmationDialogState
     return AlertDialog(
       title: Row(
         children: [
-          Icon(
-            Icons.cancel,
-            color: theme.colorScheme.error,
-            size: 24,
-          ),
+          Icon(Icons.cancel, color: theme.colorScheme.error, size: 24),
           const SizedBox(width: 12),
           Expanded(
             child: Text(
@@ -59,98 +55,98 @@ class _CancelInvitationConfirmationDialogState
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-          Container(
-            padding: const EdgeInsets.all(16),
-            decoration: BoxDecoration(
-              color: theme.colorScheme.errorContainer.withValues(alpha: 0.3),
-              borderRadius: BorderRadius.circular(8),
-              border: Border.all(
-                color: theme.colorScheme.error.withValues(alpha: 0.3),
-              ),
-            ),
-            child: Row(
-              children: [
-                CircleAvatar(
-                  backgroundColor: theme.colorScheme.errorContainer,
-                  radius: 20,
-                  child: Icon(
-                    Icons.schedule,
-                    color: theme.colorScheme.onErrorContainer,
-                    size: 20,
-                  ),
+            Container(
+              padding: const EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                color: theme.colorScheme.errorContainer.withValues(alpha: 0.3),
+                borderRadius: BorderRadius.circular(8),
+                border: Border.all(
+                  color: theme.colorScheme.error.withValues(alpha: 0.3),
                 ),
-                const SizedBox(width: 12),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        widget.family.name,
-                        style: theme.textTheme.titleMedium?.copyWith(
-                          fontWeight: FontWeight.w600,
+              ),
+              child: Row(
+                children: [
+                  CircleAvatar(
+                    backgroundColor: theme.colorScheme.errorContainer,
+                    radius: 20,
+                    child: Icon(
+                      Icons.schedule,
+                      color: theme.colorScheme.onErrorContainer,
+                      size: 20,
+                    ),
+                  ),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          widget.family.name,
+                          style: theme.textTheme.titleMedium?.copyWith(
+                            fontWeight: FontWeight.w600,
+                          ),
                         ),
-                      ),
-                      const SizedBox(height: 2),
-                      Text(
-                        localizations.pendingInvitation,
-                        style: theme.textTheme.bodySmall?.copyWith(
-                          color: theme.colorScheme.onSurfaceVariant,
-                        ),
-                      ),
-                      if (widget.family.invitedAt != null) ...[
                         const SizedBox(height: 2),
                         Text(
-                          localizations.invitedOn(
-                            _formatDate(widget.family.invitedAt!),
-                          ),
+                          localizations.pendingInvitation,
                           style: theme.textTheme.bodySmall?.copyWith(
                             color: theme.colorScheme.onSurfaceVariant,
                           ),
                         ),
+                        if (widget.family.invitedAt != null) ...[
+                          const SizedBox(height: 2),
+                          Text(
+                            localizations.invitedOn(
+                              _formatDate(widget.family.invitedAt!),
+                            ),
+                            style: theme.textTheme.bodySmall?.copyWith(
+                              color: theme.colorScheme.onSurfaceVariant,
+                            ),
+                          ),
+                        ],
                       ],
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ),
-          const SizedBox(height: 16),
-          Text(
-            localizations.cancelInvitationConfirmation(widget.family.name),
-            style: theme.textTheme.bodyMedium?.copyWith(
-              color: theme.colorScheme.onSurfaceVariant,
-            ),
-          ),
-          const SizedBox(height: 12),
-          Container(
-            padding: const EdgeInsets.all(12),
-            decoration: BoxDecoration(
-              color: theme.colorScheme.errorContainer.withValues(alpha: 0.1),
-              borderRadius: BorderRadius.circular(8),
-              border: Border.all(
-                color: theme.colorScheme.error.withValues(alpha: 0.3),
-              ),
-            ),
-            child: Row(
-              children: [
-                Icon(
-                  Icons.info_outline,
-                  size: 16,
-                  color: theme.colorScheme.error,
-                ),
-                const SizedBox(width: 8),
-                Expanded(
-                  child: Text(
-                    localizations.cancelInvitationNote,
-                    style: theme.textTheme.bodySmall?.copyWith(
-                      color: theme.colorScheme.error,
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
-        ],
+            const SizedBox(height: 16),
+            Text(
+              localizations.cancelInvitationConfirmation(widget.family.name),
+              style: theme.textTheme.bodyMedium?.copyWith(
+                color: theme.colorScheme.onSurfaceVariant,
+              ),
+            ),
+            const SizedBox(height: 12),
+            Container(
+              padding: const EdgeInsets.all(12),
+              decoration: BoxDecoration(
+                color: theme.colorScheme.errorContainer.withValues(alpha: 0.1),
+                borderRadius: BorderRadius.circular(8),
+                border: Border.all(
+                  color: theme.colorScheme.error.withValues(alpha: 0.3),
+                ),
+              ),
+              child: Row(
+                children: [
+                  Icon(
+                    Icons.info_outline,
+                    size: 16,
+                    color: theme.colorScheme.error,
+                  ),
+                  const SizedBox(width: 8),
+                  Expanded(
+                    child: Text(
+                      localizations.cancelInvitationNote,
+                      style: theme.textTheme.bodySmall?.copyWith(
+                        color: theme.colorScheme.error,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
         ),
       ),
       actions: [
@@ -205,13 +201,18 @@ class _CancelInvitationConfirmationDialogState
     setState(() => _isLoading = true);
 
     if (widget.family.invitationId == null) {
-      AppLogger.error('Failed to cancel invitation', 'No invitation ID available');
+      AppLogger.error(
+        'Failed to cancel invitation',
+        'No invitation ID available',
+      );
       if (mounted) {
         setState(() => _isLoading = false);
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(
-              AppLocalizations.of(context).failedToCancelInvitation('No invitation ID available'),
+              AppLocalizations.of(
+                context,
+              ).failedToCancelInvitation('No invitation ID available'),
             ),
             backgroundColor: Theme.of(context).colorScheme.error,
           ),
@@ -232,7 +233,9 @@ class _CancelInvitationConfirmationDialogState
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Text(
-                AppLocalizations.of(context).failedToCancelInvitation(errorMessage),
+                AppLocalizations.of(
+                  context,
+                ).failedToCancelInvitation(errorMessage),
               ),
               backgroundColor: Theme.of(context).colorScheme.error,
             ),

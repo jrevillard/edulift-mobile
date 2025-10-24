@@ -13,11 +13,7 @@ class InvitationFailure extends Failure {
     required this.error,
     String? message,
     Map<String, dynamic>? details,
-  }) : super(
-          message: message,
-          code: 'invitation_error',
-          details: details,
-        );
+  }) : super(message: message, code: 'invitation_error', details: details);
 
   String get localizationKey => error.localizationKey;
 

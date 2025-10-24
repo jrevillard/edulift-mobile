@@ -47,7 +47,7 @@ class AuthenticationResult {
   AuthenticationResult({
     required this.accessToken,
     required this.refreshToken,
-    required this.user, 
+    required this.user,
     required this.expiresAt,
   });
 
@@ -78,7 +78,7 @@ class UpdateUserProfileRequest {
 
   UpdateUserProfileRequest({
     this.name,
-    this.preferredLanguage, 
+    this.preferredLanguage,
     this.timezone,
     this.accessibilityPreferences,
   });
@@ -109,7 +109,7 @@ class AuthConfig {
 
   const AuthConfig({
     required this.isMagicLinkEnabled,
-    required this.isBiometricEnabled, 
+    required this.isBiometricEnabled,
     required this.tokenExpiryMinutes,
   });
 

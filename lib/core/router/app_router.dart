@@ -40,12 +40,11 @@ class AppRouter {
   ///
   /// OPTIMIZATION: Uses synchronous familyProvider state read (instant, no async overhead)
   /// This eliminates 10-20 API calls per session from router redirects
-  static String _checkFamilyStatusAndGetRoute(
-    WidgetRef ref,
-    String? userId,
-  ) {
+  static String _checkFamilyStatusAndGetRoute(WidgetRef ref, String? userId) {
     if (userId == null) {
-      core_logger.AppLogger.debug('[Router] No userId - redirecting to onboarding');
+      core_logger.AppLogger.debug(
+        '[Router] No userId - redirecting to onboarding',
+      );
       return '/onboarding/wizard';
     }
 
@@ -53,7 +52,9 @@ class AppRouter {
     final familyState = ref.read(familyProvider);
     final hasFamily = familyState.family != null;
 
-    core_logger.AppLogger.debug('[Router] _checkFamilyStatusAndGetRoute - hasFamily: $hasFamily (synchronous state read)');
+    core_logger.AppLogger.debug(
+      '[Router] _checkFamilyStatusAndGetRoute - hasFamily: $hasFamily (synchronous state read)',
+    );
 
     return hasFamily ? '/dashboard' : '/onboarding/wizard';
   }

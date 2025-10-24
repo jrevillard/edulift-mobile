@@ -149,7 +149,8 @@ Stream<WebSocketConnectionStatus> webSocketStatus(Ref ref) {
 
 /// WebSocket connection status notifier for state management
 @riverpod
-class WebSocketConnectionStatusNotifier extends _$WebSocketConnectionStatusNotifier {
+class WebSocketConnectionStatusNotifier
+    extends _$WebSocketConnectionStatusNotifier {
   @override
   WebSocketConnectionStatus build() {
     return const WebSocketConnectionStatus(

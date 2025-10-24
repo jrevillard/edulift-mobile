@@ -24,7 +24,11 @@ void main() {
       // Reading the bool key should return null, not throw
       final result = await storage.read(key: 'autoSyncTimezone');
 
-      expect(result, isNull, reason: 'Should return null for non-string values');
+      expect(
+        result,
+        isNull,
+        reason: 'Should return null for non-string values',
+      );
     });
 
     test('read() handles int values gracefully', () async {
@@ -33,7 +37,11 @@ void main() {
 
       final result = await storage.read(key: 'some_counter');
 
-      expect(result, isNull, reason: 'Should return null for non-string values');
+      expect(
+        result,
+        isNull,
+        reason: 'Should return null for non-string values',
+      );
     });
 
     test('read() handles double values gracefully', () async {
@@ -42,7 +50,11 @@ void main() {
 
       final result = await storage.read(key: 'some_ratio');
 
-      expect(result, isNull, reason: 'Should return null for non-string values');
+      expect(
+        result,
+        isNull,
+        reason: 'Should return null for non-string values',
+      );
     });
 
     test('read() handles List<String> values gracefully', () async {
@@ -51,7 +63,11 @@ void main() {
 
       final result = await storage.read(key: 'some_list');
 
-      expect(result, isNull, reason: 'Should return null for non-string values');
+      expect(
+        result,
+        isNull,
+        reason: 'Should return null for non-string values',
+      );
     });
 
     test('read() returns string values correctly', () async {
@@ -60,7 +76,11 @@ void main() {
 
       final result = await storage.read(key: 'jwt_token_dev');
 
-      expect(result, equals('valid-token-123'), reason: 'Should return string values correctly');
+      expect(
+        result,
+        equals('valid-token-123'),
+        reason: 'Should return string values correctly',
+      );
     });
 
     test('readAll() skips non-string values', () async {
@@ -74,7 +94,11 @@ void main() {
       final result = await storage.readAll();
 
       // Should only contain the string value
-      expect(result.length, equals(1), reason: 'Should only include string values');
+      expect(
+        result.length,
+        equals(1),
+        reason: 'Should only include string values',
+      );
       expect(result['string_key'], equals('string_value'));
       expect(result.containsKey('bool_key'), isFalse);
       expect(result.containsKey('int_key'), isFalse);
@@ -82,31 +106,37 @@ void main() {
       expect(result.containsKey('list_key'), isFalse);
     });
 
-    test('mixed storage scenario - token and bool preference coexist', () async {
-      // This simulates the real-world bug scenario:
-      // - autoSyncTimezone is stored as bool
-      // - jwt_token_dev is stored as string
-      // Reading jwt_token_dev should work without errors
+    test(
+      'mixed storage scenario - token and bool preference coexist',
+      () async {
+        // This simulates the real-world bug scenario:
+        // - autoSyncTimezone is stored as bool
+        // - jwt_token_dev is stored as string
+        // Reading jwt_token_dev should work without errors
 
-      final prefs = await SharedPreferences.getInstance();
-      await prefs.setBool('autoSyncTimezone', true);
-      await prefs.setString('jwt_token_dev', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...');
+        final prefs = await SharedPreferences.getInstance();
+        await prefs.setBool('autoSyncTimezone', true);
+        await prefs.setString(
+          'jwt_token_dev',
+          'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...',
+        );
 
-      // Reading the token should work
-      final token = await storage.read(key: 'jwt_token_dev');
-      expect(token, isNotNull);
-      expect(token, startsWith('eyJ'));
+        // Reading the token should work
+        final token = await storage.read(key: 'jwt_token_dev');
+        expect(token, isNotNull);
+        expect(token, startsWith('eyJ'));
 
-      // Reading the bool should return null (not crash)
-      final autoSync = await storage.read(key: 'autoSyncTimezone');
-      expect(autoSync, isNull);
+        // Reading the bool should return null (not crash)
+        final autoSync = await storage.read(key: 'autoSyncTimezone');
+        expect(autoSync, isNull);
 
-      // readAll should only include the token
-      final all = await storage.readAll();
-      expect(all.length, equals(1));
-      expect(all['jwt_token_dev'], isNotNull);
-      expect(all.containsKey('autoSyncTimezone'), isFalse);
-    });
+        // readAll should only include the token
+        final all = await storage.readAll();
+        expect(all.length, equals(1));
+        expect(all['jwt_token_dev'], isNotNull);
+        expect(all.containsKey('autoSyncTimezone'), isFalse);
+      },
+    );
 
     test('write() and read() work correctly for strings', () async {
       const testKey = 'test_key';

@@ -16,7 +16,8 @@ extension SchedulePriorityUI on SchedulePriority {
       case SchedulePriority.high:
         return Colors.red;
       case SchedulePriority.critical:
-        return Colors.red;}
+        return Colors.red;
+    }
   }
 
   /// Get icon for this priority
@@ -29,6 +30,7 @@ extension SchedulePriorityUI on SchedulePriority {
       case SchedulePriority.high:
         return Icons.priority_high;
       case SchedulePriority.critical:
-        return Icons.warning;}
+        return Icons.warning;
+    }
   }
 }

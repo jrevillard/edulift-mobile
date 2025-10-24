@@ -70,7 +70,10 @@ class DeveloperSettingsSection extends ConsumerWidget {
               color: Theme.of(context).colorScheme.onSurfaceVariant,
             ),
             const SizedBox(width: 8),
-            Text(AppLocalizations.of(context).logLevel, style: Theme.of(context).textTheme.titleSmall),
+            Text(
+              AppLocalizations.of(context).logLevel,
+              style: Theme.of(context).textTheme.titleSmall,
+            ),
           ],
         ),
         const SizedBox(height: 8),
@@ -112,10 +115,7 @@ class DeveloperSettingsSection extends ConsumerWidget {
       items: LogConfig.availableLevels.entries.map((entry) {
         return DropdownMenuItem<String>(
           value: entry.value.name.toUpperCase(),
-          child: Text(
-            entry.key,
-            overflow: TextOverflow.ellipsis,
-          ),
+          child: Text(entry.key, overflow: TextOverflow.ellipsis),
         );
       }).toList(),
       onChanged: (newLevel) async {
@@ -168,7 +168,10 @@ class DeveloperSettingsSection extends ConsumerWidget {
               color: theme.colorScheme.onSurfaceVariant,
             ),
             const SizedBox(width: 8),
-            Text(AppLocalizations.of(context).logExport, style: theme.textTheme.titleSmall),
+            Text(
+              AppLocalizations.of(context).logExport,
+              style: theme.textTheme.titleSmall,
+            ),
           ],
         ),
         const SizedBox(height: 8),
@@ -205,7 +208,9 @@ class DeveloperSettingsSection extends ConsumerWidget {
             : () => _handleLogExport(context, ref),
         icon: Icon(state.isExporting ? Icons.hourglass_empty : Icons.share),
         label: Text(
-          state.isExporting ? AppLocalizations.of(context).exporting : AppLocalizations.of(context).exportLogsForSupport,
+          state.isExporting
+              ? AppLocalizations.of(context).exporting
+              : AppLocalizations.of(context).exportLogsForSupport,
         ),
       ),
     );
@@ -246,7 +251,9 @@ class DeveloperSettingsSection extends ConsumerWidget {
         ),
         const SizedBox(height: 4),
         Text(
-          AppLocalizations.of(context).errorFailedToExportLogs(error.toString()),
+          AppLocalizations.of(
+            context,
+          ).errorFailedToExportLogs(error.toString()),
           style: theme.textTheme.bodySmall?.copyWith(
             color: theme.colorScheme.error,
           ),
@@ -329,7 +336,10 @@ class DeveloperSettingsSection extends ConsumerWidget {
       final hasError = state.value?.error != null;
 
       if (hasError) {
-        final translatedError = _translateLogError(context, state.value!.error!);
+        final translatedError = _translateLogError(
+          context,
+          state.value!.error!,
+        );
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(l10n.failedToExportLogs(translatedError)),
@@ -354,11 +364,20 @@ class DeveloperSettingsSection extends ConsumerWidget {
     final difference = now.difference(dateTime);
 
     if (difference.inDays > 0) {
-      return l10n.timeAgoDays(difference.inDays, difference.inDays == 1 ? '' : 's');
+      return l10n.timeAgoDays(
+        difference.inDays,
+        difference.inDays == 1 ? '' : 's',
+      );
     } else if (difference.inHours > 0) {
-      return l10n.timeAgoHours(difference.inHours, difference.inHours == 1 ? '' : 's');
+      return l10n.timeAgoHours(
+        difference.inHours,
+        difference.inHours == 1 ? '' : 's',
+      );
     } else if (difference.inMinutes > 0) {
-      return l10n.timeAgoMinutes(difference.inMinutes, difference.inMinutes == 1 ? '' : 's');
+      return l10n.timeAgoMinutes(
+        difference.inMinutes,
+        difference.inMinutes == 1 ? '' : 's',
+      );
     } else {
       return l10n.justNow;
     }

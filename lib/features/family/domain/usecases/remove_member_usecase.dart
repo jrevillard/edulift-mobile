@@ -39,8 +39,9 @@ class RemoveMemberUsecase implements UseCase<void, RemoveMemberParams> {
   @override
   Future<Result<void, Failure>> call(RemoveMemberParams params) async {
     final result = await _familyRepository.removeMember(
-        familyId: params.familyId,
-        memberId: params.memberId);
+      familyId: params.familyId,
+      memberId: params.memberId,
+    );
 
     if (result.isOk) {
       return const Result.ok(null);

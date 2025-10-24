@@ -35,11 +35,17 @@ extension ChildValidationLocalizer on ChildValidationError {
       case ChildValidationError.ageTooOld:
         return l10n.errorChildAgeTooOld(ChildFormValidator.maxAge);
       case ChildValidationError.medicalInfoTooLong:
-        return l10n.errorChildMedicalInfoTooLong(ChildFormValidator.maxMedicalInfoLength);
+        return l10n.errorChildMedicalInfoTooLong(
+          ChildFormValidator.maxMedicalInfoLength,
+        );
       case ChildValidationError.specialNeedsTooLong:
-        return l10n.errorChildSpecialNeedsTooLong(ChildFormValidator.maxSpecialNeedsLength);
+        return l10n.errorChildSpecialNeedsTooLong(
+          ChildFormValidator.maxSpecialNeedsLength,
+        );
       case ChildValidationError.schoolNameTooLong:
-        return l10n.errorChildSchoolNameTooLong(ChildFormValidator.maxSchoolNameLength);
+        return l10n.errorChildSchoolNameTooLong(
+          ChildFormValidator.maxSchoolNameLength,
+        );
       case ChildValidationError.gradeInvalid:
         return l10n.errorChildGradeInvalid;
       case ChildValidationError.emergencyContactRequired:

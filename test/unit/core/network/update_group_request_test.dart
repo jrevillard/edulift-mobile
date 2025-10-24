@@ -30,10 +30,13 @@ void main() {
         final json = request.toJson();
 
         // Assert
-        expect(json, equals({
-          'name': 'Updated Group',
-          'description': 'Updated Description',
-        }));
+        expect(
+          json,
+          equals({
+            'name': 'Updated Group',
+            'description': 'Updated Description',
+          }),
+        );
       });
 
       test('should serialize with description only', () {
@@ -241,10 +244,7 @@ void main() {
 
       test('should handle whitespace-only strings', () {
         // Arrange
-        const request = UpdateGroupRequest(
-          name: '   ',
-          description: '\n\t  ',
-        );
+        const request = UpdateGroupRequest(name: '   ', description: '\n\t  ');
 
         // Act
         final json = request.toJson();

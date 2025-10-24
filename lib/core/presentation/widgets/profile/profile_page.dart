@@ -109,7 +109,11 @@ class _ProfilePageState extends ConsumerState<ProfilePage>
                         builder: (context, ref, child) {
                           return FutureBuilder<bool>(
                             future: currentUser != null
-                                ? ref.read(cachedUserFamilyStatusProvider(currentUser!.id).future)
+                                ? ref.read(
+                                    cachedUserFamilyStatusProvider(
+                                      currentUser!.id,
+                                    ).future,
+                                  )
                                 : Future.value(false),
                             builder: (context, snapshot) {
                               final hasFamily = snapshot.data ?? false;
@@ -118,11 +122,15 @@ class _ProfilePageState extends ConsumerState<ProfilePage>
                                 label: Text(
                                   hasFamily ? 'Member' : 'No Family',
                                   style: TextStyle(
-                                    color: Theme.of(context).colorScheme.onSecondaryContainer,
+                                    color: Theme.of(
+                                      context,
+                                    ).colorScheme.onSecondaryContainer,
                                     fontSize: 12,
                                   ),
                                 ),
-                                backgroundColor: Theme.of(context).colorScheme.secondaryContainer,
+                                backgroundColor: Theme.of(
+                                  context,
+                                ).colorScheme.secondaryContainer,
                                 visualDensity: VisualDensity.compact,
                               );
                             },
@@ -315,10 +323,12 @@ class _ProfilePageState extends ConsumerState<ProfilePage>
               Navigator.of(context).pop();
               // ARCHITECTURE FIX: Direct navigation after logout since targetRoute doesn't work
               await ref.read(authStateProvider.notifier).logout();
-              ref.read(navigationStateProvider.notifier).navigateTo(
-                route: '/auth/login',
-                trigger: NavigationTrigger.userNavigation,
-              );
+              ref
+                  .read(navigationStateProvider.notifier)
+                  .navigateTo(
+                    route: '/auth/login',
+                    trigger: NavigationTrigger.userNavigation,
+                  );
             },
             style: TextButton.styleFrom(
               foregroundColor: Theme.of(context).colorScheme.error,

@@ -64,7 +64,7 @@ void main() {
             accessToken: 'jwt-token-12345',
             refreshToken: 'mock_refresh_token',
             expiresIn: 900,
-            
+
             user: UserCurrentFamilyDto(
               id: 'user-456',
               email: 'verified@example.com',
@@ -176,7 +176,9 @@ void main() {
           when(
             mockLocalDatasource.getPKCEVerifier(),
           ).thenAnswer((_) async => const Ok('verifier'));
-          when(mockAuthApiClient.verifyMagicLink(any, any)).thenThrow(apiException);
+          when(
+            mockAuthApiClient.verifyMagicLink(any, any),
+          ).thenThrow(apiException);
 
           // Mock error handler response
           when(
@@ -239,7 +241,7 @@ void main() {
             accessToken: 'stolen-token',
             refreshToken: 'mock_refresh_token',
             expiresIn: 900,
-            
+
             user: UserCurrentFamilyDto(
               id: 'attacker-123',
               email: 'attacker@evil.com', // Different email
@@ -291,7 +293,7 @@ void main() {
           accessToken: 'complete-test-token',
           refreshToken: 'mock_refresh_token',
           expiresIn: 900,
-          
+
           user: UserCurrentFamilyDto(
             id: 'complete-user-123',
             email: 'complete@test.com',

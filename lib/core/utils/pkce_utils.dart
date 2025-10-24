@@ -9,7 +9,8 @@ import 'package:crypto/crypto.dart';
 /// Following RFC 7636 specification for OAuth 2.0 PKCE
 class PKCEUtils {
   static const int _codeVerifierLength = 128;
-  static const String _chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-._~';
+  static const String _chars =
+      'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-._~';
 
   /// Generate a cryptographically secure code_verifier using standard crypto
   static String generateCodeVerifier() {
@@ -29,7 +30,7 @@ class PKCEUtils {
     final bytes = utf8.encode(codeVerifier);
     final digest = sha256.convert(bytes);
     final base64String = base64.encode(digest.bytes);
-    
+
     // Convert to base64url (no padding, URL-safe)
     return base64String
         .replaceAll('+', '-')
@@ -41,10 +42,7 @@ class PKCEUtils {
   static Map<String, String> generatePKCEPair() {
     final codeVerifier = generateCodeVerifier();
     final codeChallenge = generateCodeChallenge(codeVerifier);
-    
-    return {
-      'code_verifier': codeVerifier,
-      'code_challenge': codeChallenge,
-    };
+
+    return {'code_verifier': codeVerifier, 'code_challenge': codeChallenge};
   }
 }

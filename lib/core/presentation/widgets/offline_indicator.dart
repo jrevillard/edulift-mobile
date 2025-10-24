@@ -51,13 +51,7 @@ class OfflineIndicator extends ConsumerWidget {
             tabletHorizontal: 24,
             desktopHorizontal: 32,
           ),
-          child: _buildContent(
-            context,
-            appState,
-            iconSize,
-            fontSize,
-            spacing,
-          ),
+          child: _buildContent(context, appState, iconSize, fontSize, spacing),
         ),
       ),
     );

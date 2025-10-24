@@ -18,6 +18,7 @@ class CreateFamilyUsecase {
   final FamilyRepository repository;
 
   CreateFamilyUsecase(this.repository);
+
   /// Create a family with proper validation and error handling
   ///
   /// Validates the family name according to business rules:
@@ -29,7 +30,9 @@ class CreateFamilyUsecase {
     // Basic input sanitization
     final trimmedName = params.name.trim();
     if (trimmedName.isEmpty) {
-      return Result.err(ApiFailure.validationError(code: 'validation.field_required'));
+      return Result.err(
+        ApiFailure.validationError(code: 'validation.field_required'),
+      );
     }
 
     // Delegate to repository for persistence and validation

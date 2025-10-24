@@ -44,7 +44,8 @@ class GroupsRouteFactory implements AppRouteFactory {
               builder: (context, state) {
                 final groupId = state.pathParameters['groupId']!;
                 return GroupScheduleConfigPage(
-                  groupId: groupId, groupName: '', // Will be loaded in the page
+                  groupId: groupId,
+                  groupName: '', // Will be loaded in the page
                 );
               },
             ),

@@ -53,10 +53,7 @@ class UpdateGroupRequest extends Equatable {
   final String? name;
   final String? description;
 
-  const UpdateGroupRequest({
-    this.name,
-    this.description,
-  });
+  const UpdateGroupRequest({this.name, this.description});
 
   factory UpdateGroupRequest.fromJson(Map<String, dynamic> json) {
     return UpdateGroupRequest(
@@ -153,7 +150,7 @@ class SearchFamiliesRequest extends Equatable {
   }
 
   Map<String, dynamic> toJson() => {
-    if (query != null) 'searchTerm': query,  // Backend expects 'searchTerm'
+    if (query != null) 'searchTerm': query, // Backend expects 'searchTerm'
     if (limit != null) 'limit': limit,
   };
 
@@ -228,10 +225,11 @@ class InviteFamilyToGroupRequest extends Equatable {
   }
 
   Map<String, dynamic> toJson() => {
-    'familyId': familyId,  // Backend expects camelCase
+    'familyId': familyId, // Backend expects camelCase
     if (role != null) 'role': role,
-    if (message != null) 'personalMessage': message,  // Backend expects 'personalMessage'
-    'platform': 'native',  // Backend requires platform field
+    if (message != null)
+      'personalMessage': message, // Backend expects 'personalMessage'
+    'platform': 'native', // Backend requires platform field
   };
 
   @override
@@ -246,7 +244,9 @@ class UpdateScheduleConfigRequest extends Equatable {
   const UpdateScheduleConfigRequest({required this.scheduleHours});
 
   factory UpdateScheduleConfigRequest.fromJson(Map<String, dynamic> json) {
-    return UpdateScheduleConfigRequest(scheduleHours: json['scheduleHours'] ?? json);
+    return UpdateScheduleConfigRequest(
+      scheduleHours: json['scheduleHours'] ?? json,
+    );
   }
 
   /// Send scheduleHours directly to match backend expectation:

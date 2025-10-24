@@ -7,7 +7,9 @@ import 'package:equatable/equatable.dart';
 
 /// DEPRECATED: VehicleAssignment functionality is not supported by the backend API
 /// This class should not be used - the backend does not support vehicle assignment operations
-@Deprecated('VehicleAssignment functionality is not supported by the backend API. Use schedule domain entities instead.')
+@Deprecated(
+  'VehicleAssignment functionality is not supported by the backend API. Use schedule domain entities instead.',
+)
 class VehicleAssignment extends Equatable {
   /// Unique identifier for the assignment
   final String id;

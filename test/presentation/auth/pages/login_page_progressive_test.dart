@@ -97,7 +97,10 @@ void main() {
         // Verify initial state - using key-based finding
         expect(find.byKey(const Key('emailField')), findsOneWidget);
         expect(find.byKey(const Key('nameField')), findsNothing);
-        expect(find.byKey(const Key('login_auth_action_button')), findsOneWidget);
+        expect(
+          find.byKey(const Key('login_auth_action_button')),
+          findsOneWidget,
+        );
         expect(find.text('Create account'), findsNothing);
 
         SimpleWidgetTestHelper.verifyNoExceptions(tester);

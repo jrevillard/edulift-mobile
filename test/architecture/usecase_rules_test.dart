@@ -472,7 +472,8 @@ void main() {
               for (final match in matches) {
                 final matchStr = match.group(0)!;
                 // Skip if it's in a type annotation or parameter list
-                if (!matchStr.contains('this.') && !matchStr.contains('required')) {
+                if (!matchStr.contains('this.') &&
+                    !matchStr.contains('required')) {
                   violations.add(
                     '${file.path}: UseCase $className directly instantiates repository (use injection)',
                   );

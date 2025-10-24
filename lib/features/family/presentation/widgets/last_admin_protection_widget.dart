@@ -144,7 +144,9 @@ class LastAdminProtectionWidget extends ConsumerWidget {
     );
 
     if (result != null) {
-      await ref.read(familyComposedProvider.notifier).promoteMemberToAdmin(result.id);
+      await ref
+          .read(familyComposedProvider.notifier)
+          .promoteMemberToAdmin(result.id);
       onProtectionBypassed?.call();
     }
   }
@@ -160,7 +162,9 @@ class LastAdminProtectionWidget extends ConsumerWidget {
     );
 
     if (result != null) {
-      await ref.read(familyComposedProvider.notifier).transferOwnership(result.id);
+      await ref
+          .read(familyComposedProvider.notifier)
+          .transferOwnership(result.id);
       onProtectionBypassed?.call();
     }
   }
@@ -367,7 +371,9 @@ class _TransferOwnershipDialog extends StatelessWidget {
                     child: Text(member.userId[0].toUpperCase()),
                   ),
                   title: Text(member.userId),
-                  subtitle: Text(localizations.roleLabel(member.roleDisplayName)),
+                  subtitle: Text(
+                    localizations.roleLabel(member.roleDisplayName),
+                  ),
                   trailing: Chip(
                     label: Text(member.role.displayName),
                     backgroundColor: theme.colorScheme.surfaceContainerHighest,

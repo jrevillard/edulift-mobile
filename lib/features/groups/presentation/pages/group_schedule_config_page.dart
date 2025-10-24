@@ -86,16 +86,20 @@ class _GroupScheduleConfigPageState
       context: context,
       builder: (context) => AlertDialog(
         title: Text(l10n.unsavedChangesTitle),
-        content: Text(
-          l10n.unsavedChangesScheduleMessage),
+        content: Text(l10n.unsavedChangesScheduleMessage),
         actions: [
           TextButton(
             onPressed: () => Navigator.of(context).pop(false),
-            child: Text(l10n.stayButton)),
+            child: Text(l10n.stayButton),
+          ),
           TextButton(
             onPressed: () => Navigator.of(context).pop(true),
             style: TextButton.styleFrom(foregroundColor: AppColors.error),
-            child: Text(l10n.leaveButton))]));
+            child: Text(l10n.leaveButton),
+          ),
+        ],
+      ),
+    );
   }
 
   void _onConfigurationUpdated() {
@@ -104,10 +108,13 @@ class _GroupScheduleConfigPageState
     });
     // Show success and refresh parent pages
     final l10n = AppLocalizations.of(context);
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      content: Text(l10n.scheduleConfigurationUpdatedSuccessfully),
-      backgroundColor: AppColors.success,
-      behavior: SnackBarBehavior.floating));
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(l10n.scheduleConfigurationUpdatedSuccessfully),
+        backgroundColor: AppColors.success,
+        behavior: SnackBarBehavior.floating,
+      ),
+    );
   }
 
   void _onActionsChanged(
@@ -126,7 +133,9 @@ class _GroupScheduleConfigPageState
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     final theme = Theme.of(context);
-    final hasAccess = ref.watch(hasGroupScheduleConfigAccessProvider(widget.groupId));
+    final hasAccess = ref.watch(
+      hasGroupScheduleConfigAccessProvider(widget.groupId),
+    );
     final authState = ref.watch(authStateProvider);
 
     // FIX: Listen to navigation state changes to intercept tab navigation
@@ -136,7 +145,6 @@ class _GroupScheduleConfigPageState
       if (_hasUnsavedChanges &&
           next.hasPendingNavigation &&
           next.trigger == nav.NavigationTrigger.userNavigation) {
-
         // Show confirmation dialog
         final shouldNavigate = await _showUnsavedChangesDialog();
 
@@ -156,7 +164,9 @@ class _GroupScheduleConfigPageState
 
     // Update group name from provider if available
     try {
-      final group = groupsState.groups.firstWhere((g) => g.id == widget.groupId);
+      final group = groupsState.groups.firstWhere(
+        (g) => g.id == widget.groupId,
+      );
       final groupName = group.name;
       if (groupName != currentGroupName) {
         currentGroupName = groupName;
@@ -195,9 +205,11 @@ class _GroupScheduleConfigPageState
                 currentGroupName,
                 style: theme.textTheme.bodySmall?.copyWith(
                   color: theme.colorScheme.onSurface.withValues(alpha: 0.7),
-                  fontSize: 14 * context.fontScale
-                )),
-            ]),
+                  fontSize: 14 * context.fontScale,
+                ),
+              ),
+            ],
+          ),
           backgroundColor: theme.colorScheme.surface,
           elevation: 0,
           actions: [
@@ -207,21 +219,26 @@ class _GroupScheduleConfigPageState
                 key: const Key('scheduleConfig_cancel_button'),
                 onPressed: _cancelCallback,
                 icon: const Icon(Icons.cancel_outlined),
-                tooltip: l10n.cancelChanges),
+                tooltip: l10n.cancelChanges,
+              ),
             // Save button (only show if save is available)
             if (_saveCallback != null)
               IconButton(
                 key: const Key('scheduleConfig_save_button'),
                 onPressed: _saveCallback,
                 icon: const Icon(Icons.save),
-                tooltip: l10n.saveConfiguration)]),
+                tooltip: l10n.saveConfiguration,
+              ),
+          ],
+        ),
         body: !authState.isAuthenticated || !hasAccess
             ? _buildAccessDeniedState(theme)
             : ScheduleConfigWidget(
                 key: _scheduleWidgetKey,
                 groupId: widget.groupId,
                 onConfigUpdated: _onConfigurationUpdated,
-                onActionsChanged: _onActionsChanged),
+                onActionsChanged: _onActionsChanged,
+              ),
         floatingActionButton: !authState.isAuthenticated || !hasAccess
             ? null
             : (_scheduleWidgetKey.currentState as dynamic)
@@ -234,16 +251,30 @@ class _GroupScheduleConfigPageState
   Widget _buildAccessDeniedState(ThemeData theme) {
     return Center(
       child: Padding(
-        padding: context.getAdaptivePadding(mobileAll: 24, tabletAll: 32, desktopAll: 40),
+        padding: context.getAdaptivePadding(
+          mobileAll: 24,
+          tabletAll: 32,
+          desktopAll: 40,
+        ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Icon(
               Icons.lock_outlined,
-              size: context.getAdaptiveIconSize(mobile: 64, tablet: 72, desktop: 80),
-              color: AppColors.warningContainer
+              size: context.getAdaptiveIconSize(
+                mobile: 64,
+                tablet: 72,
+                desktop: 80,
+              ),
+              color: AppColors.warningContainer,
             ),
-            SizedBox(height: context.getAdaptiveSpacing(mobile: 12, tablet: 16, desktop: 20)),
+            SizedBox(
+              height: context.getAdaptiveSpacing(
+                mobile: 12,
+                tablet: 16,
+                desktop: 20,
+              ),
+            ),
             Text(
               'Access Denied',
               style: theme.textTheme.headlineSmall?.copyWith(
@@ -252,7 +283,13 @@ class _GroupScheduleConfigPageState
                 fontSize: 24 * context.fontScale,
               ),
             ),
-            SizedBox(height: context.getAdaptiveSpacing(mobile: 6, tablet: 8, desktop: 12)),
+            SizedBox(
+              height: context.getAdaptiveSpacing(
+                mobile: 6,
+                tablet: 8,
+                desktop: 12,
+              ),
+            ),
             Text(
               'Only group administrators can configure schedule settings.',
               textAlign: TextAlign.center,
@@ -261,9 +298,19 @@ class _GroupScheduleConfigPageState
                 fontSize: 16 * context.fontScale,
               ),
             ),
-            SizedBox(height: context.getAdaptiveSpacing(mobile: 20, tablet: 24, desktop: 32)),
             SizedBox(
-              height: context.getAdaptiveButtonHeight(mobile: 48, tablet: 52, desktop: 56),
+              height: context.getAdaptiveSpacing(
+                mobile: 20,
+                tablet: 24,
+                desktop: 32,
+              ),
+            ),
+            SizedBox(
+              height: context.getAdaptiveButtonHeight(
+                mobile: 48,
+                tablet: 52,
+                desktop: 56,
+              ),
               child: ElevatedButton.icon(
                 key: const Key('scheduleConfig_goBack_button'),
                 onPressed: () => context.pop(),
@@ -285,7 +332,11 @@ class _GroupScheduleConfigPageState
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(Icons.error_outline, size: 80, color: AppColors.errorThemed(context)),
+            Icon(
+              Icons.error_outline,
+              size: 80,
+              color: AppColors.errorThemed(context),
+            ),
             const SizedBox(height: 16),
             Text(
               'Error Loading Page',
@@ -328,5 +379,4 @@ class _GroupScheduleConfigPageState
       ),
     );
   }
-
 }

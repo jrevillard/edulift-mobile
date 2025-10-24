@@ -173,124 +173,140 @@ class _WeekdaySelectorState extends State<WeekdaySelector> {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         mainAxisSize: MainAxisSize.min,
         children: [
-        // Header
-        Row(
-          children: [
-            Expanded(
-              child: Text(
-                l10n.activeScheduleDays,
-                style: (isTablet
-                    ? theme.textTheme.headlineSmall
-                    : theme.textTheme.titleLarge)?.copyWith(
-                  fontWeight: FontWeight.w600,
-                  fontSize: (isTablet ? 26 : 22) * context.fontScale,
+          // Header
+          Row(
+            children: [
+              Expanded(
+                child: Text(
+                  l10n.activeScheduleDays,
+                  style:
+                      (isTablet
+                              ? theme.textTheme.headlineSmall
+                              : theme.textTheme.titleLarge)
+                          ?.copyWith(
+                            fontWeight: FontWeight.w600,
+                            fontSize: (isTablet ? 26 : 22) * context.fontScale,
+                          ),
                 ),
               ),
-            ),
-            // Quick selection menu
-            PopupMenuButton<String>(
-              icon: Icon(
-                Icons.more_vert,
-                size: context.getAdaptiveIconSize(
-                  mobile: 24,
-                  tablet: 26,
-                  desktop: 28,
-                ),
-              ),
-              tooltip: l10n.quickSelectionOptions,
-              onSelected: (value) {
-                switch (value) {
-                  case 'weekdays':
-                    _selectWeekdays();
-                    break;
-                  case 'weekends':
-                    _selectWeekends();
-                    break;
-                  case 'all':
-                    _selectAllDays();
-                    break;
-                  case 'clear':
-                    _clearSelection();
-                    break;
-                }
-              },
-              itemBuilder: (context) => [
-                PopupMenuItem(
-                  value: 'weekdays',
-                  child: ListTile(
-                    leading: const Icon(Icons.work_outline),
-                    title: Text(AppLocalizations.of(context).weekdaysOnly),
-                    subtitle: Text(AppLocalizations.of(context).mondayToFridayShort),
-                    contentPadding: EdgeInsets.zero,
+              // Quick selection menu
+              PopupMenuButton<String>(
+                icon: Icon(
+                  Icons.more_vert,
+                  size: context.getAdaptiveIconSize(
+                    mobile: 24,
+                    tablet: 26,
+                    desktop: 28,
                   ),
                 ),
-                PopupMenuItem(
-                  value: 'weekends',
-                  child: ListTile(
-                    leading: const Icon(Icons.weekend_outlined),
-                    title: Text(AppLocalizations.of(context).weekendsOnly),
-                    subtitle: Text(AppLocalizations.of(context).saturdayToSundayShort),
-                    contentPadding: EdgeInsets.zero,
-                  ),
-                ),
-                PopupMenuItem(
-                  value: 'all',
-                  child: ListTile(
-                    leading: const Icon(Icons.select_all),
-                    title: Text(AppLocalizations.of(context).allDays),
-                    subtitle: Text(AppLocalizations.of(context).allDaysSubtitle),
-                    contentPadding: EdgeInsets.zero,
-                  ),
-                ),
-                if (widget.allowEmpty)
+                tooltip: l10n.quickSelectionOptions,
+                onSelected: (value) {
+                  switch (value) {
+                    case 'weekdays':
+                      _selectWeekdays();
+                      break;
+                    case 'weekends':
+                      _selectWeekends();
+                      break;
+                    case 'all':
+                      _selectAllDays();
+                      break;
+                    case 'clear':
+                      _clearSelection();
+                      break;
+                  }
+                },
+                itemBuilder: (context) => [
                   PopupMenuItem(
-                    value: 'clear',
+                    value: 'weekdays',
                     child: ListTile(
-                      leading: const Icon(Icons.clear_all),
-                      title: Text(AppLocalizations.of(context).clearAll),
+                      leading: const Icon(Icons.work_outline),
+                      title: Text(AppLocalizations.of(context).weekdaysOnly),
+                      subtitle: Text(
+                        AppLocalizations.of(context).mondayToFridayShort,
+                      ),
                       contentPadding: EdgeInsets.zero,
                     ),
                   ),
-              ],
-            ),
-          ],
-        ),
-
-        SizedBox(height: context.getAdaptiveSpacing(
-          mobile: 8,
-          tablet: 10,
-          desktop: 12,
-        )),
-
-        // Selection info
-        Text(
-          l10n.daysSelected(_selectedDays.length),
-          style: (isTablet
-              ? theme.textTheme.bodyMedium
-              : theme.textTheme.bodySmall)?.copyWith(
-            color: theme.colorScheme.onSurface.withValues(alpha: 0.7),
-            fontSize: (isTablet ? 16 : 14) * context.fontScale,
+                  PopupMenuItem(
+                    value: 'weekends',
+                    child: ListTile(
+                      leading: const Icon(Icons.weekend_outlined),
+                      title: Text(AppLocalizations.of(context).weekendsOnly),
+                      subtitle: Text(
+                        AppLocalizations.of(context).saturdayToSundayShort,
+                      ),
+                      contentPadding: EdgeInsets.zero,
+                    ),
+                  ),
+                  PopupMenuItem(
+                    value: 'all',
+                    child: ListTile(
+                      leading: const Icon(Icons.select_all),
+                      title: Text(AppLocalizations.of(context).allDays),
+                      subtitle: Text(
+                        AppLocalizations.of(context).allDaysSubtitle,
+                      ),
+                      contentPadding: EdgeInsets.zero,
+                    ),
+                  ),
+                  if (widget.allowEmpty)
+                    PopupMenuItem(
+                      value: 'clear',
+                      child: ListTile(
+                        leading: const Icon(Icons.clear_all),
+                        title: Text(AppLocalizations.of(context).clearAll),
+                        contentPadding: EdgeInsets.zero,
+                      ),
+                    ),
+                ],
+              ),
+            ],
           ),
-        ),
 
-        SizedBox(height: context.getAdaptiveSpacing(
-          mobile: 24,
-          tablet: 28,
-          desktop: 32,
-        )),
+          SizedBox(
+            height: context.getAdaptiveSpacing(
+              mobile: 8,
+              tablet: 10,
+              desktop: 12,
+            ),
+          ),
 
-        // Weekday grid - Allow it to size naturally
-        _buildWeekdayGrid(theme),
+          // Selection info
+          Text(
+            l10n.daysSelected(_selectedDays.length),
+            style:
+                (isTablet
+                        ? theme.textTheme.bodyMedium
+                        : theme.textTheme.bodySmall)
+                    ?.copyWith(
+                      color: theme.colorScheme.onSurface.withValues(alpha: 0.7),
+                      fontSize: (isTablet ? 16 : 14) * context.fontScale,
+                    ),
+          ),
 
-        SizedBox(height: context.getAdaptiveSpacing(
-          mobile: 16,
-          tablet: 20,
-          desktop: 24,
-        )),
+          SizedBox(
+            height: context.getAdaptiveSpacing(
+              mobile: 24,
+              tablet: 28,
+              desktop: 32,
+            ),
+          ),
 
-        // Selection summary
-        _buildSelectionSummary(theme),
-      ],
+          // Weekday grid - Allow it to size naturally
+          _buildWeekdayGrid(theme),
+
+          SizedBox(
+            height: context.getAdaptiveSpacing(
+              mobile: 16,
+              tablet: 20,
+              desktop: 24,
+            ),
+          ),
+
+          // Selection summary
+          _buildSelectionSummary(theme),
+        ],
       ),
     );
   }
@@ -349,9 +365,7 @@ class _WeekdaySelectorState extends State<WeekdaySelector> {
                     : theme.dividerColor,
                 width: isSelected ? 2 : 1,
               ),
-              borderRadius: BorderRadius.circular(
-                context.isTablet ? 16 : 12,
-              ),
+              borderRadius: BorderRadius.circular(context.isTablet ? 16 : 12),
             ),
             padding: context.getAdaptivePadding(
               mobileHorizontal: 16,
@@ -376,34 +390,50 @@ class _WeekdaySelectorState extends State<WeekdaySelector> {
                     desktop: 32,
                   ),
                 ),
-                SizedBox(height: context.getAdaptiveSpacing(
-                  mobile: 8,
-                  tablet: 10,
-                  desktop: 12,
-                )),
-                Text(
-                  abbreviation,
-                  style: (context.isTablet
-                      ? theme.textTheme.bodyMedium
-                      : theme.textTheme.bodySmall)?.copyWith(
-                    color: isSelected
-                        ? theme.colorScheme.primary
-                        : theme.colorScheme.onSurface.withValues(alpha: 0.6),
-                    fontWeight: isSelected ? FontWeight.w600 : FontWeight.w500,
-                    fontSize: (context.isTablet ? 14 : 12) * context.fontScale,
+                SizedBox(
+                  height: context.getAdaptiveSpacing(
+                    mobile: 8,
+                    tablet: 10,
+                    desktop: 12,
                   ),
                 ),
                 Text(
+                  abbreviation,
+                  style:
+                      (context.isTablet
+                              ? theme.textTheme.bodyMedium
+                              : theme.textTheme.bodySmall)
+                          ?.copyWith(
+                            color: isSelected
+                                ? theme.colorScheme.primary
+                                : theme.colorScheme.onSurface.withValues(
+                                    alpha: 0.6,
+                                  ),
+                            fontWeight: isSelected
+                                ? FontWeight.w600
+                                : FontWeight.w500,
+                            fontSize:
+                                (context.isTablet ? 14 : 12) *
+                                context.fontScale,
+                          ),
+                ),
+                Text(
                   day,
-                  style: (context.isTablet
-                      ? theme.textTheme.titleMedium
-                      : theme.textTheme.bodyLarge)?.copyWith(
-                    color: isSelected
-                        ? theme.colorScheme.primary
-                        : theme.colorScheme.onSurface,
-                    fontWeight: isSelected ? FontWeight.w600 : FontWeight.w500,
-                    fontSize: (context.isTablet ? 18 : 16) * context.fontScale,
-                  ),
+                  style:
+                      (context.isTablet
+                              ? theme.textTheme.titleMedium
+                              : theme.textTheme.bodyLarge)
+                          ?.copyWith(
+                            color: isSelected
+                                ? theme.colorScheme.primary
+                                : theme.colorScheme.onSurface,
+                            fontWeight: isSelected
+                                ? FontWeight.w600
+                                : FontWeight.w500,
+                            fontSize:
+                                (context.isTablet ? 18 : 16) *
+                                context.fontScale,
+                          ),
                   textAlign: TextAlign.center,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
@@ -535,7 +565,9 @@ class _WeekdaySelectorState extends State<WeekdaySelector> {
               final abbreviation = _getWeekdayAbbreviation(context, index);
               return Chip(
                 label: Text(abbreviation),
-                backgroundColor: theme.colorScheme.primary.withValues(alpha: 0.1),
+                backgroundColor: theme.colorScheme.primary.withValues(
+                  alpha: 0.1,
+                ),
                 side: BorderSide(
                   color: theme.colorScheme.primary.withValues(alpha: 0.3),
                 ),

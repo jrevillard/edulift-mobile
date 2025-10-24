@@ -351,7 +351,8 @@ void main() {
           multiLine: true,
         );
 
-        if (entityDeserializer.hasMatch(content) || entitySerializer.hasMatch(content)) {
+        if (entityDeserializer.hasMatch(content) ||
+            entitySerializer.hasMatch(content)) {
           violations.add(
             '${file.path}: Contains fromJson/toJson (should be DTO in data layer)',
           );
@@ -414,7 +415,8 @@ void main() {
           multiLine: true,
         );
 
-        if (entityDeserializer.hasMatch(content) || entitySerializer.hasMatch(content)) {
+        if (entityDeserializer.hasMatch(content) ||
+            entitySerializer.hasMatch(content)) {
           final classes = extractClassNames(file);
           for (final className in classes) {
             violations.add(

@@ -5,7 +5,10 @@ import 'package:edulift/core/domain/entities/schedule.dart';
 import '../../../../core/utils/timezone_formatter.dart';
 import '../../../../core/services/providers/auth_provider.dart';
 
-String _getTimeSlotRange(Map<String, List<String>> scheduleHours, String? userTimezone) {
+String _getTimeSlotRange(
+  Map<String, List<String>> scheduleHours,
+  String? userTimezone,
+) {
   final allSlots = <String>[];
   for (final daySlots in scheduleHours.values) {
     allSlots.addAll(daySlots);
@@ -19,8 +22,14 @@ String _getTimeSlotRange(Map<String, List<String>> scheduleHours, String? userTi
   if (allSlots.isEmpty) return '';
 
   // Convert UTC times to user's timezone
-  final firstTime = TimezoneFormatter.formatTimeSlot(allSlots.first, userTimezone);
-  final lastTime = TimezoneFormatter.formatTimeSlot(allSlots.last, userTimezone);
+  final firstTime = TimezoneFormatter.formatTimeSlot(
+    allSlots.first,
+    userTimezone,
+  );
+  final lastTime = TimezoneFormatter.formatTimeSlot(
+    allSlots.last,
+    userTimezone,
+  );
 
   return '$firstTime - $lastTime';
 }
@@ -104,7 +113,9 @@ class SchedulePreview extends ConsumerWidget {
             label: l10n.timeSlots,
             value: l10n.slotsCount(totalActiveSlots),
             detail: totalActiveSlots > 0
-                ? l10n.timeRange(_getTimeSlotRange(config.scheduleHours, userTimezone))
+                ? l10n.timeRange(
+                    _getTimeSlotRange(config.scheduleHours, userTimezone),
+                  )
                 : l10n.noTimeSlotsConfigured,
             theme: theme,
           ),

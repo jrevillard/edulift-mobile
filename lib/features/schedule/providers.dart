@@ -28,12 +28,15 @@ final assignVehicleToSlotUsecaseProvider = Provider<AssignVehicleToSlot>((ref) {
   return AssignVehicleToSlot(repository);
 });
 
-final assignChildrenToVehicleUsecaseProvider = Provider<AssignChildrenToVehicle>((ref) {
-  final repository = ref.watch(scheduleRepositoryProvider);
-  return AssignChildrenToVehicle(repository);
-});
+final assignChildrenToVehicleUsecaseProvider =
+    Provider<AssignChildrenToVehicle>((ref) {
+      final repository = ref.watch(scheduleRepositoryProvider);
+      return AssignChildrenToVehicle(repository);
+    });
 
-final removeVehicleFromSlotUsecaseProvider = Provider<RemoveVehicleFromSlot>((ref) {
+final removeVehicleFromSlotUsecaseProvider = Provider<RemoveVehicleFromSlot>((
+  ref,
+) {
   final repository = ref.watch(scheduleRepositoryProvider);
   return RemoveVehicleFromSlot(repository);
 });
@@ -44,7 +47,9 @@ final getScheduleConfigUsecaseProvider = Provider<GetScheduleConfig>((ref) {
   return GetScheduleConfig(repository);
 });
 
-final updateScheduleConfigUsecaseProvider = Provider<UpdateScheduleConfig>((ref) {
+final updateScheduleConfigUsecaseProvider = Provider<UpdateScheduleConfig>((
+  ref,
+) {
   final repository = ref.watch(scheduleRepositoryProvider);
   return UpdateScheduleConfig(repository);
 });
@@ -65,12 +70,16 @@ final clearWeeklyScheduleUsecaseProvider = Provider<ClearWeeklySchedule>((ref) {
   return ClearWeeklySchedule(repository);
 });
 
-final getScheduleStatisticsUsecaseProvider = Provider<GetScheduleStatistics>((ref) {
+final getScheduleStatisticsUsecaseProvider = Provider<GetScheduleStatistics>((
+  ref,
+) {
   final repository = ref.watch(scheduleRepositoryProvider);
   return GetScheduleStatistics(repository);
 });
 
-final checkScheduleConflictsUsecaseProvider = Provider<CheckScheduleConflicts>((ref) {
+final checkScheduleConflictsUsecaseProvider = Provider<CheckScheduleConflicts>((
+  ref,
+) {
   final repository = ref.watch(scheduleRepositoryProvider);
   return CheckScheduleConflicts(repository);
 });

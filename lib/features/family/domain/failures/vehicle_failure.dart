@@ -13,11 +13,7 @@ class VehicleFailure extends Failure {
     required this.error,
     String? message,
     Map<String, dynamic>? details,
-  }) : super(
-          message: message,
-          code: 'vehicle_error',
-          details: details,
-        );
+  }) : super(message: message, code: 'vehicle_error', details: details);
 
   String get localizationKey => error.localizationKey;
 

@@ -1,7 +1,6 @@
 // EduLift Mobile - Family Repository Mock Factory
 // Phase 2.3: Separate factory per repository as required by execution plan
 
-
 /// Family Repository Mock Factory
 /// TRUTH: Provides consistent family-related mock behavior
 class FamilyRepositoryMockFactory {

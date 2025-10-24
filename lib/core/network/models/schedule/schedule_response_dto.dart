@@ -28,7 +28,6 @@ abstract class ScheduleResponseDto
   /// Returns list of ScheduleSlot entities from the response
   @override
   List<ScheduleSlot> toDomain() {
-
     final domainSlots = scheduleSlots.map((slotDto) {
       try {
         final domainSlot = slotDto.toDomain();

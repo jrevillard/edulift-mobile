@@ -49,7 +49,9 @@ extension FamilyInvitationWebSocketExtension on FamilyInvitationDto {
             ? DateTime.parse(json['acceptedAt'] as String)
             : null,
         createdAt: DateTime.parse(json['createdAt'] as String),
-        updatedAt: DateTime.parse(json['updatedAt'] as String? ?? json['createdAt'] as String),
+        updatedAt: DateTime.parse(
+          json['updatedAt'] as String? ?? json['createdAt'] as String,
+        ),
         invitedByUser: InvitedByUser(
           id: json['inviterId'] as String,
           name: json['inviterName'] as String,

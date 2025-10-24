@@ -63,9 +63,10 @@ class ScheduleRemoteDataSourceImpl implements ScheduleRemoteDataSource {
     final startDateUtc = startDate.toIso8601String();
     final endDateUtc = endDate.toIso8601String();
 
-    final scheduleResponse = await ApiResponseHelper.executeAndUnwrap<ScheduleResponseDto>(
-      () => _apiClient.getGroupSchedule(groupId, startDateUtc, endDateUtc),
-    );
+    final scheduleResponse =
+        await ApiResponseHelper.executeAndUnwrap<ScheduleResponseDto>(
+          () => _apiClient.getGroupSchedule(groupId, startDateUtc, endDateUtc),
+        );
 
     AppLogger.debug(
       '[ScheduleRemoteDataSource] Successfully fetched ${scheduleResponse.scheduleSlots.length} schedule slots',
@@ -85,16 +86,13 @@ class ScheduleRemoteDataSourceImpl implements ScheduleRemoteDataSource {
     required String week,
     required String vehicleId,
   }) async {
-    AppLogger.debug(
-      '[ScheduleRemoteDataSource] assignVehicleToSlot() called',
-      {
-        'groupId': groupId,
-        'day': day,
-        'time': time,
-        'week': week,
-        'vehicleId': vehicleId,
-      },
-    );
+    AppLogger.debug('[ScheduleRemoteDataSource] assignVehicleToSlot() called', {
+      'groupId': groupId,
+      'day': day,
+      'time': time,
+      'week': week,
+      'vehicleId': vehicleId,
+    });
 
     // Calculate datetime from day, time, and week using domain service
     final datetime = _dateTimeService.calculateDateTimeFromSlot(
@@ -151,9 +149,10 @@ class ScheduleRemoteDataSourceImpl implements ScheduleRemoteDataSource {
         '[ScheduleRemoteDataSource] Creating slot (timezone from user DB)',
       );
 
-      final scheduleSlotDto = await ApiResponseHelper.executeAndUnwrap<ScheduleSlotDto>(
-        () => _apiClient.createScheduleSlot(groupId, createSlotRequest),
-      );
+      final scheduleSlotDto =
+          await ApiResponseHelper.executeAndUnwrap<ScheduleSlotDto>(
+            () => _apiClient.createScheduleSlot(groupId, createSlotRequest),
+          );
 
       // Extract the vehicle assignment from the response
       final vehicleAssignments = scheduleSlotDto.vehicleAssignments;
@@ -172,14 +171,16 @@ class ScheduleRemoteDataSourceImpl implements ScheduleRemoteDataSource {
       );
 
       final assignRequest = AssignVehicleRequest(vehicleId: vehicleId);
-      vehicleAssignmentDto = await ApiResponseHelper.executeAndUnwrap<VehicleAssignmentDto>(
-        () => _apiClient.assignVehicleToSlotTyped(existingSlot!.id, assignRequest),
-      );
+      vehicleAssignmentDto =
+          await ApiResponseHelper.executeAndUnwrap<VehicleAssignmentDto>(
+            () => _apiClient.assignVehicleToSlotTyped(
+              existingSlot!.id,
+              assignRequest,
+            ),
+          );
     }
 
-    AppLogger.debug(
-      '[ScheduleRemoteDataSource] Successfully assigned vehicle',
-    );
+    AppLogger.debug('[ScheduleRemoteDataSource] Successfully assigned vehicle');
     return vehicleAssignmentDto;
   }
 
@@ -215,18 +216,16 @@ class ScheduleRemoteDataSourceImpl implements ScheduleRemoteDataSource {
     required String vehicleAssignmentId,
     required int? seatOverride,
   }) async {
-    AppLogger.debug(
-      '[ScheduleRemoteDataSource] updateSeatOverride() called',
-      {
-        'vehicleAssignmentId': vehicleAssignmentId,
-        'seatOverride': seatOverride,
-      },
-    );
+    AppLogger.debug('[ScheduleRemoteDataSource] updateSeatOverride() called', {
+      'vehicleAssignmentId': vehicleAssignmentId,
+      'seatOverride': seatOverride,
+    });
 
     final request = UpdateSeatOverrideRequest(seatOverride: seatOverride);
-    final vehicleAssignmentDto = await ApiResponseHelper.executeAndUnwrap<VehicleAssignmentDto>(
-      () => _apiClient.updateSeatOverride(vehicleAssignmentId, request),
-    );
+    final vehicleAssignmentDto =
+        await ApiResponseHelper.executeAndUnwrap<VehicleAssignmentDto>(
+          () => _apiClient.updateSeatOverride(vehicleAssignmentId, request),
+        );
 
     AppLogger.debug(
       '[ScheduleRemoteDataSource] Successfully updated seat override',
@@ -351,14 +350,14 @@ class ScheduleRemoteDataSourceImpl implements ScheduleRemoteDataSource {
 
   @override
   Future<ScheduleConfigDto> getScheduleConfig(String groupId) async {
-    AppLogger.debug(
-      '[ScheduleRemoteDataSource] getScheduleConfig() called',
-      {'groupId': groupId},
-    );
+    AppLogger.debug('[ScheduleRemoteDataSource] getScheduleConfig() called', {
+      'groupId': groupId,
+    });
 
-    final scheduleConfigDto = await ApiResponseHelper.executeAndUnwrap<ScheduleConfigDto>(
-      () => _apiClient.getGroupScheduleConfig(groupId),
-    );
+    final scheduleConfigDto =
+        await ApiResponseHelper.executeAndUnwrap<ScheduleConfigDto>(
+          () => _apiClient.getGroupScheduleConfig(groupId),
+        );
 
     AppLogger.debug(
       '[ScheduleRemoteDataSource] Successfully fetched schedule config',
@@ -376,9 +375,10 @@ class ScheduleRemoteDataSourceImpl implements ScheduleRemoteDataSource {
       {'groupId': groupId},
     );
 
-    final scheduleConfigDto = await ApiResponseHelper.executeAndUnwrap<ScheduleConfigDto>(
-      () => _apiClient.updateGroupScheduleConfigTyped(groupId, request),
-    );
+    final scheduleConfigDto =
+        await ApiResponseHelper.executeAndUnwrap<ScheduleConfigDto>(
+          () => _apiClient.updateGroupScheduleConfigTyped(groupId, request),
+        );
 
     AppLogger.debug(
       '[ScheduleRemoteDataSource] Successfully updated schedule config',
@@ -388,14 +388,14 @@ class ScheduleRemoteDataSourceImpl implements ScheduleRemoteDataSource {
 
   @override
   Future<ScheduleConfigDto> resetScheduleConfig(String groupId) async {
-    AppLogger.debug(
-      '[ScheduleRemoteDataSource] resetScheduleConfig() called',
-      {'groupId': groupId},
-    );
+    AppLogger.debug('[ScheduleRemoteDataSource] resetScheduleConfig() called', {
+      'groupId': groupId,
+    });
 
-    final scheduleConfigDto = await ApiResponseHelper.executeAndUnwrap<ScheduleConfigDto>(
-      () => _apiClient.resetGroupScheduleConfig(groupId),
-    );
+    final scheduleConfigDto =
+        await ApiResponseHelper.executeAndUnwrap<ScheduleConfigDto>(
+          () => _apiClient.resetGroupScheduleConfig(groupId),
+        );
 
     AppLogger.debug(
       '[ScheduleRemoteDataSource] Successfully reset schedule config',

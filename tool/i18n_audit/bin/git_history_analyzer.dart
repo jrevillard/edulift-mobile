@@ -22,20 +22,21 @@ class GitHistoryAnalyzer {
 
   /// Run the analyzer
   Future<void> run() async {
-    print('🔍 Starting git history analysis for reverted internationalized strings...');
-    
+    print(
+        '🔍 Starting git history analysis for reverted internationalized strings...');
+
     final findings = <ReversionFinding>[];
-    
+
     // Get git history
     final commits = await _getGitCommits();
-    
+
     // Analyze each commit for reversion patterns
     for (final commit in commits) {
       if (_verbose) print('Analyzing commit ${commit.hash}...');
       final commitFindings = await _analyzeCommit(commit);
       findings.addAll(commitFindings);
     }
-    
+
     _outputFindings(findings);
     print('✅ Analysis complete. Found ${findings.length} reversion issues.');
   }
@@ -43,7 +44,7 @@ class GitHistoryAnalyzer {
   /// Get git commits
   Future<List<GitCommit>> _getGitCommits() async {
     final commits = <GitCommit>[];
-    
+
     try {
       final result = await Process.run('git', [
         'log',
@@ -52,12 +53,12 @@ class GitHistoryAnalyzer {
         '-n',
         _historyDepth.toString(),
       ]);
-      
+
       if (result.exitCode == 0) {
         final lines = (result.stdout as String).split('\n');
         for (final line in lines) {
           if (line.trim().isEmpty) continue;
-          
+
           final parts = line.split('|');
           if (parts.length >= 5) {
             commits.add(GitCommit(
@@ -73,14 +74,14 @@ class GitHistoryAnalyzer {
     } catch (e) {
       print('Warning: Could not fetch git history: $e');
     }
-    
+
     return commits;
   }
 
   /// Analyze a single commit for reversion patterns
   Future<List<ReversionFinding>> _analyzeCommit(GitCommit commit) async {
     final findings = <ReversionFinding>[];
-    
+
     // Get diff for this commit
     try {
       final result = await Process.run('git', [
@@ -88,50 +89,55 @@ class GitHistoryAnalyzer {
         '--unified=0',
         commit.hash,
       ]);
-      
+
       if (result.exitCode == 0) {
         final diff = result.stdout as String;
         final diffFindings = _analyzeDiff(diff, commit);
         findings.addAll(diffFindings);
       }
     } catch (e) {
-      if (_verbose) print('Warning: Could not analyze commit ${commit.hash}: $e');
+      if (_verbose)
+        print('Warning: Could not analyze commit ${commit.hash}: $e');
     }
-    
+
     return findings;
   }
 
   /// Analyze diff for reversion patterns
   List<ReversionFinding> _analyzeDiff(String diff, GitCommit commit) {
     final findings = <ReversionFinding>[];
-    
+
     // Look for patterns indicating reversion from internationalized to hardcoded
     final lines = diff.split('\n');
     for (var i = 0; i < lines.length; i++) {
       final line = lines[i];
-      
+
       // Look for removal of S.of(context) or AppLocalizations.of(context) calls
-      if (line.startsWith('-') && 
-          (line.contains('S.of(context)') || 
-           line.contains('AppLocalizations.of(context)'))) {
-        
+      if (line.startsWith('-') &&
+          (line.contains('S.of(context)') ||
+              line.contains('AppLocalizations.of(context)'))) {
         // Check if the next line adds a hardcoded string
         if (i + 1 < lines.length) {
           final nextLine = lines[i + 1];
-          if (nextLine.startsWith('+') && nextLine.contains('Text(') && nextLine.contains('"')) {
+          if (nextLine.startsWith('+') &&
+              nextLine.contains('Text(') &&
+              nextLine.contains('"')) {
             findings.add(ReversionFinding(
               commit: commit,
               removedLine: line.substring(1), // Remove the '-' prefix
               addedLine: nextLine.substring(1), // Remove the '+' prefix
-              message: 'Possible reversion from internationalized to hardcoded string',
+              message:
+                  'Possible reversion from internationalized to hardcoded string',
               severity: 'warning',
             ));
           }
         }
       }
-      
+
       // Look for removal of import statements related to localization
-      if (line.startsWith('-') && line.contains('import') && line.contains('l10n')) {
+      if (line.startsWith('-') &&
+          line.contains('import') &&
+          line.contains('l10n')) {
         findings.add(ReversionFinding(
           commit: commit,
           removedLine: line.substring(1),
@@ -141,7 +147,7 @@ class GitHistoryAnalyzer {
         ));
       }
     }
-    
+
     return findings;
   }
 
@@ -165,13 +171,15 @@ class GitHistoryAnalyzer {
       print('✅ No reversion issues found.');
       return;
     }
-    
+
     print('\n🔍 Git History Reversion Findings:');
     print('=' * 50);
-    
+
     for (final finding in findings) {
-      print('${finding.severity.toUpperCase()}: ${finding.commit.hash.substring(0, 8)} - ${finding.commit.message}');
-      print('  Author: ${finding.commit.authorName} <${finding.commit.authorEmail}>');
+      print(
+          '${finding.severity.toUpperCase()}: ${finding.commit.hash.substring(0, 8)} - ${finding.commit.message}');
+      print(
+          '  Author: ${finding.commit.authorName} <${finding.commit.authorEmail}>');
       print('  Date: ${finding.commit.date}');
       print('  Removed: ${finding.removedLine}');
       if (finding.addedLine.isNotEmpty) {
@@ -197,7 +205,8 @@ class GitHistoryAnalyzer {
   void _outputCsv(List<ReversionFinding> findings) {
     print('CommitHash,Author,Message,RemovedLine,AddedLine,Severity');
     for (final finding in findings) {
-      print('${finding.commit.hash},${finding.commit.authorName},"${finding.commit.message}","${finding.removedLine}","${finding.addedLine}",${finding.severity}');
+      print(
+          '${finding.commit.hash},${finding.commit.authorName},"${finding.commit.message}","${finding.removedLine}","${finding.addedLine}",${finding.severity}');
     }
   }
 }
@@ -256,13 +265,13 @@ class ReversionFinding {
 Future<void> main(List<String> arguments) async {
   final parser = ArgParser()
     ..addFlag('verbose', abbr: 'v', help: 'Enable verbose output')
-    ..addOption('format', abbr: 'f', 
-        allowed: ['console', 'json', 'csv'], 
+    ..addOption('format',
+        abbr: 'f',
+        allowed: ['console', 'json', 'csv'],
         defaultsTo: 'console',
         help: 'Output format')
-    ..addOption('depth', abbr: 'd',
-        defaultsTo: '100',
-        help: 'History depth to analyze')
+    ..addOption('depth',
+        abbr: 'd', defaultsTo: '100', help: 'History depth to analyze')
     ..addFlag('help', abbr: 'h', help: 'Show help');
 
   late final ArgResults results;

@@ -119,10 +119,7 @@ class TestMockConfiguration {
         userMessage: UserErrorMessage(
           titleKey: 'error.network.title',
           messageKey: 'error.network.connection',
-          actionableSteps: [
-            'actionCheckConnection',
-            'actionTryAgain',
-          ],
+          actionableSteps: ['actionCheckConnection', 'actionTryAgain'],
           canRetry: true,
         ),
         wasLogged: true,
@@ -145,10 +142,7 @@ class TestMockConfiguration {
         userMessage: UserErrorMessage(
           titleKey: 'error.validation.title',
           messageKey: 'error.validation.input',
-          actionableSteps: [
-            'actionReviewInfo',
-            'actionFillRequired',
-          ],
+          actionableSteps: ['actionReviewInfo', 'actionFillRequired'],
           severity: ErrorSeverity.minor,
         ),
         wasLogged: true,
@@ -171,10 +165,7 @@ class TestMockConfiguration {
         userMessage: UserErrorMessage(
           titleKey: 'error.connection.title',
           messageKey: 'error.connection.no_internet',
-          actionableSteps: [
-            'actionCheckConnection',
-            'actionTryAgain',
-          ],
+          actionableSteps: ['actionCheckConnection', 'actionTryAgain'],
           canRetry: true,
         ),
         wasLogged: true,

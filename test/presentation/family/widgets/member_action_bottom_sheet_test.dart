@@ -27,7 +27,7 @@ void main() {
         familyId: 'family-456',
         userId: 'user-789',
         role: FamilyRole.member,
-      status: 'ACTIVE',
+        status: 'ACTIVE',
         joinedAt: DateTime(2024),
         userName: 'Test Member',
         userEmail: 'member@example.com',
@@ -38,7 +38,7 @@ void main() {
         familyId: 'family-456',
         userId: 'current-user-123',
         role: FamilyRole.admin,
-      status: 'ACTIVE',
+        status: 'ACTIVE',
         joinedAt: DateTime(2024),
         userName: 'Current User',
         userEmail: 'current@example.com',
@@ -64,7 +64,12 @@ void main() {
           }),
         ],
         child: MaterialApp(
-          home: Scaffold(body: MemberActionBottomSheet(member: testMember, canManageRoles: true)),
+          home: Scaffold(
+            body: MemberActionBottomSheet(
+              member: testMember,
+              canManageRoles: true,
+            ),
+          ),
         ),
       );
 
@@ -98,7 +103,12 @@ void main() {
           }),
         ],
         child: MaterialApp(
-          home: Scaffold(body: MemberActionBottomSheet(member: adminMember, canManageRoles: true)),
+          home: Scaffold(
+            body: MemberActionBottomSheet(
+              member: adminMember,
+              canManageRoles: true,
+            ),
+          ),
         ),
       );
 
@@ -399,7 +409,10 @@ void main() {
         ],
         child: MaterialApp(
           home: Scaffold(
-            body: MemberActionBottomSheet(member: memberWithEmptyName, canManageRoles: true),
+            body: MemberActionBottomSheet(
+              member: memberWithEmptyName,
+              canManageRoles: true,
+            ),
           ),
         ),
       );

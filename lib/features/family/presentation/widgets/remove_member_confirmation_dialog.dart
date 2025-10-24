@@ -56,129 +56,129 @@ class _RemoveMemberConfirmationDialogState
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-          Container(
-            padding: const EdgeInsets.all(16),
-            decoration: BoxDecoration(
-              color: theme.colorScheme.errorContainer.withValues(alpha: 0.3),
-              borderRadius: BorderRadius.circular(8),
-              border: Border.all(
-                color: theme.colorScheme.error.withValues(alpha: 0.3),
+            Container(
+              padding: const EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                color: theme.colorScheme.errorContainer.withValues(alpha: 0.3),
+                borderRadius: BorderRadius.circular(8),
+                border: Border.all(
+                  color: theme.colorScheme.error.withValues(alpha: 0.3),
+                ),
               ),
-            ),
-            child: Row(
-              children: [
-                CircleAvatar(
-                  backgroundColor: theme.colorScheme.errorContainer,
-                  radius: 20,
-                  child: widget.member.role == FamilyRole.admin
-                      ? Icon(
-                          Icons.admin_panel_settings,
-                          color: theme.colorScheme.onErrorContainer,
-                          size: 20,
-                        )
-                      : Text(
-                          widget.member.displayNameOrLoading.isNotEmpty
-                              ? widget.member.displayNameOrLoading[0]
-                                    .toUpperCase()
-                              : '?',
-                          style: TextStyle(
+              child: Row(
+                children: [
+                  CircleAvatar(
+                    backgroundColor: theme.colorScheme.errorContainer,
+                    radius: 20,
+                    child: widget.member.role == FamilyRole.admin
+                        ? Icon(
+                            Icons.admin_panel_settings,
                             color: theme.colorScheme.onErrorContainer,
-                            fontWeight: FontWeight.bold,
+                            size: 20,
+                          )
+                        : Text(
+                            widget.member.displayNameOrLoading.isNotEmpty
+                                ? widget.member.displayNameOrLoading[0]
+                                      .toUpperCase()
+                                : '?',
+                            style: TextStyle(
+                              color: theme.colorScheme.onErrorContainer,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                  ),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          widget.member.displayNameOrLoading,
+                          key: const Key('member_name'),
+                          style: theme.textTheme.titleMedium?.copyWith(
+                            fontWeight: FontWeight.w600,
                           ),
                         ),
-                ),
-                const SizedBox(width: 12),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        widget.member.displayNameOrLoading,
-                        key: const Key('member_name'),
-                        style: theme.textTheme.titleMedium?.copyWith(
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                      const SizedBox(height: 2),
-                      Text(
-                        widget.member.role.value,
-                        key: const Key('member_role'),
-                        style: theme.textTheme.bodySmall?.copyWith(
-                          color: theme.colorScheme.onSurfaceVariant,
-                        ),
-                      ),
-                      if (widget.member.userEmail != null) ...[
                         const SizedBox(height: 2),
                         Text(
-                          widget.member.userEmail!,
-                          key: const Key('member_email'),
+                          widget.member.role.value,
+                          key: const Key('member_role'),
                           style: theme.textTheme.bodySmall?.copyWith(
                             color: theme.colorScheme.onSurfaceVariant,
                           ),
                         ),
+                        if (widget.member.userEmail != null) ...[
+                          const SizedBox(height: 2),
+                          Text(
+                            widget.member.userEmail!,
+                            key: const Key('member_email'),
+                            style: theme.textTheme.bodySmall?.copyWith(
+                              color: theme.colorScheme.onSurfaceVariant,
+                            ),
+                          ),
+                        ],
                       ],
-                    ],
+                    ),
                   ),
-                ),
-              ],
-            ),
-          ),
-          const SizedBox(height: 16),
-          Container(
-            padding: const EdgeInsets.all(12),
-            decoration: BoxDecoration(
-              color: theme.colorScheme.errorContainer.withValues(alpha: 0.1),
-              borderRadius: BorderRadius.circular(8),
-              border: Border.all(
-                color: theme.colorScheme.error.withValues(alpha: 0.3),
+                ],
               ),
             ),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Icon(
-                  Icons.warning_amber,
-                  size: 20,
-                  color: theme.colorScheme.error,
+            const SizedBox(height: 16),
+            Container(
+              padding: const EdgeInsets.all(12),
+              decoration: BoxDecoration(
+                color: theme.colorScheme.errorContainer.withValues(alpha: 0.1),
+                borderRadius: BorderRadius.circular(8),
+                border: Border.all(
+                  color: theme.colorScheme.error.withValues(alpha: 0.3),
                 ),
-                const SizedBox(width: 8),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        localizations.actionCannotBeUndone,
-                        style: theme.textTheme.bodyMedium?.copyWith(
-                          fontWeight: FontWeight.w600,
-                          color: theme.colorScheme.error,
-                        ),
-                      ),
-                      const SizedBox(height: 4),
-                      Text(
-                        localizations.removeMemberConfirmation(
-                          widget.member.displayNameOrLoading,
-                        ),
-                        style: theme.textTheme.bodySmall?.copyWith(
-                          color: theme.colorScheme.error,
-                        ),
-                      ),
-                      if (widget.member.role == FamilyRole.admin) ...[
-                        const SizedBox(height: 8),
+              ),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Icon(
+                    Icons.warning_amber,
+                    size: 20,
+                    color: theme.colorScheme.error,
+                  ),
+                  const SizedBox(width: 8),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
                         Text(
-                          localizations.removeAdminNote,
-                          style: theme.textTheme.bodySmall?.copyWith(
-                            color: theme.colorScheme.error,
+                          localizations.actionCannotBeUndone,
+                          style: theme.textTheme.bodyMedium?.copyWith(
                             fontWeight: FontWeight.w600,
+                            color: theme.colorScheme.error,
                           ),
                         ),
+                        const SizedBox(height: 4),
+                        Text(
+                          localizations.removeMemberConfirmation(
+                            widget.member.displayNameOrLoading,
+                          ),
+                          style: theme.textTheme.bodySmall?.copyWith(
+                            color: theme.colorScheme.error,
+                          ),
+                        ),
+                        if (widget.member.role == FamilyRole.admin) ...[
+                          const SizedBox(height: 8),
+                          Text(
+                            localizations.removeAdminNote,
+                            style: theme.textTheme.bodySmall?.copyWith(
+                              color: theme.colorScheme.error,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ],
                       ],
-                    ],
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
         ),
       ),
       actions: [

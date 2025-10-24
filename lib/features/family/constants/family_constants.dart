@@ -46,10 +46,13 @@ class FamilyConstants {
 
   /// Family data cache duration
   static const Duration familyCacheDuration = Duration(hours: 24);
+
   /// Children data cache duration
   static const Duration childrenCacheDuration = Duration(hours: 12);
+
   /// Vehicles data cache duration
   static const Duration vehiclesCacheDuration = Duration(hours: 12);
+
   /// Invitations cache duration
   static const Duration invitationsCacheDuration = Duration(hours: 6);
   // ========================================
@@ -61,6 +64,7 @@ class FamilyConstants {
 
   /// Sync retry interval
   static const Duration syncRetryInterval = Duration(minutes: 5);
+
   /// Maximum sync retry attempts
   static const int maxSyncRetryAttempts = 3;
 
@@ -76,6 +80,7 @@ class FamilyConstants {
 
   /// Default loading timeout
   static const Duration defaultLoadingTimeout = Duration(seconds: 30);
+
   /// Animation duration for family operations
   static const Duration familyAnimationDuration = Duration(milliseconds: 300);
   // ========================================
@@ -86,7 +91,7 @@ class FamilyConstants {
   static const List<String> availableFamilyRoles = [
     'admin',
     'parent',
-    'guardian', 
+    'guardian',
     'viewer',
   ];
 

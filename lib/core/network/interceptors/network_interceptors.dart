@@ -47,12 +47,17 @@ class NetworkAuthInterceptor extends QueuedInterceptor {
       if (_tokenRefreshService != null) {
         final shouldRefresh = await _tokenRefreshService.shouldRefreshToken();
         if (shouldRefresh) {
-          AppLogger.info('[AuthInterceptor] Token expires soon, refreshing preemptively...');
+          AppLogger.info(
+            '[AuthInterceptor] Token expires soon, refreshing preemptively...',
+          );
           try {
             await _tokenRefreshService.refreshToken();
             AppLogger.info('[AuthInterceptor] ✅ Preemptive refresh successful');
           } catch (e) {
-            AppLogger.warning('[AuthInterceptor] ⚠️ Preemptive refresh failed', e);
+            AppLogger.warning(
+              '[AuthInterceptor] ⚠️ Preemptive refresh failed',
+              e,
+            );
             // Continue with existing token, onError will handle 401 if needed
           }
         }
@@ -78,13 +83,17 @@ class NetworkAuthInterceptor extends QueuedInterceptor {
     // ✅ 401 = Unauthorized (token expired/invalid) → automatic refresh attempt
     // This allows the app to recover from temporary token expiration
     if (statusCode == 401) {
-      AppLogger.info('[AuthInterceptor] 401 detected, attempting automatic refresh...');
+      AppLogger.info(
+        '[AuthInterceptor] 401 detected, attempting automatic refresh...',
+      );
 
       // Try to refresh token if service is available
       if (_tokenRefreshService != null) {
         try {
           await _tokenRefreshService.refreshToken();
-          AppLogger.info('[AuthInterceptor] ✅ Token refreshed, retrying original request');
+          AppLogger.info(
+            '[AuthInterceptor] ✅ Token refreshed, retrying original request',
+          );
 
           // Retry the original request with new token
           final token = await _secureStorage.getToken();
@@ -93,11 +102,13 @@ class NetworkAuthInterceptor extends QueuedInterceptor {
 
           // Create a new Dio instance with baseUrl to retry
           // This ensures relative paths work correctly
-          final dio = Dio(BaseOptions(
-            baseUrl: err.requestOptions.baseUrl,
-            connectTimeout: err.requestOptions.connectTimeout,
-            receiveTimeout: err.requestOptions.receiveTimeout,
-          ));
+          final dio = Dio(
+            BaseOptions(
+              baseUrl: err.requestOptions.baseUrl,
+              connectTimeout: err.requestOptions.connectTimeout,
+              receiveTimeout: err.requestOptions.receiveTimeout,
+            ),
+          );
           final response = await dio.fetch(opts);
 
           // Resolve with the retried response
@@ -115,7 +126,9 @@ class NetworkAuthInterceptor extends QueuedInterceptor {
             await _secureStorage.clearToken();
 
             // Notify token expiry (SKIP for logout endpoint to prevent cascade)
-            final isLogoutEndpoint = err.requestOptions.path.contains('/auth/logout');
+            final isLogoutEndpoint = err.requestOptions.path.contains(
+              '/auth/logout',
+            );
             if (_ref != null && !isLogoutEndpoint) {
               try {
                 TokenExpiryNotifier.notifyTokenExpired(
@@ -136,11 +149,7 @@ class NetworkAuthInterceptor extends QueuedInterceptor {
               );
             }
           } catch (e, st) {
-            AppLogger.warning(
-              '[AuthInterceptor] Failed to clear token',
-              e,
-              st,
-            );
+            AppLogger.warning('[AuthInterceptor] Failed to clear token', e, st);
           }
 
           // Continue with original error
@@ -154,7 +163,9 @@ class NetworkAuthInterceptor extends QueuedInterceptor {
           AppLogger.info('[AuthInterceptor] Cleared expired token (HTTP 401)');
 
           // Notify token expiry (SKIP for logout endpoint to prevent cascade)
-          final isLogoutEndpoint = err.requestOptions.path.contains('/auth/logout');
+          final isLogoutEndpoint = err.requestOptions.path.contains(
+            '/auth/logout',
+          );
           if (_ref != null && !isLogoutEndpoint) {
             try {
               TokenExpiryNotifier.notifyTokenExpired(
@@ -175,11 +186,7 @@ class NetworkAuthInterceptor extends QueuedInterceptor {
             );
           }
         } catch (e, st) {
-          AppLogger.warning(
-            '[AuthInterceptor] Failed to clear token',
-            e,
-            st,
-          );
+          AppLogger.warning('[AuthInterceptor] Failed to clear token', e, st);
         }
       }
     }
@@ -190,7 +197,9 @@ class NetworkAuthInterceptor extends QueuedInterceptor {
     // Just let the error propagate to the UI to display "Access Denied" message
     // Example: Regular user tries to access /admin/users → 403 → Show error, keep user logged in
     if (statusCode == 403) {
-      AppLogger.info('[AuthInterceptor] 403 Forbidden - letting error propagate to UI');
+      AppLogger.info(
+        '[AuthInterceptor] 403 Forbidden - letting error propagate to UI',
+      );
       handler.next(err);
       return;
     }
@@ -212,8 +221,12 @@ class NetworkErrorInterceptor extends Interceptor {
   void onError(DioException err, ErrorInterceptorHandler handler) {
     AppLogger.debug('[NetworkErrorInterceptor] ${err.type} - ${err.message}');
     if (err.response != null) {
-      AppLogger.debug('[NetworkErrorInterceptor] Response status: ${err.response?.statusCode}');
-      AppLogger.debug('[NetworkErrorInterceptor] Response data: ${err.response?.data}');
+      AppLogger.debug(
+        '[NetworkErrorInterceptor] Response status: ${err.response?.statusCode}',
+      );
+      AppLogger.debug(
+        '[NetworkErrorInterceptor] Response data: ${err.response?.data}',
+      );
     }
 
     // Transform common network errors

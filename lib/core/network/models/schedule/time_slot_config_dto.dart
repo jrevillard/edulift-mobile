@@ -37,37 +37,40 @@ abstract class TimeSlotConfigDto
     final now = DateTime.now();
     final today = DateTime(now.year, now.month, now.day);
 
-    return timeSlots.map((timeSlot) {
-      // Parse time string (e.g., "08:00")
-      final parts = timeSlot.split(':');
-      if (parts.length != 2) {
-        // Invalid format, skip
-        return null;
-      }
+    return timeSlots
+        .map((timeSlot) {
+          // Parse time string (e.g., "08:00")
+          final parts = timeSlot.split(':');
+          if (parts.length != 2) {
+            // Invalid format, skip
+            return null;
+          }
 
-      final hour = int.tryParse(parts[0]);
-      final minute = int.tryParse(parts[1]);
+          final hour = int.tryParse(parts[0]);
+          final minute = int.tryParse(parts[1]);
 
-      if (hour == null || minute == null) {
-        return null;
-      }
+          if (hour == null || minute == null) {
+            return null;
+          }
 
-      final startTime = today.add(Duration(hours: hour, minutes: minute));
-      final endTime = startTime.add(_kDefaultSlotDuration);
+          final startTime = today.add(Duration(hours: hour, minutes: minute));
+          final endTime = startTime.add(_kDefaultSlotDuration);
 
-      return ScheduleTimeSlot(
-        id: '${id}_$timeSlot',
-        startTime: startTime,
-        endTime: endTime,
-        isAvailable: true,
-        conflictingScheduleIds: const [],
-        groupId: groupId,
-        metadata: {
-          'timeSlot': timeSlot,
-          'availableDays': availableDays,
-          'settings': settings,
-        },
-      );
-    }).whereType<ScheduleTimeSlot>().toList();
+          return ScheduleTimeSlot(
+            id: '${id}_$timeSlot',
+            startTime: startTime,
+            endTime: endTime,
+            isAvailable: true,
+            conflictingScheduleIds: const [],
+            groupId: groupId,
+            metadata: {
+              'timeSlot': timeSlot,
+              'availableDays': availableDays,
+              'settings': settings,
+            },
+          );
+        })
+        .whereType<ScheduleTimeSlot>()
+        .toList();
   }
 }

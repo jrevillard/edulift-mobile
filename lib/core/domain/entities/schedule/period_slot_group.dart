@@ -9,19 +9,13 @@ class PeriodSlotGroup extends Equatable {
   /// List of time slot strings in this period (e.g., ["07:30", "08:00"])
   final List<String> times;
 
-  const PeriodSlotGroup({
-    required this.label,
-    required this.times,
-  });
+  const PeriodSlotGroup({required this.label, required this.times});
 
   @override
   List<Object?> get props => [label, times];
 
   /// Create a copy with modified fields
-  PeriodSlotGroup copyWith({
-    String? label,
-    List<String>? times,
-  }) {
+  PeriodSlotGroup copyWith({String? label, List<String>? times}) {
     return PeriodSlotGroup(
       label: label ?? this.label,
       times: times ?? this.times,

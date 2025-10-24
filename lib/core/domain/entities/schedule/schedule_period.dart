@@ -74,9 +74,10 @@ sealed class SchedulePeriod extends Equatable {
   /// Gets a display string for this period
   String get displayString {
     return switch (this) {
-      AggregatePeriod(:final type, :final timeSlots) => timeSlots.isEmpty
-          ? type.label
-          : '${type.label} (${timeSlots.first.toApiFormat()} - ${timeSlots.last.toApiFormat()})',
+      AggregatePeriod(:final type, :final timeSlots) =>
+        timeSlots.isEmpty
+            ? type.label
+            : '${type.label} (${timeSlots.first.toApiFormat()} - ${timeSlots.last.toApiFormat()})',
       SpecificTimeSlot(:final timeSlot) => timeSlot.toApiFormat(),
     };
   }
@@ -93,20 +94,16 @@ class AggregatePeriod extends SchedulePeriod {
   /// All time slots contained in this period (sorted chronologically)
   final List<TimeOfDayValue> timeSlots;
 
-  const AggregatePeriod({
-    required this.type,
-    required this.timeSlots,
-  });
+  const AggregatePeriod({required this.type, required this.timeSlots});
 
   /// Creates an aggregate period from a list of time strings
   factory AggregatePeriod.fromTimeStrings({
     required PeriodType type,
     required List<String> timeStrings,
   }) {
-    final timeSlots = timeStrings
-        .map((timeStr) => TimeOfDayValue.parse(timeStr))
-        .toList()
-      ..sort((a, b) => a.compareTo(b));
+    final timeSlots =
+        timeStrings.map((timeStr) => TimeOfDayValue.parse(timeStr)).toList()
+          ..sort((a, b) => a.compareTo(b));
 
     return AggregatePeriod(type: type, timeSlots: timeSlots);
   }
@@ -132,7 +129,8 @@ class AggregatePeriod extends SchedulePeriod {
   List<Object?> get props => [type, timeSlots];
 
   @override
-  String toString() => 'AggregatePeriod(${type.label}, ${timeSlots.length} slots)';
+  String toString() =>
+      'AggregatePeriod(${type.label}, ${timeSlots.length} slots)';
 }
 
 /// Represents a specific time slot in the schedule

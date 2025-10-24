@@ -70,7 +70,10 @@ void main() {
       // First verify the navigation button exists
       final navigationProfileBtn = find.byKey(const Key('navigation_profile'));
       try {
-        await $.waitUntilVisible(navigationProfileBtn, timeout: const Duration(seconds: 5));
+        await $.waitUntilVisible(
+          navigationProfileBtn,
+          timeout: const Duration(seconds: 5),
+        );
         debugPrint('✅ DEBUG: navigation_profile button found');
       } catch (e) {
         debugPrint('❌ DEBUG: navigation_profile button NOT found: $e');
@@ -78,7 +81,9 @@ void main() {
         debugPrint('🔍 DEBUG: Dumping current widget tree...');
         await $.pumpAndSettle();
         // This will help us see what's actually on screen
-        throw Exception('navigation_profile button not found - check current screen state');
+        throw Exception(
+          'navigation_profile button not found - check current screen state',
+        );
       }
 
       debugPrint('🔍 DEBUG: Tapping navigation_profile button...');
@@ -86,7 +91,9 @@ void main() {
       await $.pumpAndSettle();
 
       // Add extensive debugging to see what page we're actually on
-      debugPrint('🔍 DEBUG: Checking if we successfully navigated to profile page...');
+      debugPrint(
+        '🔍 DEBUG: Checking if we successfully navigated to profile page...',
+      );
 
       // Try to dump some information about current page
       try {
@@ -98,19 +105,21 @@ void main() {
           'profile_settings_button',
           'profile_logout_button',
           'profile_timezone_card',
-          'timezone_dropdown'
+          'timezone_dropdown',
         ];
 
         for (final elementKey in profileElements) {
           try {
             final finder = find.byKey(Key(elementKey));
-            await $.waitUntilVisible(finder, timeout: const Duration(seconds: 2));
+            await $.waitUntilVisible(
+              finder,
+              timeout: const Duration(seconds: 2),
+            );
             debugPrint('✅ DEBUG: Found element: $elementKey');
           } catch (e) {
             debugPrint('❌ DEBUG: Element NOT found: $elementKey');
           }
         }
-
       } catch (e) {
         debugPrint('❌ DEBUG: Error during element discovery: $e');
       }
@@ -120,13 +129,18 @@ void main() {
 
       // Check user info card displays
       try {
-        await $.waitUntilVisible(find.byKey(const Key('profile_user_info_card')), timeout: const Duration(seconds: 10));
+        await $.waitUntilVisible(
+          find.byKey(const Key('profile_user_info_card')),
+          timeout: const Duration(seconds: 10),
+        );
         debugPrint('✅ DEBUG: profile_user_info_card found successfully');
       } catch (e) {
         debugPrint('❌ DEBUG: profile_user_info_card NOT found: $e');
         // Try to understand why we can't find it
         debugPrint('🔍 DEBUG: Current route might not be profile page');
-        throw Exception('Profile page elements not found - navigation may have failed');
+        throw Exception(
+          'Profile page elements not found - navigation may have failed',
+        );
       }
 
       // Verify user name displays
@@ -214,12 +228,16 @@ void main() {
       // Confirm logout in dialog
       await $.waitUntilVisible(find.byType(AlertDialog));
       final confirmButtons = find.byType(TextButton);
-      await $.tap(confirmButtons.at(1)); // Second button is typically Logout/Confirm
+      await $.tap(
+        confirmButtons.at(1),
+      ); // Second button is typically Logout/Confirm
       await $.pumpAndSettle();
 
       // Verify logout completed - should return to login page
       await $.waitUntilVisible(find.byKey(const Key('welcomeToEduLift')));
-      debugPrint('✅ Logout action executed successfully - returned to login page');
+      debugPrint(
+        '✅ Logout action executed successfully - returned to login page',
+      );
 
       debugPrint('🎉 COMPREHENSIVE PROFILE JOURNEY TEST COMPLETED');
     });
@@ -253,7 +271,9 @@ void main() {
       debugPrint('✅ Timezone card is visible');
 
       // Verify current timezone display is visible
-      await $.waitUntilVisible(find.byKey(const Key('current_timezone_display')));
+      await $.waitUntilVisible(
+        find.byKey(const Key('current_timezone_display')),
+      );
       debugPrint('✅ Current timezone display is visible');
 
       // Verify timezone dropdown is visible and enabled
@@ -261,42 +281,67 @@ void main() {
       debugPrint('✅ Timezone dropdown is visible');
 
       // Verify auto-sync checkbox is visible
-      await $.waitUntilVisible(find.byKey(const Key('auto_sync_timezone_checkbox')));
+      await $.waitUntilVisible(
+        find.byKey(const Key('auto_sync_timezone_checkbox')),
+      );
       debugPrint('✅ Auto-sync timezone checkbox is visible');
 
       // STEP 5: Comprehensive checkbox toggle tests
       debugPrint('🔄 Testing auto-sync checkbox toggle functionality...');
 
       // Test 1: Verify checkbox starts CHECKED (auto-sync enabled by default)
-      final checkboxFinder = find.byKey(const Key('auto_sync_timezone_checkbox'));
+      final checkboxFinder = find.byKey(
+        const Key('auto_sync_timezone_checkbox'),
+      );
       final initialCheckbox = $.tester.widget<CheckboxListTile>(checkboxFinder);
 
       debugPrint('📊 Initial checkbox state:');
       debugPrint('   enabled: ${initialCheckbox.enabled}');
       debugPrint('   value: ${initialCheckbox.value}');
-      debugPrint('   onChanged: ${initialCheckbox.onChanged != null ? "NOT NULL" : "NULL"}');
+      debugPrint(
+        '   onChanged: ${initialCheckbox.onChanged != null ? "NOT NULL" : "NULL"}',
+      );
 
-      expect(initialCheckbox.value, true,
-        reason: 'Checkbox should be checked by default (auto-sync enabled)');
+      expect(
+        initialCheckbox.value,
+        true,
+        reason: 'Checkbox should be checked by default (auto-sync enabled)',
+      );
 
       // Test 2: Verify dropdown is DISABLED when checkbox is checked
       final dropdownFinder = find.byKey(const Key('timezone_dropdown'));
       await $.waitUntilVisible(dropdownFinder);
 
-      final initialDropdown = $.tester.widget<DropdownButtonFormField<String>>(dropdownFinder);
+      final initialDropdown = $.tester.widget<DropdownButtonFormField<String>>(
+        dropdownFinder,
+      );
       debugPrint('📊 Initial dropdown state:');
-      debugPrint('   onChanged: ${initialDropdown.onChanged != null ? "NOT NULL (enabled)" : "NULL (disabled)"}');
+      debugPrint(
+        '   onChanged: ${initialDropdown.onChanged != null ? "NOT NULL (enabled)" : "NULL (disabled)"}',
+      );
 
-      expect(initialDropdown.onChanged, null,
-        reason: 'Dropdown should be disabled when auto-sync is enabled');
+      expect(
+        initialDropdown.onChanged,
+        null,
+        reason: 'Dropdown should be disabled when auto-sync is enabled',
+      );
 
       // Test 3: CRITICAL - Verify checkbox is ENABLED (not grayed out)
-      expect(initialCheckbox.enabled, true,
-        reason: 'CRITICAL: Checkbox must be enabled so user can toggle it');
-      expect(initialCheckbox.onChanged, isNotNull,
-        reason: 'CRITICAL: onChanged callback must exist for checkbox to be interactive');
+      expect(
+        initialCheckbox.enabled,
+        true,
+        reason: 'CRITICAL: Checkbox must be enabled so user can toggle it',
+      );
+      expect(
+        initialCheckbox.onChanged,
+        isNotNull,
+        reason:
+            'CRITICAL: onChanged callback must exist for checkbox to be interactive',
+      );
 
-      debugPrint('✅ Initial state verified: checkbox checked, dropdown disabled, checkbox ENABLED');
+      debugPrint(
+        '✅ Initial state verified: checkbox checked, dropdown disabled, checkbox ENABLED',
+      );
 
       // Test 4: UNCHECK the checkbox (disable auto-sync)
       debugPrint('🔄 Tapping checkbox to UNCHECK (disable auto-sync)...');
@@ -304,26 +349,45 @@ void main() {
       await $.pumpAndSettle();
 
       // Test 5: Verify checkbox is now UNCHECKED
-      final uncheckedCheckbox = $.tester.widget<CheckboxListTile>(checkboxFinder);
+      final uncheckedCheckbox = $.tester.widget<CheckboxListTile>(
+        checkboxFinder,
+      );
       debugPrint('📊 After unchecking:');
       debugPrint('   enabled: ${uncheckedCheckbox.enabled}');
       debugPrint('   value: ${uncheckedCheckbox.value}');
-      debugPrint('   onChanged: ${uncheckedCheckbox.onChanged != null ? "NOT NULL" : "NULL"}');
+      debugPrint(
+        '   onChanged: ${uncheckedCheckbox.onChanged != null ? "NOT NULL" : "NULL"}',
+      );
 
-      expect(uncheckedCheckbox.value, false,
-        reason: 'Checkbox should be unchecked after tap');
-      expect(uncheckedCheckbox.enabled, true,
-        reason: 'Checkbox should remain enabled when unchecked');
+      expect(
+        uncheckedCheckbox.value,
+        false,
+        reason: 'Checkbox should be unchecked after tap',
+      );
+      expect(
+        uncheckedCheckbox.enabled,
+        true,
+        reason: 'Checkbox should remain enabled when unchecked',
+      );
 
       // Test 6: Verify dropdown is now ENABLED
-      final enabledDropdown = $.tester.widget<DropdownButtonFormField<String>>(dropdownFinder);
+      final enabledDropdown = $.tester.widget<DropdownButtonFormField<String>>(
+        dropdownFinder,
+      );
       debugPrint('📊 Dropdown after unchecking:');
-      debugPrint('   onChanged: ${enabledDropdown.onChanged != null ? "NOT NULL (enabled)" : "NULL (disabled)"}');
+      debugPrint(
+        '   onChanged: ${enabledDropdown.onChanged != null ? "NOT NULL (enabled)" : "NULL (disabled)"}',
+      );
 
-      expect(enabledDropdown.onChanged, isNotNull,
-        reason: 'Dropdown should be enabled when auto-sync is disabled');
+      expect(
+        enabledDropdown.onChanged,
+        isNotNull,
+        reason: 'Dropdown should be enabled when auto-sync is disabled',
+      );
 
-      debugPrint('✅ Unchecked state verified: checkbox unchecked, dropdown ENABLED');
+      debugPrint(
+        '✅ Unchecked state verified: checkbox unchecked, dropdown ENABLED',
+      );
 
       // Test 7: CHECK the checkbox again (re-enable auto-sync)
       debugPrint('🔄 Tapping checkbox to CHECK (re-enable auto-sync)...');
@@ -331,28 +395,50 @@ void main() {
       await $.pumpAndSettle();
 
       // Test 8: Verify checkbox is CHECKED again
-      final recheckedCheckbox = $.tester.widget<CheckboxListTile>(checkboxFinder);
+      final recheckedCheckbox = $.tester.widget<CheckboxListTile>(
+        checkboxFinder,
+      );
       debugPrint('📊 After re-checking:');
       debugPrint('   enabled: ${recheckedCheckbox.enabled}');
       debugPrint('   value: ${recheckedCheckbox.value}');
-      debugPrint('   onChanged: ${recheckedCheckbox.onChanged != null ? "NOT NULL" : "NULL"}');
+      debugPrint(
+        '   onChanged: ${recheckedCheckbox.onChanged != null ? "NOT NULL" : "NULL"}',
+      );
 
-      expect(recheckedCheckbox.value, true,
-        reason: 'Checkbox should be checked after second tap');
-      expect(recheckedCheckbox.enabled, true,
-        reason: 'CRITICAL: Checkbox should remain enabled when checked');
-      expect(recheckedCheckbox.onChanged, isNotNull,
-        reason: 'CRITICAL: onChanged must exist even when checked');
+      expect(
+        recheckedCheckbox.value,
+        true,
+        reason: 'Checkbox should be checked after second tap',
+      );
+      expect(
+        recheckedCheckbox.enabled,
+        true,
+        reason: 'CRITICAL: Checkbox should remain enabled when checked',
+      );
+      expect(
+        recheckedCheckbox.onChanged,
+        isNotNull,
+        reason: 'CRITICAL: onChanged must exist even when checked',
+      );
 
       // Test 9: Verify dropdown is DISABLED again
-      final disabledAgainDropdown = $.tester.widget<DropdownButtonFormField<String>>(dropdownFinder);
+      final disabledAgainDropdown = $.tester
+          .widget<DropdownButtonFormField<String>>(dropdownFinder);
       debugPrint('📊 Dropdown after re-checking:');
-      debugPrint('   onChanged: ${disabledAgainDropdown.onChanged != null ? "NOT NULL (enabled)" : "NULL (disabled)"}');
+      debugPrint(
+        '   onChanged: ${disabledAgainDropdown.onChanged != null ? "NOT NULL (enabled)" : "NULL (disabled)"}',
+      );
 
-      expect(disabledAgainDropdown.onChanged, null,
-        reason: 'Dropdown should be disabled again when auto-sync is re-enabled');
+      expect(
+        disabledAgainDropdown.onChanged,
+        null,
+        reason:
+            'Dropdown should be disabled again when auto-sync is re-enabled',
+      );
 
-      debugPrint('✅ Re-checked state verified: checkbox checked, dropdown disabled, checkbox still ENABLED');
+      debugPrint(
+        '✅ Re-checked state verified: checkbox checked, dropdown disabled, checkbox still ENABLED',
+      );
       debugPrint('🎉 COMPREHENSIVE CHECKBOX TOGGLE TEST PASSED');
 
       // STEP 6: Test timezone dropdown interaction
@@ -372,7 +458,9 @@ void main() {
         await $.tap(find.byKey(const Key('profile_timezone_card')));
         await $.pumpAndSettle();
       } catch (e) {
-        debugPrint('⚠️ Could not dismiss dropdown by tapping card, continuing...');
+        debugPrint(
+          '⚠️ Could not dismiss dropdown by tapping card, continuing...',
+        );
       }
 
       debugPrint('✅ Timezone dropdown interaction test completed');
@@ -411,7 +499,9 @@ void main() {
         view: find.byType(SingleChildScrollView),
         scrollDirection: AxisDirection.down,
       );
-      await $.waitUntilVisible(find.byKey(const Key('profile_settings_button')));
+      await $.waitUntilVisible(
+        find.byKey(const Key('profile_settings_button')),
+      );
       await $.waitUntilVisible(find.byKey(const Key('profile_timezone_card')));
 
       // Scroll down to make logout button visible
@@ -440,7 +530,10 @@ void main() {
 
       // Try multiple selectors for robust language switching
       try {
-        await $.waitUntilVisible(englishText, timeout: const Duration(seconds: 2));
+        await $.waitUntilVisible(
+          englishText,
+          timeout: const Duration(seconds: 2),
+        );
         await $.tap(englishText);
       } catch (e) {
         try {
@@ -449,7 +542,9 @@ void main() {
         } catch (e) {
           // Fallback: tap on the second language option (assuming French is first, English is second)
           final languageOptions = find.byType(InkWell);
-          await $.tap(languageOptions.at(1)); // Second InkWell in language selector
+          await $.tap(
+            languageOptions.at(1),
+          ); // Second InkWell in language selector
         }
       }
 
@@ -459,7 +554,10 @@ void main() {
       // STEP 6: Verify success SnackBar appears
       debugPrint('✅ Checking for success SnackBar...');
       try {
-        await $.waitUntilVisible(find.byType(SnackBar), timeout: const Duration(seconds: 3));
+        await $.waitUntilVisible(
+          find.byType(SnackBar),
+          timeout: const Duration(seconds: 3),
+        );
         debugPrint('✅ Success SnackBar appeared correctly');
       } catch (e) {
         debugPrint('⚠️ SnackBar may not be visible or timeout occurred: $e');
@@ -488,7 +586,9 @@ void main() {
         view: find.byType(SingleChildScrollView),
         scrollDirection: AxisDirection.down,
       );
-      await $.waitUntilVisible(find.byKey(const Key('profile_settings_button')));
+      await $.waitUntilVisible(
+        find.byKey(const Key('profile_settings_button')),
+      );
       await $.waitUntilVisible(find.byKey(const Key('profile_timezone_card')));
 
       // Scroll down to make logout button visible
@@ -512,7 +612,10 @@ void main() {
       final frFlag = find.text('🇫🇷');
 
       try {
-        await $.waitUntilVisible(frenchText, timeout: const Duration(seconds: 2));
+        await $.waitUntilVisible(
+          frenchText,
+          timeout: const Duration(seconds: 2),
+        );
         await $.tap(frenchText);
       } catch (e) {
         try {
@@ -521,7 +624,9 @@ void main() {
         } catch (e) {
           // Fallback: tap on the first language option (assuming French is first)
           final languageOptions = find.byType(InkWell);
-          await $.tap(languageOptions.at(0)); // First InkWell in language selector
+          await $.tap(
+            languageOptions.at(0),
+          ); // First InkWell in language selector
         }
       }
 
@@ -531,10 +636,15 @@ void main() {
       // STEP 9: Verify success SnackBar appears for revert
       debugPrint('✅ Checking for revert success SnackBar...');
       try {
-        await $.waitUntilVisible(find.byType(SnackBar), timeout: const Duration(seconds: 3));
+        await $.waitUntilVisible(
+          find.byType(SnackBar),
+          timeout: const Duration(seconds: 3),
+        );
         debugPrint('✅ Revert success SnackBar appeared correctly');
       } catch (e) {
-        debugPrint('⚠️ Revert SnackBar may not be visible or timeout occurred: $e');
+        debugPrint(
+          '⚠️ Revert SnackBar may not be visible or timeout occurred: $e',
+        );
       }
 
       // Wait for SnackBar to disappear
@@ -542,7 +652,9 @@ void main() {
       await $.pumpAndSettle();
 
       // STEP 10: Navigate back to profile using back button (FIXED)
-      debugPrint('🇫🇷 Verifying French labels are restored on profile page...');
+      debugPrint(
+        '🇫🇷 Verifying French labels are restored on profile page...',
+      );
       await $.tap(find.byIcon(Icons.arrow_back));
       await $.pumpAndSettle();
 
@@ -560,7 +672,9 @@ void main() {
         view: find.byType(SingleChildScrollView),
         scrollDirection: AxisDirection.down,
       );
-      await $.waitUntilVisible(find.byKey(const Key('profile_settings_button')));
+      await $.waitUntilVisible(
+        find.byKey(const Key('profile_settings_button')),
+      );
       await $.waitUntilVisible(find.byKey(const Key('profile_timezone_card')));
 
       // Scroll down to make logout button visible

@@ -28,11 +28,12 @@ void main() {
   group('InviteMemberPage Golden Tests', () {
     testWidgets('invite member page - light theme', (tester) async {
       final overrides = [
-        nav.navigationStateProvider.overrideWith((ref) => nav.NavigationStateNotifier()),
-      // CRITICAL: Prevent all real network calls during golden tests
+        nav.navigationStateProvider.overrideWith(
+          (ref) => nav.NavigationStateNotifier(),
+        ),
 
-      ...getAllNetworkMockOverrides(),
-
+        // CRITICAL: Prevent all real network calls during golden tests
+        ...getAllNetworkMockOverrides(),
       ];
 
       await GoldenTestWrapper.testScreen(
@@ -47,11 +48,12 @@ void main() {
 
     testWidgets('invite member page - dark theme', (tester) async {
       final overrides = [
-        nav.navigationStateProvider.overrideWith((ref) => nav.NavigationStateNotifier()),
-      // CRITICAL: Prevent all real network calls during golden tests
+        nav.navigationStateProvider.overrideWith(
+          (ref) => nav.NavigationStateNotifier(),
+        ),
 
-      ...getAllNetworkMockOverrides(),
-
+        // CRITICAL: Prevent all real network calls during golden tests
+        ...getAllNetworkMockOverrides(),
       ];
 
       await GoldenTestWrapper.testScreen(
@@ -68,11 +70,12 @@ void main() {
   group('InviteFamilyPage Golden Tests', () {
     testWidgets('invite family page - light theme', (tester) async {
       final overrides = [
-        nav.navigationStateProvider.overrideWith((ref) => nav.NavigationStateNotifier()),
-      // CRITICAL: Prevent all real network calls during golden tests
+        nav.navigationStateProvider.overrideWith(
+          (ref) => nav.NavigationStateNotifier(),
+        ),
 
-      ...getAllNetworkMockOverrides(),
-
+        // CRITICAL: Prevent all real network calls during golden tests
+        ...getAllNetworkMockOverrides(),
       ];
 
       await GoldenTestWrapper.testScreen(
@@ -87,11 +90,12 @@ void main() {
 
     testWidgets('invite family page - dark theme', (tester) async {
       final overrides = [
-        nav.navigationStateProvider.overrideWith((ref) => nav.NavigationStateNotifier()),
-      // CRITICAL: Prevent all real network calls during golden tests
+        nav.navigationStateProvider.overrideWith(
+          (ref) => nav.NavigationStateNotifier(),
+        ),
 
-      ...getAllNetworkMockOverrides(),
-
+        // CRITICAL: Prevent all real network calls during golden tests
+        ...getAllNetworkMockOverrides(),
       ];
 
       await GoldenTestWrapper.testScreen(
@@ -106,14 +110,16 @@ void main() {
   });
 
   group('FamilyInvitationPage Golden Tests', () {
-    testWidgets('family invitation page without code - light theme',
-        (tester) async {
+    testWidgets('family invitation page without code - light theme', (
+      tester,
+    ) async {
       final overrides = [
-        nav.navigationStateProvider.overrideWith((ref) => nav.NavigationStateNotifier()),
-      // CRITICAL: Prevent all real network calls during golden tests
+        nav.navigationStateProvider.overrideWith(
+          (ref) => nav.NavigationStateNotifier(),
+        ),
 
-      ...getAllNetworkMockOverrides(),
-
+        // CRITICAL: Prevent all real network calls during golden tests
+        ...getAllNetworkMockOverrides(),
       ];
 
       await GoldenTestWrapper.testScreen(
@@ -126,14 +132,16 @@ void main() {
       );
     });
 
-    testWidgets('family invitation page without code - dark theme',
-        (tester) async {
+    testWidgets('family invitation page without code - dark theme', (
+      tester,
+    ) async {
       final overrides = [
-        nav.navigationStateProvider.overrideWith((ref) => nav.NavigationStateNotifier()),
-      // CRITICAL: Prevent all real network calls during golden tests
+        nav.navigationStateProvider.overrideWith(
+          (ref) => nav.NavigationStateNotifier(),
+        ),
 
-      ...getAllNetworkMockOverrides(),
-
+        // CRITICAL: Prevent all real network calls during golden tests
+        ...getAllNetworkMockOverrides(),
       ];
 
       await GoldenTestWrapper.testScreen(
@@ -146,14 +154,16 @@ void main() {
       );
     });
 
-    testWidgets('family invitation page with code - light theme',
-        (tester) async {
+    testWidgets('family invitation page with code - light theme', (
+      tester,
+    ) async {
       final overrides = [
-        nav.navigationStateProvider.overrideWith((ref) => nav.NavigationStateNotifier()),
-      // CRITICAL: Prevent all real network calls during golden tests
+        nav.navigationStateProvider.overrideWith(
+          (ref) => nav.NavigationStateNotifier(),
+        ),
 
-      ...getAllNetworkMockOverrides(),
-
+        // CRITICAL: Prevent all real network calls during golden tests
+        ...getAllNetworkMockOverrides(),
       ];
 
       await GoldenTestWrapper.testScreen(
@@ -166,14 +176,16 @@ void main() {
       );
     });
 
-    testWidgets('family invitation page with code - dark theme',
-        (tester) async {
+    testWidgets('family invitation page with code - dark theme', (
+      tester,
+    ) async {
       final overrides = [
-        nav.navigationStateProvider.overrideWith((ref) => nav.NavigationStateNotifier()),
-      // CRITICAL: Prevent all real network calls during golden tests
+        nav.navigationStateProvider.overrideWith(
+          (ref) => nav.NavigationStateNotifier(),
+        ),
 
-      ...getAllNetworkMockOverrides(),
-
+        // CRITICAL: Prevent all real network calls during golden tests
+        ...getAllNetworkMockOverrides(),
       ];
 
       await GoldenTestWrapper.testScreen(
@@ -188,14 +200,16 @@ void main() {
   });
 
   group('GroupInvitationPage Golden Tests', () {
-    testWidgets('group invitation page without code - light theme',
-        (tester) async {
+    testWidgets('group invitation page without code - light theme', (
+      tester,
+    ) async {
       final overrides = [
-        nav.navigationStateProvider.overrideWith((ref) => nav.NavigationStateNotifier()),
-      // CRITICAL: Prevent all real network calls during golden tests
+        nav.navigationStateProvider.overrideWith(
+          (ref) => nav.NavigationStateNotifier(),
+        ),
 
-      ...getAllNetworkMockOverrides(),
-
+        // CRITICAL: Prevent all real network calls during golden tests
+        ...getAllNetworkMockOverrides(),
       ];
 
       await GoldenTestWrapper.testScreen(
@@ -208,14 +222,16 @@ void main() {
       );
     });
 
-    testWidgets('group invitation page without code - dark theme',
-        (tester) async {
+    testWidgets('group invitation page without code - dark theme', (
+      tester,
+    ) async {
       final overrides = [
-        nav.navigationStateProvider.overrideWith((ref) => nav.NavigationStateNotifier()),
-      // CRITICAL: Prevent all real network calls during golden tests
+        nav.navigationStateProvider.overrideWith(
+          (ref) => nav.NavigationStateNotifier(),
+        ),
 
-      ...getAllNetworkMockOverrides(),
-
+        // CRITICAL: Prevent all real network calls during golden tests
+        ...getAllNetworkMockOverrides(),
       ];
 
       await GoldenTestWrapper.testScreen(
@@ -228,14 +244,16 @@ void main() {
       );
     });
 
-    testWidgets('group invitation page with code - light theme',
-        (tester) async {
+    testWidgets('group invitation page with code - light theme', (
+      tester,
+    ) async {
       final overrides = [
-        nav.navigationStateProvider.overrideWith((ref) => nav.NavigationStateNotifier()),
-      // CRITICAL: Prevent all real network calls during golden tests
+        nav.navigationStateProvider.overrideWith(
+          (ref) => nav.NavigationStateNotifier(),
+        ),
 
-      ...getAllNetworkMockOverrides(),
-
+        // CRITICAL: Prevent all real network calls during golden tests
+        ...getAllNetworkMockOverrides(),
       ];
 
       await GoldenTestWrapper.testScreen(
@@ -248,14 +266,14 @@ void main() {
       );
     });
 
-    testWidgets('group invitation page with code - dark theme',
-        (tester) async {
+    testWidgets('group invitation page with code - dark theme', (tester) async {
       final overrides = [
-        nav.navigationStateProvider.overrideWith((ref) => nav.NavigationStateNotifier()),
-      // CRITICAL: Prevent all real network calls during golden tests
+        nav.navigationStateProvider.overrideWith(
+          (ref) => nav.NavigationStateNotifier(),
+        ),
 
-      ...getAllNetworkMockOverrides(),
-
+        // CRITICAL: Prevent all real network calls during golden tests
+        ...getAllNetworkMockOverrides(),
       ];
 
       await GoldenTestWrapper.testScreen(
@@ -270,14 +288,16 @@ void main() {
   });
 
   group('ConfigureFamilyInvitationPage Golden Tests', () {
-    testWidgets('configure family invitation page - light theme',
-        (tester) async {
+    testWidgets('configure family invitation page - light theme', (
+      tester,
+    ) async {
       final overrides = [
-        nav.navigationStateProvider.overrideWith((ref) => nav.NavigationStateNotifier()),
-      // CRITICAL: Prevent all real network calls during golden tests
+        nav.navigationStateProvider.overrideWith(
+          (ref) => nav.NavigationStateNotifier(),
+        ),
 
-      ...getAllNetworkMockOverrides(),
-
+        // CRITICAL: Prevent all real network calls during golden tests
+        ...getAllNetworkMockOverrides(),
       ];
 
       await GoldenTestWrapper.testScreen(
@@ -295,14 +315,16 @@ void main() {
       );
     });
 
-    testWidgets('configure family invitation page - dark theme',
-        (tester) async {
+    testWidgets('configure family invitation page - dark theme', (
+      tester,
+    ) async {
       final overrides = [
-        nav.navigationStateProvider.overrideWith((ref) => nav.NavigationStateNotifier()),
-      // CRITICAL: Prevent all real network calls during golden tests
+        nav.navigationStateProvider.overrideWith(
+          (ref) => nav.NavigationStateNotifier(),
+        ),
 
-      ...getAllNetworkMockOverrides(),
-
+        // CRITICAL: Prevent all real network calls during golden tests
+        ...getAllNetworkMockOverrides(),
       ];
 
       await GoldenTestWrapper.testScreen(
@@ -321,29 +343,31 @@ void main() {
     });
 
     testWidgets(
-        'configure family invitation page with international name - light theme',
-        (tester) async {
-      final overrides = [
-        nav.navigationStateProvider.overrideWith((ref) => nav.NavigationStateNotifier()),
-      // CRITICAL: Prevent all real network calls during golden tests
+      'configure family invitation page with international name - light theme',
+      (tester) async {
+        final overrides = [
+          nav.navigationStateProvider.overrideWith(
+            (ref) => nav.NavigationStateNotifier(),
+          ),
 
-      ...getAllNetworkMockOverrides(),
+          // CRITICAL: Prevent all real network calls during golden tests
+          ...getAllNetworkMockOverrides(),
+        ];
 
-      ];
-
-      await GoldenTestWrapper.testScreen(
-        tester: tester,
-        screen: const ConfigureFamilyInvitationPage(
-          groupId: 'test-group-intl',
-          familyId: 'test-family-intl',
-          familyName: 'Famille Müller-Øvergård',
-          memberCount: 3,
-        ),
-        testName: 'configure_family_invitation_page_intl_light',
-        devices: DeviceConfigurations.defaultSet,
-        themes: [ThemeConfigurations.light],
-        providerOverrides: overrides,
-      );
-    });
+        await GoldenTestWrapper.testScreen(
+          tester: tester,
+          screen: const ConfigureFamilyInvitationPage(
+            groupId: 'test-group-intl',
+            familyId: 'test-family-intl',
+            familyName: 'Famille Müller-Øvergård',
+            memberCount: 3,
+          ),
+          testName: 'configure_family_invitation_page_intl_light',
+          devices: DeviceConfigurations.defaultSet,
+          themes: [ThemeConfigurations.light],
+          providerOverrides: overrides,
+        );
+      },
+    );
   });
 }

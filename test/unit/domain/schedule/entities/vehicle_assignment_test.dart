@@ -827,7 +827,10 @@ void main() {
 
         // assert
         expect(assignment.effectiveCapacity, equals(5));
-        expect(assignment.effectiveCapacity, isNot(equals(assignment.capacity)));
+        expect(
+          assignment.effectiveCapacity,
+          isNot(equals(assignment.capacity)),
+        );
       });
 
       test('returns override when increased above base capacity', () {

@@ -805,7 +805,8 @@ class _TestAppBottomNavigation extends ConsumerWidget {
               context,
             ).colorScheme.onSurface.withValues(alpha: 0.38),
           ),
-          label: '${AppLocalizations.of(context).navigationFamily} (setup required)',
+          label:
+              '${AppLocalizations.of(context).navigationFamily} (setup required)',
         ),
         NavigationDestination(
           icon: Icon(
@@ -820,7 +821,8 @@ class _TestAppBottomNavigation extends ConsumerWidget {
               context,
             ).colorScheme.onSurface.withValues(alpha: 0.38),
           ),
-          label: '${AppLocalizations.of(context).navigationGroups} (setup required)',
+          label:
+              '${AppLocalizations.of(context).navigationGroups} (setup required)',
         ),
         NavigationDestination(
           icon: Icon(
@@ -835,7 +837,8 @@ class _TestAppBottomNavigation extends ConsumerWidget {
               context,
             ).colorScheme.onSurface.withValues(alpha: 0.38),
           ),
-          label: '${AppLocalizations.of(context).navigationSchedule} (setup required)',
+          label:
+              '${AppLocalizations.of(context).navigationSchedule} (setup required)',
         ),
         NavigationDestination(
           icon: const Icon(Icons.person_outlined),

@@ -32,7 +32,9 @@ class VehicleAssignmentCard extends ConsumerWidget {
             ),
             const SizedBox(height: 8),
             Text(
-              AppLocalizations.of(context).vehicleAssignment(assignment.vehicleId),
+              AppLocalizations.of(
+                context,
+              ).vehicleAssignment(assignment.vehicleId),
               style: Theme.of(context).textTheme.bodyMedium,
             ),
             if (assignment.notes?.isNotEmpty == true) ...[

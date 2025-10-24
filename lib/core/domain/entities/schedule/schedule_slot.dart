@@ -40,7 +40,6 @@ class ScheduleSlot extends Equatable {
     required this.updatedAt,
   });
 
-
   /// Create an empty ScheduleSlot for error handling
   factory ScheduleSlot.empty() {
     return ScheduleSlot(

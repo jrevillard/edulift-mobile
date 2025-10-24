@@ -70,7 +70,8 @@ enum VehicleError {
   vehicleOperationFailed,
   loadVehicleFailed,
   saveVehicleFailed,
-  validateVehicleFailed}
+  validateVehicleFailed,
+}
 
 /// Extension to provide localization keys for vehicle errors
 extension VehicleErrorLocalization on VehicleError {
@@ -159,6 +160,7 @@ extension VehicleErrorLocalization on VehicleError {
       case VehicleError.saveVehicleFailed:
         return 'errorSaveVehicleFailed';
       case VehicleError.validateVehicleFailed:
-        return 'errorValidateVehicleFailed';}
+        return 'errorValidateVehicleFailed';
+    }
   }
 }

@@ -199,10 +199,8 @@ abstract class VehicleDto with _$VehicleDto {
 /// Simple Driver DTO for nested structures
 @freezed
 abstract class DriverDto with _$DriverDto {
-  const factory DriverDto({
-    required String id,
-    required String name,
-  }) = _DriverDto;
+  const factory DriverDto({required String id, required String name}) =
+      _DriverDto;
 
   factory DriverDto.fromJson(Map<String, dynamic> json) =>
       _$DriverDtoFromJson(json);

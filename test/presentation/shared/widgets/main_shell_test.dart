@@ -34,7 +34,7 @@ class TestBottomNavigation extends StatelessWidget {
         const NavigationDestination(
           key: Key('groups_destination'),
           icon: Icon(Icons.groups),
-          label: 'Groups'
+          label: 'Groups',
         ),
         const NavigationDestination(
           key: Key('schedule_destination'),
@@ -44,7 +44,7 @@ class TestBottomNavigation extends StatelessWidget {
         const NavigationDestination(
           key: Key('profile_destination'),
           icon: Icon(Icons.person),
-          label: 'Profile'
+          label: 'Profile',
         ),
       ],
     );

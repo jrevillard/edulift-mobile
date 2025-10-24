@@ -108,10 +108,11 @@ class InvitationErrorDisplay extends ConsumerWidget {
         SizedBox(height: isTablet ? 24 : 16),
         Text(
           l10n.invalidInvitationTitle, // ✅ Localized
-          style: (isTablet
-                  ? theme.textTheme.headlineSmall
-                  : theme.textTheme.titleLarge)
-              ?.copyWith(color: theme.colorScheme.error),
+          style:
+              (isTablet
+                      ? theme.textTheme.headlineSmall
+                      : theme.textTheme.titleLarge)
+                  ?.copyWith(color: theme.colorScheme.error),
           textAlign: TextAlign.center,
         ),
         SizedBox(height: isTablet ? 12 : 8),
@@ -131,18 +132,22 @@ class InvitationErrorDisplay extends ConsumerWidget {
           width: double.infinity,
           child: AccessibleButton(
             key: const Key('back-to-login-button'),
-            onPressed: onAction ?? () {
-              // Default: Go back if possible, otherwise navigate to dashboard
-              // Router will redirect to login/onboarding if needed
-              if (canGoBack) {
-                Navigator.of(context).pop();
-              } else {
-                ref.read(navigationStateProvider.notifier).navigateTo(
-                  route: '/dashboard',
-                  trigger: NavigationTrigger.userNavigation,
-                );
-              }
-            },
+            onPressed:
+                onAction ??
+                () {
+                  // Default: Go back if possible, otherwise navigate to dashboard
+                  // Router will redirect to login/onboarding if needed
+                  if (canGoBack) {
+                    Navigator.of(context).pop();
+                  } else {
+                    ref
+                        .read(navigationStateProvider.notifier)
+                        .navigateTo(
+                          route: '/dashboard',
+                          trigger: NavigationTrigger.userNavigation,
+                        );
+                  }
+                },
             child: Text(
               actionButtonText ?? (canGoBack ? l10n.goBack : l10n.close),
               overflow: TextOverflow.ellipsis,

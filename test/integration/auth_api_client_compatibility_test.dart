@@ -54,31 +54,34 @@ void main() {
     });
 
     group('CRITICAL: ApiResponseHelper.execute() Integration', () {
-      test('should work with AuthApiClient DTOs and return proper ApiResponse', () async {
-        // Arrange: AuthDto that would be returned by AuthApiClient
-        const mockAuthDto = AuthDto(
-          accessToken: 'test-token',
-          refreshToken: 'mock_refresh_token',
-          expiresIn: 900,
-          
-          user: UserCurrentFamilyDto(
-            id: 'user-123',
-            email: 'test@example.com',
-            name: 'Test User',
-          ),
-        );
+      test(
+        'should work with AuthApiClient DTOs and return proper ApiResponse',
+        () async {
+          // Arrange: AuthDto that would be returned by AuthApiClient
+          const mockAuthDto = AuthDto(
+            accessToken: 'test-token',
+            refreshToken: 'mock_refresh_token',
+            expiresIn: 900,
 
-        // Act: Use ApiResponseHelper.execute() with AuthApiClient call
-        final response = await ApiResponseHelper.execute<AuthDto>(
-          () => Future.value(mockAuthDto),
-        );
+            user: UserCurrentFamilyDto(
+              id: 'user-123',
+              email: 'test@example.com',
+              name: 'Test User',
+            ),
+          );
 
-        // Assert: Should wrap DTO in proper ApiResponse
-        expect(response.success, isTrue);
-        expect(response.data, equals(mockAuthDto));
-        expect(response.data!.accessToken, 'test-token');
-        expect(response.data!.user.email, 'test@example.com');
-      });
+          // Act: Use ApiResponseHelper.execute() with AuthApiClient call
+          final response = await ApiResponseHelper.execute<AuthDto>(
+            () => Future.value(mockAuthDto),
+          );
+
+          // Assert: Should wrap DTO in proper ApiResponse
+          expect(response.success, isTrue);
+          expect(response.data, equals(mockAuthDto));
+          expect(response.data!.accessToken, 'test-token');
+          expect(response.data!.user.email, 'test@example.com');
+        },
+      );
 
       test('should unwrap successful responses correctly', () async {
         // Arrange
@@ -86,7 +89,7 @@ void main() {
           accessToken: 'test-token',
           refreshToken: 'mock_refresh_token',
           expiresIn: 900,
-          
+
           user: UserCurrentFamilyDto(
             id: 'user-123',
             email: 'test@example.com',
@@ -106,42 +109,51 @@ void main() {
     });
 
     group('CRITICAL: 422 Error Propagation', () {
-      test('should propagate 422 validation errors correctly through ApiResponseHelper', () async {
-        // Arrange: Create DioException with 422 status (what AuthApiClient would throw)
-        final dioException = DioException(
-          requestOptions: RequestOptions(path: '/auth/magic-link'),
-          response: Response(
+      test(
+        'should propagate 422 validation errors correctly through ApiResponseHelper',
+        () async {
+          // Arrange: Create DioException with 422 status (what AuthApiClient would throw)
+          final dioException = DioException(
             requestOptions: RequestOptions(path: '/auth/magic-link'),
-            statusCode: 422,
-            data: {
-              'success': false,
-              'error': 'User is already a member of a family',
-              'code': 'VALIDATION_ERROR',
-            },
-          ),
-          message: 'Validation failed',
-          type: DioExceptionType.badResponse,
-        );
+            response: Response(
+              requestOptions: RequestOptions(path: '/auth/magic-link'),
+              statusCode: 422,
+              data: {
+                'success': false,
+                'error': 'User is already a member of a family',
+                'code': 'VALIDATION_ERROR',
+              },
+            ),
+            message: 'Validation failed',
+            type: DioExceptionType.badResponse,
+          );
 
-        // Act & Assert: Should handle 422 error correctly
-        final response = await ApiResponseHelper.execute<String>(
-          () => Future.error(dioException),
-        );
+          // Act & Assert: Should handle 422 error correctly
+          final response = await ApiResponseHelper.execute<String>(
+            () => Future.error(dioException),
+          );
 
-        expect(response.success, isFalse);
-        expect(response.statusCode, 422);
-        expect(response.errorMessage, contains('User is already a member'));
-        expect(response.isValidationError, isTrue);
+          expect(response.success, isFalse);
+          expect(response.statusCode, 422);
+          expect(response.errorMessage, contains('User is already a member'));
+          expect(response.isValidationError, isTrue);
 
-        // Test unwrap throws ApiException with proper details
-        expect(
-          () => response.unwrap(),
-          throwsA(isA<ApiException>()
-              .having((e) => e.statusCode, 'statusCode', 422)
-              .having((e) => e.isValidationError, 'isValidationError', true)
-              .having((e) => e.message, 'message', contains('User is already a member'))),
-        );
-      });
+          // Test unwrap throws ApiException with proper details
+          expect(
+            () => response.unwrap(),
+            throwsA(
+              isA<ApiException>()
+                  .having((e) => e.statusCode, 'statusCode', 422)
+                  .having((e) => e.isValidationError, 'isValidationError', true)
+                  .having(
+                    (e) => e.message,
+                    'message',
+                    contains('User is already a member'),
+                  ),
+            ),
+          );
+        },
+      );
 
       test('should handle enhanced 422 errors from interceptor', () async {
         // Arrange: Create enhanced exception from interceptor
@@ -155,7 +167,9 @@ void main() {
         );
 
         // Act: Handle enhanced exception
-        final response = ApiResponseHelper.handleError<String>(enhancedException);
+        final response = ApiResponseHelper.handleError<String>(
+          enhancedException,
+        );
 
         // Assert: Should preserve all 422 error information
         expect(response.success, isFalse);
@@ -167,66 +181,76 @@ void main() {
         // Test unwrap preserves enhanced information
         expect(
           () => response.unwrap(),
-          throwsA(isA<ApiException>()
-              .having((e) => e.statusCode, 'statusCode', 422)
-              .having((e) => e.errorCode, 'errorCode', 'VALIDATION_ERROR')
-              .having((e) => e.isValidationError, 'isValidationError', true)
-              .having((e) => e.details?['field'], 'details.field', 'user_id')),
+          throwsA(
+            isA<ApiException>()
+                .having((e) => e.statusCode, 'statusCode', 422)
+                .having((e) => e.errorCode, 'errorCode', 'VALIDATION_ERROR')
+                .having((e) => e.isValidationError, 'isValidationError', true)
+                .having((e) => e.details?['field'], 'details.field', 'user_id'),
+          ),
         );
       });
     });
 
     group('CRITICAL: Return Type Compatibility', () {
-      test('AuthApiClient methods should return correct DTO types for ApiResponseHelper', () async {
-        // Test sendMagicLink returns String
-        when(mockAuthApiClient.sendMagicLink(any))
-            .thenAnswer((_) async => 'Magic link sent successfully');
+      test(
+        'AuthApiClient methods should return correct DTO types for ApiResponseHelper',
+        () async {
+          // Test sendMagicLink returns String
+          when(
+            mockAuthApiClient.sendMagicLink(any),
+          ).thenAnswer((_) async => 'Magic link sent successfully');
 
-        final response = await ApiResponseHelper.execute<String>(
-          () => mockAuthApiClient.sendMagicLink(
-            const MagicLinkRequest(
-              email: 'test@example.com',
-              codeChallenge: 'test_code_challenge_43_chars_minimum_required',
+          final response = await ApiResponseHelper.execute<String>(
+            () => mockAuthApiClient.sendMagicLink(
+              const MagicLinkRequest(
+                email: 'test@example.com',
+                codeChallenge: 'test_code_challenge_43_chars_minimum_required',
+              ),
             ),
-          ),
-        );
+          );
 
-        expect(response.success, isTrue);
-        expect(response.data, isA<String>());
-        expect(response.data, 'Magic link sent successfully');
-      });
+          expect(response.success, isTrue);
+          expect(response.data, isA<String>());
+          expect(response.data, 'Magic link sent successfully');
+        },
+      );
 
-      test('verifyMagicLink should return AuthDto compatible with ApiResponseHelper', () async {
-        // Arrange
-        const mockAuthDto = AuthDto(
-          accessToken: 'test-token',
-          refreshToken: 'mock_refresh_token',
-          expiresIn: 900,
-          
-          user: UserCurrentFamilyDto(
-            id: 'user-123',
-            email: 'test@example.com',
-            name: 'Test User',
-          ),
-        );
+      test(
+        'verifyMagicLink should return AuthDto compatible with ApiResponseHelper',
+        () async {
+          // Arrange
+          const mockAuthDto = AuthDto(
+            accessToken: 'test-token',
+            refreshToken: 'mock_refresh_token',
+            expiresIn: 900,
 
-        when(mockAuthApiClient.verifyMagicLink(any, any))
-            .thenAnswer((_) async => mockAuthDto);
+            user: UserCurrentFamilyDto(
+              id: 'user-123',
+              email: 'test@example.com',
+              name: 'Test User',
+            ),
+          );
 
-        // Act
-        final response = await ApiResponseHelper.execute<AuthDto>(
-          () => mockAuthApiClient.verifyMagicLink(
-            const VerifyTokenRequest(token: 'test-token'),
-            null,
-          ),
-        );
+          when(
+            mockAuthApiClient.verifyMagicLink(any, any),
+          ).thenAnswer((_) async => mockAuthDto);
 
-        // Assert
-        expect(response.success, isTrue);
-        expect(response.data, isA<AuthDto>());
-        expect(response.data!.accessToken, 'test-token');
-        expect(response.data!.user.email, 'test@example.com');
-      });
+          // Act
+          final response = await ApiResponseHelper.execute<AuthDto>(
+            () => mockAuthApiClient.verifyMagicLink(
+              const VerifyTokenRequest(token: 'test-token'),
+              null,
+            ),
+          );
+
+          // Assert
+          expect(response.success, isTrue);
+          expect(response.data, isA<AuthDto>());
+          expect(response.data!.accessToken, 'test-token');
+          expect(response.data!.user.email, 'test@example.com');
+        },
+      );
 
       test('logout should work with void return type', () async {
         // Arrange
@@ -248,8 +272,9 @@ void main() {
         // This test verifies that Retrofit annotations are intact
         // by testing the actual method signatures and behavior
 
-        when(mockAuthApiClient.sendMagicLink(any))
-            .thenAnswer((_) async => 'Success');
+        when(
+          mockAuthApiClient.sendMagicLink(any),
+        ).thenAnswer((_) async => 'Success');
 
         const request = MagicLinkRequest(
           email: 'test@example.com',
@@ -267,39 +292,52 @@ void main() {
       test('should preserve all HTTP method annotations', () async {
         // Test all HTTP methods used in AuthApiClient
         final requests = [
-          () => mockAuthApiClient.sendMagicLink(const MagicLinkRequest(
+          () => mockAuthApiClient.sendMagicLink(
+            const MagicLinkRequest(
               email: 'test@example.com',
               codeChallenge: 'test_code_challenge_43_chars_minimum_required',
-            )),
-          () => mockAuthApiClient.verifyMagicLink(const VerifyTokenRequest(token: 'test'), null),
-          () => mockAuthApiClient.refreshToken(const RefreshTokenRequest(refreshToken: 'test')),
+            ),
+          ),
+          () => mockAuthApiClient.verifyMagicLink(
+            const VerifyTokenRequest(token: 'test'),
+            null,
+          ),
+          () => mockAuthApiClient.refreshToken(
+            const RefreshTokenRequest(refreshToken: 'test'),
+          ),
           () => mockAuthApiClient.logout(),
         ];
 
         // Setup mocks
-        when(mockAuthApiClient.sendMagicLink(any)).thenAnswer((_) async => 'Success');
-        when(mockAuthApiClient.verifyMagicLink(any, any)).thenAnswer((_) async => const AuthDto(
-          accessToken: 'token',
-          refreshToken: 'mock_refresh_token',
-          expiresIn: 900,
-          
-          user: UserCurrentFamilyDto(
-            id: '1',
-            email: 'test@example.com',
-            name: 'Test',
+        when(
+          mockAuthApiClient.sendMagicLink(any),
+        ).thenAnswer((_) async => 'Success');
+        when(mockAuthApiClient.verifyMagicLink(any, any)).thenAnswer(
+          (_) async => const AuthDto(
+            accessToken: 'token',
+            refreshToken: 'mock_refresh_token',
+            expiresIn: 900,
+
+            user: UserCurrentFamilyDto(
+              id: '1',
+              email: 'test@example.com',
+              name: 'Test',
+            ),
           ),
-        ));
-        when(mockAuthApiClient.refreshToken(any)).thenAnswer((_) async => const AuthDto(
-          accessToken: 'token',
-          refreshToken: 'mock_refresh_token',
-          expiresIn: 900,
-          
-          user: UserCurrentFamilyDto(
-            id: '1',
-            email: 'test@example.com',
-            name: 'Test',
+        );
+        when(mockAuthApiClient.refreshToken(any)).thenAnswer(
+          (_) async => const AuthDto(
+            accessToken: 'token',
+            refreshToken: 'mock_refresh_token',
+            expiresIn: 900,
+
+            user: UserCurrentFamilyDto(
+              id: '1',
+              email: 'test@example.com',
+              name: 'Test',
+            ),
           ),
-        ));
+        );
         when(mockAuthApiClient.logout()).thenAnswer((_) async {});
 
         // Act & Assert: All methods should be callable (indicates annotations work)
@@ -313,12 +351,15 @@ void main() {
       test('sendMagicLink should use new ApiResponseHelper pattern', () async {
         // Arrange: Mock the chain of calls
         when(mockUserStatusService.isValidEmail(any)).thenReturn(true);
-        when(mockLocalDatasource.storePKCEVerifier(any))
-            .thenAnswer((_) async => const Ok(null));
-        when(mockLocalDatasource.storeMagicLinkEmail(any))
-            .thenAnswer((_) async => const Ok(null));
-        when(mockAuthApiClient.sendMagicLink(any))
-            .thenAnswer((_) async => 'Magic link sent successfully');
+        when(
+          mockLocalDatasource.storePKCEVerifier(any),
+        ).thenAnswer((_) async => const Ok(null));
+        when(
+          mockLocalDatasource.storeMagicLinkEmail(any),
+        ).thenAnswer((_) async => const Ok(null));
+        when(
+          mockAuthApiClient.sendMagicLink(any),
+        ).thenAnswer((_) async => 'Magic link sent successfully');
 
         // Act: Call AuthService method
         final result = await authService.sendMagicLink('test@example.com');
@@ -330,34 +371,45 @@ void main() {
         verify(mockAuthApiClient.sendMagicLink(any)).called(1);
       });
 
-      test('authenticateWithMagicLink should handle 422 errors properly in new pattern', () async {
-        // Arrange: Setup 422 error
-        final dioException = DioException(
-          requestOptions: RequestOptions(path: '/auth/verify'),
-          response: Response(
+      test(
+        'authenticateWithMagicLink should handle 422 errors properly in new pattern',
+        () async {
+          // Arrange: Setup 422 error
+          final dioException = DioException(
             requestOptions: RequestOptions(path: '/auth/verify'),
-            statusCode: 422,
-            data: {
-              'success': false,
-              'error': 'This user is already a member of a family',
-              'code': 'VALIDATION_ERROR',
-            },
-          ),
-          message: 'Validation failed',
-          type: DioExceptionType.badResponse,
-        );
+            response: Response(
+              requestOptions: RequestOptions(path: '/auth/verify'),
+              statusCode: 422,
+              data: {
+                'success': false,
+                'error': 'This user is already a member of a family',
+                'code': 'VALIDATION_ERROR',
+              },
+            ),
+            message: 'Validation failed',
+            type: DioExceptionType.badResponse,
+          );
 
-        // Mock dependencies
-        when(mockLocalDatasource.getMagicLinkEmail())
-            .thenAnswer((_) async => const Ok('test@example.com'));
-        when(mockLocalDatasource.getPKCEVerifier())
-            .thenAnswer((_) async => const Ok('verifier'));
-        when(mockAuthApiClient.verifyMagicLink(any, any))
-            .thenThrow(dioException);
+          // Mock dependencies
+          when(
+            mockLocalDatasource.getMagicLinkEmail(),
+          ).thenAnswer((_) async => const Ok('test@example.com'));
+          when(
+            mockLocalDatasource.getPKCEVerifier(),
+          ).thenAnswer((_) async => const Ok('verifier'));
+          when(
+            mockAuthApiClient.verifyMagicLink(any, any),
+          ).thenThrow(dioException);
 
-        // Mock error handler to return proper classification
-        when(mockErrorHandlerService.handleError(any, any, stackTrace: anyNamed('stackTrace')))
-            .thenAnswer((_) async => const ErrorHandlingResult(
+          // Mock error handler to return proper classification
+          when(
+            mockErrorHandlerService.handleError(
+              any,
+              any,
+              stackTrace: anyNamed('stackTrace'),
+            ),
+          ).thenAnswer(
+            (_) async => const ErrorHandlingResult(
               classification: ErrorClassification(
                 category: ErrorCategory.validation,
                 severity: ErrorSeverity.minor,
@@ -372,84 +424,111 @@ void main() {
               ),
               wasLogged: true,
               wasReported: false,
-            ));
+            ),
+          );
 
-        // Act
-        final result = await authService.authenticateWithMagicLink('test-token');
+          // Act
+          final result = await authService.authenticateWithMagicLink(
+            'test-token',
+          );
 
-        // Assert: Should fail with ValidationFailure
-        expect(result.isError, isTrue);
-        expect(result.error, isA<ApiFailure>());
-        expect(result.error!.statusCode, 422);
-      });
+          // Assert: Should fail with ValidationFailure
+          expect(result.isError, isTrue);
+          expect(result.error, isA<ApiFailure>());
+          expect(result.error!.statusCode, 422);
+        },
+      );
     });
 
     group('CRITICAL: End-to-End Flow Tests', () {
-      test('successful magic link flow should work end-to-end with new pattern', () async {
-        // Arrange: Setup complete successful flow
-        const mockAuthDto = AuthDto(
-          accessToken: 'test-token',
-          refreshToken: 'mock_refresh_token',
-          expiresIn: 900,
-          
-          user: UserCurrentFamilyDto(
-            id: 'user-123',
-            email: 'test@example.com',
-            name: 'Test User',
-          ),
-        );
+      test(
+        'successful magic link flow should work end-to-end with new pattern',
+        () async {
+          // Arrange: Setup complete successful flow
+          const mockAuthDto = AuthDto(
+            accessToken: 'test-token',
+            refreshToken: 'mock_refresh_token',
+            expiresIn: 900,
 
-        // Mock all dependencies for successful flow
-        when(mockLocalDatasource.getMagicLinkEmail())
-            .thenAnswer((_) async => const Ok('test@example.com'));
-        when(mockLocalDatasource.getPKCEVerifier())
-            .thenAnswer((_) async => const Ok('verifier'));
-        when(mockAuthApiClient.verifyMagicLink(any, any))
-            .thenAnswer((_) async => mockAuthDto);
-        when(mockLocalDatasource.clearPKCEVerifier())
-            .thenAnswer((_) async => const Ok(null));
-        when(mockLocalDatasource.clearMagicLinkEmail())
-            .thenAnswer((_) async => const Ok(null));
-        when(mockLocalDatasource.storeToken(any))
-            .thenAnswer((_) async => const Ok(null));
-        // cacheFamilyData() call removed - Clean Architecture: auth service no longer manages family caching
-        when(mockLocalDatasource.storeUserData(any))
-            .thenAnswer((_) async => const Ok(null));
+            user: UserCurrentFamilyDto(
+              id: 'user-123',
+              email: 'test@example.com',
+              name: 'Test User',
+            ),
+          );
 
-        // Act: Execute the full flow
-        final result = await authService.authenticateWithMagicLink('test-token');
+          // Mock all dependencies for successful flow
+          when(
+            mockLocalDatasource.getMagicLinkEmail(),
+          ).thenAnswer((_) async => const Ok('test@example.com'));
+          when(
+            mockLocalDatasource.getPKCEVerifier(),
+          ).thenAnswer((_) async => const Ok('verifier'));
+          when(
+            mockAuthApiClient.verifyMagicLink(any, any),
+          ).thenAnswer((_) async => mockAuthDto);
+          when(
+            mockLocalDatasource.clearPKCEVerifier(),
+          ).thenAnswer((_) async => const Ok(null));
+          when(
+            mockLocalDatasource.clearMagicLinkEmail(),
+          ).thenAnswer((_) async => const Ok(null));
+          when(
+            mockLocalDatasource.storeToken(any),
+          ).thenAnswer((_) async => const Ok(null));
+          // cacheFamilyData() call removed - Clean Architecture: auth service no longer manages family caching
+          when(
+            mockLocalDatasource.storeUserData(any),
+          ).thenAnswer((_) async => const Ok(null));
 
-        // Assert: Should succeed with all data properly processed
-        expect(result.isSuccess, isTrue);
-        expect(result.value!.token, 'test-token');
-        expect(result.value!.user.email, 'test@example.com');
-        // CLEAN ARCHITECTURE: User no longer has familyId - family data via UserFamilyService
-        // expect(result.value!.user.familyId, 'family-123'); // REMOVED
+          // Act: Execute the full flow
+          final result = await authService.authenticateWithMagicLink(
+            'test-token',
+          );
 
-        // Verify API client was called through the helper pattern
-        verify(mockAuthApiClient.verifyMagicLink(any, any)).called(1);
-      });
+          // Assert: Should succeed with all data properly processed
+          expect(result.isSuccess, isTrue);
+          expect(result.value!.token, 'test-token');
+          expect(result.value!.user.email, 'test@example.com');
+          // CLEAN ARCHITECTURE: User no longer has familyId - family data via UserFamilyService
+          // expect(result.value!.user.familyId, 'family-123'); // REMOVED
 
-      test('error responses should maintain proper context through entire flow', () async {
-        // Arrange: Create realistic API error scenario
-        const enhancedApiException = ApiException(
-          message: 'Network timeout during authentication',
-          statusCode: 0,
-          details: {'timeout': true, 'retry_after': 30},
-          endpoint: '/auth/verify',
-          method: 'POST',
-        );
+          // Verify API client was called through the helper pattern
+          verify(mockAuthApiClient.verifyMagicLink(any, any)).called(1);
+        },
+      );
 
-        // Mock dependencies
-        when(mockLocalDatasource.getMagicLinkEmail())
-            .thenAnswer((_) async => const Ok('test@example.com'));
-        when(mockLocalDatasource.getPKCEVerifier())
-            .thenAnswer((_) async => const Ok('verifier'));
-        when(mockAuthApiClient.verifyMagicLink(any, any))
-            .thenThrow(enhancedApiException);
+      test(
+        'error responses should maintain proper context through entire flow',
+        () async {
+          // Arrange: Create realistic API error scenario
+          const enhancedApiException = ApiException(
+            message: 'Network timeout during authentication',
+            statusCode: 0,
+            details: {'timeout': true, 'retry_after': 30},
+            endpoint: '/auth/verify',
+            method: 'POST',
+          );
 
-        when(mockErrorHandlerService.handleError(any, any, stackTrace: anyNamed('stackTrace')))
-            .thenAnswer((_) async => const ErrorHandlingResult(
+          // Mock dependencies
+          when(
+            mockLocalDatasource.getMagicLinkEmail(),
+          ).thenAnswer((_) async => const Ok('test@example.com'));
+          when(
+            mockLocalDatasource.getPKCEVerifier(),
+          ).thenAnswer((_) async => const Ok('verifier'));
+          when(
+            mockAuthApiClient.verifyMagicLink(any, any),
+          ).thenThrow(enhancedApiException);
+
+          when(
+            mockErrorHandlerService.handleError(
+              any,
+              any,
+              stackTrace: anyNamed('stackTrace'),
+            ),
+          ).thenAnswer(
+            (_) async => const ErrorHandlingResult(
               classification: ErrorClassification(
                 category: ErrorCategory.network,
                 severity: ErrorSeverity.major,
@@ -464,23 +543,29 @@ void main() {
               ),
               wasLogged: true,
               wasReported: false,
-            ));
+            ),
+          );
 
-        // Act
-        final result = await authService.authenticateWithMagicLink('test-token');
+          // Act
+          final result = await authService.authenticateWithMagicLink(
+            'test-token',
+          );
 
-        // Assert: Should properly handle and classify the error
-        expect(result.isError, isTrue);
-        expect(result.error, isA<ApiFailure>());
-        expect(result.error!.message, contains('Connection timeout'));
+          // Assert: Should properly handle and classify the error
+          expect(result.isError, isTrue);
+          expect(result.error, isA<ApiFailure>());
+          expect(result.error!.message, contains('Connection timeout'));
 
-        // Verify error handler was called with proper context
-        verify(mockErrorHandlerService.handleError(
-          enhancedApiException,
-          argThat(isA<ErrorContext>()),
-          stackTrace: anyNamed('stackTrace'),
-        )).called(1);
-      });
+          // Verify error handler was called with proper context
+          verify(
+            mockErrorHandlerService.handleError(
+              enhancedApiException,
+              argThat(isA<ErrorContext>()),
+              stackTrace: anyNamed('stackTrace'),
+            ),
+          ).called(1);
+        },
+      );
     });
   });
 }

@@ -52,7 +52,9 @@ class _OnboardingWizardPageState extends ConsumerState<OnboardingWizardPage> {
 
   void _handleCreateFamily() {
     // Use declarative navigation pattern following app architecture
-    ref.read(navigationStateProvider.notifier).navigateTo(
+    ref
+        .read(navigationStateProvider.notifier)
+        .navigateTo(
           route: '/family/create',
           trigger: NavigationTrigger.userNavigation,
         );
@@ -64,7 +66,9 @@ class _OnboardingWizardPageState extends ConsumerState<OnboardingWizardPage> {
       _processJoinFamily(widget.invitationCode!);
     } else {
       // Navigate to family invitation page for manual code entry
-      ref.read(navigationStateProvider.notifier).navigateTo(
+      ref
+          .read(navigationStateProvider.notifier)
+          .navigateTo(
             route: '/family-invitation',
             trigger: NavigationTrigger.userNavigation,
           );
@@ -73,7 +77,9 @@ class _OnboardingWizardPageState extends ConsumerState<OnboardingWizardPage> {
 
   void _processJoinFamily(String invitationCode) {
     // Use declarative navigation pattern - navigate to family join page
-    ref.read(navigationStateProvider.notifier).navigateTo(
+    ref
+        .read(navigationStateProvider.notifier)
+        .navigateTo(
           route: '/family-invitation?code=$invitationCode',
           trigger: NavigationTrigger.userNavigation,
         );
@@ -92,7 +98,9 @@ class _OnboardingWizardPageState extends ConsumerState<OnboardingWizardPage> {
     return Card(
       key: const Key('onboarding_user_info_card'),
       elevation: 1,
-      color: Theme.of(context).colorScheme.surfaceContainerHighest.withValues(alpha: 0.3),
+      color: Theme.of(
+        context,
+      ).colorScheme.surfaceContainerHighest.withValues(alpha: 0.3),
       child: Padding(
         padding: context.getAdaptivePadding(
           mobileHorizontal: 16,
@@ -122,23 +130,31 @@ class _OnboardingWizardPageState extends ConsumerState<OnboardingWizardPage> {
                 children: [
                   Text(
                     AppLocalizations.of(context).loggedInAs,
-                    style: (isTablet
-                        ? Theme.of(context).textTheme.bodyMedium
-                        : Theme.of(context).textTheme.bodySmall)?.copyWith(
-                      color: Theme.of(context).colorScheme.onSurfaceVariant,
-                      fontSize: (isTablet ? 14 : 12) * context.fontScale,
-                    ),
+                    style:
+                        (isTablet
+                                ? Theme.of(context).textTheme.bodyMedium
+                                : Theme.of(context).textTheme.bodySmall)
+                            ?.copyWith(
+                              color: Theme.of(
+                                context,
+                              ).colorScheme.onSurfaceVariant,
+                              fontSize:
+                                  (isTablet ? 14 : 12) * context.fontScale,
+                            ),
                   ),
                   const SizedBox(height: 2),
                   Text(
                     user.name.isNotEmpty ? user.name : 'Unknown User',
                     key: const Key('onboarding_user_name'),
-                    style: (isTablet
-                        ? Theme.of(context).textTheme.titleMedium
-                        : Theme.of(context).textTheme.bodyLarge)?.copyWith(
-                      fontWeight: FontWeight.w500,
-                      fontSize: (isTablet ? 18 : 16) * context.fontScale,
-                    ),
+                    style:
+                        (isTablet
+                                ? Theme.of(context).textTheme.titleMedium
+                                : Theme.of(context).textTheme.bodyLarge)
+                            ?.copyWith(
+                              fontWeight: FontWeight.w500,
+                              fontSize:
+                                  (isTablet ? 18 : 16) * context.fontScale,
+                            ),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                   ),
@@ -147,12 +163,17 @@ class _OnboardingWizardPageState extends ConsumerState<OnboardingWizardPage> {
                     Text(
                       user.email,
                       key: const Key('onboarding_user_email'),
-                      style: (isTablet
-                          ? Theme.of(context).textTheme.bodyMedium
-                          : Theme.of(context).textTheme.bodySmall)?.copyWith(
-                        color: Theme.of(context).colorScheme.onSurfaceVariant,
-                        fontSize: (isTablet ? 14 : 12) * context.fontScale,
-                      ),
+                      style:
+                          (isTablet
+                                  ? Theme.of(context).textTheme.bodyMedium
+                                  : Theme.of(context).textTheme.bodySmall)
+                              ?.copyWith(
+                                color: Theme.of(
+                                  context,
+                                ).colorScheme.onSurfaceVariant,
+                                fontSize:
+                                    (isTablet ? 14 : 12) * context.fontScale,
+                              ),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                     ),
@@ -182,24 +203,26 @@ class _OnboardingWizardPageState extends ConsumerState<OnboardingWizardPage> {
               onPressed: () => Navigator.of(context).pop(),
               child: Text(l10n.cancel),
             ),
-          TextButton(
-            key: const Key('logout_confirm_button'),
-            onPressed: () async {
-              Navigator.of(context).pop();
-              // ARCHITECTURE FIX: Direct navigation after logout since targetRoute doesn't work
-              await ref.read(authStateProvider.notifier).logout();
-              ref.read(navigationStateProvider.notifier).navigateTo(
-                route: '/auth/login',
-                trigger: NavigationTrigger.userNavigation,
-              );
-            },
-            style: TextButton.styleFrom(
-              foregroundColor: Theme.of(context).colorScheme.error,
+            TextButton(
+              key: const Key('logout_confirm_button'),
+              onPressed: () async {
+                Navigator.of(context).pop();
+                // ARCHITECTURE FIX: Direct navigation after logout since targetRoute doesn't work
+                await ref.read(authStateProvider.notifier).logout();
+                ref
+                    .read(navigationStateProvider.notifier)
+                    .navigateTo(
+                      route: '/auth/login',
+                      trigger: NavigationTrigger.userNavigation,
+                    );
+              },
+              style: TextButton.styleFrom(
+                foregroundColor: Theme.of(context).colorScheme.error,
+              ),
+              child: Text(l10n.logout),
             ),
-            child: Text(l10n.logout),
-          ),
-        ],
-      );
+          ],
+        );
       },
     );
   }
@@ -273,7 +296,8 @@ class _OnboardingWizardPageState extends ConsumerState<OnboardingWizardPage> {
                           Text(
                             'EduLift',
                             style: TextStyle(
-                              fontSize: (isTablet ? 40 : 32) * context.fontScale,
+                              fontSize:
+                                  (isTablet ? 40 : 32) * context.fontScale,
                               fontWeight: FontWeight.bold,
                               color: Theme.of(context).colorScheme.primary,
                             ),
@@ -290,12 +314,20 @@ class _OnboardingWizardPageState extends ConsumerState<OnboardingWizardPage> {
                           Text(
                             AppLocalizations.of(context).welcomeOnboarding,
                             key: const Key('onboarding_welcome_message'),
-                            style: (isTablet
-                                ? Theme.of(context).textTheme.headlineMedium
-                                : Theme.of(context).textTheme.headlineSmall)?.copyWith(
-                              fontSize: (isTablet ? 28 : 24) * context.fontScale,
-                              fontWeight: FontWeight.bold,
-                            ),
+                            style:
+                                (isTablet
+                                        ? Theme.of(
+                                            context,
+                                          ).textTheme.headlineMedium
+                                        : Theme.of(
+                                            context,
+                                          ).textTheme.headlineSmall)
+                                    ?.copyWith(
+                                      fontSize:
+                                          (isTablet ? 28 : 24) *
+                                          context.fontScale,
+                                      fontWeight: FontWeight.bold,
+                                    ),
                             textAlign: TextAlign.center,
                           ),
                           SizedBox(
@@ -307,13 +339,23 @@ class _OnboardingWizardPageState extends ConsumerState<OnboardingWizardPage> {
                           ),
 
                           Text(
-                            AppLocalizations.of(context).toGetStartedSetupFamily,
-                            style: (isTablet
-                                ? Theme.of(context).textTheme.titleMedium
-                                : Theme.of(context).textTheme.bodyLarge)?.copyWith(
-                              color: Theme.of(context).colorScheme.onSurfaceVariant,
-                              fontSize: (isTablet ? 18 : 16) * context.fontScale,
-                            ),
+                            AppLocalizations.of(
+                              context,
+                            ).toGetStartedSetupFamily,
+                            style:
+                                (isTablet
+                                        ? Theme.of(
+                                            context,
+                                          ).textTheme.titleMedium
+                                        : Theme.of(context).textTheme.bodyLarge)
+                                    ?.copyWith(
+                                      color: Theme.of(
+                                        context,
+                                      ).colorScheme.onSurfaceVariant,
+                                      fontSize:
+                                          (isTablet ? 18 : 16) *
+                                          context.fontScale,
+                                    ),
                             textAlign: TextAlign.center,
                             maxLines: 2,
                             overflow: TextOverflow.ellipsis,
@@ -364,7 +406,9 @@ class _OnboardingWizardPageState extends ConsumerState<OnboardingWizardPage> {
                                           tablet: 80,
                                           desktop: 96,
                                         ),
-                                        color: Theme.of(context).colorScheme.primary,
+                                        color: Theme.of(
+                                          context,
+                                        ).colorScheme.primary,
                                       ),
                                       SizedBox(
                                         height: context.getAdaptiveSpacing(
@@ -375,13 +419,23 @@ class _OnboardingWizardPageState extends ConsumerState<OnboardingWizardPage> {
                                       ),
 
                                       Text(
-                                        AppLocalizations.of(context).youveBeenInvitedToJoinFamily,
-                                        style: (isTablet
-                                            ? Theme.of(context).textTheme.headlineSmall
-                                            : Theme.of(context).textTheme.titleLarge)?.copyWith(
-                                          fontSize: (isTablet ? 26 : 22) * context.fontScale,
-                                          fontWeight: FontWeight.bold,
-                                        ),
+                                        AppLocalizations.of(
+                                          context,
+                                        ).youveBeenInvitedToJoinFamily,
+                                        style:
+                                            (isTablet
+                                                    ? Theme.of(
+                                                        context,
+                                                      ).textTheme.headlineSmall
+                                                    : Theme.of(
+                                                        context,
+                                                      ).textTheme.titleLarge)
+                                                ?.copyWith(
+                                                  fontSize:
+                                                      (isTablet ? 26 : 22) *
+                                                      context.fontScale,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
                                         textAlign: TextAlign.center,
                                         maxLines: 2,
                                         overflow: TextOverflow.ellipsis,
@@ -395,13 +449,25 @@ class _OnboardingWizardPageState extends ConsumerState<OnboardingWizardPage> {
                                       ),
 
                                       Text(
-                                        AppLocalizations.of(context).acceptInvitationToCoordinate,
-                                        style: (isTablet
-                                            ? Theme.of(context).textTheme.titleMedium
-                                            : Theme.of(context).textTheme.bodyMedium)?.copyWith(
-                                          color: Theme.of(context).colorScheme.onSurfaceVariant,
-                                          fontSize: (isTablet ? 18 : 16) * context.fontScale,
-                                        ),
+                                        AppLocalizations.of(
+                                          context,
+                                        ).acceptInvitationToCoordinate,
+                                        style:
+                                            (isTablet
+                                                    ? Theme.of(
+                                                        context,
+                                                      ).textTheme.titleMedium
+                                                    : Theme.of(
+                                                        context,
+                                                      ).textTheme.bodyMedium)
+                                                ?.copyWith(
+                                                  color: Theme.of(context)
+                                                      .colorScheme
+                                                      .onSurfaceVariant,
+                                                  fontSize:
+                                                      (isTablet ? 18 : 16) *
+                                                      context.fontScale,
+                                                ),
                                         textAlign: TextAlign.center,
                                         maxLines: 3,
                                         overflow: TextOverflow.ellipsis,
@@ -425,9 +491,13 @@ class _OnboardingWizardPageState extends ConsumerState<OnboardingWizardPage> {
                                           focusNode: _primaryButtonFocusNode,
                                           onPressed: _handleJoinFamily,
                                           child: Text(
-                                            AppLocalizations.of(context).getStarted,
+                                            AppLocalizations.of(
+                                              context,
+                                            ).getStarted,
                                             style: TextStyle(
-                                              fontSize: (isTablet ? 18 : 16) * context.fontScale,
+                                              fontSize:
+                                                  (isTablet ? 18 : 16) *
+                                                  context.fontScale,
                                               fontWeight: FontWeight.w600,
                                             ),
                                           ),
@@ -448,13 +518,19 @@ class _OnboardingWizardPageState extends ConsumerState<OnboardingWizardPage> {
                                           desktop: 52,
                                         ),
                                         child: TextButton(
-                                          key: const Key('create_new_family_button'),
+                                          key: const Key(
+                                            'create_new_family_button',
+                                          ),
                                           focusNode: _secondaryButtonFocusNode,
                                           onPressed: _handleCreateFamily,
                                           child: Text(
-                                            AppLocalizations.of(context).skipOnboarding,
+                                            AppLocalizations.of(
+                                              context,
+                                            ).skipOnboarding,
                                             style: TextStyle(
-                                              fontSize: (isTablet ? 16 : 14) * context.fontScale,
+                                              fontSize:
+                                                  (isTablet ? 16 : 14) *
+                                                  context.fontScale,
                                             ),
                                           ),
                                         ),
@@ -462,13 +538,23 @@ class _OnboardingWizardPageState extends ConsumerState<OnboardingWizardPage> {
                                     ] else ...[
                                       // No pending invitation - show choice
                                       Text(
-                                        AppLocalizations.of(context).chooseYourFamilySetup,
-                                        style: (isTablet
-                                            ? Theme.of(context).textTheme.headlineSmall
-                                            : Theme.of(context).textTheme.titleLarge)?.copyWith(
-                                          fontSize: (isTablet ? 26 : 22) * context.fontScale,
-                                          fontWeight: FontWeight.bold,
-                                        ),
+                                        AppLocalizations.of(
+                                          context,
+                                        ).chooseYourFamilySetup,
+                                        style:
+                                            (isTablet
+                                                    ? Theme.of(
+                                                        context,
+                                                      ).textTheme.headlineSmall
+                                                    : Theme.of(
+                                                        context,
+                                                      ).textTheme.titleLarge)
+                                                ?.copyWith(
+                                                  fontSize:
+                                                      (isTablet ? 26 : 22) *
+                                                      context.fontScale,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
                                         textAlign: TextAlign.center,
                                         maxLines: 2,
                                         overflow: TextOverflow.ellipsis,
@@ -490,7 +576,9 @@ class _OnboardingWizardPageState extends ConsumerState<OnboardingWizardPage> {
                                           desktop: 56,
                                         ),
                                         child: OutlinedButton.icon(
-                                          key: const Key('create_family_button'),
+                                          key: const Key(
+                                            'create_family_button',
+                                          ),
                                           focusNode: _primaryButtonFocusNode,
                                           onPressed: _handleCreateFamily,
                                           icon: Icon(
@@ -502,9 +590,13 @@ class _OnboardingWizardPageState extends ConsumerState<OnboardingWizardPage> {
                                             ),
                                           ),
                                           label: Text(
-                                            AppLocalizations.of(context).createFamily,
+                                            AppLocalizations.of(
+                                              context,
+                                            ).createFamily,
                                             style: TextStyle(
-                                              fontSize: (isTablet ? 18 : 16) * context.fontScale,
+                                              fontSize:
+                                                  (isTablet ? 18 : 16) *
+                                                  context.fontScale,
                                               fontWeight: FontWeight.w600,
                                             ),
                                           ),
@@ -527,7 +619,9 @@ class _OnboardingWizardPageState extends ConsumerState<OnboardingWizardPage> {
                                           desktop: 56,
                                         ),
                                         child: OutlinedButton.icon(
-                                          key: const Key('join_existing_family_button'),
+                                          key: const Key(
+                                            'join_existing_family_button',
+                                          ),
                                           focusNode: _secondaryButtonFocusNode,
                                           onPressed: _handleJoinFamily,
                                           icon: Icon(
@@ -539,9 +633,13 @@ class _OnboardingWizardPageState extends ConsumerState<OnboardingWizardPage> {
                                             ),
                                           ),
                                           label: Text(
-                                            AppLocalizations.of(context).joinExistingFamily,
+                                            AppLocalizations.of(
+                                              context,
+                                            ).joinExistingFamily,
                                             style: TextStyle(
-                                              fontSize: (isTablet ? 18 : 16) * context.fontScale,
+                                              fontSize:
+                                                  (isTablet ? 18 : 16) *
+                                                  context.fontScale,
                                               fontWeight: FontWeight.w600,
                                             ),
                                           ),

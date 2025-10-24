@@ -11,8 +11,7 @@ import 'package:edulift/features/family/presentation/providers/family_provider.d
     hide FamilyNotifier;
 import 'package:edulift/features/family/presentation/providers/family_provider.dart'
     as family_providers;
-import 'package:edulift/core/domain/entities/family.dart'
-    as family_entity;
+import 'package:edulift/core/domain/entities/family.dart' as family_entity;
 // NOTE: Entity imports removed as they're not needed for simplified stubbing
 import '../test_mocks/test_mocks.mocks.dart' as mocks;
 import '../test_mocks/test_mocks.dart';

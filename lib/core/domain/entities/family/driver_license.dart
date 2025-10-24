@@ -11,6 +11,7 @@ enum DriverLicenseStatus {
   revoked('revoked', 'Revoked', 'License has been revoked'),
   provisional('provisional', 'Provisional', 'Provisional/learner license'),
   pending('pending', 'Pending', 'License application pending');
+
   const DriverLicenseStatus(this.value, this.label, this.description);
 
   final String value;
@@ -82,6 +83,7 @@ class DriverLicense extends Equatable {
     this.restrictions = const [],
     this.endorsements = const [],
   });
+
   /// Create from JSON
 
   /// Convert to JSON
@@ -130,11 +132,14 @@ class DriverLicense extends Equatable {
 
   /// Check if license has specific restriction
   bool hasRestriction(String restriction) => restrictions.any(
-      (r) => r.toLowerCase().contains(restriction.toLowerCase()));
+    (r) => r.toLowerCase().contains(restriction.toLowerCase()),
+  );
 
   /// Check if license has specific endorsement
   bool hasEndorsement(String endorsement) => endorsements.any(
-      (e) => e.toLowerCase().contains(endorsement.toLowerCase()));
+    (e) => e.toLowerCase().contains(endorsement.toLowerCase()),
+  );
+
   /// Get formatted license display text
   String get displayText => '$licenseClass - $licenseNumber ($issuingState)';
 
@@ -147,7 +152,8 @@ class DriverLicense extends Equatable {
     issuingState,
     licenseClass,
     restrictions,
-    endorsements];
+    endorsements,
+  ];
 
   @override
   String toString() {

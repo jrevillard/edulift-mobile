@@ -30,7 +30,15 @@ class ScheduleDataFactory {
 
   /// Legacy string days (for backward compatibility during migration)
   @Deprecated('Use daysOfWeek instead')
-  static const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+  static const days = [
+    'Monday',
+    'Tuesday',
+    'Wednesday',
+    'Thursday',
+    'Friday',
+    'Saturday',
+    'Sunday',
+  ];
 
   /// Week identifiers
   static const weeks = ['A', 'B', 'C', 'D'];
@@ -57,9 +65,21 @@ class ScheduleDataFactory {
   /// Legacy string times (for backward compatibility during migration)
   @Deprecated('Use timesOfDay instead')
   static const times = [
-    '07:00', '07:30', '08:00', '08:30', '09:00',
-    '12:00', '12:30', '13:00', '13:30', '14:00',
-    '16:00', '16:30', '17:00', '17:30', '18:00',
+    '07:00',
+    '07:30',
+    '08:00',
+    '08:30',
+    '09:00',
+    '12:00',
+    '12:30',
+    '13:00',
+    '13:30',
+    '14:00',
+    '16:00',
+    '16:30',
+    '17:00',
+    '17:30',
+    '18:00',
   ];
 
   /// Create a realistic schedule slot (TYPE-SAFE)
@@ -183,22 +203,28 @@ class ScheduleDataFactory {
       for (var timeIndex = 0; timeIndex < 3; timeIndex++) {
         // Morning, Noon, Afternoon
         final dayOfWeek = daysOfWeek[dayIndex];
-        final timeOfDay = [timesOfDay[2], timesOfDay[7], timesOfDay[12]][timeIndex];
+        final timeOfDay = [
+          timesOfDay[2],
+          timesOfDay[7],
+          timesOfDay[12],
+        ][timeIndex];
 
-        slots.add(ScheduleSlot(
-          id: 'slot-$scheduleWeek-${dayOfWeek.fullName}-${timeOfDay.toApiFormat()}',
-          groupId: groupId ?? 'group-1',
-          dayOfWeek: dayOfWeek,
-          timeOfDay: timeOfDay,
-          week: scheduleWeek,
-          vehicleAssignments: List.generate(
-            TestDataFactory.randomInt(1, 2),
-            (i) => createRealisticVehicleAssignment(index: i),
+        slots.add(
+          ScheduleSlot(
+            id: 'slot-$scheduleWeek-${dayOfWeek.fullName}-${timeOfDay.toApiFormat()}',
+            groupId: groupId ?? 'group-1',
+            dayOfWeek: dayOfWeek,
+            timeOfDay: timeOfDay,
+            week: scheduleWeek,
+            vehicleAssignments: List.generate(
+              TestDataFactory.randomInt(1, 2),
+              (i) => createRealisticVehicleAssignment(index: i),
+            ),
+            maxVehicles: 5,
+            createdAt: TestDataFactory.randomPastDate(maxDaysAgo: 90),
+            updatedAt: DateTime.now(),
           ),
-          maxVehicles: 5,
-          createdAt: TestDataFactory.randomPastDate(maxDaysAgo: 90),
-          updatedAt: DateTime.now(),
-        ));
+        );
       }
     }
 
@@ -234,25 +260,19 @@ class ScheduleDataFactory {
       const TimeOfDayValue(16, 0), // 16:00
       const TimeOfDayValue(16, 30), // 16:30
       const TimeOfDayValue(17, 0), // 17:00
-      const TimeOfDayValue(17, 30)  // 17:30
+      const TimeOfDayValue(17, 30), // 17:30
     ];
 
-    return List.generate(
-      count,
-      (i) {
-        final timeOfDay = availableTimes[i % availableTimes.length];
-        final dayOfWeek = daysOfWeek[i % daysOfWeek.length];
+    return List.generate(count, (i) {
+      final timeOfDay = availableTimes[i % availableTimes.length];
+      final dayOfWeek = daysOfWeek[i % daysOfWeek.length];
 
-        return createRealisticScheduleSlot(
-          index: i,
-          groupId: groupId,
-        ).copyWith(
-          dayOfWeek: dayOfWeek,
-          timeOfDay: timeOfDay,
-          week: weeks[i % weeks.length],
-        );
-      },
-    );
+      return createRealisticScheduleSlot(index: i, groupId: groupId).copyWith(
+        dayOfWeek: dayOfWeek,
+        timeOfDay: timeOfDay,
+        week: weeks[i % weeks.length],
+      );
+    });
   }
 
   /// Create test schedule slots (alias for createLargeScheduleSlotList for backward compatibility)
@@ -282,7 +302,10 @@ class ScheduleDataFactory {
   }) {
     return List.generate(
       count,
-      (i) => createRealisticVehicleAssignment(index: i, scheduleSlotId: scheduleSlotId),
+      (i) => createRealisticVehicleAssignment(
+        index: i,
+        scheduleSlotId: scheduleSlotId,
+      ),
     );
   }
 
@@ -293,7 +316,10 @@ class ScheduleDataFactory {
   }) {
     return List.generate(
       count,
-      (i) => createRealisticChildAssignment(index: i, vehicleAssignmentId: vehicleAssignmentId),
+      (i) => createRealisticChildAssignment(
+        index: i,
+        vehicleAssignmentId: vehicleAssignmentId,
+      ),
     );
   }
 
@@ -359,7 +385,8 @@ class ScheduleDataFactory {
       childName: TestDataFactory.randomFirstName(),
       familyId: 'family-1',
       familyName: 'Famille Test',
-      pickupAddress: '123 Avenue des Champs-Élysées prolongée jusque la Place de l\'Étoile, Appartement 456, 75008 Paris, France',
+      pickupAddress:
+          '123 Avenue des Champs-Élysées prolongée jusque la Place de l\'Étoile, Appartement 456, 75008 Paris, France',
       pickupLat: 48.8566,
       pickupLng: 2.3522,
       status: 'CONFIRMED',
@@ -368,16 +395,16 @@ class ScheduleDataFactory {
 
   /// Create cancelled child assignment
   static ChildAssignment createCancelledChildAssignment() {
-    return createRealisticChildAssignment(type: 'transportation').copyWith(
-      status: AssignmentStatus.cancelled,
-    );
+    return createRealisticChildAssignment(
+      type: 'transportation',
+    ).copyWith(status: AssignmentStatus.cancelled);
   }
 
   /// Create no-show child assignment
   static ChildAssignment createNoShowChildAssignment() {
-    return createRealisticChildAssignment(type: 'transportation').copyWith(
-      status: AssignmentStatus.noShow,
-    );
+    return createRealisticChildAssignment(
+      type: 'transportation',
+    ).copyWith(status: AssignmentStatus.noShow);
   }
 
   // Period slot data factory methods
@@ -391,8 +418,15 @@ class ScheduleDataFactory {
     List<String>? timeStrings,
     int? slotCount,
   }) {
-    final day = dayOfWeek ?? daysOfWeek[TestDataFactory.randomInt(0, daysOfWeek.length - 1)];
-    final period = periodType ?? PeriodType.values[TestDataFactory.randomInt(0, PeriodType.values.length - 1)];
+    final day =
+        dayOfWeek ??
+        daysOfWeek[TestDataFactory.randomInt(0, daysOfWeek.length - 1)];
+    final period =
+        periodType ??
+        PeriodType.values[TestDataFactory.randomInt(
+          0,
+          PeriodType.values.length - 1,
+        )];
     final weekId = week ?? '2025-W41';
 
     // Generate time strings based on period type
@@ -401,10 +435,7 @@ class ScheduleDataFactory {
     // Create schedule slots
     final slots = List.generate(
       slotCount ?? TestDataFactory.randomInt(1, 3),
-      (i) => createRealisticScheduleSlot(
-        index: i,
-        groupId: groupId,
-      ).copyWith(
+      (i) => createRealisticScheduleSlot(index: i, groupId: groupId).copyWith(
         dayOfWeek: day,
         timeOfDay: TimeOfDayValue.parse(times[i % times.length]),
         week: weekId,
@@ -413,10 +444,7 @@ class ScheduleDataFactory {
 
     return PeriodSlotData(
       dayOfWeek: day,
-      period: AggregatePeriod.fromTimeStrings(
-        type: period,
-        timeStrings: times,
-      ),
+      period: AggregatePeriod.fromTimeStrings(type: period, timeStrings: times),
       times: times.map((t) => TimeOfDayValue.parse(t)).toList(),
       slots: slots,
       week: weekId,
@@ -519,13 +547,15 @@ class ScheduleDataFactory {
     PeriodType? periodType,
     List<String>? timeStrings,
   }) {
-    final type = periodType ?? PeriodType.values[TestDataFactory.randomInt(0, PeriodType.values.length - 1)];
+    final type =
+        periodType ??
+        PeriodType.values[TestDataFactory.randomInt(
+          0,
+          PeriodType.values.length - 1,
+        )];
     final times = timeStrings ?? _generateTimeStringsForPeriod(type);
 
-    return AggregatePeriod.fromTimeStrings(
-      type: type,
-      timeStrings: times,
-    );
+    return AggregatePeriod.fromTimeStrings(type: type, timeStrings: times);
   }
 
   /// Create morning AggregatePeriod
@@ -564,7 +594,10 @@ class ScheduleDataFactory {
 
   /// Get a random PeriodType
   static PeriodType getRandomPeriodType() {
-    return PeriodType.values[TestDataFactory.randomInt(0, PeriodType.values.length - 1)];
+    return PeriodType.values[TestDataFactory.randomInt(
+      0,
+      PeriodType.values.length - 1,
+    )];
   }
 
   /// Get all PeriodType values for testing
@@ -590,7 +623,9 @@ class ScheduleDataFactory {
   static List<String> getRealisticWeekIds({int count = 5}) {
     final weeks = <String>[];
     for (var i = 0; i < count; i++) {
-      weeks.add(getRealisticWeekId(weekOffset: i - 2)); // Mix of past, current, future weeks
+      weeks.add(
+        getRealisticWeekId(weekOffset: i - 2),
+      ); // Mix of past, current, future weeks
     }
     return weeks;
   }
@@ -636,7 +671,8 @@ class ScheduleDataFactory {
     // Simple ISO week number calculation
     final firstDayOfYear = DateTime(date.year);
     final daysDifference = date.difference(firstDayOfYear).inDays;
-    final weekNumber = ((daysDifference + firstDayOfYear.weekday - 1) / 7).floor() + 1;
+    final weekNumber =
+        ((daysDifference + firstDayOfYear.weekday - 1) / 7).floor() + 1;
 
     // Handle edge cases where the week might be from previous/next year
     if (weekNumber == 0) {

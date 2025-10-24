@@ -22,7 +22,8 @@ class TokenExpiredEvent {
   });
 
   @override
-  String toString() => 'TokenExpiredEvent(statusCode: $statusCode, endpoint: $endpoint)';
+  String toString() =>
+      'TokenExpiredEvent(statusCode: $statusCode, endpoint: $endpoint)';
 }
 
 /// Simple StateProvider for token expiry events

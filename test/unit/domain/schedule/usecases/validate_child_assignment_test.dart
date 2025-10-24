@@ -28,7 +28,7 @@ void main() {
           assignedBy: 'user-1',
           vehicleName: 'School Van',
           capacity: 8,
-          
+
           createdAt: testDateTime,
           updatedAt: testDateTime,
         );
@@ -36,7 +36,10 @@ void main() {
         final params = ValidateChildAssignmentParams(
           vehicleAssignment: vehicleAssignment,
           childId: 'child-1',
-          currentlyAssignedChildIds: ['child-2', 'child-3'], // 2 assigned out of 8
+          currentlyAssignedChildIds: [
+            'child-2',
+            'child-3',
+          ], // 2 assigned out of 8
         );
 
         // Act
@@ -56,7 +59,7 @@ void main() {
           assignedBy: 'user-1',
           vehicleName: 'School Van',
           capacity: 3,
-          
+
           createdAt: testDateTime,
           updatedAt: testDateTime,
         );
@@ -64,7 +67,11 @@ void main() {
         final params = ValidateChildAssignmentParams(
           vehicleAssignment: vehicleAssignment,
           childId: 'child-1',
-          currentlyAssignedChildIds: ['child-2', 'child-3', 'child-4'], // 3/3 full
+          currentlyAssignedChildIds: [
+            'child-2',
+            'child-3',
+            'child-4',
+          ], // 3/3 full
         );
 
         // Act
@@ -88,7 +95,7 @@ void main() {
           assignedBy: 'user-1',
           vehicleName: 'School Van',
           capacity: 2,
-          
+
           createdAt: testDateTime,
           updatedAt: testDateTime,
         );
@@ -96,7 +103,11 @@ void main() {
         final params = ValidateChildAssignmentParams(
           vehicleAssignment: vehicleAssignment,
           childId: 'child-1',
-          currentlyAssignedChildIds: ['c-2', 'c-3', 'c-4'], // 3 > 2 (somehow over)
+          currentlyAssignedChildIds: [
+            'c-2',
+            'c-3',
+            'c-4',
+          ], // 3 > 2 (somehow over)
         );
 
         // Act
@@ -118,7 +129,7 @@ void main() {
           assignedBy: 'user-1',
           vehicleName: 'School Van',
           capacity: 5,
-          
+
           createdAt: testDateTime,
           updatedAt: testDateTime,
         );
@@ -165,121 +176,149 @@ void main() {
         expect(result.isOk, isTrue);
       });
 
-      test('rejects assignment when seat override capacity is reached', () async {
-        // Arrange
-        final vehicleAssignment = VehicleAssignment(
-          id: 'assignment-1',
-          scheduleSlotId: 'slot-1',
-          vehicleId: 'vehicle-1',
-          assignedAt: testDateTime,
-          assignedBy: 'user-1',
-          vehicleName: 'Accessible Van',
-          capacity: 8,
-          seatOverride: 5, // Override to 5 seats
-          createdAt: testDateTime,
-          updatedAt: testDateTime,
-        );
+      test(
+        'rejects assignment when seat override capacity is reached',
+        () async {
+          // Arrange
+          final vehicleAssignment = VehicleAssignment(
+            id: 'assignment-1',
+            scheduleSlotId: 'slot-1',
+            vehicleId: 'vehicle-1',
+            assignedAt: testDateTime,
+            assignedBy: 'user-1',
+            vehicleName: 'Accessible Van',
+            capacity: 8,
+            seatOverride: 5, // Override to 5 seats
+            createdAt: testDateTime,
+            updatedAt: testDateTime,
+          );
 
-        final params = ValidateChildAssignmentParams(
-          vehicleAssignment: vehicleAssignment,
-          childId: 'child-new',
-          currentlyAssignedChildIds: ['c-1', 'c-2', 'c-3', 'c-4', 'c-5'], // 5/5 full
-        );
+          final params = ValidateChildAssignmentParams(
+            vehicleAssignment: vehicleAssignment,
+            childId: 'child-new',
+            currentlyAssignedChildIds: [
+              'c-1',
+              'c-2',
+              'c-3',
+              'c-4',
+              'c-5',
+            ], // 5/5 full
+          );
 
-        // Act
-        final result = await useCase(params);
+          // Act
+          final result = await useCase(params);
 
-        // Assert
-        expect(result.isErr, isTrue);
-        final failure = result.unwrapErr();
-        expect(failure.code, equals('schedule.capacity_exceeded'));
-        expect(failure.details?['capacity'], equals(5)); // Should use override
-      });
+          // Assert
+          expect(result.isErr, isTrue);
+          final failure = result.unwrapErr();
+          expect(failure.code, equals('schedule.capacity_exceeded'));
+          expect(
+            failure.details?['capacity'],
+            equals(5),
+          ); // Should use override
+        },
+      );
 
-      test('uses seat override correctly when increased above base capacity', () async {
-        // Arrange - emergency capacity increase
-        final vehicleAssignment = VehicleAssignment(
-          id: 'assignment-1',
-          scheduleSlotId: 'slot-1',
-          vehicleId: 'vehicle-1',
-          assignedAt: testDateTime,
-          assignedBy: 'user-1',
-          vehicleName: 'Emergency Van',
-          capacity: 7,
-          seatOverride: 10, // Temporarily increased for emergency
-          createdAt: testDateTime,
-          updatedAt: testDateTime,
-        );
+      test(
+        'uses seat override correctly when increased above base capacity',
+        () async {
+          // Arrange - emergency capacity increase
+          final vehicleAssignment = VehicleAssignment(
+            id: 'assignment-1',
+            scheduleSlotId: 'slot-1',
+            vehicleId: 'vehicle-1',
+            assignedAt: testDateTime,
+            assignedBy: 'user-1',
+            vehicleName: 'Emergency Van',
+            capacity: 7,
+            seatOverride: 10, // Temporarily increased for emergency
+            createdAt: testDateTime,
+            updatedAt: testDateTime,
+          );
 
-        final params = ValidateChildAssignmentParams(
-          vehicleAssignment: vehicleAssignment,
-          childId: 'child-new',
-          currentlyAssignedChildIds: List.generate(8, (i) => 'child-$i'), // 8/10
-        );
+          final params = ValidateChildAssignmentParams(
+            vehicleAssignment: vehicleAssignment,
+            childId: 'child-new',
+            currentlyAssignedChildIds: List.generate(
+              8,
+              (i) => 'child-$i',
+            ), // 8/10
+          );
 
-        // Act
-        final result = await useCase(params);
+          // Act
+          final result = await useCase(params);
 
-        // Assert
-        expect(result.isOk, isTrue); // Should allow (8 < 10)
-      });
+          // Assert
+          expect(result.isOk, isTrue); // Should allow (8 < 10)
+        },
+      );
     });
 
     group('toggle off behavior', () {
-      test('allows unassignment when child already assigned to THIS vehicle', () async {
-        // Arrange
-        final vehicleAssignment = VehicleAssignment(
-          id: 'assignment-1',
-          scheduleSlotId: 'slot-1',
-          vehicleId: 'vehicle-1',
-          assignedAt: testDateTime,
-          assignedBy: 'user-1',
-          vehicleName: 'School Van',
-          capacity: 5,
-          createdAt: testDateTime,
-          updatedAt: testDateTime,
-        );
+      test(
+        'allows unassignment when child already assigned to THIS vehicle',
+        () async {
+          // Arrange
+          final vehicleAssignment = VehicleAssignment(
+            id: 'assignment-1',
+            scheduleSlotId: 'slot-1',
+            vehicleId: 'vehicle-1',
+            assignedAt: testDateTime,
+            assignedBy: 'user-1',
+            vehicleName: 'School Van',
+            capacity: 5,
+            createdAt: testDateTime,
+            updatedAt: testDateTime,
+          );
 
-        final params = ValidateChildAssignmentParams(
-          vehicleAssignment: vehicleAssignment,
-          childId: 'child-1', // This child is IN the list
-          currentlyAssignedChildIds: ['child-1', 'child-2', 'child-3'],
-        );
+          final params = ValidateChildAssignmentParams(
+            vehicleAssignment: vehicleAssignment,
+            childId: 'child-1', // This child is IN the list
+            currentlyAssignedChildIds: ['child-1', 'child-2', 'child-3'],
+          );
 
-        // Act
-        final result = await useCase(params);
+          // Act
+          final result = await useCase(params);
 
-        // Assert
-        // Should allow toggle off (unassignment) even if at capacity
-        expect(result.isOk, isTrue);
-      });
+          // Assert
+          // Should allow toggle off (unassignment) even if at capacity
+          expect(result.isOk, isTrue);
+        },
+      );
 
-      test('allows unassignment even when vehicle is at full capacity', () async {
-        // Arrange
-        final vehicleAssignment = VehicleAssignment(
-          id: 'assignment-1',
-          scheduleSlotId: 'slot-1',
-          vehicleId: 'vehicle-1',
-          assignedAt: testDateTime,
-          assignedBy: 'user-1',
-          vehicleName: 'School Van',
-          capacity: 3,
-          createdAt: testDateTime,
-          updatedAt: testDateTime,
-        );
+      test(
+        'allows unassignment even when vehicle is at full capacity',
+        () async {
+          // Arrange
+          final vehicleAssignment = VehicleAssignment(
+            id: 'assignment-1',
+            scheduleSlotId: 'slot-1',
+            vehicleId: 'vehicle-1',
+            assignedAt: testDateTime,
+            assignedBy: 'user-1',
+            vehicleName: 'School Van',
+            capacity: 3,
+            createdAt: testDateTime,
+            updatedAt: testDateTime,
+          );
 
-        final params = ValidateChildAssignmentParams(
-          vehicleAssignment: vehicleAssignment,
-          childId: 'child-2', // This child is IN the list
-          currentlyAssignedChildIds: ['child-1', 'child-2', 'child-3'], // Full
-        );
+          final params = ValidateChildAssignmentParams(
+            vehicleAssignment: vehicleAssignment,
+            childId: 'child-2', // This child is IN the list
+            currentlyAssignedChildIds: [
+              'child-1',
+              'child-2',
+              'child-3',
+            ], // Full
+          );
 
-        // Act
-        final result = await useCase(params);
+          // Act
+          final result = await useCase(params);
 
-        // Assert
-        expect(result.isOk, isTrue); // Allow toggle off
-      });
+          // Assert
+          expect(result.isOk, isTrue); // Allow toggle off
+        },
+      );
     });
 
     group('edge cases', () {
@@ -390,7 +429,10 @@ void main() {
         final params = ValidateChildAssignmentParams(
           vehicleAssignment: vehicleAssignment,
           childId: 'child-new',
-          currentlyAssignedChildIds: List.generate(44, (i) => 'child-$i'), // 44/45
+          currentlyAssignedChildIds: List.generate(
+            44,
+            (i) => 'child-$i',
+          ), // 44/45
         );
 
         // Act
@@ -516,14 +558,8 @@ void main() {
         // Assert
         expect(result.isErr, isTrue);
         final failure = result.unwrapErr();
-        expect(
-          failure.message,
-          contains('Cannot assign child'),
-        );
-        expect(
-          failure.message,
-          contains('3/3 seats'),
-        );
+        expect(failure.message, contains('Cannot assign child'));
+        expect(failure.message, contains('3/3 seats'));
       });
     });
 
@@ -548,7 +584,10 @@ void main() {
           final params = ValidateChildAssignmentParams(
             vehicleAssignment: vehicleAssignment,
             childId: 'child-$i',
-            currentlyAssignedChildIds: List.generate(i - 1, (j) => 'child-${j + 1}'),
+            currentlyAssignedChildIds: List.generate(
+              i - 1,
+              (j) => 'child-${j + 1}',
+            ),
           );
 
           final result = await useCase(params);

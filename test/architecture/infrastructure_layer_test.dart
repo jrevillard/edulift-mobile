@@ -207,9 +207,15 @@ void main() {
                   file.path.endsWith(
                     'main.dart',
                   ) || // Allow Firebase/platform init in main
-                  file.path.contains('firebase_options.dart') || // Allow Firebase config
-                  file.path.contains('bootstrap.dart') || // Allow app initialization
-                  file.path.contains('log_export_provider.dart') || // Allow log export provider
+                  file.path.contains(
+                    'firebase_options.dart',
+                  ) || // Allow Firebase config
+                  file.path.contains(
+                    'bootstrap.dart',
+                  ) || // Allow app initialization
+                  file.path.contains(
+                    'log_export_provider.dart',
+                  ) || // Allow log export provider
                   file.path.contains(
                     'connectivity_provider',
                   ) || // Allow connectivity in provider
@@ -341,7 +347,10 @@ void main() {
                 file.path,
                 'data',
               ) && // Allow some abstractions in data
-              !isInLayer(file.path, 'core') && // Allow core/network for API clients
+              !isInLayer(
+                file.path,
+                'core',
+              ) && // Allow core/network for API clients
               !isInInfrastructure(file.path)) {
             violations.add(
               '${file.path}: Infrastructure abstraction $className should be in domain layer',

@@ -3,7 +3,8 @@ import 'package:edulift/generated/l10n/app_localizations.dart';
 import '../design/schedule_design.dart';
 import '../../../../core/presentation/themes/app_text_styles.dart';
 import '../../../../core/presentation/themes/app_colors.dart';
-import '../../../../core/domain/entities/schedule/vehicle_assignment.dart' as core_va;
+import '../../../../core/domain/entities/schedule/vehicle_assignment.dart'
+    as core_va;
 import 'package:edulift/core/domain/entities/schedule.dart';
 
 /// Simple, mobile-friendly schedule slot widget
@@ -177,7 +178,10 @@ class ScheduleSlotWidget extends StatelessWidget {
     );
   }
 
-  Widget _buildSingleVehicle(BuildContext context, core_va.VehicleAssignment vehicle) {
+  Widget _buildSingleVehicle(
+    BuildContext context,
+    core_va.VehicleAssignment vehicle,
+  ) {
     final vehicleName = vehicle.vehicleName;
     final childCount = vehicle.childAssignments.length;
 
@@ -228,7 +232,10 @@ class ScheduleSlotWidget extends StatelessWidget {
     );
   }
 
-  Widget _buildMultipleVehicles(BuildContext context, List<core_va.VehicleAssignment> vehicles) {
+  Widget _buildMultipleVehicles(
+    BuildContext context,
+    List<core_va.VehicleAssignment> vehicles,
+  ) {
     final totalChildren = vehicles.fold<int>(
       0,
       (sum, vehicle) => sum + vehicle.childAssignments.length,

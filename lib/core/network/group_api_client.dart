@@ -403,10 +403,7 @@ class FamilyAdminData {
   final String name;
   final String email;
 
-  FamilyAdminData({
-    required this.name,
-    required this.email,
-  });
+  FamilyAdminData({required this.name, required this.email});
 
   factory FamilyAdminData.fromJson(Map<String, dynamic> json) =>
       _$FamilyAdminDataFromJson(json);
@@ -507,10 +504,7 @@ class AdminContact {
   final String name;
   final String email;
 
-  AdminContact({
-    required this.name,
-    required this.email,
-  });
+  AdminContact({required this.name, required this.email});
 
   factory AdminContact.fromJson(Map<String, dynamic> json) =>
       _$AdminContactFromJson(json);

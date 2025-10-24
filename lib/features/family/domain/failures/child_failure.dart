@@ -78,6 +78,7 @@ class ChildFailure {
     ChildError.schoolInfoInvalid,
     ChildError.emergencyContactInvalid,
   ].contains(error);
+
   /// Check if this is a business logic failure
   bool get isBusinessFailure => [
     ChildError.childNotFound,
@@ -87,12 +88,14 @@ class ChildFailure {
     ChildError.childHasActiveSchedules,
     ChildError.childHasActiveAssignments,
   ].contains(error);
+
   /// Check if this is a permission failure
   bool get isPermissionFailure => [
     ChildError.insufficientPermissions,
     ChildError.cannotModifyChild,
     ChildError.cannotDeleteChild,
   ].contains(error);
+
   /// Check if this is a system failure
   bool get isSystemFailure => [
     ChildError.networkError,

@@ -76,8 +76,9 @@ void main() {
       () async {
         // GIVEN
         final slots = <ScheduleSlot>[testSlot1, testSlot2];
-        when(mockRepository.getWeeklySchedule('group-123', '2025-W10'))
-            .thenAnswer((_) async => Result.ok(slots));
+        when(
+          mockRepository.getWeeklySchedule('group-123', '2025-W10'),
+        ).thenAnswer((_) async => Result.ok(slots));
 
         // WHEN
         final result = await container.read(
@@ -86,8 +87,9 @@ void main() {
 
         // THEN
         expect(result, equals(slots));
-        verify(mockRepository.getWeeklySchedule('group-123', '2025-W10'))
-            .called(1);
+        verify(
+          mockRepository.getWeeklySchedule('group-123', '2025-W10'),
+        ).called(1);
       },
     );
 
@@ -95,12 +97,10 @@ void main() {
       'GIVEN repository returns error WHEN provider is read THEN throws exception',
       () async {
         // GIVEN
-        const failure = ApiFailure(
-          message: 'Network error',
-          statusCode: 500,
-        );
-        when(mockRepository.getWeeklySchedule('group-123', '2025-W10'))
-            .thenAnswer((_) async => const Result.err(failure));
+        const failure = ApiFailure(message: 'Network error', statusCode: 500);
+        when(
+          mockRepository.getWeeklySchedule('group-123', '2025-W10'),
+        ).thenAnswer((_) async => const Result.err(failure));
 
         // WHEN & THEN
         expect(
@@ -125,8 +125,9 @@ void main() {
         const failure = ApiFailure(
           statusCode: 500, // No message (default: null)
         );
-        when(mockRepository.getWeeklySchedule('group-123', '2025-W10'))
-            .thenAnswer((_) async => const Result.err(failure));
+        when(
+          mockRepository.getWeeklySchedule('group-123', '2025-W10'),
+        ).thenAnswer((_) async => const Result.err(failure));
 
         // WHEN & THEN
         expect(
@@ -149,8 +150,9 @@ void main() {
       () async {
         // GIVEN
         final slots = <ScheduleSlot>[testSlot1, testSlot2];
-        when(mockRepository.getWeeklySchedule('group-123', '2025-W10'))
-            .thenAnswer((_) async => Result.ok(slots));
+        when(
+          mockRepository.getWeeklySchedule('group-123', '2025-W10'),
+        ).thenAnswer((_) async => Result.ok(slots));
 
         // WHEN - First read
         await container.read(
@@ -164,8 +166,9 @@ void main() {
 
         // THEN - Repository called only once (cached on second call)
         expect(result, equals(slots));
-        verify(mockRepository.getWeeklySchedule('group-123', '2025-W10'))
-            .called(1);
+        verify(
+          mockRepository.getWeeklySchedule('group-123', '2025-W10'),
+        ).called(1);
       },
     );
 
@@ -175,10 +178,12 @@ void main() {
         // GIVEN
         final slots1 = <ScheduleSlot>[testSlot1];
         final slots2 = <ScheduleSlot>[testSlot2];
-        when(mockRepository.getWeeklySchedule('group-123', '2025-W10'))
-            .thenAnswer((_) async => Result.ok(slots1));
-        when(mockRepository.getWeeklySchedule('group-123', '2025-W11'))
-            .thenAnswer((_) async => Result.ok(slots2));
+        when(
+          mockRepository.getWeeklySchedule('group-123', '2025-W10'),
+        ).thenAnswer((_) async => Result.ok(slots1));
+        when(
+          mockRepository.getWeeklySchedule('group-123', '2025-W11'),
+        ).thenAnswer((_) async => Result.ok(slots2));
 
         // WHEN
         final result1 = await container.read(
@@ -191,10 +196,12 @@ void main() {
         // THEN - Each week gets its own data
         expect(result1, equals(slots1));
         expect(result2, equals(slots2));
-        verify(mockRepository.getWeeklySchedule('group-123', '2025-W10'))
-            .called(1);
-        verify(mockRepository.getWeeklySchedule('group-123', '2025-W11'))
-            .called(1);
+        verify(
+          mockRepository.getWeeklySchedule('group-123', '2025-W10'),
+        ).called(1);
+        verify(
+          mockRepository.getWeeklySchedule('group-123', '2025-W11'),
+        ).called(1);
       },
     );
 
@@ -202,8 +209,9 @@ void main() {
       'GIVEN empty schedule WHEN provider is read THEN returns empty list',
       () async {
         // GIVEN
-        when(mockRepository.getWeeklySchedule('group-123', '2025-W10'))
-            .thenAnswer((_) async => const Result.ok([]));
+        when(
+          mockRepository.getWeeklySchedule('group-123', '2025-W10'),
+        ).thenAnswer((_) async => const Result.ok([]));
 
         // WHEN
         final result = await container.read(
@@ -212,8 +220,9 @@ void main() {
 
         // THEN
         expect(result, isEmpty);
-        verify(mockRepository.getWeeklySchedule('group-123', '2025-W10'))
-            .called(1);
+        verify(
+          mockRepository.getWeeklySchedule('group-123', '2025-W10'),
+        ).called(1);
       },
     );
   });
@@ -269,11 +278,13 @@ void main() {
           ).thenAnswer((_) async => Result.ok(testVehicleAssignment));
 
           // Setup weekly schedule provider for invalidation check
-          when(mockRepository.getWeeklySchedule('group-123', '2025-W10'))
-              .thenAnswer((_) async => const Result.ok([]));
+          when(
+            mockRepository.getWeeklySchedule('group-123', '2025-W10'),
+          ).thenAnswer((_) async => const Result.ok([]));
 
-          final notifier =
-              container.read(assignmentStateNotifierProvider.notifier);
+          final notifier = container.read(
+            assignmentStateNotifierProvider.notifier,
+          );
 
           // WHEN
           final result = await notifier.assignChild(
@@ -320,8 +331,9 @@ void main() {
             ),
           ).thenAnswer((_) async => const Result.err(apiFailure));
 
-          final notifier =
-              container.read(assignmentStateNotifierProvider.notifier);
+          final notifier = container.read(
+            assignmentStateNotifierProvider.notifier,
+          );
 
           // WHEN
           final result = await notifier.assignChild(
@@ -362,8 +374,9 @@ void main() {
             ),
           ).thenThrow(Exception('Network timeout'));
 
-          final notifier =
-              container.read(assignmentStateNotifierProvider.notifier);
+          final notifier = container.read(
+            assignmentStateNotifierProvider.notifier,
+          );
 
           // WHEN
           final result = await notifier.assignChild(
@@ -400,10 +413,12 @@ void main() {
           ).thenAnswer((_) async => Result.ok(testVehicleAssignment));
 
           // Setup multiple week providers
-          when(mockRepository.getWeeklySchedule('group-123', '2025-W10'))
-              .thenAnswer((_) async => const Result.ok([]));
-          when(mockRepository.getWeeklySchedule('group-123', '2025-W11'))
-              .thenAnswer((_) async => const Result.ok([]));
+          when(
+            mockRepository.getWeeklySchedule('group-123', '2025-W10'),
+          ).thenAnswer((_) async => const Result.ok([]));
+          when(
+            mockRepository.getWeeklySchedule('group-123', '2025-W11'),
+          ).thenAnswer((_) async => const Result.ok([]));
 
           // Pre-fetch both weeks to cache them
           await container.read(
@@ -413,8 +428,9 @@ void main() {
             weeklyScheduleProvider('group-123', '2025-W11').future,
           );
 
-          final notifier =
-              container.read(assignmentStateNotifierProvider.notifier);
+          final notifier = container.read(
+            assignmentStateNotifierProvider.notifier,
+          );
 
           // WHEN - Assign to W10
           await notifier.assignChild(
@@ -426,10 +442,14 @@ void main() {
           );
 
           // THEN - Only W10 should be invalidated (called twice: initial + after invalidation)
-          verify(mockRepository.getWeeklySchedule('group-123', '2025-W10'))
-              .called(1); // Initial call only, invalidation doesn't refetch immediately
-          verify(mockRepository.getWeeklySchedule('group-123', '2025-W11'))
-              .called(1); // Not invalidated, still cached
+          verify(
+            mockRepository.getWeeklySchedule('group-123', '2025-W10'),
+          ).called(
+            1,
+          ); // Initial call only, invalidation doesn't refetch immediately
+          verify(
+            mockRepository.getWeeklySchedule('group-123', '2025-W11'),
+          ).called(1); // Not invalidated, still cached
         },
       );
     });
@@ -448,11 +468,13 @@ void main() {
             ),
           ).thenAnswer((_) async => const Result.ok(null));
 
-          when(mockRepository.getWeeklySchedule('group-123', '2025-W10'))
-              .thenAnswer((_) async => const Result.ok([]));
+          when(
+            mockRepository.getWeeklySchedule('group-123', '2025-W10'),
+          ).thenAnswer((_) async => const Result.ok([]));
 
-          final notifier =
-              container.read(assignmentStateNotifierProvider.notifier);
+          final notifier = container.read(
+            assignmentStateNotifierProvider.notifier,
+          );
 
           // WHEN
           final result = await notifier.unassignChild(
@@ -499,8 +521,9 @@ void main() {
             ),
           ).thenAnswer((_) async => const Result.err(apiFailure));
 
-          final notifier =
-              container.read(assignmentStateNotifierProvider.notifier);
+          final notifier = container.read(
+            assignmentStateNotifierProvider.notifier,
+          );
 
           // WHEN
           final result = await notifier.unassignChild(
@@ -537,8 +560,9 @@ void main() {
             ),
           ).thenThrow(Exception('Database error'));
 
-          final notifier =
-              container.read(assignmentStateNotifierProvider.notifier);
+          final notifier = container.read(
+            assignmentStateNotifierProvider.notifier,
+          );
 
           // WHEN
           final result = await notifier.unassignChild(
@@ -575,11 +599,13 @@ void main() {
             ),
           ).thenAnswer((_) async => const Result.ok(null));
 
-          when(mockRepository.getWeeklySchedule('group-123', '2025-W10'))
-              .thenAnswer((_) async => const Result.ok([]));
+          when(
+            mockRepository.getWeeklySchedule('group-123', '2025-W10'),
+          ).thenAnswer((_) async => const Result.ok([]));
 
-          final notifier =
-              container.read(assignmentStateNotifierProvider.notifier);
+          final notifier = container.read(
+            assignmentStateNotifierProvider.notifier,
+          );
 
           // WHEN
           await notifier.unassignChild(
@@ -613,14 +639,20 @@ void main() {
             seatOverride: 8, // Override from 5 to 8
           );
           when(
-            mockRepository.updateSeatOverride('group-123', 'vehicle-assignment-1', 8),
+            mockRepository.updateSeatOverride(
+              'group-123',
+              'vehicle-assignment-1',
+              8,
+            ),
           ).thenAnswer((_) async => Result.ok(updatedAssignment));
 
-          when(mockRepository.getWeeklySchedule('group-123', '2025-W10'))
-              .thenAnswer((_) async => const Result.ok([]));
+          when(
+            mockRepository.getWeeklySchedule('group-123', '2025-W10'),
+          ).thenAnswer((_) async => const Result.ok([]));
 
-          final notifier =
-              container.read(assignmentStateNotifierProvider.notifier);
+          final notifier = container.read(
+            assignmentStateNotifierProvider.notifier,
+          );
 
           // WHEN
           final result = await notifier.updateSeatOverride(
@@ -633,7 +665,11 @@ void main() {
           // THEN
           expect(result.isOk, isTrue);
           verify(
-            mockRepository.updateSeatOverride('group-123', 'vehicle-assignment-1', 8),
+            mockRepository.updateSeatOverride(
+              'group-123',
+              'vehicle-assignment-1',
+              8,
+            ),
           ).called(1);
 
           // Verify state is data (not loading or error)
@@ -649,14 +685,20 @@ void main() {
           // GIVEN - Remove seat override (copyWith with null removes the override)
           final updatedAssignment = testVehicleAssignment.copyWith();
           when(
-            mockRepository.updateSeatOverride('group-123', 'vehicle-assignment-1', null),
+            mockRepository.updateSeatOverride(
+              'group-123',
+              'vehicle-assignment-1',
+              null,
+            ),
           ).thenAnswer((_) async => Result.ok(updatedAssignment));
 
-          when(mockRepository.getWeeklySchedule('group-123', '2025-W10'))
-              .thenAnswer((_) async => const Result.ok([]));
+          when(
+            mockRepository.getWeeklySchedule('group-123', '2025-W10'),
+          ).thenAnswer((_) async => const Result.ok([]));
 
-          final notifier =
-              container.read(assignmentStateNotifierProvider.notifier);
+          final notifier = container.read(
+            assignmentStateNotifierProvider.notifier,
+          );
 
           // WHEN
           final result = await notifier.updateSeatOverride(
@@ -669,7 +711,11 @@ void main() {
           // THEN
           expect(result.isOk, isTrue);
           verify(
-            mockRepository.updateSeatOverride('group-123', 'vehicle-assignment-1', null),
+            mockRepository.updateSeatOverride(
+              'group-123',
+              'vehicle-assignment-1',
+              null,
+            ),
           ).called(1);
         },
       );
@@ -683,11 +729,16 @@ void main() {
             statusCode: 400,
           );
           when(
-            mockRepository.updateSeatOverride('group-123', 'vehicle-assignment-1', 8),
+            mockRepository.updateSeatOverride(
+              'group-123',
+              'vehicle-assignment-1',
+              8,
+            ),
           ).thenAnswer((_) async => const Result.err(apiFailure));
 
-          final notifier =
-              container.read(assignmentStateNotifierProvider.notifier);
+          final notifier = container.read(
+            assignmentStateNotifierProvider.notifier,
+          );
 
           // WHEN
           final result = await notifier.updateSeatOverride(
@@ -714,11 +765,16 @@ void main() {
         () async {
           // GIVEN
           when(
-            mockRepository.updateSeatOverride('group-123', 'vehicle-assignment-1', 8),
+            mockRepository.updateSeatOverride(
+              'group-123',
+              'vehicle-assignment-1',
+              8,
+            ),
           ).thenThrow(Exception('Connection error'));
 
-          final notifier =
-              container.read(assignmentStateNotifierProvider.notifier);
+          final notifier = container.read(
+            assignmentStateNotifierProvider.notifier,
+          );
 
           // WHEN
           final result = await notifier.updateSeatOverride(
@@ -748,14 +804,20 @@ void main() {
             seatOverride: 8,
           );
           when(
-            mockRepository.updateSeatOverride('group-123', 'vehicle-assignment-1', 8),
+            mockRepository.updateSeatOverride(
+              'group-123',
+              'vehicle-assignment-1',
+              8,
+            ),
           ).thenAnswer((_) async => Result.ok(updatedAssignment));
 
-          when(mockRepository.getWeeklySchedule('group-123', '2025-W10'))
-              .thenAnswer((_) async => const Result.ok([]));
+          when(
+            mockRepository.getWeeklySchedule('group-123', '2025-W10'),
+          ).thenAnswer((_) async => const Result.ok([]));
 
-          final notifier =
-              container.read(assignmentStateNotifierProvider.notifier);
+          final notifier = container.read(
+            assignmentStateNotifierProvider.notifier,
+          );
 
           // WHEN
           await notifier.updateSeatOverride(
@@ -767,7 +829,11 @@ void main() {
 
           // THEN - Provider invalidation happens
           verify(
-            mockRepository.updateSeatOverride('group-123', 'vehicle-assignment-1', 8),
+            mockRepository.updateSeatOverride(
+              'group-123',
+              'vehicle-assignment-1',
+              8,
+            ),
           ).called(1);
         },
       );
@@ -792,19 +858,16 @@ void main() {
         () async {
           // GIVEN
           when(
-            mockRepository.assignChildrenToVehicle(
-              any,
-              any,
-              any,
-              any,
-            ),
+            mockRepository.assignChildrenToVehicle(any, any, any, any),
           ).thenAnswer((_) async => Result.ok(testVehicleAssignment));
 
-          when(mockRepository.getWeeklySchedule(any, any))
-              .thenAnswer((_) async => const Result.ok([]));
+          when(
+            mockRepository.getWeeklySchedule(any, any),
+          ).thenAnswer((_) async => const Result.ok([]));
 
-          final notifier =
-              container.read(assignmentStateNotifierProvider.notifier);
+          final notifier = container.read(
+            assignmentStateNotifierProvider.notifier,
+          );
 
           // WHEN
           final future = notifier.assignChild(
@@ -827,21 +890,14 @@ void main() {
         'GIVEN operation fails WHEN state changes THEN transitions loading -> error',
         () async {
           // GIVEN
-          const apiFailure = ApiFailure(
-            message: 'Test error',
-            statusCode: 500,
-          );
+          const apiFailure = ApiFailure(message: 'Test error', statusCode: 500);
           when(
-            mockRepository.assignChildrenToVehicle(
-              any,
-              any,
-              any,
-              any,
-            ),
+            mockRepository.assignChildrenToVehicle(any, any, any, any),
           ).thenAnswer((_) async => const Result.err(apiFailure));
 
-          final notifier =
-              container.read(assignmentStateNotifierProvider.notifier);
+          final notifier = container.read(
+            assignmentStateNotifierProvider.notifier,
+          );
 
           // WHEN
           await notifier.assignChild(
@@ -906,8 +962,9 @@ void main() {
             ),
           ).thenAnswer((_) async => Result.ok(testSlot));
 
-          when(mockRepository.getWeeklySchedule('group-123', '2025-W10'))
-              .thenAnswer((_) async => const Result.ok([]));
+          when(
+            mockRepository.getWeeklySchedule('group-123', '2025-W10'),
+          ).thenAnswer((_) async => const Result.ok([]));
 
           final notifier = container.read(slotStateNotifierProvider.notifier);
 
@@ -1033,10 +1090,12 @@ void main() {
             ),
           ).thenAnswer((_) async => Result.ok(testSlot));
 
-          when(mockRepository.getWeeklySchedule('group-123', '2025-W10'))
-              .thenAnswer((_) async => const Result.ok([]));
-          when(mockRepository.getWeeklySchedule('group-123', '2025-W11'))
-              .thenAnswer((_) async => const Result.ok([]));
+          when(
+            mockRepository.getWeeklySchedule('group-123', '2025-W10'),
+          ).thenAnswer((_) async => const Result.ok([]));
+          when(
+            mockRepository.getWeeklySchedule('group-123', '2025-W11'),
+          ).thenAnswer((_) async => const Result.ok([]));
 
           // Pre-fetch both weeks
           await container.read(
@@ -1057,10 +1116,12 @@ void main() {
           );
 
           // THEN - Only W10 should be invalidated
-          verify(mockRepository.getWeeklySchedule('group-123', '2025-W10'))
-              .called(1); // Initial call only
-          verify(mockRepository.getWeeklySchedule('group-123', '2025-W11'))
-              .called(1); // Not invalidated
+          verify(
+            mockRepository.getWeeklySchedule('group-123', '2025-W10'),
+          ).called(1); // Initial call only
+          verify(
+            mockRepository.getWeeklySchedule('group-123', '2025-W11'),
+          ).called(1); // Not invalidated
         },
       );
     });
@@ -1093,8 +1154,9 @@ void main() {
             mockRepository.upsertScheduleSlot(any, any, any, any),
           ).thenAnswer((_) async => Result.ok(testSlot));
 
-          when(mockRepository.getWeeklySchedule(any, any))
-              .thenAnswer((_) async => const Result.ok([]));
+          when(
+            mockRepository.getWeeklySchedule(any, any),
+          ).thenAnswer((_) async => const Result.ok([]));
 
           final notifier = container.read(slotStateNotifierProvider.notifier);
 
@@ -1118,10 +1180,7 @@ void main() {
         'GIVEN operation fails WHEN state changes THEN transitions loading -> error',
         () async {
           // GIVEN
-          const apiFailure = ApiFailure(
-            message: 'Test error',
-            statusCode: 500,
-          );
+          const apiFailure = ApiFailure(message: 'Test error', statusCode: 500);
           when(
             mockRepository.upsertScheduleSlot(any, any, any, any),
           ).thenAnswer((_) async => const Result.err(apiFailure));

@@ -38,7 +38,6 @@ import '../../navigation/navigation_state.dart';
 /// ```
 mixin NavigationCleanupMixin<T extends ConsumerStatefulWidget>
     on ConsumerState<T> {
-
   bool _hasInitialized = false;
 
   @override

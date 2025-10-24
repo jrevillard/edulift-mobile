@@ -72,9 +72,7 @@ void main() {
       return ProviderScope(
         overrides: [
           // Override the problematic magicLinkServiceProvider to avoid provider dependency
-          magicLinkServiceProvider.overrideWith(
-            (ref) => mockMagicLinkService,
-          ),
+          magicLinkServiceProvider.overrideWith((ref) => mockMagicLinkService),
           authStateProvider.overrideWith(
             (ref) => AuthNotifier(
               MockAuthService(),
@@ -419,9 +417,7 @@ void main() {
       return ProviderScope(
         overrides: [
           // Override the problematic magicLinkServiceProvider to avoid provider dependency
-          magicLinkServiceProvider.overrideWith(
-            (ref) => mockMagicLinkService,
-          ),
+          magicLinkServiceProvider.overrideWith((ref) => mockMagicLinkService),
           authStateProvider.overrideWith(
             (ref) => AuthNotifier(
               MockAuthService(),
@@ -579,9 +575,7 @@ void main() {
       return ProviderScope(
         overrides: [
           // Override the problematic magicLinkServiceProvider to avoid provider dependency
-          magicLinkServiceProvider.overrideWith(
-            (ref) => mockMagicLinkService,
-          ),
+          magicLinkServiceProvider.overrideWith((ref) => mockMagicLinkService),
           authStateProvider.overrideWith(
             (ref) => AuthNotifier(
               MockAuthService(),

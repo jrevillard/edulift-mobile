@@ -29,10 +29,13 @@ class AuthRepositoryMockFactory {
 
     if (shouldSucceed) {
       when(mock.getCurrentUser()).thenAnswer((_) async => Result.ok(user));
-      when(mock.isAuthenticated()).thenAnswer((_) async => const Result.ok(true));
+      when(
+        mock.isAuthenticated(),
+      ).thenAnswer((_) async => const Result.ok(true));
     } else {
       when(mock.getCurrentUser()).thenAnswer(
-        (_) async => const Result.err(ApiFailure(message: 'Authentication failed')),
+        (_) async =>
+            const Result.err(ApiFailure(message: 'Authentication failed')),
       );
     }
 
@@ -46,7 +49,9 @@ class AuthRepositoryMockFactory {
     final mock = MockAuthService();
     final user = mockUser ?? _createMockUser();
 
-    when(mock.isAuthenticated()).thenAnswer((_) async => Result.ok(isAuthenticated));
+    when(
+      mock.isAuthenticated(),
+    ).thenAnswer((_) async => Result.ok(isAuthenticated));
     when(mock.getCurrentUser()).thenAnswer((_) async => Result.ok(user));
     when(mock.currentUser).thenReturn(isAuthenticated ? user : null);
 
@@ -68,21 +73,31 @@ class AuthRepositoryMockFactory {
 /// Family Repository Mock Factory
 class FamilyRepositoryMockFactory {
   static void configureSuccessFlow(MockFamilyRepository mock) {
-    when(mock.createFamily(name: anyNamed('name'))).thenAnswer((invocation) async {
+    when(mock.createFamily(name: anyNamed('name'))).thenAnswer((
+      invocation,
+    ) async {
       final name = invocation.namedArguments[const Symbol('name')] as String;
       return Result.ok(TestDataFactory.createTestFamily(name: name));
     });
 
-    when(mock.getCurrentFamily()).thenAnswer((_) async => Result.ok(TestDataFactory.createTestFamily()));
-    when(mock.updateFamilyName(familyId: anyNamed('familyId'), name: anyNamed('name')))
-        .thenAnswer((_) async => Result.ok(TestDataFactory.createTestFamily()));
-    when(mock.leaveFamily(familyId: anyNamed('familyId')))
-        .thenAnswer((_) async => const Result.ok(null));
+    when(
+      mock.getCurrentFamily(),
+    ).thenAnswer((_) async => Result.ok(TestDataFactory.createTestFamily()));
+    when(
+      mock.updateFamilyName(
+        familyId: anyNamed('familyId'),
+        name: anyNamed('name'),
+      ),
+    ).thenAnswer((_) async => Result.ok(TestDataFactory.createTestFamily()));
+    when(
+      mock.leaveFamily(familyId: anyNamed('familyId')),
+    ).thenAnswer((_) async => const Result.ok(null));
   }
 
   static void configureCreationFailure(MockFamilyRepository mock) {
     when(mock.createFamily(name: anyNamed('name'))).thenAnswer(
-      (_) async => const Result.err(ApiFailure(message: 'Family creation failed')),
+      (_) async =>
+          const Result.err(ApiFailure(message: 'Family creation failed')),
     );
   }
 }
@@ -90,15 +105,22 @@ class FamilyRepositoryMockFactory {
 /// Group Repository Mock Factory
 class GroupRepositoryMockFactory {
   static void configureSuccessFlow(MockGroupRepository mock) {
-    when(mock.getGroups()).thenAnswer((_) async => Result.ok([TestDataFactory.createTestGroup()]));
-    when(mock.createGroup(any)).thenAnswer((_) async => Result.ok(TestDataFactory.createTestGroup()));
-    when(mock.updateGroup(any, any)).thenAnswer((_) async => Result.ok(TestDataFactory.createTestGroup()));
+    when(
+      mock.getGroups(),
+    ).thenAnswer((_) async => Result.ok([TestDataFactory.createTestGroup()]));
+    when(
+      mock.createGroup(any),
+    ).thenAnswer((_) async => Result.ok(TestDataFactory.createTestGroup()));
+    when(
+      mock.updateGroup(any, any),
+    ).thenAnswer((_) async => Result.ok(TestDataFactory.createTestGroup()));
     when(mock.deleteGroup(any)).thenAnswer((_) async => const Result.ok(null));
   }
 
   static void configureFailureFlow(MockGroupRepository mock) {
     when(mock.getGroups()).thenAnswer(
-      (_) async => const Result.err(ApiFailure(message: 'Failed to load groups')),
+      (_) async =>
+          const Result.err(ApiFailure(message: 'Failed to load groups')),
     );
   }
 }
@@ -106,32 +128,46 @@ class GroupRepositoryMockFactory {
 /// Invitation Repository Mock Factory
 class InvitationRepositoryMockFactory {
   static void configureSuccessFlow(MockInvitationRepository mock) {
-    when(mock.inviteMember(
-      familyId: anyNamed('familyId'),
-      email: anyNamed('email'),
-      role: anyNamed('role'),
-      personalMessage: anyNamed('personalMessage'),
-    )).thenAnswer((_) async => Result.ok(TestDataFactory.createTestInvitation()));
+    when(
+      mock.inviteMember(
+        familyId: anyNamed('familyId'),
+        email: anyNamed('email'),
+        role: anyNamed('role'),
+        personalMessage: anyNamed('personalMessage'),
+      ),
+    ).thenAnswer(
+      (_) async => Result.ok(TestDataFactory.createTestInvitation()),
+    );
 
-    when(mock.declineInvitation(
-      invitationId: anyNamed('invitationId'),
-      reason: anyNamed('reason'),
-    )).thenAnswer((_) async => Result.ok(TestDataFactory.createTestInvitation()));
+    when(
+      mock.declineInvitation(
+        invitationId: anyNamed('invitationId'),
+        reason: anyNamed('reason'),
+      ),
+    ).thenAnswer(
+      (_) async => Result.ok(TestDataFactory.createTestInvitation()),
+    );
 
-    when(mock.getPendingInvitations(familyId: anyNamed('familyId'))).thenAnswer((_) async => const Result.ok([]));
+    when(
+      mock.getPendingInvitations(familyId: anyNamed('familyId')),
+    ).thenAnswer((_) async => const Result.ok([]));
   }
 
   static void configureFailureFlow(MockInvitationRepository mock) {
-    when(mock.inviteMember(
-      familyId: anyNamed('familyId'),
-      email: anyNamed('email'),
-      role: anyNamed('role'),
-      personalMessage: anyNamed('personalMessage'),
-    )).thenAnswer(
-      (_) async => const Result.err(InvitationFailure(
-        error: InvitationError.inviteOperationFailed,
-        message: 'Failed to send invitation',
-      )),
+    when(
+      mock.inviteMember(
+        familyId: anyNamed('familyId'),
+        email: anyNamed('email'),
+        role: anyNamed('role'),
+        personalMessage: anyNamed('personalMessage'),
+      ),
+    ).thenAnswer(
+      (_) async => const Result.err(
+        InvitationFailure(
+          error: InvitationError.inviteOperationFailed,
+          message: 'Failed to send invitation',
+        ),
+      ),
     );
   }
 }
@@ -139,14 +175,21 @@ class InvitationRepositoryMockFactory {
 /// Schedule Repository Mock Factory
 class ScheduleRepositoryMockFactory {
   static void configureSuccessFlow(MockGroupScheduleRepository mock) {
-    when(mock.getWeeklySchedule(any, any)).thenAnswer((_) async => const Result.ok([]));
-    when(mock.getScheduleConfig(any)).thenAnswer((_) async => Result.ok(TestDataFactory.createTestScheduleConfig()));
-    when(mock.upsertScheduleSlot(any, any, any, any)).thenAnswer((_) async => Result.ok(TestDataFactory.createTestScheduleSlot()));
+    when(
+      mock.getWeeklySchedule(any, any),
+    ).thenAnswer((_) async => const Result.ok([]));
+    when(mock.getScheduleConfig(any)).thenAnswer(
+      (_) async => Result.ok(TestDataFactory.createTestScheduleConfig()),
+    );
+    when(mock.upsertScheduleSlot(any, any, any, any)).thenAnswer(
+      (_) async => Result.ok(TestDataFactory.createTestScheduleSlot()),
+    );
   }
 
   static void configureFailureFlow(MockGroupScheduleRepository mock) {
     when(mock.getWeeklySchedule(any, any)).thenAnswer(
-      (_) async => const Result.err(ApiFailure(message: 'Failed to load schedule')),
+      (_) async =>
+          const Result.err(ApiFailure(message: 'Failed to load schedule')),
     );
   }
 }
@@ -180,20 +223,35 @@ class MockConfigurator {
 
 /// Core Services Mock Factory
 class CoreServicesMockFactory {
-  static void configureAuthService(MockAuthService mock, {bool isAuthenticated = true}) {
-    when(mock.isAuthenticated()).thenAnswer((_) async => Result.ok(isAuthenticated));
-    when(mock.getCurrentUser()).thenAnswer((_) async =>
-      Result.ok(AuthRepositoryMockFactory._createMockUser()));
+  static void configureAuthService(
+    MockAuthService mock, {
+    bool isAuthenticated = true,
+  }) {
+    when(
+      mock.isAuthenticated(),
+    ).thenAnswer((_) async => Result.ok(isAuthenticated));
+    when(mock.getCurrentUser()).thenAnswer(
+      (_) async => Result.ok(AuthRepositoryMockFactory._createMockUser()),
+    );
   }
 
-  static void configureBiometricService(MockBiometricService mock, {bool isEnabled = true}) {
+  static void configureBiometricService(
+    MockBiometricService mock, {
+    bool isEnabled = true,
+  }) {
     when(mock.isAvailable()).thenAnswer((_) async => isEnabled);
-    when(mock.authenticate(
-      reason: anyNamed('reason'),
-      useErrorDialogs: anyNamed('useErrorDialogs'),
-      stickyAuth: anyNamed('stickyAuth'),
-      sensitiveTransaction: anyNamed('sensitiveTransaction'),
-    )).thenAnswer((_) async => isEnabled ? LegacyBiometricAuthResult.success() : LegacyBiometricAuthResult.error(message: 'Authentication failed'));
+    when(
+      mock.authenticate(
+        reason: anyNamed('reason'),
+        useErrorDialogs: anyNamed('useErrorDialogs'),
+        stickyAuth: anyNamed('stickyAuth'),
+        sensitiveTransaction: anyNamed('sensitiveTransaction'),
+      ),
+    ).thenAnswer(
+      (_) async => isEnabled
+          ? LegacyBiometricAuthResult.success()
+          : LegacyBiometricAuthResult.error(message: 'Authentication failed'),
+    );
   }
 
   static void configureStorageService(MockAdaptiveStorageService mock) {

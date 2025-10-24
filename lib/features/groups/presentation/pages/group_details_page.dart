@@ -71,7 +71,11 @@ class _GroupDetailsPageState extends ConsumerState<GroupDetailsPage>
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(Icons.error_outline, size: 64, color: AppColors.errorThemed(context)),
+            Icon(
+              Icons.error_outline,
+              size: 64,
+              color: AppColors.errorThemed(context),
+            ),
             const SizedBox(height: 16),
             Text(l10n.groupNotFound, style: const TextStyle(fontSize: 18)),
             const SizedBox(height: 8),
@@ -317,7 +321,9 @@ class _GroupDetailsPageState extends ConsumerState<GroupDetailsPage>
                           Text(
                             l10n.manageMembersDescription,
                             style: Theme.of(context).textTheme.bodyMedium
-                                ?.copyWith(color: AppColors.textSecondaryThemed(context)),
+                                ?.copyWith(
+                                  color: AppColors.textSecondaryThemed(context),
+                                ),
                           ),
                           const SizedBox(height: 16),
                           SizedBox(
@@ -332,8 +338,7 @@ class _GroupDetailsPageState extends ConsumerState<GroupDetailsPage>
                                     .navigateTo(
                                       route:
                                           '/groups/${widget.groupId}/members?groupName=${Uri.encodeComponent(groupName)}',
-                                      trigger:
-                                          NavigationTrigger.userNavigation,
+                                      trigger: NavigationTrigger.userNavigation,
                                     );
                               },
                               icon: const Icon(Icons.group),
@@ -372,7 +377,11 @@ class _GroupDetailsPageState extends ConsumerState<GroupDetailsPage>
                             Text(
                               'Configure the schedule for this group including time slots and active days',
                               style: Theme.of(context).textTheme.bodyMedium
-                                  ?.copyWith(color: AppColors.textSecondaryThemed(context)),
+                                  ?.copyWith(
+                                    color: AppColors.textSecondaryThemed(
+                                      context,
+                                    ),
+                                  ),
                             ),
                             const SizedBox(height: 16),
                             SizedBox(
@@ -529,7 +538,11 @@ class _GroupDetailsPageState extends ConsumerState<GroupDetailsPage>
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(Icons.error_outline, size: 64, color: AppColors.errorThemed(context)),
+          Icon(
+            Icons.error_outline,
+            size: 64,
+            color: AppColors.errorThemed(context),
+          ),
           const SizedBox(height: 16),
           Text(
             l10n.failedToLoadGroupDetails,
@@ -637,7 +650,10 @@ class _GroupDetailsPageState extends ConsumerState<GroupDetailsPage>
           ),
         ),
         Expanded(
-          child: Text(value, style: TextStyle(color: AppColors.textSecondaryThemed(context))),
+          child: Text(
+            value,
+            style: TextStyle(color: AppColors.textSecondaryThemed(context)),
+          ),
         ),
       ],
     );

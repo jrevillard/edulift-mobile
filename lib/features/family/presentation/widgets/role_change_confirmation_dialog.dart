@@ -61,129 +61,133 @@ class _RoleChangeConfirmationDialogState
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-          Container(
-            padding: const EdgeInsets.all(16),
-            decoration: BoxDecoration(
-              color: widget.member.role == FamilyRole.admin
-                  ? theme.colorScheme.errorContainer.withValues(alpha: 0.3)
-                  : theme.colorScheme.primaryContainer.withValues(alpha: 0.3),
-              borderRadius: BorderRadius.circular(8),
-            ),
-            child: Row(
-              children: [
-                CircleAvatar(
-                  backgroundColor: widget.member.role == FamilyRole.admin
-                      ? theme.colorScheme.errorContainer
-                      : theme.colorScheme.primaryContainer,
-                  radius: 20,
-                  child: widget.member.role == FamilyRole.admin
-                      ? Text(
-                          widget.member.displayNameOrLoading.isNotEmpty
-                              ? widget.member.displayNameOrLoading[0]
-                                  .toUpperCase()
-                              : '?',
-                          style: TextStyle(
-                            color: theme.colorScheme.onErrorContainer,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        )
-                      : Icon(
-                          Icons.admin_panel_settings,
-                          color: theme.colorScheme.onPrimaryContainer,
-                          size: 20,
-                        ),
-                      ),
-                const SizedBox(width: 12),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        widget.member.displayNameOrLoading,
-                        style: theme.textTheme.titleMedium?.copyWith(
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                      const SizedBox(height: 2),
-                      Row(
-                        children: [
-                          Flexible(
-                            child: Text(
-                              widget.member.role.value,
-                              style: theme.textTheme.bodySmall?.copyWith(
-                                color: theme.colorScheme.onSurfaceVariant,
-                              ),
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                          ),
-                          Icon(
-                            Icons.arrow_forward,
-                            size: 16,
-                            color: theme.colorScheme.onSurfaceVariant,
-                          ),
-                          Flexible(
-                            child: Text(
-                              newRole.value,
-                              style: theme.textTheme.bodySmall?.copyWith(
-                                color: newRole == FamilyRole.admin
-                                    ? theme.colorScheme.primary
-                                    : theme.colorScheme.onSurfaceVariant,
-                                fontWeight: FontWeight.w600,
-                              ),
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ),
-          const SizedBox(height: 16),
-          Text(
-            widget.member.role == FamilyRole.admin
-                ? localizations
-                    .removeAdminConfirmation(widget.member.displayNameOrLoading)
-                : localizations
-                    .makeAdminConfirmation(widget.member.displayNameOrLoading),
-            style: theme.textTheme.bodyMedium?.copyWith(
-              color: theme.colorScheme.onSurfaceVariant,
-            ),
-          ),
-          if (widget.member.role == FamilyRole.member) ...[
-            const SizedBox(height: 12),
             Container(
-              padding: const EdgeInsets.all(12),
+              padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
-                color: theme.colorScheme.primaryContainer.withValues(alpha: 0.3),
+                color: widget.member.role == FamilyRole.admin
+                    ? theme.colorScheme.errorContainer.withValues(alpha: 0.3)
+                    : theme.colorScheme.primaryContainer.withValues(alpha: 0.3),
                 borderRadius: BorderRadius.circular(8),
-                border: Border.all(
-                  color: theme.colorScheme.primary.withValues(alpha: 0.3),
-                ),
               ),
               child: Row(
                 children: [
-                  Icon(
-                    Icons.info_outline,
-                    size: 16,
-                    color: theme.colorScheme.primary,
+                  CircleAvatar(
+                    backgroundColor: widget.member.role == FamilyRole.admin
+                        ? theme.colorScheme.errorContainer
+                        : theme.colorScheme.primaryContainer,
+                    radius: 20,
+                    child: widget.member.role == FamilyRole.admin
+                        ? Text(
+                            widget.member.displayNameOrLoading.isNotEmpty
+                                ? widget.member.displayNameOrLoading[0]
+                                      .toUpperCase()
+                                : '?',
+                            style: TextStyle(
+                              color: theme.colorScheme.onErrorContainer,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          )
+                        : Icon(
+                            Icons.admin_panel_settings,
+                            color: theme.colorScheme.onPrimaryContainer,
+                            size: 20,
+                          ),
                   ),
-                  const SizedBox(width: 8),
+                  const SizedBox(width: 12),
                   Expanded(
-                    child: Text(
-                      localizations.adminCanManageMembers,
-                      style: theme.textTheme.bodySmall?.copyWith(
-                        color: theme.colorScheme.primary,
-                      ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          widget.member.displayNameOrLoading,
+                          style: theme.textTheme.titleMedium?.copyWith(
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                        const SizedBox(height: 2),
+                        Row(
+                          children: [
+                            Flexible(
+                              child: Text(
+                                widget.member.role.value,
+                                style: theme.textTheme.bodySmall?.copyWith(
+                                  color: theme.colorScheme.onSurfaceVariant,
+                                ),
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ),
+                            Icon(
+                              Icons.arrow_forward,
+                              size: 16,
+                              color: theme.colorScheme.onSurfaceVariant,
+                            ),
+                            Flexible(
+                              child: Text(
+                                newRole.value,
+                                style: theme.textTheme.bodySmall?.copyWith(
+                                  color: newRole == FamilyRole.admin
+                                      ? theme.colorScheme.primary
+                                      : theme.colorScheme.onSurfaceVariant,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
                     ),
                   ),
                 ],
               ),
             ),
+            const SizedBox(height: 16),
+            Text(
+              widget.member.role == FamilyRole.admin
+                  ? localizations.removeAdminConfirmation(
+                      widget.member.displayNameOrLoading,
+                    )
+                  : localizations.makeAdminConfirmation(
+                      widget.member.displayNameOrLoading,
+                    ),
+              style: theme.textTheme.bodyMedium?.copyWith(
+                color: theme.colorScheme.onSurfaceVariant,
+              ),
+            ),
+            if (widget.member.role == FamilyRole.member) ...[
+              const SizedBox(height: 12),
+              Container(
+                padding: const EdgeInsets.all(12),
+                decoration: BoxDecoration(
+                  color: theme.colorScheme.primaryContainer.withValues(
+                    alpha: 0.3,
+                  ),
+                  borderRadius: BorderRadius.circular(8),
+                  border: Border.all(
+                    color: theme.colorScheme.primary.withValues(alpha: 0.3),
+                  ),
+                ),
+                child: Row(
+                  children: [
+                    Icon(
+                      Icons.info_outline,
+                      size: 16,
+                      color: theme.colorScheme.primary,
+                    ),
+                    const SizedBox(width: 8),
+                    Expanded(
+                      child: Text(
+                        localizations.adminCanManageMembers,
+                        style: theme.textTheme.bodySmall?.copyWith(
+                          color: theme.colorScheme.primary,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
           ],
-        ],
         ),
       ),
       actions: [
@@ -243,7 +247,8 @@ class _RoleChangeConfirmationDialogState
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(
-                AppLocalizations.of(context).failedToUpdateRole(e.toString())),
+              AppLocalizations.of(context).failedToUpdateRole(e.toString()),
+            ),
             backgroundColor: Theme.of(context).colorScheme.error,
           ),
         );

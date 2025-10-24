@@ -101,7 +101,12 @@ class _InviteMemberPageState extends ConsumerState<InviteMemberPage> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    _buildInstructionSection(localizations, theme, isTablet, isSmallScreen),
+                    _buildInstructionSection(
+                      localizations,
+                      theme,
+                      isTablet,
+                      isSmallScreen,
+                    ),
                     SizedBox(height: isTablet ? 32 : 24),
                     _buildEmailField(localizations, isTablet, isSmallScreen),
                     SizedBox(height: isSmallScreen ? 12 : 16),
@@ -112,7 +117,11 @@ class _InviteMemberPageState extends ConsumerState<InviteMemberPage> {
                     // Error display section
                     if (_errorMessage != null) ...[
                       SizedBox(height: isTablet ? 32 : 24),
-                      _buildErrorSection(_errorMessage!, isTablet, isSmallScreen)
+                      _buildErrorSection(
+                        _errorMessage!,
+                        isTablet,
+                        isSmallScreen,
+                      ),
                     ],
                   ],
                 ),
@@ -157,7 +166,9 @@ class _InviteMemberPageState extends ConsumerState<InviteMemberPage> {
             SizedBox(height: isSmallScreen ? 8 : 12),
             Text(
               'Send an invitation to join your family. They will receive an email with instructions to accept the invitation.',
-              style: theme.textTheme.bodyMedium?.copyWith(color: theme.colorScheme.onSurfaceVariant)
+              style: theme.textTheme.bodyMedium?.copyWith(
+                color: theme.colorScheme.onSurfaceVariant,
+              ),
             ),
           ],
         ),
@@ -165,7 +176,11 @@ class _InviteMemberPageState extends ConsumerState<InviteMemberPage> {
     );
   }
 
-  Widget _buildEmailField(AppLocalizations localizations, bool isTablet, bool isSmallScreen) {
+  Widget _buildEmailField(
+    AppLocalizations localizations,
+    bool isTablet,
+    bool isSmallScreen,
+  ) {
     return TextFormField(
       key: const Key('email_address_field'),
       controller: _emailController,
@@ -188,7 +203,11 @@ class _InviteMemberPageState extends ConsumerState<InviteMemberPage> {
     );
   }
 
-  Widget _buildRoleSelection(AppLocalizations localizations, bool isTablet, bool isSmallScreen) {
+  Widget _buildRoleSelection(
+    AppLocalizations localizations,
+    bool isTablet,
+    bool isSmallScreen,
+  ) {
     return DropdownButtonFormField<FamilyRole>(
       key: const Key('inviteRoleSelector'),
       initialValue: _selectedRole,
@@ -219,7 +238,11 @@ class _InviteMemberPageState extends ConsumerState<InviteMemberPage> {
     );
   }
 
-  Widget _buildMessageField(AppLocalizations localizations, bool isTablet, bool isSmallScreen) {
+  Widget _buildMessageField(
+    AppLocalizations localizations,
+    bool isTablet,
+    bool isSmallScreen,
+  ) {
     return TextFormField(
       key: const Key('personal_message_field'),
       controller: _messageController,
@@ -235,7 +258,11 @@ class _InviteMemberPageState extends ConsumerState<InviteMemberPage> {
     );
   }
 
-  Widget _buildErrorSection(String errorMessage, bool isTablet, bool isSmallScreen) {
+  Widget _buildErrorSection(
+    String errorMessage,
+    bool isTablet,
+    bool isSmallScreen,
+  ) {
     return Card(
       color: Theme.of(context).colorScheme.errorContainer,
       elevation: isTablet ? 4 : 2,
@@ -257,15 +284,15 @@ class _InviteMemberPageState extends ConsumerState<InviteMemberPage> {
                     'Invitation Failed',
                     style: TextStyle(
                       color: Theme.of(context).colorScheme.onErrorContainer,
-                      fontWeight: FontWeight.w600
-                    )
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
                   const SizedBox(height: 4),
                   Text(
                     _translateErrorMessage(context, errorMessage),
                     style: TextStyle(
-                      color: Theme.of(context).colorScheme.onErrorContainer
-                    )
+                      color: Theme.of(context).colorScheme.onErrorContainer,
+                    ),
                   ),
                 ],
               ),
@@ -283,7 +310,11 @@ class _InviteMemberPageState extends ConsumerState<InviteMemberPage> {
     );
   }
 
-  Widget _buildActionButtons(AppLocalizations localizations, bool isTablet, bool isSmallScreen) {
+  Widget _buildActionButtons(
+    AppLocalizations localizations,
+    bool isTablet,
+    bool isSmallScreen,
+  ) {
     return Container(
       padding: EdgeInsets.all(isTablet ? 20.0 : 16.0),
       decoration: BoxDecoration(
@@ -319,7 +350,7 @@ class _InviteMemberPageState extends ConsumerState<InviteMemberPage> {
                           const SizedBox(
                             width: 16,
                             height: 16,
-                            child: CircularProgressIndicator(strokeWidth: 2)
+                            child: CircularProgressIndicator(strokeWidth: 2),
                           ),
                           const SizedBox(width: 8),
                           Flexible(
@@ -394,10 +425,8 @@ class _InviteMemberPageState extends ConsumerState<InviteMemberPage> {
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
-              content: Text(
-                l10n.invitationSentSuccessfully
-              ),
-              backgroundColor: AppColors.success
+              content: Text(l10n.invitationSentSuccessfully),
+              backgroundColor: AppColors.success,
             ),
           );
           context.pop(); // ONLY close on success

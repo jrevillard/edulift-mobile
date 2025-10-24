@@ -95,19 +95,13 @@ extension TimeOfDayValueTimezoneExtension on TimeOfDayValue {
   /// final offset = time.getTimezoneOffset("Europe/Paris");
   /// // Returns "UTC+2" in summer, "UTC+1" in winter
   /// ```
-  String getTimezoneOffset(
-    String? userTimezone, {
-    DateTime? referenceDate,
-  }) {
+  String getTimezoneOffset(String? userTimezone, {DateTime? referenceDate}) {
     if (userTimezone == null) return 'UTC';
 
     // Use reference date or today to calculate offset
     final refDate = referenceDate ?? DateTime.now();
     final dateTime = toDateTime(refDate);
 
-    return TimezoneFormatter.getTimezoneOffsetDisplay(
-      userTimezone,
-      dateTime,
-    );
+    return TimezoneFormatter.getTimezoneOffsetDisplay(userTimezone, dateTime);
   }
 }

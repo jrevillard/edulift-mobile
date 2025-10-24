@@ -21,7 +21,8 @@ class ScheduleGrid extends ConsumerStatefulWidget {
   final ScheduleConfig? scheduleConfig; // ✨ NOUVEAU: Configuration des créneaux
   final Function(PeriodSlotData) onManageVehicles;
   final Function(String, String, String) onVehicleDrop;
-  final Function(int weekOffset)? onWeekChanged; // ✨ NOUVEAU: Callback pour changement de semaine
+  final Function(int weekOffset)?
+  onWeekChanged; // ✨ NOUVEAU: Callback pour changement de semaine
 
   const ScheduleGrid({
     super.key,
@@ -57,7 +58,9 @@ class _ScheduleGridState extends ConsumerState<ScheduleGrid> {
     super.didUpdateWidget(oldWidget);
     // If parent changes the week, update our displayed week AND reset page controller
     if (oldWidget.week != widget.week) {
-      debugPrint('⚠️ didUpdateWidget: week changed from ${oldWidget.week} to ${widget.week}');
+      debugPrint(
+        '⚠️ didUpdateWidget: week changed from ${oldWidget.week} to ${widget.week}',
+      );
       debugPrint('   Resetting PageController to center (page 1000)');
 
       _currentDisplayedWeek = widget.week;
@@ -139,7 +142,9 @@ class _ScheduleGridState extends ConsumerState<ScheduleGrid> {
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
       decoration: BoxDecoration(
         color: Theme.of(context).primaryColor.withValues(alpha: 0.1),
-        border: Border(bottom: BorderSide(color: AppColors.borderThemed(context))),
+        border: Border(
+          bottom: BorderSide(color: AppColors.borderThemed(context)),
+        ),
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -165,10 +170,15 @@ class _ScheduleGridState extends ConsumerState<ScheduleGrid> {
             child: GestureDetector(
               onTap: () => _showDatePicker(context),
               child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 12,
+                  vertical: 8,
+                ),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(8),
-                  color: Theme.of(context).scaffoldBackgroundColor.withValues(alpha: 0.5),
+                  color: Theme.of(
+                    context,
+                  ).scaffoldBackgroundColor.withValues(alpha: 0.5),
                 ),
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
@@ -184,12 +194,13 @@ class _ScheduleGridState extends ConsumerState<ScheduleGrid> {
                     Flexible(
                       child: Text(
                         weekDates != null
-                          ? _formatWeekDateRange(weekDates, isVerySmallScreen)
-                          : l10n.selectWeekHelpText,
-                        style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                          fontWeight: FontWeight.w600,
-                          fontSize: isVerySmallScreen ? 14 : null,
-                        ),
+                            ? _formatWeekDateRange(weekDates, isVerySmallScreen)
+                            : l10n.selectWeekHelpText,
+                        style: Theme.of(context).textTheme.titleMedium
+                            ?.copyWith(
+                              fontWeight: FontWeight.w600,
+                              fontSize: isVerySmallScreen ? 14 : null,
+                            ),
                         textAlign: TextAlign.center,
                         overflow: TextOverflow.ellipsis,
                       ),
@@ -228,7 +239,9 @@ class _ScheduleGridState extends ConsumerState<ScheduleGrid> {
     // This ensures we always show the correct week in the picker
     final currentWeekMonday = parseMondayFromISOWeek(_currentDisplayedWeek);
     if (currentWeekMonday == null) {
-      debugPrint('ERROR: Failed to parse displayed week: $_currentDisplayedWeek');
+      debugPrint(
+        'ERROR: Failed to parse displayed week: $_currentDisplayedWeek',
+      );
       return;
     }
 
@@ -424,7 +437,9 @@ class _ScheduleGridState extends ConsumerState<ScheduleGrid> {
       final cleaned = abbreviated.replaceAll('.', '');
 
       // Ensure max 3 characters
-      return cleaned.length > 3 ? cleaned.substring(0, 3).toLowerCase() : cleaned.toLowerCase();
+      return cleaned.length > 3
+          ? cleaned.substring(0, 3).toLowerCase()
+          : cleaned.toLowerCase();
     } else {
       // Normal mode: slightly longer abbreviation (janv., févr., etc.)
       // For French: MMM gives "janv.", "févr.", etc.
@@ -443,30 +458,41 @@ class _ScheduleGridState extends ConsumerState<ScheduleGrid> {
 
   Widget _buildMobileScheduleGrid(BuildContext context) {
     // 🔍 DEBUG: Log all slots from API to identify orphaned slots
-    debugPrint('📊 _buildMobileScheduleGrid: Analyzing ${widget.scheduleData.length} API slots');
+    debugPrint(
+      '📊 _buildMobileScheduleGrid: Analyzing ${widget.scheduleData.length} API slots',
+    );
     if (widget.scheduleConfig != null) {
-      debugPrint('   ScheduleConfig hours: ${widget.scheduleConfig!.scheduleHours}');
+      debugPrint(
+        '   ScheduleConfig hours: ${widget.scheduleConfig!.scheduleHours}',
+      );
 
       // Identify orphaned slots (slots with times not in scheduleConfig)
       final orphanedSlots = <ScheduleSlot>[];
       for (final slot in widget.scheduleData) {
         final dayKey = slot.dayOfWeek.fullName.toUpperCase();
         final timeStr = slot.timeOfDay.toApiFormat();
-        final configuredTimes = widget.scheduleConfig!.scheduleHours[dayKey] ?? [];
+        final configuredTimes =
+            widget.scheduleConfig!.scheduleHours[dayKey] ?? [];
 
         if (!configuredTimes.contains(timeStr)) {
           orphanedSlots.add(slot);
-          debugPrint('   ⚠️ ORPHANED SLOT: ${slot.dayOfWeek.fullName} @ $timeStr (not in scheduleConfig)');
+          debugPrint(
+            '   ⚠️ ORPHANED SLOT: ${slot.dayOfWeek.fullName} @ $timeStr (not in scheduleConfig)',
+          );
         }
       }
 
       if (orphanedSlots.isNotEmpty) {
-        debugPrint('   ⚠️ Found ${orphanedSlots.length} orphaned slots that will be HIDDEN');
+        debugPrint(
+          '   ⚠️ Found ${orphanedSlots.length} orphaned slots that will be HIDDEN',
+        );
       } else {
         debugPrint('   ✅ All API slots match scheduleConfig');
       }
     } else {
-      debugPrint('   ⚠️ No scheduleConfig provided - showing all API slots (fallback mode)');
+      debugPrint(
+        '   ⚠️ No scheduleConfig provided - showing all API slots (fallback mode)',
+      );
     }
 
     // Responsive mobile layout with proper constraints
@@ -498,11 +524,13 @@ class _ScheduleGridState extends ConsumerState<ScheduleGrid> {
           }).toList()
         : allDays; // Fallback to all days if no config (graceful degradation)
 
-
     // ✨ GROUPED BY PERIOD: Group time slots for Level 1 compact view
     // Example: ["08:00", "09:00", "16:00"] → [{"label": "Matin", "times": ["08:00", "09:00"]}, {"label": "Après-midi", "times": ["16:00"]}]
     final l10n = AppLocalizations.of(context);
-    final groupedSlots = TimeSlotMapper.getGroupedSlotsByPeriod(l10n, widget.scheduleConfig);
+    final groupedSlots = TimeSlotMapper.getGroupedSlotsByPeriod(
+      l10n,
+      widget.scheduleConfig,
+    );
 
     return LayoutBuilder(
       builder: (context, constraints) {
@@ -530,11 +558,7 @@ class _ScheduleGridState extends ConsumerState<ScheduleGrid> {
                     itemBuilder: (context, dayIndex) {
                       final day = days[dayIndex];
                       // Day card now gets its own day-specific slots internally
-                      return _buildDayCard(
-                        context,
-                        day,
-                        isTablet,
-                      );
+                      return _buildDayCard(context, day, isTablet);
                     },
                   ),
                 ),
@@ -556,7 +580,9 @@ class _ScheduleGridState extends ConsumerState<ScheduleGrid> {
   /// @param dayKey - Title Case day name like 'Monday', 'Tuesday' (matches DayOfWeek.fullName)
   List<PeriodSlotGroup> _getGroupedSlotsForDay(String dayKey) {
     if (widget.scheduleConfig == null) {
-      debugPrint('DEBUG: _getGroupedSlotsForDay($dayKey) - scheduleConfig is null');
+      debugPrint(
+        'DEBUG: _getGroupedSlotsForDay($dayKey) - scheduleConfig is null',
+      );
       return [];
     }
 
@@ -567,15 +593,20 @@ class _ScheduleGridState extends ConsumerState<ScheduleGrid> {
     debugPrint('DEBUG: _getGroupedSlotsForDay($dayKey)');
     debugPrint('  Day key (Title Case): $dayKey');
     debugPrint('  Day key (UPPERCASE for config): $dayKeyUppercase');
-    debugPrint('  Available keys in scheduleConfig: ${widget.scheduleConfig!.scheduleHours.keys.toList()}');
+    debugPrint(
+      '  Available keys in scheduleConfig: ${widget.scheduleConfig!.scheduleHours.keys.toList()}',
+    );
 
     // Get time slots for this specific day using UPPERCASE key
-    final dayTimeSlots = widget.scheduleConfig!.scheduleHours[dayKeyUppercase] ?? [];
+    final dayTimeSlots =
+        widget.scheduleConfig!.scheduleHours[dayKeyUppercase] ?? [];
 
     debugPrint('  Time slots found: ${dayTimeSlots.length} - $dayTimeSlots');
 
     if (dayTimeSlots.isEmpty) {
-      debugPrint('WARNING: No slots configured for day: $dayKey (looked up as $dayKeyUppercase)');
+      debugPrint(
+        'WARNING: No slots configured for day: $dayKey (looked up as $dayKeyUppercase)',
+      );
       return []; // Day has no schedule configuration
     }
 
@@ -624,7 +655,7 @@ class _ScheduleGridState extends ConsumerState<ScheduleGrid> {
 
   Widget _buildDayCard(
     BuildContext context,
-    String dayKey,  // Now receives Title Case key like 'Monday', 'Tuesday'
+    String dayKey, // Now receives Title Case key like 'Monday', 'Tuesday'
     bool isTablet,
   ) {
     final l10n = AppLocalizations.of(context);
@@ -654,7 +685,7 @@ class _ScheduleGridState extends ConsumerState<ScheduleGrid> {
                 ),
                 const SizedBox(width: ScheduleDimensions.spacingSm),
                 Text(
-                  dayDisplayName,  // Display localized name
+                  dayDisplayName, // Display localized name
                   style: Theme.of(context).textTheme.titleMedium?.copyWith(
                     fontWeight: FontWeight.w600,
                     color: AppColors.getDayColor(dayDisplayName),
@@ -671,7 +702,7 @@ class _ScheduleGridState extends ConsumerState<ScheduleGrid> {
             else
               _buildTimeSlotsRow(
                 context,
-                dayKey,  // Pass constant key
+                dayKey, // Pass constant key
                 daySlotsGrouped, // Use day-specific slots
                 isTablet,
               ),
@@ -735,11 +766,14 @@ class _ScheduleGridState extends ConsumerState<ScheduleGrid> {
   Widget _buildPeriodSlot(
     BuildContext context,
     String day,
-    String periodLabel,  // "Matin", "Après-midi"
-    List<String> times,  // ["08:00", "09:00"] for Matin
+    String periodLabel, // "Matin", "Après-midi"
+    List<String> times, // ["08:00", "09:00"] for Matin
   ) {
     // Get AGGREGATED schedule data for all times in this period
-    final periodSlots = times.map((time) => _getScheduleSlotData(day, time)).whereType<ScheduleSlot>().toList();
+    final periodSlots = times
+        .map((time) => _getScheduleSlotData(day, time))
+        .whereType<ScheduleSlot>()
+        .toList();
 
     // Calculate aggregated vehicle count across all times in period
     var totalVehicleCount = 0;
@@ -748,13 +782,15 @@ class _ScheduleGridState extends ConsumerState<ScheduleGrid> {
     }
 
     // Create aggregated slot data to pass to widget (using typed constructor)
-    final aggregatedSlot = totalVehicleCount > 0 ? PeriodSlotData(
-      dayOfWeek: DayOfWeek.fromString(day),
-      period: _parsePeriodFromLabel(periodLabel, times),
-      times: times.map((t) => TimeOfDayValue.parse(t)).toList(),
-      slots: periodSlots,
-      week: widget.week,
-    ) : null;
+    final aggregatedSlot = totalVehicleCount > 0
+        ? PeriodSlotData(
+            dayOfWeek: DayOfWeek.fromString(day),
+            period: _parsePeriodFromLabel(periodLabel, times),
+            times: times.map((t) => TimeOfDayValue.parse(t)).toList(),
+            slots: periodSlots,
+            week: widget.week,
+          )
+        : null;
 
     // ✨ NEW: Check if this period slot is in the past
     final isPast = _isPeriodSlotInPast(day, times);
@@ -767,25 +803,31 @@ class _ScheduleGridState extends ConsumerState<ScheduleGrid> {
           ScheduleSlotWidget(
             groupId: widget.groupId,
             day: day,
-            time: periodLabel,  // Display period label, not time
+            time: periodLabel, // Display period label, not time
             week: widget.week,
             scheduleSlot: aggregatedSlot,
             onTap: isPast
                 ? () => _showPastSlotWarning(context)
-                : () => _handlePeriodSlotTap(context, day, periodLabel, times, periodSlots),
+                : () => _handlePeriodSlotTap(
+                    context,
+                    day,
+                    periodLabel,
+                    times,
+                    periodSlots,
+                  ),
             onVehicleDrop: isPast
-                ? (_) => _showPastSlotWarning(context) // Show warning on drop attempts
-                : (vehicleId) => _handlePeriodVehicleDrop(day, times, vehicleId),
+                ? (_) =>
+                      _showPastSlotWarning(
+                        context,
+                      ) // Show warning on drop attempts
+                : (vehicleId) =>
+                      _handlePeriodVehicleDrop(day, times, vehicleId),
           ),
           if (isPast)
             Positioned(
               top: 4,
               right: 4,
-              child: Icon(
-                Icons.lock_clock,
-                size: 16,
-                color: Colors.grey[600],
-              ),
+              child: Icon(Icons.lock_clock, size: 16, color: Colors.grey[600]),
             ),
         ],
       ),
@@ -808,21 +850,29 @@ class _ScheduleGridState extends ConsumerState<ScheduleGrid> {
     // This enables Level 2 to show breakdown for all times in period
     final typedPeriodSlots = periodSlots.whereType<ScheduleSlot>().toList();
 
-    widget.onManageVehicles(PeriodSlotData(
-      dayOfWeek: DayOfWeek.fromString(day),
-      period: _parsePeriodFromLabel(periodLabel, times),
-      times: times.map((t) => TimeOfDayValue.parse(t)).toList(),
-      slots: typedPeriodSlots,
-      week: widget.week,
-    ));
+    widget.onManageVehicles(
+      PeriodSlotData(
+        dayOfWeek: DayOfWeek.fromString(day),
+        period: _parsePeriodFromLabel(periodLabel, times),
+        times: times.map((t) => TimeOfDayValue.parse(t)).toList(),
+        slots: typedPeriodSlots,
+        week: widget.week,
+      ),
+    );
   }
 
   /// Handle vehicle drop on period slot
   /// When dropping vehicle on period slot, assign to FIRST time in period
   /// User can then reassign to specific times in Level 2 modal
-  void _handlePeriodVehicleDrop(String day, List<String> times, String vehicleId) {
+  void _handlePeriodVehicleDrop(
+    String day,
+    List<String> times,
+    String vehicleId,
+  ) {
     if (times.isEmpty) {
-      debugPrint('ERROR: _handlePeriodVehicleDrop called with empty times list');
+      debugPrint(
+        'ERROR: _handlePeriodVehicleDrop called with empty times list',
+      );
       return;
     }
 
@@ -879,10 +929,13 @@ class _ScheduleGridState extends ConsumerState<ScheduleGrid> {
     // 🛡️ VALIDATION: Check if this time is actually configured for this day
     if (widget.scheduleConfig != null) {
       final dayKey = day.toUpperCase();
-      final configuredTimes = widget.scheduleConfig!.scheduleHours[dayKey] ?? [];
+      final configuredTimes =
+          widget.scheduleConfig!.scheduleHours[dayKey] ?? [];
 
       if (!configuredTimes.contains(time)) {
-        debugPrint('   🚫 _getScheduleSlotData: Rejecting slot $day @ $time (not in scheduleConfig)');
+        debugPrint(
+          '   🚫 _getScheduleSlotData: Rejecting slot $day @ $time (not in scheduleConfig)',
+        );
         return null; // Time not configured - don't display this slot
       }
     }
@@ -890,10 +943,14 @@ class _ScheduleGridState extends ConsumerState<ScheduleGrid> {
     // Find the slot in API data
     try {
       final slot = widget.scheduleData.firstWhere(
-        (slot) => slot.dayOfWeek.fullName == day && slot.timeOfDay.toApiFormat() == time,
+        (slot) =>
+            slot.dayOfWeek.fullName == day &&
+            slot.timeOfDay.toApiFormat() == time,
       );
 
-      debugPrint('   ✅ _getScheduleSlotData: Found slot $day @ $time with ${slot.vehicleAssignments.length} vehicles');
+      debugPrint(
+        '   ✅ _getScheduleSlotData: Found slot $day @ $time with ${slot.vehicleAssignments.length} vehicles',
+      );
       return slot;
     } catch (e) {
       // No slot found in API data for this configured time - this is normal (empty slot)

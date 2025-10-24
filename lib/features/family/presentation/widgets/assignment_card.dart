@@ -88,13 +88,17 @@ class AssignmentCard extends ConsumerWidget {
                     IconButton(
                       onPressed: isLoading ? null : onEdit,
                       icon: const Icon(Icons.edit),
-                      tooltip: AppLocalizations.of(context).editAssignmentTooltip,
+                      tooltip: AppLocalizations.of(
+                        context,
+                      ).editAssignmentTooltip,
                     ),
                   if (onDelete != null)
                     IconButton(
                       onPressed: isLoading ? null : onDelete,
                       icon: const Icon(Icons.delete),
-                      tooltip: AppLocalizations.of(context).deleteAssignmentTooltip,
+                      tooltip: AppLocalizations.of(
+                        context,
+                      ).deleteAssignmentTooltip,
                       iconSize: 20,
                     ),
                 ],

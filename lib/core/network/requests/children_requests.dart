@@ -12,11 +12,7 @@ class CreateChildInlineRequest {
   final String? dateOfBirth;
   final String? notes;
 
-  CreateChildInlineRequest({
-    required this.name,
-    this.dateOfBirth,
-    this.notes,
-  });
+  CreateChildInlineRequest({required this.name, this.dateOfBirth, this.notes});
 
   factory CreateChildInlineRequest.fromJson(Map<String, dynamic> json) =>
       _$CreateChildInlineRequestFromJson(json);
@@ -30,11 +26,7 @@ class UpdateChildInlineRequest {
   final String? dateOfBirth;
   final String? notes;
 
-  UpdateChildInlineRequest({
-    this.name,
-    this.dateOfBirth,
-    this.notes,
-  });
+  UpdateChildInlineRequest({this.name, this.dateOfBirth, this.notes});
 
   factory UpdateChildInlineRequest.fromJson(Map<String, dynamic> json) =>
       _$UpdateChildInlineRequestFromJson(json);

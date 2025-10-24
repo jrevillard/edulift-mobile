@@ -12,7 +12,7 @@ void main() {
         userId: 'user-123',
         familyId: 'family-456',
         role: FamilyRole.admin,
-      status: 'ACTIVE',
+        status: 'ACTIVE',
         joinedAt: DateTime(2023),
       );
 
@@ -48,7 +48,7 @@ void main() {
         userId: 'user-123',
         familyId: 'family-456',
         role: FamilyRole.member,
-      status: 'ACTIVE',
+        status: 'ACTIVE',
         joinedAt: DateTime(2023),
       );
 

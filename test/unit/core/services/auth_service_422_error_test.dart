@@ -3,20 +3,23 @@ import 'package:edulift/core/errors/api_exception.dart';
 
 void main() {
   group('ApiException Validation Error Detection Tests', () {
-    test('should detect 422 status code as validation error for name required', () {
-      // Test the specific case mentioned in the mission
-      const nameRequiredException = ApiException(
-        message: 'name is required for new users',
-        statusCode: 422,
-        errorCode: 'VALIDATION_ERROR',
-        details: {'field': 'name', 'code': 'required'},
-      );
+    test(
+      'should detect 422 status code as validation error for name required',
+      () {
+        // Test the specific case mentioned in the mission
+        const nameRequiredException = ApiException(
+          message: 'name is required for new users',
+          statusCode: 422,
+          errorCode: 'VALIDATION_ERROR',
+          details: {'field': 'name', 'code': 'required'},
+        );
 
-      expect(nameRequiredException.isValidationError, isTrue);
-      expect(nameRequiredException.requiresUserAction, isTrue);
-      expect(nameRequiredException.isRetryable, isFalse);
-      expect(nameRequiredException.message, contains('name is required'));
-    });
+        expect(nameRequiredException.isValidationError, isTrue);
+        expect(nameRequiredException.requiresUserAction, isTrue);
+        expect(nameRequiredException.isRetryable, isFalse);
+        expect(nameRequiredException.message, contains('name is required'));
+      },
+    );
 
     test('should detect 422 status code as validation error', () {
       const exception = ApiException(

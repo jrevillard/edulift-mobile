@@ -232,7 +232,9 @@ class _LeaveFamilyConfirmationDialogState
                 hintText: familyName,
                 border: const OutlineInputBorder(),
                 errorText: _confirmationController.text.isNotEmpty && !_isValid
-                    ? AppLocalizations.of(context).pleaseTypeNameExactly(familyName)
+                    ? AppLocalizations.of(
+                        context,
+                      ).pleaseTypeNameExactly(familyName)
                     : null,
               ),
               onChanged: (value) => _validateInput(),

@@ -14,13 +14,15 @@ class ConnectivityNotifier extends StateNotifier<AsyncValue<bool>> {
       // Listen to connectivity changes
       _subscription = Connectivity().onConnectivityChanged.listen((results) {
         final isConnected = results.any(
-            (result) => result != ConnectivityResult.none);
+          (result) => result != ConnectivityResult.none,
+        );
         state = AsyncValue.data(isConnected);
       });
       // Get initial connectivity status
       final results = await Connectivity().checkConnectivity();
       final isConnected = results.any(
-          (result) => result != ConnectivityResult.none);
+        (result) => result != ConnectivityResult.none,
+      );
       state = AsyncValue.data(isConnected);
     } catch (e) {
       // Fallback for container environments where D-Bus is not available
@@ -45,7 +47,7 @@ class ConnectivityNotifier extends StateNotifier<AsyncValue<bool>> {
 
 final connectivityProvider =
     StateNotifierProvider<ConnectivityNotifier, AsyncValue<bool>>((ref) {
-  final notifier = ConnectivityNotifier();
-  ref.onDispose(() => notifier.dispose());
-  return notifier;
-});
+      final notifier = ConnectivityNotifier();
+      ref.onDispose(() => notifier.dispose());
+      return notifier;
+    });

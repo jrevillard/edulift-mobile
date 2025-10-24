@@ -20,20 +20,20 @@ class ArbFileValidator {
   /// Run the validator
   Future<void> run(List<String> files) async {
     print('🔍 Starting ARB file validation...');
-    
+
     if (files.isEmpty) {
       print('❌ No files provided for validation.');
       return;
     }
-    
+
     final findings = <ValidationFinding>[];
-    
+
     for (final file in files) {
       if (_verbose) print('Validating $file...');
       final fileFindings = await _validateFile(file);
       findings.addAll(fileFindings);
     }
-    
+
     _outputFindings(findings);
     print('✅ Validation complete. Found ${findings.length} issues.');
   }
@@ -42,7 +42,7 @@ class ArbFileValidator {
   Future<List<ValidationFinding>> _validateFile(String filePath) async {
     final findings = <ValidationFinding>[];
     final file = File(filePath);
-    
+
     if (!await file.exists()) {
       findings.add(ValidationFinding(
         filePath: filePath,
@@ -52,23 +52,22 @@ class ArbFileValidator {
       ));
       return findings;
     }
-    
+
     try {
       final content = await file.readAsString();
       final json = jsonDecode(content) as Map<String, dynamic>;
-      
+
       // Validate structure
       final structureFindings = _validateStructure(json, filePath);
       findings.addAll(structureFindings);
-      
+
       // Validate keys
       final keyFindings = _validateKeys(json, filePath);
       findings.addAll(keyFindings);
-      
+
       // Validate ICU pluralization
       final pluralizationFindings = _validatePluralization(json, filePath);
       findings.addAll(pluralizationFindings);
-      
     } catch (e) {
       findings.add(ValidationFinding(
         filePath: filePath,
@@ -77,14 +76,15 @@ class ArbFileValidator {
         severity: 'error',
       ));
     }
-    
+
     return findings;
   }
 
   /// Validate ARB file structure
-  List<ValidationFinding> _validateStructure(Map<String, dynamic> json, String filePath) {
+  List<ValidationFinding> _validateStructure(
+      Map<String, dynamic> json, String filePath) {
     final findings = <ValidationFinding>[];
-    
+
     // Check for required metadata
     if (!json.containsKey('@@locale')) {
       findings.add(ValidationFinding(
@@ -94,17 +94,18 @@ class ArbFileValidator {
         severity: 'error',
       ));
     }
-    
+
     return findings;
   }
 
   /// Validate keys consistency
-  List<ValidationFinding> _validateKeys(Map<String, dynamic> json, String filePath) {
+  List<ValidationFinding> _validateKeys(
+      Map<String, dynamic> json, String filePath) {
     final findings = <ValidationFinding>[];
-    
+
     final keys = <String>[];
     final metadataKeys = <String>[];
-    
+
     // Separate regular keys from metadata keys
     json.forEach((key, value) {
       if (key.startsWith('@')) {
@@ -113,7 +114,7 @@ class ArbFileValidator {
         keys.add(key);
       }
     });
-    
+
     // Check for missing metadata
     for (final key in keys) {
       if (!metadataKeys.contains(key) && !key.startsWith('@@')) {
@@ -125,7 +126,7 @@ class ArbFileValidator {
         ));
       }
     }
-    
+
     // Check for orphaned metadata
     for (final metadataKey in metadataKeys) {
       if (!keys.contains(metadataKey) && !metadataKey.startsWith('@')) {
@@ -137,14 +138,15 @@ class ArbFileValidator {
         ));
       }
     }
-    
+
     return findings;
   }
 
   /// Validate ICU pluralization syntax
-  List<ValidationFinding> _validatePluralization(Map<String, dynamic> json, String filePath) {
+  List<ValidationFinding> _validatePluralization(
+      Map<String, dynamic> json, String filePath) {
     final findings = <ValidationFinding>[];
-    
+
     json.forEach((key, value) {
       if (value is String && value.contains('{count, plural')) {
         final isValid = _validatePluralSyntax(value);
@@ -158,7 +160,7 @@ class ArbFileValidator {
         }
       }
     });
-    
+
     return findings;
   }
 
@@ -190,10 +192,10 @@ class ArbFileValidator {
       print('✅ No validation issues found.');
       return;
     }
-    
+
     print('\n🔍 ARB Validation Findings:');
     print('=' * 50);
-    
+
     for (final finding in findings) {
       print('${finding.severity.toUpperCase()}: ${finding.filePath}');
       print('  ${finding.message}');
@@ -216,7 +218,8 @@ class ArbFileValidator {
   void _outputCsv(List<ValidationFinding> findings) {
     print('File,Line,Message,Severity');
     for (final finding in findings) {
-      print('${finding.filePath},${finding.lineNumber},"${finding.message}",${finding.severity}');
+      print(
+          '${finding.filePath},${finding.lineNumber},"${finding.message}",${finding.severity}');
     }
   }
 }
@@ -249,8 +252,9 @@ class ValidationFinding {
 Future<void> main(List<String> arguments) async {
   final parser = ArgParser()
     ..addFlag('verbose', abbr: 'v', help: 'Enable verbose output')
-    ..addOption('format', abbr: 'f', 
-        allowed: ['console', 'json', 'csv'], 
+    ..addOption('format',
+        abbr: 'f',
+        allowed: ['console', 'json', 'csv'],
         defaultsTo: 'console',
         help: 'Output format')
     ..addFlag('help', abbr: 'h', help: 'Show help');

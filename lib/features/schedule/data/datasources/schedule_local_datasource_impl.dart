@@ -28,20 +28,19 @@ class CacheEntry<T> {
   });
 
   Map<String, dynamic> toJson() => {
-        'data': data,
-        'cachedAt': cachedAt.toIso8601String(),
-        'version': version,
-      };
+    'data': data,
+    'cachedAt': cachedAt.toIso8601String(),
+    'version': version,
+  };
 
   static CacheEntry<T> fromJson<T>(
     Map<String, dynamic> json,
     T Function(dynamic) fromData,
-  ) =>
-      CacheEntry(
-        data: fromData(json['data']),
-        cachedAt: DateTime.parse(json['cachedAt']),
-        version: json['version'] ?? 1,
-      );
+  ) => CacheEntry(
+    data: fromData(json['data']),
+    cachedAt: DateTime.parse(json['cachedAt']),
+    version: json['version'] ?? 1,
+  );
 
   bool isExpired(Duration ttl) => DateTime.now().difference(cachedAt) > ttl;
 }
@@ -92,7 +91,10 @@ class ScheduleLocalDataSourceImpl implements ScheduleLocalDataSource {
         await Hive.deleteBoxFromDisk(_scheduleBoxName);
 
         final cipher = await HiveEncryptionManager().getCipher();
-        _scheduleBox = await Hive.openBox(_scheduleBoxName, encryptionCipher: cipher);
+        _scheduleBox = await Hive.openBox(
+          _scheduleBoxName,
+          encryptionCipher: cipher,
+        );
 
         _initialized = true;
         ErrorLogger.logError(
@@ -104,7 +106,10 @@ class ScheduleLocalDataSourceImpl implements ScheduleLocalDataSource {
           context: 'ScheduleLocalDataSourceImpl._ensureInitialized',
           error: recoveryError,
           stackTrace: recoveryStackTrace,
-          additionalData: {'message': 'Cannot recover cache - cache disabled, app will use API only'},
+          additionalData: {
+            'message':
+                'Cannot recover cache - cache disabled, app will use API only',
+          },
         );
         _initialized = false; // Cache disabled - graceful degradation
       }
@@ -369,13 +374,14 @@ class ScheduleLocalDataSourceImpl implements ScheduleLocalDataSource {
           (data) => data.toString(),
         );
         final jsonData = jsonDecode(entry.data) as Map<String, dynamic>;
-        final existingAssignments =
-            (jsonData['assignments'] as List).cast<Map<String, dynamic>>();
+        final existingAssignments = (jsonData['assignments'] as List)
+            .cast<Map<String, dynamic>>();
 
         // Add or update
         final assignmentDto = VehicleAssignmentDto.fromDomain(assignment);
-        final index =
-            existingAssignments.indexWhere((a) => a['id'] == assignment.id);
+        final index = existingAssignments.indexWhere(
+          (a) => a['id'] == assignment.id,
+        );
         if (index >= 0) {
           existingAssignments[index] = assignmentDto.toJson();
         } else {
@@ -399,7 +405,8 @@ class ScheduleLocalDataSourceImpl implements ScheduleLocalDataSource {
 
   @override
   Future<void> updateCachedVehicleAssignment(
-      VehicleAssignment assignment) async {
+    VehicleAssignment assignment,
+  ) async {
     await _ensureInitialized();
     await cacheVehicleAssignment(assignment.scheduleSlotId, assignment);
   }
@@ -429,8 +436,10 @@ class ScheduleLocalDataSourceImpl implements ScheduleLocalDataSource {
       // Serialize with CacheEntry
       final updatedData = {'assignments': assignments, 'slotId': slotId};
       final jsonString = jsonEncode(updatedData);
-      final updatedEntry =
-          CacheEntry(data: jsonString, cachedAt: DateTime.now());
+      final updatedEntry = CacheEntry(
+        data: jsonString,
+        cachedAt: DateTime.now(),
+      );
       await _scheduleBox.put(key, updatedEntry.toJson());
     } catch (e) {
       // Silently fail delete
@@ -439,7 +448,8 @@ class ScheduleLocalDataSourceImpl implements ScheduleLocalDataSource {
 
   @override
   Future<List<VehicleAssignment>?> getCachedVehicleAssignments(
-      String slotId) async {
+    String slotId,
+  ) async {
     await _ensureInitialized();
     try {
       final key = 'vehicle_assignments_$slotId';
@@ -530,8 +540,10 @@ class ScheduleLocalDataSourceImpl implements ScheduleLocalDataSource {
       final jsonString = jsonEncode(jsonData);
 
       // Save with new CacheEntry
-      final updatedEntry =
-          CacheEntry(data: jsonString, cachedAt: DateTime.now());
+      final updatedEntry = CacheEntry(
+        data: jsonString,
+        cachedAt: DateTime.now(),
+      );
       await _scheduleBox.put(key, updatedEntry.toJson());
     } catch (e) {
       // Silently fail update
@@ -712,7 +724,8 @@ class ScheduleLocalDataSourceImpl implements ScheduleLocalDataSource {
           (data) => data.toString(),
         );
         final jsonData = jsonDecode(entry.data) as Map<String, dynamic>;
-        operations = (jsonData['operations'] as List).cast<Map<String, dynamic>>();
+        operations = (jsonData['operations'] as List)
+            .cast<Map<String, dynamic>>();
       } else {
         operations = [];
       }

@@ -32,7 +32,8 @@ abstract class FamilyInvitationValidationDto
         error: json['error'] as String?,
         errorCode: json['errorCode'] as String?,
         requiresAuth: (json['requires_auth'] ?? json['requiresAuth']) as bool?,
-        alreadyMember: (json['already_member'] ?? json['alreadyMember']) as bool?,
+        alreadyMember:
+            (json['already_member'] ?? json['alreadyMember']) as bool?,
       );
 }
 

@@ -31,7 +31,9 @@ class InvitationRepositoryMockFactory {
         ),
       ).thenAnswer((_) async => Result.ok(invitations.first));
     } else {
-      when(mock.getPendingInvitations(familyId: anyNamed('familyId'))).thenAnswer(
+      when(
+        mock.getPendingInvitations(familyId: anyNamed('familyId')),
+      ).thenAnswer(
         (_) async =>
             const Result.err(ApiFailure(message: 'Invitation fetch failed')),
       );

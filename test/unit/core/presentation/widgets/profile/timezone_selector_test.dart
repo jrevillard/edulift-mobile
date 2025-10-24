@@ -27,25 +27,19 @@ void main() {
       );
 
       // Mock SharedPreferences behavior
-      SharedPreferences.setMockInitialValues({
-        'autoSyncTimezone': false,
-      });
+      SharedPreferences.setMockInitialValues({'autoSyncTimezone': false});
     });
 
     Widget createWidgetUnderTest({User? user}) {
       return ProviderScope(
-        overrides: [
-          currentUserProvider.overrideWithValue(user ?? mockUser),
-        ],
-        child: const MaterialApp(
-          home: Scaffold(
-            body: TimezoneSelector(),
-          ),
-        ),
+        overrides: [currentUserProvider.overrideWithValue(user ?? mockUser)],
+        child: const MaterialApp(home: Scaffold(body: TimezoneSelector())),
       );
     }
 
-    testWidgets('displays current timezone correctly', (WidgetTester tester) async {
+    testWidgets('displays current timezone correctly', (
+      WidgetTester tester,
+    ) async {
       await tester.pumpWidget(createWidgetUnderTest());
       await tester.pumpAndSettle();
 
@@ -57,7 +51,9 @@ void main() {
       expect(find.text('Current: America/New_York'), findsOneWidget);
     });
 
-    testWidgets('displays search field and dropdown', (WidgetTester tester) async {
+    testWidgets('displays search field and dropdown', (
+      WidgetTester tester,
+    ) async {
       await tester.pumpWidget(createWidgetUnderTest());
       await tester.pumpAndSettle();
 
@@ -69,7 +65,9 @@ void main() {
       expect(find.byKey(const Key('timezone_dropdown')), findsOneWidget);
     });
 
-    testWidgets('search field filters timezones correctly', (WidgetTester tester) async {
+    testWidgets('search field filters timezones correctly', (
+      WidgetTester tester,
+    ) async {
       await tester.pumpWidget(createWidgetUnderTest());
       await tester.pumpAndSettle();
 
@@ -93,12 +91,17 @@ void main() {
       expect(find.text('Paris (UTC+1/+2)'), findsAtLeastNWidgets(1));
     });
 
-    testWidgets('search field filters by IANA timezone name', (WidgetTester tester) async {
+    testWidgets('search field filters by IANA timezone name', (
+      WidgetTester tester,
+    ) async {
       await tester.pumpWidget(createWidgetUnderTest());
       await tester.pumpAndSettle();
 
       // Search by IANA timezone name
-      await tester.enterText(find.byKey(const Key('timezone_search_field')), 'Europe');
+      await tester.enterText(
+        find.byKey(const Key('timezone_search_field')),
+        'Europe',
+      );
       await tester.pumpAndSettle();
 
       // Open dropdown
@@ -111,12 +114,17 @@ void main() {
       expect(find.text('Berlin (UTC+1/+2)'), findsAtLeastNWidgets(1));
     });
 
-    testWidgets('search field shows no results message', (WidgetTester tester) async {
+    testWidgets('search field shows no results message', (
+      WidgetTester tester,
+    ) async {
       await tester.pumpWidget(createWidgetUnderTest());
       await tester.pumpAndSettle();
 
       // Enter search query with no results
-      await tester.enterText(find.byKey(const Key('timezone_search_field')), 'InvalidTimezone');
+      await tester.enterText(
+        find.byKey(const Key('timezone_search_field')),
+        'InvalidTimezone',
+      );
       await tester.pumpAndSettle();
 
       // Should show "No timezones found" in dropdown label
@@ -124,16 +132,24 @@ void main() {
       expect(find.text('Try a different search term'), findsOneWidget);
     });
 
-    testWidgets('search field clearing shows all timezones', (WidgetTester tester) async {
+    testWidgets('search field clearing shows all timezones', (
+      WidgetTester tester,
+    ) async {
       await tester.pumpWidget(createWidgetUnderTest());
       await tester.pumpAndSettle();
 
       // Enter search query
-      await tester.enterText(find.byKey(const Key('timezone_search_field')), 'Paris');
+      await tester.enterText(
+        find.byKey(const Key('timezone_search_field')),
+        'Paris',
+      );
       await tester.pumpAndSettle();
 
       // Clear search
-      await tester.enterText(find.byKey(const Key('timezone_search_field')), '');
+      await tester.enterText(
+        find.byKey(const Key('timezone_search_field')),
+        '',
+      );
       await tester.pumpAndSettle();
 
       // Open dropdown
@@ -152,28 +168,39 @@ void main() {
       await tester.pumpAndSettle();
 
       // Verify auto-sync checkbox is present
-      expect(find.byKey(const Key('auto_sync_timezone_checkbox')), findsOneWidget);
+      expect(
+        find.byKey(const Key('auto_sync_timezone_checkbox')),
+        findsOneWidget,
+      );
       expect(find.text('Automatically sync timezone'), findsOneWidget);
-      expect(find.text('Keep timezone synchronized with device'), findsOneWidget);
+      expect(
+        find.text('Keep timezone synchronized with device'),
+        findsOneWidget,
+      );
     });
 
-    testWidgets('controls are disabled during update', (WidgetTester tester) async {
+    testWidgets('controls are disabled during update', (
+      WidgetTester tester,
+    ) async {
       await tester.pumpWidget(createWidgetUnderTest());
       await tester.pumpAndSettle();
 
       // Initially controls should be enabled
       expect(find.byKey(const Key('timezone_search_field')), findsOneWidget);
       expect(find.byKey(const Key('timezone_dropdown')), findsOneWidget);
-      expect(find.byKey(const Key('auto_sync_timezone_checkbox')), findsOneWidget);
+      expect(
+        find.byKey(const Key('auto_sync_timezone_checkbox')),
+        findsOneWidget,
+      );
 
       // TODO: Test during update state (would need to mock the update process)
     });
 
-    testWidgets('controls are disabled when auto-sync is enabled', (WidgetTester tester) async {
+    testWidgets('controls are disabled when auto-sync is enabled', (
+      WidgetTester tester,
+    ) async {
       // Create widget with auto-sync enabled
-      SharedPreferences.setMockInitialValues({
-        'autoSyncTimezone': true,
-      });
+      SharedPreferences.setMockInitialValues({'autoSyncTimezone': true});
 
       await tester.pumpWidget(createWidgetUnderTest());
       await tester.pumpAndSettle();
@@ -184,7 +211,9 @@ void main() {
       // TODO: Test the actual disabled state - need to check if the widget is actually disabled
     });
 
-    testWidgets('handles user with null timezone gracefully', (WidgetTester tester) async {
+    testWidgets('handles user with null timezone gracefully', (
+      WidgetTester tester,
+    ) async {
       // Create user with null timezone
       final now = DateTime.now();
       final userWithNullTimezone = User(
@@ -195,14 +224,18 @@ void main() {
         updatedAt: now,
       );
 
-      await tester.pumpWidget(createWidgetUnderTest(user: userWithNullTimezone));
+      await tester.pumpWidget(
+        createWidgetUnderTest(user: userWithNullTimezone),
+      );
       await tester.pumpAndSettle();
 
       // Should fallback to UTC
       expect(find.text('Current: UTC'), findsOneWidget);
     });
 
-    testWidgets('timezone list includes comprehensive coverage', (WidgetTester tester) async {
+    testWidgets('timezone list includes comprehensive coverage', (
+      WidgetTester tester,
+    ) async {
       await tester.pumpWidget(createWidgetUnderTest());
       await tester.pumpAndSettle();
 

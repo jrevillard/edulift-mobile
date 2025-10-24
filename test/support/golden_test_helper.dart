@@ -74,7 +74,9 @@ class GoldenTestHelper {
 
       await expectLater(
         find.byWidget(widget),
-        matchesGoldenFile('goldens/loading/${goldenKey}_loading_${device.name}.png'),
+        matchesGoldenFile(
+          'goldens/loading/${goldenKey}_loading_${device.name}.png',
+        ),
       );
     }
 
@@ -101,7 +103,9 @@ class GoldenTestHelper {
 
       await expectLater(
         find.byWidget(widget),
-        matchesGoldenFile('goldens/errors/${goldenKey}_error_${device.name}.png'),
+        matchesGoldenFile(
+          'goldens/errors/${goldenKey}_error_${device.name}.png',
+        ),
       );
     }
 

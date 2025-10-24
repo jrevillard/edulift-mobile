@@ -50,5 +50,4 @@ class AppRoutes {
     }
     return url;
   }
-
 }

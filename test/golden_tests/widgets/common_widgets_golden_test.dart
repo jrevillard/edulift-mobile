@@ -19,7 +19,8 @@ void main() {
         await tester.pumpWidget(
           const MaterialApp(home: Scaffold(body: LoadingIndicator())),
         );
-        await tester.pump(); // Use pump() not pumpAndSettle() for infinite animations
+        await tester
+            .pump(); // Use pump() not pumpAndSettle() for infinite animations
 
         await GoldenTestWrapper.testWidget(
           tester: tester,
@@ -31,8 +32,9 @@ void main() {
         );
       });
 
-      testWidgets('LoadingIndicator - With Message - Light Theme',
-          (tester) async {
+      testWidgets('LoadingIndicator - With Message - Light Theme', (
+        tester,
+      ) async {
         await GoldenTestWrapper.testWidget(
           tester: tester,
           widget: const LoadingIndicator(message: 'Chargement en cours...'),
@@ -43,8 +45,9 @@ void main() {
         );
       });
 
-      testWidgets('LoadingIndicator - UTF-8 Message - Dark Theme',
-          (tester) async {
+      testWidgets('LoadingIndicator - UTF-8 Message - Dark Theme', (
+        tester,
+      ) async {
         await GoldenTestWrapper.testWidget(
           tester: tester,
           widget: const LoadingIndicator(
@@ -81,15 +84,13 @@ void main() {
         );
       });
 
-      testWidgets('InlineLoadingIndicator - Custom Size and Color',
-          (tester) async {
+      testWidgets('InlineLoadingIndicator - Custom Size and Color', (
+        tester,
+      ) async {
         await GoldenTestWrapper.testWidget(
           tester: tester,
           widget: const Center(
-            child: InlineLoadingIndicator(
-              size: 32,
-              color: Colors.red,
-            ),
+            child: InlineLoadingIndicator(size: 32, color: Colors.red),
           ),
           testName: 'inline_loading_indicator_custom',
           devices: DeviceConfigurations.defaultSet,

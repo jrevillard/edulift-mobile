@@ -42,7 +42,11 @@ void main() {
 
         for (final message in testCases) {
           final isClean = errorHandler.testIsCleanUserMessage(message);
-          expect(isClean, isTrue, reason: 'Message "$message" should be accepted as user-friendly');
+          expect(
+            isClean,
+            isTrue,
+            reason: 'Message "$message" should be accepted as user-friendly',
+          );
         }
       });
 
@@ -77,7 +81,11 @@ void main() {
 
         for (final message in testCases) {
           final isClean = errorHandler.testIsCleanUserMessage(message);
-          expect(isClean, isFalse, reason: 'Message "$message" should be rejected as technical');
+          expect(
+            isClean,
+            isFalse,
+            reason: 'Message "$message" should be rejected as technical',
+          );
         }
       });
 
@@ -86,7 +94,8 @@ void main() {
         expect(errorHandler.testIsCleanUserMessage('Bad'), isFalse);
 
         // Too long (over 200 chars)
-        const longMessage = 'This is a very long message that exceeds the maximum length limit for user-friendly messages and should be rejected because it is too verbose and might contain technical details that are not suitable for end users to see in the application interface';
+        const longMessage =
+            'This is a very long message that exceeds the maximum length limit for user-friendly messages and should be rejected because it is too verbose and might contain technical details that are not suitable for end users to see in the application interface';
         expect(errorHandler.testIsCleanUserMessage(longMessage), isFalse);
 
         // Empty
@@ -94,7 +103,10 @@ void main() {
         expect(errorHandler.testIsCleanUserMessage('   '), isFalse);
 
         // No capital letter
-        expect(errorHandler.testIsCleanUserMessage('failed to join family'), isFalse);
+        expect(
+          errorHandler.testIsCleanUserMessage('failed to join family'),
+          isFalse,
+        );
 
         // Single word technical terms (should still be rejected)
         expect(errorHandler.testIsCleanUserMessage('Exception'), isFalse);
@@ -112,7 +124,12 @@ void main() {
 
         for (final message in testCases) {
           final isClean = errorHandler.testIsCleanUserMessage(message);
-          expect(isClean, isTrue, reason: 'Message "$message" should prioritize user-friendly pattern');
+          expect(
+            isClean,
+            isTrue,
+            reason:
+                'Message "$message" should prioritize user-friendly pattern',
+          );
         }
       });
     });
@@ -132,12 +149,17 @@ void main() {
         ];
 
         for (var i = 0; i < complexErrors.length; i++) {
-          final extracted = errorHandler.testExtractUserFriendlyMessage(complexErrors[i]);
-          expect(extracted, equals(expectedMessages[i]),
-                reason: 'Should extract "${expectedMessages[i]}" from "${complexErrors[i]}"');
+          final extracted = errorHandler.testExtractUserFriendlyMessage(
+            complexErrors[i],
+          );
+          expect(
+            extracted,
+            equals(expectedMessages[i]),
+            reason:
+                'Should extract "${expectedMessages[i]}" from "${complexErrors[i]}"',
+          );
         }
       });
     });
   });
 }
-

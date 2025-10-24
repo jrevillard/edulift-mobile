@@ -42,13 +42,9 @@ class _DashboardPageState extends ConsumerState<DashboardPage>
             child: CustomScrollView(
               slivers: [
                 // Real-time invitation summary widget
-                const SliverToBoxAdapter(
-                  child: SizedBox.shrink(),
-                ),
+                const SliverToBoxAdapter(child: SizedBox.shrink()),
                 // Real-time schedule summary widget
-                const SliverToBoxAdapter(
-                  child: SizedBox.shrink(),
-                ),
+                const SliverToBoxAdapter(child: SizedBox.shrink()),
                 SliverAppBar(
                   expandedHeight: isTablet ? 120 : 80,
                   floating: true,
@@ -75,10 +71,12 @@ class _DashboardPageState extends ConsumerState<DashboardPage>
                         icon: const Icon(Icons.logout),
                         onPressed: () async {
                           await ref.read(authStateProvider.notifier).logout();
-                          ref.read(navigationStateProvider.notifier).navigateTo(
-                            route: '/auth/login',
-                            trigger: NavigationTrigger.userNavigation,
-                          );
+                          ref
+                              .read(navigationStateProvider.notifier)
+                              .navigateTo(
+                                route: '/auth/login',
+                                trigger: NavigationTrigger.userNavigation,
+                              );
                         },
                         tooltip: AppLocalizations.of(context).logout,
                       ),
@@ -314,27 +312,28 @@ class _DashboardPageState extends ConsumerState<DashboardPage>
                   const SizedBox(height: 12),
                   Semantics(
                     label: l10n.familyStatistics(
-                        family.totalMembers,
-                        family.totalChildren,
-                        family.totalVehicles),
+                      family.totalMembers,
+                      family.totalChildren,
+                      family.totalVehicles,
+                    ),
                     child: Wrap(
                       spacing: 16,
                       runSpacing: 8,
                       children: [
                         Text(
-                          AppLocalizations.of(context).totalMembersCount(
-                            family.totalMembers,
-                          ),
+                          AppLocalizations.of(
+                            context,
+                          ).totalMembersCount(family.totalMembers),
                         ),
                         Text(
-                          AppLocalizations.of(context).totalChildrenCount(
-                            family.totalChildren,
-                          ),
+                          AppLocalizations.of(
+                            context,
+                          ).totalChildrenCount(family.totalChildren),
                         ),
                         Text(
-                          AppLocalizations.of(context).totalVehiclesCount(
-                            family.totalVehicles,
-                          ),
+                          AppLocalizations.of(
+                            context,
+                          ).totalVehiclesCount(family.totalVehicles),
                         ),
                       ],
                     ),
@@ -661,7 +660,7 @@ class _DashboardPageState extends ConsumerState<DashboardPage>
       'Thursday',
       'Friday',
       'Saturday',
-      'Sunday'
+      'Sunday',
     ];
     final months = [
       'January',
@@ -675,7 +674,7 @@ class _DashboardPageState extends ConsumerState<DashboardPage>
       'September',
       'October',
       'November',
-      'December'
+      'December',
     ];
 
     return '${weekdays[now.weekday - 1]}, ${months[now.month - 1]} ${now.day}';
@@ -780,9 +779,9 @@ class _QuickActionButton extends StatelessWidget {
           child: Text(
             title,
             style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                  fontWeight: FontWeight.w500,
-                  fontSize: 12,
-                ),
+              fontWeight: FontWeight.w500,
+              fontSize: 12,
+            ),
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
           ),
@@ -947,11 +946,11 @@ class _TripItem extends StatelessWidget {
                       child: Text(
                         time,
                         style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                              color: type == TripType.dropOff
-                                  ? Colors.orange
-                                  : Colors.blue,
-                              fontWeight: FontWeight.bold,
-                            ),
+                          color: type == TripType.dropOff
+                              ? Colors.orange
+                              : Colors.blue,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ),
                   ),

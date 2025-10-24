@@ -46,14 +46,18 @@ void main() {
         ).thenAnswer((_) async => const Result.ok(null));
 
         // Act
-        final result = await usecase.call(const LeaveFamilyParams(familyId: 'test-family-123'));
+        final result = await usecase.call(
+          const LeaveFamilyParams(familyId: 'test-family-123'),
+        );
 
         // Assert
         expect(result.isOk, isTrue);
         expect(result.unwrap().requiresOnboarding, isTrue);
 
         verify(mockFamilyRepository.getCurrentFamily()).called(1);
-        verify(mockFamilyRepository.leaveFamily(familyId: 'test-family-123')).called(1);
+        verify(
+          mockFamilyRepository.leaveFamily(familyId: 'test-family-123'),
+        ).called(1);
         verify(mockFamilyDataService.clearFamilyData()).called(1);
       });
 
@@ -79,14 +83,18 @@ void main() {
         );
 
         // Act
-        final result = await usecase.call(const LeaveFamilyParams(familyId: 'test-family-123'));
+        final result = await usecase.call(
+          const LeaveFamilyParams(familyId: 'test-family-123'),
+        );
 
         // Assert - Should still succeed since API call worked
         expect(result.isOk, isTrue);
         expect(result.unwrap().requiresOnboarding, isTrue);
 
         verify(mockFamilyRepository.getCurrentFamily()).called(1);
-        verify(mockFamilyRepository.leaveFamily(familyId: 'test-family-123')).called(1);
+        verify(
+          mockFamilyRepository.leaveFamily(familyId: 'test-family-123'),
+        ).called(1);
         verify(mockFamilyDataService.clearFamilyData()).called(1);
       });
     });
@@ -111,14 +119,18 @@ void main() {
         ).thenAnswer((_) async => Result.err(apiFailure));
 
         // Act
-        final result = await usecase.call(const LeaveFamilyParams(familyId: 'test-family-123'));
+        final result = await usecase.call(
+          const LeaveFamilyParams(familyId: 'test-family-123'),
+        );
 
         // Assert
         expect(result.isErr, isTrue);
         expect(result.unwrapErr(), equals(apiFailure));
 
         verify(mockFamilyRepository.getCurrentFamily()).called(1);
-        verify(mockFamilyRepository.leaveFamily(familyId: 'test-family-123')).called(1);
+        verify(
+          mockFamilyRepository.leaveFamily(familyId: 'test-family-123'),
+        ).called(1);
         // clearFamilyData should not be called if API fails
         verifyNever(mockFamilyDataService.clearFamilyData());
       });
@@ -144,14 +156,18 @@ void main() {
         ).thenAnswer((_) async => Result.err(notFoundFailure));
 
         // Act
-        final result = await usecase.call(const LeaveFamilyParams(familyId: 'test-family-123'));
+        final result = await usecase.call(
+          const LeaveFamilyParams(familyId: 'test-family-123'),
+        );
 
         // Assert
         expect(result.isErr, isTrue);
         expect(result.unwrapErr(), equals(notFoundFailure));
 
         verify(mockFamilyRepository.getCurrentFamily()).called(1);
-        verify(mockFamilyRepository.leaveFamily(familyId: 'test-family-123')).called(1);
+        verify(
+          mockFamilyRepository.leaveFamily(familyId: 'test-family-123'),
+        ).called(1);
         verifyNever(mockFamilyDataService.clearFamilyData());
       });
 
@@ -176,14 +192,18 @@ void main() {
         ).thenAnswer((_) async => Result.err(validationFailure));
 
         // Act
-        final result = await usecase.call(const LeaveFamilyParams(familyId: 'test-family-123'));
+        final result = await usecase.call(
+          const LeaveFamilyParams(familyId: 'test-family-123'),
+        );
 
         // Assert
         expect(result.isErr, isTrue);
         expect(result.unwrapErr(), equals(validationFailure));
 
         verify(mockFamilyRepository.getCurrentFamily()).called(1);
-        verify(mockFamilyRepository.leaveFamily(familyId: 'test-family-123')).called(1);
+        verify(
+          mockFamilyRepository.leaveFamily(familyId: 'test-family-123'),
+        ).called(1);
         verifyNever(mockFamilyDataService.clearFamilyData());
       });
     });

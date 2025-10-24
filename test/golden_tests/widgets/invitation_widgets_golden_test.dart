@@ -46,22 +46,32 @@ void main() {
     final mockInvitationRepo = MockInvitationRepository();
 
     // Provide dummy values for Result types that Mockito can't auto-generate
-    provideDummy<Result<family_entities.Family?, ApiFailure>>(const Result.err(ApiFailure(message: 'dummy')));
-    provideDummy<Result<List<FamilyInvitation>, ApiFailure>>(const Result.ok([]));
+    provideDummy<Result<family_entities.Family?, ApiFailure>>(
+      const Result.err(ApiFailure(message: 'dummy')),
+    );
+    provideDummy<Result<List<FamilyInvitation>, ApiFailure>>(
+      const Result.ok([]),
+    );
 
     // Stub the methods that FamilyNotifier.loadFamily() will call
     // Return error to prevent loading (simpler than creating full Family entity)
-    when(mockFamilyRepo.getFamily()).thenAnswer((_) async =>
-      const Result.err(ApiFailure(message: 'No family')));
-    when(mockInvitationRepo.getPendingInvitations(familyId: anyNamed('familyId')))
-        .thenAnswer((_) async => const Result.ok([]));
+    when(mockFamilyRepo.getFamily()).thenAnswer(
+      (_) async => const Result.err(ApiFailure(message: 'No family')),
+    );
+    when(
+      mockInvitationRepo.getPendingInvitations(familyId: anyNamed('familyId')),
+    ).thenAnswer((_) async => const Result.ok([]));
 
     return [
       currentUserProvider.overrideWith((ref) => testUser),
       // Override repository providers to prevent Hive access
       familyRepositoryComposedProvider.overrideWithValue(mockFamilyRepo),
-      invitationRepositoryComposedProvider.overrideWithValue(mockInvitationRepo),
-      nav.navigationStateProvider.overrideWith((ref) => nav.NavigationStateNotifier()),
+      invitationRepositoryComposedProvider.overrideWithValue(
+        mockInvitationRepo,
+      ),
+      nav.navigationStateProvider.overrideWith(
+        (ref) => nav.NavigationStateNotifier(),
+      ),
       // CRITICAL: Prevent all real network calls during golden tests
       ...getAllNetworkMockOverrides(),
     ];
@@ -90,13 +100,12 @@ void main() {
       );
     });
 
-    testWidgets('invite member widget with callback - light theme',
-        (tester) async {
+    testWidgets('invite member widget with callback - light theme', (
+      tester,
+    ) async {
       await GoldenTestWrapper.testWidget(
         tester: tester,
-        widget: InviteMemberWidget(
-          onInvitationSent: () {},
-        ),
+        widget: InviteMemberWidget(onInvitationSent: () {}),
         testName: 'invite_member_widget_with_callback_light',
         devices: DeviceConfigurations.defaultSet,
         themes: [ThemeConfigurations.light],
@@ -106,8 +115,9 @@ void main() {
   });
 
   group('FamilyInvitationManagementWidget Golden Tests', () {
-    testWidgets('invitation management widget as admin - light theme',
-        (tester) async {
+    testWidgets('invitation management widget as admin - light theme', (
+      tester,
+    ) async {
       await GoldenTestWrapper.testWidget(
         tester: tester,
         widget: const FamilyInvitationManagementWidget(
@@ -121,8 +131,9 @@ void main() {
       );
     });
 
-    testWidgets('invitation management widget as admin - dark theme',
-        (tester) async {
+    testWidgets('invitation management widget as admin - dark theme', (
+      tester,
+    ) async {
       await GoldenTestWrapper.testWidget(
         tester: tester,
         widget: const FamilyInvitationManagementWidget(
@@ -136,8 +147,9 @@ void main() {
       );
     });
 
-    testWidgets('invitation management widget as member - light theme',
-        (tester) async {
+    testWidgets('invitation management widget as member - light theme', (
+      tester,
+    ) async {
       await GoldenTestWrapper.testWidget(
         tester: tester,
         widget: const FamilyInvitationManagementWidget(
@@ -151,8 +163,9 @@ void main() {
       );
     });
 
-    testWidgets('invitation management widget as member - dark theme',
-        (tester) async {
+    testWidgets('invitation management widget as member - dark theme', (
+      tester,
+    ) async {
       await GoldenTestWrapper.testWidget(
         tester: tester,
         widget: const FamilyInvitationManagementWidget(

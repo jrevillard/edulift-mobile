@@ -164,7 +164,9 @@ class _ConfigureFamilyInvitationPageState
                                 height: isTablet ? 56 : 48,
                                 decoration: BoxDecoration(
                                   color: theme.colorScheme.primaryContainer,
-                                  borderRadius: BorderRadius.circular(isTablet ? 28 : 24),
+                                  borderRadius: BorderRadius.circular(
+                                    isTablet ? 28 : 24,
+                                  ),
                                 ),
                                 child: Icon(
                                   Icons.groups,
@@ -179,17 +181,22 @@ class _ConfigureFamilyInvitationPageState
                                   children: [
                                     Text(
                                       widget.familyName,
-                                      style: theme.textTheme.titleMedium?.copyWith(
-                                        fontWeight: FontWeight.w600,
-                                        fontSize: isTablet ? 18 : 16,
-                                      ),
+                                      style: theme.textTheme.titleMedium
+                                          ?.copyWith(
+                                            fontWeight: FontWeight.w600,
+                                            fontSize: isTablet ? 18 : 16,
+                                          ),
                                     ),
                                     const SizedBox(height: 4),
                                     Text(
                                       l10n.memberCount(widget.memberCount),
-                                      style: theme.textTheme.bodySmall?.copyWith(
-                                        color: AppColors.textSecondaryThemed(context),
-                                      ),
+                                      style: theme.textTheme.bodySmall
+                                          ?.copyWith(
+                                            color:
+                                                AppColors.textSecondaryThemed(
+                                                  context,
+                                                ),
+                                          ),
                                     ),
                                   ],
                                 ),
@@ -199,11 +206,13 @@ class _ConfigureFamilyInvitationPageState
                         ),
                       ),
 
-                      SizedBox(height: context.getAdaptiveSpacing(
-                        mobile: 24,
-                        tablet: 32,
-                        desktop: 40,
-                      )),
+                      SizedBox(
+                        height: context.getAdaptiveSpacing(
+                          mobile: 24,
+                          tablet: 32,
+                          desktop: 40,
+                        ),
+                      ),
 
                       // Role Selection Section
                       Text(
@@ -212,11 +221,13 @@ class _ConfigureFamilyInvitationPageState
                           fontWeight: FontWeight.w600,
                         ),
                       ),
-                      SizedBox(height: context.getAdaptiveSpacing(
-                        mobile: 8,
-                        tablet: 12,
-                        desktop: 16,
-                      )),
+                      SizedBox(
+                        height: context.getAdaptiveSpacing(
+                          mobile: 8,
+                          tablet: 12,
+                          desktop: 16,
+                        ),
+                      ),
 
                       // Member Role Option
                       _RoleSelectionCard(
@@ -227,16 +238,20 @@ class _ConfigureFamilyInvitationPageState
                         isSelected: _selectedRole == GroupFamilyRole.member,
                         onTap: _isInviting
                             ? null
-                            : () => setState(() => _selectedRole = GroupFamilyRole.member),
+                            : () => setState(
+                                () => _selectedRole = GroupFamilyRole.member,
+                              ),
                         theme: theme,
                         isTablet: isTablet,
                       ),
 
-                      SizedBox(height: context.getAdaptiveSpacing(
-                        mobile: 12,
-                        tablet: 16,
-                        desktop: 20,
-                      )),
+                      SizedBox(
+                        height: context.getAdaptiveSpacing(
+                          mobile: 12,
+                          tablet: 16,
+                          desktop: 20,
+                        ),
+                      ),
 
                       // Admin Role Option
                       _RoleSelectionCard(
@@ -247,16 +262,20 @@ class _ConfigureFamilyInvitationPageState
                         isSelected: _selectedRole == GroupFamilyRole.admin,
                         onTap: _isInviting
                             ? null
-                            : () => setState(() => _selectedRole = GroupFamilyRole.admin),
+                            : () => setState(
+                                () => _selectedRole = GroupFamilyRole.admin,
+                              ),
                         theme: theme,
                         isTablet: isTablet,
                       ),
 
-                      SizedBox(height: context.getAdaptiveSpacing(
-                        mobile: 24,
-                        tablet: 32,
-                        desktop: 40,
-                      )),
+                      SizedBox(
+                        height: context.getAdaptiveSpacing(
+                          mobile: 24,
+                          tablet: 32,
+                          desktop: 40,
+                        ),
+                      ),
 
                       // Personal Message Section
                       Text(
@@ -265,11 +284,13 @@ class _ConfigureFamilyInvitationPageState
                           fontWeight: FontWeight.w600,
                         ),
                       ),
-                      SizedBox(height: context.getAdaptiveSpacing(
-                        mobile: 8,
-                        tablet: 12,
-                        desktop: 16,
-                      )),
+                      SizedBox(
+                        height: context.getAdaptiveSpacing(
+                          mobile: 8,
+                          tablet: 12,
+                          desktop: 16,
+                        ),
+                      ),
 
                       TextField(
                         key: const Key('invitation_message_field'),
@@ -454,7 +475,9 @@ class _RoleSelectionCard extends StatelessWidget {
                     : Icons.radio_button_unchecked,
                 color: isSelected
                     ? theme.colorScheme.primary
-                    : AppColors.textSecondaryThemed(context).withValues(alpha: 0.6),
+                    : AppColors.textSecondaryThemed(
+                        context,
+                      ).withValues(alpha: 0.6),
                 size: isTablet ? 28 : 24,
               ),
             ],

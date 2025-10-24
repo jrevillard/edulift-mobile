@@ -181,7 +181,9 @@ class _ScheduleConfigWidgetState extends ConsumerState<ScheduleConfigWidget>
         _workingConfig.scheduleHours,
         userTimezone,
       );
-      final utcConfig = _workingConfig.copyWith(scheduleHours: utcScheduleHours);
+      final utcConfig = _workingConfig.copyWith(
+        scheduleHours: utcScheduleHours,
+      );
 
       // Call the provider's updateConfig method with UTC times
       AppLogger.debug(
@@ -192,7 +194,9 @@ class _ScheduleConfigWidgetState extends ConsumerState<ScheduleConfigWidget>
           .updateConfig(utcConfig);
 
       // Wait for the provider state to update and check for success
-      final currentState = ref.read(groupScheduleConfigProvider(widget.groupId));
+      final currentState = ref.read(
+        groupScheduleConfigProvider(widget.groupId),
+      );
       AppLogger.debug(
         'ScheduleConfigWidget._saveConfiguration: Provider state after save - hasValue: ${currentState.hasValue}, hasError: ${currentState.hasError}',
       );
@@ -259,9 +263,7 @@ class _ScheduleConfigWidgetState extends ConsumerState<ScheduleConfigWidget>
     });
 
     final l10n = AppLocalizations.of(context);
-    _showSuccessSnackBar(
-      l10n.changesCanceledReverted,
-    );
+    _showSuccessSnackBar(l10n.changesCanceledReverted);
   }
 
   void _showSuccessSnackBar(String message) {
@@ -296,25 +298,37 @@ class _ScheduleConfigWidgetState extends ConsumerState<ScheduleConfigWidget>
     return configAsync.when(
       data: (config) {
         // DEBUG: Log what we received
-        AppLogger.info('ScheduleConfigWidget: Received config data - isNull: ${config == null}');
+        AppLogger.info(
+          'ScheduleConfigWidget: Received config data - isNull: ${config == null}',
+        );
         if (config != null) {
-          AppLogger.info('ScheduleConfigWidget: Config has ${config.scheduleHours.keys.length} days (UTC)');
+          AppLogger.info(
+            'ScheduleConfigWidget: Config has ${config.scheduleHours.keys.length} days (UTC)',
+          );
           for (final entry in config.scheduleHours.entries) {
-            AppLogger.info('ScheduleConfigWidget: ${entry.key}: ${entry.value.length} slots (UTC)');
+            AppLogger.info(
+              'ScheduleConfigWidget: ${entry.key}: ${entry.value.length} slots (UTC)',
+            );
           }
         }
 
         // Set original config when first loaded, but don't overwrite working config if user has changes
         // TIMEZONE CONVERSION: Convert UTC scheduleHours from backend to local timezone for display
         if (config != null && _originalConfig == null) {
-          AppLogger.info('ScheduleConfigWidget: Converting UTC scheduleHours to local timezone ($userTimezone)');
+          AppLogger.info(
+            'ScheduleConfigWidget: Converting UTC scheduleHours to local timezone ($userTimezone)',
+          );
           final localScheduleHours = convertScheduleHoursToLocal(
             config.scheduleHours,
             userTimezone,
           );
-          final localConfig = config.copyWith(scheduleHours: localScheduleHours);
+          final localConfig = config.copyWith(
+            scheduleHours: localScheduleHours,
+          );
 
-          AppLogger.info('ScheduleConfigWidget: Setting original and working config from provider');
+          AppLogger.info(
+            'ScheduleConfigWidget: Setting original and working config from provider',
+          );
           _originalConfig = localConfig;
           _workingConfig = localConfig;
           // Schedule status update after build completes
@@ -323,12 +337,16 @@ class _ScheduleConfigWidgetState extends ConsumerState<ScheduleConfigWidget>
           });
         } else if (config != null && _originalConfig != null && !_hasChanges) {
           // Only update if no local changes exist (avoid overwriting user work)
-          AppLogger.info('ScheduleConfigWidget: Updating working config from provider (no local changes)');
+          AppLogger.info(
+            'ScheduleConfigWidget: Updating working config from provider (no local changes)',
+          );
           final localScheduleHours = convertScheduleHoursToLocal(
             config.scheduleHours,
             userTimezone,
           );
-          final localConfig = config.copyWith(scheduleHours: localScheduleHours);
+          final localConfig = config.copyWith(
+            scheduleHours: localScheduleHours,
+          );
 
           _originalConfig = localConfig;
           _workingConfig = localConfig;
@@ -414,9 +432,7 @@ class _ScheduleConfigWidgetState extends ConsumerState<ScheduleConfigWidget>
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
         color: Colors.blue.shade50,
-        border: Border.all(
-          color: Colors.blue.shade200,
-        ),
+        border: Border.all(color: Colors.blue.shade200),
         borderRadius: BorderRadius.circular(8),
       ),
       child: Row(

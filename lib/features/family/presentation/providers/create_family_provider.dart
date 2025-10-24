@@ -40,11 +40,8 @@ class CreateFamilyNotifier extends StateNotifier<CreateFamilyState> {
   final AuthService _authService;
   final Ref _ref;
 
-  CreateFamilyNotifier(
-    this._createFamilyUsecase,
-    this._authService,
-    this._ref,
-  ) : super(const CreateFamilyState()) {
+  CreateFamilyNotifier(this._createFamilyUsecase, this._authService, this._ref)
+    : super(const CreateFamilyState()) {
     // CRITICAL: Listen to auth changes continuously for TRUE reactive architecture
     _ref.listen(currentUserProvider, (previous, next) {
       if (next == null && previous != null) {
@@ -66,6 +63,7 @@ class CreateFamilyNotifier extends StateNotifier<CreateFamilyState> {
       }
     });
   }
+
   /// Create a new family with validation
   /// TDD Green: Implements the exact behavior tested in RED phase
   Future<void> createFamily(String name) async {
@@ -116,7 +114,12 @@ class CreateFamilyNotifier extends StateNotifier<CreateFamilyState> {
         providerName: 'CreateFamilyNotifier',
         operation: 'Use case returned result',
         error: null,
-        state: {'hasResult': true, 'resultType': result.runtimeType.toString(), 'isOk': result.isOk, 'isErr': result.isErr},
+        state: {
+          'hasResult': true,
+          'resultType': result.runtimeType.toString(),
+          'isOk': result.isOk,
+          'isErr': result.isErr,
+        },
       );
 
       // Handle result using Result<T,E> pattern with when() - supports async callbacks
@@ -148,7 +151,8 @@ class CreateFamilyNotifier extends StateNotifier<CreateFamilyState> {
 
             ErrorLogger.logProviderError(
               providerName: 'CreateFamilyNotifier',
-              operation: 'Family creation successful - familyProvider reloaded and cache invalidated',
+              operation:
+                  'Family creation successful - familyProvider reloaded and cache invalidated',
               error: null,
               state: {'userId': currentUser.id, 'familyId': family.id},
             );
@@ -181,7 +185,10 @@ class CreateFamilyNotifier extends StateNotifier<CreateFamilyState> {
             providerName: 'CreateFamilyNotifier',
             operation: 'createFamily ERROR received from use case',
             error: failure,
-            state: {'failureType': failure.runtimeType.toString(), 'failureMessage': failure.toString()},
+            state: {
+              'failureType': failure.runtimeType.toString(),
+              'failureMessage': failure.toString(),
+            },
           );
           final errorMessage = _getErrorMessage(failure);
           state = state.copyWith(
@@ -199,7 +206,8 @@ class CreateFamilyNotifier extends StateNotifier<CreateFamilyState> {
       );
     } catch (e, stackTrace) {
       // Log unexpected errors for debugging with full context
-      ErrorLogger.logProviderError(providerName: 'CreateFamilyNotifier',
+      ErrorLogger.logProviderError(
+        providerName: 'CreateFamilyNotifier',
         operation: 'createFamily',
         error: e,
         stackTrace: stackTrace,
@@ -279,7 +287,9 @@ class CreateFamilyNotifier extends StateNotifier<CreateFamilyState> {
 /// Clean Architecture: Injects use case instead of repository
 /// SECURITY FIX: Reactive to auth state changes to prevent data leakage
 final createFamilyProvider =
-    StateNotifierProvider.autoDispose<CreateFamilyNotifier, CreateFamilyState>((ref) {
+    StateNotifierProvider.autoDispose<CreateFamilyNotifier, CreateFamilyState>((
+      ref,
+    ) {
       // SECURITY FIX: Watch currentUser and auto-dispose when user becomes null
       ref.watch(currentUserProvider);
 

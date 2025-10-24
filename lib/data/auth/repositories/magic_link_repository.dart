@@ -50,20 +50,31 @@ class MagicLinkRepositoryImpl implements IMagicLinkService {
     final codeVerifier = pkcePair['code_verifier']!;
     final codeChallenge = pkcePair['code_challenge']!;
 
-    AppLogger.debug('[AUTH] PKCE: Generated code_verifier length: ${codeVerifier.length}');
-    AppLogger.debug('[AUTH] PKCE: Generated code_challenge length: ${codeChallenge.length}');
+    AppLogger.debug(
+      '[AUTH] PKCE: Generated code_verifier length: ${codeVerifier.length}',
+    );
+    AppLogger.debug(
+      '[AUTH] PKCE: Generated code_challenge length: ${codeChallenge.length}',
+    );
 
     // STEP 2: Store code_verifier securely for later verification
     AppLogger.info('[AUTH] PKCE: Storing code_verifier in secure storage');
-    final storeResult = await _authLocalDatasource.storePKCEVerifier(codeVerifier);
+    final storeResult = await _authLocalDatasource.storePKCEVerifier(
+      codeVerifier,
+    );
 
     if (storeResult.isErr) {
-      AppLogger.warning('[AUTH] PKCE: Failed to store code_verifier', storeResult.error);
-      return const Left(ApiFailure(
-        code: 'auth.pkce_storage_failed',
-        message: 'Failed to store PKCE verifier',
-        statusCode: 500,
-      ));
+      AppLogger.warning(
+        '[AUTH] PKCE: Failed to store code_verifier',
+        storeResult.error,
+      );
+      return const Left(
+        ApiFailure(
+          code: 'auth.pkce_storage_failed',
+          message: 'Failed to store PKCE verifier',
+          statusCode: 500,
+        ),
+      );
     }
 
     // STEP 3: Create request with PKCE challenge
@@ -74,35 +85,42 @@ class MagicLinkRepositoryImpl implements IMagicLinkService {
       codeChallenge: codeChallenge,
     );
 
-    AppLogger.info('[AUTH] PKCE: Including code_challenge in magic link request');
+    AppLogger.info(
+      '[AUTH] PKCE: Including code_challenge in magic link request',
+    );
 
     // STEP 4: Send request via NetworkErrorHandler
-    final result = await _networkErrorHandler.executeRepositoryOperation<String>(
-      () => _authApiClient.sendMagicLink(request),
-      operationName: 'auth.sendMagicLink',
-      strategy: CacheStrategy.networkOnly, // AUTH: never cache
-      serviceName: 'auth',
-      config: RetryConfig.quick,
-      context: {
-        'feature': 'authentication',
-        'operation_type': 'create',
-        'email': maskedEmail, // Masked email for security
-        'has_invite_code': context.inviteCode?.isNotEmpty ?? false,
-      },
-    );
+    final result = await _networkErrorHandler
+        .executeRepositoryOperation<String>(
+          () => _authApiClient.sendMagicLink(request),
+          operationName: 'auth.sendMagicLink',
+          strategy: CacheStrategy.networkOnly, // AUTH: never cache
+          serviceName: 'auth',
+          config: RetryConfig.quick,
+          context: {
+            'feature': 'authentication',
+            'operation_type': 'create',
+            'email': maskedEmail, // Masked email for security
+            'has_invite_code': context.inviteCode?.isNotEmpty ?? false,
+          },
+        );
 
     return result.when(
       ok: (response) {
         if (response.isNotEmpty) {
-          AppLogger.info('[AUTH] Magic link sent successfully with PKCE security');
+          AppLogger.info(
+            '[AUTH] Magic link sent successfully with PKCE security',
+          );
           return const Right(null);
         } else {
           AppLogger.warning('[AUTH] Magic link failed: empty response');
-          return const Left(ApiFailure(
-            code: 'auth.empty_response',
-            message: 'Failed to send magic link - empty response',
-            statusCode: 500,
-          ));
+          return const Left(
+            ApiFailure(
+              code: 'auth.empty_response',
+              message: 'Failed to send magic link - empty response',
+              statusCode: 500,
+            ),
+          );
         }
       },
       err: (failure) {
@@ -119,7 +137,9 @@ class MagicLinkRepositoryImpl implements IMagicLinkService {
     String? inviteCode,
   }) async {
     // STEP 1: Retrieve stored PKCE code_verifier for security validation
-    AppLogger.info('[AUTH] PKCE: Retrieving stored code_verifier for magic link verification');
+    AppLogger.info(
+      '[AUTH] PKCE: Retrieving stored code_verifier for magic link verification',
+    );
 
     String? codeVerifier;
     final pkceResult = await _authLocalDatasource.getPKCEVerifier();
@@ -127,10 +147,16 @@ class MagicLinkRepositoryImpl implements IMagicLinkService {
       final verifier = pkceResult.value;
       if (verifier != null) {
         codeVerifier = verifier;
-        final preview = verifier.length > 20 ? '${verifier.substring(0, 20)}...' : verifier;
-        AppLogger.info('[AUTH] PKCE: Successfully retrieved code_verifier: $preview (${verifier.length} chars)');
+        final preview = verifier.length > 20
+            ? '${verifier.substring(0, 20)}...'
+            : verifier;
+        AppLogger.info(
+          '[AUTH] PKCE: Successfully retrieved code_verifier: $preview (${verifier.length} chars)',
+        );
       } else {
-        AppLogger.warning('[AUTH] PKCE: Retrieved code_verifier is NULL - backend will reject this request');
+        AppLogger.warning(
+          '[AUTH] PKCE: Retrieved code_verifier is NULL - backend will reject this request',
+        );
       }
     }
 
@@ -140,9 +166,13 @@ class MagicLinkRepositoryImpl implements IMagicLinkService {
     );
 
     if (codeVerifier != null) {
-      AppLogger.info('[AUTH] PKCE: Including code_verifier in magic link verification request');
+      AppLogger.info(
+        '[AUTH] PKCE: Including code_verifier in magic link verification request',
+      );
     } else {
-      AppLogger.warning('[AUTH] PKCE: Sending magic link verification WITHOUT code_verifier - will likely fail');
+      AppLogger.warning(
+        '[AUTH] PKCE: Sending magic link verification WITHOUT code_verifier - will likely fail',
+      );
     }
 
     // STEP 2: Verify magic link via NetworkErrorHandler
@@ -165,12 +195,16 @@ class MagicLinkRepositoryImpl implements IMagicLinkService {
       ok: (response) async {
         AppLogger.info('[AUTH] API returned success, processing response...');
         // NEVER log token values - only length for debugging
-        AppLogger.debug('[AUTH] Response data: token length=${response.accessToken.length}');
+        AppLogger.debug(
+          '[AUTH] Response data: token length=${response.accessToken.length}',
+        );
 
         try {
           // STEP 2.5: CRITICAL FIX - Store tokens BEFORE processing invitation
           // This is required because joinFamily needs authenticated API calls
-          final expiresAt = DateTime.now().add(Duration(seconds: response.expiresIn));
+          final expiresAt = DateTime.now().add(
+            Duration(seconds: response.expiresIn),
+          );
           final storeTokensResult = await _authLocalDatasource.storeTokens(
             accessToken: response.accessToken,
             refreshToken: response.refreshToken,
@@ -178,27 +212,39 @@ class MagicLinkRepositoryImpl implements IMagicLinkService {
           );
 
           if (storeTokensResult.isErr) {
-            AppLogger.error('[AUTH] CRITICAL: Failed to store tokens before invitation processing');
-            return const Left(ApiFailure(
-              code: 'auth.token_storage_failed',
-              message: 'Failed to store authentication tokens',
-              statusCode: 500,
-            ));
+            AppLogger.error(
+              '[AUTH] CRITICAL: Failed to store tokens before invitation processing',
+            );
+            return const Left(
+              ApiFailure(
+                code: 'auth.token_storage_failed',
+                message: 'Failed to store authentication tokens',
+                statusCode: 500,
+              ),
+            );
           }
 
-          AppLogger.info('[AUTH] ✅ Tokens stored successfully - proceeding with invitation processing');
+          AppLogger.info(
+            '[AUTH] ✅ Tokens stored successfully - proceeding with invitation processing',
+          );
 
           // STEP 3: Process invitation if inviteCode is present
           // NOTE: Token storage must happen BEFORE invitation processing (done above)
           Map<String, dynamic>? invitationResult;
           if (inviteCode != null && inviteCode.isNotEmpty) {
-            AppLogger.info('[AUTH] Magic Link Invitation: Processing invitation with code: $inviteCode');
+            AppLogger.info(
+              '[AUTH] Magic Link Invitation: Processing invitation with code: $inviteCode',
+            );
             try {
               // Accept the family invitation using FamilyRepository
-              final invitationResponse = await _familyRepository.joinFamily(inviteCode: inviteCode);
+              final invitationResponse = await _familyRepository.joinFamily(
+                inviteCode: inviteCode,
+              );
               invitationResponse.fold(
                 (failure) {
-                  AppLogger.warning('[AUTH] Magic Link Invitation: Failed to join family: ${failure.message}');
+                  AppLogger.warning(
+                    '[AUTH] Magic Link Invitation: Failed to join family: ${failure.message}',
+                  );
                   invitationResult = {
                     'processed': false,
                     'invitationType': 'FAMILY',
@@ -207,7 +253,9 @@ class MagicLinkRepositoryImpl implements IMagicLinkService {
                   };
                 },
                 (family) {
-                  AppLogger.info('[AUTH] Magic Link Invitation: Successfully joined family: ${family.name}');
+                  AppLogger.info(
+                    '[AUTH] Magic Link Invitation: Successfully joined family: ${family.name}',
+                  );
                   invitationResult = {
                     'processed': true,
                     'invitationType': 'FAMILY',
@@ -218,7 +266,10 @@ class MagicLinkRepositoryImpl implements IMagicLinkService {
                 },
               );
             } catch (e) {
-              AppLogger.error('[AUTH] Magic Link Invitation: Exception processing invitation', e);
+              AppLogger.error(
+                '[AUTH] Magic Link Invitation: Exception processing invitation',
+                e,
+              );
               invitationResult = {
                 'processed': false,
                 'invitationType': 'FAMILY',
@@ -230,32 +281,48 @@ class MagicLinkRepositoryImpl implements IMagicLinkService {
 
           // STEP 5: Return MagicLinkVerificationResult with user data and invitation result
           AppLogger.info('[AUTH] Magic link verification successful');
-          return Right(domain.MagicLinkVerificationResult(
-            user: {
-              'id': response.user.id,
-              'email': response.user.email,
-              'name': response.user.name,
-              'createdAt': (response.user.createdAt ?? DateTime.now()).toIso8601String(),
-              'updatedAt': (response.user.updatedAt ?? DateTime.now()).toIso8601String(),
-              'isBiometricEnabled': response.user.isBiometricEnabled,
-            },
-            token: response.accessToken,
-            refreshToken: response.refreshToken, // PHASE 2: Include refresh token
-            expiresIn: response.expiresIn, // PHASE 2: Include expiration in seconds
-            expiresAt: DateTime.now().add(Duration(seconds: response.expiresIn)),
-            invitationResult: invitationResult,
-          ));
+          return Right(
+            domain.MagicLinkVerificationResult(
+              user: {
+                'id': response.user.id,
+                'email': response.user.email,
+                'name': response.user.name,
+                'createdAt': (response.user.createdAt ?? DateTime.now())
+                    .toIso8601String(),
+                'updatedAt': (response.user.updatedAt ?? DateTime.now())
+                    .toIso8601String(),
+                'isBiometricEnabled': response.user.isBiometricEnabled,
+              },
+              token: response.accessToken,
+              refreshToken:
+                  response.refreshToken, // PHASE 2: Include refresh token
+              expiresIn:
+                  response.expiresIn, // PHASE 2: Include expiration in seconds
+              expiresAt: DateTime.now().add(
+                Duration(seconds: response.expiresIn),
+              ),
+              invitationResult: invitationResult,
+            ),
+          );
         } catch (innerError, innerStack) {
-          AppLogger.error('[AUTH] Error processing successful response', innerError, innerStack);
-          return const Left(ApiFailure(
-            code: 'auth.processing_error',
-            message: 'magic_link.errors.processing_error',
-            statusCode: 500,
-          ));
+          AppLogger.error(
+            '[AUTH] Error processing successful response',
+            innerError,
+            innerStack,
+          );
+          return const Left(
+            ApiFailure(
+              code: 'auth.processing_error',
+              message: 'magic_link.errors.processing_error',
+              statusCode: 500,
+            ),
+          );
         }
       },
       err: (failure) {
-        AppLogger.error('[AUTH] Magic link verification failed: ${failure.message}');
+        AppLogger.error(
+          '[AUTH] Magic link verification failed: ${failure.message}',
+        );
         return Left(failure);
       },
     );

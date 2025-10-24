@@ -36,6 +36,7 @@ class Vehicle extends Equatable {
     required this.createdAt,
     required this.updatedAt,
   });
+
   /// Create a copy of Vehicle with updated fields
   Vehicle copyWith({
     String? id,

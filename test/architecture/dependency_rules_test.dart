@@ -157,9 +157,10 @@ void main() {
             (file) => !isCompositionRoot(file.path),
           ) // Exclude composition roots
           .where(
-            (file) => !file.path.contains('onboarding_wizard_page.dart') &&
-                     !file.path.contains('app_router.dart') &&
-                     !file.path.contains('invitation_failure.dart'),
+            (file) =>
+                !file.path.contains('onboarding_wizard_page.dart') &&
+                !file.path.contains('app_router.dart') &&
+                !file.path.contains('invitation_failure.dart'),
           ) // Core files that legitimately need feature dependencies
           .toList();
 

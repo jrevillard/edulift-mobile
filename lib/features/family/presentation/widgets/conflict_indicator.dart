@@ -9,11 +9,7 @@ class ConflictIndicator extends StatelessWidget {
   final List<ScheduleConflict> conflicts;
   final VoidCallback? onTap;
 
-  const ConflictIndicator({
-    super.key,
-    required this.conflicts,
-    this.onTap,
-  });
+  const ConflictIndicator({super.key, required this.conflicts, this.onTap});
 
   @override
   Widget build(BuildContext context) {

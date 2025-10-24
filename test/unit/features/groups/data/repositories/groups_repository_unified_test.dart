@@ -147,29 +147,26 @@ void main() {
         },
       );
 
-      test(
-        'should return error when timeout error and no cache exists',
-        () async {
-          // Arrange - Simulate timeout error with empty cache
-          mockRemoteDataSource.setTimeoutException(
-            groupId: testGroupId,
-            message: 'Connection timeout',
-          );
+      test('should return error when timeout error and no cache exists', () async {
+        // Arrange - Simulate timeout error with empty cache
+        mockRemoteDataSource.setTimeoutException(
+          groupId: testGroupId,
+          message: 'Connection timeout',
+        );
 
-          fakeLocalDataSource.setCachedFamilies(testGroupId, []);
+        fakeLocalDataSource.setCachedFamilies(testGroupId, []);
 
-          // Act
-          final result = await repository.getGroupFamilies(testGroupId);
+        // Act
+        final result = await repository.getGroupFamilies(testGroupId);
 
-          // Assert - Timeout is network error, but empty cache means no fallback possible
-          expect(
-            result.isErr,
-            true,
-            reason:
-                'Timeout is network error, but empty cache means no fallback data available',
-          );
-        },
-      );
+        // Assert - Timeout is network error, but empty cache means no fallback possible
+        expect(
+          result.isErr,
+          true,
+          reason:
+              'Timeout is network error, but empty cache means no fallback data available',
+        );
+      });
 
       test(
         'should handle timeout as network error with cache fallback',

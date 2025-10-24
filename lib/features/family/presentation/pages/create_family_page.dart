@@ -38,10 +38,12 @@ class _CreateFamilyPageState extends ConsumerState<CreateFamilyPage>
     ref.read(navigationStateProvider.notifier).clearNavigation();
 
     // Navigate back to onboarding wizard
-    ref.read(navigationStateProvider.notifier).navigateTo(
-      route: '/onboarding/wizard',
-      trigger: NavigationTrigger.userNavigation,
-    );
+    ref
+        .read(navigationStateProvider.notifier)
+        .navigateTo(
+          route: '/onboarding/wizard',
+          trigger: NavigationTrigger.userNavigation,
+        );
   }
 
   @override
@@ -50,7 +52,10 @@ class _CreateFamilyPageState extends ConsumerState<CreateFamilyPage>
     final state = ref.watch(createFamilyComposedProvider);
 
     // Listen for successful creation and navigate
-    ref.listen<CreateFamilyState>(createFamilyComposedProvider, (previous, current) {
+    ref.listen<CreateFamilyState>(createFamilyComposedProvider, (
+      previous,
+      current,
+    ) {
       if (current.isSuccess && mounted) {
         // Family creation succeeded - clear previous navigation and navigate to dashboard
         ref.read(navigationStateProvider.notifier).clearNavigation();
@@ -67,25 +72,23 @@ class _CreateFamilyPageState extends ConsumerState<CreateFamilyPage>
         // Show error in snackbar for better user feedback
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text(
-              () {
-                final errorKey = current.error ?? 'errorGeneral';
-                switch (errorKey) {
-                  case 'errorNetwork':
-                  case 'errorNetworkGeneral':
-                    return AppLocalizations.of(context).errorNetworkMessage;
-                  case 'errorServer':
-                  case 'errorServerGeneral':
-                    return AppLocalizations.of(context).errorServerMessage;
-                  case 'errorAuth':
-                    return AppLocalizations.of(context).errorAuthMessage;
-                  case 'errorValidation':
-                    return AppLocalizations.of(context).errorValidationMessage;
-                  default:
-                    return AppLocalizations.of(context).errorUnexpectedMessage;
-                }
-              }(),
-            ),
+            content: Text(() {
+              final errorKey = current.error ?? 'errorGeneral';
+              switch (errorKey) {
+                case 'errorNetwork':
+                case 'errorNetworkGeneral':
+                  return AppLocalizations.of(context).errorNetworkMessage;
+                case 'errorServer':
+                case 'errorServerGeneral':
+                  return AppLocalizations.of(context).errorServerMessage;
+                case 'errorAuth':
+                  return AppLocalizations.of(context).errorAuthMessage;
+                case 'errorValidation':
+                  return AppLocalizations.of(context).errorValidationMessage;
+                default:
+                  return AppLocalizations.of(context).errorUnexpectedMessage;
+              }
+            }()),
             backgroundColor: Theme.of(context).colorScheme.error,
           ),
         );
@@ -161,12 +164,15 @@ class _CreateFamilyPageState extends ConsumerState<CreateFamilyPage>
                               onChanged: (_) {
                                 // Clear error when user starts typing
                                 if (state.error != null) {
-                                  ref.read(createFamilyComposedProvider.notifier).clearError();
+                                  ref
+                                      .read(
+                                        createFamilyComposedProvider.notifier,
+                                      )
+                                      .clearError();
                                 }
                               },
                               decoration: InputDecoration(
-                                hintText:
-                                    l10n.enterFamilyNameHint,
+                                hintText: l10n.enterFamilyNameHint,
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(8),
                                 ),
@@ -200,7 +206,11 @@ class _CreateFamilyPageState extends ConsumerState<CreateFamilyPage>
                               onChanged: (_) {
                                 // Clear error when user starts typing
                                 if (state.error != null) {
-                                  ref.read(createFamilyComposedProvider.notifier).clearError();
+                                  ref
+                                      .read(
+                                        createFamilyComposedProvider.notifier,
+                                      )
+                                      .clearError();
                                 }
                               },
                               decoration: InputDecoration(
@@ -229,7 +239,9 @@ class _CreateFamilyPageState extends ConsumerState<CreateFamilyPage>
                                 Semantics(
                                   label: l10n.createFamilyButtonLabel,
                                   child: ElevatedButton(
-                                    key: const Key('submit_create_family_button'),
+                                    key: const Key(
+                                      'submit_create_family_button',
+                                    ),
                                     onPressed: state.isLoading
                                         ? null
                                         : _handleCreateFamily,
@@ -252,17 +264,27 @@ class _CreateFamilyPageState extends ConsumerState<CreateFamilyPage>
                                                     ),
                                               ),
                                               const SizedBox(width: 8),
-                                              Text(AppLocalizations.of(context).creating),
+                                              Text(
+                                                AppLocalizations.of(
+                                                  context,
+                                                ).creating,
+                                              ),
                                             ],
                                           )
-                                        : Text(AppLocalizations.of(context).createFamily),
+                                        : Text(
+                                            AppLocalizations.of(
+                                              context,
+                                            ).createFamily,
+                                          ),
                                   ),
                                 ),
                                 const SizedBox(height: 8),
                                 Semantics(
                                   label: l10n.cancelButtonLabel,
                                   child: OutlinedButton(
-                                    key: const Key('cancelFamilyCreationButton'),
+                                    key: const Key(
+                                      'cancelFamilyCreationButton',
+                                    ),
                                     onPressed: state.isLoading
                                         ? null
                                         : _navigateBackToOnboarding,
@@ -271,7 +293,9 @@ class _CreateFamilyPageState extends ConsumerState<CreateFamilyPage>
                                         vertical: 16,
                                       ),
                                     ),
-                                    child: Text(AppLocalizations.of(context).cancel),
+                                    child: Text(
+                                      AppLocalizations.of(context).cancel,
+                                    ),
                                   ),
                                 ),
                               ],
@@ -283,7 +307,9 @@ class _CreateFamilyPageState extends ConsumerState<CreateFamilyPage>
                                   child: Semantics(
                                     label: l10n.cancelButtonLabel,
                                     child: OutlinedButton(
-                                      key: const Key('cancelFamilyCreationButton'),
+                                      key: const Key(
+                                        'cancelFamilyCreationButton',
+                                      ),
                                       onPressed: state.isLoading
                                           ? null
                                           : _navigateBackToOnboarding,
@@ -292,7 +318,9 @@ class _CreateFamilyPageState extends ConsumerState<CreateFamilyPage>
                                           vertical: 16,
                                         ),
                                       ),
-                                      child: Text(AppLocalizations.of(context).cancel),
+                                      child: Text(
+                                        AppLocalizations.of(context).cancel,
+                                      ),
                                     ),
                                   ),
                                 ),
@@ -302,7 +330,9 @@ class _CreateFamilyPageState extends ConsumerState<CreateFamilyPage>
                                   child: Semantics(
                                     label: l10n.createFamilyButtonLabel,
                                     child: ElevatedButton(
-                                      key: const Key('submit_create_family_button'),
+                                      key: const Key(
+                                        'submit_create_family_button',
+                                      ),
                                       onPressed: state.isLoading
                                           ? null
                                           : _handleCreateFamily,
@@ -325,10 +355,18 @@ class _CreateFamilyPageState extends ConsumerState<CreateFamilyPage>
                                                       ),
                                                 ),
                                                 const SizedBox(width: 8),
-                                                Text(AppLocalizations.of(context).creating),
+                                                Text(
+                                                  AppLocalizations.of(
+                                                    context,
+                                                  ).creating,
+                                                ),
                                               ],
                                             )
-                                          : Text(AppLocalizations.of(context).createFamily),
+                                          : Text(
+                                              AppLocalizations.of(
+                                                context,
+                                              ).createFamily,
+                                            ),
                                     ),
                                   ),
                                 ),

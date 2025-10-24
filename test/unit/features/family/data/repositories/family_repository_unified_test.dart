@@ -153,7 +153,10 @@ void main() {
             reason:
                 'HTTP 404 means user has no family - this is a valid state, not an error',
           );
-          expect(result.value, equals(null)); // Should return null for no family
+          expect(
+            result.value,
+            equals(null),
+          ); // Should return null for no family
         },
       );
     });

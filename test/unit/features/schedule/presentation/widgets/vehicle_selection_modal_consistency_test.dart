@@ -102,9 +102,7 @@ void main() {
       expect(vehicles0800.isEmpty, true); // ✅ This is what subtitle checks
 
       // WHEN: Get ALL vehicles (no time filter) - OLD BUGGY METHOD
-      final allVehicles = [
-        ...slots.expand((slot) => slot.vehicleAssignments)
-      ];
+      final allVehicles = [...slots.expand((slot) => slot.vehicleAssignments)];
 
       // THEN: Would incorrectly show vehicle even for 08:00!
       expect(allVehicles.length, 1); // ❌ BUG: Shows vehicle for empty slot
@@ -167,7 +165,10 @@ void main() {
       expect(vehiclesAt0800.isEmpty, true); // ✅ Correct for 08:00
 
       // Old content check: allVehiclesInPeriod.isNotEmpty == true → Shows MG4!
-      expect(allVehiclesInPeriod.isNotEmpty, true); // ❌ BUG: Shows vehicle from 07:30
+      expect(
+        allVehiclesInPeriod.isNotEmpty,
+        true,
+      ); // ❌ BUG: Shows vehicle from 07:30
 
       // RESULT: UI said "No vehicles" but listed MG4 below!
 

@@ -48,9 +48,7 @@ class _VehiclesPageState extends ConsumerState<VehiclesPage> {
       default:
         // If it's already a user-friendly message from domain failures, use it directly
         // Otherwise fall back to generic error
-        return errorKey.length > 50
-            ? errorKey
-            : l10n.errorServerGeneral;
+        return errorKey.length > 50 ? errorKey : l10n.errorServerGeneral;
     }
   }
 
@@ -167,10 +165,18 @@ class _VehiclesPageState extends ConsumerState<VehiclesPage> {
             controller: _scrollController,
             padding: EdgeInsets.all(isTablet ? 24.0 : 16.0),
             itemCount: state.vehicles.length,
-            separatorBuilder: (context, index) => SizedBox(height: isSmallScreen ? 8 : 12),
+            separatorBuilder: (context, index) =>
+                SizedBox(height: isSmallScreen ? 8 : 12),
             itemBuilder: (context, index) {
               final vehicle = state.vehicles[index];
-              return _buildVehicleCard(context, vehicle, state, theme, isTablet, isSmallScreen);
+              return _buildVehicleCard(
+                context,
+                vehicle,
+                state,
+                theme,
+                isTablet,
+                isSmallScreen,
+              );
             },
           ),
         ),
@@ -190,19 +196,23 @@ class _VehiclesPageState extends ConsumerState<VehiclesPage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Icon(
-              Icons.directions_car_outlined, 
+              Icons.directions_car_outlined,
               size: 120,
               color: theme.colorScheme.outline,
             ),
             const SizedBox(height: 24),
             Text(
               l10n.noVehicles,
-              style: theme.textTheme.headlineMedium?.copyWith(color: theme.colorScheme.onSurface),
+              style: theme.textTheme.headlineMedium?.copyWith(
+                color: theme.colorScheme.onSurface,
+              ),
             ),
             const SizedBox(height: 12),
             Text(
               l10n.addFirstVehicle,
-              style: theme.textTheme.bodyLarge?.copyWith(color: theme.colorScheme.onSurfaceVariant),
+              style: theme.textTheme.bodyLarge?.copyWith(
+                color: theme.colorScheme.onSurfaceVariant,
+              ),
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: 32),
@@ -241,7 +251,9 @@ class _VehiclesPageState extends ConsumerState<VehiclesPage> {
                   children: [
                     Text(
                       l10n.vehicles,
-                      style: theme.textTheme.bodyMedium?.copyWith(color: theme.colorScheme.onSurfaceVariant),
+                      style: theme.textTheme.bodyMedium?.copyWith(
+                        color: theme.colorScheme.onSurfaceVariant,
+                      ),
                     ),
                     const SizedBox(height: 4),
                     Text(
@@ -261,7 +273,9 @@ class _VehiclesPageState extends ConsumerState<VehiclesPage> {
                   children: [
                     Text(
                       l10n.totalCapacity,
-                      style: theme.textTheme.bodyMedium?.copyWith(color: theme.colorScheme.onSurfaceVariant),
+                      style: theme.textTheme.bodyMedium?.copyWith(
+                        color: theme.colorScheme.onSurfaceVariant,
+                      ),
                     ),
                     const SizedBox(height: 4),
                     Text(
@@ -275,30 +289,33 @@ class _VehiclesPageState extends ConsumerState<VehiclesPage> {
                 ),
               ),
 
-                // Status indicator
-                Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                  decoration: BoxDecoration(
+              // Status indicator
+              Container(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 12,
+                  vertical: 6,
+                ),
+                decoration: BoxDecoration(
+                  color: state.hasVehicles
+                      ? theme.colorScheme.primaryContainer
+                      : theme.colorScheme.errorContainer,
+                  borderRadius: BorderRadius.circular(16),
+                ),
+                child: Text(
+                  state.hasVehicles ? l10n.active : l10n.none,
+                  style: theme.textTheme.bodySmall?.copyWith(
                     color: state.hasVehicles
-                        ? theme.colorScheme.primaryContainer
-                        : theme.colorScheme.errorContainer,
-                    borderRadius: BorderRadius.circular(16),
-                  ),
-                  child: Text(
-                    state.hasVehicles ? l10n.active : l10n.none,
-                    style: theme.textTheme.bodySmall?.copyWith(
-                      color: state.hasVehicles
-                          ? theme.colorScheme.onPrimaryContainer
-                          : theme.colorScheme.onErrorContainer,
-                      fontWeight: FontWeight.w500,
-                    ),
+                        ? theme.colorScheme.onPrimaryContainer
+                        : theme.colorScheme.onErrorContainer,
+                    fontWeight: FontWeight.w500,
                   ),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
-      );
+      ),
+    );
   }
 
   Widget _buildVehicleCard(
@@ -350,7 +367,9 @@ class _VehiclesPageState extends ConsumerState<VehiclesPage> {
                             Expanded(
                               child: Text(
                                 vehicle.name,
-                                style: theme.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w600),
+                                style: theme.textTheme.titleMedium?.copyWith(
+                                  fontWeight: FontWeight.w600,
+                                ),
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
                               ),
@@ -358,14 +377,19 @@ class _VehiclesPageState extends ConsumerState<VehiclesPage> {
                             if (isTemporary) ...[
                               const SizedBox(width: 8),
                               Container(
-                                padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 6,
+                                  vertical: 2,
+                                ),
                                 decoration: BoxDecoration(
                                   color: theme.colorScheme.tertiary,
                                   borderRadius: BorderRadius.circular(4),
                                 ),
                                 child: Text(
                                   AppLocalizations.of(context).sync,
-                                  style: theme.textTheme.labelSmall?.copyWith(color: theme.colorScheme.onTertiary),
+                                  style: theme.textTheme.labelSmall?.copyWith(
+                                    color: theme.colorScheme.onTertiary,
+                                  ),
                                 ),
                               ),
                             ],
@@ -374,7 +398,9 @@ class _VehiclesPageState extends ConsumerState<VehiclesPage> {
                         const SizedBox(height: 2),
                         Text(
                           '${vehicle.capacity} ${AppLocalizations.of(context).seats}',
-                          style: theme.textTheme.bodyMedium?.copyWith(color: theme.colorScheme.onSurfaceVariant),
+                          style: theme.textTheme.bodyMedium?.copyWith(
+                            color: theme.colorScheme.onSurfaceVariant,
+                          ),
                         ),
                       ],
                     ),
@@ -452,7 +478,9 @@ class _VehiclesPageState extends ConsumerState<VehiclesPage> {
                 const SizedBox(height: 8),
                 Text(
                   vehicle.description!,
-                  style: theme.textTheme.bodySmall?.copyWith(color: theme.colorScheme.onSurfaceVariant),
+                  style: theme.textTheme.bodySmall?.copyWith(
+                    color: theme.colorScheme.onSurfaceVariant,
+                  ),
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                 ),
@@ -486,7 +514,9 @@ class _VehiclesPageState extends ConsumerState<VehiclesPage> {
           children: [
             Text(
               l10n.usage,
-              style: theme.textTheme.bodySmall?.copyWith(color: theme.colorScheme.onSurfaceVariant),
+              style: theme.textTheme.bodySmall?.copyWith(
+                color: theme.colorScheme.onSurfaceVariant,
+              ),
             ),
             Text(
               '$currentUsage/${vehicle.capacity}',
@@ -522,26 +552,32 @@ class _VehiclesPageState extends ConsumerState<VehiclesPage> {
   Future<void> _refreshVehicles() async {
     await ref.read(familyComposedProvider.notifier).loadVehicles();
   }
-  
+
   void _navigateToAddVehicle(BuildContext context) {
-    ref.read(navigationStateProvider.notifier).navigateTo(
-      route: '/vehicles/add',
-      trigger: NavigationTrigger.userNavigation,
-    );
+    ref
+        .read(navigationStateProvider.notifier)
+        .navigateTo(
+          route: '/vehicles/add',
+          trigger: NavigationTrigger.userNavigation,
+        );
   }
 
   void _navigateToVehicleDetails(BuildContext context, String vehicleId) {
-    ref.read(navigationStateProvider.notifier).navigateTo(
-      route: '/vehicles/$vehicleId',
-      trigger: NavigationTrigger.userNavigation,
-    );
+    ref
+        .read(navigationStateProvider.notifier)
+        .navigateTo(
+          route: '/vehicles/$vehicleId',
+          trigger: NavigationTrigger.userNavigation,
+        );
   }
 
   void _navigateToEditVehicle(BuildContext context, String vehicleId) {
-    ref.read(navigationStateProvider.notifier).navigateTo(
-      route: '/vehicles/$vehicleId/edit',
-      trigger: NavigationTrigger.userNavigation,
-    );
+    ref
+        .read(navigationStateProvider.notifier)
+        .navigateTo(
+          route: '/vehicles/$vehicleId/edit',
+          trigger: NavigationTrigger.userNavigation,
+        );
   }
 
   void _handleVehicleAction(BuildContext context, String action, vehicle) {
@@ -557,7 +593,7 @@ class _VehiclesPageState extends ConsumerState<VehiclesPage> {
         break;
     }
   }
-  
+
   void _showDeleteConfirmation(BuildContext context, vehicle) {
     final l10n = AppLocalizations.of(context);
     showDialog(
@@ -575,7 +611,9 @@ class _VehiclesPageState extends ConsumerState<VehiclesPage> {
             key: const Key('vehiclesPage_deleteConfirm_button'),
             onPressed: () {
               Navigator.of(context).pop();
-              ref.read(familyComposedProvider.notifier).deleteVehicle(vehicle.id);
+              ref
+                  .read(familyComposedProvider.notifier)
+                  .deleteVehicle(vehicle.id);
             },
             style: FilledButton.styleFrom(
               backgroundColor: Theme.of(context).colorScheme.error,

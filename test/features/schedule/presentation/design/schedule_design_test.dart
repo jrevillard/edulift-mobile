@@ -5,8 +5,9 @@ import 'package:edulift/features/schedule/presentation/design/schedule_design.da
 
 void main() {
   group('AppColors (Schedule semantics)', () {
-    testWidgets('should provide theme-aware colors in light mode',
-        (tester) async {
+    testWidgets('should provide theme-aware colors in light mode', (
+      tester,
+    ) async {
       late BuildContext capturedContext;
 
       await tester.pumpWidget(
@@ -34,7 +35,10 @@ void main() {
       expect(AppColors.textPrimaryThemed(capturedContext), isA<Color>());
       expect(AppColors.textSecondaryThemed(capturedContext), isA<Color>());
       expect(AppColors.textDisabled(capturedContext), isA<Color>());
-      expect(AppColors.onSurfaceVariant(capturedContext).withValues(alpha: 0.4), isA<Color>());
+      expect(
+        AppColors.onSurfaceVariant(capturedContext).withValues(alpha: 0.4),
+        isA<Color>(),
+      );
     });
 
     testWidgets('should provide correct colors in dark mode', (tester) async {
@@ -57,10 +61,16 @@ void main() {
       final partialColor = AppColors.statusPartial(capturedContext);
 
       // Uses Material 3 semantic colors for guaranteed contrast
-      expect(availableColor, isA<Color>(),
-          reason: 'slotAvailable should use Material 3 secondaryContainer');
-      expect(partialColor, isA<Color>(),
-          reason: 'slotPartial should use Material 3 tertiaryContainer');
+      expect(
+        availableColor,
+        isA<Color>(),
+        reason: 'slotAvailable should use Material 3 secondaryContainer',
+      );
+      expect(
+        partialColor,
+        isA<Color>(),
+        reason: 'slotPartial should use Material 3 tertiaryContainer',
+      );
 
       // All theme-aware getters should work in dark mode
       expect(AppColors.statusEmpty(capturedContext), isA<Color>());
@@ -71,7 +81,10 @@ void main() {
       expect(AppColors.borderStrong(capturedContext), isA<Color>());
       expect(AppColors.textSecondaryThemed(capturedContext), isA<Color>());
       expect(AppColors.textDisabled(capturedContext), isA<Color>());
-      expect(AppColors.onSurfaceVariant(capturedContext).withValues(alpha: 0.4), isA<Color>());
+      expect(
+        AppColors.onSurfaceVariant(capturedContext).withValues(alpha: 0.4),
+        isA<Color>(),
+      );
     });
 
     test('should provide const colors', () {
@@ -168,14 +181,26 @@ void main() {
 
     test('should provide border radius values aligned with AppSpacing', () {
       // Verify radius values match global design system
-      expect(ScheduleDimensions.radiusSm, 4.0,
-          reason: 'Should match AppSpacing.radiusSm');
-      expect(ScheduleDimensions.radiusMd, 8.0,
-          reason: 'Should match AppSpacing.radiusMd');
-      expect(ScheduleDimensions.radiusLg, 12.0,
-          reason: 'Should match AppSpacing.radiusLg');
-      expect(ScheduleDimensions.radiusXl, 16.0,
-          reason: 'Should match AppSpacing.radiusXl');
+      expect(
+        ScheduleDimensions.radiusSm,
+        4.0,
+        reason: 'Should match AppSpacing.radiusSm',
+      );
+      expect(
+        ScheduleDimensions.radiusMd,
+        8.0,
+        reason: 'Should match AppSpacing.radiusMd',
+      );
+      expect(
+        ScheduleDimensions.radiusLg,
+        12.0,
+        reason: 'Should match AppSpacing.radiusLg',
+      );
+      expect(
+        ScheduleDimensions.radiusXl,
+        16.0,
+        reason: 'Should match AppSpacing.radiusXl',
+      );
     });
 
     test('should provide border radius configurations', () {
@@ -248,8 +273,9 @@ void main() {
     });
 
     group('Accessibility - getDuration', () {
-      testWidgets('should return zero duration when animations disabled',
-          (tester) async {
+      testWidgets('should return zero duration when animations disabled', (
+        tester,
+      ) async {
         late BuildContext capturedContext;
 
         await tester.pumpWidget(
@@ -276,8 +302,9 @@ void main() {
         );
       });
 
-      testWidgets('should return normal duration when animations enabled',
-          (tester) async {
+      testWidgets('should return normal duration when animations enabled', (
+        tester,
+      ) async {
         late BuildContext capturedContext;
 
         await tester.pumpWidget(
@@ -302,8 +329,9 @@ void main() {
     });
 
     group('Accessibility - getCurve', () {
-      testWidgets('should return linear curve when animations disabled',
-          (tester) async {
+      testWidgets('should return linear curve when animations disabled', (
+        tester,
+      ) async {
         late BuildContext capturedContext;
 
         await tester.pumpWidget(
@@ -330,8 +358,9 @@ void main() {
         );
       });
 
-      testWidgets('should return normal curve when animations enabled',
-          (tester) async {
+      testWidgets('should return normal curve when animations enabled', (
+        tester,
+      ) async {
         late BuildContext capturedContext;
 
         await tester.pumpWidget(
@@ -368,18 +397,42 @@ void main() {
 
     test('should maintain consistent spacing scale', () {
       // Verify spacing follows consistent scale
-      expect(ScheduleDimensions.spacingXs, lessThan(ScheduleDimensions.spacingSm));
-      expect(ScheduleDimensions.spacingSm, lessThan(ScheduleDimensions.spacingMd));
-      expect(ScheduleDimensions.spacingMd, lessThan(ScheduleDimensions.spacingLg));
-      expect(ScheduleDimensions.spacingLg, lessThan(ScheduleDimensions.spacingXl));
-      expect(ScheduleDimensions.spacingXl, lessThan(ScheduleDimensions.spacingXxl));
+      expect(
+        ScheduleDimensions.spacingXs,
+        lessThan(ScheduleDimensions.spacingSm),
+      );
+      expect(
+        ScheduleDimensions.spacingSm,
+        lessThan(ScheduleDimensions.spacingMd),
+      );
+      expect(
+        ScheduleDimensions.spacingMd,
+        lessThan(ScheduleDimensions.spacingLg),
+      );
+      expect(
+        ScheduleDimensions.spacingLg,
+        lessThan(ScheduleDimensions.spacingXl),
+      );
+      expect(
+        ScheduleDimensions.spacingXl,
+        lessThan(ScheduleDimensions.spacingXxl),
+      );
     });
 
     test('should maintain consistent radius scale', () {
       // Verify radius follows consistent scale
-      expect(ScheduleDimensions.radiusSm, lessThan(ScheduleDimensions.radiusMd));
-      expect(ScheduleDimensions.radiusMd, lessThan(ScheduleDimensions.radiusLg));
-      expect(ScheduleDimensions.radiusLg, lessThan(ScheduleDimensions.radiusXl));
+      expect(
+        ScheduleDimensions.radiusSm,
+        lessThan(ScheduleDimensions.radiusMd),
+      );
+      expect(
+        ScheduleDimensions.radiusMd,
+        lessThan(ScheduleDimensions.radiusLg),
+      );
+      expect(
+        ScheduleDimensions.radiusLg,
+        lessThan(ScheduleDimensions.radiusXl),
+      );
     });
 
     test('should maintain consistent elevation scale', () {

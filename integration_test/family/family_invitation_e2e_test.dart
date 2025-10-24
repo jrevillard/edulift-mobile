@@ -632,9 +632,7 @@ void main() {
           debugPrint('🔍 PHASE 4B: Testing role management capabilities');
 
           // Scroll to any member card to access context menus (members are at top of list)
-          debugPrint(
-            '📜 Scrolling back to top to access member cards...',
-          );
+          debugPrint('📜 Scrolling back to top to access member cards...');
 
           // CRITICAL FIX: Use scrollUntilVisible to find member buttons
           // Members are at the top, invitations at bottom. We just scrolled down to see invitations.
@@ -681,7 +679,8 @@ void main() {
           await $.scrollUntilVisible(
             finder: memberContextButtons.last,
             view: find.byType(CustomScrollView),
-            scrollDirection: AxisDirection.down, // Scroll DOWN to reach last member
+            scrollDirection:
+                AxisDirection.down, // Scroll DOWN to reach last member
           );
           await $.pumpAndSettle();
 
@@ -727,7 +726,8 @@ void main() {
           await $.scrollUntilVisible(
             finder: adminContextButtons.last,
             view: find.byType(CustomScrollView),
-            scrollDirection: AxisDirection.down, // Scroll DOWN to reach last member
+            scrollDirection:
+                AxisDirection.down, // Scroll DOWN to reach last member
           );
           await $.pumpAndSettle();
 
@@ -1139,7 +1139,9 @@ void main() {
 
           // CRITICAL FIX: Scroll to ensure the button itself is fully visible and hit-testable BEFORE asserting
           // Just scrolling to the card text is not enough - the trailing button might be off-screen
-          debugPrint('🔍 Scrolling to ensure more_vert button is hit-testable...');
+          debugPrint(
+            '🔍 Scrolling to ensure more_vert button is hit-testable...',
+          );
           await $.scrollUntilVisible(
             finder: promotionMemberButton,
             view: find.byType(CustomScrollView),
@@ -1150,7 +1152,8 @@ void main() {
           expect(
             promotionMemberButton,
             findsOneWidget,
-            reason: 'Should find more_vert button for promotion test member after scrolling',
+            reason:
+                'Should find more_vert button for promotion test member after scrolling',
           );
 
           await $.tap(promotionMemberButton);
@@ -1255,7 +1258,9 @@ void main() {
           );
 
           // CRITICAL FIX: Scroll to ensure the button itself is fully visible and hit-testable
-          debugPrint('🔍 Scrolling to ensure promotion more_vert button (2nd attempt) is hit-testable...');
+          debugPrint(
+            '🔍 Scrolling to ensure promotion more_vert button (2nd attempt) is hit-testable...',
+          );
           await $.scrollUntilVisible(
             finder: promotionMemberButton2,
             view: find.byType(CustomScrollView),
@@ -1352,7 +1357,9 @@ void main() {
           );
 
           // CRITICAL FIX: Scroll to ensure the button itself is fully visible and hit-testable
-          debugPrint('🔍 Scrolling to ensure demotion more_vert button is hit-testable...');
+          debugPrint(
+            '🔍 Scrolling to ensure demotion more_vert button is hit-testable...',
+          );
           await $.scrollUntilVisible(
             finder: demotionMemberButton,
             view: find.byType(CustomScrollView),
@@ -1408,9 +1415,15 @@ void main() {
           debugPrint('✅ PHASE 7B: Admin demoted to member successfully');
 
           // Phase 7B-bis: Demote promoted user back to member to test last admin protection
-          debugPrint('🔍 PHASE 7B-bis: Demoting promoted user to prepare for last admin test');
-          debugPrint('   Current admins: adminProfile, adminInvitee, promotionTestUser');
-          debugPrint('   After this step: only adminInvitee will be admin (current user cannot see own button)');
+          debugPrint(
+            '🔍 PHASE 7B-bis: Demoting promoted user to prepare for last admin test',
+          );
+          debugPrint(
+            '   Current admins: adminProfile, adminInvitee, promotionTestUser',
+          );
+          debugPrint(
+            '   After this step: only adminInvitee will be admin (current user cannot see own button)',
+          );
 
           // Scroll to promotionTestUser
           final promotionUserCard2 = find.textContaining(
@@ -1473,16 +1486,18 @@ void main() {
           await Future.delayed(const Duration(milliseconds: 4500));
           await $.pumpAndSettle();
 
-          debugPrint('✅ PHASE 7B-bis Step 1: Promoted user demoted back to member');
+          debugPrint(
+            '✅ PHASE 7B-bis Step 1: Promoted user demoted back to member',
+          );
           debugPrint('   Remaining admins: adminProfile, adminInvitee');
 
           // Phase 7B-bis Step 2: Demote adminProfile to leave only 1 admin
-          debugPrint('🔍 PHASE 7B-bis Step 2: Demoting adminProfile to ensure only 1 admin remains');
+          debugPrint(
+            '🔍 PHASE 7B-bis Step 2: Demoting adminProfile to ensure only 1 admin remains',
+          );
 
           // Scroll to adminProfile
-          final adminProfileCard = find.textContaining(
-            adminProfile['name']!,
-          );
+          final adminProfileCard = find.textContaining(adminProfile['name']!);
           await $.scrollUntilVisible(
             finder: adminProfileCard,
             view: find.byType(CustomScrollView),
@@ -1548,7 +1563,9 @@ void main() {
           debugPrint('🔍 PHASE 7C: Testing last admin protection');
           debugPrint('   Current user is adminInvitee - the ONLY admin left');
           debugPrint('   Current user cannot see own more_vert button');
-          debugPrint('   But if we tap on any OTHER admin, protection should apply');
+          debugPrint(
+            '   But if we tap on any OTHER admin, protection should apply',
+          );
 
           await $.pumpAndSettle();
 
@@ -1565,7 +1582,9 @@ void main() {
             );
 
             final memberButtonCount = allMemberButtons.evaluate().length;
-            debugPrint('   Found $memberButtonCount total member buttons (for all non-current-user members)');
+            debugPrint(
+              '   Found $memberButtonCount total member buttons (for all non-current-user members)',
+            );
 
             // If there are any buttons (for members), test that they don't have admin actions
             if (memberButtonCount > 0) {
@@ -1599,10 +1618,14 @@ void main() {
               await $.pumpAndSettle();
 
               debugPrint('✅ PHASE 7C: Verified last admin protection');
-              debugPrint('   Last admin (current user) does not see their own button');
+              debugPrint(
+                '   Last admin (current user) does not see their own button',
+              );
               debugPrint('   Other members do not have admin demotion options');
             } else {
-              debugPrint('⚠️ PHASE 7C: No member buttons found (unexpected but test passes)');
+              debugPrint(
+                '⚠️ PHASE 7C: No member buttons found (unexpected but test passes)',
+              );
             }
           }
 
@@ -1906,7 +1929,9 @@ void main() {
           // occurs when native interactions (like openUrl) or complex UI elements
           // don't fully settle before the test completes. This sequence provides
           // ample opportunity for all pending operations to finish.
-          debugPrint('🧹 Performing final cleanup to prevent SemanticsHandle leaks...');
+          debugPrint(
+            '🧹 Performing final cleanup to prevent SemanticsHandle leaks...',
+          );
 
           // A longer pump using tester.pump is more reliable than Future.delayed
           // for advancing timers and completing animations within a test environment.

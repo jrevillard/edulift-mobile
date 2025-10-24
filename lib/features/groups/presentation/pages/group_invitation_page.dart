@@ -14,7 +14,8 @@ import '../../../../core/presentation/widgets/accessibility/accessible_button.da
 import '../../../../core/presentation/utils/responsive_breakpoints.dart';
 import '../../../../core/navigation/navigation_state.dart' as nav;
 import '../providers/group_invitation_provider.dart';
-import '../../../../core/network/group_api_client.dart' show GroupInvitationValidationData;
+import '../../../../core/network/group_api_client.dart'
+    show GroupInvitationValidationData;
 import '../../../auth/presentation/widgets/email_with_progressive_name.dart';
 import '../../../../core/presentation/mixins/navigation_cleanup_mixin.dart';
 
@@ -26,14 +27,16 @@ class GroupInvitationPage extends ConsumerStatefulWidget {
   const GroupInvitationPage({super.key, this.inviteCode});
 
   @override
-  ConsumerState<GroupInvitationPage> createState() => _GroupInvitationPageState();
+  ConsumerState<GroupInvitationPage> createState() =>
+      _GroupInvitationPageState();
 }
 
 class _GroupInvitationPageState extends ConsumerState<GroupInvitationPage>
     with NavigationCleanupMixin {
   final _manualCodeController = TextEditingController();
   final _nameController = TextEditingController();
-  final _emailController = TextEditingController(); // Added for progressive disclosure
+  final _emailController =
+      TextEditingController(); // Added for progressive disclosure
   final _formKey = GlobalKey<FormState>();
   bool _showSignupForm = false;
 
@@ -45,7 +48,9 @@ class _GroupInvitationPageState extends ConsumerState<GroupInvitationPage>
     // Auto-validate if invite code provided
     if (widget.inviteCode != null) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
-        ref.read(groupInvitationProvider.notifier).validateInvitation(widget.inviteCode!);
+        ref
+            .read(groupInvitationProvider.notifier)
+            .validateInvitation(widget.inviteCode!);
       });
     }
   }
@@ -111,10 +116,12 @@ class _GroupInvitationPageState extends ConsumerState<GroupInvitationPage>
   /// Navigate back to groups page with proper state cleanup
   void _navigateBackToGroups() {
     ref.read(nav.navigationStateProvider.notifier).clearNavigation();
-    ref.read(nav.navigationStateProvider.notifier).navigateTo(
-      route: '/groups',
-      trigger: nav.NavigationTrigger.userNavigation,
-    );
+    ref
+        .read(nav.navigationStateProvider.notifier)
+        .navigateTo(
+          route: '/groups',
+          trigger: nav.NavigationTrigger.userNavigation,
+        );
   }
 
   void _handleJoinGroup() async {
@@ -129,10 +136,12 @@ class _GroupInvitationPageState extends ConsumerState<GroupInvitationPage>
       if (result && mounted) {
         // EXPLICIT NAVIGATION: Navigate to groups page after successful group join
         ref.read(nav.navigationStateProvider.notifier).clearNavigation();
-        ref.read(nav.navigationStateProvider.notifier).navigateTo(
-          route: '/groups',
-          trigger: nav.NavigationTrigger.userNavigation,
-        );
+        ref
+            .read(nav.navigationStateProvider.notifier)
+            .navigateTo(
+              route: '/groups',
+              trigger: nav.NavigationTrigger.userNavigation,
+            );
       }
     }
   }
@@ -158,14 +167,26 @@ class _GroupInvitationPageState extends ConsumerState<GroupInvitationPage>
           ),
           child: Center(
             child: SingleChildScrollView(
-              padding: context.getAdaptivePadding(mobileAll: 16, tabletAll: 24, desktopAll: 32),
+              padding: context.getAdaptivePadding(
+                mobileAll: 16,
+                tabletAll: 24,
+                desktopAll: 32,
+              ),
               child: Card(
                 elevation: 8,
                 child: Padding(
-                  padding: context.getAdaptivePadding(mobileAll: 20, tabletAll: 24, desktopAll: 32),
+                  padding: context.getAdaptivePadding(
+                    mobileAll: 20,
+                    tabletAll: 24,
+                    desktopAll: 32,
+                  ),
                   child: ConstrainedBox(
                     constraints: BoxConstraints(
-                      maxWidth: context.getAdaptiveSpacing(mobile: 380, tablet: 420, desktop: 480)
+                      maxWidth: context.getAdaptiveSpacing(
+                        mobile: 380,
+                        tablet: 420,
+                        desktop: 480,
+                      ),
                     ),
                     child: _buildContent(context, state, authState, theme),
                   ),
@@ -212,7 +233,10 @@ class _GroupInvitationPageState extends ConsumerState<GroupInvitationPage>
     if (state.validation != null && state.validation!.valid == false) {
       if (isManualEntry) {
         // Show manual input with error key inline (user can correct and retry)
-        return _buildManualCodeInput(theme, errorKey: state.error ?? 'errorInvitationCodeInvalid');
+        return _buildManualCodeInput(
+          theme,
+          errorKey: state.error ?? 'errorInvitationCodeInvalid',
+        );
       } else {
         // Show full error screen for deep link failures
         return _buildErrorState(state, theme);
@@ -280,16 +304,22 @@ class _GroupInvitationPageState extends ConsumerState<GroupInvitationPage>
         if (canGoBack) {
           Navigator.of(context).pop();
         } else {
-          ref.read(nav.navigationStateProvider.notifier).navigateTo(
-            route: '/dashboard',
-            trigger: nav.NavigationTrigger.userNavigation,
-          );
+          ref
+              .read(nav.navigationStateProvider.notifier)
+              .navigateTo(
+                route: '/dashboard',
+                trigger: nav.NavigationTrigger.userNavigation,
+              );
         }
       },
     );
   }
 
-  Widget _buildInvitationContent(GroupInvitationState state, AuthState authState, ThemeData theme) {
+  Widget _buildInvitationContent(
+    GroupInvitationState state,
+    AuthState authState,
+    ThemeData theme,
+  ) {
     final validation = state.validation!;
     final l10n = AppLocalizations.of(context);
     final screenWidth = MediaQuery.of(context).size.width;
@@ -298,19 +328,22 @@ class _GroupInvitationPageState extends ConsumerState<GroupInvitationPage>
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        Icon(Icons.group,
+        Icon(
+          Icons.group,
           size: isTablet ? 56 : 48,
-          color: theme.colorScheme.primary),
+          color: theme.colorScheme.primary,
+        ),
         SizedBox(height: isTablet ? 20 : 16),
         Text(
           l10n.groupInvitation,
-          style: (isTablet
-              ? theme.textTheme.headlineSmall
-              : theme.textTheme.titleLarge)
-              ?.copyWith(
-            color: theme.colorScheme.primary,
-            fontWeight: FontWeight.bold,
-          ),
+          style:
+              (isTablet
+                      ? theme.textTheme.headlineSmall
+                      : theme.textTheme.titleLarge)
+                  ?.copyWith(
+                    color: theme.colorScheme.primary,
+                    fontWeight: FontWeight.bold,
+                  ),
         ),
         SizedBox(height: isTablet ? 16 : 12),
 
@@ -331,12 +364,13 @@ class _GroupInvitationPageState extends ConsumerState<GroupInvitationPage>
                     color: theme.colorScheme.onPrimaryContainer,
                   ),
                   children: [
-                    TextSpan(
-                      text: '${l10n.youveBeenInvitedToJoin}\n',
-                    ),
+                    TextSpan(text: '${l10n.youveBeenInvitedToJoin}\n'),
                     TextSpan(
                       text: validation.groupName ?? l10n.aGroup,
-                      style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                      style: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
+                      ),
                     ),
                   ],
                 ),
@@ -345,27 +379,36 @@ class _GroupInvitationPageState extends ConsumerState<GroupInvitationPage>
               // Inviter info with icon
               if (validation.inviterName != null) ...[
                 SizedBox(height: isTablet ? 12 : 10),
-                Divider(color: theme.colorScheme.onPrimaryContainer.withValues(alpha: 0.2)),
+                Divider(
+                  color: theme.colorScheme.onPrimaryContainer.withValues(
+                    alpha: 0.2,
+                  ),
+                ),
                 SizedBox(height: isTablet ? 12 : 10),
                 Row(
                   children: [
-                    Icon(Icons.person_outline,
+                    Icon(
+                      Icons.person_outline,
                       size: 16,
-                      color: theme.colorScheme.onPrimaryContainer.withValues(alpha: 0.7)),
+                      color: theme.colorScheme.onPrimaryContainer.withValues(
+                        alpha: 0.7,
+                      ),
+                    ),
                     const SizedBox(width: 8),
                     Expanded(
                       child: RichText(
                         text: TextSpan(
                           style: theme.textTheme.bodySmall?.copyWith(
-                            color: theme.colorScheme.onPrimaryContainer.withValues(alpha: 0.9),
+                            color: theme.colorScheme.onPrimaryContainer
+                                .withValues(alpha: 0.9),
                           ),
                           children: [
-                            TextSpan(
-                              text: '${l10n.invitedBy} ',
-                            ),
+                            TextSpan(text: '${l10n.invitedBy} '),
                             TextSpan(
                               text: validation.inviterName!,
-                              style: const TextStyle(fontWeight: FontWeight.w600),
+                              style: const TextStyle(
+                                fontWeight: FontWeight.w600,
+                              ),
                             ),
                           ],
                         ),
@@ -409,10 +452,12 @@ class _GroupInvitationPageState extends ConsumerState<GroupInvitationPage>
                   Navigator.of(context).pop();
                 } else {
                   // No navigation history - go to dashboard
-                  ref.read(nav.navigationStateProvider.notifier).navigateTo(
-                    route: '/dashboard',
-                    trigger: nav.NavigationTrigger.userNavigation,
-                  );
+                  ref
+                      .read(nav.navigationStateProvider.notifier)
+                      .navigateTo(
+                        route: '/dashboard',
+                        trigger: nav.NavigationTrigger.userNavigation,
+                      );
                 }
               },
               child: Text(canGoBack ? l10n.goBack : l10n.cancel),
@@ -476,7 +521,9 @@ class _GroupInvitationPageState extends ConsumerState<GroupInvitationPage>
           child: AccessibleButton(
             key: const Key('groupInvitation_showSignup_button'),
             onPressed: () => setState(() => _showSignupForm = true),
-            child: Text(l10n.signInToJoinGroupName(validation.groupName ?? 'Group')),
+            child: Text(
+              l10n.signInToJoinGroupName(validation.groupName ?? 'Group'),
+            ),
           ),
         );
       } else {

@@ -24,150 +24,222 @@ void main() {
     setUp(() {
       mockRepository = MockGroupScheduleRepository();
       mockDateTimeService = const ScheduleDateTimeService();
-      usecase = AssignVehicleToSlot(mockRepository, dateTimeService: mockDateTimeService);
+      usecase = AssignVehicleToSlot(
+        mockRepository,
+        dateTimeService: mockDateTimeService,
+      );
       testDateTime = DateTime(2025, 10, 27, 5); // Expected UTC time after fix
     });
 
     group('Timezone Handling - Regression Tests', () {
-      test('should pass correct UTC datetime to repository without timezone conversion', () async {
-        // Arrange - This test specifically verifies the timezone bug is fixed
-        // User clicks on 07:00 slot in UTC+2 timezone
-        // Expected: 07:00 UTC should be passed to repository (no conversion in domain layer)
+      test(
+        'should pass correct UTC datetime to repository without timezone conversion',
+        () async {
+          // Arrange - This test specifically verifies the timezone bug is fixed
+          // User clicks on 07:00 slot in UTC+2 timezone
+          // Expected: 07:00 UTC should be passed to repository (no conversion in domain layer)
 
-        final params = AssignVehicleToSlotParams(
-          groupId: 'group-123',
-          day: 'Monday',
-          time: '07:00', // User clicks on 07:00
-          week: '2025-W43',
-          vehicleId: 'vehicle-456',
-        );
-
-        final expectedVehicleAssignment = VehicleAssignment(
-          id: 'vehicle-assignment-789',
-          scheduleSlotId: 'slot-generated-123',
-          vehicleId: 'vehicle-456',
-          assignedAt: testDateTime,
-          assignedBy: 'user-123',
-          vehicleName: 'Family Van',
-          capacity: 8,
-          createdAt: testDateTime,
-          updatedAt: testDateTime,
-        );
-
-        when(
-          mockRepository.assignVehicleToSlot(any, any, any, any, any),
-        ).thenAnswer((_) async => Result.ok(expectedVehicleAssignment));
-
-        // Act
-        final result = await usecase.call(params);
-
-        // Assert
-        expect(result.isSuccess, isTrue);
-        expect(result.value, equals(expectedVehicleAssignment));
-
-        // CRITICAL: Verify repository was called with the exact same parameters
-        // No timezone conversion should have happened in the domain layer
-        verify(
-          mockRepository.assignVehicleToSlot(
-            'group-123',
-            'Monday',
-            '07:00', // Time should remain 07:00 (not converted to 04:00 or 05:00)
-            '2025-W43',
-            'vehicle-456',
-          ),
-        ).called(1);
-      });
-
-      test('should handle different time slots without timezone conversion', () async {
-        // Test multiple time slots to ensure no timezone conversion occurs
-        final testCases = [
-          {
-            'time': '07:00',
-            'expectedHour': 7, // Should remain 7, not converted to 4 or 5
-          },
-          {
-            'time': '08:30',
-            'expectedHour': 8, // Should remain 8:30, not converted
-          },
-          {
-            'time': '14:00',
-            'expectedHour': 14, // Should remain 14, not converted
-          },
-        ];
-
-        for (final testCase in testCases) {
-          // Arrange
           final params = AssignVehicleToSlotParams(
             groupId: 'group-123',
             day: 'Monday',
-            time: testCase['time'] as String,
+            time: '07:00', // User clicks on 07:00
             week: '2025-W43',
             vehicleId: 'vehicle-456',
           );
 
-          final expectedAssignment = VehicleAssignment(
-            id: 'assignment-${testCase['time']}',
-            scheduleSlotId: 'slot-${testCase['time']}',
+          final expectedVehicleAssignment = VehicleAssignment(
+            id: 'vehicle-assignment-789',
+            scheduleSlotId: 'slot-generated-123',
             vehicleId: 'vehicle-456',
             assignedAt: testDateTime,
             assignedBy: 'user-123',
-            vehicleName: 'Test Vehicle',
-            capacity: 4,
+            vehicleName: 'Family Van',
+            capacity: 8,
             createdAt: testDateTime,
             updatedAt: testDateTime,
           );
 
           when(
             mockRepository.assignVehicleToSlot(any, any, any, any, any),
-          ).thenAnswer((_) async => Result.ok(expectedAssignment));
+          ).thenAnswer((_) async => Result.ok(expectedVehicleAssignment));
 
           // Act
           final result = await usecase.call(params);
 
           // Assert
-          expect(result.isSuccess, isTrue, reason: 'Call should succeed for ${testCase['time']}');
+          expect(result.isSuccess, isTrue);
+          expect(result.value, equals(expectedVehicleAssignment));
 
-          // Verify the exact time string is passed to repository
+          // CRITICAL: Verify repository was called with the exact same parameters
+          // No timezone conversion should have happened in the domain layer
           verify(
             mockRepository.assignVehicleToSlot(
               'group-123',
               'Monday',
-              testCase['time'] as String, // Should match exactly, no conversion
+              '07:00', // Time should remain 07:00 (not converted to 04:00 or 05:00)
               '2025-W43',
               'vehicle-456',
             ),
           ).called(1);
+        },
+      );
 
-          clearInteractions(mockRepository);
-        }
-      });
+      test(
+        'should handle different time slots without timezone conversion',
+        () async {
+          // Test multiple time slots to ensure no timezone conversion occurs
+          final testCases = [
+            {
+              'time': '07:00',
+              'expectedHour': 7, // Should remain 7, not converted to 4 or 5
+            },
+            {
+              'time': '08:30',
+              'expectedHour': 8, // Should remain 8:30, not converted
+            },
+            {
+              'time': '14:00',
+              'expectedHour': 14, // Should remain 14, not converted
+            },
+          ];
 
-      test('should handle different days without timezone conversion', () async {
-        // Test different days to ensure consistency
-        final testCases = [
-          {'day': 'Monday', 'expectedDay': 20},
-          {'day': 'Tuesday', 'expectedDay': 21},
-          {'day': 'Wednesday', 'expectedDay': 22},
-        ];
+          for (final testCase in testCases) {
+            // Arrange
+            final params = AssignVehicleToSlotParams(
+              groupId: 'group-123',
+              day: 'Monday',
+              time: testCase['time'] as String,
+              week: '2025-W43',
+              vehicleId: 'vehicle-456',
+            );
 
-        for (final testCase in testCases) {
-          // Arrange
+            final expectedAssignment = VehicleAssignment(
+              id: 'assignment-${testCase['time']}',
+              scheduleSlotId: 'slot-${testCase['time']}',
+              vehicleId: 'vehicle-456',
+              assignedAt: testDateTime,
+              assignedBy: 'user-123',
+              vehicleName: 'Test Vehicle',
+              capacity: 4,
+              createdAt: testDateTime,
+              updatedAt: testDateTime,
+            );
+
+            when(
+              mockRepository.assignVehicleToSlot(any, any, any, any, any),
+            ).thenAnswer((_) async => Result.ok(expectedAssignment));
+
+            // Act
+            final result = await usecase.call(params);
+
+            // Assert
+            expect(
+              result.isSuccess,
+              isTrue,
+              reason: 'Call should succeed for ${testCase['time']}',
+            );
+
+            // Verify the exact time string is passed to repository
+            verify(
+              mockRepository.assignVehicleToSlot(
+                'group-123',
+                'Monday',
+                testCase['time']
+                    as String, // Should match exactly, no conversion
+                '2025-W43',
+                'vehicle-456',
+              ),
+            ).called(1);
+
+            clearInteractions(mockRepository);
+          }
+        },
+      );
+
+      test(
+        'should handle different days without timezone conversion',
+        () async {
+          // Test different days to ensure consistency
+          final testCases = [
+            {'day': 'Monday', 'expectedDay': 20},
+            {'day': 'Tuesday', 'expectedDay': 21},
+            {'day': 'Wednesday', 'expectedDay': 22},
+          ];
+
+          for (final testCase in testCases) {
+            // Arrange
+            final params = AssignVehicleToSlotParams(
+              groupId: 'group-123',
+              day: testCase['day'] as String,
+              time: '10:00',
+              week: '2025-W43',
+              vehicleId: 'vehicle-456',
+            );
+
+            final expectedAssignment = VehicleAssignment(
+              id: 'assignment-${testCase['day']}',
+              scheduleSlotId: 'slot-${testCase['day']}',
+              vehicleId: 'vehicle-456',
+              assignedAt: testDateTime,
+              assignedBy: 'user-123',
+              vehicleName: 'Test Vehicle',
+              capacity: 4,
+              createdAt: testDateTime,
+              updatedAt: testDateTime,
+            );
+
+            when(
+              mockRepository.assignVehicleToSlot(any, any, any, any, any),
+            ).thenAnswer((_) async => Result.ok(expectedAssignment));
+
+            // Act
+            final result = await usecase.call(params);
+
+            // Assert
+            expect(
+              result.isSuccess,
+              isTrue,
+              reason: 'Call should succeed for ${testCase['day']}',
+            );
+
+            // Verify the exact day string is passed to repository
+            verify(
+              mockRepository.assignVehicleToSlot(
+                'group-123',
+                testCase['day'] as String, // Should match exactly
+                '10:00',
+                '2025-W43',
+                'vehicle-456',
+              ),
+            ).called(1);
+
+            clearInteractions(mockRepository);
+          }
+        },
+      );
+
+      test(
+        'should validate datetime calculation without timezone conversion',
+        () async {
+          // This test verifies that the usecase correctly validates the datetime calculation
+          // without applying timezone conversion
+
           final params = AssignVehicleToSlotParams(
             groupId: 'group-123',
-            day: testCase['day'] as String,
-            time: '10:00',
+            day: 'Monday',
+            time: '07:00',
             week: '2025-W43',
             vehicleId: 'vehicle-456',
           );
 
           final expectedAssignment = VehicleAssignment(
-            id: 'assignment-${testCase['day']}',
-            scheduleSlotId: 'slot-${testCase['day']}',
+            id: 'vehicle-assignment-789',
+            scheduleSlotId: 'slot-generated-123',
             vehicleId: 'vehicle-456',
             assignedAt: testDateTime,
             assignedBy: 'user-123',
-            vehicleName: 'Test Vehicle',
-            capacity: 4,
+            vehicleName: 'Family Van',
+            capacity: 8,
             createdAt: testDateTime,
             updatedAt: testDateTime,
           );
@@ -180,83 +252,42 @@ void main() {
           final result = await usecase.call(params);
 
           // Assert
-          expect(result.isSuccess, isTrue, reason: 'Call should succeed for ${testCase['day']}');
+          expect(result.isSuccess, isTrue);
 
-          // Verify the exact day string is passed to repository
+          // The usecase should have successfully validated the datetime
+          // If timezone conversion was happening incorrectly, this would fail
           verify(
-            mockRepository.assignVehicleToSlot(
-              'group-123',
-              testCase['day'] as String, // Should match exactly
-              '10:00',
-              '2025-W43',
-              'vehicle-456',
-            ),
+            mockRepository.assignVehicleToSlot(any, any, any, any, any),
           ).called(1);
+        },
+      );
 
-          clearInteractions(mockRepository);
-        }
-      });
+      test(
+        'should handle validation failure for invalid datetime calculation',
+        () async {
+          // Test edge case validation
+          final params = AssignVehicleToSlotParams(
+            groupId: 'group-123',
+            day: 'InvalidDay', // Invalid day
+            time: '07:00',
+            week: '2025-W43',
+            vehicleId: 'vehicle-456',
+          );
 
-      test('should validate datetime calculation without timezone conversion', () async {
-        // This test verifies that the usecase correctly validates the datetime calculation
-        // without applying timezone conversion
+          // Act
+          final result = await usecase.call(params);
 
-        final params = AssignVehicleToSlotParams(
-          groupId: 'group-123',
-          day: 'Monday',
-          time: '07:00',
-          week: '2025-W43',
-          vehicleId: 'vehicle-456',
-        );
+          // Assert
+          expect(result.isError, isTrue);
+          expect(result.error, isA<ApiFailure>());
+          expect(result.error, isA<ApiFailure>());
 
-        final expectedAssignment = VehicleAssignment(
-          id: 'vehicle-assignment-789',
-          scheduleSlotId: 'slot-generated-123',
-          vehicleId: 'vehicle-456',
-          assignedAt: testDateTime,
-          assignedBy: 'user-123',
-          vehicleName: 'Family Van',
-          capacity: 8,
-          createdAt: testDateTime,
-          updatedAt: testDateTime,
-        );
-
-        when(
-          mockRepository.assignVehicleToSlot(any, any, any, any, any),
-        ).thenAnswer((_) async => Result.ok(expectedAssignment));
-
-        // Act
-        final result = await usecase.call(params);
-
-        // Assert
-        expect(result.isSuccess, isTrue);
-
-        // The usecase should have successfully validated the datetime
-        // If timezone conversion was happening incorrectly, this would fail
-        verify(mockRepository.assignVehicleToSlot(any, any, any, any, any)).called(1);
-      });
-
-      test('should handle validation failure for invalid datetime calculation', () async {
-        // Test edge case validation
-        final params = AssignVehicleToSlotParams(
-          groupId: 'group-123',
-          day: 'InvalidDay', // Invalid day
-          time: '07:00',
-          week: '2025-W43',
-          vehicleId: 'vehicle-456',
-        );
-
-        // Act
-        final result = await usecase.call(params);
-
-        // Assert
-        expect(result.isError, isTrue);
-        expect(result.error, isA<ApiFailure>());
-        expect(result.error, isA<ApiFailure>());
-
-        // Repository should NOT be called for invalid parameters
-        verifyNever(mockRepository.assignVehicleToSlot(any, any, any, any, any));
-      });
+          // Repository should NOT be called for invalid parameters
+          verifyNever(
+            mockRepository.assignVehicleToSlot(any, any, any, any, any),
+          );
+        },
+      );
 
       test('should handle boundary case: midnight slot', () async {
         // Test boundary case to ensure no timezone conversion issues
@@ -371,7 +402,9 @@ void main() {
         expect(result.error, isA<ApiFailure>());
 
         // Repository should never be called for invalid parameters
-        verifyNever(mockRepository.assignVehicleToSlot(any, any, any, any, any));
+        verifyNever(
+          mockRepository.assignVehicleToSlot(any, any, any, any, any),
+        );
       });
     });
   });

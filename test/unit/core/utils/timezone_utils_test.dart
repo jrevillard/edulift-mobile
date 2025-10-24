@@ -57,16 +57,19 @@ void main() {
       expect(int.tryParse(parts[1]), isNotNull);
     });
 
-    test('CRITICAL: should handle boundary crossing - Monday 00:30 Paris -> Sunday UTC', () {
-      final result = convertLocalToUtcTimeString('00:30', 'Europe/Paris');
-      final offset = getCurrentUtcOffset('Europe/Paris');
+    test(
+      'CRITICAL: should handle boundary crossing - Monday 00:30 Paris -> Sunday UTC',
+      () {
+        final result = convertLocalToUtcTimeString('00:30', 'Europe/Paris');
+        final offset = getCurrentUtcOffset('Europe/Paris');
 
-      // Monday 00:30 minus offset should give Sunday 22:30 or 23:30
-      final expectedHour = (0 - offset + 24) % 24;
-      final expected = '${expectedHour.toString().padLeft(2, '0')}:30';
+        // Monday 00:30 minus offset should give Sunday 22:30 or 23:30
+        final expectedHour = (0 - offset + 24) % 24;
+        final expected = '${expectedHour.toString().padLeft(2, '0')}:30';
 
-      expect(result, expected);
-    });
+        expect(result, expected);
+      },
+    );
 
     test('should handle Tokyo timezone (UTC+9)', () {
       final result = convertLocalToUtcTimeString('09:00', 'Asia/Tokyo');
@@ -121,8 +124,8 @@ void main() {
   group('convertScheduleHoursToUtc - DST Aware', () {
     test('should convert simple schedule without day crossing', () {
       final local = {
-        'MONDAY': ['12:00'],  // Noon - won't cross day boundary
-        'TUESDAY': ['15:00']
+        'MONDAY': ['12:00'], // Noon - won't cross day boundary
+        'TUESDAY': ['15:00'],
       };
 
       final utc = convertScheduleHoursToUtc(local, 'Europe/Paris');
@@ -134,41 +137,59 @@ void main() {
       expect(utc['TUESDAY']!.length, 1);
     });
 
-    test('CRITICAL: should handle day boundary crossing - Monday 00:30 -> Sunday UTC', () {
-      final local = {
-        'MONDAY': ['00:30', '12:00']
-      };
+    test(
+      'CRITICAL: should handle day boundary crossing - Monday 00:30 -> Sunday UTC',
+      () {
+        final local = {
+          'MONDAY': ['00:30', '12:00'],
+        };
 
-      final utc = convertScheduleHoursToUtc(local, 'Europe/Paris');
-      final offset = getCurrentUtcOffset('Europe/Paris');
+        final utc = convertScheduleHoursToUtc(local, 'Europe/Paris');
+        final offset = getCurrentUtcOffset('Europe/Paris');
 
-      // Monday 00:30 with offset should cross to Sunday in UTC
-      expect(utc.containsKey('SUNDAY'), true, reason: 'Monday 00:30 should cross to Sunday in UTC');
-      expect(utc['SUNDAY']!.length, 1);
+        // Monday 00:30 with offset should cross to Sunday in UTC
+        expect(
+          utc.containsKey('SUNDAY'),
+          true,
+          reason: 'Monday 00:30 should cross to Sunday in UTC',
+        );
+        expect(utc['SUNDAY']!.length, 1);
 
-      // Verify the exact time based on current DST offset
-      final expectedSundayTime = offset == 2
-          ? '22:30'  // CEST (UTC+2): 00:30 - 2h = 22:30 Sunday
-          : '23:30'; // CET (UTC+1): 00:30 - 1h = 23:30 Sunday
-      expect(utc['SUNDAY']![0], expectedSundayTime,
-          reason: 'Monday 00:30 Paris (UTC+$offset) should be $expectedSundayTime Sunday UTC');
+        // Verify the exact time based on current DST offset
+        final expectedSundayTime = offset == 2
+            ? '22:30' // CEST (UTC+2): 00:30 - 2h = 22:30 Sunday
+            : '23:30'; // CET (UTC+1): 00:30 - 1h = 23:30 Sunday
+        expect(
+          utc['SUNDAY']![0],
+          expectedSundayTime,
+          reason:
+              'Monday 00:30 Paris (UTC+$offset) should be $expectedSundayTime Sunday UTC',
+        );
 
-      // Verify the noon time stays on Monday
-      expect(utc.containsKey('MONDAY'), true);
-      final expectedMondayTime = offset == 2
-          ? '10:00'  // CEST (UTC+2): 12:00 - 2h = 10:00
-          : '11:00'; // CET (UTC+1): 12:00 - 1h = 11:00
-      expect(utc['MONDAY']![0], expectedMondayTime,
-          reason: 'Monday 12:00 Paris (UTC+$offset) should be $expectedMondayTime Monday UTC');
+        // Verify the noon time stays on Monday
+        expect(utc.containsKey('MONDAY'), true);
+        final expectedMondayTime = offset == 2
+            ? '10:00' // CEST (UTC+2): 12:00 - 2h = 10:00
+            : '11:00'; // CET (UTC+1): 12:00 - 1h = 11:00
+        expect(
+          utc['MONDAY']![0],
+          expectedMondayTime,
+          reason:
+              'Monday 12:00 Paris (UTC+$offset) should be $expectedMondayTime Monday UTC',
+        );
 
-      // Verify total slots
-      final totalSlots = utc.values.fold<int>(0, (sum, list) => sum + list.length);
-      expect(totalSlots, 2, reason: 'Should have 2 total time slots');
-    });
+        // Verify total slots
+        final totalSlots = utc.values.fold<int>(
+          0,
+          (sum, list) => sum + list.length,
+        );
+        expect(totalSlots, 2, reason: 'Should have 2 total time slots');
+      },
+    );
 
     test('should handle Tokyo timezone (large positive offset)', () {
       final local = {
-        'MONDAY': ['01:00', '12:00']
+        'MONDAY': ['01:00', '12:00'],
       };
 
       final utc = convertScheduleHoursToUtc(local, 'Asia/Tokyo'); // UTC+9
@@ -176,7 +197,10 @@ void main() {
       // Monday 01:00 JST should cross to Sunday UTC
       expect(utc.containsKey('SUNDAY'), true);
 
-      final totalSlots = utc.values.fold<int>(0, (sum, list) => sum + list.length);
+      final totalSlots = utc.values.fold<int>(
+        0,
+        (sum, list) => sum + list.length,
+      );
       expect(totalSlots, 2);
     });
 
@@ -188,7 +212,7 @@ void main() {
 
     test('should sort times within each day', () {
       final local = {
-        'MONDAY': ['17:00', '07:00', '12:00']
+        'MONDAY': ['17:00', '07:00', '12:00'],
       };
 
       final utc = convertScheduleHoursToUtc(local, 'Europe/Paris');
@@ -203,7 +227,7 @@ void main() {
     test('CRITICAL: Round-trip preserves original schedule', () {
       // Use safe times that work in both winter and summer
       final original = {
-        'MONDAY': ['07:00', '12:00', '17:00']
+        'MONDAY': ['07:00', '12:00', '17:00'],
       };
 
       final utc = convertScheduleHoursToUtc(original, 'Europe/Paris');
@@ -214,19 +238,22 @@ void main() {
 
     test('should handle UTC timezone (no conversion needed)', () {
       final local = {
-        'MONDAY': ['07:00', '17:00']
+        'MONDAY': ['07:00', '17:00'],
       };
 
       final utc = convertScheduleHoursToUtc(local, 'UTC');
 
-      expect(utc, equals({
-        'MONDAY': ['07:00', '17:00']
-      }));
+      expect(
+        utc,
+        equals({
+          'MONDAY': ['07:00', '17:00'],
+        }),
+      );
     });
 
     test('Tokyo (UTC+9): 09:00 → 00:00 UTC', () {
       final local = {
-        'MONDAY': ['09:00']
+        'MONDAY': ['09:00'],
       };
 
       final utc = convertScheduleHoursToUtc(local, 'Asia/Tokyo');
@@ -236,30 +263,40 @@ void main() {
   });
 
   group('convertScheduleHoursToLocal - DST Aware', () {
-    test('CRITICAL: should handle day boundary crossing verified via explicit conversion', () {
-      // For robust DST handling, verify boundary crossing by testing specific times
-      // that we know should cross boundaries, using safer times
-      final original = {
-        'MONDAY': ['03:00', '12:00'],  // 03:00 is safe from boundary crossing in both DST seasons
-      };
+    test(
+      'CRITICAL: should handle day boundary crossing verified via explicit conversion',
+      () {
+        // For robust DST handling, verify boundary crossing by testing specific times
+        // that we know should cross boundaries, using safer times
+        final original = {
+          'MONDAY': [
+            '03:00',
+            '12:00',
+          ], // 03:00 is safe from boundary crossing in both DST seasons
+        };
 
-      final utc = convertScheduleHoursToUtc(original, 'Europe/Paris');
-      final roundTrip = convertScheduleHoursToLocal(utc, 'Europe/Paris');
+        final utc = convertScheduleHoursToUtc(original, 'Europe/Paris');
+        final roundTrip = convertScheduleHoursToLocal(utc, 'Europe/Paris');
 
-      // Round-trip should preserve the schedule
-      expect(roundTrip, equals(original), reason: 'Round-trip should preserve schedule');
+        // Round-trip should preserve the schedule
+        expect(
+          roundTrip,
+          equals(original),
+          reason: 'Round-trip should preserve schedule',
+        );
 
-      // Note: Testing Monday 00:00-02:00 times is problematic because:
-      // - In winter (UTC+1): Monday 00:30 → Sunday 23:30 UTC
-      // - In summer (UTC+2): Monday 00:30 → Sunday 22:30 UTC
-      // - The current week calculation may not align perfectly across conversions
-      // - This is acceptable since real-world usage will convert and display consistently
-    });
+        // Note: Testing Monday 00:00-02:00 times is problematic because:
+        // - In winter (UTC+1): Monday 00:30 → Sunday 23:30 UTC
+        // - In summer (UTC+2): Monday 00:30 → Sunday 22:30 UTC
+        // - The current week calculation may not align perfectly across conversions
+        // - This is acceptable since real-world usage will convert and display consistently
+      },
+    );
 
     test('CRITICAL: round-trip should preserve user intent - Paris', () {
       // Use times that work in both winter (UTC+1) and summer (UTC+2)
       final original = {
-        'MONDAY': ['07:00', '12:00', '17:00']
+        'MONDAY': ['07:00', '12:00', '17:00'],
       };
 
       // Convert to UTC
@@ -274,7 +311,7 @@ void main() {
 
     test('CRITICAL: round-trip should preserve user intent - Tokyo', () {
       final original = {
-        'MONDAY': ['01:00', '09:00', '18:00']
+        'MONDAY': ['01:00', '09:00', '18:00'],
       };
 
       final utc = convertScheduleHoursToUtc(original, 'Asia/Tokyo');
@@ -292,39 +329,45 @@ void main() {
     test('should handle Tokyo timezone', () {
       final utc = {
         'SUNDAY': ['16:00'],
-        'MONDAY': ['00:00']
+        'MONDAY': ['00:00'],
       };
 
       final local = convertScheduleHoursToLocal(utc, 'Asia/Tokyo'); // UTC+9
 
       // Sunday 16:00 UTC = Monday 01:00 JST
       // Monday 00:00 UTC = Monday 09:00 JST
-      expect(local, equals({
-        'MONDAY': ['01:00', '09:00']
-      }));
+      expect(
+        local,
+        equals({
+          'MONDAY': ['01:00', '09:00'],
+        }),
+      );
     });
 
-    test('CRITICAL: round-trip with multiple weekdays and boundary crossings', () {
-      // Use times that work in both winter and summer
-      final original = {
-        'MONDAY': ['07:00', '15:00'],
-        'TUESDAY': ['08:30', '16:00'],
-        'FRIDAY': ['09:00', '17:30']
-      };
+    test(
+      'CRITICAL: round-trip with multiple weekdays and boundary crossings',
+      () {
+        // Use times that work in both winter and summer
+        final original = {
+          'MONDAY': ['07:00', '15:00'],
+          'TUESDAY': ['08:30', '16:00'],
+          'FRIDAY': ['09:00', '17:30'],
+        };
 
-      // Convert to UTC and back
-      final utc = convertScheduleHoursToUtc(original, 'Europe/Paris');
-      final roundTrip = convertScheduleHoursToLocal(utc, 'Europe/Paris');
+        // Convert to UTC and back
+        final utc = convertScheduleHoursToUtc(original, 'Europe/Paris');
+        final roundTrip = convertScheduleHoursToLocal(utc, 'Europe/Paris');
 
-      // Should match original exactly
-      expect(roundTrip, equals(original));
-    });
+        // Should match original exactly
+        expect(roundTrip, equals(original));
+      },
+    );
 
     test('CRITICAL: round-trip with New York timezone', () {
       // Use safe times that won't cross boundaries
       final original = {
         'MONDAY': ['09:00', '17:00'],
-        'FRIDAY': ['12:00', '18:00']
+        'FRIDAY': ['12:00', '18:00'],
       };
 
       final utc = convertScheduleHoursToUtc(original, 'America/New_York');
@@ -335,7 +378,7 @@ void main() {
 
     test('should sort times after conversion', () {
       final utc = {
-        'MONDAY': ['16:00', '06:00', '11:00']
+        'MONDAY': ['16:00', '06:00', '11:00'],
       };
 
       final local = convertScheduleHoursToLocal(utc, 'Europe/Paris');
@@ -349,21 +392,24 @@ void main() {
 
     test('should handle UTC timezone (no conversion needed)', () {
       final utc = {
-        'MONDAY': ['07:00', '17:00']
+        'MONDAY': ['07:00', '17:00'],
       };
 
       final local = convertScheduleHoursToLocal(utc, 'UTC');
 
-      expect(local, equals({
-        'MONDAY': ['07:00', '17:00']
-      }));
+      expect(
+        local,
+        equals({
+          'MONDAY': ['07:00', '17:00'],
+        }),
+      );
     });
 
     test('CRITICAL: round-trip with Sydney timezone', () {
       // Use safe times that work in both standard and daylight time
       final original = {
         'MONDAY': ['09:00', '14:00', '18:00'],
-        'FRIDAY': ['10:00', '16:00']
+        'FRIDAY': ['10:00', '16:00'],
       };
 
       final utc = convertScheduleHoursToUtc(original, 'Australia/Sydney');
@@ -376,7 +422,7 @@ void main() {
       // Use safe times that work in both PST and PDT
       final original = {
         'MONDAY': ['09:00', '13:00', '17:00'],
-        'THURSDAY': ['10:00', '15:00']
+        'THURSDAY': ['10:00', '15:00'],
       };
 
       final utc = convertScheduleHoursToUtc(original, 'America/Los_Angeles');
@@ -395,7 +441,7 @@ void main() {
         'THURSDAY': ['07:30', '15:00'],
         'FRIDAY': ['08:00', '17:00', '23:30'],
         'SATURDAY': ['09:00', '14:00'],
-        'SUNDAY': ['10:00', '20:00']
+        'SUNDAY': ['10:00', '20:00'],
       };
 
       final utc = convertScheduleHoursToUtc(original, 'Europe/Paris');
@@ -407,28 +453,31 @@ void main() {
     test('should handle extreme timezone offsets', () {
       // Test with various extreme offsets
       final timezones = [
-        'Pacific/Kiritimati',  // UTC+14
-        'Pacific/Midway',      // UTC-11
-        'Asia/Kathmandu',      // UTC+5:45 (non-hour offset)
+        'Pacific/Kiritimati', // UTC+14
+        'Pacific/Midway', // UTC-11
+        'Asia/Kathmandu', // UTC+5:45 (non-hour offset)
       ];
 
       for (final timezone in timezones) {
         final original = {
-          'MONDAY': ['00:00', '12:00', '23:59']
+          'MONDAY': ['00:00', '12:00', '23:59'],
         };
 
         final utc = convertScheduleHoursToUtc(original, timezone);
         final roundTrip = convertScheduleHoursToLocal(utc, timezone);
 
-        expect(roundTrip, equals(original),
-          reason: 'Round-trip failed for timezone: $timezone');
+        expect(
+          roundTrip,
+          equals(original),
+          reason: 'Round-trip failed for timezone: $timezone',
+        );
       }
     });
 
     test('should maintain sorting across day boundaries', () {
       // Use times that won't cross day boundary in any DST season
       final local = {
-        'MONDAY': ['08:00', '12:00', '16:00', '20:00']
+        'MONDAY': ['08:00', '12:00', '16:00', '20:00'],
       };
 
       final utc = convertScheduleHoursToUtc(local, 'Europe/Paris');
@@ -450,18 +499,32 @@ void main() {
         'MONDAY': ['06:00', '12:00', '18:00'],
         'WEDNESDAY': ['08:00', '13:00'],
         'FRIDAY': ['07:30', '16:30'],
-        'SUNDAY': ['12:00']
+        'SUNDAY': ['12:00'],
       };
 
       final utc = convertScheduleHoursToUtc(original, 'Europe/Paris');
       final roundTrip = convertScheduleHoursToLocal(utc, 'Europe/Paris');
 
       // Verify total number of time slots is preserved
-      final originalCount = original.values.fold<int>(0, (sum, list) => sum + list.length);
-      final roundTripCount = roundTrip.values.fold<int>(0, (sum, list) => sum + list.length);
+      final originalCount = original.values.fold<int>(
+        0,
+        (sum, list) => sum + list.length,
+      );
+      final roundTripCount = roundTrip.values.fold<int>(
+        0,
+        (sum, list) => sum + list.length,
+      );
 
-      expect(roundTripCount, originalCount, reason: 'Round-trip should preserve all time slots');
-      expect(roundTrip, equals(original), reason: 'Round-trip should preserve exact schedule');
+      expect(
+        roundTripCount,
+        originalCount,
+        reason: 'Round-trip should preserve all time slots',
+      );
+      expect(
+        roundTrip,
+        equals(original),
+        reason: 'Round-trip should preserve exact schedule',
+      );
     });
   });
 }

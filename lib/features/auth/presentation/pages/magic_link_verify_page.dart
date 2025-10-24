@@ -40,14 +40,18 @@ class _MagicLinkVerifyPageState extends ConsumerState<MagicLinkVerifyPage> {
     );
     // Start verification process
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      AppLogger.info('🪄 WIDGET_LIFECYCLE: Starting magic link verification\n'
+      AppLogger.info(
+        '🪄 WIDGET_LIFECYCLE: Starting magic link verification\n'
         '   - PostFrameCallback at: ${DateTime.now().toIso8601String()}\n'
         '   - Widget ref hashCode: ${ref.hashCode}',
       );
       ref
           .read(magicLinkProvider.notifier)
-          .verifyMagicLink(widget.token,
-            inviteCode: widget.inviteCode, email: widget.email);
+          .verifyMagicLink(
+            widget.token,
+            inviteCode: widget.inviteCode,
+            email: widget.email,
+          );
     });
   }
 
@@ -67,18 +71,24 @@ class _MagicLinkVerifyPageState extends ConsumerState<MagicLinkVerifyPage> {
     // STATE-OF-THE-ART: No manual navigation - let router redirect based on auth state
     // All invitation processing is now handled in MagicLinkProvider
     // Router will automatically detect authenticated state and redirect accordingly
-    AppLogger.info('🏠 MAGIC_LINK_SUCCESS: Auth state updated - router will handle navigation declaratively');
+    AppLogger.info(
+      '🏠 MAGIC_LINK_SUCCESS: Auth state updated - router will handle navigation declaratively',
+    );
   }
 
   void _handleRetry() {
     ref
         .read(magicLinkProvider.notifier)
-        .verifyMagicLink(widget.token,
-          inviteCode: widget.inviteCode, email: widget.email);
+        .verifyMagicLink(
+          widget.token,
+          inviteCode: widget.inviteCode,
+          email: widget.email,
+        );
   }
 
   void _handleBackToLogin() {
-    AppLogger.error('🔙 MAGIC_LINK_ACTION: _handleBackToLogin called\n'
+    AppLogger.error(
+      '🔙 MAGIC_LINK_ACTION: _handleBackToLogin called\n'
       '   - Action triggered at: ${DateTime.now().toIso8601String()}\n'
       '   - Current magic link status: ${ref.read(magicLinkProvider).status}\n'
       '   - Widget mounted: $mounted\n'
@@ -92,11 +102,15 @@ class _MagicLinkVerifyPageState extends ConsumerState<MagicLinkVerifyPage> {
     ref.read(magicLinkProvider.notifier).reset();
     // STANDARDIZED NAVIGATION: Use navigationStateProvider pattern
     if (mounted) {
-      ref.read(navigationStateProvider.notifier).navigateTo(
-        route: '/auth/login',
-        trigger: NavigationTrigger.userNavigation,
+      ref
+          .read(navigationStateProvider.notifier)
+          .navigateTo(
+            route: '/auth/login',
+            trigger: NavigationTrigger.userNavigation,
+          );
+      AppLogger.error(
+        '🔙 MAGIC_LINK_ACTION: Navigation to login completed using navigationStateProvider',
       );
-      AppLogger.error('🔙 MAGIC_LINK_ACTION: Navigation to login completed using navigationStateProvider');
     }
   }
 
@@ -110,14 +124,16 @@ class _MagicLinkVerifyPageState extends ConsumerState<MagicLinkVerifyPage> {
       // The sendMagicLink call will trigger the router redirect logic
       ref.read(authStateProvider.notifier).sendMagicLink(email);
     } else {
-      AppLogger.warning('⚠️ Magic Link: No email available - going back to login');
+      AppLogger.warning(
+        '⚠️ Magic Link: No email available - going back to login',
+      );
       _handleBackToLogin();
     }
   }
 
   /// Build responsive button with consistent sizing and styling
   Widget _buildResponsiveButton({
-    required String keyValue, 
+    required String keyValue,
     required VoidCallback? onPressed,
     required String text,
     bool isPrimary = true,
@@ -132,16 +148,12 @@ class _MagicLinkVerifyPageState extends ConsumerState<MagicLinkVerifyPage> {
           ? ElevatedButton(
               key: Key(keyValue),
               onPressed: onPressed,
-              child: Text(
-                text,
-              ),
+              child: Text(text),
             )
           : OutlinedButton(
               key: Key(keyValue),
               onPressed: onPressed,
-              child: Text(
-                text,
-              ),
+              child: Text(text),
             ),
     );
   }
@@ -153,25 +165,29 @@ class _MagicLinkVerifyPageState extends ConsumerState<MagicLinkVerifyPage> {
     final isTablet = screenSize.width > 768;
 
     // CRITICAL DEBUG: Log the current UI state to understand what's being rendered
-    AppLogger.info('🎨 UI_DEBUG: Magic link page build called\n'
+    AppLogger.info(
+      '🎨 UI_DEBUG: Magic link page build called\n'
       '   - Current status: ${magicLinkState.status}\n'
       '   - Error message: ${magicLinkState.errorMessage}\n'
       '   - Can retry: ${magicLinkState.canRetry}\n'
       '   - Widget email: ${widget.email}\n'
       '   - State email: ${magicLinkState.email}\n'
       '   - Widget mounted: $mounted\n'
-      '   - About to render: ${magicLinkState.status.toString()}');
+      '   - About to render: ${magicLinkState.status.toString()}',
+    );
 
     // Listen for state changes to handle navigation
     ref.listen<MagicLinkState>(magicLinkProvider, (previous, current) {
-      AppLogger.info('🎯 MAGIC_LINK_LISTENER: State change detected\n'
+      AppLogger.info(
+        '🎯 MAGIC_LINK_LISTENER: State change detected\n'
         '   - Listen callback at: ${DateTime.now().toIso8601String()}\n'
         '   - Previous status: ${previous?.status}\n'
         '   - Current status: ${current.status}\n'
         '   - Previous error: ${previous?.errorMessage}\n'
         '   - Current error: ${current.errorMessage}\n'
         '   - Widget mounted: $mounted\n'
-        '   - About to process state change...');
+        '   - About to process state change...',
+      );
       if (current.status == MagicLinkVerificationStatus.success &&
           current.result != null) {
         AppLogger.info('✅ MAGIC_LINK_LISTENER: SUCCESS state detected');
@@ -182,32 +198,44 @@ class _MagicLinkVerifyPageState extends ConsumerState<MagicLinkVerifyPage> {
 
         if (invitationResult != null && !invitationResult.processed) {
           // ❌ Invitation failed - set error state in magic link provider
-          AppLogger.error('❌ MAGIC_LINK_LISTENER: Invitation processing failed\n'
+          AppLogger.error(
+            '❌ MAGIC_LINK_LISTENER: Invitation processing failed\n'
             '   - Reason: ${invitationResult.reason}\n'
-            '   - Converting success state to error state for UI display');
-
-          // Convert to magic link error state to display using the new method
-          ref.read(magicLinkProvider.notifier).setInvitationError(
-            invitationResult.reason ?? 'Failed to process invitation',
+            '   - Converting success state to error state for UI display',
           );
 
-          AppLogger.error('❌ MAGIC_LINK_LISTENER: Error state set - router will keep us on page to display error');
+          // Convert to magic link error state to display using the new method
+          ref
+              .read(magicLinkProvider.notifier)
+              .setInvitationError(
+                invitationResult.reason ?? 'Failed to process invitation',
+              );
+
+          AppLogger.error(
+            '❌ MAGIC_LINK_LISTENER: Error state set - router will keep us on page to display error',
+          );
           return;
         }
 
         // ✅ Success - let router handle navigation
-        AppLogger.info('✅ MAGIC_LINK_LISTENER: Invitation processed successfully or no invitation - calling _handleSuccessNavigation');
+        AppLogger.info(
+          '✅ MAGIC_LINK_LISTENER: Invitation processed successfully or no invitation - calling _handleSuccessNavigation',
+        );
         _handleSuccessNavigation(current.result!);
       } else if (current.status == MagicLinkVerificationStatus.error) {
-        AppLogger.error('🚨 MAGIC_LINK_LISTENER: ERROR state detected\n'
+        AppLogger.error(
+          '🚨 MAGIC_LINK_LISTENER: ERROR state detected\n'
           '   - Error at: ${DateTime.now().toIso8601String()}\n'
           '   - Error message: ${current.errorMessage}\n'
           '   - Can retry: ${current.canRetry}\n'
           '   - Widget mounted: $mounted\n'
-          '   - Router should keep us on error page');
+          '   - Router should keep us on error page',
+        );
         // 2025 STATE-OF-THE-ART: Pure state-driven - no manual router manipulation
         // The router will automatically check magic link state during navigation events
-        AppLogger.info('🚨 MAGIC_LINK_DEBUG: Magic link verification failed - error state set for router to check');
+        AppLogger.info(
+          '🚨 MAGIC_LINK_DEBUG: Magic link verification failed - error state set for router to check',
+        );
         // Log error details for debugging
         if (current.errorMessage != null) {
           AppLogger.warning('🚨 Magic link error: ${current.errorMessage}');
@@ -215,9 +243,13 @@ class _MagicLinkVerifyPageState extends ConsumerState<MagicLinkVerifyPage> {
 
         // ERROR HANDLING: Stay on error page - do NOT clear navigation state
         // The router should keep us on the verification page to display the error
-        AppLogger.error('🚨 MAGIC_LINK_LISTENER: Completed error state processing - no navigation clearing');
+        AppLogger.error(
+          '🚨 MAGIC_LINK_LISTENER: Completed error state processing - no navigation clearing',
+        );
       } else {
-        AppLogger.info('🎯 MAGIC_LINK_LISTENER: Other status (${current.status}) - no specific action');
+        AppLogger.info(
+          '🎯 MAGIC_LINK_LISTENER: Other status (${current.status}) - no specific action',
+        );
       }
     });
     return Scaffold(
@@ -246,7 +278,9 @@ class _MagicLinkVerifyPageState extends ConsumerState<MagicLinkVerifyPage> {
   }
 
   Widget _buildStateContent(MagicLinkState state) {
-    AppLogger.info('🎨 UI_DEBUG: _buildStateContent called with status: ${state.status}');
+    AppLogger.info(
+      '🎨 UI_DEBUG: _buildStateContent called with status: ${state.status}',
+    );
     switch (state.status) {
       case MagicLinkVerificationStatus.initial:
       case MagicLinkVerificationStatus.verifying:
@@ -260,6 +294,7 @@ class _MagicLinkVerifyPageState extends ConsumerState<MagicLinkVerifyPage> {
         return _buildErrorState(state);
     }
   }
+
   Widget _buildVerifyingState() {
     final l10n = AppLocalizations.of(context);
     final screenSize = MediaQuery.of(context).size;
@@ -304,7 +339,9 @@ class _MagicLinkVerifyPageState extends ConsumerState<MagicLinkVerifyPage> {
         SizedBox(height: isTablet ? 24 : 16),
         Text(
           l10n.verificationSuccessful,
-          key: const Key('verification-successful-text'), // For Patrol E2E testing
+          key: const Key(
+            'verification-successful-text',
+          ), // For Patrol E2E testing
           style: isTablet
               ? Theme.of(context).textTheme.headlineSmall
               : Theme.of(context).textTheme.titleLarge,
@@ -346,7 +383,9 @@ class _MagicLinkVerifyPageState extends ConsumerState<MagicLinkVerifyPage> {
     String localizedErrorMessage;
     if (state.failure != null) {
       // Determine error message based on failure type (not string matching)
-      if (state.failure is NetworkFailure || state.failure is NoConnectionFailure || state.failure is OfflineFailure) {
+      if (state.failure is NetworkFailure ||
+          state.failure is NoConnectionFailure ||
+          state.failure is OfflineFailure) {
         localizedErrorMessage = l10n.errorNetworkMessage;
       } else if (state.failure is ServerFailure) {
         localizedErrorMessage = l10n.errorServerMessage;
@@ -361,7 +400,8 @@ class _MagicLinkVerifyPageState extends ConsumerState<MagicLinkVerifyPage> {
       localizedErrorMessage = l10n.errorUnexpectedMessage;
     }
 
-    AppLogger.error('🎨 ERROR_UI_DEBUG: Error state variables:\n'
+    AppLogger.error(
+      '🎨 ERROR_UI_DEBUG: Error state variables:\n'
       '   - failure type: ${state.failure?.runtimeType}\n'
       '   - errorMessage (raw): ${state.errorMessage}\n'
       '   - localizedErrorMessage: $localizedErrorMessage\n'
@@ -369,7 +409,8 @@ class _MagicLinkVerifyPageState extends ConsumerState<MagicLinkVerifyPage> {
       '   - email: $email\n'
       '   - hasEmail: $hasEmail\n'
       '   - isTablet: $isTablet\n'
-      '   - About to render error UI at: ${DateTime.now().toIso8601String()}');
+      '   - About to render error UI at: ${DateTime.now().toIso8601String()}',
+    );
     return Column(
       children: [
         Icon(
@@ -386,7 +427,8 @@ class _MagicLinkVerifyPageState extends ConsumerState<MagicLinkVerifyPage> {
                       ? Theme.of(context).textTheme.headlineSmall
                       : Theme.of(context).textTheme.titleLarge)
                   ?.copyWith(color: Theme.of(context).colorScheme.error),
-          textAlign: TextAlign.center),
+          textAlign: TextAlign.center,
+        ),
         SizedBox(height: isTablet ? 12 : 8),
         Text(
           localizedErrorMessage,

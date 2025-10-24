@@ -105,10 +105,12 @@ void main() {
         // Act & Assert
         expect(
           () => response.unwrap(),
-          throwsA(isA<ApiException>()
-              .having((e) => e.message, 'message', 'Test error')
-              .having((e) => e.errorCode, 'errorCode', 'TEST_ERROR')
-              .having((e) => e.statusCode, 'statusCode', 400)),
+          throwsA(
+            isA<ApiException>()
+                .having((e) => e.message, 'message', 'Test error')
+                .having((e) => e.errorCode, 'errorCode', 'TEST_ERROR')
+                .having((e) => e.statusCode, 'statusCode', 400),
+          ),
         );
       });
 
@@ -183,25 +185,28 @@ void main() {
         expect(response.data, equals('api result'));
       });
 
-      test('should execute failed API call and return error response', () async {
-        // Arrange
-        Future<String> mockApiCall() async {
-          throw const ApiException(
-            message: 'API call failed',
-            statusCode: 500,
-            errorCode: 'SERVER_ERROR',
-          );
-        }
+      test(
+        'should execute failed API call and return error response',
+        () async {
+          // Arrange
+          Future<String> mockApiCall() async {
+            throw const ApiException(
+              message: 'API call failed',
+              statusCode: 500,
+              errorCode: 'SERVER_ERROR',
+            );
+          }
 
-        // Act
-        final response = await ApiResponseHelper.execute<String>(mockApiCall);
+          // Act
+          final response = await ApiResponseHelper.execute<String>(mockApiCall);
 
-        // Assert
-        expect(response.success, isFalse);
-        expect(response.errorMessage, equals('API call failed'));
-        expect(response.statusCode, equals(500));
-        expect(response.errorCode, equals('SERVER_ERROR'));
-      });
+          // Assert
+          expect(response.success, isFalse);
+          expect(response.errorMessage, equals('API call failed'));
+          expect(response.statusCode, equals(500));
+          expect(response.errorCode, equals('SERVER_ERROR'));
+        },
+      );
 
       test('should execute and unwrap successful API call', () async {
         // Arrange
@@ -216,23 +221,28 @@ void main() {
         expect(result, equals('direct result'));
       });
 
-      test('should execute and unwrap failed API call with exception', () async {
-        // Arrange
-        Future<String> mockApiCall() async {
-          throw const ApiException(
-            message: 'Direct call failed',
-            statusCode: 404,
-          );
-        }
+      test(
+        'should execute and unwrap failed API call with exception',
+        () async {
+          // Arrange
+          Future<String> mockApiCall() async {
+            throw const ApiException(
+              message: 'Direct call failed',
+              statusCode: 404,
+            );
+          }
 
-        // Act & Assert
-        await expectLater(
-          () => ApiResponseHelper.executeAndUnwrap<String>(mockApiCall),
-          throwsA(isA<ApiException>()
-              .having((e) => e.message, 'message', 'Direct call failed')
-              .having((e) => e.statusCode, 'statusCode', 404)),
-        );
-      });
+          // Act & Assert
+          await expectLater(
+            () => ApiResponseHelper.executeAndUnwrap<String>(mockApiCall),
+            throwsA(
+              isA<ApiException>()
+                  .having((e) => e.message, 'message', 'Direct call failed')
+                  .having((e) => e.statusCode, 'statusCode', 404),
+            ),
+          );
+        },
+      );
 
       test('should handle ApiException in handleError', () {
         // Arrange
@@ -273,9 +283,11 @@ void main() {
         // Validate unwrap throws with proper context
         expect(
           () => response.unwrap(),
-          throwsA(isA<ApiException>()
-              .having((e) => e.isValidationError, 'isValidationError', isTrue)
-              .having((e) => e.statusCode, 'statusCode', 422)),
+          throwsA(
+            isA<ApiException>()
+                .having((e) => e.isValidationError, 'isValidationError', isTrue)
+                .having((e) => e.statusCode, 'statusCode', 422),
+          ),
         );
       });
 

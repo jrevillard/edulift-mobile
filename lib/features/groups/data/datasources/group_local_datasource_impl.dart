@@ -25,20 +25,19 @@ class _CacheEntry<T> {
   });
 
   Map<String, dynamic> toJson() => {
-        'data': data,
-        'cachedAt': cachedAt.toIso8601String(),
-        'version': version,
-      };
+    'data': data,
+    'cachedAt': cachedAt.toIso8601String(),
+    'version': version,
+  };
 
   static _CacheEntry<T> fromJson<T>(
     Map<String, dynamic> json,
     T Function(dynamic) fromData,
-  ) =>
-      _CacheEntry(
-        data: fromData(json['data']),
-        cachedAt: DateTime.parse(json['cachedAt']),
-        version: json['version'] ?? 1,
-      );
+  ) => _CacheEntry(
+    data: fromData(json['data']),
+    cachedAt: DateTime.parse(json['cachedAt']),
+    version: json['version'] ?? 1,
+  );
 
   bool isExpired(Duration ttl) => DateTime.now().difference(cachedAt) > ttl;
 }
@@ -74,10 +73,7 @@ class GroupLocalDataSourceImpl implements GroupLocalDataSource {
       final cipher = await _encryptionManager.getCipher();
 
       // Open boxes with encryption
-      _groupsBox = await Hive.openBox(
-        _groupsBoxName,
-        encryptionCipher: cipher,
-      );
+      _groupsBox = await Hive.openBox(_groupsBoxName, encryptionCipher: cipher);
       _groupFamiliesBox = await Hive.openBox(
         _groupFamiliesBoxName,
         encryptionCipher: cipher,
@@ -98,8 +94,14 @@ class GroupLocalDataSourceImpl implements GroupLocalDataSource {
 
         final cipher = await _encryptionManager.getCipher();
 
-        _groupsBox = await Hive.openBox(_groupsBoxName, encryptionCipher: cipher);
-        _groupFamiliesBox = await Hive.openBox(_groupFamiliesBoxName, encryptionCipher: cipher);
+        _groupsBox = await Hive.openBox(
+          _groupsBoxName,
+          encryptionCipher: cipher,
+        );
+        _groupFamiliesBox = await Hive.openBox(
+          _groupFamiliesBoxName,
+          encryptionCipher: cipher,
+        );
 
         _initialized = true;
         ErrorLogger.logProviderError(
@@ -174,7 +176,9 @@ class GroupLocalDataSourceImpl implements GroupLocalDataSource {
 
     try {
       // Serialize: List<Group> → List<GroupData> → List<Map> → JSON String → Hive
-      final groupDataList = groups.map((group) => _domainToGroupData(group)).toList();
+      final groupDataList = groups
+          .map((group) => _domainToGroupData(group))
+          .toList();
       final jsonList = groupDataList.map((data) => data.toJson()).toList();
       final jsonString = jsonEncode(jsonList);
 
@@ -346,7 +350,9 @@ class GroupLocalDataSourceImpl implements GroupLocalDataSource {
 
     try {
       // Serialize: List<GroupFamily> → List<GroupFamilyData> → List<Map> → JSON String → Hive
-      final familyDataList = families.map((family) => _domainToGroupFamilyData(family)).toList();
+      final familyDataList = families
+          .map((family) => _domainToGroupFamilyData(family))
+          .toList();
       final jsonList = familyDataList.map((data) => data.toJson()).toList();
       final jsonString = jsonEncode(jsonList);
 
@@ -388,10 +394,7 @@ class GroupLocalDataSourceImpl implements GroupLocalDataSource {
     if (!_initialized) return; // Cache disabled - silent fail
 
     try {
-      await Future.wait([
-        _groupsBox.clear(),
-        _groupFamiliesBox.clear(),
-      ]);
+      await Future.wait([_groupsBox.clear(), _groupFamiliesBox.clear()]);
     } catch (e, stackTrace) {
       ErrorLogger.logProviderError(
         providerName: 'GroupLocalDataSourceImpl',
@@ -530,10 +533,7 @@ class GroupLocalDataSourceImpl implements GroupLocalDataSource {
       isMyFamily: family.isMyFamily,
       canManage: family.canManage,
       admins: family.admins
-          .map((admin) => FamilyAdminData(
-                name: admin.name,
-                email: admin.email,
-              ))
+          .map((admin) => FamilyAdminData(name: admin.name, email: admin.email))
           .toList(),
       invitationId: family.invitationId,
       invitedAt: family.invitedAt?.toIso8601String(),

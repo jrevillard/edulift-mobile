@@ -58,21 +58,20 @@ class _VehicleCapacityIndicatorState extends State<VehicleCapacityIndicator>
       vsync: this,
     );
 
-    _progressAnimation = Tween<double>(
-      begin: 0.0,
-      end: widget.usedSeats / widget.totalSeats,
-    ).animate(CurvedAnimation(
-      parent: _animationController,
-      curve: Curves.easeInOut,
-    ));
+    _progressAnimation =
+        Tween<double>(
+          begin: 0.0,
+          end: widget.usedSeats / widget.totalSeats,
+        ).animate(
+          CurvedAnimation(
+            parent: _animationController,
+            curve: Curves.easeInOut,
+          ),
+        );
 
-    _pulseAnimation = Tween<double>(
-      begin: 1.0,
-      end: 1.1,
-    ).animate(CurvedAnimation(
-      parent: _pulseController,
-      curve: Curves.easeInOut,
-    ));
+    _pulseAnimation = Tween<double>(begin: 1.0, end: 1.1).animate(
+      CurvedAnimation(parent: _pulseController, curve: Curves.easeInOut),
+    );
 
     if (widget.animated) {
       _animationController.forward();
@@ -96,13 +95,16 @@ class _VehicleCapacityIndicatorState extends State<VehicleCapacityIndicator>
 
     if (widget.usedSeats != oldWidget.usedSeats ||
         widget.totalSeats != oldWidget.totalSeats) {
-      _progressAnimation = Tween<double>(
-        begin: _progressAnimation.value,
-        end: widget.usedSeats / widget.totalSeats,
-      ).animate(CurvedAnimation(
-        parent: _animationController,
-        curve: Curves.easeInOut,
-      ));
+      _progressAnimation =
+          Tween<double>(
+            begin: _progressAnimation.value,
+            end: widget.usedSeats / widget.totalSeats,
+          ).animate(
+            CurvedAnimation(
+              parent: _animationController,
+              curve: Curves.easeInOut,
+            ),
+          );
 
       if (widget.animated) {
         _animationController.forward(from: 0.0);

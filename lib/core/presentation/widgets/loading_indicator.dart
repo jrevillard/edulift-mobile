@@ -35,9 +35,7 @@ class LoadingIndicator extends StatelessWidget {
       child: LayoutBuilder(
         builder: (context, constraints) {
           return ConstrainedBox(
-            constraints: BoxConstraints(
-              maxWidth: context.maxContentWidth,
-            ),
+            constraints: BoxConstraints(maxWidth: context.maxContentWidth),
             child: Padding(
               padding: context.getAdaptivePadding(
                 mobileHorizontal: 24,
@@ -79,11 +77,7 @@ class LoadingIndicator extends StatelessWidget {
 
   /// Get default size based on screen dimensions
   double _getDefaultSize(BuildContext context) {
-    return context.getAdaptiveIconSize(
-      mobile: 40,
-      tablet: 48,
-      desktop: 56,
-    );
+    return context.getAdaptiveIconSize(mobile: 40, tablet: 48, desktop: 56);
   }
 
   /// Get adaptive stroke width based on size
@@ -115,11 +109,9 @@ class InlineLoadingIndicator extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // Adaptive size for inline use
-    final adaptiveSize = size ?? context.getAdaptiveIconSize(
-      mobile: 16,
-      tablet: 18,
-      desktop: 20,
-    );
+    final adaptiveSize =
+        size ??
+        context.getAdaptiveIconSize(mobile: 16, tablet: 18, desktop: 20);
 
     final strokeWidth = (adaptiveSize / 10).clamp(1.5, 3.0);
 
@@ -158,8 +150,9 @@ class LoadingOverlay extends StatelessWidget {
         child,
         if (isLoading)
           Container(
-            color: overlayColor ??
-              Theme.of(context).colorScheme.scrim.withValues(alpha: 0.4),
+            color:
+                overlayColor ??
+                Theme.of(context).colorScheme.scrim.withValues(alpha: 0.4),
             child: LoadingIndicator(
               message: loadingMessage ?? 'Loading...',
               // Use a smaller size for overlay to not overwhelm the UI

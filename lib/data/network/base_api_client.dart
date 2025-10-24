@@ -44,7 +44,10 @@ abstract class BaseApiModule {
   /// Register basic Dio instance
   // REMOVED: Dio get dio => Dio(); // Architecture violation - direct Dio access not allowed
 
-  Dio createApiDio(AdaptiveStorageService secureStorageService, BaseConfig config) {
+  Dio createApiDio(
+    AdaptiveStorageService secureStorageService,
+    BaseConfig config,
+  ) {
     final dio = Dio(
       BaseOptions(
         baseUrl: config.apiBaseUrl,
@@ -56,9 +59,11 @@ abstract class BaseApiModule {
     );
     // Add certificate pinning interceptor using our own implementation
     if (!kDebugMode) {
-      dio.interceptors.add(const CertificatePinningDioInterceptor(
-        allowedSHAFingerprints: ['default_fingerprint'],
-      ));
+      dio.interceptors.add(
+        const CertificatePinningDioInterceptor(
+          allowedSHAFingerprints: ['default_fingerprint'],
+        ),
+      );
     }
 
     // Add authentication interceptor
@@ -67,11 +72,13 @@ abstract class BaseApiModule {
     dio.interceptors.add(ErrorInterceptor());
     // Add logging interceptor (debug only)
     if (kDebugMode) {
-      dio.interceptors.add(LogInterceptor(
-        requestBody: true,
-        responseBody: true,
-        logPrint: (obj) => debugPrint(obj.toString()),
-      ));
+      dio.interceptors.add(
+        LogInterceptor(
+          requestBody: true,
+          responseBody: true,
+          logPrint: (obj) => debugPrint(obj.toString()),
+        ),
+      );
     }
 
     return dio;
@@ -110,8 +117,10 @@ class AuthInterceptor extends Interceptor {
         AppLogger.debug('Added Bearer token to request: ${options.path}');
       } else {
         // Log when no token is available for protected endpoint
-        AppLogger.warning('No token available for protected endpoint: ${options.path}. '
-            'User may not be authenticated yet.');
+        AppLogger.warning(
+          'No token available for protected endpoint: ${options.path}. '
+          'User may not be authenticated yet.',
+        );
       }
       super.onRequest(options, handler);
     } catch (e) {
@@ -126,8 +135,10 @@ class AuthInterceptor extends Interceptor {
     // Handle 401 Unauthorized and 403 Forbidden - token expired/invalid
     if (err.response?.statusCode == 401 || err.response?.statusCode == 403) {
       // Log the error with context
-      AppLogger.warning('${err.response?.statusCode} ${err.response?.statusCode == 401 ? 'Unauthorized' : 'Forbidden'} for endpoint: ${err.requestOptions.path}. '
-        'Token expired or invalid - triggering centralized logout.');
+      AppLogger.warning(
+        '${err.response?.statusCode} ${err.response?.statusCode == 401 ? 'Unauthorized' : 'Forbidden'} for endpoint: ${err.requestOptions.path}. '
+        'Token expired or invalid - triggering centralized logout.',
+      );
       try {
         // CENTRALIZED: Use AuthService to handle token expiry
         // This eliminates code duplication and uses the centralized method
@@ -156,9 +167,11 @@ class AuthInterceptor extends Interceptor {
     // Normalize path by removing query parameters and fragments
     final normalizedPath = path.split('?').first.split('#').first;
 
-    return _publicEndpoints.any((endpoint) =>
+    return _publicEndpoints.any(
+      (endpoint) =>
           normalizedPath.endsWith(endpoint) ||
-          normalizedPath.contains(endpoint));
+          normalizedPath.contains(endpoint),
+    );
   }
 }
 
@@ -167,14 +180,18 @@ class ErrorInterceptor extends Interceptor {
   @override
   void onResponse(Response response, ResponseInterceptorHandler handler) {
     // Log all API responses for debugging
-    AppLogger.info('✅ API Response: ${response.requestOptions.method} ${response.requestOptions.path} '
-      '→ Status: ${response.statusCode}');
+    AppLogger.info(
+      '✅ API Response: ${response.requestOptions.method} ${response.requestOptions.path} '
+      '→ Status: ${response.statusCode}',
+    );
     // Log response data for non-200 status codes or if response indicates error
     if (response.statusCode != 200 ||
         (response.data is Map && response.data['error'] != null)) {
-      AppLogger.warning('⚠️ API Response Details: ${response.requestOptions.method} ${response.requestOptions.path}\n'
+      AppLogger.warning(
+        '⚠️ API Response Details: ${response.requestOptions.method} ${response.requestOptions.path}\n'
         'Status: ${response.statusCode}\n'
-        'Data: ${response.data}');
+        'Data: ${response.data}',
+      );
     }
 
     super.onResponse(response, handler);

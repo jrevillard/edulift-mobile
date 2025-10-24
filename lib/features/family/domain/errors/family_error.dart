@@ -54,7 +54,8 @@ enum FamilyError {
   familyOperationFailed,
   loadFamilyFailed,
   saveFamilyFailed,
-  validateFamilyFailed}
+  validateFamilyFailed,
+}
 
 /// Extension to provide localization keys for family errors
 extension FamilyErrorLocalization on FamilyError {
@@ -127,6 +128,7 @@ extension FamilyErrorLocalization on FamilyError {
       case FamilyError.saveFamilyFailed:
         return 'errorSaveFamilyFailed';
       case FamilyError.validateFamilyFailed:
-        return 'errorValidateFamilyFailed';}
+        return 'errorValidateFamilyFailed';
+    }
   }
 }

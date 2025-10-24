@@ -35,7 +35,9 @@ class GroupDataFactory {
       memberCount: TestDataFactory.randomInt(3, 25),
       maxMembers: i % 3 == 0 ? null : TestDataFactory.randomInt(10, 30),
       scheduleConfig: createRealisticScheduleConfig(index: i),
-      userRole: i == 0 ? GroupMemberRole.owner : (i % 3 == 0 ? GroupMemberRole.admin : GroupMemberRole.member),
+      userRole: i == 0
+          ? GroupMemberRole.owner
+          : (i % 3 == 0 ? GroupMemberRole.admin : GroupMemberRole.member),
       familyCount: familyCount ?? TestDataFactory.randomInt(3, 8),
       scheduleCount: scheduleCount ?? TestDataFactory.randomInt(5, 20),
     );
@@ -44,13 +46,24 @@ class GroupDataFactory {
   /// Create realistic group settings
   static GroupSettings createRealisticGroupSettings({int? index}) {
     final i = index ?? 0;
-    final colors = ['#2196F3', '#4CAF50', '#FF9800', '#9C27B0', '#F44336', '#00BCD4'];
+    final colors = [
+      '#2196F3',
+      '#4CAF50',
+      '#FF9800',
+      '#9C27B0',
+      '#F44336',
+      '#00BCD4',
+    ];
 
     return GroupSettings(
       allowAutoAssignment: i % 2 == 0,
       requireParentalApproval: i % 3 == 0,
-      defaultPickupLocation: i % 2 == 0 ? TestDataFactory.randomAddress() : null,
-      defaultDropoffLocation: i % 2 == 1 ? TestDataFactory.randomAddress() : null,
+      defaultPickupLocation: i % 2 == 0
+          ? TestDataFactory.randomAddress()
+          : null,
+      defaultDropoffLocation: i % 2 == 1
+          ? TestDataFactory.randomAddress()
+          : null,
       groupColor: colors[i % colors.length],
       enableNotifications: i % 4 != 0,
       privacyLevel: i % 3 == 0
@@ -92,9 +105,15 @@ class GroupDataFactory {
       id: 'group-member-${i + 1}',
       name: TestDataFactory.randomName(),
       email: TestDataFactory.randomEmail(),
-      role: role ?? (i == 0 ? GroupMemberRole.owner : (i % 3 == 0 ? GroupMemberRole.admin : GroupMemberRole.member)),
+      role:
+          role ??
+          (i == 0
+              ? GroupMemberRole.owner
+              : (i % 3 == 0 ? GroupMemberRole.admin : GroupMemberRole.member)),
       joinedAt: TestDataFactory.randomPastDate(maxDaysAgo: 180),
-      status: i % 10 == 0 ? GroupMemberStatus.suspended : GroupMemberStatus.active,
+      status: i % 10 == 0
+          ? GroupMemberStatus.suspended
+          : GroupMemberStatus.active,
       permissions: _generatePermissions(role ?? GroupMemberRole.member),
     );
   }
@@ -106,7 +125,11 @@ class GroupDataFactory {
     bool? isPending,
   }) {
     final i = index ?? _familyCounter++;
-    final familyRole = role ?? (i == 0 ? GroupFamilyRole.owner : (i % 3 == 0 ? GroupFamilyRole.admin : GroupFamilyRole.member));
+    final familyRole =
+        role ??
+        (i == 0
+            ? GroupFamilyRole.owner
+            : (i % 3 == 0 ? GroupFamilyRole.admin : GroupFamilyRole.member));
     final pending = isPending ?? (i % 5 == 4);
 
     final admins = List.generate(
@@ -128,15 +151,14 @@ class GroupDataFactory {
       inviteCode: pending ? 'INV-${i + 1000}' : null,
       invitationId: pending ? 'invitation-${i + 1}' : null,
       invitedAt: pending ? TestDataFactory.randomPastDate(maxDaysAgo: 7) : null,
-      expiresAt: pending ? TestDataFactory.randomFutureDate(maxDaysAhead: 7) : null,
+      expiresAt: pending
+          ? TestDataFactory.randomFutureDate(maxDaysAhead: 7)
+          : null,
     );
   }
 
   /// Create a large list of groups for scroll testing
-  static List<Group> createLargeGroupList({
-    int count = 15,
-    String? familyId,
-  }) {
+  static List<Group> createLargeGroupList({int count = 15, String? familyId}) {
     return List.generate(
       count,
       (i) => createRealisticGroup(index: i, familyId: familyId),
@@ -144,23 +166,13 @@ class GroupDataFactory {
   }
 
   /// Create a large list of group members
-  static List<GroupMember> createLargeGroupMemberList({
-    int count = 20,
-  }) {
-    return List.generate(
-      count,
-      (i) => createRealisticGroupMember(index: i),
-    );
+  static List<GroupMember> createLargeGroupMemberList({int count = 20}) {
+    return List.generate(count, (i) => createRealisticGroupMember(index: i));
   }
 
   /// Create a large list of group families
-  static List<GroupFamily> createLargeGroupFamilyList({
-    int count = 12,
-  }) {
-    return List.generate(
-      count,
-      (i) => createRealisticGroupFamily(index: i),
-    );
+  static List<GroupFamily> createLargeGroupFamilyList({int count = 12}) {
+    return List.generate(count, (i) => createRealisticGroupFamily(index: i));
   }
 
   // Edge cases
@@ -168,8 +180,10 @@ class GroupDataFactory {
   /// Create group with very long name
   static Group createGroupWithLongName({String? familyId}) {
     return createRealisticGroup(familyId: familyId).copyWith(
-      name: 'Groupe de Covoiturage Scolaire pour les Enfants du Quartier Saint-Germain-des-Prés à Paris',
-      description: 'Un groupe de covoiturage très organisé pour les parents du quartier avec des règles strictes et des horaires bien définis pour assurer la sécurité et le confort de tous les enfants participants.',
+      name:
+          'Groupe de Covoiturage Scolaire pour les Enfants du Quartier Saint-Germain-des-Prés à Paris',
+      description:
+          'Un groupe de covoiturage très organisé pour les parents du quartier avec des règles strictes et des horaires bien définis pour assurer la sécurité et le confort de tous les enfants participants.',
     );
   }
 
@@ -177,44 +191,42 @@ class GroupDataFactory {
   static Group createGroupWithSpecialChars({String? familyId}) {
     return createRealisticGroup(familyId: familyId).copyWith(
       name: 'Covoiturage École Müller-O\'Brien & Søren',
-      description: 'Groupe international avec caractères spéciaux: é, è, ê, ñ, ö, ü, ø, å',
+      description:
+          'Groupe international avec caractères spéciaux: é, è, ê, ñ, ö, ü, ø, å',
     );
   }
 
   /// Create group at maximum capacity
   static Group createGroupAtCapacity({String? familyId}) {
-    return createRealisticGroup(familyId: familyId).copyWith(
-      memberCount: 20,
-      maxMembers: 20,
-    );
+    return createRealisticGroup(
+      familyId: familyId,
+    ).copyWith(memberCount: 20, maxMembers: 20);
   }
 
   /// Create group with no capacity limit
   static Group createGroupWithNoLimit({String? familyId}) {
-    return createRealisticGroup(familyId: familyId).copyWith(
-      memberCount: 50,
-    );
+    return createRealisticGroup(familyId: familyId).copyWith(memberCount: 50);
   }
 
   /// Create paused group
   static Group createPausedGroup({String? familyId}) {
-    return createRealisticGroup(familyId: familyId).copyWith(
-      status: GroupStatus.paused,
-    );
+    return createRealisticGroup(
+      familyId: familyId,
+    ).copyWith(status: GroupStatus.paused);
   }
 
   /// Create archived group
   static Group createArchivedGroup({String? familyId}) {
-    return createRealisticGroup(familyId: familyId).copyWith(
-      status: GroupStatus.archived,
-    );
+    return createRealisticGroup(
+      familyId: familyId,
+    ).copyWith(status: GroupStatus.archived);
   }
 
   /// Create draft group
   static Group createDraftGroup({String? familyId}) {
-    return createRealisticGroup(familyId: familyId).copyWith(
-      status: GroupStatus.draft,
-    );
+    return createRealisticGroup(
+      familyId: familyId,
+    ).copyWith(status: GroupStatus.draft);
   }
 
   /// Create group member with long name
@@ -246,9 +258,9 @@ class GroupDataFactory {
 
   /// Create expired group family invitation
   static GroupFamily createExpiredGroupFamily() {
-    return createRealisticGroupFamily(isPending: true).copyWith(
-      expiresAt: DateTime.now().subtract(const Duration(days: 1)),
-    );
+    return createRealisticGroupFamily(
+      isPending: true,
+    ).copyWith(expiresAt: DateTime.now().subtract(const Duration(days: 1)));
   }
 
   /// Create group family with long name

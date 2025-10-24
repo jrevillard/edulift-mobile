@@ -226,12 +226,18 @@ void main() {
               !line.contains('state ==') && // Skip comparisons
               !line.contains('return state ==') && // Skip calculated returns
               !line.contains('state = state.copyWith') &&
-              !line.contains('Set<String>.from(state)') && // Immutable set creation
+              !line.contains(
+                'Set<String>.from(state)',
+              ) && // Immutable set creation
               !line.contains('.toSet()') && // Immutable set transformation
               !line.contains('.toList()') && // Immutable list transformation
-              !line.contains('List<') && // List type annotations (not mutations)
+              !line.contains(
+                'List<',
+              ) && // List type annotations (not mutations)
               !line.contains('Map<') && // Map type annotations (not mutations)
-              !line.contains('=> state =') && // Lambda/arrow function assignment (Notifier pattern)
+              !line.contains(
+                '=> state =',
+              ) && // Lambda/arrow function assignment (Notifier pattern)
               !line.contains('AsyncValue') &&
               !line.contains('AsyncData') &&
               !line.contains('AsyncError') &&
@@ -240,9 +246,14 @@ void main() {
               !line.contains('.whenData(') &&
               !line.contains('const ') &&
               !line.contains('result.when') &&
-              !line.contains('State(') && // Allow immutable State constructor calls (e.g., GroupInvitationState(...))
-              !line.contains('{...state,') && // Allow spread operator for immutable sets
-              !_isCompleteObjectReplacement(line)) { // Allow complete immutable object replacement
+              !line.contains(
+                'State(',
+              ) && // Allow immutable State constructor calls (e.g., GroupInvitationState(...))
+              !line.contains(
+                '{...state,',
+              ) && // Allow spread operator for immutable sets
+              !_isCompleteObjectReplacement(line)) {
+            // Allow complete immutable object replacement
             violations.add(
               '${file.path}:${i + 1}: Direct state mutation: ${line}',
             );
@@ -256,9 +267,12 @@ void main() {
               (line.contains('state.') ||
                   line.contains('_state.') ||
                   line.contains('this.')) &&
-              !line.contains('Set<String>.from(state)') && // Immutable set pattern
+              !line.contains(
+                'Set<String>.from(state)',
+              ) && // Immutable set pattern
               !line.contains('List.from(') && // Immutable list pattern
-              !line.contains('.where(')) { // Functional collection transformation
+              !line.contains('.where(')) {
+            // Functional collection transformation
             violations.add(
               '${file.path}:${i + 1}: Direct collection mutation on state: ${line}',
             );

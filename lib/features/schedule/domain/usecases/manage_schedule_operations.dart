@@ -11,9 +11,11 @@ class CopyWeeklySchedule {
   Future<Result<void, ApiFailure>> call(CopyWeeklyScheduleParams params) async {
     // Validate that source and target weeks are different
     if (params.sourceWeek == params.targetWeek) {
-      return Result.err(ApiFailure.validationError(
-        message: 'Source and target weeks must be different',
-      ));
+      return Result.err(
+        ApiFailure.validationError(
+          message: 'Source and target weeks must be different',
+        ),
+      );
     }
 
     return repository.copyWeeklySchedule(
@@ -40,7 +42,7 @@ class GetScheduleStatistics {
   GetScheduleStatistics(this.repository);
 
   Future<Result<Map<String, dynamic>, ApiFailure>> call(
-    GetScheduleStatisticsParams params
+    GetScheduleStatisticsParams params,
   ) {
     return repository.getScheduleStatistics(params.groupId, params.week);
   }
@@ -52,7 +54,7 @@ class CheckScheduleConflicts {
   CheckScheduleConflicts(this.repository);
 
   Future<Result<List<ScheduleConflict>, ApiFailure>> call(
-    CheckScheduleConflictsParams params
+    CheckScheduleConflictsParams params,
   ) {
     return repository.checkScheduleConflicts(
       params.groupId,

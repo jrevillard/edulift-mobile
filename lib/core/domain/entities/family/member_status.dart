@@ -8,6 +8,7 @@ enum MemberStatus {
   inactive('inactive', 'Inactive', 'Member is temporarily inactive'),
   suspended('suspended', 'Suspended', 'Member access has been suspended'),
   removed('removed', 'Removed', 'Member has been removed from the family');
+
   const MemberStatus(this.value, this.label, this.description);
 
   final String value;

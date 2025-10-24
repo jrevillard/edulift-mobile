@@ -36,7 +36,7 @@ class LocalizationServiceImpl implements LocalizationService {
   }
 
   LocalizationServiceImpl(this._storage)
-      : _localeController = StreamController<LocaleInfo>.broadcast() {
+    : _localeController = StreamController<LocaleInfo>.broadcast() {
     _initializeLocale();
   }
 
@@ -70,8 +70,11 @@ class LocalizationServiceImpl implements LocalizationService {
   Future<Result<LocaleInfo, Failure>> setLocale(LocaleInfo locale) async {
     try {
       if (!isLocaleSupported(locale)) {
-        return Result.err(ValidationFailure(
-            message: 'Unsupported locale: ${locale.toString()}'));
+        return Result.err(
+          ValidationFailure(
+            message: 'Unsupported locale: ${locale.toString()}',
+          ),
+        );
       }
 
       // Persist the locale
@@ -94,7 +97,8 @@ class LocalizationServiceImpl implements LocalizationService {
   @override
   bool isLocaleSupported(LocaleInfo locale) {
     return _supportedLocales.any(
-        (supportedLocale) => supportedLocale.languageCode == locale.languageCode);
+      (supportedLocale) => supportedLocale.languageCode == locale.languageCode,
+    );
   }
 
   @override
@@ -125,7 +129,8 @@ class LocalizationServiceImpl implements LocalizationService {
           : Result.ok(_currentLocale); // Use default if not supported
     } catch (e) {
       return Result.err(
-          StorageFailure('Failed to load locale from storage: $e'));
+        StorageFailure('Failed to load locale from storage: $e'),
+      );
     }
   }
 

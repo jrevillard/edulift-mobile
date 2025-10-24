@@ -130,9 +130,7 @@ class TimezoneService {
 
       // Fallback to UTC if we can't get the device timezone
       const fallbackTimezone = 'UTC';
-      AppLogger.warning(
-        '[TimezoneService] Falling back to UTC timezone',
-      );
+      AppLogger.warning('[TimezoneService] Falling back to UTC timezone');
 
       _cachedTimezone = fallbackTimezone;
       return fallbackTimezone;
@@ -222,7 +220,8 @@ class TimezoneService {
 
       // Check if the string contains timezone offset info
       // Look for patterns like +05:00, -04:00, +0530, or trailing Z
-      final hasTimezoneInfo = localTime.endsWith('Z') ||
+      final hasTimezoneInfo =
+          localTime.endsWith('Z') ||
           RegExp(r'[+-]\d{2}:\d{2}$').hasMatch(localTime) ||
           RegExp(r'[+-]\d{4}$').hasMatch(localTime);
 
@@ -328,7 +327,9 @@ class TimezoneService {
       // Get current user
       final userResult = await authService.getCurrentUser();
       if (userResult.isErr) {
-        AppLogger.warning('[TimezoneService] No authenticated user, skipping timezone sync');
+        AppLogger.warning(
+          '[TimezoneService] No authenticated user, skipping timezone sync',
+        );
         return false;
       }
 
@@ -345,7 +346,9 @@ class TimezoneService {
         );
 
         // Update user timezone
-        final updateResult = await authService.updateUserTimezone(deviceTimezone);
+        final updateResult = await authService.updateUserTimezone(
+          deviceTimezone,
+        );
 
         if (updateResult.isOk) {
           AppLogger.info(

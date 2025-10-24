@@ -16,8 +16,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 
 import 'package:edulift/features/family/domain/usecases/create_family_usecase.dart';
-import 'package:edulift/core/domain/entities/family.dart'
-    as family_domain;
+import 'package:edulift/core/domain/entities/family.dart' as family_domain;
 import 'package:edulift/features/family/presentation/pages/create_family_page.dart';
 import 'package:edulift/features/family/presentation/providers/create_family_provider.dart';
 import 'package:edulift/core/utils/result.dart';
@@ -69,8 +68,11 @@ void main() {
       child: const CreateFamilyPage(),
       overrides: [
         createFamilyProvider.overrideWith(
-          (ref) =>
-              CreateFamilyNotifier(mockCreateFamilyUsecase, MockAuthService(), ref),
+          (ref) => CreateFamilyNotifier(
+            mockCreateFamilyUsecase,
+            MockAuthService(),
+            ref,
+          ),
         ),
       ],
     );
