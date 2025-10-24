@@ -1919,7 +1919,7 @@ void main() {
           // to finalize its accessibility information, which can help in disposing
           // of any lingering SemanticsHandle instances.
           final binding = TestWidgetsFlutterBinding.instance;
-          binding.pipelineOwner.flushSemantics();
+          binding.rootPipelineOwner.flushSemantics();
 
           // Settle one last time after flushing semantics to ensure a clean state.
           await $.pumpAndSettle();
