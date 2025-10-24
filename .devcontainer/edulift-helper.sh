@@ -10,9 +10,9 @@ edulift() {
     fi
     
     # Check if Flutter app is running
-    if ! pgrep -f "flutter_tester|mobile_app" > /dev/null; then
+    if ! pgrep -f "/workspace/build/linux/x64/debug/bundle/edulift" > /dev/null; then
         echo "⚠️  Flutter app not running. Start it with:"
-        echo "   cd /workspace/mobile_app && flutter run -d linux"
+        echo "   cd /workspace && flutter run -d linux"
         return 1
     fi
     

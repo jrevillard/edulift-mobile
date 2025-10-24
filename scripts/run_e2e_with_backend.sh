@@ -116,7 +116,7 @@ start_backend() {
     fi
     
     # Go back to mobile app directory
-    cd /workspace/mobile_app
+    cd /workspace
 }
 
 # Run Flutter dependencies

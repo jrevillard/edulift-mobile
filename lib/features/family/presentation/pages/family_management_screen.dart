@@ -1286,11 +1286,18 @@ class _FamilyManagementScreenState extends ConsumerState<FamilyManagementScreen>
   void _showMemberActions(entities.FamilyMember member) {
     final currentUser = ref.read(authStateProvider).user;
     final isCurrentUser = currentUser?.id == member.userId;
+    final family = ref.read(familyComposedProvider).family;
 
-    // Only admins can manage roles, and current user cannot change own admin status
+    // CRITICAL: Last admin protection - cannot change role of last admin
+    // This prevents families from being left without any administrator
+    final adminCount = family?.members.where((m) => m.role == entities.FamilyRole.admin).length ?? 0;
+    final isLastAdmin = member.role == entities.FamilyRole.admin && adminCount == 1;
+
+    // Only admins can manage roles, current user cannot change own role,
+    // and last admin cannot have role changed (family must have at least 1 admin)
     final permissionProvider = ref.read(familyPermissionComposedProvider);
     final canManageRoles =
-        permissionProvider.canManageMembers && !isCurrentUser;
+        permissionProvider.canManageMembers && !isCurrentUser && !isLastAdmin;
 
     debugPrint(
       '🔍 _showMemberActions: ${member.displayNameOrLoading} (${member.role.value})',
@@ -1301,7 +1308,8 @@ class _FamilyManagementScreenState extends ConsumerState<FamilyManagementScreen>
     debugPrint(
       '   permissionProvider.canManageMembers=${permissionProvider.canManageMembers}',
     );
-    debugPrint('   canManageRoles=$canManageRoles');
+    debugPrint('   adminCount=$adminCount, isLastAdmin=$isLastAdmin');
+    debugPrint('   canManageRoles=$canManageRoles (last admin protection applied)');
 
     showModalBottomSheet(
       context: context,
