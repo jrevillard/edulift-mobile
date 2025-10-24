@@ -148,9 +148,9 @@ patrol:
   # Package name for E2E flavor (with .e2e suffix from build.gradle.kts)
   android:
     package_name: com.edulift.app.e2e
-  # Bundle ID for iOS E2E flavor
+  # Bundle ID pour E2E (utilise projet staging, pas de fichiers Firebase dédiés)
   ios:
-    bundle_id: com.edulift.app
+    bundle_id: com.edulift.app.e2e
 
 flutter:
   uses-material-design: true

@@ -22,6 +22,9 @@ on:
           - e2e
           - staging
 
+permissions:
+  contents: read
+
 env:
   FLUTTER_VERSION: '3.24.3'
   JAVA_VERSION: '17'
@@ -30,6 +33,7 @@ jobs:
   patrol-e2e-android:
     name: Patrol E2E Android
     runs-on: ubuntu-latest
+    timeout-minutes: 60
     
     steps:
       - name: Checkout mobile code
@@ -41,23 +45,14 @@ jobs:
           repository: jrevillard/edulift
           path: backend
       
-      - name: Setup Java
-        uses: actions/setup-java@v4
-        with:
-          java-version: ${{ env.JAVA_VERSION }}
-          distribution: 'temurin'
-      
-      - name: Setup Flutter
-        uses: subosito/flutter-action@v2
+      - name: Setup Flutter Environment
+        uses: ./.github/actions/setup-flutter
         with:
           flutter-version: ${{ env.FLUTTER_VERSION }}
-          channel: 'stable'
-          cache: true
-      
-      - name: Get dependencies
-        run: flutter pub get
-      
+          java-version: ${{ env.JAVA_VERSION }}
+
       - name: Run code generation
+        shell: bash
         run: flutter packages pub run build_runner build --delete-conflicting-outputs
       
       - name: Create dev-network
@@ -68,21 +63,31 @@ jobs:
           cd integration_test
           docker compose up -d
       
-      - name: Wait for backend readiness
+      - name: Wait for backend readiness with retry logic
         run: |
-          timeout 120 bash -c '
-            until curl -f http://localhost:8030/health; do
-              echo "Backend not ready, waiting..."
+          echo "⏳ Waiting for backend to be ready..."
+          max_attempts=24
+          attempt=1
+          while [ $attempt -le $max_attempts ]; do
+            if curl -f --max-time 10 --retry 2 --retry-delay 2 http://localhost:8030/health; then
+              echo "✅ Backend is ready! (Attempt $attempt/$max_attempts)"
+              break
+            else
+              echo "❌ Backend not ready (Attempt $attempt/$max_attempts), retrying in 5 seconds..."
               sleep 5
-            done
-          '
-          echo "Backend is ready!"
+              ((attempt++))
+            fi
+          done
+
+          if [ $attempt -gt $max_attempts ]; then
+            echo "❌ Backend failed to become ready after $max_attempts attempts"
+            echo "🔍 Checking Docker services status..."
+            docker compose ps
+            exit 1
+          fi
       
-      - name: Enable KVM group permissions
-        run: |
-          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
-          sudo udevadm control --reload-rules
-          sudo udevadm trigger --name-match=kvm
+      - name: Setup Android Emulator
+        uses: ./.github/actions/setup-android-emulator
       
       - name: Run Patrol E2E tests with emulator
         uses: reactivecircus/android-emulator-runner@v2
@@ -116,8 +121,9 @@ jobs:
         uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: patrol-e2e-results
+          name: patrol-e2e-results-${{ github.run_number }}
           path: |
             integration_test/build/
             integration_test/screenshots/
             patrol_docker_logs.txt
+          retention-days: 7

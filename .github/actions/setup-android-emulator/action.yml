@@ -1,0 +1,24 @@
+name: Setup Android Emulator
+description: 'Setup KVM permissions and configure Android emulator environment'
+author: 'EduLift Team'
+
+runs:
+  using: composite
+  steps:
+    - name: Enable KVM group permissions
+      shell: bash
+      run: |
+        echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+        sudo udevadm control --reload-rules
+        sudo udevadm trigger --name-match=kvm
+
+    - name: Verify KVM access
+      shell: bash
+      run: |
+        if [ -e /dev/kvm ]; then
+          echo "✅ KVM device found"
+          ls -la /dev/kvm
+          groups $USER | grep -q kvm && echo "✅ User in kvm group" || echo "⚠️ User not in kvm group"
+        else
+          echo "⚠️ KVM device not found, emulator will run without hardware acceleration"
+        fi

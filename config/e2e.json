@@ -1,0 +1,32 @@
+{
+  "APP_NAME": "EduLift E2E Tests",
+  "APP_VERSION": "1.0.0",
+  "API_BASE_URL": "https://api-staging.edulift.app",
+  "ENVIRONMENT": "testing",
+  "DEBUG": true,
+  "LOG_LEVEL": "debug",
+  "ANALYTICS_ENABLED": false,
+  "CRASHLYTICS_ENABLED": false,
+  "FEATURE_FLAGS": {
+    "TESTING_MODE": true,
+    "MOCK_APIS": true,
+    "DISABLE_ADS": true
+  },
+  "TEST_USERS": [
+    {
+      "username": "e2e-tester-1@edulift.app",
+      "password": "Test123456!",
+      "role": "tester"
+    },
+    {
+      "username": "e2e-tester-2@edulift.app",
+      "password": "Test789!",
+      "role": "tester"
+    }
+  ],
+  "TEST_DATA": {
+    "MOCK_POSTS": [],
+    "MOCK_COMMENTS": [],
+    "CLEANUP_AFTER_TESTS": true
+  }
+}
