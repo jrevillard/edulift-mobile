@@ -143,6 +143,16 @@ void main() {
       // === TEST 2: Settings navigation works ===
       debugPrint('⚙️ Testing settings navigation...');
 
+      // CRITICAL FIX: Scroll to settings button (may be off-screen due to timezone fields)
+      // The profile page now has additional timezone settings that push the settings button down
+      debugPrint('🔍 Scrolling to settings button...');
+      await $.scrollUntilVisible(
+        finder: find.byKey(const Key('profile_settings_button')),
+        view: find.byType(CustomScrollView),
+        scrollDirection: AxisDirection.down,
+      );
+      await $.pumpAndSettle();
+
       // Tap settings button using verified key
       await $.waitUntilVisible(
         find.byKey(const Key('profile_settings_button')),
@@ -164,6 +174,8 @@ void main() {
       // Scroll down to make logout button visible (it's at the bottom of the page)
       await $.scrollUntilVisible(
         finder: find.byKey(const Key('profile_logout_button')),
+        view: find.byType(CustomScrollView),
+        scrollDirection: AxisDirection.down,
       );
 
       // Tap logout button using verified key
@@ -190,6 +202,8 @@ void main() {
       // Scroll down to make logout button visible again
       await $.scrollUntilVisible(
         finder: find.byKey(const Key('profile_logout_button')),
+        view: find.byType(CustomScrollView),
+        scrollDirection: AxisDirection.down,
       );
 
       // Tap logout button again
@@ -396,6 +410,8 @@ void main() {
       // Scroll down to make logout button visible
       await $.scrollUntilVisible(
         finder: find.byKey(const Key('profile_logout_button')),
+        view: find.byType(CustomScrollView),
+        scrollDirection: AxisDirection.down,
       );
       await $.waitUntilVisible(find.byKey(const Key('profile_logout_button')));
 
@@ -465,6 +481,8 @@ void main() {
       // Scroll down to make logout button visible
       await $.scrollUntilVisible(
         finder: find.byKey(const Key('profile_logout_button')),
+        view: find.byType(CustomScrollView),
+        scrollDirection: AxisDirection.down,
       );
       await $.waitUntilVisible(find.byKey(const Key('profile_logout_button')));
       debugPrint('✅ Profile page elements present with English labels');
@@ -529,6 +547,8 @@ void main() {
       // Scroll down to make logout button visible
       await $.scrollUntilVisible(
         finder: find.byKey(const Key('profile_logout_button')),
+        view: find.byType(CustomScrollView),
+        scrollDirection: AxisDirection.down,
       );
       await $.waitUntilVisible(find.byKey(const Key('profile_logout_button')));
       debugPrint('✅ Profile page elements present with French labels restored');
