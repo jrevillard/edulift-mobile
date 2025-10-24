@@ -148,7 +148,7 @@ void main() {
       debugPrint('🔍 Scrolling to settings button...');
       await $.scrollUntilVisible(
         finder: find.byKey(const Key('profile_settings_button')),
-        view: find.byType(CustomScrollView),
+        view: find.byType(SingleChildScrollView),
         scrollDirection: AxisDirection.down,
       );
       await $.pumpAndSettle();
@@ -174,7 +174,7 @@ void main() {
       // Scroll down to make logout button visible (it's at the bottom of the page)
       await $.scrollUntilVisible(
         finder: find.byKey(const Key('profile_logout_button')),
-        view: find.byType(CustomScrollView),
+        view: find.byType(SingleChildScrollView),
         scrollDirection: AxisDirection.down,
       );
 
@@ -202,7 +202,7 @@ void main() {
       // Scroll down to make logout button visible again
       await $.scrollUntilVisible(
         finder: find.byKey(const Key('profile_logout_button')),
-        view: find.byType(CustomScrollView),
+        view: find.byType(SingleChildScrollView),
         scrollDirection: AxisDirection.down,
       );
 
@@ -404,13 +404,20 @@ void main() {
       debugPrint('📱 Capturing initial French labels on profile page...');
       // Verify we're on profile page with French labels (assuming app starts in French)
       await $.waitUntilVisible(find.byKey(const Key('profile_user_info_card')));
+
+      // Scroll to settings button first (may be off-screen)
+      await $.scrollUntilVisible(
+        finder: find.byKey(const Key('profile_settings_button')),
+        view: find.byType(SingleChildScrollView),
+        scrollDirection: AxisDirection.down,
+      );
       await $.waitUntilVisible(find.byKey(const Key('profile_settings_button')));
       await $.waitUntilVisible(find.byKey(const Key('profile_timezone_card')));
 
       // Scroll down to make logout button visible
       await $.scrollUntilVisible(
         finder: find.byKey(const Key('profile_logout_button')),
-        view: find.byType(CustomScrollView),
+        view: find.byType(SingleChildScrollView),
         scrollDirection: AxisDirection.down,
       );
       await $.waitUntilVisible(find.byKey(const Key('profile_logout_button')));
@@ -475,13 +482,19 @@ void main() {
       );
 
       // Verify profile page elements are still present (labels should now be in English)
+      // Scroll to settings button first (may be off-screen)
+      await $.scrollUntilVisible(
+        finder: find.byKey(const Key('profile_settings_button')),
+        view: find.byType(SingleChildScrollView),
+        scrollDirection: AxisDirection.down,
+      );
       await $.waitUntilVisible(find.byKey(const Key('profile_settings_button')));
       await $.waitUntilVisible(find.byKey(const Key('profile_timezone_card')));
 
       // Scroll down to make logout button visible
       await $.scrollUntilVisible(
         finder: find.byKey(const Key('profile_logout_button')),
-        view: find.byType(CustomScrollView),
+        view: find.byType(SingleChildScrollView),
         scrollDirection: AxisDirection.down,
       );
       await $.waitUntilVisible(find.byKey(const Key('profile_logout_button')));
@@ -541,13 +554,19 @@ void main() {
       );
 
       // Verify profile page elements are still present (labels should now be back in French)
+      // Scroll to settings button first (may be off-screen)
+      await $.scrollUntilVisible(
+        finder: find.byKey(const Key('profile_settings_button')),
+        view: find.byType(SingleChildScrollView),
+        scrollDirection: AxisDirection.down,
+      );
       await $.waitUntilVisible(find.byKey(const Key('profile_settings_button')));
       await $.waitUntilVisible(find.byKey(const Key('profile_timezone_card')));
 
       // Scroll down to make logout button visible
       await $.scrollUntilVisible(
         finder: find.byKey(const Key('profile_logout_button')),
-        view: find.byType(CustomScrollView),
+        view: find.byType(SingleChildScrollView),
         scrollDirection: AxisDirection.down,
       );
       await $.waitUntilVisible(find.byKey(const Key('profile_logout_button')));
