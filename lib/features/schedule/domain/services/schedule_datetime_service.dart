@@ -23,12 +23,12 @@ class ScheduleDateTimeService {
 
   /// Calculate full DateTime from day string, time string, and week
   ///
-  /// Example: ("Monday", "07:30", "2025-W02") → UTC datetime representing 07:30 local time
+  /// Example: ("Monday", "07:30", "2025-W02") → UTC datetime 2025-01-06 07:30:00.000Z
   /// Returns DateTime in UTC timezone for API compatibility
   ///
-  /// IMPORTANT: This method converts LOCAL time to UTC.
-  /// The input time (e.g., "07:30") is treated as local device time
-  /// and converted to UTC for storage/API calls.
+  /// IMPORTANT: This method treats input time as UTC time (no timezone conversion).
+  /// The input time (e.g., "07:30") is interpreted as 07:30 UTC directly,
+  /// ensuring consistent behavior regardless of device timezone.
   DateTime? calculateDateTimeFromSlot(String day, String time, String week) {
     try {
       final weekStart = calculateWeekStartDate(week);
@@ -63,9 +63,10 @@ class ScheduleDateTimeService {
       // Build the date component
       final date = weekStart.add(Duration(days: dayOffset));
 
-      // Create DateTime in LOCAL timezone first (device timezone)
-      // This represents the user's intended time
-      final localDateTime = DateTime(
+      // Create DateTime directly in UTC (no timezone conversion)
+      // The input time (e.g., "07:30") is treated as UTC time, not local time
+      // This ensures consistent behavior regardless of device timezone
+      final utcDateTime = DateTime.utc(
         date.year,
         date.month,
         date.day,
@@ -73,11 +74,8 @@ class ScheduleDateTimeService {
         minute,
       );
 
-      // Convert to UTC for storage and API compatibility
-      final utcDateTime = localDateTime.toUtc();
-
       _logger.fine(
-        'Calculated datetime: day=$day, time=$time, week=$week → Local: ${localDateTime.toIso8601String()} → UTC: ${utcDateTime.toIso8601String()}',
+        'Calculated datetime: day=$day, time=$time, week=$week → UTC: ${utcDateTime.toIso8601String()}',
       );
       return utcDateTime;
     } catch (e) {

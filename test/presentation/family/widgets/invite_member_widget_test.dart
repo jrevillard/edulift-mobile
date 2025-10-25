@@ -19,7 +19,11 @@ void main() {
   group('InviteMemberWidget Widget Tests', () {
     testWidgets('should display invite form correctly', (tester) async {
       // Arrange
-      final widget = createLocalizedTestApp(child: const InviteMemberWidget());
+      // Add familyProvider override to prevent "No family ID available" error
+      final widget = createLocalizedTestApp(
+        overrides: TestProviderOverrides.common,
+        child: const InviteMemberWidget(),
+      );
 
       // Act
       await tester.pumpWidget(widget);
@@ -49,7 +53,10 @@ void main() {
 
     testWidgets('should validate required email field', (tester) async {
       // Arrange
-      final widget = createLocalizedTestApp(child: const InviteMemberWidget());
+      final widget = createLocalizedTestApp(
+        overrides: TestProviderOverrides.common,
+        child: const InviteMemberWidget(),
+      );
 
       // Act
       await tester.pumpWidget(widget);
@@ -59,16 +66,19 @@ void main() {
       await tester.tap(find.byKey(const Key('send_invitation_button')));
       await tester.pumpAndSettle();
 
-      // Assert - Validation error
+      // Assert - Validation error (using localized text)
       expect(
-        find.text('Email is required'),
+        find.text('Email address is required'),
         findsOneWidget,
-      ); // This is validation text, keep as text
+      ); // Localized validation message
     });
 
     testWidgets('should validate email format', (tester) async {
       // Arrange
-      final widget = createLocalizedTestApp(child: const InviteMemberWidget());
+      final widget = createLocalizedTestApp(
+        overrides: TestProviderOverrides.common,
+        child: const InviteMemberWidget(),
+      );
 
       // Act
       await tester.pumpWidget(widget);
@@ -84,16 +94,19 @@ void main() {
       await tester.tap(find.byKey(const Key('send_invitation_button')));
       await tester.pumpAndSettle();
 
-      // Assert - Validation error
+      // Assert - Validation error (using localized text)
       expect(
         find.text('Please enter a valid email address'),
         findsOneWidget,
-      ); // This is validation text, keep as text
+      ); // Localized validation message
     });
 
     testWidgets('should accept valid email formats', (tester) async {
       // Arrange - Use TestProviderOverrides for proper provider setup
-      final widget = createLocalizedTestApp(child: const InviteMemberWidget());
+      final widget = createLocalizedTestApp(
+        overrides: TestProviderOverrides.common,
+        child: const InviteMemberWidget(),
+      );
 
       // Act
       await tester.pumpWidget(widget);
@@ -120,6 +133,7 @@ void main() {
     testWidgets('should send invitation successfully', (tester) async {
       // Arrange
       final widget = createLocalizedTestApp(
+        overrides: TestProviderOverrides.common,
         child: InviteMemberWidget(onInvitationSent: () {}),
       );
 
@@ -158,7 +172,10 @@ void main() {
 
     testWidgets('should handle invitation failure', (tester) async {
       // Arrange - Use TestProviderOverrides for proper provider setup
-      final widget = createLocalizedTestApp(child: const InviteMemberWidget());
+      final widget = createLocalizedTestApp(
+        overrides: TestProviderOverrides.common,
+        child: const InviteMemberWidget(),
+      );
 
       // Act
       await tester.pumpWidget(widget);
@@ -219,7 +236,10 @@ void main() {
       tester,
     ) async {
       // Arrange - Use TestProviderOverrides for proper provider setup
-      final widget = createLocalizedTestApp(child: const InviteMemberWidget());
+      final widget = createLocalizedTestApp(
+        overrides: TestProviderOverrides.common,
+        child: const InviteMemberWidget(),
+      );
 
       // Act
       await tester.pumpWidget(widget);
@@ -256,7 +276,10 @@ void main() {
 
     testWidgets('should handle role selection', (tester) async {
       // Arrange
-      final widget = createLocalizedTestApp(child: const InviteMemberWidget());
+      final widget = createLocalizedTestApp(
+        overrides: TestProviderOverrides.common,
+        child: const InviteMemberWidget(),
+      );
 
       // Act
       await tester.pumpWidget(widget);
@@ -269,7 +292,10 @@ void main() {
 
     testWidgets('should change role selection', (tester) async {
       // Arrange
-      final widget = createLocalizedTestApp(child: const InviteMemberWidget());
+      final widget = createLocalizedTestApp(
+        overrides: TestProviderOverrides.common,
+        child: const InviteMemberWidget(),
+      );
 
       // Act
       await tester.pumpWidget(widget);
@@ -282,7 +308,10 @@ void main() {
 
     testWidgets('should handle personal message input', (tester) async {
       // Arrange
-      final widget = createLocalizedTestApp(child: const InviteMemberWidget());
+      final widget = createLocalizedTestApp(
+        overrides: TestProviderOverrides.common,
+        child: const InviteMemberWidget(),
+      );
 
       // Act
       await tester.pumpWidget(widget);
@@ -325,7 +354,10 @@ void main() {
 
     testWidgets('should validate name field length', (tester) async {
       // Arrange
-      final widget = createLocalizedTestApp(child: const InviteMemberWidget());
+      final widget = createLocalizedTestApp(
+        overrides: TestProviderOverrides.common,
+        child: const InviteMemberWidget(),
+      );
 
       // Act
       await tester.pumpWidget(widget);
@@ -350,7 +382,10 @@ void main() {
 
     testWidgets('should be accessible with screen reader', (tester) async {
       // Arrange
-      final widget = createLocalizedTestApp(child: const InviteMemberWidget());
+      final widget = createLocalizedTestApp(
+        overrides: TestProviderOverrides.common,
+        child: const InviteMemberWidget(),
+      );
 
       // Act
       await tester.pumpWidget(widget);
@@ -374,7 +409,10 @@ void main() {
 
     testWidgets('should handle keyboard navigation', (tester) async {
       // Arrange
-      final widget = createLocalizedTestApp(child: const InviteMemberWidget());
+      final widget = createLocalizedTestApp(
+        overrides: TestProviderOverrides.common,
+        child: const InviteMemberWidget(),
+      );
 
       // Act
       await tester.pumpWidget(widget);
@@ -394,7 +432,10 @@ void main() {
 
     testWidgets('should dispose controllers properly', (tester) async {
       // Arrange
-      final widget = createLocalizedTestApp(child: const InviteMemberWidget());
+      final widget = createLocalizedTestApp(
+        overrides: TestProviderOverrides.common,
+        child: const InviteMemberWidget(),
+      );
 
       // Act
       await tester.pumpWidget(widget);

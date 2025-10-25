@@ -46,11 +46,9 @@ void main() {
         expect(result.month, equals(1));
         expect(result.day, equals(6)); // Monday of week 2
 
-        // ✅ FIX: After the fix, UTC time = LOCAL time converted to UTC
-        // So we verify the round-trip: UTC → Local = original time
-        final local = result.toLocal();
-        expect(local.hour, equals(7), reason: 'Local hour should be 7');
-        expect(local.minute, equals(30), reason: 'Local minute should be 30');
+        // Input time is treated as UTC (no timezone conversion)
+        expect(result.hour, equals(7), reason: 'UTC hour should be 7');
+        expect(result.minute, equals(30), reason: 'UTC minute should be 30');
       });
 
       test('should calculate correct UTC datetime for Friday 16:00', () {
@@ -66,10 +64,9 @@ void main() {
         expect(result.month, equals(1));
         expect(result.day, equals(10)); // Friday of week 2
 
-        // ✅ FIX: Verify round-trip instead of direct UTC hour
-        final local = result.toLocal();
-        expect(local.hour, equals(16), reason: 'Local hour should be 16');
-        expect(local.minute, equals(0), reason: 'Local minute should be 0');
+        // Input time is treated as UTC (no timezone conversion)
+        expect(result.hour, equals(16), reason: 'UTC hour should be 16');
+        expect(result.minute, equals(0), reason: 'UTC minute should be 0');
       });
 
       test('should handle all weekdays correctly', () {
@@ -97,10 +94,9 @@ void main() {
             reason: 'Wrong day for ${entry.key}',
           );
 
-          // ✅ FIX: Verify local time components, not UTC
-          final local = result.toLocal();
-          expect(local.hour, equals(12), reason: 'Local hour should be 12');
-          expect(local.minute, equals(0), reason: 'Local minute should be 0');
+          // Input time is treated as UTC (no timezone conversion)
+          expect(result.hour, equals(12), reason: 'UTC hour should be 12');
+          expect(result.minute, equals(0), reason: 'UTC minute should be 0');
         }
       });
 
@@ -246,9 +242,9 @@ void main() {
     });
 
     group('timezone conversion (bug regression test)', () {
-      test('should convert local time to UTC correctly', () {
-        // REGRESSION TEST for bug: +2h offset when adding vehicle
-        // User clicks 07:30 LOCAL → should store as LOCAL time converted to UTC
+      test('should NOT apply timezone conversion', () {
+        // REGRESSION TEST: Input time should be treated as UTC directly
+        // User clicks 07:30 → should store as 07:30 UTC (no conversion)
 
         final utcResult = service.calculateDateTimeFromSlot(
           'Monday',
@@ -258,36 +254,23 @@ void main() {
         expect(utcResult, isNotNull);
         expect(utcResult!.isUtc, isTrue);
 
-        // Convert back to local to verify round-trip
-        final localResult = utcResult.toLocal();
-
-        // The local time components should match what the user clicked
+        // The UTC time should be exactly what was input (no conversion)
         expect(
-          localResult.hour,
+          utcResult.hour,
           equals(7),
-          reason:
-              'User clicked 07:30 LOCAL, should display 07:30 LOCAL after round-trip',
+          reason: 'Input time 07:30 should become 07:30 UTC (no conversion)',
         );
-        expect(localResult.minute, equals(30));
+        expect(utcResult.minute, equals(30));
 
-        // The UTC time should be DIFFERENT (offset by timezone)
-        // For example, in UTC+2: 07:30 LOCAL = 05:30 UTC
-        // Note: We can't test exact UTC hour without knowing test environment timezone,
-        // but we can verify it's NOT the same as local (unless timezone is UTC)
-        if (DateTime.now().timeZoneOffset.inHours != 0) {
-          expect(
-            utcResult.hour,
-            isNot(equals(7)),
-            reason:
-                'UTC hour should differ from local hour when timezone offset exists',
-          );
-        }
+        // Verify the full datetime
+        final expected = DateTime.utc(2025, 1, 6, 7, 30);
+        expect(utcResult, equals(expected));
       });
 
       test('should produce consistent datetime when stored and retrieved', () {
         // Simulate the full flow: User clicks → Store → Retrieve → Display
 
-        // 1. User clicks 07:30 LOCAL (what calculateDateTimeFromSlot simulates)
+        // 1. User clicks 07:30 (treated as UTC by calculateDateTimeFromSlot)
         final userClickedUtc = service.calculateDateTimeFromSlot(
           'Monday',
           '07:30',
@@ -302,17 +285,17 @@ void main() {
         final retrievedUtc = DateTime.parse(storedUtcString);
         expect(retrievedUtc.isUtc, isTrue);
 
-        // 4. DTO converts to local for display (like schedule_slot_dto.dart does)
-        final displayedLocal = retrievedUtc.toLocal();
-
-        // 5. Verify: Displayed time = User clicked time
+        // 4. Verify: The time remains 07:30 UTC (no conversion applied)
         expect(
-          displayedLocal.hour,
+          retrievedUtc.hour,
           equals(7),
-          reason:
-              'BUG CHECK: User clicked 07:30, should display 07:30 (not 09:30!)',
+          reason: 'Stored UTC time should remain 07:30',
         );
-        expect(displayedLocal.minute, equals(30));
+        expect(retrievedUtc.minute, equals(30));
+
+        // The full datetime should match exactly
+        final expected = DateTime.utc(2025, 1, 6, 7, 30);
+        expect(retrievedUtc, equals(expected));
       });
     });
 
