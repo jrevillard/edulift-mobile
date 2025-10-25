@@ -96,8 +96,9 @@ class GitHistoryAnalyzer {
         findings.addAll(diffFindings);
       }
     } catch (e) {
-      if (_verbose)
+      if (_verbose) {
         print('Warning: Could not analyze commit ${commit.hash}: $e');
+      }
     }
 
     return findings;
