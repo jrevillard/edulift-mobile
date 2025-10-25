@@ -45,11 +45,7 @@ jobs:
     strategy:
       matrix:
         # Smart flavor selection based on trigger and input
-        flavor: ${{
-          github.event.inputs.platform == 'android-fast' && fromJson('["dev"]') ||
-          github.ref == 'refs/heads/main' && github.event_name == 'push' && fromJson('["dev"]') ||
-          fromJson('["dev", "staging", "prod"]')
-        }}
+        flavor: ${{ github.event.inputs.platform == 'android-fast' && fromJson('["dev"]') || (github.ref == 'refs/heads/main' && github.event_name == 'push' && fromJson('["dev"]')) || fromJson('["dev", "staging", "prod"]') }}
     
     steps:
       - name: Checkout code
