@@ -746,11 +746,13 @@ class ErrorHandlerService {
   }
 
   String _extractErrorMessage(dynamic error) {
+    if (error is Failure) {
+      // CRITICAL FIX: For Failure types, return message directly if it exists
+      // Don't fall back to toString() which includes the full object representation
+      return error.message ?? error.toString();
+    }
     if (error is Exception) {
       return error.toString();
-    }
-    if (error is Failure) {
-      return error.message ?? error.toString();
     }
     return error?.toString() ?? 'Unknown error';
   }
@@ -1024,7 +1026,41 @@ class ErrorHandlerService {
       }
 
       // Fall back to raw error message extraction
-      return _extractErrorMessage(error);
+      final extractedErrorMessage = _extractErrorMessage(error);
+
+      // CRITICAL FIX: Handle null messages by returning default error constants
+      // based on error category instead of returning toString() representations
+      if (error is Failure && error.message == null) {
+        // Return category-specific default messages when message is null
+        switch (classification.category) {
+          case ErrorCategory.server:
+            return 'SERVER_ERROR_GENERAL';
+          case ErrorCategory.validation:
+            return 'VALIDATION_ERROR_GENERAL';
+          case ErrorCategory.network:
+            return 'NETWORK_ERROR_GENERAL';
+          case ErrorCategory.authentication:
+            return 'AUTH_ERROR_GENERAL';
+          case ErrorCategory.authorization:
+            return 'AUTHORIZATION_ERROR_GENERAL';
+          case ErrorCategory.storage:
+            return 'STORAGE_ERROR_GENERAL';
+          case ErrorCategory.sync:
+            return 'SYNC_ERROR_GENERAL';
+          case ErrorCategory.offline:
+            return 'OFFLINE_ERROR_GENERAL';
+          case ErrorCategory.conflict:
+            return 'CONFLICT_ERROR_GENERAL';
+          case ErrorCategory.unexpected:
+            return 'UNEXPECTED_ERROR_GENERAL';
+          case ErrorCategory.permission:
+            return 'PERMISSION_ERROR_GENERAL';
+          case ErrorCategory.biometric:
+            return 'BIOMETRIC_ERROR_GENERAL';
+        }
+      }
+
+      return extractedErrorMessage;
     } catch (e) {
       // If anything goes wrong, fall back to basic error extraction
       return _extractErrorMessage(error);
