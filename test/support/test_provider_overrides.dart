@@ -34,7 +34,7 @@ class TestProviderOverrides {
     appStateProvider.overrideWith((ref) => AppStateNotifier()),
     // Type-safe family provider override with validation
     familyProvider.overrideWith((ref) {
-      final notifier = _createTestFamilyNotifier(ref);
+      final notifier = createTestFamilyNotifier(ref);
       // Force immediate state initialization to prevent Riverpod assertion errors
       return notifier;
     }),
@@ -96,7 +96,7 @@ class TestProviderOverrides {
 
   /// Family-specific overrides
   static List<Override> get familyOverrides => [
-    familyProvider.overrideWith((ref) => _createTestFamilyNotifier(ref)),
+    familyProvider.overrideWith((ref) => createTestFamilyNotifier(ref)),
     // CRITICAL FIX: Use real AppStateNotifier instead of mock
     appStateProvider.overrideWith((ref) => AppStateNotifier()),
   ];
@@ -107,8 +107,9 @@ class TestProviderOverrides {
     appStateProvider.overrideWith((ref) => AppStateNotifier()),
   ];
 
-  // Private factory methods for creating test notifiers
-  static family_providers.FamilyNotifier _createTestFamilyNotifier(Ref ref) {
+  // Public factory methods for creating test notifiers
+  // Made public to allow test cases to create family notifiers
+  static family_providers.FamilyNotifier createTestFamilyNotifier(Ref ref) {
     final mockFamilyRepository = mocks.MockFamilyRepository();
     // Note: Children and vehicle operations are now part of FamilyRepository
     final mockInvitationRepository = mocks.MockInvitationRepository();

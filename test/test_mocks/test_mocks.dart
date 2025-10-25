@@ -400,6 +400,8 @@ void _setupResultDummies() {
   provideDummy(const Result<List<Family>, ApiFailure>.ok([]));
   provideDummy(Result<Family, Failure>.ok(_createDummyFamily()));
   provideDummy(const Result<List<Family>, Failure>.ok([]));
+  // CRITICAL FIX: Add nullable Family Result for getCurrentFamily()
+  provideDummy(const Result<Family?, ApiFailure>.ok(null));
 
   // FamilyMember domain Results - CRITICAL FIX FOR MissingDummyValueError
   provideDummy(Result<FamilyMember, Failure>.ok(_createDummyFamilyMember()));

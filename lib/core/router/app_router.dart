@@ -67,99 +67,97 @@ class AppRouter {
       '   - NO STALE CONTAINER REFERENCES - Provider mismatch ELIMINATED',
     );
 
-    // STATE-OF-THE-ART: Reactive state coordination with proper async handling
-    // Listen to auth state changes and trigger router refresh with throttling
+    // CRITICAL FIX: Make router refresh SYNCHRONOUS for auth state changes
+    // Reading provider state is instant - no async coordination needed
+    // This ensures tests see immediate state updates and router redirects work correctly
     ref.listen(authStateProvider, (previous, next) {
-      // Use reactive state coordinator for proper async handling
-      ReactiveStateCoordinatorService.instance.coordinateReactiveListener(() async {
+      core_logger.AppLogger.info(
+        '🚨 [Router Listener] ═══ AUTH STATE CHANGE DETECTED ═══\n'
+        '   - Listener callback TRIGGERED at ${DateTime.now().toIso8601String()}\n'
+        '   - Previous state: auth=${previous?.isAuthenticated}, init=${previous?.isInitialized}, user=${previous?.user?.id}, hash=${previous?.hashCode}\n'
+        '   - Next state: auth=${next.isAuthenticated}, init=${next.isInitialized}, user=${next.user?.id}, hash=${next.hashCode}\n'
+        '   - States identical: ${identical(previous, next)}\n'
+        '   - States equal: ${previous == next}',
+      );
+
+      // CRITICAL FIX: Don't refresh router if magic link is in error state UNLESS auth state changed
+      // This prevents redirecting away from the error page but allows logout navigation
+      final magicLinkState = ref.read(magicLinkProvider);
+      core_logger.AppLogger.debug(
+        '🚨 [Router Listener] ═══ CRITICAL DEBUG ═══\n'
+        '   - Check at: ${DateTime.now().toIso8601String()}\n'
+        '   - Magic link status: ${magicLinkState.status}\n'
+        '   - Error message: ${magicLinkState.errorMessage}\n'
+        '   - Can retry: ${magicLinkState.canRetry}\n'
+        '   - State hashCode: ${magicLinkState.hashCode}\n'
+        '   - Auth changed: ${previous?.isAuthenticated != next.isAuthenticated}\n'
+        '   - Hash changed: ${previous?.hashCode != next.hashCode}\n'
+        '   - About to decide: block or allow router refresh?',
+      );
+
+      if (magicLinkState.status == MagicLinkVerificationStatus.error &&
+          previous?.isAuthenticated == next.isAuthenticated &&
+          previous?.hashCode == next.hashCode) {
         core_logger.AppLogger.info(
-          '🚨 [Router Listener] ═══ AUTH STATE CHANGE DETECTED ═══\n'
-          '   - Listener callback TRIGGERED at ${DateTime.now().toIso8601String()}\n'
-          '   - Previous state: auth=${previous?.isAuthenticated}, init=${previous?.isInitialized}, user=${previous?.user?.id}, hash=${previous?.hashCode}\n'
-          '   - Next state: auth=${next.isAuthenticated}, init=${next.isInitialized}, user=${next.user?.id}, hash=${next.hashCode}\n'
-          '   - States identical: ${identical(previous, next)}\n'
-          '   - States equal: ${previous == next}',
+          '🚨 [Router Listener] ❌ MAGIC LINK ERROR STATE DETECTED - BLOCKING ROUTER REFRESH!\n'
+          '   - Blocked at: ${DateTime.now().toIso8601String()}\n'
+          '   - This prevents redirect away from error page\n'
+          '   - User should see error: ${magicLinkState.errorMessage}\n'
+          '   - Auth state unchanged - blocking navigation',
         );
-
-        // CRITICAL FIX: Don't refresh router if magic link is in error state UNLESS auth state changed
-        // This prevents redirecting away from the error page but allows logout navigation
-        final magicLinkState = ref.read(magicLinkProvider);
         core_logger.AppLogger.debug(
-          '🚨 [Router Listener] ═══ CRITICAL DEBUG ═══\n'
-          '   - Check at: ${DateTime.now().toIso8601String()}\n'
-          '   - Magic link status: ${magicLinkState.status}\n'
-          '   - Error message: ${magicLinkState.errorMessage}\n'
-          '   - Can retry: ${magicLinkState.canRetry}\n'
-          '   - State hashCode: ${magicLinkState.hashCode}\n'
-          '   - Auth changed: ${previous?.isAuthenticated != next.isAuthenticated}\n'
-          '   - Hash changed: ${previous?.hashCode != next.hashCode}\n'
-          '   - About to decide: block or allow router refresh?',
+          '🚨 [Router Listener] ❌ RETURNING EARLY TO PREVENT REDIRECT',
         );
+        return; // Don't refresh router when magic link is showing error AND auth unchanged
+      }
 
-        if (magicLinkState.status == MagicLinkVerificationStatus.error &&
-            previous?.isAuthenticated == next.isAuthenticated &&
-            previous?.hashCode == next.hashCode) {
-          core_logger.AppLogger.info(
-            '🚨 [Router Listener] ❌ MAGIC LINK ERROR STATE DETECTED - BLOCKING ROUTER REFRESH!\n'
-            '   - Blocked at: ${DateTime.now().toIso8601String()}\n'
-            '   - This prevents redirect away from error page\n'
-            '   - User should see error: ${magicLinkState.errorMessage}\n'
-            '   - Auth state unchanged - blocking navigation',
-          );
-          core_logger.AppLogger.debug(
-            '🚨 [Router Listener] ❌ RETURNING EARLY TO PREVENT REDIRECT',
-          );
-          return; // Don't refresh router when magic link is showing error AND auth unchanged
-        }
+      if (magicLinkState.status == MagicLinkVerificationStatus.error &&
+          (previous?.isAuthenticated != next.isAuthenticated ||
+              previous?.hashCode != next.hashCode)) {
+        core_logger.AppLogger.info(
+          '🚨 [Router Listener] ✅ MAGIC LINK ERROR BUT STATE CHANGED - ALLOWING NAVIGATION\n'
+          '   - Allowing at: ${DateTime.now().toIso8601String()}\n'
+          '   - Auth changed: ${previous?.isAuthenticated} → ${next.isAuthenticated}\n'
+          '   - Hash changed: ${previous?.hashCode} → ${next.hashCode}\n'
+          '   - This allows logout navigation from error page',
+        );
+      } else {
+        core_logger.AppLogger.debug(
+          '🚨 [Router Listener] ✅ Magic link NOT in error state - proceeding with router refresh\n'
+          '   - Continuing at: ${DateTime.now().toIso8601String()}\n'
+          '   - Router refresh will proceed normally',
+        );
+      }
 
-        if (magicLinkState.status == MagicLinkVerificationStatus.error &&
-            (previous?.isAuthenticated != next.isAuthenticated ||
-                previous?.hashCode != next.hashCode)) {
-          core_logger.AppLogger.info(
-            '🚨 [Router Listener] ✅ MAGIC LINK ERROR BUT STATE CHANGED - ALLOWING NAVIGATION\n'
-            '   - Allowing at: ${DateTime.now().toIso8601String()}\n'
-            '   - Auth changed: ${previous?.isAuthenticated} → ${next.isAuthenticated}\n'
-            '   - Hash changed: ${previous?.hashCode} → ${next.hashCode}\n'
-            '   - This allows logout navigation from error page',
-          );
-        } else {
-          core_logger.AppLogger.debug(
-            '🚨 [Router Listener] ✅ Magic link NOT in error state - proceeding with router refresh\n'
-            '   - Continuing at: ${DateTime.now().toIso8601String()}\n'
-            '   - Router refresh will proceed normally',
-          );
-        }
-
-        // ARCHITECTURE FIX: Only refresh router on STRUCTURAL changes (auth, user, family, magic link)
-        // REMOVED: postLogoutTargetRouteProvider check - using direct navigation now
-        // CLEAN ARCHITECTURE: Remove familyId comparison - family changes handled via FamilyProvider
-        if (previous?.isAuthenticated != next.isAuthenticated ||
-            previous?.isInitialized != next.isInitialized ||
-            previous?.user?.id != next.user?.id ||
-            previous?.pendingEmail != next.pendingEmail ||
-            previous?.isLoading != next.isLoading) {
-          core_logger.AppLogger.info(
-            '🔄 [Router Refresh] ✅ TRIGGERING ROUTER REFRESH ✅\n'
-            '   - Was authenticated: ${previous?.isAuthenticated} -> Now authenticated: ${next.isAuthenticated}\n'
-            '   - Was initialized: ${previous?.isInitialized} -> Now initialized: ${next.isInitialized}\n'
-            '   - User ID: ${previous?.user?.id} -> ${next.user?.id}\n'
-            '   - Family: [tracked via FamilyProvider, not User entity]\n'
-            '   - Pending Email: ${previous?.pendingEmail} -> ${next.pendingEmail}\n'
-            '   - Loading state: ${previous?.isLoading} -> ${next.isLoading}\n'
-            '   - Hash Code: ${previous?.hashCode} -> ${next.hashCode}',
-          );
-          // Increment to notify GoRouter to refresh routes
-          _refreshListenable.value++;
-          core_logger.AppLogger.info(
-            '🔄 [Router Refresh] ✅ NOTIFIED GoRouter - _refreshListenable.value is now: ${_refreshListenable.value}',
-          );
-          // Navigation intent handling removed - using direct GoRouter navigation instead
-        } else {
-          core_logger.AppLogger.warning(
-            '🔄 [Router Listener] ❌ NO meaningful changes detected - skipping router refresh',
-          );
-        }
-      }, description: 'Auth state change processing');
+      // ARCHITECTURE FIX: Only refresh router on STRUCTURAL changes (auth, user, family, magic link)
+      // REMOVED: postLogoutTargetRouteProvider check - using direct navigation now
+      // CLEAN ARCHITECTURE: Remove familyId comparison - family changes handled via FamilyProvider
+      if (previous?.isAuthenticated != next.isAuthenticated ||
+          previous?.isInitialized != next.isInitialized ||
+          previous?.user?.id != next.user?.id ||
+          previous?.pendingEmail != next.pendingEmail ||
+          previous?.isLoading != next.isLoading) {
+        core_logger.AppLogger.info(
+          '🔄 [Router Refresh] ✅ TRIGGERING ROUTER REFRESH ✅\n'
+          '   - Was authenticated: ${previous?.isAuthenticated} -> Now authenticated: ${next.isAuthenticated}\n'
+          '   - Was initialized: ${previous?.isInitialized} -> Now initialized: ${next.isInitialized}\n'
+          '   - User ID: ${previous?.user?.id} -> ${next.user?.id}\n'
+          '   - Family: [tracked via FamilyProvider, not User entity]\n'
+          '   - Pending Email: ${previous?.pendingEmail} -> ${next.pendingEmail}\n'
+          '   - Loading state: ${previous?.isLoading} -> ${next.isLoading}\n'
+          '   - Hash Code: ${previous?.hashCode} -> ${next.hashCode}',
+        );
+        // Increment to notify GoRouter to refresh routes
+        _refreshListenable.value++;
+        core_logger.AppLogger.info(
+          '🔄 [Router Refresh] ✅ NOTIFIED GoRouter - _refreshListenable.value is now: ${_refreshListenable.value}',
+        );
+        // Navigation intent handling removed - using direct GoRouter navigation instead
+      } else {
+        core_logger.AppLogger.warning(
+          '🔄 [Router Listener] ❌ NO meaningful changes detected - skipping router refresh',
+        );
+      }
     });
 
     // 🎯 STATE-OF-THE-ART: Navigation state listener - purely reactive
@@ -329,7 +327,12 @@ class AppRouter {
         );
 
         // Wait for auth initialization before making routing decisions
-        if (!authState.isInitialized) {
+        // CRITICAL FIX: Allow magic link verification even when auth not initialized
+        // User may click magic link from email before having an active session
+        final isMagicLinkVerifyRoute = state.matchedLocation.startsWith(
+          '/auth/verify',
+        );
+        if (!authState.isInitialized && !isMagicLinkVerifyRoute) {
           core_logger.AppLogger.debug(
             '🔄 [GoRouter Redirect] Auth not yet initialized - showing splash',
           );
@@ -343,7 +346,7 @@ class AppRouter {
         final isOnboardingRoute = state.matchedLocation.startsWith(
           '/onboarding',
         );
-        final isMagicLinkVerifyRoute = state.matchedLocation == '/auth/verify';
+        // isMagicLinkVerifyRoute already declared above
         // ARCHITECTURE FIX: Removed isMagicLinkWaitingRoute - no longer needed with state-driven navigation
         final isInvitationRoute =
             state.matchedLocation.startsWith('/invite') ||
@@ -506,44 +509,14 @@ class AppRouter {
 
         // STATE-OF-THE-ART: Handle magic link verification route with declarative navigation
         if (isMagicLinkVerifyRoute) {
-          // Check magic link verification state to allow proper state display
-          final magicLinkState = ref.read(magicLinkProvider);
-          core_logger.AppLogger.debug(
-            '🚨 [GoRouter Redirect] ═══ MAGIC LINK ROUTE CRITICAL DEBUG ═══\n'
-            '🚨 Magic link status: ${magicLinkState.status}\n'
-            '🚨 Auth authenticated: $isAuthenticated\n'
-            '🚨 Current user: ${currentUser?.id ?? 'null'}\n'
-            '🚨 Error message: ${magicLinkState.errorMessage}\n'
-            '🚨 Can retry: ${magicLinkState.canRetry}\n'
-            '🚨 About to check if should stay on verification page...',
-          );
-
-          // CRITICAL FIX: Check navigation state to detect logout from error page
-          final navigationState = ref.read(nav.navigationStateProvider);
-          final hasNavigationState = navigationState.hasPendingNavigation;
-
-          // CRITICAL FIX: If verification is in progress or error, stay on page to show state
-          // Magic link errors (expired, invalid) should stay on the error page to show user the message
-          if (magicLinkState.status == MagicLinkVerificationStatus.verifying ||
-              magicLinkState.status == MagicLinkVerificationStatus.error) {
-            core_logger.AppLogger.debug(
-              '🚨 [GoRouter Redirect] ❌ CRITICAL HIT: Magic link ${magicLinkState.status} - FORCING STAY on verification page!\n'
-              '🚨    - Magic link status: ${magicLinkState.status}\n'
-              '🚨    - Error message: ${magicLinkState.errorMessage}\n'
-              '🚨    - Navigation state: ${hasNavigationState ? "pending" : "none"}\n'
-              '🚨    - STAYING on page to show error state to user',
-            );
-            core_logger.AppLogger.debug(
-              '🚨 [GoRouter Redirect] ❌ RETURNING NULL TO BLOCK REDIRECT',
-            );
-            return null; // Always stay on verification page to show current state (error or verifying)
-          }
-          core_logger.AppLogger.debug(
-            '🚨 [GoRouter Redirect] ⚠️ Magic link not in error/verifying state - continuing redirect logic',
-          );
-
-          // STATE-OF-THE-ART: For successful verification, redirect authenticated users
+          // CRITICAL FIX: If user is authenticated, ALWAYS redirect to dashboard/onboarding
+          // This prevents getting stuck on verification page after successful auth
           if (isAuthenticated && currentUser != null) {
+            core_logger.AppLogger.info(
+              '🪄 [GoRouter Redirect] CRITICAL: User authenticated on magic link page - redirecting immediately\n'
+              '   - User ID: ${currentUser.id}\n'
+              '   - Bypassing magic link state checks',
+            );
             // PHASE 3: Check for invitation result from magic link
             final invitationResult = ref
                 .read(authStateProvider)

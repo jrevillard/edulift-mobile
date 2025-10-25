@@ -9,6 +9,11 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:go_router/go_router.dart';
 import 'package:edulift/core/router/app_routes.dart';
 import 'package:edulift/core/services/providers/auth_provider.dart';
+import 'package:edulift/features/family/presentation/providers/family_provider.dart'
+    hide FamilyNotifier;
+import 'package:edulift/features/family/presentation/providers/family_provider.dart'
+    as family_providers
+    show FamilyNotifier;
 import 'package:edulift/generated/l10n/app_localizations.dart';
 
 import '../../../test_mocks/generated_mocks.dart';
@@ -274,6 +279,13 @@ void main() {
             return notifier;
           }),
           currentUserProvider.overrideWith((ref) => mockAuthState.user),
+          // CRITICAL FIX: Override familyProvider to provide a family for users with family access
+          familyProvider.overrideWith((ref) {
+            final notifier = TestProviderOverrides.createTestFamilyNotifier(
+              ref,
+            );
+            return notifier;
+          }),
         ];
 
         container = ProviderContainer(overrides: overrides);
@@ -498,6 +510,7 @@ void main() {
         var mockAuthState =
             AuthStateMockFactory.createAuthenticatedWithoutFamily();
         late TestAuthNotifier authNotifier;
+        late family_providers.FamilyNotifier familyNotifier;
 
         final overrides = [
           authStateProvider.overrideWith((ref) {
@@ -508,6 +521,18 @@ void main() {
           currentUserProvider.overrideWith(
             (ref) => ref.watch(authStateProvider).user,
           ),
+          // CRITICAL FIX: Override familyProvider to allow dynamic family state updates
+          familyProvider.overrideWith((ref) {
+            familyNotifier = TestProviderOverrides.createTestFamilyNotifier(
+              ref,
+            );
+            // Start with no family
+            familyNotifier.state = familyNotifier.state.copyWith(
+              family: null,
+              isLoading: false,
+            );
+            return familyNotifier;
+          }),
         ];
 
         container = TestProviderOverrides.createTestContainer(overrides);
@@ -538,6 +563,12 @@ void main() {
         // ACT - Update auth state to include family access through the existing notifier
         mockAuthState = AuthStateMockFactory.createAuthenticatedWithFamily();
         authNotifier.state = mockAuthState;
+
+        // CRITICAL FIX: Also update familyProvider state to include a family
+        familyNotifier.state = familyNotifier.state.copyWith(
+          family: TestDataFactory.createTestFamily(),
+          isLoading: false,
+        );
 
         // Wait for the UI to update in response to the state change
         await tester.pumpAndSettle(const Duration(milliseconds: 500));

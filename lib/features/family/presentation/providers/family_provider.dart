@@ -23,6 +23,7 @@ import 'package:edulift/core/services/providers/base_provider_state.dart';
 import 'package:edulift/core/state/reactive_state_coordinator.dart';
 import '../../../../core/services/providers/auth_provider.dart';
 import '../../../../core/domain/entities/user.dart';
+import '../../../../core/domain/usecases/usecase.dart' as core_usecase;
 import '../../domain/usecases/clear_all_family_data_usecase.dart';
 
 /// Family state that manages family data and children
@@ -197,7 +198,7 @@ class FamilyNotifier extends StateNotifier<FamilyState>
       final clearAllFamilyDataUsecase = _ref.read(
         clearAllFamilyDataUsecaseProvider,
       );
-      await clearAllFamilyDataUsecase.call(const ClearAllFamilyDataParams());
+      await clearAllFamilyDataUsecase.call(core_usecase.NoParams());
       AppLogger.info(
         '🔄 [FamilyNotifier] Family persistent cache cleared on logout',
       );
@@ -1321,22 +1322,32 @@ class AutoLoadFamilyNotifier extends FamilyNotifier {
       return false;
     }
 
-    final authState = _ref.read(currentUserProvider);
-    final shouldLoad = authState != null;
+    // CRITICAL FIX: Check if ref is still mounted before reading
+    // This prevents "Tried to read a provider from a ProviderContainer that was already disposed" errors
+    try {
+      final authState = _ref.read(currentUserProvider);
+      final shouldLoad = authState != null;
 
-    AppLogger.debug(
-      '[AutoLoadFamilyNotifier] _shouldAutoLoad check: '
-      'authState=${authState != null}, _hasLoaded=$_hasLoaded, shouldLoad=$shouldLoad',
-    );
-
-    if (shouldLoad) {
-      _hasLoaded = true;
       AppLogger.debug(
-        '[AutoLoadFamilyNotifier] Auto-loading family for authenticated user: ${authState.id}',
+        '[AutoLoadFamilyNotifier] _shouldAutoLoad check: '
+        'authState=${authState != null}, _hasLoaded=$_hasLoaded, shouldLoad=$shouldLoad',
       );
-    }
 
-    return shouldLoad;
+      if (shouldLoad) {
+        _hasLoaded = true;
+        AppLogger.debug(
+          '[AutoLoadFamilyNotifier] Auto-loading family for authenticated user: ${authState.id}',
+        );
+      }
+
+      return shouldLoad;
+    } catch (e) {
+      // Container was disposed - return false to prevent load
+      AppLogger.debug(
+        '[AutoLoadFamilyNotifier] _shouldAutoLoad: Container disposed, skipping load: $e',
+      );
+      return false;
+    }
   }
 }
 

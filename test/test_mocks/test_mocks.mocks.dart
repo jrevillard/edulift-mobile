@@ -25,6 +25,7 @@ import 'package:edulift/core/domain/services/comprehensive_family_data_service.d
 import 'package:edulift/core/domain/services/deep_link_service.dart' as _i64;
 import 'package:edulift/core/domain/services/localization_service.dart' as _i54;
 import 'package:edulift/core/domain/services/magic_link_service.dart' as _i62;
+import 'package:edulift/core/domain/usecases/usecase.dart' as _i88;
 import 'package:edulift/core/errors/exceptions.dart' as _i61;
 import 'package:edulift/core/errors/failures.dart' as _i48;
 import 'package:edulift/core/interfaces/token_storage_interface.dart' as _i67;
@@ -95,7 +96,7 @@ import 'package:edulift/features/family/domain/usecases/get_family_usecase.dart'
 import 'package:edulift/features/family/domain/usecases/leave_family_usecase.dart'
     as _i85;
 import 'package:edulift/features/family/presentation/providers/family_provider.dart'
-    as _i90;
+    as _i91;
 import 'package:edulift/features/family/providers.dart' as _i27;
 import 'package:edulift/features/groups/data/datasources/group_remote_datasource.dart'
     as _i82;
@@ -108,19 +109,19 @@ import 'package:edulift/features/schedule/data/datasources/schedule_remote_datas
 import 'package:edulift/features/schedule/domain/repositories/schedule_repository.dart'
     as _i83;
 import 'package:flutter/widgets.dart' as _i29;
-import 'package:flutter_riverpod/flutter_riverpod.dart' as _i88;
+import 'package:flutter_riverpod/flutter_riverpod.dart' as _i89;
 import 'package:flutter_secure_storage/flutter_secure_storage.dart' as _i57;
 import 'package:go_router/src/configuration.dart' as _i28;
 import 'package:go_router/src/delegate.dart' as _i30;
 import 'package:go_router/src/information_provider.dart' as _i31;
-import 'package:go_router/src/match.dart' as _i92;
+import 'package:go_router/src/match.dart' as _i93;
 import 'package:go_router/src/parser.dart' as _i32;
-import 'package:go_router/src/router.dart' as _i91;
+import 'package:go_router/src/router.dart' as _i92;
 import 'package:go_router/src/state.dart' as _i33;
 import 'package:local_auth/local_auth.dart' as _i52;
 import 'package:mockito/mockito.dart' as _i1;
 import 'package:mockito/src/dummies.dart' as _i43;
-import 'package:state_notifier/state_notifier.dart' as _i89;
+import 'package:state_notifier/state_notifier.dart' as _i90;
 
 // ignore_for_file: type=lint
 // ignore_for_file: avoid_redundant_argument_values
@@ -8324,9 +8325,7 @@ class MockCreateFamilyUsecase extends _i1.Mock
 class MockClearAllFamilyDataUsecase extends _i1.Mock
     implements _i87.ClearAllFamilyDataUsecase {
   @override
-  _i21.Future<_i47.Result<void, _i48.Failure>> call(
-    _i87.ClearAllFamilyDataParams? params,
-  ) =>
+  _i21.Future<_i47.Result<void, _i48.Failure>> call(_i88.NoParams? params) =>
       (super.noSuchMethod(
             Invocation.method(#call, [params]),
             returnValue: _i21.Future<_i47.Result<void, _i48.Failure>>.value(
@@ -8402,7 +8401,7 @@ class MockAppStateNotifier extends _i1.Mock implements _i24.AppStateNotifier {
           as bool);
 
   @override
-  set onError(_i88.ErrorListener? _onError) => super.noSuchMethod(
+  set onError(_i89.ErrorListener? _onError) => super.noSuchMethod(
     Invocation.setter(#onError, _onError),
     returnValueForMissingStub: null,
   );
@@ -8474,8 +8473,8 @@ class MockAppStateNotifier extends _i1.Mock implements _i24.AppStateNotifier {
           as bool);
 
   @override
-  _i88.RemoveListener addListener(
-    _i89.Listener<_i24.AppState>? listener, {
+  _i89.RemoveListener addListener(
+    _i90.Listener<_i24.AppState>? listener, {
     bool? fireImmediately = true,
   }) =>
       (super.noSuchMethod(
@@ -8487,7 +8486,7 @@ class MockAppStateNotifier extends _i1.Mock implements _i24.AppStateNotifier {
             returnValue: () {},
             returnValueForMissingStub: () {},
           )
-          as _i88.RemoveListener);
+          as _i89.RemoveListener);
 
   @override
   void dispose() => super.noSuchMethod(
@@ -8570,7 +8569,7 @@ class MockAuthNotifier extends _i1.Mock implements _i26.AuthNotifier {
           as bool);
 
   @override
-  set onError(_i88.ErrorListener? _onError) => super.noSuchMethod(
+  set onError(_i89.ErrorListener? _onError) => super.noSuchMethod(
     Invocation.setter(#onError, _onError),
     returnValueForMissingStub: null,
   );
@@ -8716,8 +8715,8 @@ class MockAuthNotifier extends _i1.Mock implements _i26.AuthNotifier {
           as bool);
 
   @override
-  _i88.RemoveListener addListener(
-    _i89.Listener<_i26.AuthState>? listener, {
+  _i89.RemoveListener addListener(
+    _i90.Listener<_i26.AuthState>? listener, {
     bool? fireImmediately = true,
   }) =>
       (super.noSuchMethod(
@@ -8729,13 +8728,13 @@ class MockAuthNotifier extends _i1.Mock implements _i26.AuthNotifier {
             returnValue: () {},
             returnValueForMissingStub: () {},
           )
-          as _i88.RemoveListener);
+          as _i89.RemoveListener);
 }
 
 /// A class which mocks [FamilyNotifier].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockFamilyNotifier extends _i1.Mock implements _i90.FamilyNotifier {
+class MockFamilyNotifier extends _i1.Mock implements _i91.FamilyNotifier {
   @override
   bool get mounted =>
       (super.noSuchMethod(
@@ -8791,7 +8790,7 @@ class MockFamilyNotifier extends _i1.Mock implements _i90.FamilyNotifier {
           as bool);
 
   @override
-  set onError(_i88.ErrorListener? _onError) => super.noSuchMethod(
+  set onError(_i89.ErrorListener? _onError) => super.noSuchMethod(
     Invocation.setter(#onError, _onError),
     returnValueForMissingStub: null,
   );
@@ -9110,8 +9109,8 @@ class MockFamilyNotifier extends _i1.Mock implements _i90.FamilyNotifier {
           as bool);
 
   @override
-  _i88.RemoveListener addListener(
-    _i89.Listener<_i27.FamilyState>? listener, {
+  _i89.RemoveListener addListener(
+    _i90.Listener<_i27.FamilyState>? listener, {
     bool? fireImmediately = true,
   }) =>
       (super.noSuchMethod(
@@ -9123,7 +9122,7 @@ class MockFamilyNotifier extends _i1.Mock implements _i90.FamilyNotifier {
             returnValue: () {},
             returnValueForMissingStub: () {},
           )
-          as _i88.RemoveListener);
+          as _i89.RemoveListener);
 
   @override
   void dispose() => super.noSuchMethod(
@@ -9209,7 +9208,7 @@ class MockFamilyNotifier extends _i1.Mock implements _i90.FamilyNotifier {
 /// A class which mocks [GoRouter].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockGoRouter extends _i1.Mock implements _i91.GoRouter {
+class MockGoRouter extends _i1.Mock implements _i92.GoRouter {
   @override
   _i28.RouteConfiguration get configuration =>
       (super.noSuchMethod(
@@ -9396,7 +9395,7 @@ class MockGoRouter extends _i1.Mock implements _i91.GoRouter {
   );
 
   @override
-  void restore(_i92.RouteMatchList? matchList) => super.noSuchMethod(
+  void restore(_i93.RouteMatchList? matchList) => super.noSuchMethod(
     Invocation.method(#restore, [matchList]),
     returnValueForMissingStub: null,
   );

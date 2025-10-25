@@ -7,6 +7,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:edulift/core/router/app_routes.dart';
 import 'package:edulift/core/services/providers/auth_provider.dart';
+import 'package:edulift/features/family/presentation/providers/family_provider.dart';
 import 'package:edulift/generated/l10n/app_localizations.dart';
 
 /// Creates a test-specific GoRouter for widget testing
@@ -195,9 +196,12 @@ class TestAppBottomNavigation extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final currentLocation = GoRouterState.of(context).matchedLocation;
-    ref.watch(currentUserProvider);
-    // TODO: Adapt to use familyRepositoryProvider to check family membership
-    const hasFamily = false; // Temporarily disabled
+    final currentUser = ref.watch(currentUserProvider);
+
+    // CRITICAL FIX: Check familyProvider for family membership
+    // This fixes navigation tests that expect users with families to access protected routes
+    final familyState = ref.watch(familyProvider);
+    final hasFamily = familyState.family != null;
 
     var selectedIndex = 0;
     switch (currentLocation) {

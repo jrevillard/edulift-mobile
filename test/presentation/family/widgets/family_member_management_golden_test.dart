@@ -7,7 +7,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:edulift/features/family/presentation/widgets/member_action_bottom_sheet.dart';
 import 'package:edulift/features/family/presentation/widgets/remove_member_confirmation_dialog.dart';
 import 'package:edulift/features/family/presentation/widgets/invite_member_widget.dart';
-import 'package:edulift/core/domain/entities/family.dart';
+import 'package:edulift/core/domain/entities/family.dart' as entities;
 import 'package:edulift/core/domain/entities/user.dart';
 import 'package:edulift/generated/l10n/app_localizations.dart';
 
@@ -26,27 +26,27 @@ void main() {
   });
 
   group('Family Member Management Golden Tests', () {
-    late FamilyMember regularMember;
-    late FamilyMember adminMember;
+    late entities.FamilyMember regularMember;
+    late entities.FamilyMember adminMember;
     late User currentUser;
 
     setUp(() {
-      regularMember = FamilyMember(
+      regularMember = entities.FamilyMember(
         id: 'member-123',
         familyId: 'family-456',
         userId: 'user-789',
-        role: FamilyRole.member,
+        role: entities.FamilyRole.member,
         status: 'ACTIVE',
         joinedAt: DateTime(2024),
         userName: 'John Member',
         userEmail: 'john@example.com',
       );
 
-      adminMember = FamilyMember(
+      adminMember = entities.FamilyMember(
         id: 'admin-123',
         familyId: 'family-456',
         userId: 'admin-789',
-        role: FamilyRole.admin,
+        role: entities.FamilyRole.admin,
         status: 'ACTIVE',
         joinedAt: DateTime(2024),
         userName: 'Admin User',
@@ -454,7 +454,7 @@ void main() {
 
       // Enter invalid email and trigger validation
       await tester.enterText(
-        find.widgetWithText(TextFormField, 'Email Address *'),
+        find.byKey(const Key('email_address_field')),
         'invalid-email',
       );
       await tester.tap(find.byKey(const Key('send_invitation_button')));
@@ -473,7 +473,17 @@ void main() {
 
     testWidgets('invite member widget with loading state', (tester) async {
       // Arrange
+      final testFamily = entities.Family(
+        id: 'test-family-123',
+        name: 'Test Family',
+        createdAt: DateTime(2024),
+        updatedAt: DateTime(2024),
+      );
+
       final mockFamilyNotifier = gen_mocks.MockFamilyNotifier();
+      when(
+        mockFamilyNotifier.debugState,
+      ).thenReturn(FamilyState(family: testFamily));
       when(
         mockFamilyNotifier.sendFamilyInvitationToMember(
           familyId: anyNamed('familyId'),
@@ -482,11 +492,19 @@ void main() {
           personalMessage: anyNamed('personalMessage'),
         ),
       ).thenAnswer((_) async {
+        // Simulate a slow network request for loading state
+        await Future.delayed(const Duration(milliseconds: 100));
         return Result.ok(gen_mocks.TestDataFactory.createTestInvitation());
       });
 
       final widget = ProviderScope(
-        overrides: [familyProvider.overrideWith((ref) => mockFamilyNotifier)],
+        overrides: [
+          familyProvider.overrideWith((ref) {
+            // Return a notifier with pre-set state
+            mockFamilyNotifier.state = FamilyState(family: testFamily);
+            return mockFamilyNotifier;
+          }),
+        ],
         child: MaterialApp(
           theme: ThemeData.light(),
           localizationsDelegates: const [
@@ -511,7 +529,7 @@ void main() {
 
       // Fill form and trigger sending
       await tester.enterText(
-        find.widgetWithText(TextFormField, 'Email Address *'),
+        find.byKey(const Key('email_address_field')),
         'test@example.com',
       );
       await tester.tap(find.byKey(const Key('send_invitation_button')));

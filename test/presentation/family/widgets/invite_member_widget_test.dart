@@ -9,6 +9,7 @@ import 'package:edulift/core/domain/entities/invitations/invitation.dart';
 import '../../../test_mocks/test_mocks.dart';
 import '../../../support/accessibility_test_helper.dart';
 import '../../../support/test_provider_overrides.dart';
+import '../../../support/localized_test_app.dart';
 
 void main() {
   setUpAll(() {
@@ -18,9 +19,7 @@ void main() {
   group('InviteMemberWidget Widget Tests', () {
     testWidgets('should display invite form correctly', (tester) async {
       // Arrange
-      const widget = ProviderScope(
-        child: MaterialApp(home: Scaffold(body: InviteMemberWidget())),
-      );
+      final widget = createLocalizedTestApp(child: const InviteMemberWidget());
 
       // Act
       await tester.pumpWidget(widget);
@@ -50,9 +49,7 @@ void main() {
 
     testWidgets('should validate required email field', (tester) async {
       // Arrange
-      const widget = ProviderScope(
-        child: MaterialApp(home: Scaffold(body: InviteMemberWidget())),
-      );
+      final widget = createLocalizedTestApp(child: const InviteMemberWidget());
 
       // Act
       await tester.pumpWidget(widget);
@@ -71,9 +68,7 @@ void main() {
 
     testWidgets('should validate email format', (tester) async {
       // Arrange
-      const widget = ProviderScope(
-        child: MaterialApp(home: Scaffold(body: InviteMemberWidget())),
-      );
+      final widget = createLocalizedTestApp(child: const InviteMemberWidget());
 
       // Act
       await tester.pumpWidget(widget);
@@ -98,9 +93,7 @@ void main() {
 
     testWidgets('should accept valid email formats', (tester) async {
       // Arrange - Use TestProviderOverrides for proper provider setup
-      const widget = ProviderScope(
-        child: MaterialApp(home: Scaffold(body: InviteMemberWidget())),
-      );
+      final widget = createLocalizedTestApp(child: const InviteMemberWidget());
 
       // Act
       await tester.pumpWidget(widget);
@@ -126,10 +119,8 @@ void main() {
 
     testWidgets('should send invitation successfully', (tester) async {
       // Arrange
-      final widget = ProviderScope(
-        child: MaterialApp(
-          home: Scaffold(body: InviteMemberWidget(onInvitationSent: () {})),
-        ),
+      final widget = createLocalizedTestApp(
+        child: InviteMemberWidget(onInvitationSent: () {}),
       );
 
       // Act
@@ -167,9 +158,7 @@ void main() {
 
     testWidgets('should handle invitation failure', (tester) async {
       // Arrange - Use TestProviderOverrides for proper provider setup
-      const widget = ProviderScope(
-        child: MaterialApp(home: Scaffold(body: InviteMemberWidget())),
-      );
+      final widget = createLocalizedTestApp(child: const InviteMemberWidget());
 
       // Act
       await tester.pumpWidget(widget);
@@ -194,9 +183,9 @@ void main() {
 
     testWidgets('should show loading state during invitation', (tester) async {
       // Arrange - Use TestProviderOverrides for proper provider setup
-      final widget = ProviderScope(
+      final widget = createLocalizedTestApp(
         overrides: TestProviderOverrides.common,
-        child: const MaterialApp(home: Scaffold(body: InviteMemberWidget())),
+        child: const InviteMemberWidget(),
       );
 
       // Act
@@ -230,9 +219,7 @@ void main() {
       tester,
     ) async {
       // Arrange - Use TestProviderOverrides for proper provider setup
-      const widget = ProviderScope(
-        child: MaterialApp(home: Scaffold(body: InviteMemberWidget())),
-      );
+      final widget = createLocalizedTestApp(child: const InviteMemberWidget());
 
       // Act
       await tester.pumpWidget(widget);
@@ -269,9 +256,7 @@ void main() {
 
     testWidgets('should handle role selection', (tester) async {
       // Arrange
-      const widget = ProviderScope(
-        child: MaterialApp(home: Scaffold(body: InviteMemberWidget())),
-      );
+      final widget = createLocalizedTestApp(child: const InviteMemberWidget());
 
       // Act
       await tester.pumpWidget(widget);
@@ -284,9 +269,7 @@ void main() {
 
     testWidgets('should change role selection', (tester) async {
       // Arrange
-      const widget = ProviderScope(
-        child: MaterialApp(home: Scaffold(body: InviteMemberWidget())),
-      );
+      final widget = createLocalizedTestApp(child: const InviteMemberWidget());
 
       // Act
       await tester.pumpWidget(widget);
@@ -299,9 +282,7 @@ void main() {
 
     testWidgets('should handle personal message input', (tester) async {
       // Arrange
-      const widget = ProviderScope(
-        child: MaterialApp(home: Scaffold(body: InviteMemberWidget())),
-      );
+      final widget = createLocalizedTestApp(child: const InviteMemberWidget());
 
       // Act
       await tester.pumpWidget(widget);
@@ -320,11 +301,11 @@ void main() {
         onPrimaryContainer: Colors.white,
       );
 
-      final widget = ProviderScope(
+      final widget = createLocalizedTestApp(
         overrides: TestProviderOverrides.common,
-        child: MaterialApp(
-          theme: ThemeData(colorScheme: customTheme),
-          home: const Scaffold(body: InviteMemberWidget()),
+        child: Theme(
+          data: ThemeData(colorScheme: customTheme),
+          child: const InviteMemberWidget(),
         ),
       );
 
@@ -344,9 +325,7 @@ void main() {
 
     testWidgets('should validate name field length', (tester) async {
       // Arrange
-      const widget = ProviderScope(
-        child: MaterialApp(home: Scaffold(body: InviteMemberWidget())),
-      );
+      final widget = createLocalizedTestApp(child: const InviteMemberWidget());
 
       // Act
       await tester.pumpWidget(widget);
@@ -371,9 +350,7 @@ void main() {
 
     testWidgets('should be accessible with screen reader', (tester) async {
       // Arrange
-      const widget = ProviderScope(
-        child: MaterialApp(home: Scaffold(body: InviteMemberWidget())),
-      );
+      final widget = createLocalizedTestApp(child: const InviteMemberWidget());
 
       // Act
       await tester.pumpWidget(widget);
@@ -397,9 +374,7 @@ void main() {
 
     testWidgets('should handle keyboard navigation', (tester) async {
       // Arrange
-      const widget = ProviderScope(
-        child: MaterialApp(home: Scaffold(body: InviteMemberWidget())),
-      );
+      final widget = createLocalizedTestApp(child: const InviteMemberWidget());
 
       // Act
       await tester.pumpWidget(widget);
@@ -419,9 +394,7 @@ void main() {
 
     testWidgets('should dispose controllers properly', (tester) async {
       // Arrange
-      const widget = ProviderScope(
-        child: MaterialApp(home: Scaffold(body: InviteMemberWidget())),
-      );
+      final widget = createLocalizedTestApp(child: const InviteMemberWidget());
 
       // Act
       await tester.pumpWidget(widget);
@@ -429,9 +402,7 @@ void main() {
 
       // Navigate away (which should dispose the widget)
       await tester.pumpWidget(
-        const ProviderScope(
-          child: MaterialApp(home: Scaffold(body: Text('Different page'))),
-        ),
+        createLocalizedTestApp(child: const Text('Different page')),
       );
       await tester.pumpAndSettle();
 

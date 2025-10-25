@@ -1,9 +1,15 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:timezone/data/latest_all.dart' as tz;
 import 'package:edulift/core/utils/date/iso_week_utils.dart';
 
 /// Test suite for week navigation edge cases
 /// Tests the logic used in schedule_page.dart and schedule_grid.dart
 void main() {
+  // Initialize timezone database for ISO week calculations
+  setUpAll(() {
+    tz.initializeTimeZones();
+  });
+
   group('Week Navigation Logic', () {
     group('Consecutive Week Navigation', () {
       test('navigating forward one week at a time should not skip weeks', () {
@@ -314,7 +320,7 @@ void main() {
         expect(currentDisplayedWeek, '2025-W12');
 
         // User selects Monday of W13 (March 24) in the date picker
-        final selectedDate = DateTime(2025, 3, 24);
+        final selectedDate = DateTime.utc(2025, 3, 24);
         final selectedMonday = _getMondayOfWeek(selectedDate);
         final selectedWeekString = getISOWeekString(selectedMonday);
         expect(selectedWeekString, '2025-W13');
@@ -341,7 +347,7 @@ void main() {
       expect(currentDisplayedWeek, '2025-W15');
 
       // User jumps to W18 using date picker (April 28 - Monday of W18)
-      final selectedDate = DateTime(2025, 4, 28);
+      final selectedDate = DateTime.utc(2025, 4, 28);
       final selectedMonday = _getMondayOfWeek(selectedDate);
       final selectedWeekString = getISOWeekString(selectedMonday);
       expect(selectedWeekString, '2025-W18');
@@ -366,7 +372,7 @@ void main() {
       expect(currentDisplayedWeek, '2025-W18');
 
       // User jumps back to W12 using date picker
-      final selectedDate = DateTime(2025, 3, 17); // Monday of W12
+      final selectedDate = DateTime.utc(2025, 3, 17); // Monday of W12
       final selectedMonday = _getMondayOfWeek(selectedDate);
       final selectedWeekString = getISOWeekString(selectedMonday);
       expect(selectedWeekString, '2025-W12');

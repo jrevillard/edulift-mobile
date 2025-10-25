@@ -1,6 +1,7 @@
 import '../../../../core/utils/result.dart';
 import '../../../../core/errors/failures.dart';
 import '../../../../core/domain/services/comprehensive_family_data_service.dart';
+import '../../../../core/domain/usecases/usecase.dart';
 import '../../domain/usecases/get_family_usecase.dart' as get_family_usecase;
 import '../../domain/usecases/clear_all_family_data_usecase.dart';
 
@@ -29,7 +30,7 @@ class ComprehensiveFamilyDataServiceImpl
       if (familyDataResult.isOk) {
         // Successfully cached family data
         final family = familyDataResult.value!;
-        return Result.ok(family.family?.id ?? '');
+        return Result.ok(family.family?.id);
       } else {
         // Handle the case where no family is found
         final error = familyDataResult.error!;
@@ -57,7 +58,7 @@ class ComprehensiveFamilyDataServiceImpl
       // This prevents API calls with expired tokens during logout
       // Just clear all local caches - no familyId needed for local cleanup
       final clearResult = await _clearAllFamilyDataUsecase.call(
-        const ClearAllFamilyDataParams(), // Clear all cached data without API calls
+        NoParams(), // Clear all cached data without API calls
       );
 
       if (clearResult.isOk) {

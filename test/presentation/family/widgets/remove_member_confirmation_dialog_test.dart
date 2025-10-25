@@ -79,12 +79,8 @@ void main() {
 
     testWidgets('should display admin member with admin icon', (tester) async {
       // Arrange
-      final widget = ProviderScope(
-        child: MaterialApp(
-          home: Scaffold(
-            body: RemoveMemberConfirmationDialog(member: adminMember),
-          ),
-        ),
+      final widget = createLocalizedTestApp(
+        child: RemoveMemberConfirmationDialog(member: adminMember),
       );
 
       // Act
@@ -104,12 +100,8 @@ void main() {
       tester,
     ) async {
       // Arrange
-      final widget = ProviderScope(
-        child: MaterialApp(
-          home: Scaffold(
-            body: RemoveMemberConfirmationDialog(member: testMember),
-          ),
-        ),
+      final widget = createLocalizedTestApp(
+        child: RemoveMemberConfirmationDialog(member: testMember),
       );
 
       // Act
@@ -126,21 +118,17 @@ void main() {
 
     testWidgets('should handle cancel button correctly', (tester) async {
       // Arrange
-      final widget = ProviderScope(
-        child: MaterialApp(
-          home: Builder(
-            builder: (context) => Scaffold(
-              body: ElevatedButton(
-                onPressed: () {
-                  showDialog(
-                    context: context,
-                    builder: (_) =>
-                        RemoveMemberConfirmationDialog(member: testMember),
-                  );
-                },
-                child: const Text('Show Dialog'),
-              ),
-            ),
+      final widget = createLocalizedTestApp(
+        child: Builder(
+          builder: (context) => ElevatedButton(
+            onPressed: () {
+              showDialog(
+                context: context,
+                builder: (_) =>
+                    RemoveMemberConfirmationDialog(member: testMember),
+              );
+            },
+            child: const Text('Show Dialog'),
           ),
         ),
       );
@@ -166,22 +154,18 @@ void main() {
 
     testWidgets('should handle successful member removal', (tester) async {
       // Arrange - Use TestProviderOverrides for proper provider setup
-      final widget = ProviderScope(
+      final widget = createLocalizedTestApp(
         overrides: TestProviderOverrides.common,
-        child: MaterialApp(
-          home: Builder(
-            builder: (context) => Scaffold(
-              body: ElevatedButton(
-                onPressed: () {
-                  showDialog(
-                    context: context,
-                    builder: (_) =>
-                        RemoveMemberConfirmationDialog(member: testMember),
-                  );
-                },
-                child: const Text('Show Dialog'),
-              ),
-            ),
+        child: Builder(
+          builder: (context) => ElevatedButton(
+            onPressed: () {
+              showDialog(
+                context: context,
+                builder: (_) =>
+                    RemoveMemberConfirmationDialog(member: testMember),
+              );
+            },
+            child: const Text('Show Dialog'),
           ),
         ),
       );
@@ -212,22 +196,18 @@ void main() {
       // Arrange - Use common overrides which already have family configured
       // Note: This test should pass because the family provider now has proper state
       // The "failure" will be simulated by the mocked repository in common overrides
-      final widget = ProviderScope(
+      final widget = createLocalizedTestApp(
         overrides: TestProviderOverrides.common,
-        child: MaterialApp(
-          home: Builder(
-            builder: (context) => Scaffold(
-              body: ElevatedButton(
-                onPressed: () {
-                  showDialog(
-                    context: context,
-                    builder: (_) =>
-                        RemoveMemberConfirmationDialog(member: testMember),
-                  );
-                },
-                child: const Text('Show Dialog'),
-              ),
-            ),
+        child: Builder(
+          builder: (context) => ElevatedButton(
+            onPressed: () {
+              showDialog(
+                context: context,
+                builder: (_) =>
+                    RemoveMemberConfirmationDialog(member: testMember),
+              );
+            },
+            child: const Text('Show Dialog'),
           ),
         ),
       );
@@ -258,22 +238,18 @@ void main() {
 
     testWidgets('should show loading state during removal', (tester) async {
       // Arrange - Use TestProviderOverrides for proper provider setup
-      final widget = ProviderScope(
+      final widget = createLocalizedTestApp(
         overrides: TestProviderOverrides.common,
-        child: MaterialApp(
-          home: Builder(
-            builder: (context) => Scaffold(
-              body: ElevatedButton(
-                onPressed: () {
-                  showDialog(
-                    context: context,
-                    builder: (_) =>
-                        RemoveMemberConfirmationDialog(member: testMember),
-                  );
-                },
-                child: const Text('Show Dialog'),
-              ),
-            ),
+        child: Builder(
+          builder: (context) => ElevatedButton(
+            onPressed: () {
+              showDialog(
+                context: context,
+                builder: (_) =>
+                    RemoveMemberConfirmationDialog(member: testMember),
+              );
+            },
+            child: const Text('Show Dialog'),
           ),
         ),
       );
@@ -322,12 +298,8 @@ void main() {
         joinedAt: DateTime(2024),
         userEmail: 'john@example.com',
       );
-      final widget = ProviderScope(
-        child: MaterialApp(
-          home: Scaffold(
-            body: RemoveMemberConfirmationDialog(member: memberWithEmptyName),
-          ),
-        ),
+      final widget = createLocalizedTestApp(
+        child: RemoveMemberConfirmationDialog(member: memberWithEmptyName),
       );
 
       // Act
@@ -358,12 +330,10 @@ void main() {
         onErrorContainer: Colors.black,
       );
 
-      final widget = ProviderScope(
-        child: MaterialApp(
-          theme: ThemeData(colorScheme: customTheme),
-          home: Scaffold(
-            body: RemoveMemberConfirmationDialog(member: testMember),
-          ),
+      final widget = createLocalizedTestApp(
+        child: Theme(
+          data: ThemeData(colorScheme: customTheme),
+          child: RemoveMemberConfirmationDialog(member: testMember),
         ),
       );
 
@@ -385,12 +355,8 @@ void main() {
       tester,
     ) async {
       // Arrange
-      final widget = ProviderScope(
-        child: MaterialApp(
-          home: Scaffold(
-            body: RemoveMemberConfirmationDialog(member: testMember),
-          ),
-        ),
+      final widget = createLocalizedTestApp(
+        child: RemoveMemberConfirmationDialog(member: testMember),
       );
 
       // Act
@@ -408,12 +374,8 @@ void main() {
         userName:
             'This Is A Very Long Member Name That Should Be Handled Properly',
       );
-      final widget = ProviderScope(
-        child: MaterialApp(
-          home: Scaffold(
-            body: RemoveMemberConfirmationDialog(member: memberWithLongName),
-          ),
-        ),
+      final widget = createLocalizedTestApp(
+        child: RemoveMemberConfirmationDialog(member: memberWithLongName),
       );
 
       // Act
@@ -426,12 +388,8 @@ void main() {
 
     testWidgets('should be accessible with screen reader', (tester) async {
       // Arrange
-      final widget = ProviderScope(
-        child: MaterialApp(
-          home: Scaffold(
-            body: RemoveMemberConfirmationDialog(member: testMember),
-          ),
-        ),
+      final widget = createLocalizedTestApp(
+        child: RemoveMemberConfirmationDialog(member: testMember),
       );
 
       // Act
@@ -450,12 +408,8 @@ void main() {
 
     testWidgets('should handle keyboard navigation', (tester) async {
       // Arrange
-      final widget = ProviderScope(
-        child: MaterialApp(
-          home: Scaffold(
-            body: RemoveMemberConfirmationDialog(member: testMember),
-          ),
-        ),
+      final widget = createLocalizedTestApp(
+        child: RemoveMemberConfirmationDialog(member: testMember),
       );
 
       // Act
@@ -477,21 +431,17 @@ void main() {
       tester,
     ) async {
       // Arrange
-      final widget = ProviderScope(
-        child: MaterialApp(
-          home: Builder(
-            builder: (context) => Scaffold(
-              body: ElevatedButton(
-                onPressed: () {
-                  showDialog(
-                    context: context,
-                    builder: (_) =>
-                        RemoveMemberConfirmationDialog(member: testMember),
-                  );
-                },
-                child: const Text('Show Dialog'),
-              ),
-            ),
+      final widget = createLocalizedTestApp(
+        child: Builder(
+          builder: (context) => ElevatedButton(
+            onPressed: () {
+              showDialog(
+                context: context,
+                builder: (_) =>
+                    RemoveMemberConfirmationDialog(member: testMember),
+              );
+            },
+            child: const Text('Show Dialog'),
           ),
         ),
       );

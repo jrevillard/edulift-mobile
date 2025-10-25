@@ -33,6 +33,7 @@ import 'package:edulift/core/domain/services/localization_service.dart' as _i53;
 import 'package:edulift/core/domain/services/magic_link_service.dart' as _i56;
 import 'package:edulift/core/domain/services/secure_storage_service.dart'
     as _i52;
+import 'package:edulift/core/domain/usecases/usecase.dart' as _i97;
 import 'package:edulift/core/errors/exceptions.dart' as _i67;
 import 'package:edulift/core/errors/failures.dart' as _i46;
 import 'package:edulift/core/interfaces/token_storage_interface.dart' as _i68;
@@ -102,7 +103,7 @@ import 'package:edulift/features/family/domain/usecases/get_family_usecase.dart'
 import 'package:edulift/features/family/domain/usecases/leave_family_usecase.dart'
     as _i94;
 import 'package:edulift/features/family/presentation/providers/family_provider.dart'
-    as _i97;
+    as _i98;
 import 'package:edulift/features/family/providers.dart' as _i37;
 import 'package:edulift/features/groups/data/datasources/group_remote_datasource.dart'
     as _i92;
@@ -9719,9 +9720,7 @@ class MockCreateFamilyUsecase extends _i1.Mock
 class MockClearAllFamilyDataUsecase extends _i1.Mock
     implements _i96.ClearAllFamilyDataUsecase {
   @override
-  _i39.Future<_i45.Result<void, _i46.Failure>> call(
-    _i96.ClearAllFamilyDataParams? params,
-  ) =>
+  _i39.Future<_i45.Result<void, _i46.Failure>> call(_i97.NoParams? params) =>
       (super.noSuchMethod(
             Invocation.method(#call, [params]),
             returnValue: _i39.Future<_i45.Result<void, _i46.Failure>>.value(
@@ -9744,7 +9743,7 @@ class MockClearAllFamilyDataUsecase extends _i1.Mock
 /// A class which mocks [FamilyNotifier].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockFamilyNotifier extends _i1.Mock implements _i97.FamilyNotifier {
+class MockFamilyNotifier extends _i1.Mock implements _i98.FamilyNotifier {
   @override
   bool get mounted =>
       (super.noSuchMethod(

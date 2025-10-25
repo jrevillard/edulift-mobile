@@ -23,12 +23,12 @@ class ScheduleDateTimeService {
 
   /// Calculate full DateTime from day string, time string, and week
   ///
-  /// Example: ("Monday", "07:30", "2025-W02") → "2025-01-13T07:30:00.000Z"
+  /// Example: ("Monday", "07:30", "2025-W02") → UTC datetime representing 07:30 local time
   /// Returns DateTime in UTC timezone for API compatibility
   ///
-  /// IMPORTANT: This method does NOT perform timezone conversion.
-  /// It builds the DateTime object as-is. Timezone conversion should
-  /// be handled in the presentation layer if needed.
+  /// IMPORTANT: This method converts LOCAL time to UTC.
+  /// The input time (e.g., "07:30") is treated as local device time
+  /// and converted to UTC for storage/API calls.
   DateTime? calculateDateTimeFromSlot(String day, String time, String week) {
     try {
       final weekStart = calculateWeekStartDate(week);
@@ -55,12 +55,17 @@ class ScheduleDateTimeService {
       final hour = int.parse(timeParts[0]);
       final minute = int.parse(timeParts[1]);
 
+      // Validate time values
+      if (hour < 0 || hour > 23 || minute < 0 || minute > 59) {
+        throw ArgumentError('Invalid time values: hour=$hour, minute=$minute');
+      }
+
       // Build the date component
       final date = weekStart.add(Duration(days: dayOffset));
 
-      // Create DateTime object directly in UTC (NO timezone conversion)
-      // The presentation layer should handle timezone conversion if needed
-      final utcDateTime = DateTime.utc(
+      // Create DateTime in LOCAL timezone first (device timezone)
+      // This represents the user's intended time
+      final localDateTime = DateTime(
         date.year,
         date.month,
         date.day,
@@ -68,8 +73,11 @@ class ScheduleDateTimeService {
         minute,
       );
 
+      // Convert to UTC for storage and API compatibility
+      final utcDateTime = localDateTime.toUtc();
+
       _logger.fine(
-        'Calculated datetime: day=$day, time=$time, week=$week → UTC: ${utcDateTime.toIso8601String()}',
+        'Calculated datetime: day=$day, time=$time, week=$week → Local: ${localDateTime.toIso8601String()} → UTC: ${utcDateTime.toIso8601String()}',
       );
       return utcDateTime;
     } catch (e) {

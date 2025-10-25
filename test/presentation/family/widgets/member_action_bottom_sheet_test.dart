@@ -10,6 +10,7 @@ import 'package:edulift/core/services/providers/auth_provider.dart';
 import '../../../test_mocks/test_mocks.dart';
 import '../../../support/accessibility_test_helper.dart';
 import '../../../support/test_provider_overrides.dart';
+import '../../../support/localized_test_app.dart';
 
 void main() {
   setUpAll(() {
@@ -55,7 +56,7 @@ void main() {
 
     testWidgets('should display member information correctly', (tester) async {
       // Arrange
-      final widget = ProviderScope(
+      final widget = createLocalizedTestApp(
         overrides: [
           authStateProvider.overrideWith((ref) {
             final notifier = TestAuthNotifier.withRef(ref);
@@ -63,13 +64,9 @@ void main() {
             return notifier;
           }),
         ],
-        child: MaterialApp(
-          home: Scaffold(
-            body: MemberActionBottomSheet(
-              member: testMember,
-              canManageRoles: true,
-            ),
-          ),
+        child: MemberActionBottomSheet(
+          member: testMember,
+          canManageRoles: true,
         ),
       );
 
@@ -94,7 +91,7 @@ void main() {
     testWidgets('should display admin member with admin icon', (tester) async {
       // Arrange
       final adminMember = testMember.copyWith(role: FamilyRole.admin);
-      final widget = ProviderScope(
+      final widget = createLocalizedTestApp(
         overrides: [
           authStateProvider.overrideWith((ref) {
             final notifier = TestAuthNotifier.withRef(ref);
@@ -102,13 +99,9 @@ void main() {
             return notifier;
           }),
         ],
-        child: MaterialApp(
-          home: Scaffold(
-            body: MemberActionBottomSheet(
-              member: adminMember,
-              canManageRoles: true,
-            ),
-          ),
+        child: MemberActionBottomSheet(
+          member: adminMember,
+          canManageRoles: true,
         ),
       );
 
@@ -129,7 +122,7 @@ void main() {
       (tester) async {
         // Arrange
         var changeRoleCalled = false;
-        final widget = ProviderScope(
+        final widget = createLocalizedTestApp(
           overrides: [
             authStateProvider.overrideWith((ref) {
               final notifier = TestAuthNotifier.withRef(ref);
@@ -140,14 +133,10 @@ void main() {
               return notifier;
             }),
           ],
-          child: MaterialApp(
-            home: Scaffold(
-              body: MemberActionBottomSheet(
-                member: testMember,
-                canManageRoles: true,
-                onChangeRole: () => changeRoleCalled = true,
-              ),
-            ),
+          child: MemberActionBottomSheet(
+            member: testMember,
+            canManageRoles: true,
+            onChangeRole: () => changeRoleCalled = true,
           ),
         );
 
@@ -175,7 +164,7 @@ void main() {
       // Arrange
       final adminMember = testMember.copyWith(role: FamilyRole.admin);
       var changeRoleCalled = false;
-      final widget = ProviderScope(
+      final widget = createLocalizedTestApp(
         overrides: [
           authStateProvider.overrideWith((ref) {
             final notifier = TestAuthNotifier.withRef(ref);
@@ -183,14 +172,10 @@ void main() {
             return notifier;
           }),
         ],
-        child: MaterialApp(
-          home: Scaffold(
-            body: MemberActionBottomSheet(
-              member: adminMember,
-              canManageRoles: true,
-              onChangeRole: () => changeRoleCalled = true,
-            ),
-          ),
+        child: MemberActionBottomSheet(
+          member: adminMember,
+          canManageRoles: true,
+          onChangeRole: () => changeRoleCalled = true,
         ),
       );
 
@@ -214,7 +199,7 @@ void main() {
       tester,
     ) async {
       // Arrange
-      final widget = ProviderScope(
+      final widget = createLocalizedTestApp(
         overrides: [
           authStateProvider.overrideWith((ref) {
             final notifier = TestAuthNotifier.withRef(ref);
@@ -222,14 +207,10 @@ void main() {
             return notifier;
           }),
         ],
-        child: MaterialApp(
-          home: Scaffold(
-            body: MemberActionBottomSheet(
-              member: currentUserMember, // Same user ID as current user
-              canManageRoles: true,
-              onChangeRole: () {},
-            ),
-          ),
+        child: MemberActionBottomSheet(
+          member: currentUserMember, // Same user ID as current user
+          canManageRoles: true,
+          onChangeRole: () {},
         ),
       );
 
@@ -247,7 +228,7 @@ void main() {
     ) async {
       // Arrange
       var viewDetailsCalled = false;
-      final widget = ProviderScope(
+      final widget = createLocalizedTestApp(
         overrides: [
           authStateProvider.overrideWith((ref) {
             final notifier = TestAuthNotifier.withRef(ref);
@@ -255,14 +236,10 @@ void main() {
             return notifier;
           }),
         ],
-        child: MaterialApp(
-          home: Scaffold(
-            body: MemberActionBottomSheet(
-              member: testMember,
-              canManageRoles: true,
-              onViewDetails: () => viewDetailsCalled = true,
-            ),
-          ),
+        child: MemberActionBottomSheet(
+          member: testMember,
+          canManageRoles: true,
+          onViewDetails: () => viewDetailsCalled = true,
         ),
       );
 
@@ -288,7 +265,7 @@ void main() {
     ) async {
       // Arrange
       var removeMemberCalled = false;
-      final widget = ProviderScope(
+      final widget = createLocalizedTestApp(
         overrides: [
           authStateProvider.overrideWith((ref) {
             final notifier = TestAuthNotifier.withRef(ref);
@@ -296,14 +273,10 @@ void main() {
             return notifier;
           }),
         ],
-        child: MaterialApp(
-          home: Scaffold(
-            body: MemberActionBottomSheet(
-              member: testMember,
-              canManageRoles: true,
-              onRemoveMember: () => removeMemberCalled = true,
-            ),
-          ),
+        child: MemberActionBottomSheet(
+          member: testMember,
+          canManageRoles: true,
+          onRemoveMember: () => removeMemberCalled = true,
         ),
       );
 
@@ -329,7 +302,7 @@ void main() {
     ) async {
       // Arrange
       var leaveFamilyCalled = false;
-      final widget = ProviderScope(
+      final widget = createLocalizedTestApp(
         overrides: [
           authStateProvider.overrideWith((ref) {
             final notifier = TestAuthNotifier.withRef(ref);
@@ -337,14 +310,10 @@ void main() {
             return notifier;
           }),
         ],
-        child: MaterialApp(
-          home: Scaffold(
-            body: MemberActionBottomSheet(
-              member: currentUserMember, // Same user ID as current user
-              canManageRoles: true,
-              onLeaveFamily: () => leaveFamilyCalled = true,
-            ),
-          ),
+        child: MemberActionBottomSheet(
+          member: currentUserMember, // Same user ID as current user
+          canManageRoles: true,
+          onLeaveFamily: () => leaveFamilyCalled = true,
         ),
       );
 
@@ -369,7 +338,7 @@ void main() {
       tester,
     ) async {
       // Arrange
-      final widget = ProviderScope(
+      final widget = createLocalizedTestApp(
         overrides: [
           authStateProvider.overrideWith((ref) {
             final notifier = TestAuthNotifier.withRef(ref);
@@ -377,14 +346,10 @@ void main() {
             return notifier;
           }),
         ],
-        child: MaterialApp(
-          home: Scaffold(
-            body: MemberActionBottomSheet(
-              member: currentUserMember, // Same user ID as current user
-              canManageRoles: true,
-              onRemoveMember: () {},
-            ),
-          ),
+        child: MemberActionBottomSheet(
+          member: currentUserMember, // Same user ID as current user
+          canManageRoles: true,
+          onRemoveMember: () {},
         ),
       );
 
@@ -399,7 +364,7 @@ void main() {
     testWidgets('should handle empty display name gracefully', (tester) async {
       // Arrange
       final memberWithEmptyName = testMember.copyWith(userName: '');
-      final widget = ProviderScope(
+      final widget = createLocalizedTestApp(
         overrides: [
           authStateProvider.overrideWith((ref) {
             final notifier = TestAuthNotifier.withRef(ref);
@@ -407,13 +372,9 @@ void main() {
             return notifier;
           }),
         ],
-        child: MaterialApp(
-          home: Scaffold(
-            body: MemberActionBottomSheet(
-              member: memberWithEmptyName,
-              canManageRoles: true,
-            ),
-          ),
+        child: MemberActionBottomSheet(
+          member: memberWithEmptyName,
+          canManageRoles: true,
         ),
       );
 
@@ -459,7 +420,7 @@ void main() {
         onPrimaryContainer: Colors.white,
       );
 
-      final widget = ProviderScope(
+      final widget = createLocalizedTestApp(
         overrides: [
           authStateProvider.overrideWith((ref) {
             final notifier = TestAuthNotifier.withRef(ref);
@@ -467,14 +428,12 @@ void main() {
             return notifier;
           }),
         ],
-        child: MaterialApp(
-          theme: ThemeData(colorScheme: customTheme),
-          home: Scaffold(
-            body: MemberActionBottomSheet(
-              member: testMember,
-              canManageRoles: true,
-              onRemoveMember: () {},
-            ),
+        child: Theme(
+          data: ThemeData(colorScheme: customTheme),
+          child: MemberActionBottomSheet(
+            member: testMember,
+            canManageRoles: true,
+            onRemoveMember: () {},
           ),
         ),
       );
@@ -496,7 +455,7 @@ void main() {
 
     testWidgets('should respect scrollable constraints', (tester) async {
       // Arrange
-      final widget = ProviderScope(
+      final widget = createLocalizedTestApp(
         overrides: [
           authStateProvider.overrideWith((ref) {
             final notifier = TestAuthNotifier.withRef(ref);
@@ -504,18 +463,14 @@ void main() {
             return notifier;
           }),
         ],
-        child: MaterialApp(
-          home: Scaffold(
-            body: SizedBox(
-              height: 200, // Small height to test scrolling
-              child: MemberActionBottomSheet(
-                member: testMember,
-                canManageRoles: true,
-                onViewDetails: () {},
-                onChangeRole: () {},
-                onRemoveMember: () {},
-              ),
-            ),
+        child: SizedBox(
+          height: 200, // Small height to test scrolling
+          child: MemberActionBottomSheet(
+            member: testMember,
+            canManageRoles: true,
+            onViewDetails: () {},
+            onChangeRole: () {},
+            onRemoveMember: () {},
           ),
         ),
       );
@@ -539,7 +494,7 @@ void main() {
     testWidgets('should handle navigation pop correctly', (tester) async {
       // Arrange
       var actionCalled = false;
-      final widget = ProviderScope(
+      final widget = createLocalizedTestApp(
         overrides: [
           authStateProvider.overrideWith((ref) {
             final notifier = TestAuthNotifier.withRef(ref);
@@ -547,23 +502,19 @@ void main() {
             return notifier;
           }),
         ],
-        child: MaterialApp(
-          home: Scaffold(
-            body: Builder(
-              builder: (context) => ElevatedButton(
-                onPressed: () {
-                  showModalBottomSheet(
-                    context: context,
-                    builder: (_) => MemberActionBottomSheet(
-                      member: testMember,
-                      canManageRoles: true,
-                      onChangeRole: () => actionCalled = true,
-                    ),
-                  );
-                },
-                child: const Text('Show Bottom Sheet'),
-              ),
-            ),
+        child: Builder(
+          builder: (context) => ElevatedButton(
+            onPressed: () {
+              showModalBottomSheet(
+                context: context,
+                builder: (_) => MemberActionBottomSheet(
+                  member: testMember,
+                  canManageRoles: true,
+                  onChangeRole: () => actionCalled = true,
+                ),
+              );
+            },
+            child: const Text('Show Bottom Sheet'),
           ),
         ),
       );
@@ -589,7 +540,7 @@ void main() {
       tester,
     ) async {
       // Arrange
-      final widget = ProviderScope(
+      final widget = createLocalizedTestApp(
         overrides: [
           authStateProvider.overrideWith((ref) {
             final notifier = TestAuthNotifier.withRef(ref);
@@ -597,16 +548,12 @@ void main() {
             return notifier;
           }),
         ],
-        child: MaterialApp(
-          home: Scaffold(
-            body: MemberActionBottomSheet(
-              member: testMember,
-              canManageRoles: true,
-              onViewDetails: () {},
-              onChangeRole: () {},
-              onRemoveMember: () {},
-            ),
-          ),
+        child: MemberActionBottomSheet(
+          member: testMember,
+          canManageRoles: true,
+          onViewDetails: () {},
+          onChangeRole: () {},
+          onRemoveMember: () {},
         ),
       );
 
