@@ -2,9 +2,10 @@ name: CI Pipeline
 
 on:
   push:
-    branches: [ main, develop ]
+    branches:
+      - main
   pull_request:
-    branches: [ main, develop ]
+    # Run on all PRs regardless of target branch
   workflow_dispatch:
     inputs:
       skip-build:
