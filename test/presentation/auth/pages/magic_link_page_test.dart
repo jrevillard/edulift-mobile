@@ -77,7 +77,8 @@ void main() {
 
         // Assert - Confirmation screen elements (based on actual implementation)
         expect(find.byIcon(Icons.mark_email_read), findsOneWidget);
-        expect(find.text('test@example.com'), findsOneWidget);
+        // Email is part of larger description text
+        expect(find.textContaining('test@example.com'), findsOneWidget);
         expect(
           find.byKey(const Key('resend_magic_link_button')),
           findsOneWidget,
