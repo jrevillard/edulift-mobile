@@ -57,7 +57,9 @@ jobs:
         run: flutter analyze --fatal-infos
       
       - name: Check code formatting
-        run: dart format --output=none --set-exit-if-changed .
+        run: |
+          # Format check excluding tool/ directory (has different SDK constraint: >=2.17.0)
+          dart format --output=none --set-exit-if-changed lib/ test/ integration_test/
       
       - name: Run unit tests with coverage
         run: flutter test --coverage --test-randomize-ordering-seed random
