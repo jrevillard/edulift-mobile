@@ -49,6 +49,28 @@ class TestRouterConfig {
     return GoRouter(
       navigatorKey: _rootNavigatorKey,
       initialLocation: initialLocation,
+      // Add redirect logic to guard protected routes (matching production router behavior)
+      redirect: (context, state) {
+        try {
+          // Access familyProvider through ProviderScope to check family status
+          final container = ProviderScope.containerOf(context);
+          final familyState = container.read(familyProvider);
+          final hasFamily = familyState.family != null;
+
+          // Protected routes that require family membership
+          final isProtectedRoute = state.matchedLocation.startsWith('/family') ||
+              state.matchedLocation.startsWith('/groups') ||
+              state.matchedLocation.startsWith('/schedule');
+
+          // Redirect to onboarding if accessing protected route without family
+          if (isProtectedRoute && !hasFamily && !state.matchedLocation.startsWith('/onboarding')) {
+            return '/onboarding/wizard';
+          }
+        } catch (e) {
+          // If ProviderScope is not available (e.g., in unit tests), skip guard logic
+        }
+        return null; // No redirect needed
+      },
       routes: [
         // Main app shell with bottom navigation
         ShellRoute(

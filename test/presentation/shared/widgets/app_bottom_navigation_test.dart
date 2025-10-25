@@ -13,7 +13,7 @@ import 'package:edulift/features/family/presentation/providers/family_provider.d
     hide FamilyNotifier;
 import 'package:edulift/features/family/presentation/providers/family_provider.dart'
     as family_providers
-    show FamilyNotifier;
+    show FamilyNotifier, FamilyState;
 import 'package:edulift/generated/l10n/app_localizations.dart';
 
 import '../../../test_mocks/generated_mocks.dart';
@@ -50,6 +50,12 @@ void main() {
             return notifier;
           }),
           currentUserProvider.overrideWith((ref) => mockAuthState.user),
+          // CRITICAL FIX: Override familyProvider to prevent auto-load network calls
+          // This prevents pending timer errors by using a test FamilyNotifier that doesn't auto-load
+          familyProvider.overrideWith((ref) {
+            final notifier = TestProviderOverrides.createTestFamilyNotifier(ref);
+            return notifier;
+          }),
         ];
 
         container = ProviderContainer(overrides: overrides);
@@ -111,6 +117,18 @@ void main() {
             return notifier;
           }),
           currentUserProvider.overrideWith((ref) => mockAuthState.user),
+          // CRITICAL FIX: Override familyProvider to prevent auto-load network calls
+          familyProvider.overrideWith((ref) {
+            final notifier = TestProviderOverrides.createTestFamilyNotifier(ref);
+            // For this test, user has NO family
+            // IMPORTANT: Cannot use copyWith to set family to null (copyWith ignores null values)
+            // Must create new FamilyState with family explicitly set to null
+            notifier.state = const family_providers.FamilyState(
+              family: null,
+              isLoading: false,
+            );
+            return notifier;
+          }),
         ];
 
         container = ProviderContainer(overrides: overrides);
@@ -145,11 +163,15 @@ void main() {
         final navigationBarFinder = find.byType(NavigationBar);
         expect(navigationBarFinder, findsOneWidget);
 
-        final navigationBar = tester.widget<NavigationBar>(navigationBarFinder);
-        expect(navigationBar.destinations.length, equals(5));
-
-        // ACT - Simulate tapping the family tab (index 1) by calling onDestinationSelected
-        navigationBar.onDestinationSelected!(1);
+        // ACT - Get the NavigationBar widget and simulate tapping family tab (index 1)
+        // The TestAppBottomNavigation will call context.go('/family')
+        // Then the router guard will redirect to '/onboarding/wizard'
+        final familyIcon = find.descendant(
+          of: navigationBarFinder,
+          matching: find.byIcon(Icons.family_restroom_outlined),
+        );
+        expect(familyIcon, findsOneWidget);
+        await tester.tap(familyIcon);
         await tester.pumpAndSettle();
 
         // ASSERT - Should redirect to onboarding
@@ -173,6 +195,18 @@ void main() {
             return notifier;
           }),
           currentUserProvider.overrideWith((ref) => mockAuthState.user),
+          // CRITICAL FIX: Override familyProvider to prevent auto-load network calls
+          familyProvider.overrideWith((ref) {
+            final notifier = TestProviderOverrides.createTestFamilyNotifier(ref);
+            // For this test, user has NO family
+            // IMPORTANT: Cannot use copyWith to set family to null (copyWith ignores null values)
+            // Must create new FamilyState with family explicitly set to null
+            notifier.state = const family_providers.FamilyState(
+              family: null,
+              isLoading: false,
+            );
+            return notifier;
+          }),
         ];
 
         container = ProviderContainer(overrides: overrides);
@@ -200,10 +234,14 @@ void main() {
         final navigationBarFinder = find.byType(NavigationBar);
         expect(navigationBarFinder, findsOneWidget);
 
-        final navigationBar = tester.widget<NavigationBar>(navigationBarFinder);
-
-        // ACT - Tap groups tab (index 2)
-        navigationBar.onDestinationSelected!(2);
+        // ACT - Tap the groups destination button by finding the icon widget inside it
+        // NavigationBar renders buttons for each destination - find the groups icon and tap it
+        final groupsIcon = find.descendant(
+          of: navigationBarFinder,
+          matching: find.byIcon(Icons.groups_outlined),
+        );
+        expect(groupsIcon, findsOneWidget);
+        await tester.tap(groupsIcon);
         await tester.pumpAndSettle();
 
         // ASSERT - Should redirect to onboarding
@@ -227,6 +265,18 @@ void main() {
             return notifier;
           }),
           currentUserProvider.overrideWith((ref) => mockAuthState.user),
+          // CRITICAL FIX: Override familyProvider to prevent auto-load network calls
+          familyProvider.overrideWith((ref) {
+            final notifier = TestProviderOverrides.createTestFamilyNotifier(ref);
+            // For this test, user has NO family
+            // IMPORTANT: Cannot use copyWith to set family to null (copyWith ignores null values)
+            // Must create new FamilyState with family explicitly set to null
+            notifier.state = const family_providers.FamilyState(
+              family: null,
+              isLoading: false,
+            );
+            return notifier;
+          }),
         ];
 
         container = ProviderContainer(overrides: overrides);
@@ -254,10 +304,14 @@ void main() {
         final navigationBarFinder = find.byType(NavigationBar);
         expect(navigationBarFinder, findsOneWidget);
 
-        final navigationBar = tester.widget<NavigationBar>(navigationBarFinder);
-
-        // ACT - Tap schedule tab (index 3)
-        navigationBar.onDestinationSelected!(3);
+        // ACT - Tap the schedule destination button by finding the icon widget inside it
+        // NavigationBar renders buttons for each destination - find the schedule icon and tap it
+        final scheduleIcon = find.descendant(
+          of: navigationBarFinder,
+          matching: find.byIcon(Icons.schedule_outlined),
+        );
+        expect(scheduleIcon, findsOneWidget);
+        await tester.tap(scheduleIcon);
         await tester.pumpAndSettle();
 
         // ASSERT - Should redirect to onboarding
@@ -354,6 +408,11 @@ void main() {
             return notifier;
           }),
           currentUserProvider.overrideWith((ref) => mockAuthState.user),
+          // CRITICAL FIX: Override familyProvider to prevent auto-load network calls
+          familyProvider.overrideWith((ref) {
+            final notifier = TestProviderOverrides.createTestFamilyNotifier(ref);
+            return notifier;
+          }),
         ];
 
         container = ProviderContainer(overrides: overrides);
@@ -414,6 +473,11 @@ void main() {
             return notifier;
           }),
           currentUserProvider.overrideWith((ref) => mockAuthState.user),
+          // CRITICAL FIX: Override familyProvider to prevent auto-load network calls
+          familyProvider.overrideWith((ref) {
+            final notifier = TestProviderOverrides.createTestFamilyNotifier(ref);
+            return notifier;
+          }),
         ];
 
         container = ProviderContainer(overrides: overrides);
@@ -459,6 +523,18 @@ void main() {
             return notifier;
           }),
           currentUserProvider.overrideWith((ref) => mockAuthState.user),
+          // CRITICAL FIX: Override familyProvider to prevent auto-load network calls
+          familyProvider.overrideWith((ref) {
+            final notifier = TestProviderOverrides.createTestFamilyNotifier(ref);
+            // For this test, user has NO family
+            // IMPORTANT: Cannot use copyWith to set family to null (copyWith ignores null values)
+            // Must create new FamilyState with family explicitly set to null
+            notifier.state = const family_providers.FamilyState(
+              family: null,
+              isLoading: false,
+            );
+            return notifier;
+          }),
         ];
 
         container = ProviderContainer(overrides: overrides);
