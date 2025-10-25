@@ -160,24 +160,24 @@ class FamilyInvitation extends Equatable {
 
   @override
   List<Object?> get props => [
-    id,
-    familyId,
-    email,
-    role,
-    invitedBy,
-    invitedByName,
-    createdBy,
-    createdAt,
-    expiresAt,
-    status,
-    personalMessage,
-    inviteCode,
-    acceptedAt,
-    acceptedBy,
-    respondedAt,
-    updatedAt,
-    metadata,
-  ];
+        id,
+        familyId,
+        email,
+        role,
+        invitedBy,
+        invitedByName,
+        createdBy,
+        createdAt,
+        expiresAt,
+        status,
+        personalMessage,
+        inviteCode,
+        acceptedAt,
+        acceptedBy,
+        respondedAt,
+        updatedAt,
+        metadata,
+      ];
 
   @override
   String toString() {
@@ -319,20 +319,20 @@ class FamilyInvitationValidation extends Equatable {
 
   @override
   List<Object?> get props => [
-    valid,
-    familyId,
-    familyName,
-    role,
-    personalMessage,
-    email,
-    inviterEmail,
-    expiresAt,
-    existingUser,
-    userCurrentFamily,
-    error,
-    errorCode,
-    invitedByName,
-  ];
+        valid,
+        familyId,
+        familyName,
+        role,
+        personalMessage,
+        email,
+        inviterEmail,
+        expiresAt,
+        existingUser,
+        userCurrentFamily,
+        error,
+        errorCode,
+        invitedByName,
+      ];
 
   @override
   String toString() {

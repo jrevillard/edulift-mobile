@@ -328,7 +328,8 @@ void main() {
         },
       );
 
-      test('should handle concurrent refresh token requests correctly', () async {
+      test('should handle concurrent refresh token requests correctly',
+          () async {
         // Arrange
         final params1 = RefreshTokenParams(
           refreshToken: 'refresh-token1-123456789012345',

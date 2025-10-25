@@ -54,7 +54,6 @@ void main() {
             userId: 'user$index',
             role: index == 0 ? FamilyRole.admin : FamilyRole.member,
             status: 'ACTIVE',
-
             joinedAt: DateTime.now(),
             userName: 'Member $index',
           ),
@@ -115,8 +114,7 @@ void main() {
         expect(family.administrators.length, equals(1));
 
         // BUSINESS RULE: Last admin protection
-        final isLastAdmin =
-            family.administrators.length == 1 &&
+        final isLastAdmin = family.administrators.length == 1 &&
             family.administrators.first.id == 'admin1';
         expect(
           isLastAdmin,
@@ -308,7 +306,6 @@ void main() {
             userId: 'user$index',
             role: index == 0 ? FamilyRole.admin : FamilyRole.member,
             status: 'ACTIVE',
-
             joinedAt: DateTime.now(),
             userName: 'Member $index',
           ),
@@ -344,7 +341,6 @@ void main() {
             userId: 'user$index',
             role: index == 0 ? FamilyRole.admin : FamilyRole.member,
             status: 'ACTIVE',
-
             joinedAt: DateTime.now(),
             userName: 'Member $index',
           ),

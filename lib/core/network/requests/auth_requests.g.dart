@@ -43,4 +43,5 @@ RefreshTokenRequest _$RefreshTokenRequestFromJson(Map<String, dynamic> json) =>
 
 Map<String, dynamic> _$RefreshTokenRequestToJson(
   RefreshTokenRequest instance,
-) => <String, dynamic>{'refresh_token': instance.refreshToken};
+) =>
+    <String, dynamic>{'refresh_token': instance.refreshToken};

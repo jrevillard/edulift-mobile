@@ -60,8 +60,7 @@ class TestEnvironment {
   }) {
     if (useRouter || customRouter != null) {
       // Create router-enabled test app for GoRouter context
-      final router =
-          customRouter ??
+      final router = customRouter ??
           TestRouterConfig.createTestRouter(
             initialLocation: initialRoute ?? '/',
           );
@@ -107,8 +106,7 @@ class TestEnvironment {
     String initialRoute = '/',
     GoRouter? customRouter,
   }) {
-    final router =
-        customRouter ??
+    final router = customRouter ??
         TestRouterConfig.createTestRouter(initialLocation: initialRoute);
 
     return ProviderScope(
@@ -215,8 +213,8 @@ class _TestHttpOverrides extends HttpOverrides {
   @override
   HttpClient createHttpClient(SecurityContext? context) {
     return super.createHttpClient(context)
-      ..badCertificateCallback = (cert, host, port) =>
-          true; // Allow self-signed certs in tests
+      ..badCertificateCallback =
+          (cert, host, port) => true; // Allow self-signed certs in tests
   }
 }
 

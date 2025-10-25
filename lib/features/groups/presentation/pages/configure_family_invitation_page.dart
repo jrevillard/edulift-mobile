@@ -181,22 +181,21 @@ class _ConfigureFamilyInvitationPageState
                                   children: [
                                     Text(
                                       widget.familyName,
-                                      style: theme.textTheme.titleMedium
-                                          ?.copyWith(
-                                            fontWeight: FontWeight.w600,
-                                            fontSize: isTablet ? 18 : 16,
-                                          ),
+                                      style:
+                                          theme.textTheme.titleMedium?.copyWith(
+                                        fontWeight: FontWeight.w600,
+                                        fontSize: isTablet ? 18 : 16,
+                                      ),
                                     ),
                                     const SizedBox(height: 4),
                                     Text(
                                       l10n.memberCount(widget.memberCount),
-                                      style: theme.textTheme.bodySmall
-                                          ?.copyWith(
-                                            color:
-                                                AppColors.textSecondaryThemed(
-                                                  context,
-                                                ),
-                                          ),
+                                      style:
+                                          theme.textTheme.bodySmall?.copyWith(
+                                        color: AppColors.textSecondaryThemed(
+                                          context,
+                                        ),
+                                      ),
                                     ),
                                   ],
                                 ),
@@ -239,8 +238,8 @@ class _ConfigureFamilyInvitationPageState
                         onTap: _isInviting
                             ? null
                             : () => setState(
-                                () => _selectedRole = GroupFamilyRole.member,
-                              ),
+                                  () => _selectedRole = GroupFamilyRole.member,
+                                ),
                         theme: theme,
                         isTablet: isTablet,
                       ),
@@ -263,8 +262,8 @@ class _ConfigureFamilyInvitationPageState
                         onTap: _isInviting
                             ? null
                             : () => setState(
-                                () => _selectedRole = GroupFamilyRole.admin,
-                              ),
+                                  () => _selectedRole = GroupFamilyRole.admin,
+                                ),
                         theme: theme,
                         isTablet: isTablet,
                       ),

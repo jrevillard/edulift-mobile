@@ -45,20 +45,21 @@ _FamilyInvitationDto _$FamilyInvitationDtoFromJson(Map<String, dynamic> json) =>
 
 Map<String, dynamic> _$FamilyInvitationDtoToJson(
   _FamilyInvitationDto instance,
-) => <String, dynamic>{
-  'id': instance.id,
-  'familyId': instance.familyId,
-  'email': instance.email,
-  'role': instance.role,
-  'personalMessage': instance.personalMessage,
-  'invitedBy': instance.invitedBy,
-  'createdBy': instance.createdBy,
-  'acceptedBy': instance.acceptedBy,
-  'status': instance.status,
-  'inviteCode': instance.inviteCode,
-  'expiresAt': instance.expiresAt.toIso8601String(),
-  'acceptedAt': instance.acceptedAt?.toIso8601String(),
-  'createdAt': instance.createdAt.toIso8601String(),
-  'updatedAt': instance.updatedAt.toIso8601String(),
-  'invitedByUser': instance.invitedByUser,
-};
+) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'familyId': instance.familyId,
+      'email': instance.email,
+      'role': instance.role,
+      'personalMessage': instance.personalMessage,
+      'invitedBy': instance.invitedBy,
+      'createdBy': instance.createdBy,
+      'acceptedBy': instance.acceptedBy,
+      'status': instance.status,
+      'inviteCode': instance.inviteCode,
+      'expiresAt': instance.expiresAt.toIso8601String(),
+      'acceptedAt': instance.acceptedAt?.toIso8601String(),
+      'createdAt': instance.createdAt.toIso8601String(),
+      'updatedAt': instance.updatedAt.toIso8601String(),
+      'invitedByUser': instance.invitedByUser,
+    };

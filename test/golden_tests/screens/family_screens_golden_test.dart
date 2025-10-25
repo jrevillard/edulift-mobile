@@ -45,13 +45,13 @@ class _PreInitializedFamilyNotifier extends family_provider.FamilyNotifier {
     Ref ref, {
     required entities.Family? initialFamily,
   }) : super(
-         getFamilyUsecase,
-         childrenService,
-         leaveFamilyUsecase,
-         familyRepository,
-         invitationRepository,
-         ref,
-       ) {
+          getFamilyUsecase,
+          childrenService,
+          leaveFamilyUsecase,
+          familyRepository,
+          invitationRepository,
+          ref,
+        ) {
     // Pre-set the state with test data to avoid async initialization issues
     if (initialFamily != null) {
       state = family_provider.FamilyState(

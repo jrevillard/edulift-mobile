@@ -199,8 +199,7 @@ This violation breaks the WebSocket modernization architecture requirements.
         expect(
           nonCompliantFiles,
           isEmpty,
-          reason:
-              '''
+          reason: '''
 CRITICAL ARCHITECTURE VIOLATION: WebSocket files must use centralized SocketEvents!
 
 Non-compliant files:
@@ -239,8 +238,7 @@ Use: SocketEvents.FAMILY_UPDATED instead of string literals.
         expect(
           filesWithoutProperDisposal,
           isEmpty,
-          reason:
-              '''
+          reason: '''
 CRITICAL MEMORY LEAK VIOLATION: Stream controllers not properly disposed!
 
 Files without proper disposal:
@@ -282,8 +280,7 @@ Example:
       expect(
         violationFiles,
         isEmpty,
-        reason:
-            '''
+        reason: '''
 CRITICAL FORMAT VIOLATION: Legacy event formats found!
 
 Files with legacy formats:
@@ -316,8 +313,7 @@ REQUIRED ACTION: Use modern colon-separated format ONLY.
       expect(
         violationFiles,
         isEmpty,
-        reason:
-            '''
+        reason: '''
 ARCHITECTURE VIOLATION: WebSocket infrastructure imports from presentation layer!
 
 Violating files:
@@ -352,8 +348,7 @@ Use dependency injection through composition roots instead.
       expect(
         nonCompliantFiles,
         isEmpty,
-        reason:
-            '''
+        reason: '''
 DOMAIN PATTERN VIOLATION: WebSocket event models must be immutable!
 
 Non-compliant files:
@@ -378,9 +373,8 @@ Example: final String eventId; final DateTime timestamp;
           .where((file) => file.path.contains('service'))
           .toList();
 
-      final eventFiles = webSocketFiles
-          .where((file) => file.path.contains('event'))
-          .toList();
+      final eventFiles =
+          webSocketFiles.where((file) => file.path.contains('event')).toList();
 
       print('\n🔌 WEBSOCKET ARCHITECTURE COMPLIANCE SUMMARY');
       print('=================================================');
@@ -453,8 +447,7 @@ This file must contain ALL centralized WebSocket event constants.
       expect(
         missingEvents,
         isEmpty,
-        reason:
-            '''
+        reason: '''
 CRITICAL: Missing required event constants!
 
 Missing events:
@@ -472,9 +465,7 @@ Add these constants to SocketEvents class with proper colon-separated values.
 bool _handlesEvents(String content) {
   // Exclude barrel files (export only files)
   if (content.trim().startsWith('//') &&
-      content
-          .split('\n')
-          .every(
+      content.split('\n').every(
             (line) =>
                 line.trim().startsWith('//') ||
                 line.trim().startsWith('export ') ||

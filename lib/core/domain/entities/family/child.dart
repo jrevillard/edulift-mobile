@@ -42,10 +42,8 @@ class Child extends Equatable {
     final trimmedName = name.trim();
     if (trimmedName.isEmpty) return '';
 
-    final parts = trimmedName
-        .split(' ')
-        .where((part) => part.isNotEmpty)
-        .toList();
+    final parts =
+        trimmedName.split(' ').where((part) => part.isNotEmpty).toList();
     if (parts.isEmpty) return '';
 
     if (parts.length == 1) {

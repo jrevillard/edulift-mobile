@@ -64,7 +64,6 @@ void main() {
             accessToken: 'jwt-token-12345',
             refreshToken: 'mock_refresh_token',
             expiresIn: 900,
-
             user: UserCurrentFamilyDto(
               id: 'user-456',
               email: 'verified@example.com',
@@ -241,7 +240,6 @@ void main() {
             accessToken: 'stolen-token',
             refreshToken: 'mock_refresh_token',
             expiresIn: 900,
-
             user: UserCurrentFamilyDto(
               id: 'attacker-123',
               email: 'attacker@evil.com', // Different email
@@ -284,7 +282,8 @@ void main() {
     });
 
     group('FINAL: Complete Architecture Validation', () {
-      test('should demonstrate complete new architecture pattern working', () async {
+      test('should demonstrate complete new architecture pattern working',
+          () async {
         // This test demonstrates the complete flow working with the new pattern:
         // AuthApiClient (DTOs) → ApiResponseHelper.execute<DTO>() → response.unwrap() → AuthService
 
@@ -293,7 +292,6 @@ void main() {
           accessToken: 'complete-test-token',
           refreshToken: 'mock_refresh_token',
           expiresIn: 900,
-
           user: UserCurrentFamilyDto(
             id: 'complete-user-123',
             email: 'complete@test.com',

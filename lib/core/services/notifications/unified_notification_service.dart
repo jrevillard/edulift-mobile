@@ -43,8 +43,8 @@ class UnifiedNotificationService {
   UnifiedNotificationService({
     required FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin,
     required FirebaseMessaging firebaseMessaging,
-  }) : _flutterLocalNotificationsPlugin = flutterLocalNotificationsPlugin,
-       _firebaseMessaging = firebaseMessaging;
+  })  : _flutterLocalNotificationsPlugin = flutterLocalNotificationsPlugin,
+        _firebaseMessaging = firebaseMessaging;
 
   // Public streams
   Stream<NotificationActionEvent> get onNotificationAction =>
@@ -157,20 +157,17 @@ class UnifiedNotificationService {
       // Create channels
       await _flutterLocalNotificationsPlugin
           .resolvePlatformSpecificImplementation<
-            AndroidFlutterLocalNotificationsPlugin
-          >()
+              AndroidFlutterLocalNotificationsPlugin>()
           ?.createNotificationChannel(highPriorityChannel);
 
       await _flutterLocalNotificationsPlugin
           .resolvePlatformSpecificImplementation<
-            AndroidFlutterLocalNotificationsPlugin
-          >()
+              AndroidFlutterLocalNotificationsPlugin>()
           ?.createNotificationChannel(mediumPriorityChannel);
 
       await _flutterLocalNotificationsPlugin
           .resolvePlatformSpecificImplementation<
-            AndroidFlutterLocalNotificationsPlugin
-          >()
+              AndroidFlutterLocalNotificationsPlugin>()
           ?.createNotificationChannel(lowPriorityChannel);
     }
   }
@@ -280,11 +277,9 @@ class UnifiedNotificationService {
       channelDescription: _getChannelDescriptionForPriority(priority),
       importance: _getImportanceForPriority(priority),
       priority: _getPriorityForPriority(priority),
-      playSound:
-          priority == NotificationPriority.high ||
+      playSound: priority == NotificationPriority.high ||
           priority == NotificationPriority.urgent,
-      enableVibration:
-          priority == NotificationPriority.high ||
+      enableVibration: priority == NotificationPriority.high ||
           priority == NotificationPriority.urgent,
     );
 

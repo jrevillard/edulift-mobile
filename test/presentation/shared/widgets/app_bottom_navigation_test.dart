@@ -87,8 +87,7 @@ void main() {
         // Run accessibility tests
         await AccessibilityTestHelper.runAccessibilityTestSuite(
           tester,
-          requiredLabels:
-              [], // Navigation destinations have dynamic labels from localization
+          requiredLabels: [], // Navigation destinations have dynamic labels from localization
         );
       });
 
@@ -428,8 +427,7 @@ void main() {
         // ACT & ASSERT - Run comprehensive accessibility tests
         await AccessibilityTestHelper.runAccessibilityTestSuite(
           tester,
-          requiredLabels:
-              [], // Navigation destinations have dynamic labels from localization
+          requiredLabels: [], // Navigation destinations have dynamic labels from localization
         );
       });
 
@@ -484,8 +482,7 @@ void main() {
         // Run accessibility tests for disabled state
         await AccessibilityTestHelper.runAccessibilityTestSuite(
           tester,
-          requiredLabels:
-              [], // Navigation destinations have dynamic labels from localization
+          requiredLabels: [], // Navigation destinations have dynamic labels from localization
         );
       });
     });

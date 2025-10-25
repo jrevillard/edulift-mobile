@@ -32,10 +32,10 @@ class RealtimeScheduleState {
     this.error,
     required this.hasUnreadNotifications,
     required this.metrics,
-  }) : scheduleUpdates = UnmodifiableListView(scheduleUpdates),
-       notifications = UnmodifiableListView(notifications),
-       activeConflicts = UnmodifiableListView(activeConflicts),
-       scheduleSlotsCache = UnmodifiableMapView(scheduleSlotsCache);
+  })  : scheduleUpdates = UnmodifiableListView(scheduleUpdates),
+        notifications = UnmodifiableListView(notifications),
+        activeConflicts = UnmodifiableListView(activeConflicts),
+        scheduleSlotsCache = UnmodifiableMapView(scheduleSlotsCache);
 
   /// Factory constructor with default values
   factory RealtimeScheduleState.initial() {
@@ -151,11 +151,11 @@ class ScheduleMetrics {
 
   @override
   int get hashCode => Object.hash(
-    totalEvents,
-    conflictCount,
-    criticalConflictCount,
-    highPriorityNotifications,
-  );
+        totalEvents,
+        conflictCount,
+        criticalConflictCount,
+        highPriorityNotifications,
+      );
 }
 
 /// Optimized real-time schedule notifier with batch processing
@@ -263,8 +263,7 @@ class RealtimeScheduleNotifier extends StateNotifier<RealtimeScheduleState> {
       notifications: updatedNotifications,
       hasUnreadNotifications: updatedNotifications.isNotEmpty,
       metrics: state.metrics.copyWith(
-        totalEvents:
-            state.metrics.totalEvents +
+        totalEvents: state.metrics.totalEvents +
             _pendingUpdates.length +
             _pendingNotifications.length,
         lastEventTime: DateTime.now(),
@@ -395,15 +394,15 @@ final authServiceProvider = Provider<AuthService>((ref) {
 /// Provider for real-time schedule coordination
 final realtimeScheduleProvider =
     StateNotifierProvider<RealtimeScheduleNotifier, RealtimeScheduleState>((
-      ref,
-    ) {
-      final webSocketService = ref.watch(webSocketServiceProvider);
-      final authService = ref.watch(authServiceProvider);
-      // Simple error handler service to avoid code generation issues
-      final errorHandlerService = ErrorHandlerService(UserMessageService());
-      return RealtimeScheduleNotifier(
-        webSocketService,
-        authService,
-        errorHandlerService,
-      );
-    });
+  ref,
+) {
+  final webSocketService = ref.watch(webSocketServiceProvider);
+  final authService = ref.watch(authServiceProvider);
+  // Simple error handler service to avoid code generation issues
+  final errorHandlerService = ErrorHandlerService(UserMessageService());
+  return RealtimeScheduleNotifier(
+    webSocketService,
+    authService,
+    errorHandlerService,
+  );
+});

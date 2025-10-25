@@ -28,19 +28,20 @@ class CacheEntry<T> {
   });
 
   Map<String, dynamic> toJson() => {
-    'data': data,
-    'cachedAt': cachedAt.toIso8601String(),
-    'version': version,
-  };
+        'data': data,
+        'cachedAt': cachedAt.toIso8601String(),
+        'version': version,
+      };
 
   static CacheEntry<T> fromJson<T>(
     Map<String, dynamic> json,
     T Function(dynamic) fromData,
-  ) => CacheEntry(
-    data: fromData(json['data']),
-    cachedAt: DateTime.parse(json['cachedAt']),
-    version: json['version'] ?? 1,
-  );
+  ) =>
+      CacheEntry(
+        data: fromData(json['data']),
+        cachedAt: DateTime.parse(json['cachedAt']),
+        version: json['version'] ?? 1,
+      );
 
   bool isExpired(Duration ttl) => DateTime.now().difference(cachedAt) > ttl;
 }
@@ -374,8 +375,8 @@ class ScheduleLocalDataSourceImpl implements ScheduleLocalDataSource {
           (data) => data.toString(),
         );
         final jsonData = jsonDecode(entry.data) as Map<String, dynamic>;
-        final existingAssignments = (jsonData['assignments'] as List)
-            .cast<Map<String, dynamic>>();
+        final existingAssignments =
+            (jsonData['assignments'] as List).cast<Map<String, dynamic>>();
 
         // Add or update
         final assignmentDto = VehicleAssignmentDto.fromDomain(assignment);
@@ -724,8 +725,8 @@ class ScheduleLocalDataSourceImpl implements ScheduleLocalDataSource {
           (data) => data.toString(),
         );
         final jsonData = jsonDecode(entry.data) as Map<String, dynamic>;
-        operations = (jsonData['operations'] as List)
-            .cast<Map<String, dynamic>>();
+        operations =
+            (jsonData['operations'] as List).cast<Map<String, dynamic>>();
       } else {
         operations = [];
       }

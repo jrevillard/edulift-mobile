@@ -60,7 +60,7 @@ abstract class GroupRepository {
 
   /// Search families for invitation (cache-first pattern)
   Future<Result<List<FamilySearchResult>, ApiFailure>>
-  searchFamiliesForInvitation(String groupId, String? query, int? limit);
+      searchFamiliesForInvitation(String groupId, String? query, int? limit);
 
   /// Invite a family to the group (server-first pattern)
   Future<Result<void, ApiFailure>> inviteFamilyToGroup(

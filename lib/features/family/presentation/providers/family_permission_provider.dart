@@ -117,12 +117,12 @@ class FamilyPermissionState extends Equatable {
 
   @override
   List<Object?> get props => [
-    currentUserRole,
-    familyMembers,
-    isLoading,
-    error,
-    lastUpdated,
-  ];
+        currentUserRole,
+        familyMembers,
+        isLoading,
+        error,
+        lastUpdated,
+      ];
 }
 
 /// Notifier managing family permissions state following existing patterns
@@ -222,10 +222,10 @@ class FamilyPermissionNotifier extends StateNotifier<FamilyPermissionState> {
 /// Family permission provider following existing provider patterns
 final familyPermissionProvider =
     StateNotifierProvider<FamilyPermissionNotifier, FamilyPermissionState>((
-      ref,
-    ) {
-      return FamilyPermissionNotifier(ref);
-    });
+  ref,
+) {
+  return FamilyPermissionNotifier(ref);
+});
 
 /// Provider for current user's role in active family
 final currentUserFamilyRoleProvider = Provider<FamilyRole?>((ref) {

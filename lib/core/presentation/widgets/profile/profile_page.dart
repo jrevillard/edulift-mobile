@@ -92,7 +92,9 @@ class _ProfilePageState extends ConsumerState<ProfilePage>
                       Text(
                         currentUser?.name ?? l10n.profile,
                         key: const Key('profile_user_name'),
-                        style: Theme.of(context).textTheme.headlineSmall
+                        style: Theme.of(context)
+                            .textTheme
+                            .headlineSmall
                             ?.copyWith(fontWeight: FontWeight.w600),
                       ),
                       const SizedBox(height: 4),
@@ -100,8 +102,10 @@ class _ProfilePageState extends ConsumerState<ProfilePage>
                         currentUser?.email ?? '',
                         key: const Key('profile_user_email'),
                         style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                          color: Theme.of(context).colorScheme.onSurfaceVariant,
-                        ),
+                              color: Theme.of(context)
+                                  .colorScheme
+                                  .onSurfaceVariant,
+                            ),
                       ),
                       const SizedBox(height: 4),
                       // Family role chip - delegates to UserFamilyService
@@ -170,8 +174,8 @@ class _ProfilePageState extends ConsumerState<ProfilePage>
                 Text(
                   l10n.settings,
                   style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                    fontWeight: FontWeight.w600,
-                  ),
+                        fontWeight: FontWeight.w600,
+                      ),
                 ),
               ],
             ),
@@ -216,12 +220,12 @@ class _ProfilePageState extends ConsumerState<ProfilePage>
                           ),
                           Text(
                             'Language, Developer Tools & More',
-                            style: Theme.of(context).textTheme.bodySmall
-                                ?.copyWith(
-                                  color: Theme.of(
-                                    context,
-                                  ).colorScheme.onSurfaceVariant,
-                                ),
+                            style:
+                                Theme.of(context).textTheme.bodySmall?.copyWith(
+                                      color: Theme.of(
+                                        context,
+                                      ).colorScheme.onSurfaceVariant,
+                                    ),
                           ),
                         ],
                       ),
@@ -282,8 +286,8 @@ class _ProfilePageState extends ConsumerState<ProfilePage>
                       child: Text(
                         l10n.logout,
                         style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                          color: Theme.of(context).colorScheme.error,
-                        ),
+                              color: Theme.of(context).colorScheme.error,
+                            ),
                       ),
                     ),
                     Icon(
@@ -323,9 +327,7 @@ class _ProfilePageState extends ConsumerState<ProfilePage>
               Navigator.of(context).pop();
               // ARCHITECTURE FIX: Direct navigation after logout since targetRoute doesn't work
               await ref.read(authStateProvider.notifier).logout();
-              ref
-                  .read(navigationStateProvider.notifier)
-                  .navigateTo(
+              ref.read(navigationStateProvider.notifier).navigateTo(
                     route: '/auth/login',
                     trigger: NavigationTrigger.userNavigation,
                   );

@@ -173,9 +173,8 @@ class _FamilyInvitationManagementWidgetState
     final localizations = AppLocalizations.of(context);
     final colorScheme = theme.colorScheme;
     final isExpired = invitation.isExpired;
-    final daysUntilExpiration = invitation.expiresAt
-        .difference(DateTime.now())
-        .inDays;
+    final daysUntilExpiration =
+        invitation.expiresAt.difference(DateTime.now()).inDays;
     final isExpiringSoon = daysUntilExpiration <= 2 && daysUntilExpiration > 0;
 
     return Card(
@@ -504,8 +503,8 @@ class _FamilyInvitationManagementWidgetState
               Text(
                 localizations.codeForEmail(invitation.email),
                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  color: Theme.of(context).colorScheme.onSurfaceVariant,
-                ),
+                      color: Theme.of(context).colorScheme.onSurfaceVariant,
+                    ),
               ),
               const SizedBox(height: 12),
               Container(
@@ -526,9 +525,9 @@ class _FamilyInvitationManagementWidgetState
                   invitationCode,
                   key: Key('invitation_code_display_${invitation.email}'),
                   style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                    fontFamily: 'monospace',
-                    fontWeight: FontWeight.bold,
-                  ),
+                        fontFamily: 'monospace',
+                        fontWeight: FontWeight.bold,
+                      ),
                 ),
               ),
             ],

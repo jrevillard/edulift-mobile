@@ -9,14 +9,14 @@ import '../presentation/pages/onboarding_wizard_page.dart';
 /// - Other non-feature routes
 class CoreRoutes {
   static List<RouteBase> get routes => [
-    // Onboarding wizard - initial user setup
-    GoRoute(
-      path: '/onboarding/wizard',
-      name: 'onboarding-wizard',
-      builder: (context, state) {
-        final invitationCode = state.uri.queryParameters['invitationCode'];
-        return OnboardingWizardPage(invitationCode: invitationCode);
-      },
-    ),
-  ];
+        // Onboarding wizard - initial user setup
+        GoRoute(
+          path: '/onboarding/wizard',
+          name: 'onboarding-wizard',
+          builder: (context, state) {
+            final invitationCode = state.uri.queryParameters['invitationCode'];
+            return OnboardingWizardPage(invitationCode: invitationCode);
+          },
+        ),
+      ];
 }

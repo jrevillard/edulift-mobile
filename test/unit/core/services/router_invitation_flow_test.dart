@@ -45,8 +45,8 @@ void main() {
         final noInviteCode = uriWithoutInviteCode.queryParameters.containsKey(
           'inviteCode',
         );
-        final emptyInviteCode = uriWithEmptyInviteCode.queryParameters
-            .containsKey('inviteCode');
+        final emptyInviteCode =
+            uriWithEmptyInviteCode.queryParameters.containsKey('inviteCode');
 
         // Assert - Parameter detection accuracy
         expect(
@@ -195,7 +195,8 @@ void main() {
       },
     );
 
-    test('should coordinate family status checks with invitation processing', () {
+    test('should coordinate family status checks with invitation processing',
+        () {
       // Arrange - User becomes authenticated and gains family through invitation
       const initialFamilyId = null;
       const postInvitationFamilyId = 'joined-family-123';
@@ -247,8 +248,7 @@ void main() {
       ); // From _handleSuccessNavigation
 
       // Act - Calculate total coordination time
-      final totalCoordinationTime =
-          verificationDelay.inMilliseconds +
+      final totalCoordinationTime = verificationDelay.inMilliseconds +
           navigationDelay.inMilliseconds +
           successDelay.inMilliseconds;
 

@@ -535,8 +535,8 @@ class _VehiclesPageState extends ConsumerState<VehiclesPage> {
             usagePercentage > 0.8
                 ? theme.colorScheme.error
                 : usagePercentage > 0.6
-                ? AppColors.warning
-                : theme.colorScheme.primary,
+                    ? AppColors.warning
+                    : theme.colorScheme.primary,
           ),
         ),
       ],
@@ -554,27 +554,21 @@ class _VehiclesPageState extends ConsumerState<VehiclesPage> {
   }
 
   void _navigateToAddVehicle(BuildContext context) {
-    ref
-        .read(navigationStateProvider.notifier)
-        .navigateTo(
+    ref.read(navigationStateProvider.notifier).navigateTo(
           route: '/vehicles/add',
           trigger: NavigationTrigger.userNavigation,
         );
   }
 
   void _navigateToVehicleDetails(BuildContext context, String vehicleId) {
-    ref
-        .read(navigationStateProvider.notifier)
-        .navigateTo(
+    ref.read(navigationStateProvider.notifier).navigateTo(
           route: '/vehicles/$vehicleId',
           trigger: NavigationTrigger.userNavigation,
         );
   }
 
   void _navigateToEditVehicle(BuildContext context, String vehicleId) {
-    ref
-        .read(navigationStateProvider.notifier)
-        .navigateTo(
+    ref.read(navigationStateProvider.notifier).navigateTo(
           route: '/vehicles/$vehicleId/edit',
           trigger: NavigationTrigger.userNavigation,
         );

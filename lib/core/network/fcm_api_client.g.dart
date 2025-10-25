@@ -7,9 +7,9 @@ part of 'fcm_api_client.dart';
 // **************************************************************************
 
 BaseResponse _$BaseResponseFromJson(Map<String, dynamic> json) => BaseResponse(
-  success: json['success'] as bool,
-  message: json['message'] as String?,
-);
+      success: json['success'] as bool,
+      message: json['message'] as String?,
+    );
 
 Map<String, dynamic> _$BaseResponseToJson(BaseResponse instance) =>
     <String, dynamic>{
@@ -27,13 +27,13 @@ Map<String, dynamic> _$FcmTokenResponseToJson(FcmTokenResponse instance) =>
     <String, dynamic>{'success': instance.success, 'data': instance.data};
 
 FcmTokenData _$FcmTokenDataFromJson(Map<String, dynamic> json) => FcmTokenData(
-  id: json['id'] as String,
-  platform: json['platform'] as String,
-  isActive: json['isActive'] as bool,
-  deviceId: json['deviceId'] as String?,
-  createdAt: json['createdAt'] as String?,
-  lastUsed: json['lastUsed'] as String?,
-);
+      id: json['id'] as String,
+      platform: json['platform'] as String,
+      isActive: json['isActive'] as bool,
+      deviceId: json['deviceId'] as String?,
+      createdAt: json['createdAt'] as String?,
+      lastUsed: json['lastUsed'] as String?,
+    );
 
 Map<String, dynamic> _$FcmTokenDataToJson(FcmTokenData instance) =>
     <String, dynamic>{
@@ -47,27 +47,31 @@ Map<String, dynamic> _$FcmTokenDataToJson(FcmTokenData instance) =>
 
 FcmTokenListResponse _$FcmTokenListResponseFromJson(
   Map<String, dynamic> json,
-) => FcmTokenListResponse(
-  success: json['success'] as bool,
-  data: (json['data'] as List<dynamic>)
-      .map((e) => FcmTokenData.fromJson(e as Map<String, dynamic>))
-      .toList(),
-);
+) =>
+    FcmTokenListResponse(
+      success: json['success'] as bool,
+      data: (json['data'] as List<dynamic>)
+          .map((e) => FcmTokenData.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
 
 Map<String, dynamic> _$FcmTokenListResponseToJson(
   FcmTokenListResponse instance,
-) => <String, dynamic>{'success': instance.success, 'data': instance.data};
+) =>
+    <String, dynamic>{'success': instance.success, 'data': instance.data};
 
 ValidateTokenResponse _$ValidateTokenResponseFromJson(
   Map<String, dynamic> json,
-) => ValidateTokenResponse(
-  success: json['success'] as bool,
-  data: ValidateTokenData.fromJson(json['data'] as Map<String, dynamic>),
-);
+) =>
+    ValidateTokenResponse(
+      success: json['success'] as bool,
+      data: ValidateTokenData.fromJson(json['data'] as Map<String, dynamic>),
+    );
 
 Map<String, dynamic> _$ValidateTokenResponseToJson(
   ValidateTokenResponse instance,
-) => <String, dynamic>{'success': instance.success, 'data': instance.data};
+) =>
+    <String, dynamic>{'success': instance.success, 'data': instance.data};
 
 ValidateTokenData _$ValidateTokenDataFromJson(Map<String, dynamic> json) =>
     ValidateTokenData(
@@ -108,34 +112,38 @@ Map<String, dynamic> _$SubscribeDataToJson(SubscribeData instance) =>
 
 TestNotificationResponse _$TestNotificationResponseFromJson(
   Map<String, dynamic> json,
-) => TestNotificationResponse(
-  success: json['success'] as bool,
-  data: TestNotificationData.fromJson(json['data'] as Map<String, dynamic>),
-);
+) =>
+    TestNotificationResponse(
+      success: json['success'] as bool,
+      data: TestNotificationData.fromJson(json['data'] as Map<String, dynamic>),
+    );
 
 Map<String, dynamic> _$TestNotificationResponseToJson(
   TestNotificationResponse instance,
-) => <String, dynamic>{'success': instance.success, 'data': instance.data};
+) =>
+    <String, dynamic>{'success': instance.success, 'data': instance.data};
 
 TestNotificationData _$TestNotificationDataFromJson(
   Map<String, dynamic> json,
-) => TestNotificationData(
-  successCount: (json['successCount'] as num).toInt(),
-  failureCount: (json['failureCount'] as num).toInt(),
-  invalidTokens: (json['invalidTokens'] as List<dynamic>)
-      .map((e) => e as String)
-      .toList(),
-  totalTokens: (json['totalTokens'] as num).toInt(),
-);
+) =>
+    TestNotificationData(
+      successCount: (json['successCount'] as num).toInt(),
+      failureCount: (json['failureCount'] as num).toInt(),
+      invalidTokens: (json['invalidTokens'] as List<dynamic>)
+          .map((e) => e as String)
+          .toList(),
+      totalTokens: (json['totalTokens'] as num).toInt(),
+    );
 
 Map<String, dynamic> _$TestNotificationDataToJson(
   TestNotificationData instance,
-) => <String, dynamic>{
-  'successCount': instance.successCount,
-  'failureCount': instance.failureCount,
-  'invalidTokens': instance.invalidTokens,
-  'totalTokens': instance.totalTokens,
-};
+) =>
+    <String, dynamic>{
+      'successCount': instance.successCount,
+      'failureCount': instance.failureCount,
+      'invalidTokens': instance.invalidTokens,
+      'totalTokens': instance.totalTokens,
+    };
 
 FcmStatsResponse _$FcmStatsResponseFromJson(Map<String, dynamic> json) =>
     FcmStatsResponse(
@@ -147,10 +155,10 @@ Map<String, dynamic> _$FcmStatsResponseToJson(FcmStatsResponse instance) =>
     <String, dynamic>{'success': instance.success, 'data': instance.data};
 
 FcmStatsData _$FcmStatsDataFromJson(Map<String, dynamic> json) => FcmStatsData(
-  userTokenCount: (json['userTokenCount'] as num).toInt(),
-  serviceAvailable: json['serviceAvailable'] as bool,
-  platforms: Map<String, int>.from(json['platforms'] as Map),
-);
+      userTokenCount: (json['userTokenCount'] as num).toInt(),
+      serviceAvailable: json['serviceAvailable'] as bool,
+      platforms: Map<String, int>.from(json['platforms'] as Map),
+    );
 
 Map<String, dynamic> _$FcmStatsDataToJson(FcmStatsData instance) =>
     <String, dynamic>{

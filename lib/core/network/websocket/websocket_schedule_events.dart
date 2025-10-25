@@ -61,8 +61,7 @@ class ScheduleUpdateEvent extends Equatable {
         updatedByName: json['updatedByName'] as String,
         changeType: _parseScheduleChangeType(json['changeType'] as String?),
         changeDescription: json['changeDescription'] as String,
-        vehicleAssignments:
-            (json['vehicleAssignments'] as List<dynamic>?)
+        vehicleAssignments: (json['vehicleAssignments'] as List<dynamic>?)
                 ?.map(
                   (item) => VehicleAssignmentDto.fromJson(
                     item as Map<String, dynamic>,
@@ -102,13 +101,11 @@ class ScheduleUpdateEvent extends Equatable {
       'updatedByName': updatedByName,
       'changeType': changeType.name,
       'changeDescription': changeDescription,
-      'vehicleAssignments': vehicleAssignments
-          .map((e) => e.toWebSocketEventData())
-          .toList(),
+      'vehicleAssignments':
+          vehicleAssignments.map((e) => e.toWebSocketEventData()).toList(),
       'vehicleAssignmentId': vehicleAssignmentId,
-      'childAssignments': childAssignments
-          ?.map((e) => e.toWebSocketEventData())
-          .toList(),
+      'childAssignments':
+          childAssignments?.map((e) => e.toWebSocketEventData()).toList(),
       'conflictDetails': conflictDetails,
       'timestamp': timestamp.toIso8601String(),
       'metadata': metadata,
@@ -128,23 +125,23 @@ class ScheduleUpdateEvent extends Equatable {
 
   @override
   List<Object?> get props => [
-    eventType,
-    scheduleSlotId,
-    groupId,
-    day,
-    time,
-    week,
-    updatedBy,
-    updatedByName,
-    changeType,
-    changeDescription,
-    vehicleAssignments,
-    vehicleAssignmentId,
-    childAssignments,
-    conflictDetails,
-    timestamp,
-    metadata,
-  ];
+        eventType,
+        scheduleSlotId,
+        groupId,
+        day,
+        time,
+        week,
+        updatedBy,
+        updatedByName,
+        changeType,
+        changeDescription,
+        vehicleAssignments,
+        vehicleAssignmentId,
+        childAssignments,
+        conflictDetails,
+        timestamp,
+        metadata,
+      ];
 }
 
 /// Schedule notification event
@@ -262,25 +259,25 @@ class ScheduleNotificationEvent extends Equatable {
 
   @override
   List<Object?> get props => [
-    notificationId,
-    recipientUserId,
-    notificationType,
-    title,
-    message,
-    priority,
-    actionRequired,
-    scheduleSlotId,
-    groupId,
-    affectedChildren,
-    conflictId,
-    affectedSlots,
-    reminderType,
-    reminderTime,
-    deepLink,
-    timestamp,
-    expiresAt,
-    metadata,
-  ];
+        notificationId,
+        recipientUserId,
+        notificationType,
+        title,
+        message,
+        priority,
+        actionRequired,
+        scheduleSlotId,
+        groupId,
+        affectedChildren,
+        conflictId,
+        affectedSlots,
+        reminderType,
+        reminderTime,
+        deepLink,
+        timestamp,
+        expiresAt,
+        metadata,
+      ];
 }
 
 /// Schedule event types

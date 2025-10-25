@@ -102,14 +102,13 @@ class GroupCard extends StatelessWidget {
               // Group name
               Text(
                 groupName,
-                style:
-                    (isTablet
-                            ? theme.textTheme.titleLarge
-                            : theme.textTheme.titleMedium)
-                        ?.copyWith(
-                          fontWeight: FontWeight.w600,
-                          fontSize: (isTablet ? 20 : 18) * context.fontScale,
-                        ),
+                style: (isTablet
+                        ? theme.textTheme.titleLarge
+                        : theme.textTheme.titleMedium)
+                    ?.copyWith(
+                  fontWeight: FontWeight.w600,
+                  fontSize: (isTablet ? 20 : 18) * context.fontScale,
+                ),
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
               ),
@@ -126,28 +125,26 @@ class GroupCard extends StatelessWidget {
               if (description != null && description.isNotEmpty)
                 Text(
                   description,
-                  style:
-                      (isTablet
-                              ? theme.textTheme.bodyMedium
-                              : theme.textTheme.bodySmall)
-                          ?.copyWith(
-                            color: AppColors.textSecondaryThemed(context),
-                            fontSize: (isTablet ? 16 : 14) * context.fontScale,
-                          ),
+                  style: (isTablet
+                          ? theme.textTheme.bodyMedium
+                          : theme.textTheme.bodySmall)
+                      ?.copyWith(
+                    color: AppColors.textSecondaryThemed(context),
+                    fontSize: (isTablet ? 16 : 14) * context.fontScale,
+                  ),
                   maxLines: isTablet ? 3 : 2,
                   overflow: TextOverflow.ellipsis,
                 )
               else
                 Text(
                   '$familyCount ${familyCount == 1 ? 'family' : 'families'}',
-                  style:
-                      (isTablet
-                              ? theme.textTheme.bodyMedium
-                              : theme.textTheme.bodySmall)
-                          ?.copyWith(
-                            color: AppColors.textSecondaryThemed(context),
-                            fontSize: (isTablet ? 16 : 14) * context.fontScale,
-                          ),
+                  style: (isTablet
+                          ? theme.textTheme.bodyMedium
+                          : theme.textTheme.bodySmall)
+                      ?.copyWith(
+                    color: AppColors.textSecondaryThemed(context),
+                    fontSize: (isTablet ? 16 : 14) * context.fontScale,
+                  ),
                 ),
 
               SizedBox(

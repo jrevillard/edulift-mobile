@@ -245,8 +245,8 @@ class EmailDebuggingHelper {
           'snippet': email.snippet,
           'containsInvitation': email.subject.contains('Invitation'),
           'containsInvitationLower': email.subject.toLowerCase().contains(
-            'invitation',
-          ),
+                'invitation',
+              ),
         };
         memberData.add(data);
         debugPrint(
@@ -264,8 +264,8 @@ class EmailDebuggingHelper {
           'snippet': email.snippet,
           'containsInvitation': email.subject.contains('Invitation'),
           'containsInvitationLower': email.subject.toLowerCase().contains(
-            'invitation',
-          ),
+                'invitation',
+              ),
         };
         adminData.add(data);
         debugPrint(
@@ -274,12 +274,10 @@ class EmailDebuggingHelper {
       }
 
       // Compare patterns
-      final memberSubjects = memberData
-          .map((e) => e['subject'] as String)
-          .toSet();
-      final adminSubjects = adminData
-          .map((e) => e['subject'] as String)
-          .toSet();
+      final memberSubjects =
+          memberData.map((e) => e['subject'] as String).toSet();
+      final adminSubjects =
+          adminData.map((e) => e['subject'] as String).toSet();
 
       final commonSubjects = memberSubjects.intersection(adminSubjects);
       final memberOnlySubjects = memberSubjects.difference(adminSubjects);
@@ -299,12 +297,10 @@ class EmailDebuggingHelper {
         'memberOnlySubjects': memberOnlySubjects.toList(),
         'adminOnlySubjects': adminOnlySubjects.toList(),
         'currentFilterPattern': 'Invitation',
-        'memberMatchesFilter': memberData
-            .where((e) => e['containsInvitation'] == true)
-            .length,
-        'adminMatchesFilter': adminData
-            .where((e) => e['containsInvitation'] == true)
-            .length,
+        'memberMatchesFilter':
+            memberData.where((e) => e['containsInvitation'] == true).length,
+        'adminMatchesFilter':
+            adminData.where((e) => e['containsInvitation'] == true).length,
         'debugInfo': 'Comparison completed',
       };
     } catch (e, stackTrace) {
@@ -343,14 +339,14 @@ class EmailDebuggingHelper {
       // Filter by specific recipient if provided
       final testEmails = specificRecipient != null
           ? emails
-                .where(
-                  (email) => email.to.any(
-                    (to) => to.toLowerCase().contains(
-                      specificRecipient.toLowerCase(),
-                    ),
-                  ),
-                )
-                .toList()
+              .where(
+                (email) => email.to.any(
+                  (to) => to.toLowerCase().contains(
+                        specificRecipient.toLowerCase(),
+                      ),
+                ),
+              )
+              .toList()
           : emails;
 
       debugPrint('📊 FILTER TEST: Testing against ${testEmails.length} emails');
@@ -415,9 +411,8 @@ class EmailDebuggingHelper {
       return {
         'totalEmailsTested': testEmails.length,
         'patternResults': patternResults,
-        'bestPattern': sortedPatterns.isNotEmpty
-            ? sortedPatterns.first.key
-            : null,
+        'bestPattern':
+            sortedPatterns.isNotEmpty ? sortedPatterns.first.key : null,
         'currentPattern': 'exact_Invitation',
         'recommendedPattern': _getRecommendedPattern(patternResults),
         'debugInfo': 'Filter pattern testing completed',
@@ -485,8 +480,7 @@ class EmailDebuggingHelper {
       }
 
       // Sort emails by creation time
-      final sortedEmails = [...emails]
-        ..sort(
+      final sortedEmails = [...emails]..sort(
           (a, b) =>
               DateTime.parse(a.created).compareTo(DateTime.parse(b.created)),
         );
@@ -507,13 +501,11 @@ class EmailDebuggingHelper {
           'to': email.to,
           'created': email.created,
           'timeFromFirst': emailTime.difference(firstEmailTime).inSeconds,
-          'isForMember':
-              memberEmail != null &&
+          'isForMember': memberEmail != null &&
               email.to.any(
                 (to) => to.toLowerCase().contains(memberEmail.toLowerCase()),
               ),
-          'isForAdmin':
-              adminEmail != null &&
+          'isForAdmin': adminEmail != null &&
               email.to.any(
                 (to) => to.toLowerCase().contains(adminEmail.toLowerCase()),
               ),
@@ -586,9 +578,9 @@ class EmailDebuggingHelper {
       if (memberEmail != null && adminEmail != null) {
         results['memberVsAdminComparison'] =
             await compareMemberVsAdminInvitations(
-              memberEmail: memberEmail,
-              adminEmail: adminEmail,
-            );
+          memberEmail: memberEmail,
+          adminEmail: adminEmail,
+        );
       }
 
       // Generate summary and recommendations
@@ -658,8 +650,8 @@ class EmailDebuggingHelper {
     final totalEmails = results['emailInspection']['totalEmails'] as int;
     final invitationCandidates =
         results['invitationAnalysis']['invitationCandidates'] as List;
-    final currentFilterMatches =
-        results['filterPatternTesting']['patternResults']['exact_Invitation']?['matchCount'] ??
+    final currentFilterMatches = results['filterPatternTesting']
+            ['patternResults']['exact_Invitation']?['matchCount'] ??
         0;
 
     if (totalEmails == 0) {
@@ -688,8 +680,8 @@ class EmailDebuggingHelper {
     final totalEmails = results['emailInspection']['totalEmails'] as int;
     final invitationCandidates =
         results['invitationAnalysis']['invitationCandidates'] as List;
-    final currentFilterMatches =
-        results['filterPatternTesting']['patternResults']['exact_Invitation']?['matchCount'] ??
+    final currentFilterMatches = results['filterPatternTesting']
+            ['patternResults']['exact_Invitation']?['matchCount'] ??
         0;
     final recommendedPattern =
         results['filterPatternTesting']['recommendedPattern'] as String?;

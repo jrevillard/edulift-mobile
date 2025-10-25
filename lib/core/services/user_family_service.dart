@@ -39,9 +39,8 @@ class UserFamilyService {
     );
 
     // Delegate to FamilyRepository (offline-first pattern with built-in cache)
-    final familyResult = await _ref
-        .read(familyRepositoryProvider)
-        .getCurrentFamily();
+    final familyResult =
+        await _ref.read(familyRepositoryProvider).getCurrentFamily();
 
     // BUGFIX: Check if this is an auth error (token expired/invalid)
     // If so, throw exception so router knows to redirect to login, not onboarding
@@ -73,9 +72,8 @@ class UserFamilyService {
       '[UserFamilyService] getUserFamilyRole: Fetching from repository (offline-first with cache)',
     );
 
-    final familyResult = await _ref
-        .read(familyRepositoryProvider)
-        .getCurrentFamily();
+    final familyResult =
+        await _ref.read(familyRepositoryProvider).getCurrentFamily();
     if (familyResult.isErr || familyResult.value == null) return null;
 
     final family = familyResult.value!;
@@ -100,9 +98,8 @@ class UserFamilyService {
       '[UserFamilyService] getUserFamilyMember: Fetching from repository (offline-first with cache)',
     );
 
-    final familyResult = await _ref
-        .read(familyRepositoryProvider)
-        .getCurrentFamily();
+    final familyResult =
+        await _ref.read(familyRepositoryProvider).getCurrentFamily();
     if (familyResult.isErr || familyResult.value == null) return null;
 
     final family = familyResult.value!;

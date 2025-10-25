@@ -190,13 +190,13 @@ class ErrorContext extends Equatable {
 
   @override
   List<Object?> get props => [
-    operation,
-    feature,
-    userId,
-    metadata,
-    timestamp,
-    sessionId,
-  ];
+        operation,
+        feature,
+        userId,
+        metadata,
+        timestamp,
+        sessionId,
+      ];
 
   @override
   String toString() =>
@@ -221,12 +221,12 @@ class ErrorClassification extends Equatable {
 
   @override
   List<Object?> get props => [
-    category,
-    severity,
-    isRetryable,
-    requiresUserAction,
-    analysisData,
-  ];
+        category,
+        severity,
+        isRetryable,
+        requiresUserAction,
+        analysisData,
+      ];
 }
 
 /// User-friendly error message
@@ -249,13 +249,13 @@ class UserErrorMessage extends Equatable {
 
   @override
   List<Object?> get props => [
-    titleKey,
-    messageKey,
-    actionableSteps,
-    canRetry,
-    severity,
-    debugInfo,
-  ];
+        titleKey,
+        messageKey,
+        actionableSteps,
+        canRetry,
+        severity,
+        debugInfo,
+      ];
 }
 
 /// Result of error handling process
@@ -274,11 +274,11 @@ class ErrorHandlingResult extends Equatable {
 
   @override
   List<Object?> get props => [
-    classification,
-    userMessage,
-    wasLogged,
-    wasReported,
-  ];
+        classification,
+        userMessage,
+        wasLogged,
+        wasReported,
+      ];
 }
 
 /// Centralized error handling service
@@ -351,17 +351,17 @@ class ErrorHandlerService {
         category: error.isValidationError
             ? ErrorCategory.validation
             : error.isAuthenticationError
-            ? ErrorCategory.authentication
-            : error.isAuthorizationError
-            ? ErrorCategory.authorization
-            : error.isRetryable
-            ? ErrorCategory.server
-            : ErrorCategory.server,
+                ? ErrorCategory.authentication
+                : error.isAuthorizationError
+                    ? ErrorCategory.authorization
+                    : error.isRetryable
+                        ? ErrorCategory.server
+                        : ErrorCategory.server,
         severity: error.requiresUserAction
             ? ErrorSeverity.major
             : error.isRetryable
-            ? ErrorSeverity.critical
-            : ErrorSeverity.major,
+                ? ErrorSeverity.critical
+                : ErrorSeverity.major,
         isRetryable: error.isRetryable,
         requiresUserAction: error.requiresUserAction,
         analysisData: {
@@ -389,15 +389,15 @@ class ErrorHandlerService {
       final statusCode = error is ServerFailure
           ? error.statusCode
           : error is ServerException
-          ? error.statusCode
-          : null;
+              ? error.statusCode
+              : null;
 
       // CRITICAL FIX: Capture original message for ServerFailure like we do for ValidationFailure
       final originalMessage = error is ServerFailure
           ? error.message
           : error is ServerException
-          ? error.toString()
-          : null;
+              ? error.toString()
+              : null;
 
       // CRITICAL FIX: Extract user-friendly message from complex nested error strings
       String? extractedMessage;
@@ -429,8 +429,8 @@ class ErrorHandlerService {
       final originalMessage = error is ValidationFailure
           ? error.message
           : error is ValidationException
-          ? error.toString()
-          : null;
+              ? error.toString()
+              : null;
 
       return ErrorClassification(
         category: ErrorCategory.validation,
@@ -449,9 +449,8 @@ class ErrorHandlerService {
         error is AuthorizationException) {
       final isAuth = error is AuthFailure || error is AuthenticationException;
       return ErrorClassification(
-        category: isAuth
-            ? ErrorCategory.authentication
-            : ErrorCategory.authorization,
+        category:
+            isAuth ? ErrorCategory.authentication : ErrorCategory.authorization,
         severity: ErrorSeverity.major,
         isRetryable: isAuth,
         requiresUserAction: true,
@@ -585,8 +584,8 @@ class ErrorHandlerService {
           category: statusCode == 401
               ? ErrorCategory.authentication
               : statusCode == 403
-              ? ErrorCategory.authorization
-              : ErrorCategory.server,
+                  ? ErrorCategory.authorization
+                  : ErrorCategory.server,
           severity: ErrorSeverity.major,
           isRetryable: false,
           requiresUserAction: true,
@@ -966,7 +965,7 @@ class ErrorHandlerService {
             lowercaseMessage.contains('operation timeout') ||
             lowercaseMessage.length <
                 50 // Short timeout messages are usually user-friendly
-                )) {
+        )) {
       return true;
     }
 
@@ -1199,11 +1198,9 @@ class UserMessageService {
     ErrorClassification classification,
     ErrorContext context,
   ) {
-    final titleKey =
-        _titleKeys[classification.category] ??
+    final titleKey = _titleKeys[classification.category] ??
         _titleKeys[ErrorCategory.unexpected]!;
-    final messageKey =
-        _messageKeys[classification.category] ??
+    final messageKey = _messageKeys[classification.category] ??
         _messageKeys[ErrorCategory.unexpected]!;
 
     // Contextualize the message key based on operation

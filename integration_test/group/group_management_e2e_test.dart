@@ -249,8 +249,8 @@ void main() {
     debugPrint('📧 Retrieving group invitation link from email...');
     final groupInvitationLink =
         await InvitationFlowHelper.getInvitationLinkFromEmail(
-          memberProfile['email']!,
-        );
+      memberProfile['email']!,
+    );
     expect(
       groupInvitationLink,
       isNotNull,
@@ -357,8 +357,8 @@ void main() {
     debugPrint('📧 Retrieving admin group invitation CODE from email...');
     final adminInvitationLink =
         await InvitationFlowHelper.getInvitationLinkFromEmail(
-          adminProfile['email']!,
-        );
+      adminProfile['email']!,
+    );
     expect(
       adminInvitationLink,
       isNotNull,

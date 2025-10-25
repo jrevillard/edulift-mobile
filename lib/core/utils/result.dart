@@ -104,7 +104,8 @@ final class Ok<T, E extends Exception> extends Result<T, E> {
   FutureOr<R> when<R>({
     required FutureOr<R> Function(T value) ok,
     required FutureOr<R> Function(E error) err,
-  }) => ok(_value);
+  }) =>
+      ok(_value);
 
   @override
   Result<R, E> map<R>(R Function(T value) mapper) => Ok(mapper(_value));
@@ -153,7 +154,8 @@ final class Err<T, E extends Exception> extends Result<T, E> {
   FutureOr<R> when<R>({
     required FutureOr<R> Function(T value) ok,
     required FutureOr<R> Function(E error) err,
-  }) => err(_error);
+  }) =>
+      err(_error);
 
   @override
   Result<R, E> map<R>(R Function(T value) mapper) => Err(_error);

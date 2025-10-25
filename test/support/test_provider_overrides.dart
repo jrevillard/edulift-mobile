@@ -21,24 +21,24 @@ import '../test_mocks/test_mocks.dart';
 class TestProviderOverrides {
   /// PROVIDER FIX: Common provider overrides with proper initialization validation
   static List<Override> get common => [
-    // Type-safe auth provider override with initialization guard
-    authStateProvider.overrideWith((ref) {
-      final notifier = TestAuthNotifier.withRef(ref);
-      // CRITICAL FIX: Ensure proper initialization state
-      notifier.state = notifier.state.copyWith(isInitialized: true);
-      return notifier;
-    }),
-    // Type-safe app state provider override with proper initialization
-    // CRITICAL FIX: Use real AppStateNotifier instead of mock
-    // MockAppStateNotifier causes Riverpod assertion failures due to SmartFake state
-    appStateProvider.overrideWith((ref) => AppStateNotifier()),
-    // Type-safe family provider override with validation
-    familyProvider.overrideWith((ref) {
-      final notifier = _createTestFamilyNotifier(ref);
-      // Force immediate state initialization to prevent Riverpod assertion errors
-      return notifier;
-    }),
-  ];
+        // Type-safe auth provider override with initialization guard
+        authStateProvider.overrideWith((ref) {
+          final notifier = TestAuthNotifier.withRef(ref);
+          // CRITICAL FIX: Ensure proper initialization state
+          notifier.state = notifier.state.copyWith(isInitialized: true);
+          return notifier;
+        }),
+        // Type-safe app state provider override with proper initialization
+        // CRITICAL FIX: Use real AppStateNotifier instead of mock
+        // MockAppStateNotifier causes Riverpod assertion failures due to SmartFake state
+        appStateProvider.overrideWith((ref) => AppStateNotifier()),
+        // Type-safe family provider override with validation
+        familyProvider.overrideWith((ref) {
+          final notifier = _createTestFamilyNotifier(ref);
+          // Force immediate state initialization to prevent Riverpod assertion errors
+          return notifier;
+        }),
+      ];
 
   /// PROVIDER FIX: Create test container with proper initialization and validation
   static ProviderContainer createTestContainer([List<Override>? additional]) {
@@ -87,25 +87,25 @@ class TestProviderOverrides {
 
   /// Authentication-specific overrides
   static List<Override> get authOverrides => [
-    authStateProvider.overrideWith((ref) {
-      return TestAuthNotifier.withRef(ref);
-    }),
-    // CRITICAL FIX: Use real AppStateNotifier instead of mock
-    appStateProvider.overrideWith((ref) => AppStateNotifier()),
-  ];
+        authStateProvider.overrideWith((ref) {
+          return TestAuthNotifier.withRef(ref);
+        }),
+        // CRITICAL FIX: Use real AppStateNotifier instead of mock
+        appStateProvider.overrideWith((ref) => AppStateNotifier()),
+      ];
 
   /// Family-specific overrides
   static List<Override> get familyOverrides => [
-    familyProvider.overrideWith((ref) => _createTestFamilyNotifier(ref)),
-    // CRITICAL FIX: Use real AppStateNotifier instead of mock
-    appStateProvider.overrideWith((ref) => AppStateNotifier()),
-  ];
+        familyProvider.overrideWith((ref) => _createTestFamilyNotifier(ref)),
+        // CRITICAL FIX: Use real AppStateNotifier instead of mock
+        appStateProvider.overrideWith((ref) => AppStateNotifier()),
+      ];
 
   /// Vehicles-specific overrides
   static List<Override> get vehiclesOverrides => [
-    // CRITICAL FIX: Use real AppStateNotifier instead of mock
-    appStateProvider.overrideWith((ref) => AppStateNotifier()),
-  ];
+        // CRITICAL FIX: Use real AppStateNotifier instead of mock
+        appStateProvider.overrideWith((ref) => AppStateNotifier()),
+      ];
 
   // Private factory methods for creating test notifiers
   static family_providers.FamilyNotifier _createTestFamilyNotifier(Ref ref) {
@@ -223,16 +223,16 @@ class TestAuthNotifier extends AuthNotifier {
   static TestAuthNotifier withRef(Ref ref) => TestAuthNotifier._internal(ref);
 
   TestAuthNotifier._internal(Ref ref)
-    : super(
-        mocks.MockAuthService(),
-        mocks.MockAdaptiveStorageService(),
-        mocks.MockBiometricService(),
-        AppStateNotifier(), // Use real notifier instead of mock
-        mocks.MockUserStatusService(),
-        mocks.MockErrorHandlerService(),
-        // REMOVED: MockComprehensiveFamilyDataService and MockUserFamilyService - Clean Architecture: auth provider separated from family services
-        ref, // Use the provided ref parameter
-      ) {
+      : super(
+          mocks.MockAuthService(),
+          mocks.MockAdaptiveStorageService(),
+          mocks.MockBiometricService(),
+          AppStateNotifier(), // Use real notifier instead of mock
+          mocks.MockUserStatusService(),
+          mocks.MockErrorHandlerService(),
+          // REMOVED: MockComprehensiveFamilyDataService and MockUserFamilyService - Clean Architecture: auth provider separated from family services
+          ref, // Use the provided ref parameter
+        ) {
     // Don't automatically set to initialized - let tests control the state
     // This allows tests to start with uninitialized state if needed
     _skipAsyncInit = true; // Flag to skip the async initialization

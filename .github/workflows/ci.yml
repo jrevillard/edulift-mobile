@@ -18,7 +18,7 @@ permissions:
   contents: read
 
 env:
-  FLUTTER_VERSION: '3.35.6'
+  FLUTTER_VERSION: '3.24.3'
   JAVA_VERSION: '17'
 
 jobs:
@@ -37,9 +37,18 @@ jobs:
         with:
           flutter-version: ${{ env.FLUTTER_VERSION }}
           java-version: ${{ env.JAVA_VERSION }}
-      
-      - name: Verify Flutter installation
-        run: flutter --version
+
+      - name: 🎯 Check Versions (Debug)
+        run: |
+          echo "--- Flutter Version ---"
+          flutter --version
+          echo "--- Dart Version ---"
+          dart --version
+          echo "--- Which Flutter ---"
+          which flutter
+          echo "--- Which Dart ---"
+          which dart
+          echo "-----------------------"
       
       - name: Run code generation
         run: flutter packages pub run build_runner build --delete-conflicting-outputs

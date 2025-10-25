@@ -199,9 +199,8 @@ class DeepLinkServiceImpl implements DeepLinkService {
 
       // Extract email with URL decoding
       final rawEmail = parameters['email'];
-      final decodedEmail = rawEmail != null
-          ? Uri.decodeComponent(rawEmail)
-          : null;
+      final decodedEmail =
+          rawEmail != null ? Uri.decodeComponent(rawEmail) : null;
 
       // Support both 'code' and 'inviteCode' parameters for backend compatibility
       final inviteCode = parameters['code'] ?? parameters['inviteCode'];
@@ -238,9 +237,8 @@ class DeepLinkServiceImpl implements DeepLinkService {
       // Append additional path segments if they exist
       if (uri.path.isNotEmpty && uri.path != '/') {
         // Remove leading slash and append
-        final pathSegment = uri.path.startsWith('/')
-            ? uri.path.substring(1)
-            : uri.path;
+        final pathSegment =
+            uri.path.startsWith('/') ? uri.path.substring(1) : uri.path;
         if (pathSegment.isNotEmpty) {
           path = '$path/$pathSegment';
         }

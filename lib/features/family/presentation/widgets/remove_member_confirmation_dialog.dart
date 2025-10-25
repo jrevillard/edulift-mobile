@@ -79,7 +79,7 @@ class _RemoveMemberConfirmationDialogState
                         : Text(
                             widget.member.displayNameOrLoading.isNotEmpty
                                 ? widget.member.displayNameOrLoading[0]
-                                      .toUpperCase()
+                                    .toUpperCase()
                                 : '?',
                             style: TextStyle(
                               color: theme.colorScheme.onErrorContainer,

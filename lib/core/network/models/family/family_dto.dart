@@ -50,9 +50,8 @@ abstract class FamilyDto with _$FamilyDto implements DomainConverter<Family> {
       members: family.members
           .map((member) => FamilyMemberDto.fromDomain(member))
           .toList(),
-      children: family.children
-          .map((child) => ChildDto.fromDomain(child))
-          .toList(),
+      children:
+          family.children.map((child) => ChildDto.fromDomain(child)).toList(),
       vehicles: family.vehicles
           .map((vehicle) => VehicleDto.fromDomain(vehicle))
           .toList(),

@@ -30,17 +30,17 @@ class MockWebSocketService implements WebSocketService {
   final StreamController<GroupInvitationEvent> _groupInvitationController =
       StreamController<GroupInvitationEvent>.broadcast();
   final StreamController<InvitationNotificationEvent>
-  _invitationNotificationController =
+      _invitationNotificationController =
       StreamController<InvitationNotificationEvent>.broadcast();
   final StreamController<InvitationStatusUpdateEvent>
-  _invitationStatusUpdateController =
+      _invitationStatusUpdateController =
       StreamController<InvitationStatusUpdateEvent>.broadcast();
 
   // Schedule-specific stream controllers
   final StreamController<ScheduleUpdateEvent> _scheduleUpdateController =
       StreamController<ScheduleUpdateEvent>.broadcast();
   final StreamController<ScheduleNotificationEvent>
-  _scheduleNotificationController =
+      _scheduleNotificationController =
       StreamController<ScheduleNotificationEvent>.broadcast();
 
   // Tracking flags for testing

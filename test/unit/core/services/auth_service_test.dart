@@ -119,9 +119,9 @@ void main() {
         verify(mockAuthApiClient.sendMagicLink(any)).called(1);
 
         // Verify the request was constructed correctly
-        final captured =
-            verify(mockAuthApiClient.sendMagicLink(captureAny)).captured.single
-                as MagicLinkRequest;
+        final captured = verify(mockAuthApiClient.sendMagicLink(captureAny))
+            .captured
+            .single as MagicLinkRequest;
         expect(captured.email, equals(email));
         expect(captured.name, equals(name));
         expect(captured.platform, equals('native')); // Default platform
@@ -187,9 +187,9 @@ void main() {
         expect(result.isSuccess, true);
 
         // Verify the request includes the invite code
-        final captured =
-            verify(mockAuthApiClient.sendMagicLink(captureAny)).captured.single
-                as MagicLinkRequest;
+        final captured = verify(mockAuthApiClient.sendMagicLink(captureAny))
+            .captured
+            .single as MagicLinkRequest;
         expect(captured.email, equals(email));
         expect(captured.name, equals(name));
         expect(captured.inviteCode, equals(inviteCode));
@@ -211,7 +211,6 @@ void main() {
           accessToken: 'access-token',
           refreshToken: 'mock_refresh_token',
           expiresIn: 900,
-
           user: userDto,
         );
 

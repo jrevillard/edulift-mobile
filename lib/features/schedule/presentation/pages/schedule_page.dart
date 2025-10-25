@@ -64,9 +64,7 @@ class _SchedulePageState extends ConsumerState<SchedulePage>
     try {
       // ✅ FIX: Use modern slot state notifier for mutations
       // Then invalidate the auto-dispose provider to refresh UI
-      await ref
-          .read(slotStateNotifierProvider.notifier)
-          .upsertSlot(
+      await ref.read(slotStateNotifierProvider.notifier).upsertSlot(
             groupId: _selectedGroupId!,
             day: day,
             time: time,
@@ -202,13 +200,13 @@ class _SchedulePageState extends ConsumerState<SchedulePage>
             child: groupsState.isLoading && groupsState.groups.isEmpty
                 ? const Center(child: CircularProgressIndicator())
                 : groupsState.error != null && groupsState.groups.isEmpty
-                ? _buildErrorState(groupsState.error!)
-                : _buildMainContent(
-                    groupsState.groups,
-                    scheduleAsync,
-                    vehiclesState,
-                    scheduleConfigState,
-                  ),
+                    ? _buildErrorState(groupsState.error!)
+                    : _buildMainContent(
+                        groupsState.groups,
+                        scheduleAsync,
+                        vehiclesState,
+                        scheduleConfigState,
+                      ),
           ),
         ],
       ),
@@ -305,9 +303,9 @@ class _SchedulePageState extends ConsumerState<SchedulePage>
             Text(
               AppLocalizations.of(context).noTransportGroups,
               style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                color: Colors.grey[600],
-                fontWeight: FontWeight.w600,
-              ),
+                    color: Colors.grey[600],
+                    fontWeight: FontWeight.w600,
+                  ),
             ),
             const SizedBox(height: 12),
             Text(
@@ -319,13 +317,12 @@ class _SchedulePageState extends ConsumerState<SchedulePage>
             ),
             const SizedBox(height: 32),
             ElevatedButton.icon(
-              onPressed: () => ref
-                  .read(navigationStateProvider.notifier)
-                  .navigateTo(
-                    route: '/groups',
-                    trigger: NavigationTrigger.userNavigation,
-                    context: {'action': 'select_group_for_schedule'},
-                  ),
+              onPressed: () =>
+                  ref.read(navigationStateProvider.notifier).navigateTo(
+                route: '/groups',
+                trigger: NavigationTrigger.userNavigation,
+                context: {'action': 'select_group_for_schedule'},
+              ),
               icon: const Icon(Icons.groups),
               label: Text(AppLocalizations.of(context).goToGroups),
             ),
@@ -352,8 +349,8 @@ class _SchedulePageState extends ConsumerState<SchedulePage>
               Text(
                 AppLocalizations.of(context).selectGroup,
                 style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                  fontWeight: FontWeight.w600,
-                ),
+                      fontWeight: FontWeight.w600,
+                    ),
               ),
               const SizedBox(height: 8),
               Text(
@@ -423,12 +420,16 @@ class _SchedulePageState extends ConsumerState<SchedulePage>
                                 AppLocalizations.of(
                                   context,
                                 ).familyCount(familyCount),
-                                style: Theme.of(context).textTheme.bodySmall
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodySmall
                                     ?.copyWith(color: Colors.grey[600]),
                               ),
                               Text(
                                 AppLocalizations.of(context).userRole(userRole),
-                                style: Theme.of(context).textTheme.bodySmall
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodySmall
                                     ?.copyWith(color: Colors.grey[600]),
                               ),
                             ],
@@ -596,8 +597,8 @@ class _SchedulePageState extends ConsumerState<SchedulePage>
             Text(
               l10n.setupTimeSlotsToEnableScheduling,
               style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                color: Theme.of(context).colorScheme.onSurfaceVariant,
-              ),
+                    color: Theme.of(context).colorScheme.onSurfaceVariant,
+                  ),
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: 24),
@@ -606,9 +607,7 @@ class _SchedulePageState extends ConsumerState<SchedulePage>
             if (isAdmin)
               ElevatedButton.icon(
                 onPressed: () {
-                  ref
-                      .read(navigationStateProvider.notifier)
-                      .navigateTo(
+                  ref.read(navigationStateProvider.notifier).navigateTo(
                         route: '/groups/$_selectedGroupId/manage',
                         trigger: NavigationTrigger.userNavigation,
                       );

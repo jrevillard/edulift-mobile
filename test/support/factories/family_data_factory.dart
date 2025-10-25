@@ -140,8 +140,8 @@ class FamilyDataFactory {
         status: i % 3 == 0
             ? InvitationStatus.pending
             : i % 3 == 1
-            ? InvitationStatus.accepted
-            : InvitationStatus.declined,
+                ? InvitationStatus.accepted
+                : InvitationStatus.declined,
       ),
     );
   }

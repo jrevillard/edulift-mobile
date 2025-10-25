@@ -21,7 +21,7 @@ class GroupInvitationState {
   final bool isValidating;
   final GroupInvitationValidationData? validation;
   final String?
-  validatedCode; // Store the validated invitation code for manual entry flow
+      validatedCode; // Store the validated invitation code for manual entry flow
   final String? error;
   final bool isAuthenticated;
   final bool hasFamily; // Group invitations require user to have a family
@@ -161,9 +161,8 @@ class GroupInvitationNotifier extends StateNotifier<GroupInvitationState> {
 
     // For group invitations, we need to check if user has a family
     // This is because groups are comprised of families, not individual users
-    final hasFamily = isAuthenticated
-        ? await _checkIfUserHasFamily(currentUser.id)
-        : false;
+    final hasFamily =
+        isAuthenticated ? await _checkIfUserHasFamily(currentUser.id) : false;
 
     if (mounted) {
       state = state.copyWith(
@@ -237,8 +236,7 @@ class GroupInvitationNotifier extends StateNotifier<GroupInvitationState> {
         if (failure is ServerFailure) {
           switch (failure.statusCode) {
             case 409:
-              errorMessage =
-                  failure.message ??
+              errorMessage = failure.message ??
                   'Conflict occurred'; // Conflict errors are usually descriptive
               break;
             case 403:
@@ -300,18 +298,15 @@ class GroupInvitationNotifier extends StateNotifier<GroupInvitationState> {
 }
 
 /// Provider for the group invitation notifier
-final groupInvitationProvider =
-    StateNotifierProvider.autoDispose<
-      GroupInvitationNotifier,
-      GroupInvitationState
-    >((ref) {
-      final groupRepository = ref.watch(groupRepositoryProvider);
-      final authService = ref.watch(authServiceProvider);
-      final userFamilyService = ref.watch(userFamilyServiceProvider);
-      return GroupInvitationNotifier(
-        groupRepository,
-        authService,
-        userFamilyService,
-        ref,
-      );
-    });
+final groupInvitationProvider = StateNotifierProvider.autoDispose<
+    GroupInvitationNotifier, GroupInvitationState>((ref) {
+  final groupRepository = ref.watch(groupRepositoryProvider);
+  final authService = ref.watch(authServiceProvider);
+  final userFamilyService = ref.watch(userFamilyServiceProvider);
+  return GroupInvitationNotifier(
+    groupRepository,
+    authService,
+    userFamilyService,
+    ref,
+  );
+});

@@ -19,8 +19,7 @@ ScheduleConfig createTestScheduleConfig({
   return ScheduleConfig(
     id: id,
     groupId: groupId,
-    scheduleHours:
-        scheduleHours ??
+    scheduleHours: scheduleHours ??
         {
           'MONDAY': ['08:00'],
           'TUESDAY': ['08:00'],

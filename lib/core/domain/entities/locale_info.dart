@@ -18,7 +18,7 @@ class LocaleInfo extends Equatable {
 
   /// Create locale from language code only
   const LocaleInfo.fromLanguageCode(String languageCode)
-    : this(languageCode: languageCode);
+      : this(languageCode: languageCode);
 
   /// Create locale from language and country codes
   const LocaleInfo.fromSubtags({
@@ -26,10 +26,10 @@ class LocaleInfo extends Equatable {
     String? countryCode,
     String? scriptCode,
   }) : this(
-         languageCode: languageCode,
-         countryCode: countryCode,
-         scriptCode: scriptCode,
-       );
+          languageCode: languageCode,
+          countryCode: countryCode,
+          scriptCode: scriptCode,
+        );
 
   /// Convert to string representation
   String toLanguageTag() {

@@ -110,11 +110,11 @@ class TestScreenSizes {
   /// Small test mobile from existing code
   static const TestDeviceConfiguration testSmallMobile =
       TestDeviceConfiguration(
-        name: 'Small Mobile',
-        size: Size(300, 400),
-        devicePixelRatio: 2.0,
-        description: 'Very small mobile for edge cases',
-      );
+    name: 'Small Mobile',
+    size: Size(300, 400),
+    devicePixelRatio: 2.0,
+    description: 'Very small mobile for edge cases',
+  );
 
   /// Standard test phone from existing code
   static const TestDeviceConfiguration testPhone = TestDeviceConfiguration(
@@ -169,31 +169,31 @@ class TestScreenSizes {
   /// Large test tablet from existing code
   static const TestDeviceConfiguration testLargeTablet =
       TestDeviceConfiguration(
-        name: 'Large Tablet',
-        size: Size(1024, 768),
-        devicePixelRatio: 2.0,
-        description: 'Large test tablet size',
-      );
+    name: 'Large Tablet',
+    size: Size(1024, 768),
+    devicePixelRatio: 2.0,
+    description: 'Large test tablet size',
+  );
 
   // Foldable and Edge Cases
 
   /// Samsung Galaxy Z Fold - Unfolded
   static const TestDeviceConfiguration galaxyZFoldUnfolded =
       TestDeviceConfiguration(
-        name: 'Galaxy Z Fold (Unfolded)',
-        size: Size(768, 1024),
-        devicePixelRatio: 2.6,
-        description: 'Foldable device in tablet mode',
-      );
+    name: 'Galaxy Z Fold (Unfolded)',
+    size: Size(768, 1024),
+    devicePixelRatio: 2.6,
+    description: 'Foldable device in tablet mode',
+  );
 
   /// Samsung Galaxy Z Fold - Folded
   static const TestDeviceConfiguration galaxyZFoldFolded =
       TestDeviceConfiguration(
-        name: 'Galaxy Z Fold (Folded)',
-        size: Size(360, 816),
-        devicePixelRatio: 2.6,
-        description: 'Foldable device in phone mode',
-      );
+    name: 'Galaxy Z Fold (Folded)',
+    size: Size(360, 816),
+    devicePixelRatio: 2.6,
+    description: 'Foldable device in phone mode',
+  );
 
   /// Very narrow screen for edge case testing
   static const TestDeviceConfiguration veryNarrow = TestDeviceConfiguration(
@@ -222,20 +222,20 @@ class TestScreenSizes {
   /// Just below mobile/tablet breakpoint
   static const TestDeviceConfiguration justBelowTablet =
       TestDeviceConfiguration(
-        name: 'Just Below Tablet',
-        size: Size(767, 800),
-        devicePixelRatio: 2.0,
-        description: 'Just below 768px breakpoint',
-      );
+    name: 'Just Below Tablet',
+    size: Size(767, 800),
+    devicePixelRatio: 2.0,
+    description: 'Just below 768px breakpoint',
+  );
 
   /// Just above mobile/tablet breakpoint
   static const TestDeviceConfiguration justAboveTablet =
       TestDeviceConfiguration(
-        name: 'Just Above Tablet',
-        size: Size(769, 800),
-        devicePixelRatio: 2.0,
-        description: 'Just above 768px breakpoint',
-      );
+    name: 'Just Above Tablet',
+    size: Size(769, 800),
+    devicePixelRatio: 2.0,
+    description: 'Just above 768px breakpoint',
+  );
 
   // Device Collections
 
@@ -418,9 +418,9 @@ class TestScreenSizes {
   /// Get device configuration by name (useful for dynamic testing)
   static TestDeviceConfiguration? getDeviceByName(String name) {
     return allDevices.cast<TestDeviceConfiguration?>().firstWhere(
-      (device) => device?.name == name,
-      orElse: () => null,
-    );
+          (device) => device?.name == name,
+          orElse: () => null,
+        );
   }
 
   /// Comprehensive tearDown helper to reset all screen size modifications

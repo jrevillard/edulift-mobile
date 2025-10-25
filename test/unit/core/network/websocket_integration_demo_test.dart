@@ -291,15 +291,15 @@ void main() {
           );
 
           // Subscribe to notifications (matches actual implementation)
-          final notificationSubscription = notificationsController.stream
-              .listen(
-                (event) {
-                  // Process notification
-                },
-                onError: (error) {
-                  // Handle error gracefully
-                },
-              );
+          final notificationSubscription =
+              notificationsController.stream.listen(
+            (event) {
+              // Process notification
+            },
+            onError: (error) {
+              // Handle error gracefully
+            },
+          );
 
           activeSubscriptions.addAll([
             familySubscription,

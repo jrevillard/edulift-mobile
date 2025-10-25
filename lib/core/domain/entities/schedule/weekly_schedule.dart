@@ -30,17 +30,17 @@ class WeeklySchedule extends Equatable {
 
   @override
   List<Object?> get props => [
-    id,
-    familyId,
-    name,
-    weekStartDate,
-    timeSlots,
-    assignments,
-    isActive,
-    createdAt,
-    updatedAt,
-    description,
-  ];
+        id,
+        familyId,
+        name,
+        weekStartDate,
+        timeSlots,
+        assignments,
+        isActive,
+        createdAt,
+        updatedAt,
+        description,
+      ];
 
   WeeklySchedule copyWith({
     String? id,

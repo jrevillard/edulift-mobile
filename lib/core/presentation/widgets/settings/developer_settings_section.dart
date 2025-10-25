@@ -92,8 +92,8 @@ class DeveloperSettingsSection extends ConsumerWidget {
         Text(
           AppLocalizations.of(context).logLevelDescription,
           style: Theme.of(context).textTheme.bodySmall?.copyWith(
-            color: Theme.of(context).colorScheme.onSurfaceVariant,
-          ),
+                color: Theme.of(context).colorScheme.onSurfaceVariant,
+              ),
         ),
       ],
     );
@@ -203,9 +203,8 @@ class DeveloperSettingsSection extends ConsumerWidget {
     return SizedBox(
       width: double.infinity,
       child: FilledButton.icon(
-        onPressed: state.isExporting
-            ? null
-            : () => _handleLogExport(context, ref),
+        onPressed:
+            state.isExporting ? null : () => _handleLogExport(context, ref),
         icon: Icon(state.isExporting ? Icons.hourglass_empty : Icons.share),
         label: Text(
           state.isExporting

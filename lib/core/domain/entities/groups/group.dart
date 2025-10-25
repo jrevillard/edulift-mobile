@@ -141,21 +141,21 @@ class Group extends Equatable {
 
   @override
   List<Object?> get props => [
-    id,
-    name,
-    familyId,
-    description,
-    createdAt,
-    updatedAt,
-    settings,
-    status,
-    memberCount,
-    maxMembers,
-    scheduleConfig,
-    userRole,
-    familyCount,
-    scheduleCount,
-  ];
+        id,
+        name,
+        familyId,
+        description,
+        createdAt,
+        updatedAt,
+        settings,
+        status,
+        memberCount,
+        maxMembers,
+        scheduleConfig,
+        userRole,
+        familyCount,
+        scheduleCount,
+      ];
 
   @override
   String toString() {
@@ -221,14 +221,14 @@ class GroupSettings extends Equatable {
 
   @override
   List<Object?> get props => [
-    allowAutoAssignment,
-    requireParentalApproval,
-    defaultPickupLocation,
-    defaultDropoffLocation,
-    groupColor,
-    enableNotifications,
-    privacyLevel,
-  ];
+        allowAutoAssignment,
+        requireParentalApproval,
+        defaultPickupLocation,
+        defaultDropoffLocation,
+        groupColor,
+        enableNotifications,
+        privacyLevel,
+      ];
 }
 
 /// Group schedule configuration
@@ -290,13 +290,13 @@ class GroupScheduleConfig extends Equatable {
 
   @override
   List<Object?> get props => [
-    activeDays,
-    defaultStartTime,
-    defaultEndTime,
-    timezone,
-    advanceNoticeHours,
-    allowSameDayScheduling,
-  ];
+        activeDays,
+        defaultStartTime,
+        defaultEndTime,
+        timezone,
+        advanceNoticeHours,
+        allowSameDayScheduling,
+      ];
 }
 
 /// Group status enumeration
@@ -434,14 +434,14 @@ class GroupMember extends Equatable {
 
   @override
   List<Object?> get props => [
-    id,
-    name,
-    email,
-    role,
-    joinedAt,
-    status,
-    permissions,
-  ];
+        id,
+        name,
+        email,
+        role,
+        joinedAt,
+        status,
+        permissions,
+      ];
 
   @override
   String toString() {
@@ -496,12 +496,12 @@ class CreateGroupCommand extends Equatable {
 
   @override
   List<Object?> get props => [
-    name,
-    description,
-    settings,
-    maxMembers,
-    scheduleConfig,
-  ];
+        name,
+        description,
+        settings,
+        maxMembers,
+        scheduleConfig,
+      ];
 }
 
 /// Update group domain command
@@ -565,13 +565,13 @@ class UpdateGroupCommand extends Equatable {
 
   @override
   List<Object?> get props => [
-    groupId,
-    name,
-    description,
-    settings,
-    maxMembers,
-    scheduleConfig,
-  ];
+        groupId,
+        name,
+        description,
+        settings,
+        maxMembers,
+        scheduleConfig,
+      ];
 }
 
 /// Group member role enumeration
@@ -792,20 +792,20 @@ class GroupInvitationValidation extends Equatable {
 
   @override
   List<Object?> get props => [
-    valid,
-    groupId,
-    groupName,
-    personalMessage,
-    description,
-    email,
-    inviterEmail,
-    expiresAt,
-    existingUser,
-    ownerFamily,
-    error,
-    errorCode,
-    invitedByName,
-  ];
+        valid,
+        groupId,
+        groupName,
+        personalMessage,
+        description,
+        email,
+        inviterEmail,
+        expiresAt,
+        existingUser,
+        ownerFamily,
+        error,
+        errorCode,
+        invitedByName,
+      ];
 
   @override
   String toString() {

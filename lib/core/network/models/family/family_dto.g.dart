@@ -7,24 +7,24 @@ part of 'family_dto.dart';
 // **************************************************************************
 
 _FamilyDto _$FamilyDtoFromJson(Map<String, dynamic> json) => _FamilyDto(
-  id: json['id'] as String,
-  name: json['name'] as String,
-  createdAt: json['createdAt'] == null
-      ? null
-      : DateTime.parse(json['createdAt'] as String),
-  updatedAt: json['updatedAt'] == null
-      ? null
-      : DateTime.parse(json['updatedAt'] as String),
-  members: (json['members'] as List<dynamic>?)
-      ?.map((e) => FamilyMemberDto.fromJson(e as Map<String, dynamic>))
-      .toList(),
-  children: (json['children'] as List<dynamic>?)
-      ?.map((e) => ChildDto.fromJson(e as Map<String, dynamic>))
-      .toList(),
-  vehicles: (json['vehicles'] as List<dynamic>?)
-      ?.map((e) => VehicleDto.fromJson(e as Map<String, dynamic>))
-      .toList(),
-);
+      id: json['id'] as String,
+      name: json['name'] as String,
+      createdAt: json['createdAt'] == null
+          ? null
+          : DateTime.parse(json['createdAt'] as String),
+      updatedAt: json['updatedAt'] == null
+          ? null
+          : DateTime.parse(json['updatedAt'] as String),
+      members: (json['members'] as List<dynamic>?)
+          ?.map((e) => FamilyMemberDto.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      children: (json['children'] as List<dynamic>?)
+          ?.map((e) => ChildDto.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      vehicles: (json['vehicles'] as List<dynamic>?)
+          ?.map((e) => VehicleDto.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
 
 Map<String, dynamic> _$FamilyDtoToJson(_FamilyDto instance) =>
     <String, dynamic>{

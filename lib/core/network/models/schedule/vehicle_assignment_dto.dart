@@ -57,9 +57,8 @@ abstract class VehicleAssignmentDto
   factory VehicleAssignmentDto.fromDomain(VehicleAssignment assignment) {
     return VehicleAssignmentDto(
       id: assignment.id,
-      scheduleSlotId: assignment.scheduleSlotId.isNotEmpty
-          ? assignment.scheduleSlotId
-          : '',
+      scheduleSlotId:
+          assignment.scheduleSlotId.isNotEmpty ? assignment.scheduleSlotId : '',
       seatOverride: assignment.seatOverride,
       vehicle: VehicleNestedDto(
         id: assignment.vehicleId,

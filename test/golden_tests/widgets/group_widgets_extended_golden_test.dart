@@ -414,9 +414,8 @@ void main() {
                         ),
                     ],
                   ),
-                  trailing: family.canManage
-                      ? const Icon(Icons.settings)
-                      : null,
+                  trailing:
+                      family.canManage ? const Icon(Icons.settings) : null,
                 );
               },
             ),

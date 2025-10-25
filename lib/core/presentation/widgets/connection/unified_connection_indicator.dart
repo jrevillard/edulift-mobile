@@ -20,9 +20,7 @@ enum ConnectionStatus {
 /// Prioritizes: HTTP offline > WebSocket issues > All connected
 final unifiedConnectionStatusProvider = Provider<ConnectionStatus>((ref) {
   // Check HTTP connectivity (connectivityProvider returns AsyncValue<bool>)
-  final httpConnected = ref
-      .watch(connectivityProvider)
-      .when(
+  final httpConnected = ref.watch(connectivityProvider).when(
         data: (isConnected) => isConnected,
         loading: () => true, // Assume connected while loading
         error: (_, __) => false,
@@ -216,8 +214,8 @@ class UnifiedConnectionIndicator extends ConsumerWidget {
         Text(
           status,
           style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-            color: Theme.of(context).colorScheme.onSurfaceVariant,
-          ),
+                color: Theme.of(context).colorScheme.onSurfaceVariant,
+              ),
         ),
       ],
     );

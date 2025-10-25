@@ -32,9 +32,7 @@ class _MagicLinkPageState extends ConsumerState<MagicLinkPage> {
           icon: const Icon(Icons.arrow_back),
           onPressed: () async {
             await ref.read(authStateProvider.notifier).logout();
-            ref
-                .read(navigationStateProvider.notifier)
-                .navigateTo(
+            ref.read(navigationStateProvider.notifier).navigateTo(
                   route: '/auth/login',
                   trigger: NavigationTrigger.userNavigation,
                 );
@@ -50,18 +48,14 @@ class _MagicLinkPageState extends ConsumerState<MagicLinkPage> {
             final isVeryCompactScreen = screenHeight < 500;
 
             // Dynamic spacing based on screen size - modern adaptive design
-            final largePadding = isVeryCompactScreen
-                ? 12.0
-                : (isCompactScreen ? 16.0 : 24.0);
-            final mediumSpacing = isVeryCompactScreen
-                ? 12.0
-                : (isCompactScreen ? 16.0 : 24.0);
-            final smallSpacing = isVeryCompactScreen
-                ? 6.0
-                : (isCompactScreen ? 8.0 : 12.0);
-            final iconSize = isVeryCompactScreen
-                ? 48.0
-                : (isCompactScreen ? 60.0 : 80.0);
+            final largePadding =
+                isVeryCompactScreen ? 12.0 : (isCompactScreen ? 16.0 : 24.0);
+            final mediumSpacing =
+                isVeryCompactScreen ? 12.0 : (isCompactScreen ? 16.0 : 24.0);
+            final smallSpacing =
+                isVeryCompactScreen ? 6.0 : (isCompactScreen ? 8.0 : 12.0);
+            final iconSize =
+                isVeryCompactScreen ? 48.0 : (isCompactScreen ? 60.0 : 80.0);
 
             return SingleChildScrollView(
               physics: const ClampingScrollPhysics(),
@@ -86,7 +80,9 @@ class _MagicLinkPageState extends ConsumerState<MagicLinkPage> {
                         Text(
                           key: const Key('magic_link_sent_message'),
                           l10n.checkYourEmail,
-                          style: Theme.of(context).textTheme.headlineMedium
+                          style: Theme.of(context)
+                              .textTheme
+                              .headlineMedium
                               ?.copyWith(fontSize: isCompactScreen ? 22 : null),
                           textAlign: TextAlign.center,
                         ),
@@ -95,7 +91,9 @@ class _MagicLinkPageState extends ConsumerState<MagicLinkPage> {
                         // Description
                         Text(
                           '${l10n.magicLinkSentDescription}\n${widget.email}',
-                          style: Theme.of(context).textTheme.bodyLarge
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyLarge
                               ?.copyWith(fontSize: isCompactScreen ? 14 : null),
                           textAlign: TextAlign.center,
                         ),
@@ -120,7 +118,9 @@ class _MagicLinkPageState extends ConsumerState<MagicLinkPage> {
                                 SizedBox(height: smallSpacing),
                                 Text(
                                   '${l10n.instructionsTitle}\n${l10n.instructionStep1}\n${l10n.instructionStep2}\n${l10n.instructionStep3}\n${l10n.instructionStep4}',
-                                  style: Theme.of(context).textTheme.bodyMedium
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodyMedium
                                       ?.copyWith(
                                         fontSize: isCompactScreen ? 12 : null,
                                       ),
@@ -135,9 +135,8 @@ class _MagicLinkPageState extends ConsumerState<MagicLinkPage> {
                         // Resend Magic Link Button
                         AccessibleButton.outlined(
                           key: const Key('resend_magic_link_button'),
-                          onPressed: authState.isLoading
-                              ? null
-                              : _resendMagicLink,
+                          onPressed:
+                              authState.isLoading ? null : _resendMagicLink,
                           child: authState.isLoading
                               ? const SizedBox(
                                   height: 20,
@@ -170,7 +169,9 @@ class _MagicLinkPageState extends ConsumerState<MagicLinkPage> {
                         // Help Text - responsive typography
                         Text(
                           l10n.linkExpiryInfo,
-                          style: Theme.of(context).textTheme.bodySmall
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodySmall
                               ?.copyWith(fontSize: isCompactScreen ? 11 : null),
                           textAlign: TextAlign.center,
                         ),

@@ -41,7 +41,7 @@ class CreateFamilyNotifier extends StateNotifier<CreateFamilyState> {
   final Ref _ref;
 
   CreateFamilyNotifier(this._createFamilyUsecase, this._authService, this._ref)
-    : super(const CreateFamilyState()) {
+      : super(const CreateFamilyState()) {
     // CRITICAL: Listen to auth changes continuously for TRUE reactive architecture
     _ref.listen(currentUserProvider, (previous, next) {
       if (next == null && previous != null) {
@@ -288,16 +288,16 @@ class CreateFamilyNotifier extends StateNotifier<CreateFamilyState> {
 /// SECURITY FIX: Reactive to auth state changes to prevent data leakage
 final createFamilyProvider =
     StateNotifierProvider.autoDispose<CreateFamilyNotifier, CreateFamilyState>((
-      ref,
-    ) {
-      // SECURITY FIX: Watch currentUser and auto-dispose when user becomes null
-      ref.watch(currentUserProvider);
+  ref,
+) {
+  // SECURITY FIX: Watch currentUser and auto-dispose when user becomes null
+  ref.watch(currentUserProvider);
 
-      // Always create normal provider - reactive auth listening will handle cleanup
-      final usecase = ref.watch(createFamilyUsecaseProvider);
-      final authService = ref.watch(authServiceProvider);
-      return CreateFamilyNotifier(usecase, authService, ref);
-    });
+  // Always create normal provider - reactive auth listening will handle cleanup
+  final usecase = ref.watch(createFamilyUsecaseProvider);
+  final authService = ref.watch(authServiceProvider);
+  return CreateFamilyNotifier(usecase, authService, ref);
+});
 
 // ARCHITECTURE FIX: Moved to composition root (providers.dart)
 // Presentation layer providers should NOT define use case providers

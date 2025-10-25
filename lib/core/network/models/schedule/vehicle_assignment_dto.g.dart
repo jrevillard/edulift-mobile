@@ -8,21 +8,24 @@ part of 'vehicle_assignment_dto.dart';
 
 _VehicleAssignmentDto _$VehicleAssignmentDtoFromJson(
   Map<String, dynamic> json,
-) => _VehicleAssignmentDto(
-  id: json['id'] as String,
-  scheduleSlotId: json['scheduleSlotId'] as String?,
-  seatOverride: (json['seatOverride'] as num?)?.toInt(),
-  vehicle: VehicleNestedDto.fromJson(json['vehicle'] as Map<String, dynamic>),
-);
+) =>
+    _VehicleAssignmentDto(
+      id: json['id'] as String,
+      scheduleSlotId: json['scheduleSlotId'] as String?,
+      seatOverride: (json['seatOverride'] as num?)?.toInt(),
+      vehicle:
+          VehicleNestedDto.fromJson(json['vehicle'] as Map<String, dynamic>),
+    );
 
 Map<String, dynamic> _$VehicleAssignmentDtoToJson(
   _VehicleAssignmentDto instance,
-) => <String, dynamic>{
-  'id': instance.id,
-  'scheduleSlotId': instance.scheduleSlotId,
-  'seatOverride': instance.seatOverride,
-  'vehicle': instance.vehicle,
-};
+) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'scheduleSlotId': instance.scheduleSlotId,
+      'seatOverride': instance.seatOverride,
+      'vehicle': instance.vehicle,
+    };
 
 _VehicleNestedDto _$VehicleNestedDtoFromJson(Map<String, dynamic> json) =>
     _VehicleNestedDto(

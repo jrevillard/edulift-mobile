@@ -26,14 +26,14 @@ class AuthUserProfile {
   });
 
   Map<String, dynamic> toJson() => {
-    'id': id,
-    'email': email,
-    'name': name,
-    'familyId': familyId,
-    'role': role,
-    'lastUpdated': lastUpdated.toIso8601String(),
-    'timezone': timezone,
-  };
+        'id': id,
+        'email': email,
+        'name': name,
+        'familyId': familyId,
+        'role': role,
+        'lastUpdated': lastUpdated.toIso8601String(),
+        'timezone': timezone,
+      };
 
   factory AuthUserProfile.fromJson(Map<String, dynamic> json) =>
       AuthUserProfile(
@@ -62,20 +62,20 @@ class AuthState {
   });
 
   Map<String, dynamic> toJson() => {
-    'isAuthenticated': isAuthenticated,
-    'biometricEnabled': biometricEnabled,
-    'lastAuthTime': lastAuthTime?.toIso8601String(),
-    'sessionId': sessionId,
-  };
+        'isAuthenticated': isAuthenticated,
+        'biometricEnabled': biometricEnabled,
+        'lastAuthTime': lastAuthTime?.toIso8601String(),
+        'sessionId': sessionId,
+      };
 
   factory AuthState.fromJson(Map<String, dynamic> json) => AuthState(
-    isAuthenticated: json['isAuthenticated'],
-    biometricEnabled: json['biometricEnabled'],
-    lastAuthTime: json['lastAuthTime'] != null
-        ? DateTime.parse(json['lastAuthTime'])
-        : null,
-    sessionId: json['sessionId'],
-  );
+        isAuthenticated: json['isAuthenticated'],
+        biometricEnabled: json['biometricEnabled'],
+        lastAuthTime: json['lastAuthTime'] != null
+            ? DateTime.parse(json['lastAuthTime'])
+            : null,
+        sessionId: json['sessionId'],
+      );
 }
 
 /// Interface for authentication local data source operations
@@ -498,8 +498,7 @@ class AuthLocalDatasource implements IAuthLocalDatasource {
         // This is a simplified implementation for compatibility
         final profile = AuthUserProfile(
           id: user.id ?? 'unknown',
-          email:
-              user.email ??
+          email: user.email ??
               '', // CRITICAL FIX: Use empty string instead of hardcoded email
           name: user.name ?? 'Unknown User',
           role: 'user',

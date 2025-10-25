@@ -41,17 +41,17 @@ class ScheduleConflict extends Equatable {
 
   @override
   List<Object?> get props => [
-    id,
-    firstTimeSlotId,
-    secondTimeSlotId,
-    type,
-    severity,
-    description,
-    detectedAt,
-    isResolved,
-    resolvedAt,
-    resolution,
-  ];
+        id,
+        firstTimeSlotId,
+        secondTimeSlotId,
+        type,
+        severity,
+        description,
+        detectedAt,
+        isResolved,
+        resolvedAt,
+        resolution,
+      ];
 
   /// Factory constructor to create a ScheduleConflict with auto-calculated severity
   /// based on the conflict type

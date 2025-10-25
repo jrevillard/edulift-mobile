@@ -67,5 +67,5 @@ abstract class InvitationRepository {
 
   /// Validate a family invitation code (returns validation details)
   Future<Result<FamilyInvitationValidationDto, ApiFailure>>
-  validateFamilyInvitation({required String inviteCode});
+      validateFamilyInvitation({required String inviteCode});
 }

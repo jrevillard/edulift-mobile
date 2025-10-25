@@ -47,69 +47,69 @@ class DeepLinkTestData {
 
   /// Expected result for auth/verify path with token only
   static DeepLinkResult get authVerifyResult => const DeepLinkResult(
-    magicToken: 'magic123',
-    path: 'auth/verify',
-    parameters: {'token': 'magic123'},
-  );
+        magicToken: 'magic123',
+        path: 'auth/verify',
+        parameters: {'token': 'magic123'},
+      );
 
   /// Expected result for auth/verify with invite code
   static DeepLinkResult get authVerifyWithInviteResult => const DeepLinkResult(
-    magicToken: 'magic123',
-    inviteCode: 'fam456',
-    path: 'auth/verify',
-    parameters: {'token': 'magic123', 'inviteCode': 'fam456'},
-  );
+        magicToken: 'magic123',
+        inviteCode: 'fam456',
+        path: 'auth/verify',
+        parameters: {'token': 'magic123', 'inviteCode': 'fam456'},
+      );
 
   /// Expected result for auth/verify with email
   static DeepLinkResult get authVerifyWithEmailResult => const DeepLinkResult(
-    magicToken: 'magic123',
-    email: 'test@example.com',
-    path: 'auth/verify',
-    parameters: {'token': 'magic123', 'email': 'test@example.com'},
-  );
+        magicToken: 'magic123',
+        email: 'test@example.com',
+        path: 'auth/verify',
+        parameters: {'token': 'magic123', 'email': 'test@example.com'},
+      );
 
   /// Expected result for complete auth/verify scenario
   static DeepLinkResult get authVerifyCompleteResult => const DeepLinkResult(
-    magicToken: 'magic123',
-    inviteCode: 'fam456',
-    email: 'test@example.com',
-    path: 'auth/verify',
-    parameters: {
-      'token': 'magic123',
-      'inviteCode': 'fam456',
-      'email': 'test@example.com',
-    },
-  );
+        magicToken: 'magic123',
+        inviteCode: 'fam456',
+        email: 'test@example.com',
+        path: 'auth/verify',
+        parameters: {
+          'token': 'magic123',
+          'inviteCode': 'fam456',
+          'email': 'test@example.com',
+        },
+      );
 
   /// Expected result for groups/join path
   static DeepLinkResult get groupJoinResult => const DeepLinkResult(
-    inviteCode: 'grp789',
-    path: 'groups/join',
-    parameters: {'code': 'grp789'},
-  );
+        inviteCode: 'grp789',
+        path: 'groups/join',
+        parameters: {'code': 'grp789'},
+      );
 
   /// Expected result for groups/join with magic token
   static DeepLinkResult get groupJoinWithTokenResult => const DeepLinkResult(
-    inviteCode: 'grp789',
-    magicToken: 'magic123',
-    path: 'groups/join',
-    parameters: {'code': 'grp789', 'token': 'magic123'},
-  );
+        inviteCode: 'grp789',
+        magicToken: 'magic123',
+        path: 'groups/join',
+        parameters: {'code': 'grp789', 'token': 'magic123'},
+      );
 
   /// Expected result for families/join path
   static DeepLinkResult get familyJoinResult => const DeepLinkResult(
-    inviteCode: 'fam456',
-    path: 'families/join',
-    parameters: {'code': 'fam456'},
-  );
+        inviteCode: 'fam456',
+        path: 'families/join',
+        parameters: {'code': 'fam456'},
+      );
 
   /// Expected result for families/join with magic token
   static DeepLinkResult get familyJoinWithTokenResult => const DeepLinkResult(
-    inviteCode: 'fam456',
-    magicToken: 'magic123',
-    path: 'families/join',
-    parameters: {'code': 'fam456', 'token': 'magic123'},
-  );
+        inviteCode: 'fam456',
+        magicToken: 'magic123',
+        path: 'families/join',
+        parameters: {'code': 'fam456', 'token': 'magic123'},
+      );
 
   /// Expected result for dashboard path
   static DeepLinkResult get dashboardResult =>
@@ -117,9 +117,9 @@ class DeepLinkTestData {
 
   /// Expected result for dashboard with parameters
   static DeepLinkResult get dashboardWithParamsResult => const DeepLinkResult(
-    path: 'dashboard',
-    parameters: {'view': 'schedule', 'groupId': '123'},
-  );
+        path: 'dashboard',
+        parameters: {'view': 'schedule', 'groupId': '123'},
+      );
 
   /// Expected result for empty/invalid cases
   static DeepLinkResult get emptyResult => const DeepLinkResult(path: '');

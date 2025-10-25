@@ -18,9 +18,10 @@ _ScheduleResponseDto _$ScheduleResponseDtoFromJson(Map<String, dynamic> json) =>
 
 Map<String, dynamic> _$ScheduleResponseDtoToJson(
   _ScheduleResponseDto instance,
-) => <String, dynamic>{
-  'groupId': instance.groupId,
-  'startDate': instance.startDate,
-  'endDate': instance.endDate,
-  'scheduleSlots': instance.scheduleSlots,
-};
+) =>
+    <String, dynamic>{
+      'groupId': instance.groupId,
+      'startDate': instance.startDate,
+      'endDate': instance.endDate,
+      'scheduleSlots': instance.scheduleSlots,
+    };

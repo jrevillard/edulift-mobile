@@ -55,7 +55,9 @@ class _SettingsPageState extends ConsumerState<SettingsPage>
                         const SizedBox(width: 8),
                         Text(
                           l10n.about,
-                          style: Theme.of(context).textTheme.titleMedium
+                          style: Theme.of(context)
+                              .textTheme
+                              .titleMedium
                               ?.copyWith(fontWeight: FontWeight.w600),
                         ),
                       ],
@@ -64,15 +66,16 @@ class _SettingsPageState extends ConsumerState<SettingsPage>
                     Text(
                       l10n.appName,
                       style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                        fontWeight: FontWeight.w600,
-                      ),
+                            fontWeight: FontWeight.w600,
+                          ),
                     ),
                     const SizedBox(height: 4),
                     Text(
                       l10n.appVersion,
                       style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                        color: Theme.of(context).colorScheme.onSurfaceVariant,
-                      ),
+                            color:
+                                Theme.of(context).colorScheme.onSurfaceVariant,
+                          ),
                     ),
                   ],
                 ),

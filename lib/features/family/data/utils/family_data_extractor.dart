@@ -13,9 +13,10 @@ import '../../../../core/network/models/vehicle/vehicle_dto.dart';
 class FamilyDataExtractor {
   // Private constructor to prevent instantiation - static utility only
   FamilyDataExtractor._(
-    /// Extract children list from family DTO
-    /// Returns empty list if family.children is null);
-  );
+
+      /// Extract children list from family DTO
+      /// Returns empty list if family.children is null);
+      );
   static List<ChildDto> extractChildren(FamilyDto family) {
     return family.children ?? [];
   }

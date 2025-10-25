@@ -10,7 +10,7 @@ class NotificationPermissionService {
   final FirebaseMessaging _firebaseMessaging;
 
   NotificationPermissionService({required FirebaseMessaging firebaseMessaging})
-    : _firebaseMessaging = firebaseMessaging;
+      : _firebaseMessaging = firebaseMessaging;
 
   /// Check current notification permission status
   Future<NotificationPermissionStatus> checkPermissionStatus() async {
@@ -56,8 +56,8 @@ class NotificationPermissionService {
       );
 
       // Request system notification permission
-      final systemPermission = await permission.Permission.notification
-          .request();
+      final systemPermission =
+          await permission.Permission.notification.request();
 
       AppLogger.debug(
         '✅ FCM Permission Result: ${settings.authorizationStatus}',
@@ -101,9 +101,7 @@ class NotificationPermissionService {
   Future<bool> shouldShowRequestRationale() async {
     try {
       return await permission
-          .Permission
-          .notification
-          .shouldShowRequestRationale;
+          .Permission.notification.shouldShowRequestRationale;
     } catch (e) {
       AppLogger.error('❌ Error checking rationale status', e);
       return false;

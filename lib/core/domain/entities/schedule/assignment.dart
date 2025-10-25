@@ -39,17 +39,17 @@ class Assignment extends Equatable {
 
   @override
   List<Object?> get props => [
-    id,
-    timeSlotId,
-    childId,
-    vehicleId,
-    driverId,
-    type,
-    assignedAt,
-    assignedBy,
-    isActive,
-    notes,
-  ];
+        id,
+        timeSlotId,
+        childId,
+        vehicleId,
+        driverId,
+        type,
+        assignedAt,
+        assignedBy,
+        isActive,
+        notes,
+      ];
 
   Assignment copyWith({
     String? id,

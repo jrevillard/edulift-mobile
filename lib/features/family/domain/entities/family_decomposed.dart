@@ -19,10 +19,10 @@ class FamilyDecomposed extends Equatable {
     required local.FamilyMemberOperations memberOperations,
     required local.FamilyChildrenOperations childrenOperations,
     required local.FamilyVehicleOperations vehicleOperations,
-  }) : _core = core,
-       _memberOperations = memberOperations,
-       _childrenOperations = childrenOperations,
-       _vehicleOperations = vehicleOperations;
+  })  : _core = core,
+        _memberOperations = memberOperations,
+        _childrenOperations = childrenOperations,
+        _vehicleOperations = vehicleOperations;
 
   /// Factory constructor to create family with all operations
   factory FamilyDecomposed({

@@ -24,13 +24,13 @@ class AdaptiveSecureStorage implements SecureStorage {
   /// CRITICAL FIX: FlutterSecureStorage is only created when NOT in adaptive environments
   /// This prevents DBus socket connection errors in development/container environments
   AdaptiveSecureStorage()
-    : _secureStorage = _shouldUseSecureStorageEnvironment()
-          ? const FlutterSecureStorage(
-              iOptions: IOSOptions(
-                accessibility: KeychainAccessibility.first_unlock_this_device,
-              ),
-            )
-          : null {
+      : _secureStorage = _shouldUseSecureStorageEnvironment()
+            ? const FlutterSecureStorage(
+                iOptions: IOSOptions(
+                  accessibility: KeychainAccessibility.first_unlock_this_device,
+                ),
+              )
+            : null {
     // Perform expensive initialization once during construction
     _initializeStorageMode();
   }
@@ -446,10 +446,8 @@ class AdaptiveSecureStorage implements SecureStorage {
       }
     } else {
       // In production, only clear keys with secure_ prefix
-      final keys = prefs
-          .getKeys()
-          .where((key) => key.startsWith('secure_'))
-          .toList();
+      final keys =
+          prefs.getKeys().where((key) => key.startsWith('secure_')).toList();
       for (final key in keys) {
         await prefs.remove(key);
       }

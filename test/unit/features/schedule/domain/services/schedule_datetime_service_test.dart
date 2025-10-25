@@ -205,8 +205,7 @@ void main() {
         expect(datetime2, isNotNull);
 
         // Test exact match (what _findExistingSlot does)
-        final matches =
-            datetime1!.year == datetime2!.year &&
+        final matches = datetime1!.year == datetime2!.year &&
             datetime1.month == datetime2.month &&
             datetime1.day == datetime2.day &&
             datetime1.hour == datetime2.hour &&
@@ -234,8 +233,7 @@ void main() {
         expect(datetime1, isNotNull);
         expect(datetime2, isNotNull);
 
-        final matches =
-            datetime1!.year == datetime2!.year &&
+        final matches = datetime1!.year == datetime2!.year &&
             datetime1.month == datetime2.month &&
             datetime1.day == datetime2.day &&
             datetime1.hour == datetime2.hour &&

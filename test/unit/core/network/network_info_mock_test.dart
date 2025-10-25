@@ -114,8 +114,8 @@ void main() {
           // Arrange
           final streamController =
               Stream<List<ConnectivityResult>>.fromIterable([
-                [ConnectivityResult.none],
-              ]);
+            [ConnectivityResult.none],
+          ]);
 
           when(
             mockConnectivity.onConnectivityChanged,

@@ -244,18 +244,19 @@ class GroupFamiliesProvider
   ///
   /// Copied from [groupFamilies].
   GroupFamiliesProvider(String groupId)
-    : this._internal(
-        (ref) => groupFamilies(ref as GroupFamiliesRef, groupId),
-        from: groupFamiliesProvider,
-        name: r'groupFamiliesProvider',
-        debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-            ? null
-            : _$groupFamiliesHash,
-        dependencies: GroupFamiliesFamily._dependencies,
-        allTransitiveDependencies:
-            GroupFamiliesFamily._allTransitiveDependencies,
-        groupId: groupId,
-      );
+      : this._internal(
+          (ref) => groupFamilies(ref as GroupFamiliesRef, groupId),
+          from: groupFamiliesProvider,
+          name: r'groupFamiliesProvider',
+          debugGetCreateSourceHash:
+              const bool.fromEnvironment('dart.vm.product')
+                  ? null
+                  : _$groupFamiliesHash,
+          dependencies: GroupFamiliesFamily._dependencies,
+          allTransitiveDependencies:
+              GroupFamiliesFamily._allTransitiveDependencies,
+          groupId: groupId,
+        );
 
   GroupFamiliesProvider._internal(
     super._createNotifier, {

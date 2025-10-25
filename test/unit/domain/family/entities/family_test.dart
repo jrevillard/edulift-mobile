@@ -570,7 +570,6 @@ void main() {
             userId: 'user-$index',
             role: index % 2 == 0 ? FamilyRole.admin : FamilyRole.member,
             status: 'ACTIVE',
-
             joinedAt: testCreatedAt,
           ),
         );

@@ -27,8 +27,8 @@ class ValidateChildAssignmentUseCase {
     ValidateChildAssignmentParams params,
   ) async {
     // 1. Check if child already assigned to THIS vehicle (allow toggle off)
-    final isAlreadyAssignedToThisVehicle = params.currentlyAssignedChildIds
-        .contains(params.childId);
+    final isAlreadyAssignedToThisVehicle =
+        params.currentlyAssignedChildIds.contains(params.childId);
 
     if (isAlreadyAssignedToThisVehicle) {
       return const Result.ok(null); // OK to unassign (toggle off)

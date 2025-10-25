@@ -129,8 +129,8 @@ class RecurrencePattern extends Equatable {
 
   DateTime? _getNextDailyOccurrence(DateTime baseDate, DateTime afterDate) {
     var nextDate = baseDate;
-    while (nextDate.isBefore(afterDate) ||
-        nextDate.isAtSameMomentAs(afterDate)) {
+    while (
+        nextDate.isBefore(afterDate) || nextDate.isAtSameMomentAs(afterDate)) {
       nextDate = nextDate.add(Duration(days: interval));
     }
     return isActiveAt(nextDate) ? nextDate : null;
@@ -187,8 +187,8 @@ class RecurrencePattern extends Equatable {
       baseDate.month + interval,
       baseDate.day,
     );
-    while (nextDate.isBefore(afterDate) ||
-        nextDate.isAtSameMomentAs(afterDate)) {
+    while (
+        nextDate.isBefore(afterDate) || nextDate.isAtSameMomentAs(afterDate)) {
       nextDate = DateTime(
         nextDate.year,
         nextDate.month + interval,
@@ -205,8 +205,8 @@ class RecurrencePattern extends Equatable {
       baseDate.month,
       baseDate.day,
     );
-    while (nextDate.isBefore(afterDate) ||
-        nextDate.isAtSameMomentAs(afterDate)) {
+    while (
+        nextDate.isBefore(afterDate) || nextDate.isAtSameMomentAs(afterDate)) {
       nextDate = DateTime(
         nextDate.year + interval,
         nextDate.month,
@@ -249,14 +249,14 @@ class RecurrencePattern extends Equatable {
 
   @override
   List<Object?> get props => [
-    id,
-    frequency,
-    interval,
-    daysOfWeek,
-    daysOfMonth,
-    monthsOfYear,
-    endDate,
-    occurrences,
-    metadata,
-  ];
+        id,
+        frequency,
+        interval,
+        daysOfWeek,
+        daysOfMonth,
+        monthsOfYear,
+        endDate,
+        occurrences,
+        metadata,
+      ];
 }

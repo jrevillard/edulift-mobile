@@ -785,7 +785,6 @@ void main() {
             userId: 'user-$i',
             role: i == 0 ? FamilyRole.admin : FamilyRole.member,
             status: 'ACTIVE',
-
             joinedAt: testCreatedAt.add(Duration(days: i)),
           ),
         );

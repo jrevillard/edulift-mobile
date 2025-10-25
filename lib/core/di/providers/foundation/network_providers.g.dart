@@ -30,9 +30,8 @@ String _$refreshDioHash() => r'b7df499e2b4a4a8fd80b48c5cfd6ea5e2993594d';
 final refreshDioProvider = AutoDisposeProvider<Dio>.internal(
   refreshDio,
   name: r'refreshDioProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$refreshDioHash,
+  debugGetCreateSourceHash:
+      const bool.fromEnvironment('dart.vm.product') ? null : _$refreshDioHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
@@ -58,9 +57,8 @@ String _$apiDioHash() => r'c22bed161665709b0764e6ca3b4e30c6a3f9ca77';
 final apiDioProvider = AutoDisposeProvider<Dio>.internal(
   apiDio,
   name: r'apiDioProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$apiDioHash,
+  debugGetCreateSourceHash:
+      const bool.fromEnvironment('dart.vm.product') ? null : _$apiDioHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
@@ -154,14 +152,14 @@ String _$scheduleApiClientHash() => r'd54ec245546233f45fd90848197818f3f7e270c9';
 @ProviderFor(scheduleApiClient)
 final scheduleApiClientProvider =
     AutoDisposeProvider<ScheduleApiClient>.internal(
-      scheduleApiClient,
-      name: r'scheduleApiClientProvider',
-      debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-          ? null
-          : _$scheduleApiClientHash,
-      dependencies: null,
-      allTransitiveDependencies: null,
-    );
+  scheduleApiClient,
+  name: r'scheduleApiClientProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$scheduleApiClientHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
 
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
@@ -174,14 +172,14 @@ String _$childrenApiClientHash() => r'20e69516d85307215a658e1df24c68922b165e15';
 @ProviderFor(childrenApiClient)
 final childrenApiClientProvider =
     AutoDisposeProvider<ChildrenApiClient>.internal(
-      childrenApiClient,
-      name: r'childrenApiClientProvider',
-      debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-          ? null
-          : _$childrenApiClientHash,
-      dependencies: null,
-      allTransitiveDependencies: null,
-    );
+  childrenApiClient,
+  name: r'childrenApiClientProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$childrenApiClientHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
 
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
@@ -195,14 +193,14 @@ String _$dashboardApiClientHash() =>
 @ProviderFor(dashboardApiClient)
 final dashboardApiClientProvider =
     AutoDisposeProvider<DashboardApiClient>.internal(
-      dashboardApiClient,
-      name: r'dashboardApiClientProvider',
-      debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-          ? null
-          : _$dashboardApiClientHash,
-      dependencies: null,
-      allTransitiveDependencies: null,
-    );
+  dashboardApiClient,
+  name: r'dashboardApiClientProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$dashboardApiClientHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
 
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
@@ -216,9 +214,8 @@ String _$fcmApiClientHash() => r'865dc4ed9fe9ed13bc9b6cf51c79b08a60d87ffc';
 final fcmApiClientProvider = AutoDisposeProvider<FcmApiClient>.internal(
   fcmApiClient,
   name: r'fcmApiClientProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$fcmApiClientHash,
+  debugGetCreateSourceHash:
+      const bool.fromEnvironment('dart.vm.product') ? null : _$fcmApiClientHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
@@ -239,9 +236,8 @@ String _$connectivityHash() => r'6d67af0ea4110f6ee0246dd332f90f8901380eda';
 final connectivityProvider = AutoDisposeProvider<Connectivity>.internal(
   connectivity,
   name: r'connectivityProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$connectivityHash,
+  debugGetCreateSourceHash:
+      const bool.fromEnvironment('dart.vm.product') ? null : _$connectivityHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
@@ -260,19 +256,19 @@ String _$connectivityStateHash() => r'6d8c05a5cf7e89b3015aa5df30e6057a32c24fc2';
 @ProviderFor(connectivityState)
 final connectivityStateProvider =
     AutoDisposeStreamProvider<List<ConnectivityResult>>.internal(
-      connectivityState,
-      name: r'connectivityStateProvider',
-      debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-          ? null
-          : _$connectivityStateHash,
-      dependencies: null,
-      allTransitiveDependencies: null,
-    );
+  connectivityState,
+  name: r'connectivityStateProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$connectivityStateHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
 
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
-typedef ConnectivityStateRef =
-    AutoDisposeStreamProviderRef<List<ConnectivityResult>>;
+typedef ConnectivityStateRef
+    = AutoDisposeStreamProviderRef<List<ConnectivityResult>>;
 String _$networkInfoHash() => r'b067d74786c4d58577cb8b822d0ce688d41fe44d';
 
 /// Provider for NetworkInfo
@@ -285,9 +281,8 @@ String _$networkInfoHash() => r'b067d74786c4d58577cb8b822d0ce688d41fe44d';
 final networkInfoProvider = AutoDisposeProvider<NetworkInfo>.internal(
   networkInfo,
   name: r'networkInfoProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$networkInfoHash,
+  debugGetCreateSourceHash:
+      const bool.fromEnvironment('dart.vm.product') ? null : _$networkInfoHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
@@ -308,14 +303,14 @@ String _$networkErrorHandlerHash() =>
 @ProviderFor(networkErrorHandler)
 final networkErrorHandlerProvider =
     AutoDisposeProvider<NetworkErrorHandler>.internal(
-      networkErrorHandler,
-      name: r'networkErrorHandlerProvider',
-      debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-          ? null
-          : _$networkErrorHandlerHash,
-      dependencies: null,
-      allTransitiveDependencies: null,
-    );
+  networkErrorHandler,
+  name: r'networkErrorHandlerProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$networkErrorHandlerHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
 
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
@@ -337,18 +332,18 @@ String _$refreshNetworkErrorHandlerHash() =>
 @ProviderFor(refreshNetworkErrorHandler)
 final refreshNetworkErrorHandlerProvider =
     AutoDisposeProvider<NetworkErrorHandler>.internal(
-      refreshNetworkErrorHandler,
-      name: r'refreshNetworkErrorHandlerProvider',
-      debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-          ? null
-          : _$refreshNetworkErrorHandlerHash,
-      dependencies: null,
-      allTransitiveDependencies: null,
-    );
+  refreshNetworkErrorHandler,
+  name: r'refreshNetworkErrorHandlerProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$refreshNetworkErrorHandlerHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
 
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
-typedef RefreshNetworkErrorHandlerRef =
-    AutoDisposeProviderRef<NetworkErrorHandler>;
+typedef RefreshNetworkErrorHandlerRef
+    = AutoDisposeProviderRef<NetworkErrorHandler>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

@@ -8,29 +8,31 @@ part of 'weekly_schedule_dto.dart';
 
 _WeeklyScheduleItemDto _$WeeklyScheduleItemDtoFromJson(
   Map<String, dynamic> json,
-) => _WeeklyScheduleItemDto(
-  id: json['id'] as String,
-  day: json['day'] as String,
-  time: json['time'] as String,
-  destination: json['destination'] as String,
-  childrenNames: (json['childrenNames'] as List<dynamic>)
-      .map((e) => e as String)
-      .toList(),
-  vehicleName: json['vehicleName'] as String?,
-  status: json['status'] as String,
-);
+) =>
+    _WeeklyScheduleItemDto(
+      id: json['id'] as String,
+      day: json['day'] as String,
+      time: json['time'] as String,
+      destination: json['destination'] as String,
+      childrenNames: (json['childrenNames'] as List<dynamic>)
+          .map((e) => e as String)
+          .toList(),
+      vehicleName: json['vehicleName'] as String?,
+      status: json['status'] as String,
+    );
 
 Map<String, dynamic> _$WeeklyScheduleItemDtoToJson(
   _WeeklyScheduleItemDto instance,
-) => <String, dynamic>{
-  'id': instance.id,
-  'day': instance.day,
-  'time': instance.time,
-  'destination': instance.destination,
-  'childrenNames': instance.childrenNames,
-  'vehicleName': instance.vehicleName,
-  'status': instance.status,
-};
+) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'day': instance.day,
+      'time': instance.time,
+      'destination': instance.destination,
+      'childrenNames': instance.childrenNames,
+      'vehicleName': instance.vehicleName,
+      'status': instance.status,
+    };
 
 _WeeklyScheduleDto _$WeeklyScheduleDtoFromJson(Map<String, dynamic> json) =>
     _WeeklyScheduleDto(

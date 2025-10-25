@@ -37,9 +37,8 @@ void main() {
     final longToken = 'very_long_token_' + 'x' * 1000;
     const tokenWithSpecialChars = 'token.with-special_chars+and/symbols=';
     // Use the same logic as SecureTokenStorage implementation
-    const authTokenKey = kDebugMode
-        ? '${AppConstants.tokenKey}_dev'
-        : AppConstants.tokenKey;
+    const authTokenKey =
+        kDebugMode ? '${AppConstants.tokenKey}_dev' : AppConstants.tokenKey;
 
     setUp(() {
       mockSecureStorage = MockAdaptiveSecureStorage();

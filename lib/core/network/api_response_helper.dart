@@ -122,8 +122,7 @@ class ApiResponseHelper {
         final responseData = error.response!.data;
         if (responseData is Map) {
           // Try common backend error message fields
-          message =
-              responseData['error']?.toString() ??
+          message = responseData['error']?.toString() ??
               responseData['message']?.toString() ??
               responseData['detail']?.toString() ??
               'API error';
@@ -137,8 +136,8 @@ class ApiResponseHelper {
         errorCode = statusCode >= 400 && statusCode < 500
             ? 'api.client_error'
             : statusCode >= 500
-            ? 'api.server_error'
-            : 'network.error';
+                ? 'api.server_error'
+                : 'network.error';
       }
 
       return ApiResponse<T>.error(

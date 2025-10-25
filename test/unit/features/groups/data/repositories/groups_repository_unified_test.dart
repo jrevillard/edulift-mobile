@@ -147,7 +147,8 @@ void main() {
         },
       );
 
-      test('should return error when timeout error and no cache exists', () async {
+      test('should return error when timeout error and no cache exists',
+          () async {
         // Arrange - Simulate timeout error with empty cache
         mockRemoteDataSource.setTimeoutException(
           groupId: testGroupId,
@@ -215,7 +216,8 @@ void main() {
         },
       );
 
-      test('REGRESSION: should handle real group ID from patrol test', () async {
+      test('REGRESSION: should handle real group ID from patrol test',
+          () async {
         // Arrange - Use the exact group ID from failing patrol test
         mockRemoteDataSource.setSocketException(
           groupId: testRealGroupId,
@@ -342,28 +344,28 @@ class HttpSimulatedResponse {
   final bool isNetworkError;
 
   HttpSimulatedResponse.success(this.statusCode, this.data)
-    : message = 'OK',
-      exception = null,
-      isNetworkError = false;
+      : message = 'OK',
+        exception = null,
+        isNetworkError = false;
 
   HttpSimulatedResponse.httpError(
     this.statusCode,
     this.message,
     this.isNetworkError,
-  ) : data = null,
-      exception = Exception('HTTP $statusCode: $message');
+  )   : data = null,
+        exception = Exception('HTTP $statusCode: $message');
 
   HttpSimulatedResponse.socketError(this.message)
-    : statusCode = 0,
-      data = null,
-      exception = SocketException(message),
-      isNetworkError = true;
+      : statusCode = 0,
+        data = null,
+        exception = SocketException(message),
+        isNetworkError = true;
 
   HttpSimulatedResponse.timeoutError(this.message)
-    : statusCode = 0,
-      data = null,
-      exception = Exception(message),
-      isNetworkError = true;
+      : statusCode = 0,
+        data = null,
+        exception = Exception(message),
+        isNetworkError = true;
 
   Future<List<GroupFamilyData>> execute() async {
     if (exception != null) {

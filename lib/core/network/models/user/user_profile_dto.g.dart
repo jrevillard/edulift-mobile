@@ -28,19 +28,23 @@ Map<String, dynamic> _$UserProfileDtoToJson(_UserProfileDto instance) =>
 
 _CreateUserProfileDto _$CreateUserProfileDtoFromJson(
   Map<String, dynamic> json,
-) => _CreateUserProfileDto(
-  email: json['email'] as String,
-  name: json['name'] as String,
-);
+) =>
+    _CreateUserProfileDto(
+      email: json['email'] as String,
+      name: json['name'] as String,
+    );
 
 Map<String, dynamic> _$CreateUserProfileDtoToJson(
   _CreateUserProfileDto instance,
-) => <String, dynamic>{'email': instance.email, 'name': instance.name};
+) =>
+    <String, dynamic>{'email': instance.email, 'name': instance.name};
 
 _UpdateUserProfileDto _$UpdateUserProfileDtoFromJson(
   Map<String, dynamic> json,
-) => _UpdateUserProfileDto(name: json['name'] as String?);
+) =>
+    _UpdateUserProfileDto(name: json['name'] as String?);
 
 Map<String, dynamic> _$UpdateUserProfileDtoToJson(
   _UpdateUserProfileDto instance,
-) => <String, dynamic>{'name': instance.name};
+) =>
+    <String, dynamic>{'name': instance.name};

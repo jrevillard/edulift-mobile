@@ -7,26 +7,26 @@ part of 'auth_dto.dart';
 // **************************************************************************
 
 AuthDto _$AuthDtoFromJson(Map<String, dynamic> json) => AuthDto(
-  accessToken: json['token'] as String,
-  refreshToken: json['refreshToken'] as String,
-  expiresIn: (json['expiresIn'] as num).toInt(),
-  tokenType: json['tokenType'] as String? ?? 'Bearer',
-  user: UserCurrentFamilyDto.fromJson(json['user'] as Map<String, dynamic>),
-  invitationResult: json['invitationResult'] == null
-      ? null
-      : InvitationResultDto.fromJson(
-          json['invitationResult'] as Map<String, dynamic>,
-        ),
-);
+      accessToken: json['token'] as String,
+      refreshToken: json['refreshToken'] as String,
+      expiresIn: (json['expiresIn'] as num).toInt(),
+      tokenType: json['tokenType'] as String? ?? 'Bearer',
+      user: UserCurrentFamilyDto.fromJson(json['user'] as Map<String, dynamic>),
+      invitationResult: json['invitationResult'] == null
+          ? null
+          : InvitationResultDto.fromJson(
+              json['invitationResult'] as Map<String, dynamic>,
+            ),
+    );
 
 Map<String, dynamic> _$AuthDtoToJson(AuthDto instance) => <String, dynamic>{
-  'token': instance.accessToken,
-  'refreshToken': instance.refreshToken,
-  'expiresIn': instance.expiresIn,
-  'tokenType': instance.tokenType,
-  'user': instance.user,
-  'invitationResult': instance.invitationResult,
-};
+      'token': instance.accessToken,
+      'refreshToken': instance.refreshToken,
+      'expiresIn': instance.expiresIn,
+      'tokenType': instance.tokenType,
+      'user': instance.user,
+      'invitationResult': instance.invitationResult,
+    };
 
 InvitationResultDto _$InvitationResultDtoFromJson(Map<String, dynamic> json) =>
     InvitationResultDto(
@@ -39,13 +39,14 @@ InvitationResultDto _$InvitationResultDtoFromJson(Map<String, dynamic> json) =>
 
 Map<String, dynamic> _$InvitationResultDtoToJson(
   InvitationResultDto instance,
-) => <String, dynamic>{
-  'processed': instance.processed,
-  'invitationType': instance.invitationType,
-  'redirectUrl': instance.redirectUrl,
-  'requiresFamilyOnboarding': instance.requiresFamilyOnboarding,
-  'reason': instance.reason,
-};
+) =>
+    <String, dynamic>{
+      'processed': instance.processed,
+      'invitationType': instance.invitationType,
+      'redirectUrl': instance.redirectUrl,
+      'requiresFamilyOnboarding': instance.requiresFamilyOnboarding,
+      'reason': instance.reason,
+    };
 
 _AuthUserProfileDto _$AuthUserProfileDtoFromJson(Map<String, dynamic> json) =>
     _AuthUserProfileDto(
@@ -79,18 +80,20 @@ Map<String, dynamic> _$UserExistsDtoToJson(_UserExistsDto instance) =>
 
 _TokenRefreshResponseDto _$TokenRefreshResponseDtoFromJson(
   Map<String, dynamic> json,
-) => _TokenRefreshResponseDto(
-  accessToken: json['accessToken'] as String,
-  refreshToken: json['refreshToken'] as String,
-  expiresIn: (json['expiresIn'] as num).toInt(),
-  tokenType: json['tokenType'] as String? ?? 'Bearer',
-);
+) =>
+    _TokenRefreshResponseDto(
+      accessToken: json['accessToken'] as String,
+      refreshToken: json['refreshToken'] as String,
+      expiresIn: (json['expiresIn'] as num).toInt(),
+      tokenType: json['tokenType'] as String? ?? 'Bearer',
+    );
 
 Map<String, dynamic> _$TokenRefreshResponseDtoToJson(
   _TokenRefreshResponseDto instance,
-) => <String, dynamic>{
-  'accessToken': instance.accessToken,
-  'refreshToken': instance.refreshToken,
-  'expiresIn': instance.expiresIn,
-  'tokenType': instance.tokenType,
-};
+) =>
+    <String, dynamic>{
+      'accessToken': instance.accessToken,
+      'refreshToken': instance.refreshToken,
+      'expiresIn': instance.expiresIn,
+      'tokenType': instance.tokenType,
+    };

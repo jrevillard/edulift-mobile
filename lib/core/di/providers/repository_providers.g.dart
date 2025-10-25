@@ -30,14 +30,14 @@ String _$invitationRepositoryHash() =>
 @ProviderFor(invitationRepository)
 final invitationRepositoryProvider =
     AutoDisposeProvider<InvitationRepository>.internal(
-      invitationRepository,
-      name: r'invitationRepositoryProvider',
-      debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-          ? null
-          : _$invitationRepositoryHash,
-      dependencies: null,
-      allTransitiveDependencies: null,
-    );
+  invitationRepository,
+  name: r'invitationRepositoryProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$invitationRepositoryHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
 
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
@@ -66,14 +66,14 @@ String _$scheduleRepositoryHash() =>
 @ProviderFor(scheduleRepository)
 final scheduleRepositoryProvider =
     AutoDisposeProvider<GroupScheduleRepository>.internal(
-      scheduleRepository,
-      name: r'scheduleRepositoryProvider',
-      debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-          ? null
-          : _$scheduleRepositoryHash,
-      dependencies: null,
-      allTransitiveDependencies: null,
-    );
+  scheduleRepository,
+  name: r'scheduleRepositoryProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$scheduleRepositoryHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
 
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element

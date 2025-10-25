@@ -74,10 +74,9 @@ sealed class SchedulePeriod extends Equatable {
   /// Gets a display string for this period
   String get displayString {
     return switch (this) {
-      AggregatePeriod(:final type, :final timeSlots) =>
-        timeSlots.isEmpty
-            ? type.label
-            : '${type.label} (${timeSlots.first.toApiFormat()} - ${timeSlots.last.toApiFormat()})',
+      AggregatePeriod(:final type, :final timeSlots) => timeSlots.isEmpty
+          ? type.label
+          : '${type.label} (${timeSlots.first.toApiFormat()} - ${timeSlots.last.toApiFormat()})',
       SpecificTimeSlot(:final timeSlot) => timeSlot.toApiFormat(),
     };
   }
@@ -101,9 +100,10 @@ class AggregatePeriod extends SchedulePeriod {
     required PeriodType type,
     required List<String> timeStrings,
   }) {
-    final timeSlots =
-        timeStrings.map((timeStr) => TimeOfDayValue.parse(timeStr)).toList()
-          ..sort((a, b) => a.compareTo(b));
+    final timeSlots = timeStrings
+        .map((timeStr) => TimeOfDayValue.parse(timeStr))
+        .toList()
+      ..sort((a, b) => a.compareTo(b));
 
     return AggregatePeriod(type: type, timeSlots: timeSlots);
   }

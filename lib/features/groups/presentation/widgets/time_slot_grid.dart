@@ -333,9 +333,8 @@ class _TimeSlotGridState extends ConsumerState<TimeSlotGrid> {
               ),
             ),
             ElevatedButton.icon(
-              onPressed: _workingSlots.length < widget.maxSlots
-                  ? _addTimeSlot
-                  : null,
+              onPressed:
+                  _workingSlots.length < widget.maxSlots ? _addTimeSlot : null,
               icon: Icon(
                 Icons.add,
                 size: context.getAdaptiveIconSize(

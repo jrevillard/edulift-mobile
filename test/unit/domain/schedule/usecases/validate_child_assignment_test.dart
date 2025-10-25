@@ -28,7 +28,6 @@ void main() {
           assignedBy: 'user-1',
           vehicleName: 'School Van',
           capacity: 8,
-
           createdAt: testDateTime,
           updatedAt: testDateTime,
         );
@@ -59,7 +58,6 @@ void main() {
           assignedBy: 'user-1',
           vehicleName: 'School Van',
           capacity: 3,
-
           createdAt: testDateTime,
           updatedAt: testDateTime,
         );
@@ -95,7 +93,6 @@ void main() {
           assignedBy: 'user-1',
           vehicleName: 'School Van',
           capacity: 2,
-
           createdAt: testDateTime,
           updatedAt: testDateTime,
         );
@@ -129,7 +126,6 @@ void main() {
           assignedBy: 'user-1',
           vehicleName: 'School Van',
           capacity: 5,
-
           createdAt: testDateTime,
           updatedAt: testDateTime,
         );

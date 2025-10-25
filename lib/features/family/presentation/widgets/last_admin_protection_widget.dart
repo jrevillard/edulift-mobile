@@ -31,9 +31,8 @@ class LastAdminProtectionWidget extends ConsumerWidget {
     final localizations = AppLocalizations.of(context);
 
     // Check if user is the last admin
-    final adminCount = family.members
-        .where((m) => m.role == FamilyRole.admin)
-        .length;
+    final adminCount =
+        family.members.where((m) => m.role == FamilyRole.admin).length;
     final isLastAdmin = currentUser.role == FamilyRole.admin && adminCount == 1;
 
     if (!isLastAdmin) {
@@ -208,9 +207,8 @@ class _ProtectionOptionCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final color = isDangerous
-        ? theme.colorScheme.error
-        : theme.colorScheme.primary;
+    final color =
+        isDangerous ? theme.colorScheme.error : theme.colorScheme.primary;
 
     return InkWell(
       onTap: onTap,
@@ -325,9 +323,8 @@ class _TransferOwnershipDialog extends StatelessWidget {
     final localizations = AppLocalizations.of(context);
 
     // Get all other members
-    final otherMembers = family.members
-        .where((m) => m.id != currentUser.id)
-        .toList();
+    final otherMembers =
+        family.members.where((m) => m.id != currentUser.id).toList();
 
     return AlertDialog(
       title: Text(localizations.transferOwnership),

@@ -37,13 +37,11 @@ class UserStatusCheckState {
     return UserStatusCheckState(
       userStatus: clearUserStatus ? null : (userStatus ?? this.userStatus),
       isCheckingUserStatus: isCheckingUserStatus ?? this.isCheckingUserStatus,
-      pendingEmail: clearPendingEmail
-          ? null
-          : (pendingEmail ?? this.pendingEmail),
+      pendingEmail:
+          clearPendingEmail ? null : (pendingEmail ?? this.pendingEmail),
       showNameField: showNameField ?? this.showNameField,
-      welcomeMessage: clearWelcomeMessage
-          ? null
-          : (welcomeMessage ?? this.welcomeMessage),
+      welcomeMessage:
+          clearWelcomeMessage ? null : (welcomeMessage ?? this.welcomeMessage),
       error: clearError ? null : (error ?? this.error),
     );
   }
@@ -56,7 +54,7 @@ class UserStatusCheckerService extends StateNotifier<UserStatusCheckState> {
   final ErrorHandlerService _errorHandlerService;
 
   UserStatusCheckerService(this._userStatusService, this._errorHandlerService)
-    : super(const UserStatusCheckState());
+      : super(const UserStatusCheckState());
 
   /// Check user status to determine if name field should be shown
   Future<void> checkUserStatus(String email) async {

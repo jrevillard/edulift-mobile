@@ -282,8 +282,8 @@ class _FamilyConflictResolutionDialogState
     final color = isDangerous
         ? theme.colorScheme.error
         : isSelected
-        ? theme.colorScheme.primary
-        : null;
+            ? theme.colorScheme.primary
+            : null;
 
     return InkWell(
       onTap: _isProcessing

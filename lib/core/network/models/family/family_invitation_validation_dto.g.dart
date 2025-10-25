@@ -8,35 +8,37 @@ part of 'family_invitation_validation_dto.dart';
 
 _FamilyInvitationValidationDto _$FamilyInvitationValidationDtoFromJson(
   Map<String, dynamic> json,
-) => _FamilyInvitationValidationDto(
-  valid: json['valid'] as bool,
-  familyId: json['familyId'] as String?,
-  familyName: json['familyName'] as String?,
-  inviterName: json['inviterName'] as String?,
-  role: json['role'] as String?,
-  expiresAt: json['expiresAt'] == null
-      ? null
-      : DateTime.parse(json['expiresAt'] as String),
-  error: json['error'] as String?,
-  errorCode: json['errorCode'] as String?,
-  requiresAuth: json['requiresAuth'] as bool?,
-  alreadyMember: json['alreadyMember'] as bool?,
-);
+) =>
+    _FamilyInvitationValidationDto(
+      valid: json['valid'] as bool,
+      familyId: json['familyId'] as String?,
+      familyName: json['familyName'] as String?,
+      inviterName: json['inviterName'] as String?,
+      role: json['role'] as String?,
+      expiresAt: json['expiresAt'] == null
+          ? null
+          : DateTime.parse(json['expiresAt'] as String),
+      error: json['error'] as String?,
+      errorCode: json['errorCode'] as String?,
+      requiresAuth: json['requiresAuth'] as bool?,
+      alreadyMember: json['alreadyMember'] as bool?,
+    );
 
 Map<String, dynamic> _$FamilyInvitationValidationDtoToJson(
   _FamilyInvitationValidationDto instance,
-) => <String, dynamic>{
-  'valid': instance.valid,
-  'familyId': instance.familyId,
-  'familyName': instance.familyName,
-  'inviterName': instance.inviterName,
-  'role': instance.role,
-  'expiresAt': instance.expiresAt?.toIso8601String(),
-  'error': instance.error,
-  'errorCode': instance.errorCode,
-  'requiresAuth': instance.requiresAuth,
-  'alreadyMember': instance.alreadyMember,
-};
+) =>
+    <String, dynamic>{
+      'valid': instance.valid,
+      'familyId': instance.familyId,
+      'familyName': instance.familyName,
+      'inviterName': instance.inviterName,
+      'role': instance.role,
+      'expiresAt': instance.expiresAt?.toIso8601String(),
+      'error': instance.error,
+      'errorCode': instance.errorCode,
+      'requiresAuth': instance.requiresAuth,
+      'alreadyMember': instance.alreadyMember,
+    };
 
 _PermissionsDto _$PermissionsDtoFromJson(Map<String, dynamic> json) =>
     _PermissionsDto(

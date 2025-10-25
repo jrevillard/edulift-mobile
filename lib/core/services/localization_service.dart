@@ -36,7 +36,7 @@ class LocalizationServiceImpl implements LocalizationService {
   }
 
   LocalizationServiceImpl(this._storage)
-    : _localeController = StreamController<LocaleInfo>.broadcast() {
+      : _localeController = StreamController<LocaleInfo>.broadcast() {
     _initializeLocale();
   }
 

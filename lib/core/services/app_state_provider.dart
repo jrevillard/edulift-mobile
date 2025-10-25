@@ -9,7 +9,7 @@ class AppState extends Equatable {
   final String? error;
   final bool isSyncing;
   final Map<String, int>
-  featureLoading; // FIXED: Reference counting for race condition
+      featureLoading; // FIXED: Reference counting for race condition
   final int pendingSyncItems;
   final DateTime? lastSyncTime;
 
@@ -43,13 +43,13 @@ class AppState extends Equatable {
 
   @override
   List<Object?> get props => [
-    isLoading,
-    error,
-    isSyncing,
-    featureLoading,
-    pendingSyncItems,
-    lastSyncTime,
-  ];
+        isLoading,
+        error,
+        isSyncing,
+        featureLoading,
+        pendingSyncItems,
+        lastSyncTime,
+      ];
 }
 
 class AppStateNotifier extends StateNotifier<AppState> {

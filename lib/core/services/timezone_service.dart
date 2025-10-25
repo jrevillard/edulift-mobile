@@ -220,8 +220,7 @@ class TimezoneService {
 
       // Check if the string contains timezone offset info
       // Look for patterns like +05:00, -04:00, +0530, or trailing Z
-      final hasTimezoneInfo =
-          localTime.endsWith('Z') ||
+      final hasTimezoneInfo = localTime.endsWith('Z') ||
           RegExp(r'[+-]\d{2}:\d{2}$').hasMatch(localTime) ||
           RegExp(r'[+-]\d{4}$').hasMatch(localTime);
 

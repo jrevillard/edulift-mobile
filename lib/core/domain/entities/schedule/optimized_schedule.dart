@@ -55,17 +55,17 @@ class OptimizedSchedule extends Equatable {
 
   @override
   List<Object?> get props => [
-    id,
-    originalSchedule,
-    optimizedSchedule,
-    criteria,
-    optimizationScore,
-    improvements,
-    resolvedConflicts,
-    optimizedAt,
-    optimizationTime,
-    notes,
-  ];
+        id,
+        originalSchedule,
+        optimizedSchedule,
+        criteria,
+        optimizationScore,
+        improvements,
+        resolvedConflicts,
+        optimizedAt,
+        optimizationTime,
+        notes,
+      ];
 
   OptimizedSchedule copyWith({
     String? id,

@@ -859,18 +859,17 @@ class AuthServiceImpl implements AuthService {
       // PHASE 2: Try to revoke tokens on backend first (with timeout)
       // This ensures refresh tokens are properly invalidated server-side
       try {
-        final response =
-            await ApiResponseHelper.execute<void>(
-              () => _apiClient.logout(),
-            ).timeout(
-              const Duration(seconds: 5),
-              onTimeout: () {
-                AppLogger.warning(
-                  '⚠️ [Auth] Backend logout timed out after 5s',
-                );
-                throw TimeoutException('Backend logout timeout');
-              },
+        final response = await ApiResponseHelper.execute<void>(
+          () => _apiClient.logout(),
+        ).timeout(
+          const Duration(seconds: 5),
+          onTimeout: () {
+            AppLogger.warning(
+              '⚠️ [Auth] Backend logout timed out after 5s',
             );
+            throw TimeoutException('Backend logout timeout');
+          },
+        );
         response.unwrap();
         AppLogger.info('✅ [Auth] Backend tokens revoked successfully');
       } catch (e) {

@@ -106,8 +106,7 @@ void main() {
       final familyNameText = find.textContaining('Family Name');
       final nameText = find.textContaining('Name');
 
-      final hasNameField =
-          familyNameText.evaluate().isNotEmpty ||
+      final hasNameField = familyNameText.evaluate().isNotEmpty ||
           nameText.evaluate().isNotEmpty;
       expect(hasNameField, isTrue);
       expect(find.byType(TextFormField), findsAtLeastNWidgets(1));
@@ -180,8 +179,7 @@ void main() {
       final semantics = find.byType(Semantics);
       final textFormField = find.byType(TextFormField);
 
-      final hasAccessibilityElements =
-          semantics.evaluate().isNotEmpty ||
+      final hasAccessibilityElements = semantics.evaluate().isNotEmpty ||
           textFormField.evaluate().isNotEmpty;
       expect(hasAccessibilityElements, isTrue);
       SimpleWidgetTestHelper.verifyNoExceptions(tester);

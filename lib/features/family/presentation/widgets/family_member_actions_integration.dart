@@ -30,45 +30,47 @@ class FamilyMemberActionsIntegration extends ConsumerWidget {
       body: familyState.isLoading
           ? const Center(child: CircularProgressIndicator())
           : familyState.family == null
-          ? Center(child: Text(AppLocalizations.of(context).noFamilyFound))
-          : SingleChildScrollView(
-              padding: const EdgeInsets.all(16),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  // Invite Member Widget (Admin only)
-                  if (_isCurrentUserAdmin(
-                    familyState.family!.members,
-                    currentUser?.id,
-                  )) ...[
-                    Text(
-                      AppLocalizations.of(context).inviteNewMember,
-                      style: Theme.of(context).textTheme.headlineSmall,
-                    ),
-                    const SizedBox(height: 16),
-                    InviteMemberWidget(
-                      onInvitationSent: () {
-                        // Refresh family data after invitation
-                        ref.read(familyComposedProvider.notifier).loadFamily();
-                      },
-                    ),
-                    const SizedBox(height: 32),
-                  ],
+              ? Center(child: Text(AppLocalizations.of(context).noFamilyFound))
+              : SingleChildScrollView(
+                  padding: const EdgeInsets.all(16),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      // Invite Member Widget (Admin only)
+                      if (_isCurrentUserAdmin(
+                        familyState.family!.members,
+                        currentUser?.id,
+                      )) ...[
+                        Text(
+                          AppLocalizations.of(context).inviteNewMember,
+                          style: Theme.of(context).textTheme.headlineSmall,
+                        ),
+                        const SizedBox(height: 16),
+                        InviteMemberWidget(
+                          onInvitationSent: () {
+                            // Refresh family data after invitation
+                            ref
+                                .read(familyComposedProvider.notifier)
+                                .loadFamily();
+                          },
+                        ),
+                        const SizedBox(height: 32),
+                      ],
 
-                  // Family Members List
-                  Text(
-                    AppLocalizations.of(context).familyMembers,
-                    style: Theme.of(context).textTheme.headlineSmall,
-                  ),
-                  const SizedBox(height: 16),
+                      // Family Members List
+                      Text(
+                        AppLocalizations.of(context).familyMembers,
+                        style: Theme.of(context).textTheme.headlineSmall,
+                      ),
+                      const SizedBox(height: 16),
 
-                  ...familyState.family!.members.map(
-                    (member) =>
-                        _buildMemberCard(context, ref, member, currentUser?.id),
+                      ...familyState.family!.members.map(
+                        (member) => _buildMemberCard(
+                            context, ref, member, currentUser?.id),
+                      ),
+                    ],
                   ),
-                ],
-              ),
-            ),
+                ),
     );
   }
 
@@ -267,9 +269,8 @@ class FamilyMemberActionsIntegration extends ConsumerWidget {
   bool _isCurrentUserAdmin(List<FamilyMember> members, String? currentUserId) {
     if (currentUserId == null) return false;
 
-    final currentMember = members
-        .where((m) => m.userId == currentUserId)
-        .firstOrNull;
+    final currentMember =
+        members.where((m) => m.userId == currentUserId).firstOrNull;
     return currentMember?.role == FamilyRole.admin;
   }
 }

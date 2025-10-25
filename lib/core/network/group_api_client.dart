@@ -340,7 +340,8 @@ class GroupInvitationValidationResponse {
 
   factory GroupInvitationValidationResponse.fromJson(
     Map<String, dynamic> json,
-  ) => _$GroupInvitationValidationResponseFromJson(json);
+  ) =>
+      _$GroupInvitationValidationResponseFromJson(json);
   Map<String, dynamic> toJson() =>
       _$GroupInvitationValidationResponseToJson(this);
 }

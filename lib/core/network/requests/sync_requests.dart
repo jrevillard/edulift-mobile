@@ -28,11 +28,11 @@ class SyncRequest extends Equatable {
   }
 
   Map<String, dynamic> toJson() => {
-    if (lastSyncTimestamp != null)
-      'lastSyncTimestamp': lastSyncTimestamp!.toIso8601String(),
-    if (includeTables != null) 'includeTables': includeTables,
-    'fullSync': fullSync,
-  };
+        if (lastSyncTimestamp != null)
+          'lastSyncTimestamp': lastSyncTimestamp!.toIso8601String(),
+        if (includeTables != null) 'includeTables': includeTables,
+        'fullSync': fullSync,
+      };
 
   @override
   List<Object?> get props => [lastSyncTimestamp, includeTables, fullSync];
@@ -58,9 +58,9 @@ class IncrementalSyncRequest extends Equatable {
   }
 
   Map<String, dynamic> toJson() => {
-    'lastSyncTimestamp': lastSyncTimestamp.toIso8601String(),
-    if (changedTables != null) 'changedTables': changedTables,
-  };
+        'lastSyncTimestamp': lastSyncTimestamp.toIso8601String(),
+        if (changedTables != null) 'changedTables': changedTables,
+      };
 
   @override
   List<Object?> get props => [lastSyncTimestamp, changedTables];
@@ -87,10 +87,10 @@ class ResolveSyncConflictRequest extends Equatable {
   }
 
   Map<String, dynamic> toJson() => {
-    'conflictId': conflictId,
-    'resolution': resolution,
-    'resolvedData': resolvedData,
-  };
+        'conflictId': conflictId,
+        'resolution': resolution,
+        'resolvedData': resolvedData,
+      };
 
   @override
   List<Object?> get props => [conflictId, resolution, resolvedData];

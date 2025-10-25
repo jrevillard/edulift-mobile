@@ -47,7 +47,8 @@ _ChildAssignmentsDto _$ChildAssignmentsDtoFromJson(Map<String, dynamic> json) =>
 
 Map<String, dynamic> _$ChildAssignmentsDtoToJson(
   _ChildAssignmentsDto instance,
-) => <String, dynamic>{'assignments': instance.assignments};
+) =>
+    <String, dynamic>{'assignments': instance.assignments};
 
 _GroupMembershipDto _$GroupMembershipDtoFromJson(Map<String, dynamic> json) =>
     _GroupMembershipDto(
@@ -69,12 +70,14 @@ Map<String, dynamic> _$GroupMembershipDtoToJson(_GroupMembershipDto instance) =>
 
 _ChildGroupMembershipsDto _$ChildGroupMembershipsDtoFromJson(
   Map<String, dynamic> json,
-) => _ChildGroupMembershipsDto(
-  memberships: (json['memberships'] as List<dynamic>)
-      .map((e) => GroupMembershipDto.fromJson(e as Map<String, dynamic>))
-      .toList(),
-);
+) =>
+    _ChildGroupMembershipsDto(
+      memberships: (json['memberships'] as List<dynamic>)
+          .map((e) => GroupMembershipDto.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
 
 Map<String, dynamic> _$ChildGroupMembershipsDtoToJson(
   _ChildGroupMembershipsDto instance,
-) => <String, dynamic>{'memberships': instance.memberships};
+) =>
+    <String, dynamic>{'memberships': instance.memberships};

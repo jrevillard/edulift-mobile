@@ -57,8 +57,7 @@ class I18nSafeTestPatterns {
     expect(
       finder,
       findsOneWidget,
-      reason:
-          'Content with localization key "$contentKey" should exist'
+      reason: 'Content with localization key "$contentKey" should exist'
           '${context != null ? ' in context: $context' : ''}',
     );
   }
@@ -69,8 +68,7 @@ class I18nSafeTestPatterns {
     expect(
       finder,
       findsNothing,
-      reason:
-          'Content with localization key "$contentKey" should not exist'
+      reason: 'Content with localization key "$contentKey" should not exist'
           '${context != null ? ' in context: $context' : ''}',
     );
   }
@@ -81,8 +79,7 @@ class I18nSafeTestPatterns {
     expect(
       finder,
       findsOneWidget,
-      reason:
-          'Button with localization key "$buttonKey" should exist'
+      reason: 'Button with localization key "$buttonKey" should exist'
           '${context != null ? ' in context: $context' : ''}',
     );
   }
@@ -93,8 +90,7 @@ class I18nSafeTestPatterns {
     expect(
       finder,
       findsOneWidget,
-      reason:
-          'Form field with localization key "$fieldKey" should exist'
+      reason: 'Form field with localization key "$fieldKey" should exist'
           '${context != null ? ' in context: $context' : ''}',
     );
   }
@@ -153,8 +149,7 @@ class I18nSafeTestPatterns {
     expect(
       iconFinder,
       findsOneWidget,
-      reason:
-          'Icon $expectedIcon should be found in widget $widgetTestId'
+      reason: 'Icon $expectedIcon should be found in widget $widgetTestId'
           '${context != null ? ' in context: $context' : ''}',
     );
   }
@@ -214,8 +209,7 @@ class I18nSafeTestPatterns {
     expect(
       currentRoute,
       equals(expectedRouteName),
-      reason:
-          'Current route should be $expectedRouteName'
+      reason: 'Current route should be $expectedRouteName'
           '${context != null ? ' in context: $context' : ''}',
     );
   }
@@ -282,8 +276,7 @@ class I18nSafeTestPatterns {
       expect(
         itemsFinder,
         findsNWidgets(expectedCount),
-        reason:
-            'List $listTestId should contain $expectedCount ListTile items'
+        reason: 'List $listTestId should contain $expectedCount ListTile items'
             '${context != null ? ' in context: $context' : ''}',
       );
     }
@@ -313,16 +306,14 @@ class I18nSafeTestPatterns {
       expect(
         itemsFinder,
         findsNothing,
-        reason:
-            'Empty list $listTestId should have no ListTile items'
+        reason: 'Empty list $listTestId should have no ListTile items'
             '${context != null ? ' in context: $context' : ''}',
       );
     } else {
       expect(
         emptyStateFinder,
         findsOneWidget,
-        reason:
-            'List $listTestId should show empty state indicator'
+        reason: 'List $listTestId should show empty state indicator'
             '${context != null ? ' in context: $context' : ''}',
       );
     }
@@ -338,8 +329,7 @@ class I18nSafeTestPatterns {
     expect(
       dialogFinder,
       findsOneWidget,
-      reason:
-          'Dialog of type $T should be visible'
+      reason: 'Dialog of type $T should be visible'
           '${context != null ? ' in context: $context' : ''}',
     );
   }
@@ -350,8 +340,7 @@ class I18nSafeTestPatterns {
     expect(
       dialogFinder,
       findsOneWidget,
-      reason:
-          'Confirmation dialog should be visible'
+      reason: 'Confirmation dialog should be visible'
           '${context != null ? ' in context: $context' : ''}',
     );
 
@@ -364,8 +353,7 @@ class I18nSafeTestPatterns {
     expect(
       buttonsFinder,
       findsNWidgets(2),
-      reason:
-          'Confirmation dialog should have 2 action buttons'
+      reason: 'Confirmation dialog should have 2 action buttons'
           '${context != null ? ' in context: $context' : ''}',
     );
   }
@@ -380,8 +368,7 @@ class I18nSafeTestPatterns {
     expect(
       finder,
       findsOneWidget,
-      reason:
-          'Widget with testId $testId should exist for tapping'
+      reason: 'Widget with testId $testId should exist for tapping'
           '${context != null ? ' in context: $context' : ''}',
     );
 
@@ -399,8 +386,7 @@ class I18nSafeTestPatterns {
     expect(
       finder,
       findsOneWidget,
-      reason:
-          'Text field with testId $fieldTestId should exist'
+      reason: 'Text field with testId $fieldTestId should exist'
           '${context != null ? ' in context: $context' : ''}',
     );
 
@@ -418,8 +404,7 @@ class I18nSafeTestPatterns {
     expect(
       dropdownFinder,
       findsOneWidget,
-      reason:
-          'Dropdown with testId $dropdownTestId should exist'
+      reason: 'Dropdown with testId $dropdownTestId should exist'
           '${context != null ? ' in context: $context' : ''}',
     );
 
@@ -499,16 +484,14 @@ class I18nSafeTestPatterns {
       expect(
         finder,
         findsOneWidget,
-        reason:
-            'Widget with testId $testId should be visible'
+        reason: 'Widget with testId $testId should be visible'
             '${context != null ? ' in context: $context' : ''}',
       );
     } else {
       expect(
         finder,
         findsNothing,
-        reason:
-            'Widget with testId $testId should not be visible'
+        reason: 'Widget with testId $testId should not be visible'
             '${context != null ? ' in context: $context' : ''}',
       );
     }

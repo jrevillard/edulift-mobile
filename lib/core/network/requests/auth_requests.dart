@@ -127,10 +127,10 @@ class UpdateProfileRequest extends Equatable {
   }
 
   Map<String, dynamic> toJson() => {
-    if (name != null) 'name': name,
-    if (email != null) 'email': email,
-    if (timezone != null) 'timezone': timezone,
-  };
+        if (name != null) 'name': name,
+        if (email != null) 'email': email,
+        if (timezone != null) 'timezone': timezone,
+      };
 
   @override
   List<Object?> get props => [name, email, timezone];

@@ -8,21 +8,23 @@ part of 'validation_error.dart';
 
 ValidationErrorResponse _$ValidationErrorResponseFromJson(
   Map<String, dynamic> json,
-) => ValidationErrorResponse(
-  message: json['message'] as String,
-  errors: (json['errors'] as List<dynamic>)
-      .map((e) => ValidationError.fromJson(e as Map<String, dynamic>))
-      .toList(),
-  statusCode: (json['statusCode'] as num).toInt(),
-);
+) =>
+    ValidationErrorResponse(
+      message: json['message'] as String,
+      errors: (json['errors'] as List<dynamic>)
+          .map((e) => ValidationError.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      statusCode: (json['statusCode'] as num).toInt(),
+    );
 
 Map<String, dynamic> _$ValidationErrorResponseToJson(
   ValidationErrorResponse instance,
-) => <String, dynamic>{
-  'message': instance.message,
-  'errors': instance.errors,
-  'statusCode': instance.statusCode,
-};
+) =>
+    <String, dynamic>{
+      'message': instance.message,
+      'errors': instance.errors,
+      'statusCode': instance.statusCode,
+    };
 
 ValidationError _$ValidationErrorFromJson(Map<String, dynamic> json) =>
     ValidationError(

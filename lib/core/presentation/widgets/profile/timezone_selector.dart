@@ -630,8 +630,8 @@ class _TimezoneSelectorState extends ConsumerState<TimezoneSelector> {
                 Text(
                   'Timezone',
                   style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                    fontWeight: FontWeight.w600,
-                  ),
+                        fontWeight: FontWeight.w600,
+                      ),
                 ),
               ],
             ),
@@ -645,8 +645,8 @@ class _TimezoneSelectorState extends ConsumerState<TimezoneSelector> {
             Text(
               'Local time: ${_getLocalTime(currentTimezone)}',
               style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                color: Theme.of(context).colorScheme.onSurfaceVariant,
-              ),
+                    color: Theme.of(context).colorScheme.onSurfaceVariant,
+                  ),
             ),
             const SizedBox(height: 16),
             // Search field for filtering timezones
@@ -670,8 +670,8 @@ class _TimezoneSelectorState extends ConsumerState<TimezoneSelector> {
               key: const Key('timezone_dropdown'),
               initialValue:
                   _filteredTimezones.any((tz) => tz.iana == currentTimezone)
-                  ? currentTimezone
-                  : null,
+                      ? currentTimezone
+                      : null,
               decoration: InputDecoration(
                 border: const OutlineInputBorder(),
                 contentPadding: const EdgeInsets.symmetric(

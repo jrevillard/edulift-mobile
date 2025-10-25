@@ -7,13 +7,13 @@ part of 'fcm_token_dto.dart';
 // **************************************************************************
 
 _FcmTokenDto _$FcmTokenDtoFromJson(Map<String, dynamic> json) => _FcmTokenDto(
-  id: json['id'] as String,
-  platform: json['platform'] as String,
-  isActive: json['isActive'] as bool,
-  deviceId: json['deviceId'] as String?,
-  createdAt: json['createdAt'] as String?,
-  lastUsed: json['lastUsed'] as String?,
-);
+      id: json['id'] as String,
+      platform: json['platform'] as String,
+      isActive: json['isActive'] as bool,
+      deviceId: json['deviceId'] as String?,
+      createdAt: json['createdAt'] as String?,
+      lastUsed: json['lastUsed'] as String?,
+    );
 
 Map<String, dynamic> _$FcmTokenDtoToJson(_FcmTokenDto instance) =>
     <String, dynamic>{
@@ -75,18 +75,19 @@ _TestNotificationDto _$TestNotificationDtoFromJson(Map<String, dynamic> json) =>
 
 Map<String, dynamic> _$TestNotificationDtoToJson(
   _TestNotificationDto instance,
-) => <String, dynamic>{
-  'successCount': instance.successCount,
-  'failureCount': instance.failureCount,
-  'invalidTokens': instance.invalidTokens,
-  'totalTokens': instance.totalTokens,
-};
+) =>
+    <String, dynamic>{
+      'successCount': instance.successCount,
+      'failureCount': instance.failureCount,
+      'invalidTokens': instance.invalidTokens,
+      'totalTokens': instance.totalTokens,
+    };
 
 _FcmStatsDto _$FcmStatsDtoFromJson(Map<String, dynamic> json) => _FcmStatsDto(
-  userTokenCount: (json['userTokenCount'] as num).toInt(),
-  serviceAvailable: json['serviceAvailable'] as bool,
-  platforms: Map<String, int>.from(json['platforms'] as Map),
-);
+      userTokenCount: (json['userTokenCount'] as num).toInt(),
+      serviceAvailable: json['serviceAvailable'] as bool,
+      platforms: Map<String, int>.from(json['platforms'] as Map),
+    );
 
 Map<String, dynamic> _$FcmStatsDtoToJson(_FcmStatsDto instance) =>
     <String, dynamic>{

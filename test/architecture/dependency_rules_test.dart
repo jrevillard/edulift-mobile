@@ -207,8 +207,7 @@ void main() {
 
                 if (violatesIsolationRule) {
                   // Allow some exceptions for cross-feature dependencies through composition roots
-                  final isAllowedException =
-                      (feature == 'schedule' &&
+                  final isAllowedException = (feature == 'schedule' &&
                           (otherFeature == 'family' ||
                               otherFeature == 'groups')) ||
                       import.contains('providers.dart');

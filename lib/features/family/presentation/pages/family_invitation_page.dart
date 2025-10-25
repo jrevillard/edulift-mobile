@@ -15,8 +15,7 @@ import 'package:edulift/core/presentation/widgets/invitation/invitation_loading_
 import 'package:edulift/core/presentation/widgets/invitation/invitation_manual_code_input.dart'
     show InvitationManualCodeInput;
 import 'package:edulift/core/presentation/widgets/invitation/invitation_manual_code_input.dart'
-    as ui
-    show InvitationType;
+    as ui show InvitationType;
 import 'package:edulift/core/presentation/widgets/accessibility/accessible_button.dart';
 import '../../../auth/presentation/widgets/email_with_progressive_name.dart';
 import '../../../../generated/l10n/app_localizations.dart';
@@ -101,12 +100,12 @@ class _FamilyInvitationPageState extends ConsumerState<FamilyInvitationPage>
               child: child,
             )
           : isSecondary
-          ? AccessibleButton.secondaryStyle(
-              key: key,
-              onPressed: onPressed,
-              child: child,
-            )
-          : AccessibleButton(key: key, onPressed: onPressed, child: child),
+              ? AccessibleButton.secondaryStyle(
+                  key: key,
+                  onPressed: onPressed,
+                  child: child,
+                )
+              : AccessibleButton(key: key, onPressed: onPressed, child: child),
     );
   }
 
@@ -123,8 +122,7 @@ class _FamilyInvitationPageState extends ConsumerState<FamilyInvitationPage>
     if (widget.inviteCode != null) {
       // Get current user email - CRITICAL FIX: Use actual user email instead of hardcoded
       final currentUser = ref.read(currentUserProvider);
-      final email =
-          currentUser?.email ??
+      final email = currentUser?.email ??
           _emailController.text
               .trim(); // VALIDATION: Ensure we have a valid email - handled by form validation
       if (email.isEmpty) return;
@@ -148,13 +146,10 @@ class _FamilyInvitationPageState extends ConsumerState<FamilyInvitationPage>
 
       // Use progressive disclosure logic like Login page
       final authState = ref.read(authStateProvider);
-      final nameToSend = authState.showNameField
-          ? _nameController.text.trim()
-          : null;
+      final nameToSend =
+          authState.showNameField ? _nameController.text.trim() : null;
 
-      await ref
-          .read(authStateProvider.notifier)
-          .sendMagicLink(
+      await ref.read(authStateProvider.notifier).sendMagicLink(
             email,
             name: nameToSend,
             inviteCode: widget.inviteCode,
@@ -179,9 +174,7 @@ class _FamilyInvitationPageState extends ConsumerState<FamilyInvitationPage>
         // NOTE: acceptInvitation already calls clearNavigation(), but we call it again
         // to ensure clean state before navigating
         ref.read(navigationStateProvider.notifier).clearNavigation();
-        ref
-            .read(navigationStateProvider.notifier)
-            .navigateTo(
+        ref.read(navigationStateProvider.notifier).navigateTo(
               route: '/dashboard',
               trigger: NavigationTrigger.userNavigation,
             );
@@ -345,9 +338,7 @@ class _FamilyInvitationPageState extends ConsumerState<FamilyInvitationPage>
   void _handleCancelInvitationCode() {
     // Navigate back to onboarding wizard
     ref.read(navigationStateProvider.notifier).clearNavigation();
-    ref
-        .read(navigationStateProvider.notifier)
-        .navigateTo(
+    ref.read(navigationStateProvider.notifier).navigateTo(
           route: '/onboarding/wizard',
           trigger: NavigationTrigger.userNavigation,
         );
@@ -377,9 +368,7 @@ class _FamilyInvitationPageState extends ConsumerState<FamilyInvitationPage>
         if (canGoBack) {
           Navigator.of(context).pop();
         } else {
-          ref
-              .read(navigationStateProvider.notifier)
-              .navigateTo(
+          ref.read(navigationStateProvider.notifier).navigateTo(
                 route: '/dashboard',
                 trigger: NavigationTrigger.userNavigation,
               );
@@ -396,8 +385,8 @@ class _FamilyInvitationPageState extends ConsumerState<FamilyInvitationPage>
     final invitation = state.validation!;
     final roleDisplay = invitation.role != null
         ? (_convertStringToFamilyRole(invitation.role) == FamilyRole.admin
-              ? 'Administrator'
-              : 'Member')
+            ? 'Administrator'
+            : 'Member')
         : null;
 
     return Column(
@@ -411,14 +400,13 @@ class _FamilyInvitationPageState extends ConsumerState<FamilyInvitationPage>
         SizedBox(height: isTablet ? 20 : 16),
         Text(
           'Family Invitation',
-          style:
-              (isTablet
-                      ? theme.textTheme.headlineSmall
-                      : theme.textTheme.titleLarge)
-                  ?.copyWith(
-                    color: theme.colorScheme.primary,
-                    fontWeight: FontWeight.bold,
-                  ),
+          style: (isTablet
+                  ? theme.textTheme.headlineSmall
+                  : theme.textTheme.titleLarge)
+              ?.copyWith(
+            color: theme.colorScheme.primary,
+            fontWeight: FontWeight.bold,
+          ),
         ),
         SizedBox(height: isTablet ? 16 : 12),
 
@@ -562,9 +550,7 @@ class _FamilyInvitationPageState extends ConsumerState<FamilyInvitationPage>
                 Navigator.of(context).pop();
               } else {
                 // No navigation history - go to dashboard
-                ref
-                    .read(navigationStateProvider.notifier)
-                    .navigateTo(
+                ref.read(navigationStateProvider.notifier).navigateTo(
                       route: '/dashboard',
                       trigger: NavigationTrigger.userNavigation,
                     );
@@ -604,9 +590,7 @@ class _FamilyInvitationPageState extends ConsumerState<FamilyInvitationPage>
                 Navigator.of(context).pop();
               } else {
                 // No navigation history - go to dashboard
-                ref
-                    .read(navigationStateProvider.notifier)
-                    .navigateTo(
+                ref.read(navigationStateProvider.notifier).navigateTo(
                       route: '/dashboard',
                       trigger: NavigationTrigger.userNavigation,
                     );
@@ -746,9 +730,7 @@ class _FamilyInvitationPageState extends ConsumerState<FamilyInvitationPage>
           onPressed: () async {
             // ARCHITECTURE FIX: Direct navigation after logout since targetRoute doesn't work
             await ref.read(authStateProvider.notifier).logout();
-            ref
-                .read(navigationStateProvider.notifier)
-                .navigateTo(
+            ref.read(navigationStateProvider.notifier).navigateTo(
                   route: '/auth/login',
                   trigger: NavigationTrigger.userNavigation,
                 );

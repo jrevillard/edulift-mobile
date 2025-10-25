@@ -70,7 +70,7 @@ class MemberActionBottomSheet extends ConsumerWidget {
                             : Text(
                                 member.displayNameOrLoading.isNotEmpty
                                     ? member.displayNameOrLoading[0]
-                                          .toUpperCase()
+                                        .toUpperCase()
                                     : '?',
                                 style: TextStyle(
                                   color: theme.colorScheme.onSecondaryContainer,

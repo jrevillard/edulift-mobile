@@ -480,9 +480,8 @@ void main() {
         expect(receivedEvents, hasLength(10));
 
         // Verify all unique slot IDs received
-        final receivedSlotIds = receivedEvents
-            .map((e) => e.scheduleSlotId)
-            .toSet();
+        final receivedSlotIds =
+            receivedEvents.map((e) => e.scheduleSlotId).toSet();
         expect(receivedSlotIds, hasLength(10));
 
         // Verify all events are from concurrent test

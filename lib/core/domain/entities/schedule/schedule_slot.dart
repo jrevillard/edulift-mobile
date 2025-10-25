@@ -84,16 +84,16 @@ class ScheduleSlot extends Equatable {
 
   @override
   List<Object?> get props => [
-    id,
-    groupId,
-    dayOfWeek,
-    timeOfDay,
-    week,
-    vehicleAssignments,
-    maxVehicles,
-    createdAt,
-    updatedAt,
-  ];
+        id,
+        groupId,
+        dayOfWeek,
+        timeOfDay,
+        week,
+        vehicleAssignments,
+        maxVehicles,
+        createdAt,
+        updatedAt,
+      ];
 }
 
 // VehicleAssignment class moved to separate file: vehicle_assignment.dart

@@ -27,7 +27,8 @@ void main() {
       }
     });
 
-    patrolTest('cross-user magic link attack is blocked by service layer security', (
+    patrolTest(
+        'cross-user magic link attack is blocked by service layer security', (
       $,
     ) async {
       // SIMPLE TEST: Use a hardcoded invalid magic link to test security validation

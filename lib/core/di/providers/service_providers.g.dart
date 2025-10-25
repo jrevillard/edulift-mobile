@@ -14,14 +14,14 @@ String _$userStatusServiceHash() => r'ee00ae4833adcd5e7550439333fa104dad13beba';
 @ProviderFor(userStatusService)
 final userStatusServiceProvider =
     AutoDisposeProvider<UserStatusService>.internal(
-      userStatusService,
-      name: r'userStatusServiceProvider',
-      debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-          ? null
-          : _$userStatusServiceHash,
-      dependencies: null,
-      allTransitiveDependencies: null,
-    );
+  userStatusService,
+  name: r'userStatusServiceProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$userStatusServiceHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
 
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
@@ -35,14 +35,14 @@ String _$biometricAuthServiceHash() =>
 @ProviderFor(biometricAuthService)
 final biometricAuthServiceProvider =
     AutoDisposeProvider<BiometricService>.internal(
-      biometricAuthService,
-      name: r'biometricAuthServiceProvider',
-      debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-          ? null
-          : _$biometricAuthServiceHash,
-      dependencies: null,
-      allTransitiveDependencies: null,
-    );
+  biometricAuthService,
+  name: r'biometricAuthServiceProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$biometricAuthServiceHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
 
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
@@ -56,19 +56,19 @@ String _$serviceAdaptiveStorageHash() =>
 @ProviderFor(serviceAdaptiveStorage)
 final serviceAdaptiveStorageProvider =
     AutoDisposeProvider<AdaptiveStorageService>.internal(
-      serviceAdaptiveStorage,
-      name: r'serviceAdaptiveStorageProvider',
-      debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-          ? null
-          : _$serviceAdaptiveStorageHash,
-      dependencies: null,
-      allTransitiveDependencies: null,
-    );
+  serviceAdaptiveStorage,
+  name: r'serviceAdaptiveStorageProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$serviceAdaptiveStorageHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
 
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
-typedef ServiceAdaptiveStorageRef =
-    AutoDisposeProviderRef<AdaptiveStorageService>;
+typedef ServiceAdaptiveStorageRef
+    = AutoDisposeProviderRef<AdaptiveStorageService>;
 String _$authServiceHash() => r'98e649cb8fd55402e624b797eb38c7fefe766aa3';
 
 /// AuthService provider - fully implemented core service with error handling
@@ -78,9 +78,8 @@ String _$authServiceHash() => r'98e649cb8fd55402e624b797eb38c7fefe766aa3';
 final authServiceProvider = AutoDisposeProvider<AuthService>.internal(
   authService,
   name: r'authServiceProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$authServiceHash,
+  debugGetCreateSourceHash:
+      const bool.fromEnvironment('dart.vm.product') ? null : _$authServiceHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
@@ -97,19 +96,19 @@ String _$coreErrorHandlerServiceHash() =>
 @ProviderFor(coreErrorHandlerService)
 final coreErrorHandlerServiceProvider =
     AutoDisposeProvider<ErrorHandlerService>.internal(
-      coreErrorHandlerService,
-      name: r'coreErrorHandlerServiceProvider',
-      debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-          ? null
-          : _$coreErrorHandlerServiceHash,
-      dependencies: null,
-      allTransitiveDependencies: null,
-    );
+  coreErrorHandlerService,
+  name: r'coreErrorHandlerServiceProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$coreErrorHandlerServiceHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
 
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
-typedef CoreErrorHandlerServiceRef =
-    AutoDisposeProviderRef<ErrorHandlerService>;
+typedef CoreErrorHandlerServiceRef
+    = AutoDisposeProviderRef<ErrorHandlerService>;
 String _$tokenRefreshServiceHash() =>
     r'61d12771e94aa0d8031e581db1ae094cd3a6537c';
 
@@ -130,14 +129,14 @@ String _$tokenRefreshServiceHash() =>
 @ProviderFor(tokenRefreshService)
 final tokenRefreshServiceProvider =
     AutoDisposeProvider<TokenRefreshService>.internal(
-      tokenRefreshService,
-      name: r'tokenRefreshServiceProvider',
-      debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-          ? null
-          : _$tokenRefreshServiceHash,
-      dependencies: null,
-      allTransitiveDependencies: null,
-    );
+  tokenRefreshService,
+  name: r'tokenRefreshServiceProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$tokenRefreshServiceHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
 
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
@@ -151,19 +150,19 @@ String _$localizationServiceHash() =>
 @ProviderFor(localizationService)
 final localizationServiceProvider =
     AutoDisposeProvider<localization_interface.LocalizationService>.internal(
-      localizationService,
-      name: r'localizationServiceProvider',
-      debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-          ? null
-          : _$localizationServiceHash,
-      dependencies: null,
-      allTransitiveDependencies: null,
-    );
+  localizationService,
+  name: r'localizationServiceProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$localizationServiceHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
 
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
-typedef LocalizationServiceRef =
-    AutoDisposeProviderRef<localization_interface.LocalizationService>;
+typedef LocalizationServiceRef
+    = AutoDisposeProviderRef<localization_interface.LocalizationService>;
 String _$realtimeWebSocketServiceHash() =>
     r'3d17772a013438028a3db671644ecae748195dc1';
 
@@ -173,19 +172,19 @@ String _$realtimeWebSocketServiceHash() =>
 @ProviderFor(realtimeWebSocketService)
 final realtimeWebSocketServiceProvider =
     AutoDisposeProvider<RealtimeWebSocketService>.internal(
-      realtimeWebSocketService,
-      name: r'realtimeWebSocketServiceProvider',
-      debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-          ? null
-          : _$realtimeWebSocketServiceHash,
-      dependencies: null,
-      allTransitiveDependencies: null,
-    );
+  realtimeWebSocketService,
+  name: r'realtimeWebSocketServiceProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$realtimeWebSocketServiceHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
 
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
-typedef RealtimeWebSocketServiceRef =
-    AutoDisposeProviderRef<RealtimeWebSocketService>;
+typedef RealtimeWebSocketServiceRef
+    = AutoDisposeProviderRef<RealtimeWebSocketService>;
 String _$comprehensiveFamilyDataServiceHash() =>
     r'3d66038d915914a59b866b933cb3fe808aee5f2f';
 
@@ -195,19 +194,19 @@ String _$comprehensiveFamilyDataServiceHash() =>
 @ProviderFor(comprehensiveFamilyDataService)
 final comprehensiveFamilyDataServiceProvider =
     AutoDisposeProvider<ComprehensiveFamilyDataService>.internal(
-      comprehensiveFamilyDataService,
-      name: r'comprehensiveFamilyDataServiceProvider',
-      debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-          ? null
-          : _$comprehensiveFamilyDataServiceHash,
-      dependencies: null,
-      allTransitiveDependencies: null,
-    );
+  comprehensiveFamilyDataService,
+  name: r'comprehensiveFamilyDataServiceProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$comprehensiveFamilyDataServiceHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
 
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
-typedef ComprehensiveFamilyDataServiceRef =
-    AutoDisposeProviderRef<ComprehensiveFamilyDataService>;
+typedef ComprehensiveFamilyDataServiceRef
+    = AutoDisposeProviderRef<ComprehensiveFamilyDataService>;
 String _$webSocketServiceHash() => r'271db1b5e695eeb6193af02f35b5958138040a00';
 
 /// WebSocketService provider - returns proper WebSocketService instance
@@ -274,14 +273,14 @@ String _$leaveFamilyUsecaseHash() =>
 @ProviderFor(leaveFamilyUsecase)
 final leaveFamilyUsecaseProvider =
     AutoDisposeProvider<LeaveFamilyUsecase>.internal(
-      leaveFamilyUsecase,
-      name: r'leaveFamilyUsecaseProvider',
-      debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-          ? null
-          : _$leaveFamilyUsecaseHash,
-      dependencies: null,
-      allTransitiveDependencies: null,
-    );
+  leaveFamilyUsecase,
+  name: r'leaveFamilyUsecaseProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$leaveFamilyUsecaseHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
 
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
@@ -295,19 +294,19 @@ String _$clearAllFamilyDataUsecaseHash() =>
 @ProviderFor(clearAllFamilyDataUsecase)
 final clearAllFamilyDataUsecaseProvider =
     AutoDisposeProvider<ClearAllFamilyDataUsecase>.internal(
-      clearAllFamilyDataUsecase,
-      name: r'clearAllFamilyDataUsecaseProvider',
-      debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-          ? null
-          : _$clearAllFamilyDataUsecaseHash,
-      dependencies: null,
-      allTransitiveDependencies: null,
-    );
+  clearAllFamilyDataUsecase,
+  name: r'clearAllFamilyDataUsecaseProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$clearAllFamilyDataUsecaseHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
 
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
-typedef ClearAllFamilyDataUsecaseRef =
-    AutoDisposeProviderRef<ClearAllFamilyDataUsecase>;
+typedef ClearAllFamilyDataUsecaseRef
+    = AutoDisposeProviderRef<ClearAllFamilyDataUsecase>;
 String _$invitationUsecaseHash() => r'7b0c84833d97054513a90fc2d226731cfbc06ed1';
 
 /// InvitationUsecase provider - domain layer invitation business logic
@@ -316,14 +315,14 @@ String _$invitationUsecaseHash() => r'7b0c84833d97054513a90fc2d226731cfbc06ed1';
 @ProviderFor(invitationUsecase)
 final invitationUsecaseProvider =
     AutoDisposeProvider<InvitationUseCase>.internal(
-      invitationUsecase,
-      name: r'invitationUsecaseProvider',
-      debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-          ? null
-          : _$invitationUsecaseHash,
-      dependencies: null,
-      allTransitiveDependencies: null,
-    );
+  invitationUsecase,
+  name: r'invitationUsecaseProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$invitationUsecaseHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
 
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
@@ -337,14 +336,14 @@ String _$magicLinkServiceHash() => r'd834788158e71929f0598f91d8e7d832e834abec';
 @ProviderFor(magicLinkService)
 final magicLinkServiceProvider =
     AutoDisposeProvider<IMagicLinkService>.internal(
-      magicLinkService,
-      name: r'magicLinkServiceProvider',
-      debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-          ? null
-          : _$magicLinkServiceHash,
-      dependencies: null,
-      allTransitiveDependencies: null,
-    );
+  magicLinkService,
+  name: r'magicLinkServiceProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$magicLinkServiceHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
 
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
@@ -358,19 +357,19 @@ String _$flutterLocalNotificationsPluginHash() =>
 @ProviderFor(flutterLocalNotificationsPlugin)
 final flutterLocalNotificationsPluginProvider =
     AutoDisposeProvider<FlutterLocalNotificationsPlugin>.internal(
-      flutterLocalNotificationsPlugin,
-      name: r'flutterLocalNotificationsPluginProvider',
-      debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-          ? null
-          : _$flutterLocalNotificationsPluginHash,
-      dependencies: null,
-      allTransitiveDependencies: null,
-    );
+  flutterLocalNotificationsPlugin,
+  name: r'flutterLocalNotificationsPluginProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$flutterLocalNotificationsPluginHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
 
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
-typedef FlutterLocalNotificationsPluginRef =
-    AutoDisposeProviderRef<FlutterLocalNotificationsPlugin>;
+typedef FlutterLocalNotificationsPluginRef
+    = AutoDisposeProviderRef<FlutterLocalNotificationsPlugin>;
 String _$firebaseMessagingHash() => r'6abf9bf6d98c4ba311760139587b2995df4c1508';
 
 /// Firebase Messaging provider
@@ -379,14 +378,14 @@ String _$firebaseMessagingHash() => r'6abf9bf6d98c4ba311760139587b2995df4c1508';
 @ProviderFor(firebaseMessaging)
 final firebaseMessagingProvider =
     AutoDisposeProvider<FirebaseMessaging>.internal(
-      firebaseMessaging,
-      name: r'firebaseMessagingProvider',
-      debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-          ? null
-          : _$firebaseMessagingHash,
-      dependencies: null,
-      allTransitiveDependencies: null,
-    );
+  firebaseMessaging,
+  name: r'firebaseMessagingProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$firebaseMessagingHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
 
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
@@ -400,19 +399,19 @@ String _$unifiedNotificationServiceHash() =>
 @ProviderFor(unifiedNotificationService)
 final unifiedNotificationServiceProvider =
     AutoDisposeProvider<UnifiedNotificationService>.internal(
-      unifiedNotificationService,
-      name: r'unifiedNotificationServiceProvider',
-      debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-          ? null
-          : _$unifiedNotificationServiceHash,
-      dependencies: null,
-      allTransitiveDependencies: null,
-    );
+  unifiedNotificationService,
+  name: r'unifiedNotificationServiceProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$unifiedNotificationServiceHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
 
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
-typedef UnifiedNotificationServiceRef =
-    AutoDisposeProviderRef<UnifiedNotificationService>;
+typedef UnifiedNotificationServiceRef
+    = AutoDisposeProviderRef<UnifiedNotificationService>;
 String _$notificationPermissionServiceHash() =>
     r'57d5bae8f53c4347a2bef76edd1eb63746b14bf6';
 
@@ -422,19 +421,19 @@ String _$notificationPermissionServiceHash() =>
 @ProviderFor(notificationPermissionService)
 final notificationPermissionServiceProvider =
     AutoDisposeProvider<NotificationPermissionService>.internal(
-      notificationPermissionService,
-      name: r'notificationPermissionServiceProvider',
-      debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-          ? null
-          : _$notificationPermissionServiceHash,
-      dependencies: null,
-      allTransitiveDependencies: null,
-    );
+  notificationPermissionService,
+  name: r'notificationPermissionServiceProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$notificationPermissionServiceHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
 
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
-typedef NotificationPermissionServiceRef =
-    AutoDisposeProviderRef<NotificationPermissionService>;
+typedef NotificationPermissionServiceRef
+    = AutoDisposeProviderRef<NotificationPermissionService>;
 String _$notificationBridgeServiceHash() =>
     r'68761358e3f962500a3ff0ffa873d4d082fb500d';
 
@@ -444,18 +443,18 @@ String _$notificationBridgeServiceHash() =>
 @ProviderFor(notificationBridgeService)
 final notificationBridgeServiceProvider =
     AutoDisposeProvider<NotificationBridgeService>.internal(
-      notificationBridgeService,
-      name: r'notificationBridgeServiceProvider',
-      debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-          ? null
-          : _$notificationBridgeServiceHash,
-      dependencies: null,
-      allTransitiveDependencies: null,
-    );
+  notificationBridgeService,
+  name: r'notificationBridgeServiceProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$notificationBridgeServiceHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
 
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
-typedef NotificationBridgeServiceRef =
-    AutoDisposeProviderRef<NotificationBridgeService>;
+typedef NotificationBridgeServiceRef
+    = AutoDisposeProviderRef<NotificationBridgeService>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

@@ -179,14 +179,13 @@ class _WeekdaySelectorState extends State<WeekdaySelector> {
               Expanded(
                 child: Text(
                   l10n.activeScheduleDays,
-                  style:
-                      (isTablet
-                              ? theme.textTheme.headlineSmall
-                              : theme.textTheme.titleLarge)
-                          ?.copyWith(
-                            fontWeight: FontWeight.w600,
-                            fontSize: (isTablet ? 26 : 22) * context.fontScale,
-                          ),
+                  style: (isTablet
+                          ? theme.textTheme.headlineSmall
+                          : theme.textTheme.titleLarge)
+                      ?.copyWith(
+                    fontWeight: FontWeight.w600,
+                    fontSize: (isTablet ? 26 : 22) * context.fontScale,
+                  ),
                 ),
               ),
               // Quick selection menu
@@ -275,14 +274,13 @@ class _WeekdaySelectorState extends State<WeekdaySelector> {
           // Selection info
           Text(
             l10n.daysSelected(_selectedDays.length),
-            style:
-                (isTablet
-                        ? theme.textTheme.bodyMedium
-                        : theme.textTheme.bodySmall)
-                    ?.copyWith(
-                      color: theme.colorScheme.onSurface.withValues(alpha: 0.7),
-                      fontSize: (isTablet ? 16 : 14) * context.fontScale,
-                    ),
+            style: (isTablet
+                    ? theme.textTheme.bodyMedium
+                    : theme.textTheme.bodySmall)
+                ?.copyWith(
+              color: theme.colorScheme.onSurface.withValues(alpha: 0.7),
+              fontSize: (isTablet ? 16 : 14) * context.fontScale,
+            ),
           ),
 
           SizedBox(
@@ -360,9 +358,8 @@ class _WeekdaySelectorState extends State<WeekdaySelector> {
                   ? theme.colorScheme.primary.withValues(alpha: 0.1)
                   : theme.colorScheme.surface,
               border: Border.all(
-                color: isSelected
-                    ? theme.colorScheme.primary
-                    : theme.dividerColor,
+                color:
+                    isSelected ? theme.colorScheme.primary : theme.dividerColor,
                 width: isSelected ? 2 : 1,
               ),
               borderRadius: BorderRadius.circular(context.isTablet ? 16 : 12),
@@ -399,41 +396,31 @@ class _WeekdaySelectorState extends State<WeekdaySelector> {
                 ),
                 Text(
                   abbreviation,
-                  style:
-                      (context.isTablet
-                              ? theme.textTheme.bodyMedium
-                              : theme.textTheme.bodySmall)
-                          ?.copyWith(
-                            color: isSelected
-                                ? theme.colorScheme.primary
-                                : theme.colorScheme.onSurface.withValues(
-                                    alpha: 0.6,
-                                  ),
-                            fontWeight: isSelected
-                                ? FontWeight.w600
-                                : FontWeight.w500,
-                            fontSize:
-                                (context.isTablet ? 14 : 12) *
-                                context.fontScale,
+                  style: (context.isTablet
+                          ? theme.textTheme.bodyMedium
+                          : theme.textTheme.bodySmall)
+                      ?.copyWith(
+                    color: isSelected
+                        ? theme.colorScheme.primary
+                        : theme.colorScheme.onSurface.withValues(
+                            alpha: 0.6,
                           ),
+                    fontWeight: isSelected ? FontWeight.w600 : FontWeight.w500,
+                    fontSize: (context.isTablet ? 14 : 12) * context.fontScale,
+                  ),
                 ),
                 Text(
                   day,
-                  style:
-                      (context.isTablet
-                              ? theme.textTheme.titleMedium
-                              : theme.textTheme.bodyLarge)
-                          ?.copyWith(
-                            color: isSelected
-                                ? theme.colorScheme.primary
-                                : theme.colorScheme.onSurface,
-                            fontWeight: isSelected
-                                ? FontWeight.w600
-                                : FontWeight.w500,
-                            fontSize:
-                                (context.isTablet ? 18 : 16) *
-                                context.fontScale,
-                          ),
+                  style: (context.isTablet
+                          ? theme.textTheme.titleMedium
+                          : theme.textTheme.bodyLarge)
+                      ?.copyWith(
+                    color: isSelected
+                        ? theme.colorScheme.primary
+                        : theme.colorScheme.onSurface,
+                    fontWeight: isSelected ? FontWeight.w600 : FontWeight.w500,
+                    fontSize: (context.isTablet ? 18 : 16) * context.fontScale,
+                  ),
                   textAlign: TextAlign.center,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,

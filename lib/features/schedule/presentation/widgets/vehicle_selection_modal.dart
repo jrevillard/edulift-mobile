@@ -138,18 +138,18 @@ class _VehicleSelectionModalState extends ConsumerState<VehicleSelectionModal> {
                         ),
                       )
                     : familyState.error != null
-                    ? _buildErrorState(context, familyState.error!)
-                    : ListView(
-                        controller: scrollController,
-                        padding: const EdgeInsets.all(20),
-                        children: [
-                          _buildContentChildren(
-                            context,
-                            vehicles,
-                            currentSlotData,
+                        ? _buildErrorState(context, familyState.error!)
+                        : ListView(
+                            controller: scrollController,
+                            padding: const EdgeInsets.all(20),
+                            children: [
+                              _buildContentChildren(
+                                context,
+                                vehicles,
+                                currentSlotData,
+                              ),
+                            ],
                           ),
-                        ],
-                      ),
               ),
             ],
           ),
@@ -165,9 +165,8 @@ class _VehicleSelectionModalState extends ConsumerState<VehicleSelectionModal> {
     required bool hasOverride,
     required CapacityStatus status,
   }) {
-    final percentage = effectiveCapacity > 0
-        ? usedSeats / effectiveCapacity
-        : 0.0;
+    final percentage =
+        effectiveCapacity > 0 ? usedSeats / effectiveCapacity : 0.0;
 
     // Use domain-provided status to determine color (no business logic here)
     Color barColor;
@@ -317,9 +316,8 @@ class _VehicleSelectionModalState extends ConsumerState<VehicleSelectionModal> {
                   ? () {
                       final newValue = effectiveValue - 1;
                       controller.text = newValue.toString();
-                      final override = newValue == baseCapacity
-                          ? null
-                          : newValue;
+                      final override =
+                          newValue == baseCapacity ? null : newValue;
                       _saveSeatOverride(vehicleId, override);
                     }
                   : null,
@@ -364,9 +362,8 @@ class _VehicleSelectionModalState extends ConsumerState<VehicleSelectionModal> {
                   ? () {
                       final newValue = effectiveValue + 1;
                       controller.text = newValue.toString();
-                      final override = newValue == baseCapacity
-                          ? null
-                          : newValue;
+                      final override =
+                          newValue == baseCapacity ? null : newValue;
                       _saveSeatOverride(vehicleId, override);
                     }
                   : null,
@@ -496,8 +493,8 @@ class _VehicleSelectionModalState extends ConsumerState<VehicleSelectionModal> {
                 Text(
                   '$localizedDay - $timeDisplay',
                   style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                    color: AppColors.textSecondaryThemed(context),
-                  ),
+                        color: AppColors.textSecondaryThemed(context),
+                      ),
                 ),
               ],
             ),
@@ -905,9 +902,8 @@ class _VehicleSelectionModalState extends ConsumerState<VehicleSelectionModal> {
                         tooltip: AppLocalizations.of(context).manageChildren,
                       ),
                       IconButton(
-                        onPressed: _isLoading
-                            ? null
-                            : () => _removeVehicle(vehicle),
+                        onPressed:
+                            _isLoading ? null : () => _removeVehicle(vehicle),
                         icon: const Icon(
                           Icons.remove_circle,
                           color: AppColors.error,
@@ -1093,9 +1089,9 @@ class _VehicleSelectionModalState extends ConsumerState<VehicleSelectionModal> {
             Text(
               AppLocalizations.of(context).noVehiclesAvailable,
               style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                color: AppColors.textSecondaryThemed(context),
-                fontWeight: FontWeight.w600,
-              ),
+                    color: AppColors.textSecondaryThemed(context),
+                    fontWeight: FontWeight.w600,
+                  ),
             ),
             const SizedBox(height: 8),
             Text(
@@ -1124,9 +1120,9 @@ class _VehicleSelectionModalState extends ConsumerState<VehicleSelectionModal> {
             Text(
               AppLocalizations.of(context).errorLoadingVehicles,
               style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                color: AppColors.error,
-                fontWeight: FontWeight.w600,
-              ),
+                    color: AppColors.error,
+                    fontWeight: FontWeight.w600,
+                  ),
             ),
             const SizedBox(height: 8),
             Text(
@@ -1166,8 +1162,7 @@ class _VehicleSelectionModalState extends ConsumerState<VehicleSelectionModal> {
 
       // Use TYPE-SAFE domain entities - convert to API format at boundary
       final dayOfWeek = widget.scheduleSlot.dayOfWeek;
-      final timeOfDay =
-          timeSlot ??
+      final timeOfDay = timeSlot ??
           widget.scheduleSlot.times.firstOrNull ??
           TimeOfDayValue.midnight;
 
@@ -1266,8 +1261,7 @@ class _VehicleSelectionModalState extends ConsumerState<VehicleSelectionModal> {
       // Check if this was the last vehicle in the period BEFORE invalidation
       // If so, close the modal as the slot no longer exists
       final assignedVehicles = _getAssignedVehicles(widget.scheduleSlot);
-      final isLastVehicle =
-          assignedVehicles.length == 1 &&
+      final isLastVehicle = assignedVehicles.length == 1 &&
           assignedVehicles.first.vehicleId == vehicleId;
 
       // Refresh provider to reflect changes

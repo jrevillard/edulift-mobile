@@ -342,9 +342,8 @@ class _ScheduleTimePickerState extends ConsumerState<ScheduleTimePicker>
       builder: (context, constraints) {
         // Use shorter text on very small screens
         final isVerySmallScreen = constraints.maxWidth < 300;
-        final headerText = isVerySmallScreen
-            ? 'Times'
-            : l10n.commonDepartureTimes;
+        final headerText =
+            isVerySmallScreen ? 'Times' : l10n.commonDepartureTimes;
 
         return Row(
           children: [
@@ -454,9 +453,8 @@ class _ScheduleTimePickerState extends ConsumerState<ScheduleTimePicker>
                       color: isSelected
                           ? theme.colorScheme.onPrimary
                           : theme.colorScheme.onSurface,
-                      fontWeight: isSelected
-                          ? FontWeight.bold
-                          : FontWeight.w500,
+                      fontWeight:
+                          isSelected ? FontWeight.bold : FontWeight.w500,
                     ),
                   ),
                 ),
@@ -537,9 +535,8 @@ class _ScheduleTimePickerState extends ConsumerState<ScheduleTimePicker>
                     color: hasSelection
                         ? theme.colorScheme.onPrimaryContainer
                         : theme.colorScheme.onSurface.withValues(alpha: 0.6),
-                    fontWeight: hasSelection
-                        ? FontWeight.w600
-                        : FontWeight.normal,
+                    fontWeight:
+                        hasSelection ? FontWeight.w600 : FontWeight.normal,
                   ),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
@@ -558,7 +555,6 @@ class _ScheduleTimePickerState extends ConsumerState<ScheduleTimePicker>
               ],
             ],
           ),
-
           if (hasSelection) ...[
             const SizedBox(height: 8),
             // Selected times as chips - limit height to prevent overflow
@@ -570,25 +566,24 @@ class _ScheduleTimePickerState extends ConsumerState<ScheduleTimePicker>
                 children: (_selectedTimes.toList()..sort())
                     .take(8) // Limit to 8 chips
                     .map((time) {
-                      // Times are already in user's timezone - display as-is
-                      final displayTime = time;
+                  // Times are already in user's timezone - display as-is
+                  final displayTime = time;
 
-                      return Chip(
-                        label: Text(
-                          displayTime,
-                          style: theme.textTheme.bodySmall?.copyWith(
-                            fontWeight: FontWeight.w500,
-                            fontSize: 10,
-                          ),
-                        ),
-                        backgroundColor: theme.colorScheme.primaryContainer
-                            .withValues(alpha: 0.5),
-                        deleteIcon: const Icon(Icons.close, size: 14),
-                        onDeleted: () => _toggleTime(time),
-                        visualDensity: VisualDensity.compact,
-                      );
-                    })
-                    .toList(),
+                  return Chip(
+                    label: Text(
+                      displayTime,
+                      style: theme.textTheme.bodySmall?.copyWith(
+                        fontWeight: FontWeight.w500,
+                        fontSize: 10,
+                      ),
+                    ),
+                    backgroundColor: theme.colorScheme.primaryContainer
+                        .withValues(alpha: 0.5),
+                    deleteIcon: const Icon(Icons.close, size: 14),
+                    onDeleted: () => _toggleTime(time),
+                    visualDensity: VisualDensity.compact,
+                  );
+                }).toList(),
               ),
             ),
             if (_selectedTimes.length > 8) // Show indicator if more items

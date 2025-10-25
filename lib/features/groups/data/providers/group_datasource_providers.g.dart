@@ -15,19 +15,19 @@ String _$groupRemoteDataSourceHash() =>
 @ProviderFor(groupRemoteDataSource)
 final groupRemoteDataSourceProvider =
     AutoDisposeProvider<GroupRemoteDataSource>.internal(
-      groupRemoteDataSource,
-      name: r'groupRemoteDataSourceProvider',
-      debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-          ? null
-          : _$groupRemoteDataSourceHash,
-      dependencies: null,
-      allTransitiveDependencies: null,
-    );
+  groupRemoteDataSource,
+  name: r'groupRemoteDataSourceProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$groupRemoteDataSourceHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
 
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
-typedef GroupRemoteDataSourceRef =
-    AutoDisposeProviderRef<GroupRemoteDataSource>;
+typedef GroupRemoteDataSourceRef
+    = AutoDisposeProviderRef<GroupRemoteDataSource>;
 String _$groupLocalDataSourceHash() =>
     r'24df2d92591e44fe88ece70fee18b546da8ce955';
 
@@ -37,14 +37,14 @@ String _$groupLocalDataSourceHash() =>
 @ProviderFor(groupLocalDataSource)
 final groupLocalDataSourceProvider =
     AutoDisposeProvider<GroupLocalDataSource>.internal(
-      groupLocalDataSource,
-      name: r'groupLocalDataSourceProvider',
-      debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-          ? null
-          : _$groupLocalDataSourceHash,
-      dependencies: null,
-      allTransitiveDependencies: null,
-    );
+  groupLocalDataSource,
+  name: r'groupLocalDataSourceProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$groupLocalDataSourceHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
 
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element

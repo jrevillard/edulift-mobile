@@ -185,25 +185,25 @@ class MockGroupService extends Mock implements GroupService {
   // Implement interface methods
   @override
   Future<Result<List<Group>, ApiFailure>> getAll() => super.noSuchMethod(
-    Invocation.method(#getAll, []),
-    returnValue: Future.value(const Result<List<Group>, ApiFailure>.ok([])),
-  );
+        Invocation.method(#getAll, []),
+        returnValue: Future.value(const Result<List<Group>, ApiFailure>.ok([])),
+      );
 
   @override
   Future<Result<Group, ApiFailure>> getById(String id) => super.noSuchMethod(
-    Invocation.method(#getById, [id]),
-    returnValue: Future.value(
-      Result<Group, ApiFailure>.ok(
-        Group(
-          id: 'test',
-          name: 'Test Group',
-          familyId: 'test-family',
-          createdAt: DateTime.now(),
-          updatedAt: DateTime.now(),
+        Invocation.method(#getById, [id]),
+        returnValue: Future.value(
+          Result<Group, ApiFailure>.ok(
+            Group(
+              id: 'test',
+              name: 'Test Group',
+              familyId: 'test-family',
+              createdAt: DateTime.now(),
+              updatedAt: DateTime.now(),
+            ),
+          ),
         ),
-      ),
-    ),
-  );
+      );
 
   @override
   Future<Result<Group, ApiFailure>> create(CreateGroupCommand command) =>
@@ -226,26 +226,27 @@ class MockGroupService extends Mock implements GroupService {
   Future<Result<Group, ApiFailure>> update(
     String id,
     Map<String, dynamic> updates,
-  ) => super.noSuchMethod(
-    Invocation.method(#update, [id, updates]),
-    returnValue: Future.value(
-      Result<Group, ApiFailure>.ok(
-        Group(
-          id: 'test',
-          name: 'Test Group',
-          familyId: 'test-family',
-          createdAt: DateTime.now(),
-          updatedAt: DateTime.now(),
+  ) =>
+      super.noSuchMethod(
+        Invocation.method(#update, [id, updates]),
+        returnValue: Future.value(
+          Result<Group, ApiFailure>.ok(
+            Group(
+              id: 'test',
+              name: 'Test Group',
+              familyId: 'test-family',
+              createdAt: DateTime.now(),
+              updatedAt: DateTime.now(),
+            ),
+          ),
         ),
-      ),
-    ),
-  );
+      );
 
   @override
   Future<Result<void, ApiFailure>> delete(String id) => super.noSuchMethod(
-    Invocation.method(#delete, [id]),
-    returnValue: Future.value(const Result<void, ApiFailure>.ok(null)),
-  );
+        Invocation.method(#delete, [id]),
+        returnValue: Future.value(const Result<void, ApiFailure>.ok(null)),
+      );
 
   // Backward compatibility methods for tests
   Future<Result<List<Group>, ApiFailure>> getGroups() => getAll();
@@ -255,7 +256,8 @@ class MockGroupService extends Mock implements GroupService {
   Future<Result<Group, ApiFailure>> updateGroup(
     String id,
     Map<String, dynamic> updates,
-  ) => update(id, updates);
+  ) =>
+      update(id, updates);
   Future<Result<void, ApiFailure>> deleteGroup(String id) => delete(id);
 }
 
@@ -266,50 +268,56 @@ class MockChildrenService extends Mock implements ChildrenService {
   Future<Result<Child, ApiFailure>> add({
     required String familyId,
     required domain_requests.CreateChildRequest request,
-  }) => Future.value(
-    Result.ok(
-      Child(
-        id: 'child-${DateTime.now().millisecondsSinceEpoch}',
-        name: request.name,
-        familyId: 'test-family-123',
-        createdAt: DateTime.now(),
-        updatedAt: DateTime.now(),
-      ),
-    ),
-  );
+  }) =>
+      Future.value(
+        Result.ok(
+          Child(
+            id: 'child-${DateTime.now().millisecondsSinceEpoch}',
+            name: request.name,
+            familyId: 'test-family-123',
+            createdAt: DateTime.now(),
+            updatedAt: DateTime.now(),
+          ),
+        ),
+      );
 
   @override
   Future<Result<Child, ApiFailure>> update({
     required String familyId,
     required domain_requests.UpdateChildParams params,
-  }) => Future.value(
-    Result.ok(
-      Child(
-        id: params.childId,
-        name: params.request.name ?? 'Updated Child',
-        familyId: 'test-family-123',
-        createdAt: DateTime(2024),
-        updatedAt: DateTime.now(),
-      ),
-    ),
-  );
+  }) =>
+      Future.value(
+        Result.ok(
+          Child(
+            id: params.childId,
+            name: params.request.name ?? 'Updated Child',
+            familyId: 'test-family-123',
+            createdAt: DateTime(2024),
+            updatedAt: DateTime.now(),
+          ),
+        ),
+      );
 
   @override
   Future<Result<void, ApiFailure>> remove({
     required String familyId,
     required String childId,
-  }) => Future.value(const Result.ok(null));
+  }) =>
+      Future.value(const Result.ok(null));
 
   // Backward compatibility methods for tests - FIXED return types
   Future<Result<Child, ApiFailure>> addChild(
     domain_requests.CreateChildRequest request,
-  ) => add(familyId: 'test-family-123', request: request);
+  ) =>
+      add(familyId: 'test-family-123', request: request);
   Future<Result<Child, ApiFailure>> updateChild(
     domain_requests.UpdateChildParams params,
-  ) => update(familyId: 'test-family-123', params: params);
+  ) =>
+      update(familyId: 'test-family-123', params: params);
   Future<Result<Child, ApiFailure>> updateChildFromRequest(
     domain_requests.UpdateChildParams params,
-  ) => update(familyId: 'test-family-123', params: params);
+  ) =>
+      update(familyId: 'test-family-123', params: params);
   Future<Result<void, ApiFailure>> removeChild(String childId) =>
       remove(familyId: 'test-family-123', childId: childId);
 }

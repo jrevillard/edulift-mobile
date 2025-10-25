@@ -39,20 +39,20 @@ class InvitationRepositoryImpl implements InvitationRepository {
   }) async {
     final result = await _networkErrorHandler
         .executeRepositoryOperation<List<FamilyInvitationDto>>(
-          () => remoteDataSource.getFamilyInvitations(familyId: familyId),
-          operationName: 'invitation.getPendingInvitations',
-          strategy: CacheStrategy.networkOnly,
-          serviceName: 'invitation',
-          config: RetryConfig.quick,
-          onSuccess: (dtos) async {
-            final invitations = dtos.map((dto) => dto.toDomain()).toList();
-            await _cacheFamilyInvitations(invitations);
-            AppLogger.info(
-              '[INVITATION] Cached ${invitations.length} pending invitations',
-            );
-          },
-          context: {'familyId': familyId},
+      () => remoteDataSource.getFamilyInvitations(familyId: familyId),
+      operationName: 'invitation.getPendingInvitations',
+      strategy: CacheStrategy.networkOnly,
+      serviceName: 'invitation',
+      config: RetryConfig.quick,
+      onSuccess: (dtos) async {
+        final invitations = dtos.map((dto) => dto.toDomain()).toList();
+        await _cacheFamilyInvitations(invitations);
+        AppLogger.info(
+          '[INVITATION] Cached ${invitations.length} pending invitations',
         );
+      },
+      context: {'familyId': familyId},
+    );
 
     return result.when(
       ok: (dtos) {
@@ -97,30 +97,30 @@ class InvitationRepositoryImpl implements InvitationRepository {
     // Use NetworkErrorHandler for unified error handling
     final result = await _networkErrorHandler
         .executeRepositoryOperation<FamilyInvitationDto>(
-          () => remoteDataSource.inviteMember(
-            email: email,
-            familyId: familyId,
-            role: role,
-            personalMessage: personalMessage,
-          ),
-          operationName: 'invitation.inviteMember',
-          strategy: CacheStrategy.networkOnly,
-          serviceName: 'invitation',
-          config: RetryConfig.quick,
-          onSuccess: (invitationDto) async {
-            final invitation = invitationDto.toDomain();
-            await _cacheFamilyInvitation(invitation);
-            AppLogger.info(
-              '[INVITATION] Member invited and cached successfully',
-              {
-                'familyId': familyId,
-                'email': email,
-                'invitationId': invitation.id,
-              },
-            );
+      () => remoteDataSource.inviteMember(
+        email: email,
+        familyId: familyId,
+        role: role,
+        personalMessage: personalMessage,
+      ),
+      operationName: 'invitation.inviteMember',
+      strategy: CacheStrategy.networkOnly,
+      serviceName: 'invitation',
+      config: RetryConfig.quick,
+      onSuccess: (invitationDto) async {
+        final invitation = invitationDto.toDomain();
+        await _cacheFamilyInvitation(invitation);
+        AppLogger.info(
+          '[INVITATION] Member invited and cached successfully',
+          {
+            'familyId': familyId,
+            'email': email,
+            'invitationId': invitation.id,
           },
-          context: {'familyId': familyId, 'email': email, 'role': role},
         );
+      },
+      context: {'familyId': familyId, 'email': email, 'role': role},
+    );
 
     return result.when(
       ok: (invitationDto) {
@@ -190,30 +190,30 @@ class InvitationRepositoryImpl implements InvitationRepository {
 
     final result = await _networkErrorHandler
         .executeRepositoryOperation<FamilyInvitationDto>(
-          () => remoteDataSource.inviteMember(
-            email: email,
-            familyId: familyId,
-            role: role ?? 'member',
-            personalMessage: message,
-          ),
-          operationName: 'invitation.sendFamilyInvitation',
-          strategy: CacheStrategy.networkOnly,
-          serviceName: 'invitation',
-          config: RetryConfig.quick,
-          onSuccess: (invitationDto) async {
-            final invitation = invitationDto.toDomain();
-            await _cacheFamilyInvitation(invitation);
-            AppLogger.info('[INVITATION] Family invitation sent and cached', {
-              'familyId': familyId,
-              'email': email,
-            });
-          },
-          context: {
-            'familyId': familyId,
-            'email': email,
-            'role': role ?? 'member',
-          },
-        );
+      () => remoteDataSource.inviteMember(
+        email: email,
+        familyId: familyId,
+        role: role ?? 'member',
+        personalMessage: message,
+      ),
+      operationName: 'invitation.sendFamilyInvitation',
+      strategy: CacheStrategy.networkOnly,
+      serviceName: 'invitation',
+      config: RetryConfig.quick,
+      onSuccess: (invitationDto) async {
+        final invitation = invitationDto.toDomain();
+        await _cacheFamilyInvitation(invitation);
+        AppLogger.info('[INVITATION] Family invitation sent and cached', {
+          'familyId': familyId,
+          'email': email,
+        });
+      },
+      context: {
+        'familyId': familyId,
+        'email': email,
+        'role': role ?? 'member',
+      },
+    );
 
     return result.when(
       ok: (invitationDto) => Result.ok(invitationDto.toDomain()),
@@ -227,22 +227,22 @@ class InvitationRepositoryImpl implements InvitationRepository {
   }) async {
     final result = await _networkErrorHandler
         .executeRepositoryOperation<FamilyInvitationDto>(
-          () => remoteDataSource.acceptInvitation(inviteCode: inviteCode),
-          operationName: 'invitation.acceptInvitation',
-          strategy: CacheStrategy.networkOnly,
-          serviceName: 'invitation',
-          config: RetryConfig.quick,
-          onSuccess: (invitationDto) async {
-            final invitation = invitationDto.toDomain();
-            await _cacheFamilyInvitation(invitation);
-            await _refreshFamilyData();
-            AppLogger.info('[INVITATION] Invitation accepted and cached', {
-              'inviteCode': inviteCode,
-              'invitationId': invitation.id,
-            });
-          },
-          context: {'inviteCode': inviteCode},
-        );
+      () => remoteDataSource.acceptInvitation(inviteCode: inviteCode),
+      operationName: 'invitation.acceptInvitation',
+      strategy: CacheStrategy.networkOnly,
+      serviceName: 'invitation',
+      config: RetryConfig.quick,
+      onSuccess: (invitationDto) async {
+        final invitation = invitationDto.toDomain();
+        await _cacheFamilyInvitation(invitation);
+        await _refreshFamilyData();
+        AppLogger.info('[INVITATION] Invitation accepted and cached', {
+          'inviteCode': inviteCode,
+          'invitationId': invitation.id,
+        });
+      },
+      context: {'inviteCode': inviteCode},
+    );
 
     return result.when(
       ok: (invitationDto) => Result.ok(invitationDto.toDomain()),
@@ -257,23 +257,23 @@ class InvitationRepositoryImpl implements InvitationRepository {
   }) async {
     final result = await _networkErrorHandler
         .executeRepositoryOperation<FamilyInvitationDto>(
-          () => remoteDataSource.declineInvitation(
-            invitationId: invitationId,
-            reason: reason,
-          ),
-          operationName: 'invitation.declineInvitation',
-          strategy: CacheStrategy.networkOnly,
-          serviceName: 'invitation',
-          config: RetryConfig.quick,
-          onSuccess: (invitationDto) async {
-            final invitation = invitationDto.toDomain();
-            await _cacheFamilyInvitation(invitation);
-            AppLogger.info('[INVITATION] Invitation declined and cached', {
-              'invitationId': invitationId,
-            });
-          },
-          context: {'invitationId': invitationId, 'reason': reason},
-        );
+      () => remoteDataSource.declineInvitation(
+        invitationId: invitationId,
+        reason: reason,
+      ),
+      operationName: 'invitation.declineInvitation',
+      strategy: CacheStrategy.networkOnly,
+      serviceName: 'invitation',
+      config: RetryConfig.quick,
+      onSuccess: (invitationDto) async {
+        final invitation = invitationDto.toDomain();
+        await _cacheFamilyInvitation(invitation);
+        AppLogger.info('[INVITATION] Invitation declined and cached', {
+          'invitationId': invitationId,
+        });
+      },
+      context: {'invitationId': invitationId, 'reason': reason},
+    );
 
     return result.when(
       ok: (invitationDto) => Result.ok(invitationDto.toDomain()),
@@ -323,26 +323,26 @@ class InvitationRepositoryImpl implements InvitationRepository {
       );
     }
 
-    final result = await _networkErrorHandler
-        .executeRepositoryOperation<Invitation>(
-          () => remoteDataSource.joinWithCode(code: code, role: role),
-          operationName: 'invitation.joinWithCode',
-          strategy: CacheStrategy.networkOnly,
-          serviceName: 'invitation',
-          config: RetryConfig.quick,
-          onSuccess: (invitation) async {
-            final familyInvitation = _mapInvitationToFamilyInvitation(
-              invitation,
-            );
-            await _cacheFamilyInvitation(familyInvitation);
-            await _refreshFamilyData();
-            AppLogger.info('[INVITATION] Joined with code and cached', {
-              'code': code,
-              'invitationId': familyInvitation.id,
-            });
-          },
-          context: {'code': code, 'role': role},
+    final result =
+        await _networkErrorHandler.executeRepositoryOperation<Invitation>(
+      () => remoteDataSource.joinWithCode(code: code, role: role),
+      operationName: 'invitation.joinWithCode',
+      strategy: CacheStrategy.networkOnly,
+      serviceName: 'invitation',
+      config: RetryConfig.quick,
+      onSuccess: (invitation) async {
+        final familyInvitation = _mapInvitationToFamilyInvitation(
+          invitation,
         );
+        await _cacheFamilyInvitation(familyInvitation);
+        await _refreshFamilyData();
+        AppLogger.info('[INVITATION] Joined with code and cached', {
+          'code': code,
+          'invitationId': familyInvitation.id,
+        });
+      },
+      context: {'code': code, 'role': role},
+    );
 
     return result.when(
       ok: (invitation) {
@@ -359,20 +359,20 @@ class InvitationRepositoryImpl implements InvitationRepository {
   }) async {
     final result = await _networkErrorHandler
         .executeRepositoryOperation<List<FamilyInvitationDto>>(
-          () => remoteDataSource.getFamilyInvitations(familyId: familyId),
-          operationName: 'invitation.getFamilyInvitations',
-          strategy: CacheStrategy.networkOnly,
-          serviceName: 'invitation',
-          config: RetryConfig.quick,
-          onSuccess: (dtos) async {
-            final invitations = dtos.map((dto) => dto.toDomain()).toList();
-            await _cacheFamilyInvitations(invitations);
-            AppLogger.info(
-              '[INVITATION] Cached ${invitations.length} family invitations',
-            );
-          },
-          context: {'familyId': familyId},
+      () => remoteDataSource.getFamilyInvitations(familyId: familyId),
+      operationName: 'invitation.getFamilyInvitations',
+      strategy: CacheStrategy.networkOnly,
+      serviceName: 'invitation',
+      config: RetryConfig.quick,
+      onSuccess: (dtos) async {
+        final invitations = dtos.map((dto) => dto.toDomain()).toList();
+        await _cacheFamilyInvitations(invitations);
+        AppLogger.info(
+          '[INVITATION] Cached ${invitations.length} family invitations',
         );
+      },
+      context: {'familyId': familyId},
+    );
 
     return result.when(
       ok: (dtos) {
@@ -504,7 +504,7 @@ class InvitationRepositoryImpl implements InvitationRepository {
 
   @override
   Future<Result<FamilyInvitationValidationDto, ApiFailure>>
-  validateFamilyInvitation({required String inviteCode}) async {
+      validateFamilyInvitation({required String inviteCode}) async {
     // Validate invitation code format
     if (inviteCode.isEmpty) {
       return Result.err(
@@ -517,13 +517,13 @@ class InvitationRepositoryImpl implements InvitationRepository {
 
     final result = await _networkErrorHandler
         .executeRepositoryOperation<FamilyInvitationValidationDto>(
-          () => remoteDataSource.validateInvitation(inviteCode: inviteCode),
-          operationName: 'invitation.validateInvitation',
-          strategy: CacheStrategy.networkOnly,
-          serviceName: 'invitation',
-          config: RetryConfig.quick,
-          context: {'inviteCode': inviteCode},
-        );
+      () => remoteDataSource.validateInvitation(inviteCode: inviteCode),
+      operationName: 'invitation.validateInvitation',
+      strategy: CacheStrategy.networkOnly,
+      serviceName: 'invitation',
+      config: RetryConfig.quick,
+      context: {'inviteCode': inviteCode},
+    );
 
     return result.when(
       ok: (validationDto) => Result.ok(validationDto),

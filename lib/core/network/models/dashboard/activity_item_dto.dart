@@ -8,7 +8,7 @@ abstract class ActivityItemDto with _$ActivityItemDto {
   const factory ActivityItemDto({
     required String id,
     required String
-    type, // 'schedule_created', 'child_added', 'vehicle_assigned', etc.
+        type, // 'schedule_created', 'child_added', 'vehicle_assigned', etc.
     required String description,
     required String timestamp,
     required String? userId,

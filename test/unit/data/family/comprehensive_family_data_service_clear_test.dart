@@ -133,7 +133,8 @@ void main() {
         },
       );
 
-      test('VERIFIED: Implementation now clears 100% of required data', () async {
+      test('VERIFIED: Implementation now clears 100% of required data',
+          () async {
         // Arrange
         when(
           mockClearAllFamilyDataUsecase.call(any),

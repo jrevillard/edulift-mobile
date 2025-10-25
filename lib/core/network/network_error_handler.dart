@@ -245,13 +245,13 @@ class NetworkCircuitBreaker {
 
   /// Get circuit status for monitoring
   Map<String, dynamic> get status => {
-    'service': serviceName,
-    'state': _state.name,
-    'failureCount': _failureCount,
-    'failureThreshold': failureThreshold,
-    'lastFailureTime': _lastFailureTime?.toIso8601String(),
-    'isOpen': _state == CircuitState.open,
-  };
+        'service': serviceName,
+        'state': _state.name,
+        'failureCount': _failureCount,
+        'failureThreshold': failureThreshold,
+        'lastFailureTime': _lastFailureTime?.toIso8601String(),
+        'isOpen': _state == CircuitState.open,
+      };
 }
 
 /// Centralized network error handling service
@@ -476,8 +476,8 @@ class NetworkErrorHandler {
     final cappedDelay = Duration(
       milliseconds:
           exponentialDelay.inMilliseconds > config.maxDelay.inMilliseconds
-          ? config.maxDelay.inMilliseconds
-          : exponentialDelay.inMilliseconds,
+              ? config.maxDelay.inMilliseconds
+              : exponentialDelay.inMilliseconds,
     );
 
     // Add jitter to prevent thundering herd
@@ -1260,9 +1260,8 @@ extension NetworkErrorHandlerExtension on NetworkErrorHandler {
       // Extract HTTP status code for generic classification
       final errorMessage = error.message;
       final match = RegExp(r'HTTP (\d{3})').firstMatch(errorMessage);
-      final statusCode = match != null
-          ? int.parse(match.group(1)!)
-          : error.statusCode;
+      final statusCode =
+          match != null ? int.parse(match.group(1)!) : error.statusCode;
 
       // Use generic error code based on HTTP status classification
       var errorCode = 'api';

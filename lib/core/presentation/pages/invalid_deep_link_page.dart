@@ -81,9 +81,7 @@ class InvalidDeepLinkPage extends ConsumerWidget {
                       } else {
                         // No navigation history - go to dashboard
                         // Router will redirect to login/onboarding if needed
-                        ref
-                            .read(navigationStateProvider.notifier)
-                            .navigateTo(
+                        ref.read(navigationStateProvider.notifier).navigateTo(
                               route: '/dashboard',
                               trigger: NavigationTrigger.userNavigation,
                             );

@@ -157,9 +157,9 @@ void main() {
       );
       final codeVerificationResult =
           await InvitationFlowHelper.verifyInvitationCodeBeforeCancellation(
-            $,
-            testInvitationEmail,
-          );
+        $,
+        testInvitationEmail,
+      );
 
       expect(
         codeVerificationResult['success'],

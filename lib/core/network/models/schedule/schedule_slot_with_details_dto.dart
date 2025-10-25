@@ -55,9 +55,8 @@ abstract class ScheduleSlotWithDetailsDto
     final timeOfDay = TimeOfDayValue.fromDateTime(utcDatetime);
 
     // Convert vehicle assignments with proper mapping
-    final domainVehicleAssignments = vehicleAssignments
-        .map((dto) => dto.toDomain())
-        .toList();
+    final domainVehicleAssignments =
+        vehicleAssignments.map((dto) => dto.toDomain()).toList();
 
     // Convert child assignments and link them to vehicles
     final domainChildAssignments = <ChildAssignment>[];

@@ -194,8 +194,8 @@ class _GroupMembersManagementPageState
               Text(
                 localizations.codeForEmail(adminEmail),
                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  color: Theme.of(context).colorScheme.onSurfaceVariant,
-                ),
+                      color: Theme.of(context).colorScheme.onSurfaceVariant,
+                    ),
               ),
               const SizedBox(height: 12),
               Container(
@@ -216,9 +216,9 @@ class _GroupMembersManagementPageState
                   invitationCode,
                   key: Key('invitation_code_display_${family.id}'),
                   style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                    fontFamily: 'monospace',
-                    fontWeight: FontWeight.bold,
-                  ),
+                        fontFamily: 'monospace',
+                        fontWeight: FontWeight.bold,
+                      ),
                 ),
               ),
             ],
@@ -279,14 +279,14 @@ class _GroupMembersManagementPageState
   void _navigateToInviteFamily() {
     Navigator.of(context)
         .push(
-          MaterialPageRoute(
-            builder: (context) => InviteFamilyPage(groupId: widget.groupId),
-          ),
-        )
+      MaterialPageRoute(
+        builder: (context) => InviteFamilyPage(groupId: widget.groupId),
+      ),
+    )
         .then((_) {
-          // Refresh the families list after returning from invitation flow
-          ref.invalidate(groupFamiliesProvider(widget.groupId));
-        });
+      // Refresh the families list after returning from invitation flow
+      ref.invalidate(groupFamiliesProvider(widget.groupId));
+    });
   }
 
   @override
@@ -331,8 +331,7 @@ class _GroupMembersManagementPageState
                 SliverPadding(
                   padding: EdgeInsets.symmetric(
                     horizontal: context.isTablet ? 24 : 16,
-                    vertical:
-                        context.isMobile &&
+                    vertical: context.isMobile &&
                             MediaQuery.of(context).size.width < 375
                         ? 3
                         : 4,
@@ -459,9 +458,8 @@ class _GroupMembersManagementPageState
           child: Icon(
             roleIcon,
             size: 20,
-            color: family.isPending
-                ? Colors.orange.shade700
-                : colorScheme.primary,
+            color:
+                family.isPending ? Colors.orange.shade700 : colorScheme.primary,
           ),
         ),
         // Title: Family name + "Your Family" badge
@@ -617,15 +615,15 @@ class _GroupMembersManagementPageState
             Text(
               l10n.noFamiliesYet,
               style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                color: Theme.of(context).colorScheme.onSurfaceVariant,
-              ),
+                    color: Theme.of(context).colorScheme.onSurfaceVariant,
+                  ),
             ),
             const SizedBox(height: 8),
             Text(
               l10n.inviteFamiliesToGetStarted,
               style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                color: Theme.of(context).colorScheme.onSurfaceVariant,
-              ),
+                    color: Theme.of(context).colorScheme.onSurfaceVariant,
+                  ),
               textAlign: TextAlign.center,
             ),
           ],
@@ -646,8 +644,8 @@ class _GroupMembersManagementPageState
           Text(
             l10n.loadingFamilies,
             style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-              color: Theme.of(context).colorScheme.onSurfaceVariant,
-            ),
+                  color: Theme.of(context).colorScheme.onSurfaceVariant,
+                ),
           ),
         ],
       ),
@@ -672,15 +670,15 @@ class _GroupMembersManagementPageState
             Text(
               l10n.failedToLoadFamilies,
               style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                color: Theme.of(context).colorScheme.error,
-              ),
+                    color: Theme.of(context).colorScheme.error,
+                  ),
             ),
             const SizedBox(height: 8),
             Text(
               error.toString(),
               style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                color: Theme.of(context).colorScheme.onSurfaceVariant,
-              ),
+                    color: Theme.of(context).colorScheme.onSurfaceVariant,
+                  ),
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: 24),

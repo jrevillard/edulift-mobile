@@ -22,7 +22,7 @@ class ScheduleGrid extends ConsumerStatefulWidget {
   final Function(PeriodSlotData) onManageVehicles;
   final Function(String, String, String) onVehicleDrop;
   final Function(int weekOffset)?
-  onWeekChanged; // ✨ NOUVEAU: Callback pour changement de semaine
+      onWeekChanged; // ✨ NOUVEAU: Callback pour changement de semaine
 
   const ScheduleGrid({
     super.key,
@@ -196,11 +196,11 @@ class _ScheduleGridState extends ConsumerState<ScheduleGrid> {
                         weekDates != null
                             ? _formatWeekDateRange(weekDates, isVerySmallScreen)
                             : l10n.selectWeekHelpText,
-                        style: Theme.of(context).textTheme.titleMedium
-                            ?.copyWith(
-                              fontWeight: FontWeight.w600,
-                              fontSize: isVerySmallScreen ? 14 : null,
-                            ),
+                        style:
+                            Theme.of(context).textTheme.titleMedium?.copyWith(
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: isVerySmallScreen ? 14 : null,
+                                ),
                         textAlign: TextAlign.center,
                         overflow: TextOverflow.ellipsis,
                       ),
@@ -549,8 +549,7 @@ class _ScheduleGridState extends ConsumerState<ScheduleGrid> {
               Flexible(
                 child: Container(
                   constraints: BoxConstraints(
-                    maxHeight:
-                        constraints.maxHeight *
+                    maxHeight: constraints.maxHeight *
                         0.9, // Responsive height constraint
                   ),
                   child: ListView.builder(
@@ -687,10 +686,10 @@ class _ScheduleGridState extends ConsumerState<ScheduleGrid> {
                 Text(
                   dayDisplayName, // Display localized name
                   style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                    fontWeight: FontWeight.w600,
-                    color: AppColors.getDayColor(dayDisplayName),
-                    fontSize: isTablet ? 18 : null,
-                  ),
+                        fontWeight: FontWeight.w600,
+                        color: AppColors.getDayColor(dayDisplayName),
+                        fontSize: isTablet ? 18 : null,
+                      ),
                 ),
               ],
             ),
@@ -809,19 +808,18 @@ class _ScheduleGridState extends ConsumerState<ScheduleGrid> {
             onTap: isPast
                 ? () => _showPastSlotWarning(context)
                 : () => _handlePeriodSlotTap(
-                    context,
-                    day,
-                    periodLabel,
-                    times,
-                    periodSlots,
-                  ),
+                      context,
+                      day,
+                      periodLabel,
+                      times,
+                      periodSlots,
+                    ),
             onVehicleDrop: isPast
-                ? (_) =>
-                      _showPastSlotWarning(
-                        context,
-                      ) // Show warning on drop attempts
+                ? (_) => _showPastSlotWarning(
+                      context,
+                    ) // Show warning on drop attempts
                 : (vehicleId) =>
-                      _handlePeriodVehicleDrop(day, times, vehicleId),
+                    _handlePeriodVehicleDrop(day, times, vehicleId),
           ),
           if (isPast)
             Positioned(

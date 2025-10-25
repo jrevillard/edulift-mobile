@@ -47,7 +47,7 @@ class ConnectivityNotifier extends StateNotifier<AsyncValue<bool>> {
 
 final connectivityProvider =
     StateNotifierProvider<ConnectivityNotifier, AsyncValue<bool>>((ref) {
-      final notifier = ConnectivityNotifier();
-      ref.onDispose(() => notifier.dispose());
-      return notifier;
-    });
+  final notifier = ConnectivityNotifier();
+  ref.onDispose(() => notifier.dispose());
+  return notifier;
+});

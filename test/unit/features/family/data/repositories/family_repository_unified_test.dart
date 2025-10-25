@@ -299,28 +299,28 @@ class HttpSimulatedResponse {
   final bool isNetworkError;
 
   HttpSimulatedResponse.success(this.statusCode, this.data)
-    : message = 'OK',
-      exception = null,
-      isNetworkError = false;
+      : message = 'OK',
+        exception = null,
+        isNetworkError = false;
 
   HttpSimulatedResponse.httpError(
     this.statusCode,
     this.message,
     this.isNetworkError,
-  ) : data = null,
-      exception = Exception('HTTP $statusCode: $message');
+  )   : data = null,
+        exception = Exception('HTTP $statusCode: $message');
 
   HttpSimulatedResponse.socketError(this.message)
-    : statusCode = 0,
-      data = null,
-      exception = SocketException(message),
-      isNetworkError = true;
+      : statusCode = 0,
+        data = null,
+        exception = SocketException(message),
+        isNetworkError = true;
 
   HttpSimulatedResponse.timeoutError(this.message)
-    : statusCode = 0,
-      data = null,
-      exception = TimeoutException(message, const Duration(seconds: 30)),
-      isNetworkError = true;
+      : statusCode = 0,
+        data = null,
+        exception = TimeoutException(message, const Duration(seconds: 30)),
+        isNetworkError = true;
 
   Future<FamilyDto> execute() async {
     if (exception != null) {

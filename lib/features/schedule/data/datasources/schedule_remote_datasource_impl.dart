@@ -65,8 +65,8 @@ class ScheduleRemoteDataSourceImpl implements ScheduleRemoteDataSource {
 
     final scheduleResponse =
         await ApiResponseHelper.executeAndUnwrap<ScheduleResponseDto>(
-          () => _apiClient.getGroupSchedule(groupId, startDateUtc, endDateUtc),
-        );
+      () => _apiClient.getGroupSchedule(groupId, startDateUtc, endDateUtc),
+    );
 
     AppLogger.debug(
       '[ScheduleRemoteDataSource] Successfully fetched ${scheduleResponse.scheduleSlots.length} schedule slots',
@@ -151,8 +151,8 @@ class ScheduleRemoteDataSourceImpl implements ScheduleRemoteDataSource {
 
       final scheduleSlotDto =
           await ApiResponseHelper.executeAndUnwrap<ScheduleSlotDto>(
-            () => _apiClient.createScheduleSlot(groupId, createSlotRequest),
-          );
+        () => _apiClient.createScheduleSlot(groupId, createSlotRequest),
+      );
 
       // Extract the vehicle assignment from the response
       final vehicleAssignments = scheduleSlotDto.vehicleAssignments;
@@ -173,11 +173,11 @@ class ScheduleRemoteDataSourceImpl implements ScheduleRemoteDataSource {
       final assignRequest = AssignVehicleRequest(vehicleId: vehicleId);
       vehicleAssignmentDto =
           await ApiResponseHelper.executeAndUnwrap<VehicleAssignmentDto>(
-            () => _apiClient.assignVehicleToSlotTyped(
-              existingSlot!.id,
-              assignRequest,
-            ),
-          );
+        () => _apiClient.assignVehicleToSlotTyped(
+          existingSlot!.id,
+          assignRequest,
+        ),
+      );
     }
 
     AppLogger.debug('[ScheduleRemoteDataSource] Successfully assigned vehicle');
@@ -224,8 +224,8 @@ class ScheduleRemoteDataSourceImpl implements ScheduleRemoteDataSource {
     final request = UpdateSeatOverrideRequest(seatOverride: seatOverride);
     final vehicleAssignmentDto =
         await ApiResponseHelper.executeAndUnwrap<VehicleAssignmentDto>(
-          () => _apiClient.updateSeatOverride(vehicleAssignmentId, request),
-        );
+      () => _apiClient.updateSeatOverride(vehicleAssignmentId, request),
+    );
 
     AppLogger.debug(
       '[ScheduleRemoteDataSource] Successfully updated seat override',
@@ -356,8 +356,8 @@ class ScheduleRemoteDataSourceImpl implements ScheduleRemoteDataSource {
 
     final scheduleConfigDto =
         await ApiResponseHelper.executeAndUnwrap<ScheduleConfigDto>(
-          () => _apiClient.getGroupScheduleConfig(groupId),
-        );
+      () => _apiClient.getGroupScheduleConfig(groupId),
+    );
 
     AppLogger.debug(
       '[ScheduleRemoteDataSource] Successfully fetched schedule config',
@@ -377,8 +377,8 @@ class ScheduleRemoteDataSourceImpl implements ScheduleRemoteDataSource {
 
     final scheduleConfigDto =
         await ApiResponseHelper.executeAndUnwrap<ScheduleConfigDto>(
-          () => _apiClient.updateGroupScheduleConfigTyped(groupId, request),
-        );
+      () => _apiClient.updateGroupScheduleConfigTyped(groupId, request),
+    );
 
     AppLogger.debug(
       '[ScheduleRemoteDataSource] Successfully updated schedule config',
@@ -394,8 +394,8 @@ class ScheduleRemoteDataSourceImpl implements ScheduleRemoteDataSource {
 
     final scheduleConfigDto =
         await ApiResponseHelper.executeAndUnwrap<ScheduleConfigDto>(
-          () => _apiClient.resetGroupScheduleConfig(groupId),
-        );
+      () => _apiClient.resetGroupScheduleConfig(groupId),
+    );
 
     AppLogger.debug(
       '[ScheduleRemoteDataSource] Successfully reset schedule config',

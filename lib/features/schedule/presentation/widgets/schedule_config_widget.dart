@@ -21,8 +21,7 @@ class ScheduleConfigWidget extends ConsumerStatefulWidget {
     VoidCallback? saveCallback,
     VoidCallback? cancelCallback,
     bool hasChanges,
-  )?
-  onActionsChanged;
+  )? onActionsChanged;
 
   const ScheduleConfigWidget({
     super.key,
@@ -40,7 +39,7 @@ class _ScheduleConfigWidgetState extends ConsumerState<ScheduleConfigWidget>
     with TickerProviderStateMixin {
   late ScheduleConfig _workingConfig;
   ScheduleConfig?
-  _originalConfig; // Track original state for proper Cancel functionality
+      _originalConfig; // Track original state for proper Cancel functionality
   bool _hasChanges = false;
   String? _validationError;
   int _selectedDayIndex = 0;
@@ -568,10 +567,8 @@ class _ScheduleConfigWidgetState extends ConsumerState<ScheduleConfigWidget>
     List<String> weekdayShortLabels,
   ) {
     final isSelected = _selectedDayIndex == index;
-    final slotCount =
-        _workingConfig
-            .scheduleHours[ScheduleConstants.weekdays[index]]
-            ?.length ??
+    final slotCount = _workingConfig
+            .scheduleHours[ScheduleConstants.weekdays[index]]?.length ??
         0;
     final dayAbbrev = weekdayShortLabels[index];
 

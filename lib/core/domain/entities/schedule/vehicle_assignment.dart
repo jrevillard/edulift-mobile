@@ -17,7 +17,7 @@ class VehicleAssignment extends Equatable {
   // Additional properties needed by ScheduleSlotWidget and legacy compatibility
   final String vehicleName;
   final String?
-  driverName; // Legacy compatibility - can be derived from driverId
+      driverName; // Legacy compatibility - can be derived from driverId
   final List<ChildAssignment> childAssignments;
   final int capacity;
   final DateTime createdAt; // Legacy compatibility
@@ -132,23 +132,23 @@ class VehicleAssignment extends Equatable {
 
   @override
   List<Object?> get props => [
-    id,
-    scheduleSlotId,
-    vehicleId,
-    driverId,
-    assignedAt,
-    assignedBy,
-    isActive,
-    seatOverride,
-    notes,
-    status,
-    vehicleName,
-    driverName,
-    childAssignments,
-    capacity,
-    createdAt,
-    updatedAt,
-  ];
+        id,
+        scheduleSlotId,
+        vehicleId,
+        driverId,
+        assignedAt,
+        assignedBy,
+        isActive,
+        seatOverride,
+        notes,
+        status,
+        vehicleName,
+        driverName,
+        childAssignments,
+        capacity,
+        createdAt,
+        updatedAt,
+      ];
 }
 
 enum VehicleAssignmentStatus { assigned, confirmed, cancelled, completed }

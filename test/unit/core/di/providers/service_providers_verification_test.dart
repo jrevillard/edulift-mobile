@@ -185,7 +185,8 @@ void main() {
     });
 
     group('Family Data Services', () {
-      test('comprehensiveFamilyDataServiceProvider creates working service', () {
+      test('comprehensiveFamilyDataServiceProvider creates working service',
+          () {
         try {
           // The service is now properly implemented - verify it works
           final service = container.read(

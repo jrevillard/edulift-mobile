@@ -161,9 +161,8 @@ void main() {
 
       if (cyclesExist) {
         final cycles = findAllCycles(dependencyGraph);
-        final cycleDescriptions = cycles
-            .map((cycle) => cycle.join(' -> '))
-            .join('\n');
+        final cycleDescriptions =
+            cycles.map((cycle) => cycle.join(' -> ')).join('\n');
 
         fail(
           'CRITICAL: Dependency cycles detected between features!\n'
@@ -279,9 +278,8 @@ void main() {
 
       if (cyclesExist) {
         final cycles = findAllCycles(layerDependencies);
-        final cycleDescriptions = cycles
-            .map((cycle) => cycle.join(' -> '))
-            .join('\n');
+        final cycleDescriptions =
+            cycles.map((cycle) => cycle.join(' -> ')).join('\n');
 
         fail(
           'CRITICAL: Layer dependency cycles detected!\n'

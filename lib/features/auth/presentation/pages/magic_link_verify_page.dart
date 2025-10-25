@@ -45,9 +45,7 @@ class _MagicLinkVerifyPageState extends ConsumerState<MagicLinkVerifyPage> {
         '   - PostFrameCallback at: ${DateTime.now().toIso8601String()}\n'
         '   - Widget ref hashCode: ${ref.hashCode}',
       );
-      ref
-          .read(magicLinkProvider.notifier)
-          .verifyMagicLink(
+      ref.read(magicLinkProvider.notifier).verifyMagicLink(
             widget.token,
             inviteCode: widget.inviteCode,
             email: widget.email,
@@ -77,9 +75,7 @@ class _MagicLinkVerifyPageState extends ConsumerState<MagicLinkVerifyPage> {
   }
 
   void _handleRetry() {
-    ref
-        .read(magicLinkProvider.notifier)
-        .verifyMagicLink(
+    ref.read(magicLinkProvider.notifier).verifyMagicLink(
           widget.token,
           inviteCode: widget.inviteCode,
           email: widget.email,
@@ -102,9 +98,7 @@ class _MagicLinkVerifyPageState extends ConsumerState<MagicLinkVerifyPage> {
     ref.read(magicLinkProvider.notifier).reset();
     // STANDARDIZED NAVIGATION: Use navigationStateProvider pattern
     if (mounted) {
-      ref
-          .read(navigationStateProvider.notifier)
-          .navigateTo(
+      ref.read(navigationStateProvider.notifier).navigateTo(
             route: '/auth/login',
             trigger: NavigationTrigger.userNavigation,
           );
@@ -205,9 +199,7 @@ class _MagicLinkVerifyPageState extends ConsumerState<MagicLinkVerifyPage> {
           );
 
           // Convert to magic link error state to display using the new method
-          ref
-              .read(magicLinkProvider.notifier)
-              .setInvitationError(
+          ref.read(magicLinkProvider.notifier).setInvitationError(
                 invitationResult.reason ?? 'Failed to process invitation',
               );
 
@@ -316,8 +308,8 @@ class _MagicLinkVerifyPageState extends ConsumerState<MagicLinkVerifyPage> {
         Text(
           l10n.verifyingMagicLinkMessage,
           style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-            color: Theme.of(context).colorScheme.onSurfaceVariant,
-          ),
+                color: Theme.of(context).colorScheme.onSurfaceVariant,
+              ),
           textAlign: TextAlign.center,
         ),
       ],
@@ -352,8 +344,8 @@ class _MagicLinkVerifyPageState extends ConsumerState<MagicLinkVerifyPage> {
           l10n.welcomeAfterMagicLinkSuccess,
           key: const Key('welcome_to_edulift_message'),
           style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-            color: Theme.of(context).colorScheme.onSurfaceVariant,
-          ),
+                color: Theme.of(context).colorScheme.onSurfaceVariant,
+              ),
           textAlign: TextAlign.center,
         ),
       ],
@@ -422,11 +414,10 @@ class _MagicLinkVerifyPageState extends ConsumerState<MagicLinkVerifyPage> {
         Text(
           l10n.verificationFailedTitle,
           key: const Key('verification-failed-text'), // For Patrol E2E testing
-          style:
-              (isTablet
-                      ? Theme.of(context).textTheme.headlineSmall
-                      : Theme.of(context).textTheme.titleLarge)
-                  ?.copyWith(color: Theme.of(context).colorScheme.error),
+          style: (isTablet
+                  ? Theme.of(context).textTheme.headlineSmall
+                  : Theme.of(context).textTheme.titleLarge)
+              ?.copyWith(color: Theme.of(context).colorScheme.error),
           textAlign: TextAlign.center,
         ),
         SizedBox(height: isTablet ? 12 : 8),
@@ -434,8 +425,8 @@ class _MagicLinkVerifyPageState extends ConsumerState<MagicLinkVerifyPage> {
           localizedErrorMessage,
           key: const Key('errorMessage'), // For E2E tests to find error message
           style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-            color: Theme.of(context).colorScheme.onSurfaceVariant,
-          ),
+                color: Theme.of(context).colorScheme.onSurfaceVariant,
+              ),
           textAlign: TextAlign.center,
         ),
         SizedBox(height: isTablet ? 32 : 24),
@@ -448,18 +439,18 @@ class _MagicLinkVerifyPageState extends ConsumerState<MagicLinkVerifyPage> {
               keyValue: canRetry
                   ? 'try_again_button' // E2E test expects this key for retry
                   : hasEmail
-                  ? 'request-new-link-button'
-                  : 'back-to-login-button',
+                      ? 'request-new-link-button'
+                      : 'back-to-login-button',
               onPressed: canRetry
                   ? _handleRetry
                   : hasEmail
-                  ? _handleRequestNewLink
-                  : _handleBackToLogin,
+                      ? _handleRequestNewLink
+                      : _handleBackToLogin,
               text: canRetry
                   ? AppLocalizations.of(context).retry
                   : hasEmail
-                  ? AppLocalizations.of(context).resendLink
-                  : AppLocalizations.of(context).backToLogin,
+                      ? AppLocalizations.of(context).resendLink
+                      : AppLocalizations.of(context).backToLogin,
             ),
 
             // Show secondary button only if we have email and primary action is not login
@@ -502,8 +493,8 @@ class _MagicLinkVerifyPageState extends ConsumerState<MagicLinkVerifyPage> {
             return AppLocalizations.of(context).linkExpiryInfo;
           }(),
           style: Theme.of(context).textTheme.bodySmall?.copyWith(
-            color: Theme.of(context).colorScheme.onSurfaceVariant,
-          ),
+                color: Theme.of(context).colorScheme.onSurfaceVariant,
+              ),
           textAlign: TextAlign.center,
         ),
       ],
@@ -568,8 +559,8 @@ class _MagicLinkVerifyPageState extends ConsumerState<MagicLinkVerifyPage> {
               Text(
                 l10n.secureAuthentication,
                 style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                  color: Theme.of(context).colorScheme.onSurfaceVariant,
-                ),
+                      color: Theme.of(context).colorScheme.onSurfaceVariant,
+                    ),
                 textAlign: TextAlign.center,
               ),
             ],

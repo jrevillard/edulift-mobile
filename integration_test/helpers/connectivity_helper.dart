@@ -24,12 +24,10 @@ class ConnectivityHelper {
     final config = EnvironmentConfig.getConfig();
 
     try {
-      final response = await http
-          .get(
-            Uri.parse('${config.apiBaseUrl}/health'),
-            headers: {'Content-Type': 'application/json'},
-          )
-          .timeout(const Duration(seconds: 10));
+      final response = await http.get(
+        Uri.parse('${config.apiBaseUrl}/health'),
+        headers: {'Content-Type': 'application/json'},
+      ).timeout(const Duration(seconds: 10));
 
       expect(
         response.statusCode,

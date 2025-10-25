@@ -36,7 +36,7 @@ void main() {
           // Check if file uses provider overrides
           final usesProviderOverrides =
               content.contains('providerOverrides:') ||
-              content.contains('providerOverrides =');
+                  content.contains('providerOverrides =');
 
           if (usesProviderOverrides) {
             // If it uses provider overrides, it must import network_mocking
@@ -74,9 +74,9 @@ void main() {
           // Check if file uses provider overrides
           final usesProviderOverrides =
               content.contains('providerOverrides:') ||
-              content.contains('providerOverrides =') ||
-              content.contains('final overrides = [') ||
-              content.contains('overrides = [');
+                  content.contains('providerOverrides =') ||
+                  content.contains('final overrides = [') ||
+                  content.contains('overrides = [');
 
           if (usesProviderOverrides) {
             // It must call getAllNetworkMockOverrides()

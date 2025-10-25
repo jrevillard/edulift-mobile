@@ -45,8 +45,8 @@ abstract class IntegrationTestBase {
         // Try to get existing binding first
         final existingBinding = WidgetsBinding.instance;
         if (existingBinding.runtimeType.toString().contains(
-          'IntegrationTest',
-        )) {
+              'IntegrationTest',
+            )) {
           // Already an integration test binding
           binding = existingBinding as IntegrationTestWidgetsFlutterBinding;
         } else {

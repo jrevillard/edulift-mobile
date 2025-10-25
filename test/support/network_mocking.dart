@@ -44,22 +44,22 @@ class _MockGoldenTestConfig implements BaseConfig {
 
   @override
   Map<String, String> get defaultHeaders => {
-    'Content-Type': 'application/json',
-    'Accept': 'application/json',
-  };
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+      };
 
   @override
   bool validate() => true;
 
   @override
   Map<String, dynamic> get configSummary => {
-    'environment': environmentName,
-    'appName': appName,
-    'apiBaseUrl': apiBaseUrl,
-    'websocketUrl': websocketUrl,
-    'debugEnabled': debugEnabled,
-    'firebaseEnabled': firebaseEnabled,
-  };
+        'environment': environmentName,
+        'appName': appName,
+        'apiBaseUrl': apiBaseUrl,
+        'websocketUrl': websocketUrl,
+        'debugEnabled': debugEnabled,
+        'firebaseEnabled': firebaseEnabled,
+      };
 }
 
 /// Get all network mock overrides for golden tests

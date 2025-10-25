@@ -263,9 +263,8 @@ void main() {
         final timezones = getAllTimezones();
 
         // Find timezones with DST (indicated by slash in offset)
-        final dstTimezones = timezones
-            .where((tz) => tz.offset.contains('/'))
-            .toList();
+        final dstTimezones =
+            timezones.where((tz) => tz.offset.contains('/')).toList();
 
         expect(dstTimezones, isNotEmpty);
 
@@ -280,9 +279,8 @@ void main() {
         final timezones = getAllTimezones();
 
         // Find timezones without DST (no slash in offset)
-        final nonDstTimezones = timezones
-            .where((tz) => !tz.offset.contains('/'))
-            .toList();
+        final nonDstTimezones =
+            timezones.where((tz) => !tz.offset.contains('/')).toList();
 
         expect(nonDstTimezones, isNotEmpty);
 

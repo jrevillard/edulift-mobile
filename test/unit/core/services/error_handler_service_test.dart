@@ -286,8 +286,7 @@ void main() {
         const failure = NetworkFailure(message: 'No internet');
 
         // Act
-        final result =
-            errorHandlerService.classifyError(failure).category ==
+        final result = errorHandlerService.classifyError(failure).category ==
             ErrorCategory.network;
 
         // Assert
@@ -299,8 +298,7 @@ void main() {
         const failure = ValidationFailure(message: 'Name required');
 
         // Act
-        final result =
-            errorHandlerService.classifyError(failure).category ==
+        final result = errorHandlerService.classifyError(failure).category ==
             ErrorCategory.network;
 
         // Assert
@@ -312,8 +310,7 @@ void main() {
         const failure = AuthFailure(message: 'Unauthorized');
 
         // Act
-        final result =
-            errorHandlerService.classifyError(failure).category ==
+        final result = errorHandlerService.classifyError(failure).category ==
             ErrorCategory.authentication;
 
         // Assert
@@ -325,8 +322,7 @@ void main() {
         const failure = ValidationFailure(message: 'Name required');
 
         // Act
-        final result =
-            errorHandlerService.classifyError(failure).category ==
+        final result = errorHandlerService.classifyError(failure).category ==
             ErrorCategory.authentication;
 
         // Assert
@@ -338,8 +334,7 @@ void main() {
         const failure = ValidationFailure(message: 'Name required');
 
         // Act
-        final result =
-            errorHandlerService.classifyError(failure).category ==
+        final result = errorHandlerService.classifyError(failure).category ==
             ErrorCategory.validation;
 
         // Assert
@@ -353,8 +348,7 @@ void main() {
           const failure = NetworkFailure(message: 'No connection');
 
           // Act
-          final result =
-              errorHandlerService.classifyError(failure).category ==
+          final result = errorHandlerService.classifyError(failure).category ==
               ErrorCategory.validation;
 
           // Assert

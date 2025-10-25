@@ -27,7 +27,7 @@ class MagicLinkState {
   final bool canRetry;
   final String? email; // Store email for retry attempts
   final Failure?
-  failure; // Store the actual failure type for proper error display
+      failure; // Store the actual failure type for proper error display
 
   const MagicLinkState({
     required this.status,
@@ -91,7 +91,8 @@ class MagicLinkNotifier extends StateNotifier<MagicLinkState>
   final Ref _ref;
 
   MagicLinkNotifier(this._magicLinkService, this._ref)
-    : super(const MagicLinkState(status: MagicLinkVerificationStatus.initial));
+      : super(
+            const MagicLinkState(status: MagicLinkVerificationStatus.initial));
 
   /// Store email for retry attempts
   void storeEmail(String email) {
@@ -188,8 +189,7 @@ class MagicLinkNotifier extends StateNotifier<MagicLinkState>
             } else {
               // Regular invitation error - use generic server error
               invitationFailure = ServerFailure(
-                message:
-                    verificationResult.invitationError ??
+                message: verificationResult.invitationError ??
                     'This invitation could not be processed',
               );
             }
@@ -256,13 +256,13 @@ class MagicLinkNotifier extends StateNotifier<MagicLinkState>
 
             // Call the auth service to properly process the verified data and set up user session
             try {
-              final authResult = await authNotifier.authService
-                  .authenticateWithVerifiedData(
-                    token: token,
-                    refreshToken: refreshToken,
-                    expiresIn: expiresIn,
-                    userData: userData,
-                  );
+              final authResult =
+                  await authNotifier.authService.authenticateWithVerifiedData(
+                token: token,
+                refreshToken: refreshToken,
+                expiresIn: expiresIn,
+                userData: userData,
+              );
 
               await authResult.when(
                 ok: (result) {
@@ -439,7 +439,8 @@ class MagicLinkNotifier extends StateNotifier<MagicLinkState>
 }
 
 /// Provider for magic link state management
-final magicLinkProvider = StateNotifierProvider<MagicLinkNotifier, MagicLinkState>((
+final magicLinkProvider =
+    StateNotifierProvider<MagicLinkNotifier, MagicLinkState>((
   ref,
 ) {
   // Get the magic link service from dependency injection

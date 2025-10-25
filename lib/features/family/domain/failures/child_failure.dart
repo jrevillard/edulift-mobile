@@ -70,39 +70,39 @@ class ChildFailure {
 
   /// Check if this is a validation failure
   bool get isValidationFailure => [
-    ChildError.nameRequired,
-    ChildError.nameInvalid,
-    ChildError.ageInvalid,
-    ChildError.medicalInfoInvalid,
-    ChildError.specialNeedsInvalid,
-    ChildError.schoolInfoInvalid,
-    ChildError.emergencyContactInvalid,
-  ].contains(error);
+        ChildError.nameRequired,
+        ChildError.nameInvalid,
+        ChildError.ageInvalid,
+        ChildError.medicalInfoInvalid,
+        ChildError.specialNeedsInvalid,
+        ChildError.schoolInfoInvalid,
+        ChildError.emergencyContactInvalid,
+      ].contains(error);
 
   /// Check if this is a business logic failure
   bool get isBusinessFailure => [
-    ChildError.childNotFound,
-    ChildError.childAlreadyExists,
-    ChildError.duplicateChildName,
-    ChildError.tooManyChildren,
-    ChildError.childHasActiveSchedules,
-    ChildError.childHasActiveAssignments,
-  ].contains(error);
+        ChildError.childNotFound,
+        ChildError.childAlreadyExists,
+        ChildError.duplicateChildName,
+        ChildError.tooManyChildren,
+        ChildError.childHasActiveSchedules,
+        ChildError.childHasActiveAssignments,
+      ].contains(error);
 
   /// Check if this is a permission failure
   bool get isPermissionFailure => [
-    ChildError.insufficientPermissions,
-    ChildError.cannotModifyChild,
-    ChildError.cannotDeleteChild,
-  ].contains(error);
+        ChildError.insufficientPermissions,
+        ChildError.cannotModifyChild,
+        ChildError.cannotDeleteChild,
+      ].contains(error);
 
   /// Check if this is a system failure
   bool get isSystemFailure => [
-    ChildError.networkError,
-    ChildError.serverError,
-    ChildError.databaseError,
-    ChildError.unexpectedError,
-  ].contains(error);
+        ChildError.networkError,
+        ChildError.serverError,
+        ChildError.databaseError,
+        ChildError.unexpectedError,
+      ].contains(error);
 
   @override
   String toString() {

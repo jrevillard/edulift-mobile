@@ -406,9 +406,8 @@ void main() {
 
         // ACT
         final stopwatch = Stopwatch()..start();
-        final results = urls
-            .map((url) => deepLinkService.parseDeepLink(url))
-            .toList();
+        final results =
+            urls.map((url) => deepLinkService.parseDeepLink(url)).toList();
         stopwatch.stop();
 
         // ASSERT

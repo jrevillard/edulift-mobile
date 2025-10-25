@@ -204,7 +204,8 @@ void main() {
       },
     );
 
-    test('should correctly parse deeplink with family invitation parameters', () {
+    test('should correctly parse deeplink with family invitation parameters',
+        () {
       // ARRANGE: Incoming deeplink URL
       const deeplinkUrl =
           'edulift://families/join?code=FAM456&token=auth_token_123&email=user%40example.com';

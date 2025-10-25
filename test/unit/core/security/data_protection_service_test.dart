@@ -24,17 +24,17 @@ class CryptoTestResults {
 
   static const decryptionSuccess =
       Result<({String plaintext, int keyId}), CryptographyException>.ok((
-        plaintext: 'Test sensitive data',
-        keyId: 1,
-      ));
+    plaintext: 'Test sensitive data',
+    keyId: 1,
+  ));
   static const decryptionFailure =
       Result<({String plaintext, int keyId}), CryptographyException>.err(
-        CryptographyException(
-          'Authentication tag verification failed',
-          operation: 'decrypt',
-          algorithm: 'AES-256-GCM',
-        ),
-      );
+    CryptographyException(
+      'Authentication tag verification failed',
+      operation: 'decrypt',
+      algorithm: 'AES-256-GCM',
+    ),
+  );
 }
 
 class SecurityTestFixtures {
@@ -46,9 +46,9 @@ class SecurityTestFixtures {
   );
 
   static String get testKeyStorage => jsonEncode({
-    'currentKeyId': 1,
-    'keys': {'1': base64Encode(testMasterKeyBytes)},
-  });
+        'currentKeyId': 1,
+        'keys': {'1': base64Encode(testMasterKeyBytes)},
+      });
 }
 
 void main() {
@@ -58,8 +58,8 @@ void main() {
       const Result.ok('dummy_encrypted_data'),
     );
     provideDummy<
-      Result<({String plaintext, int keyId}), CryptographyException>
-    >(const Result.ok((plaintext: 'dummy_plaintext', keyId: 1)));
+            Result<({String plaintext, int keyId}), CryptographyException>>(
+        const Result.ok((plaintext: 'dummy_plaintext', keyId: 1)));
     provideDummy<Result<Uint8List, CryptographyException>>(
       Result.ok(Uint8List.fromList([1, 2, 3])),
     );

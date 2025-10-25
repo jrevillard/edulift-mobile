@@ -291,9 +291,7 @@ class ScheduleSlotWidget extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
           children: [
-            ...vehicles
-                .take(2)
-                .map(
+            ...vehicles.take(2).map(
                   (vehicle) => Padding(
                     padding: const EdgeInsets.only(
                       bottom: ScheduleDimensions.spacingXs / 4,

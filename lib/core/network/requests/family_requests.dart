@@ -84,9 +84,9 @@ class UpdateChildRequest extends Equatable {
   }
 
   Map<String, dynamic> toJson() => {
-    if (name != null) 'name': name,
-    if (age != null) 'age': age,
-  };
+        if (name != null) 'name': name,
+        if (age != null) 'age': age,
+      };
 
   @override
   List<Object?> get props => [name, age];
@@ -113,10 +113,10 @@ class CreateVehicleRequest extends Equatable {
   }
 
   Map<String, dynamic> toJson() => {
-    'name': name,
-    'capacity': capacity,
-    if (description != null) 'description': description,
-  };
+        'name': name,
+        'capacity': capacity,
+        if (description != null) 'description': description,
+      };
 
   @override
   List<Object?> get props => [name, capacity, description];
@@ -139,10 +139,10 @@ class UpdateVehicleRequest extends Equatable {
   }
 
   Map<String, dynamic> toJson() => {
-    if (name != null) 'name': name,
-    if (capacity != null) 'capacity': capacity,
-    if (description != null) 'description': description,
-  };
+        if (name != null) 'name': name,
+        if (capacity != null) 'capacity': capacity,
+        if (description != null) 'description': description,
+      };
 
   @override
   List<Object?> get props => [name, capacity, description];
@@ -183,10 +183,10 @@ class CreateFamilyInvitationRequest extends Equatable {
   }
 
   Map<String, dynamic> toJson() => {
-    'email': email,
-    if (message != null) 'message': message,
-    'platform': platform,
-  };
+        'email': email,
+        if (message != null) 'message': message,
+        'platform': platform,
+      };
 
   @override
   List<Object?> get props => [email, message, platform];

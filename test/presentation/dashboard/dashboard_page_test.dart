@@ -60,8 +60,7 @@ void main() {
       );
       final container = find.byType(Container);
 
-      final hasWelcomeSection =
-          welcomeKey.evaluate().isNotEmpty ||
+      final hasWelcomeSection = welcomeKey.evaluate().isNotEmpty ||
           welcomeText.evaluate().isNotEmpty ||
           container.evaluate().isNotEmpty;
 
@@ -89,8 +88,7 @@ void main() {
       final card = find.byType(Card);
       final container = find.byType(Container);
 
-      final hasFamilyOverview =
-          familyOverviewKey.evaluate().isNotEmpty ||
+      final hasFamilyOverview = familyOverviewKey.evaluate().isNotEmpty ||
           familyText.evaluate().isNotEmpty ||
           card.evaluate().isNotEmpty ||
           container.evaluate().isNotEmpty;
@@ -117,8 +115,7 @@ void main() {
       final listView = find.byType(ListView);
       final column = find.byType(Column);
 
-      final hasScheduleElements =
-          scheduleText.evaluate().isNotEmpty ||
+      final hasScheduleElements = scheduleText.evaluate().isNotEmpty ||
           todayText.evaluate().isNotEmpty ||
           upcomingText.evaluate().isNotEmpty ||
           listView.evaluate().isNotEmpty ||
@@ -146,8 +143,7 @@ void main() {
       final iconButton = find.byType(IconButton);
       final floatingActionButton = find.byType(FloatingActionButton);
 
-      final hasActionButtons =
-          elevatedButton.evaluate().isNotEmpty ||
+      final hasActionButtons = elevatedButton.evaluate().isNotEmpty ||
           outlinedButton.evaluate().isNotEmpty ||
           textButton.evaluate().isNotEmpty ||
           iconButton.evaluate().isNotEmpty ||

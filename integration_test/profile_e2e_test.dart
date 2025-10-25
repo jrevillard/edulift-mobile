@@ -422,8 +422,8 @@ void main() {
       );
 
       // Test 9: Verify dropdown is DISABLED again
-      final disabledAgainDropdown = $.tester
-          .widget<DropdownButtonFormField<String>>(dropdownFinder);
+      final disabledAgainDropdown =
+          $.tester.widget<DropdownButtonFormField<String>>(dropdownFinder);
       debugPrint('📊 Dropdown after re-checking:');
       debugPrint(
         '   onChanged: ${disabledAgainDropdown.onChanged != null ? "NOT NULL (enabled)" : "NULL (disabled)"}',
