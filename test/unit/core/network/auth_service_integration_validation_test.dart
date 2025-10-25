@@ -214,8 +214,10 @@ void main() {
           );
 
           // Assert: Should handle 422 error correctly through DTO pattern
+          // FIXED: 422 is a validation error, not a generic API error
+          // HTTP 422 "Unprocessable Entity" should return ValidationFailure
           expect(result.isError, isTrue);
-          expect(result.error, isA<ApiFailure>());
+          expect(result.error, isA<ValidationFailure>());
           expect(result.error!.statusCode, 422);
           expect(result.error!.message, contains('expired'));
 

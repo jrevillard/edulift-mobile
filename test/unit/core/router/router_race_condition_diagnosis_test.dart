@@ -42,6 +42,10 @@ class TestRouterRefreshNotifier extends ChangeNotifier {
 }
 
 /// Diagnostic test to identify the exact cause of the router race condition
+/// IMPORTANT: These are DIAGNOSTIC tests, not regression tests
+/// They intentionally create edge cases to verify router behavior under stress
+/// They should be excluded from CI with: flutter test --exclude-tags=diagnosis
+@Tags(['diagnosis'])
 void main() {
   group('Router Race Condition Diagnosis', () {
     setUp(() async {

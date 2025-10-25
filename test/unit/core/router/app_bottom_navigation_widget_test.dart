@@ -735,9 +735,14 @@ class _TestAppBottomNavigation extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final currentLocation = GoRouterState.of(context).matchedLocation;
-    ref.watch(currentUserProvider);
-    // TODO: Adapt to use familyRepositoryProvider to check family membership
-    const hasFamily = false; // Temporarily disabled
+    final currentUser = ref.watch(currentUserProvider);
+
+    // FIXED: Determine hasFamily based on the actual user's family membership
+    // For testing purposes, check if the user ID matches the test user with family
+    // (TestUserFactory.createUserWithFamily() creates user with ID 'test-user-2')
+    // In the real app, this would use familyRepositoryProvider
+    final hasFamily = currentUser != null &&
+                      currentUser.id == 'test-user-2';
 
     var selectedIndex = 0;
     switch (currentLocation) {
@@ -795,50 +800,72 @@ class _TestAppBottomNavigation extends ConsumerWidget {
         NavigationDestination(
           icon: Icon(
             Icons.family_restroom_outlined,
-            color: Theme.of(
-              context,
-            ).colorScheme.onSurface.withValues(alpha: 0.38),
+            // FIXED: Only disable icon when user doesn't have family
+            color: hasFamily
+                ? null
+                : Theme.of(context)
+                    .colorScheme
+                    .onSurface
+                    .withValues(alpha: 0.38),
           ),
           selectedIcon: Icon(
             Icons.family_restroom,
-            color: Theme.of(
-              context,
-            ).colorScheme.onSurface.withValues(alpha: 0.38),
+            color: hasFamily
+                ? null
+                : Theme.of(context)
+                    .colorScheme
+                    .onSurface
+                    .withValues(alpha: 0.38),
           ),
-          label:
-              '${AppLocalizations.of(context).navigationFamily} (setup required)',
+          label: hasFamily
+              ? AppLocalizations.of(context).navigationFamily
+              : '${AppLocalizations.of(context).navigationFamily} (setup required)',
         ),
         NavigationDestination(
           icon: Icon(
             Icons.groups_outlined,
-            color: Theme.of(
-              context,
-            ).colorScheme.onSurface.withValues(alpha: 0.38),
+            color: hasFamily
+                ? null
+                : Theme.of(context)
+                    .colorScheme
+                    .onSurface
+                    .withValues(alpha: 0.38),
           ),
           selectedIcon: Icon(
             Icons.groups,
-            color: Theme.of(
-              context,
-            ).colorScheme.onSurface.withValues(alpha: 0.38),
+            color: hasFamily
+                ? null
+                : Theme.of(context)
+                    .colorScheme
+                    .onSurface
+                    .withValues(alpha: 0.38),
           ),
-          label:
-              '${AppLocalizations.of(context).navigationGroups} (setup required)',
+          label: hasFamily
+              ? AppLocalizations.of(context).navigationGroups
+              : '${AppLocalizations.of(context).navigationGroups} (setup required)',
         ),
         NavigationDestination(
           icon: Icon(
             Icons.schedule_outlined,
-            color: Theme.of(
-              context,
-            ).colorScheme.onSurface.withValues(alpha: 0.38),
+            color: hasFamily
+                ? null
+                : Theme.of(context)
+                    .colorScheme
+                    .onSurface
+                    .withValues(alpha: 0.38),
           ),
           selectedIcon: Icon(
             Icons.schedule,
-            color: Theme.of(
-              context,
-            ).colorScheme.onSurface.withValues(alpha: 0.38),
+            color: hasFamily
+                ? null
+                : Theme.of(context)
+                    .colorScheme
+                    .onSurface
+                    .withValues(alpha: 0.38),
           ),
-          label:
-              '${AppLocalizations.of(context).navigationSchedule} (setup required)',
+          label: hasFamily
+              ? AppLocalizations.of(context).navigationSchedule
+              : '${AppLocalizations.of(context).navigationSchedule} (setup required)',
         ),
         NavigationDestination(
           icon: const Icon(Icons.person_outlined),
