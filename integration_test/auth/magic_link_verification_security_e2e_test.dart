@@ -119,10 +119,10 @@ void main() {
         // STEP 6: ENHANCED - Verify security error message content
         final errorMessage =
             await AuthFlowHelper.verifyVerificationFailedMessage(
-          $,
-          'errorAuthMagicLinkAlreadyUsed',
-          timeout: const Duration(seconds: 8),
-        );
+              $,
+              'errorAuthMagicLinkAlreadyUsed',
+              timeout: const Duration(seconds: 8),
+            );
         debugPrint(
           '✅ Magic link reuse properly blocked with deterministic error',
         );
@@ -171,10 +171,10 @@ void main() {
 
         final errorMessage =
             await AuthFlowHelper.verifyVerificationFailedMessage(
-          $,
-          'errorAuthInvalidToken',
-          timeout: const Duration(seconds: 8),
-        );
+              $,
+              'errorAuthInvalidToken',
+              timeout: const Duration(seconds: 8),
+            );
         debugPrint('✅ Invalid token properly rejected');
         debugPrint('📝 Error message: "$errorMessage"');
 
@@ -255,10 +255,10 @@ void main() {
 
         final errorMessage =
             await AuthFlowHelper.verifyVerificationFailedMessage(
-          $,
-          'errorAuthInvalidToken',
-          timeout: const Duration(seconds: 8),
-        );
+              $,
+              'errorAuthInvalidToken',
+              timeout: const Duration(seconds: 8),
+            );
         debugPrint('✅ Tampered token properly rejected');
         debugPrint('📝 Error message: "$errorMessage"');
 
@@ -294,12 +294,12 @@ void main() {
         // Verify no existing PKCE data persists from previous tests
         await TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
             .handlePlatformMessage(
-          'flutter/dart-services',
-          const StandardMethodCodec().encodeMethodCall(
-            const MethodCall('SharedPreferences.clear'),
-          ),
-          (data) => null,
-        );
+              'flutter/dart-services',
+              const StandardMethodCodec().encodeMethodCall(
+                const MethodCall('SharedPreferences.clear'),
+              ),
+              (data) => null,
+            );
         await $.pumpAndSettle();
 
         debugPrint('🧹 Cleared existing PKCE data for clean test');
@@ -467,10 +467,10 @@ void main() {
         // STEP 7: ENHANCED - Verify PKCE validation error message content
         final errorMessage =
             await AuthFlowHelper.verifyVerificationFailedMessage(
-          $,
-          'errorAuthPKCEValidationFailed',
-          timeout: const Duration(seconds: 8),
-        );
+              $,
+              'errorAuthPKCEValidationFailed',
+              timeout: const Duration(seconds: 8),
+            );
         debugPrint('✅ PKCE tampering properly detected and blocked');
         debugPrint('📝 Error message: "$errorMessage"');
 
@@ -620,10 +620,10 @@ void main() {
         // STEP 6: ENHANCED - Verify PKCE replay prevention error message
         final errorMessage =
             await AuthFlowHelper.verifyVerificationFailedMessage(
-          $,
-          'errorAuthMagicLinkAlreadyUsed',
-          timeout: const Duration(seconds: 8),
-        );
+              $,
+              'errorAuthMagicLinkAlreadyUsed',
+              timeout: const Duration(seconds: 8),
+            );
         debugPrint('✅ PKCE replay attack properly prevented');
         debugPrint('📝 Error message: "$errorMessage"');
 
@@ -722,10 +722,10 @@ void main() {
         // STEP 6: ENHANCED - Verify cross-user security error message
         final errorMessage =
             await AuthFlowHelper.verifyVerificationFailedMessage(
-          $,
-          'errorAuthPKCEValidationFailed',
-          timeout: const Duration(seconds: 8),
-        );
+              $,
+              'errorAuthPKCEValidationFailed',
+              timeout: const Duration(seconds: 8),
+            );
         debugPrint(
           '✅ Cross-user magic link properly rejected by PKCE security',
         );

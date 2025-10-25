@@ -189,18 +189,18 @@ class GroupFamily extends Equatable {
 
   @override
   List<Object?> get props => [
-        id,
-        name,
-        role,
-        isMyFamily,
-        canManage,
-        admins,
-        status,
-        inviteCode,
-        invitationId,
-        invitedAt,
-        expiresAt,
-      ];
+    id,
+    name,
+    role,
+    isMyFamily,
+    canManage,
+    admins,
+    status,
+    inviteCode,
+    invitationId,
+    invitedAt,
+    expiresAt,
+  ];
 
   @override
   String toString() {

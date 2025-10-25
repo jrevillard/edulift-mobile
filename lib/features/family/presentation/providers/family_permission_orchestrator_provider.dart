@@ -67,11 +67,11 @@ class FamilyPermissionOrchestratorNotifier
     required this.familyId,
     required this.ref,
   }) : super(
-          const FamilyPermissionOrchestratedState(
-            permissions: AsyncValue.loading(),
-            actions: FamilyMemberActionsState(),
-          ),
-        ) {
+         const FamilyPermissionOrchestratedState(
+           permissions: AsyncValue.loading(),
+           actions: FamilyMemberActionsState(),
+         ),
+       ) {
     // CRITICAL: Listen to auth changes continuously for TRUE reactive architecture
     ref.listen(currentUserProvider, (previous, next) {
       if (next == null && previous != null) {
@@ -312,13 +312,16 @@ class FamilyPermissionOrchestratorNotifier
 /// Main orchestrator provider for family permissions
 /// CRITICAL FIX: Use autoDispose with keepAlive to prevent disposal during navigation
 final familyPermissionOrchestratorProvider = StateNotifierProvider.family
-    .autoDispose<FamilyPermissionOrchestratorNotifier,
-        FamilyPermissionOrchestratedState, String>((ref, familyId) {
-  // ARCHITECTURE FIX: Keep alive to prevent disposal during tab navigation
-  // This prevents re-fetching permissions on every navigation
-  ref.keepAlive();
-  return FamilyPermissionOrchestratorNotifier(familyId: familyId, ref: ref);
-});
+    .autoDispose<
+      FamilyPermissionOrchestratorNotifier,
+      FamilyPermissionOrchestratedState,
+      String
+    >((ref, familyId) {
+      // ARCHITECTURE FIX: Keep alive to prevent disposal during tab navigation
+      // This prevents re-fetching permissions on every navigation
+      ref.keepAlive();
+      return FamilyPermissionOrchestratorNotifier(familyId: familyId, ref: ref);
+    });
 
 /// Convenience providers for UI components
 
@@ -326,8 +329,7 @@ final familyPermissionOrchestratorProvider = StateNotifierProvider.family
 /// CRITICAL FIX: Use autoDispose to prevent stale cached values after navigation
 /// Without autoDispose, the provider caches the result and doesn't recalculate
 /// even when the underlying orchestratedState changes, causing FAB to not reopen
-final canPerformMemberActionsProvider =
-    Provider.autoDispose.family<bool, String>((
+final canPerformMemberActionsProvider = Provider.autoDispose.family<bool, String>((
   ref,
   familyId,
 ) {
@@ -368,12 +370,12 @@ class PermissionSyncStatus extends Equatable {
 /// Provider for permission sync status
 final permissionSyncStatusProvider =
     Provider.family<PermissionSyncStatus, String>((ref, familyId) {
-  final orchestratedState = ref.watch(
-    familyPermissionOrchestratorProvider(familyId),
-  );
-  return PermissionSyncStatus(
-    isLoading: orchestratedState.isLoading,
-    lastSyncedAt: orchestratedState.lastSyncedAt,
-    hasError: orchestratedState.hasError,
-  );
-});
+      final orchestratedState = ref.watch(
+        familyPermissionOrchestratorProvider(familyId),
+      );
+      return PermissionSyncStatus(
+        isLoading: orchestratedState.isLoading,
+        lastSyncedAt: orchestratedState.lastSyncedAt,
+        hasError: orchestratedState.hasError,
+      );
+    });

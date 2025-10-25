@@ -38,14 +38,14 @@ class UserModel {
   }
 
   Map<String, dynamic> toJson() => {
-        'id': id,
-        'email': email,
-        'name': name,
-        'timezone': timezone,
-        'isBiometricEnabled': isBiometricEnabled,
-        'createdAt': createdAt?.toIso8601String(),
-        'updatedAt': updatedAt?.toIso8601String(),
-      };
+    'id': id,
+    'email': email,
+    'name': name,
+    'timezone': timezone,
+    'isBiometricEnabled': isBiometricEnabled,
+    'createdAt': createdAt?.toIso8601String(),
+    'updatedAt': updatedAt?.toIso8601String(),
+  };
 }
 
 /// User status check response model

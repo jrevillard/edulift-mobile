@@ -7,11 +7,11 @@ import '../presentation/widgets/profile/profile_page.dart';
 class SharedRouteFactory implements AppRouteFactory {
   @override
   List<RouteBase> get routes => [
-        // Profile
-        GoRoute(
-          path: AppRoutes.profile,
-          name: 'profile',
-          builder: (context, state) => const ProfilePage(),
-        ),
-      ];
+    // Profile
+    GoRoute(
+      path: AppRoutes.profile,
+      name: 'profile',
+      builder: (context, state) => const ProfilePage(),
+    ),
+  ];
 }

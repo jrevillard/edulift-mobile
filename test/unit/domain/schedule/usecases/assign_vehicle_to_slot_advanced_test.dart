@@ -17,8 +17,7 @@ void main() {
     _provideScheduleDummyValues();
   });
 
-  group('AssignVehicleToSlot - Advanced Business Logic & Conflict Resolution',
-      () {
+  group('AssignVehicleToSlot - Advanced Business Logic & Conflict Resolution', () {
     late AssignVehicleToSlot usecase;
     late MockGroupScheduleRepository mockRepository;
     late DateTime testDateTime;
@@ -263,7 +262,8 @@ void main() {
           ).thenAnswer(
             (_) async => Result.err(
               ApiFailure.validationError(
-                message: 'Vehicle assignment violates multiple constraints: '
+                message:
+                    'Vehicle assignment violates multiple constraints: '
                     '1) Vehicle lacks wheelchair accessibility for child-456, '
                     '2) Vehicle does not have required car seats for ages 4-6, '
                     '3) Driver license does not permit passenger transport for children under 8',

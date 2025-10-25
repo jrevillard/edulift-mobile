@@ -35,13 +35,13 @@ class ThemeNotifier extends StateNotifier<ThemeState> {
   final AdaptiveStorageService _storage;
 
   ThemeNotifier(this._storage)
-      : super(
-          ThemeState(
-            lightTheme: AppTheme.lightTheme,
-            darkTheme: AppTheme.darkTheme,
-            themeMode: ThemeMode.system,
-          ),
-        ) {
+    : super(
+        ThemeState(
+          lightTheme: AppTheme.lightTheme,
+          darkTheme: AppTheme.darkTheme,
+          themeMode: ThemeMode.system,
+        ),
+      ) {
     _loadThemeMode();
   }
 
@@ -71,8 +71,9 @@ class ThemeNotifier extends StateNotifier<ThemeState> {
   }
 
   void toggleTheme() {
-    final newMode =
-        state.themeMode == ThemeMode.light ? ThemeMode.dark : ThemeMode.light;
+    final newMode = state.themeMode == ThemeMode.light
+        ? ThemeMode.dark
+        : ThemeMode.light;
     setThemeMode(newMode);
   }
 

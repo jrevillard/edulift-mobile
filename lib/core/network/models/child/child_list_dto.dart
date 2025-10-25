@@ -26,14 +26,14 @@ abstract class AssignmentDto with _$AssignmentDto {
   }) = _AssignmentDto;
 
   factory AssignmentDto.fromJson(Map<String, dynamic> json) => AssignmentDto(
-        id: json['id'] as String,
-        childId: json['child_id'] as String,
-        scheduleSlotId: json['schedule_slot_id'] as String,
-        vehicleAssignmentId: json['vehicle_assignment_id'] as String?,
-        status: json['status'] as String,
-        createdAt: json['created_at'] as String,
-        updatedAt: json['updated_at'] as String,
-      );
+    id: json['id'] as String,
+    childId: json['child_id'] as String,
+    scheduleSlotId: json['schedule_slot_id'] as String,
+    vehicleAssignmentId: json['vehicle_assignment_id'] as String?,
+    status: json['status'] as String,
+    createdAt: json['created_at'] as String,
+    updatedAt: json['updated_at'] as String,
+  );
 }
 
 @freezed

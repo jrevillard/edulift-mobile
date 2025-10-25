@@ -29,7 +29,8 @@ class GroupScheduleConfigPage extends ConsumerStatefulWidget {
 }
 
 class _GroupScheduleConfigPageState
-    extends ConsumerState<GroupScheduleConfigPage> with NavigationCleanupMixin {
+    extends ConsumerState<GroupScheduleConfigPage>
+    with NavigationCleanupMixin {
   bool _hasUnsavedChanges = false;
   String? _resolvedGroupName;
   VoidCallback? _saveCallback;
@@ -241,8 +242,8 @@ class _GroupScheduleConfigPageState
         floatingActionButton: !authState.isAuthenticated || !hasAccess
             ? null
             : (_scheduleWidgetKey.currentState as dynamic)
-                ?.buildFloatingActionButton
-                ?.call(context),
+                  ?.buildFloatingActionButton
+                  ?.call(context),
       ),
     );
   }

@@ -10,8 +10,7 @@ void main() {
   setUpAll(() {
     setupMockFallbacks();
   });
-  group('FamilyManagementScreen Vehicle Actions Bottom Sheet Layout Fix Tests',
-      () {
+  group('FamilyManagementScreen Vehicle Actions Bottom Sheet Layout Fix Tests', () {
     testWidgets(
       'bottom sheet layout prevents RenderFlex overflow with proper scrollable design',
       (tester) async {
@@ -69,8 +68,7 @@ void main() {
       },
     );
 
-    testWidgets(
-        'bottom sheet is scrollable on small screens to prevent overflow', (
+    testWidgets('bottom sheet is scrollable on small screens to prevent overflow', (
       tester,
     ) async {
       // Arrange - Test overflow prevention on small screen with modal bottom sheet

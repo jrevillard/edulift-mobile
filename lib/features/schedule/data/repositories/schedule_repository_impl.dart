@@ -38,9 +38,9 @@ class ScheduleRepositoryImpl implements GroupScheduleRepository {
     required ScheduleRemoteDataSource remoteDataSource,
     required ScheduleLocalDataSource localDataSource,
     required NetworkErrorHandler networkErrorHandler,
-  })  : _remoteDataSource = remoteDataSource,
-        _localDataSource = localDataSource,
-        _networkErrorHandler = networkErrorHandler;
+  }) : _remoteDataSource = remoteDataSource,
+       _localDataSource = localDataSource,
+       _networkErrorHandler = networkErrorHandler;
 
   // ========================================
   // BASIC SLOT OPERATIONS (READ operations - networkOnly + manual cache fallback)
@@ -48,30 +48,30 @@ class ScheduleRepositoryImpl implements GroupScheduleRepository {
 
   @override
   Future<Result<List<schedule_entities.ScheduleSlot>, ApiFailure>>
-      getWeeklySchedule(String groupId, String week) async {
+  getWeeklySchedule(String groupId, String week) async {
     // Use NetworkErrorHandler with networkOnly strategy + manual cache fallback (EXACT PATTERN)
     final result = await _networkErrorHandler
         .executeRepositoryOperation<List<ScheduleSlotDto>>(
-      () => _remoteDataSource.getWeeklySchedule(groupId, week),
-      operationName: 'schedule.getWeeklySchedule',
-      strategy: CacheStrategy.networkOnly,
-      serviceName: 'schedule',
-      config: RetryConfig.quick,
-      onSuccess: (dtos) async {
-        final slots = dtos.map((dto) => dto.toDomain()).toList();
-        await _localDataSource.cacheWeeklySchedule(groupId, week, slots);
-        AppLogger.info(
-          '[SCHEDULE] Weekly schedule cached successfully after network success',
+          () => _remoteDataSource.getWeeklySchedule(groupId, week),
+          operationName: 'schedule.getWeeklySchedule',
+          strategy: CacheStrategy.networkOnly,
+          serviceName: 'schedule',
+          config: RetryConfig.quick,
+          onSuccess: (dtos) async {
+            final slots = dtos.map((dto) => dto.toDomain()).toList();
+            await _localDataSource.cacheWeeklySchedule(groupId, week, slots);
+            AppLogger.info(
+              '[SCHEDULE] Weekly schedule cached successfully after network success',
+            );
+          },
+          context: {
+            'feature': 'schedule_management',
+            'operation_type': 'read',
+            'cache_strategy': 'network_only_with_manual_cache_fallback',
+            'groupId': groupId,
+            'week': week,
+          },
         );
-      },
-      context: {
-        'feature': 'schedule_management',
-        'operation_type': 'read',
-        'cache_strategy': 'network_only_with_manual_cache_fallback',
-        'groupId': groupId,
-        'week': week,
-      },
-    );
 
     return result.when(
       ok: (dtos) {
@@ -149,27 +149,27 @@ class ScheduleRepositoryImpl implements GroupScheduleRepository {
     String time,
   ) async {
     // Use NetworkErrorHandler with networkOnly strategy (READ operation)
-    final result =
-        await _networkErrorHandler.executeRepositoryOperation<List<ChildDto>>(
-      () => _remoteDataSource.getAvailableChildren(
-        groupId: groupId,
-        week: week,
-        day: day,
-        time: time,
-      ),
-      operationName: 'schedule.getAvailableChildren',
-      strategy: CacheStrategy.networkOnly,
-      serviceName: 'schedule',
-      config: RetryConfig.quick,
-      context: {
-        'feature': 'schedule_management',
-        'operation_type': 'read',
-        'groupId': groupId,
-        'week': week,
-        'day': day,
-        'time': time,
-      },
-    );
+    final result = await _networkErrorHandler
+        .executeRepositoryOperation<List<ChildDto>>(
+          () => _remoteDataSource.getAvailableChildren(
+            groupId: groupId,
+            week: week,
+            day: day,
+            time: time,
+          ),
+          operationName: 'schedule.getAvailableChildren',
+          strategy: CacheStrategy.networkOnly,
+          serviceName: 'schedule',
+          config: RetryConfig.quick,
+          context: {
+            'feature': 'schedule_management',
+            'operation_type': 'read',
+            'groupId': groupId,
+            'week': week,
+            'day': day,
+            'time': time,
+          },
+        );
 
     return result.when(
       ok: (dtos) {
@@ -182,7 +182,7 @@ class ScheduleRepositoryImpl implements GroupScheduleRepository {
 
   @override
   Future<Result<List<schedule_entities.ScheduleConflict>, ApiFailure>>
-      checkScheduleConflicts(
+  checkScheduleConflicts(
     String groupId,
     String vehicleId,
     String week,
@@ -235,7 +235,7 @@ class ScheduleRepositoryImpl implements GroupScheduleRepository {
 
   @override
   Future<Result<schedule_entities.VehicleAssignment, ApiFailure>>
-      assignVehicleToSlot(
+  assignVehicleToSlot(
     String groupId,
     String day,
     String time,
@@ -245,53 +245,53 @@ class ScheduleRepositoryImpl implements GroupScheduleRepository {
     // Use NetworkErrorHandler for automatic retry, circuit breaker, and proper error handling
     final result = await _networkErrorHandler
         .executeRepositoryOperation<VehicleAssignmentDto>(
-      () => _remoteDataSource.assignVehicleToSlot(
-        groupId: groupId,
-        day: day,
-        time: time,
-        week: week,
-        vehicleId: vehicleId,
-      ),
-      operationName: 'schedule.assignVehicleToSlot',
-      strategy: CacheStrategy.networkOnly, // Write operation = network-only
-      serviceName: 'schedule',
-      config: RetryConfig.quick,
-      onSuccess: (dto) async {
-        // CACHE AUTO-UPDATE: Update cache automatically on network success
-        final vehicleAssignment = dto.toDomain();
-        final slotId = vehicleAssignment.scheduleSlotId;
-        try {
-          await _localDataSource.cacheVehicleAssignment(
-            slotId,
-            vehicleAssignment,
-          );
-          await _updateWeeklyScheduleCacheAfterAssignment(
-            groupId,
-            week,
-            slotId,
-            vehicleAssignment,
-          );
-          AppLogger.info(
-            '[SCHEDULE] Vehicle assignment cached successfully',
-            {'groupId': groupId, 'vehicleId': vehicleId, 'slotId': slotId},
-          );
-        } catch (cacheError) {
-          AppLogger.warning(
-            '[SCHEDULE] Cache write failed (operation: assignVehicleToSlot_cache_write)',
-            cacheError,
-          );
-        }
-      },
-      context: {
-        'feature': 'schedule_management',
-        'operation_type': 'create',
-        'groupId': groupId,
-        'vehicleId': vehicleId,
-        'week': week,
-        'day': day,
-        'time': time,
-      },
-    );
+          () => _remoteDataSource.assignVehicleToSlot(
+            groupId: groupId,
+            day: day,
+            time: time,
+            week: week,
+            vehicleId: vehicleId,
+          ),
+          operationName: 'schedule.assignVehicleToSlot',
+          strategy: CacheStrategy.networkOnly, // Write operation = network-only
+          serviceName: 'schedule',
+          config: RetryConfig.quick,
+          onSuccess: (dto) async {
+            // CACHE AUTO-UPDATE: Update cache automatically on network success
+            final vehicleAssignment = dto.toDomain();
+            final slotId = vehicleAssignment.scheduleSlotId;
+            try {
+              await _localDataSource.cacheVehicleAssignment(
+                slotId,
+                vehicleAssignment,
+              );
+              await _updateWeeklyScheduleCacheAfterAssignment(
+                groupId,
+                week,
+                slotId,
+                vehicleAssignment,
+              );
+              AppLogger.info(
+                '[SCHEDULE] Vehicle assignment cached successfully',
+                {'groupId': groupId, 'vehicleId': vehicleId, 'slotId': slotId},
+              );
+            } catch (cacheError) {
+              AppLogger.warning(
+                '[SCHEDULE] Cache write failed (operation: assignVehicleToSlot_cache_write)',
+                cacheError,
+              );
+            }
+          },
+          context: {
+            'feature': 'schedule_management',
+            'operation_type': 'create',
+            'groupId': groupId,
+            'vehicleId': vehicleId,
+            'week': week,
+            'day': day,
+            'time': time,
+          },
+        );
 
     return result.when(
       ok: (dto) => Result.ok(dto.toDomain()),
@@ -301,7 +301,7 @@ class ScheduleRepositoryImpl implements GroupScheduleRepository {
 
   @override
   Future<Result<schedule_entities.VehicleAssignment, ApiFailure>>
-      assignChildrenToVehicle(
+  assignChildrenToVehicle(
     String groupId,
     String slotId,
     String vehicleAssignmentId,
@@ -310,43 +310,43 @@ class ScheduleRepositoryImpl implements GroupScheduleRepository {
     // Use NetworkErrorHandler for automatic retry, circuit breaker, and proper error handling
     final result = await _networkErrorHandler
         .executeRepositoryOperation<VehicleAssignmentDto>(
-      () => _remoteDataSource.assignChildrenToVehicle(
-        groupId: groupId,
-        slotId: slotId,
-        vehicleAssignmentId: vehicleAssignmentId,
-        childIds: childIds,
-      ),
-      operationName: 'schedule.assignChildrenToVehicle',
-      strategy: CacheStrategy.networkOnly, // Write operation = network-only
-      serviceName: 'schedule',
-      config: RetryConfig.quick,
-      onSuccess: (dto) async {
-        // CACHE AUTO-UPDATE: Update cache automatically on network success
-        final vehicleAssignment = dto.toDomain();
-        try {
-          await _localDataSource.updateCachedVehicleAssignment(
-            vehicleAssignment,
-          );
-          AppLogger.info(
-            '[SCHEDULE] Children assignment cached successfully',
-            {'groupId': groupId, 'slotId': slotId, 'childIds': childIds},
-          );
-        } catch (cacheError) {
-          AppLogger.warning(
-            '[SCHEDULE] Cache write failed (operation: assignChildrenToVehicle_cache_write)',
-            cacheError,
-          );
-        }
-      },
-      context: {
-        'feature': 'schedule_management',
-        'operation_type': 'update',
-        'groupId': groupId,
-        'slotId': slotId,
-        'vehicleAssignmentId': vehicleAssignmentId,
-        'childCount': childIds.length,
-      },
-    );
+          () => _remoteDataSource.assignChildrenToVehicle(
+            groupId: groupId,
+            slotId: slotId,
+            vehicleAssignmentId: vehicleAssignmentId,
+            childIds: childIds,
+          ),
+          operationName: 'schedule.assignChildrenToVehicle',
+          strategy: CacheStrategy.networkOnly, // Write operation = network-only
+          serviceName: 'schedule',
+          config: RetryConfig.quick,
+          onSuccess: (dto) async {
+            // CACHE AUTO-UPDATE: Update cache automatically on network success
+            final vehicleAssignment = dto.toDomain();
+            try {
+              await _localDataSource.updateCachedVehicleAssignment(
+                vehicleAssignment,
+              );
+              AppLogger.info(
+                '[SCHEDULE] Children assignment cached successfully',
+                {'groupId': groupId, 'slotId': slotId, 'childIds': childIds},
+              );
+            } catch (cacheError) {
+              AppLogger.warning(
+                '[SCHEDULE] Cache write failed (operation: assignChildrenToVehicle_cache_write)',
+                cacheError,
+              );
+            }
+          },
+          context: {
+            'feature': 'schedule_management',
+            'operation_type': 'update',
+            'groupId': groupId,
+            'slotId': slotId,
+            'vehicleAssignmentId': vehicleAssignmentId,
+            'childCount': childIds.length,
+          },
+        );
 
     return result.when(
       ok: (dto) => Result.ok(dto.toDomain()),
@@ -505,7 +505,7 @@ class ScheduleRepositoryImpl implements GroupScheduleRepository {
 
   @override
   Future<Result<family_entities.ChildAssignment, ApiFailure>>
-      updateChildAssignmentStatus(
+  updateChildAssignmentStatus(
     String groupId,
     String slotId,
     String vehicleAssignmentId,
@@ -525,7 +525,7 @@ class ScheduleRepositoryImpl implements GroupScheduleRepository {
 
   @override
   Future<Result<schedule_entities.VehicleAssignment, ApiFailure>>
-      updateSeatOverride(
+  updateSeatOverride(
     String groupId,
     String vehicleAssignmentId,
     int? seatOverride,
@@ -533,52 +533,52 @@ class ScheduleRepositoryImpl implements GroupScheduleRepository {
     // Use NetworkErrorHandler for automatic retry, circuit breaker, and proper error handling
     final result = await _networkErrorHandler
         .executeRepositoryOperation<VehicleAssignmentDto>(
-      () => _remoteDataSource.updateSeatOverride(
-        vehicleAssignmentId: vehicleAssignmentId,
-        seatOverride: seatOverride,
-      ),
-      operationName: 'schedule.updateSeatOverride',
-      strategy: CacheStrategy.networkOnly, // Write operation = network-only
-      serviceName: 'schedule',
-      config: RetryConfig.quick,
-      onSuccess: (dto) async {
-        // CACHE AUTO-UPDATE: Update cache automatically on network success
-        final updatedAssignment = dto.toDomain();
+          () => _remoteDataSource.updateSeatOverride(
+            vehicleAssignmentId: vehicleAssignmentId,
+            seatOverride: seatOverride,
+          ),
+          operationName: 'schedule.updateSeatOverride',
+          strategy: CacheStrategy.networkOnly, // Write operation = network-only
+          serviceName: 'schedule',
+          config: RetryConfig.quick,
+          onSuccess: (dto) async {
+            // CACHE AUTO-UPDATE: Update cache automatically on network success
+            final updatedAssignment = dto.toDomain();
 
-        // DEBUG: Log the received capacity to see if backend sends correct data
-        AppLogger.debug('[SCHEDULE] Backend seat override response', {
-          'assignmentId': updatedAssignment.id,
-          'vehicleCapacity': updatedAssignment.capacity,
-          'seatOverride': updatedAssignment.seatOverride,
-          'vehicleId': updatedAssignment.vehicleId,
-        });
+            // DEBUG: Log the received capacity to see if backend sends correct data
+            AppLogger.debug('[SCHEDULE] Backend seat override response', {
+              'assignmentId': updatedAssignment.id,
+              'vehicleCapacity': updatedAssignment.capacity,
+              'seatOverride': updatedAssignment.seatOverride,
+              'vehicleId': updatedAssignment.vehicleId,
+            });
 
-        try {
-          await _localDataSource.updateCachedVehicleAssignment(
-            updatedAssignment,
-          );
-          AppLogger.info(
-            '[SCHEDULE] Seat override update cached successfully',
-            {
-              'vehicleAssignmentId': vehicleAssignmentId,
-              'seatOverride': seatOverride,
-            },
-          );
-        } catch (cacheError) {
-          AppLogger.warning(
-            '[SCHEDULE] Cache write failed (operation: updateSeatOverride_cache_write)',
-            cacheError,
-          );
-        }
-      },
-      context: {
-        'feature': 'schedule_management',
-        'operation_type': 'update',
-        'groupId': groupId,
-        'vehicleAssignmentId': vehicleAssignmentId,
-        'seatOverride': seatOverride,
-      },
-    );
+            try {
+              await _localDataSource.updateCachedVehicleAssignment(
+                updatedAssignment,
+              );
+              AppLogger.info(
+                '[SCHEDULE] Seat override update cached successfully',
+                {
+                  'vehicleAssignmentId': vehicleAssignmentId,
+                  'seatOverride': seatOverride,
+                },
+              );
+            } catch (cacheError) {
+              AppLogger.warning(
+                '[SCHEDULE] Cache write failed (operation: updateSeatOverride_cache_write)',
+                cacheError,
+              );
+            }
+          },
+          context: {
+            'feature': 'schedule_management',
+            'operation_type': 'update',
+            'groupId': groupId,
+            'vehicleAssignmentId': vehicleAssignmentId,
+            'seatOverride': seatOverride,
+          },
+        );
 
     return result.when(
       ok: (dto) => Result.ok(dto.toDomain()),
@@ -589,7 +589,7 @@ class ScheduleRepositoryImpl implements GroupScheduleRepository {
   /// Internal method that accepts week parameter for more reliable cache updates
   /// Used by providers that have the week context available
   Future<Result<schedule_entities.VehicleAssignment, ApiFailure>>
-      updateSeatOverrideWithWeek(
+  updateSeatOverrideWithWeek(
     String groupId,
     String vehicleAssignmentId,
     int? seatOverride,
@@ -598,57 +598,57 @@ class ScheduleRepositoryImpl implements GroupScheduleRepository {
     // Use NetworkErrorHandler for automatic retry, circuit breaker, and proper error handling
     final result = await _networkErrorHandler
         .executeRepositoryOperation<VehicleAssignmentDto>(
-      () => _remoteDataSource.updateSeatOverride(
-        vehicleAssignmentId: vehicleAssignmentId,
-        seatOverride: seatOverride,
-      ),
-      operationName: 'schedule.updateSeatOverrideWithWeek',
-      strategy: CacheStrategy.networkOnly, // Write operation = network-only
-      serviceName: 'schedule',
-      config: RetryConfig.quick,
-      onSuccess: (dto) async {
-        // CACHE AUTO-UPDATE: Update cache automatically on network success
-        final updatedAssignment = dto.toDomain();
-        final slotId = updatedAssignment.scheduleSlotId;
-        try {
-          await _localDataSource.updateCachedVehicleAssignment(
-            updatedAssignment,
-          );
+          () => _remoteDataSource.updateSeatOverride(
+            vehicleAssignmentId: vehicleAssignmentId,
+            seatOverride: seatOverride,
+          ),
+          operationName: 'schedule.updateSeatOverrideWithWeek',
+          strategy: CacheStrategy.networkOnly, // Write operation = network-only
+          serviceName: 'schedule',
+          config: RetryConfig.quick,
+          onSuccess: (dto) async {
+            // CACHE AUTO-UPDATE: Update cache automatically on network success
+            final updatedAssignment = dto.toDomain();
+            final slotId = updatedAssignment.scheduleSlotId;
+            try {
+              await _localDataSource.updateCachedVehicleAssignment(
+                updatedAssignment,
+              );
 
-          // Use provided week for cache update (no need to search)
-          AppLogger.debug(
-            '[SCHEDULE] Using provided week $week for slot $slotId cache update',
-          );
-          await _updateWeeklyScheduleCacheAfterSeatOverride(
-            groupId,
-            week,
-            slotId,
-            updatedAssignment,
-          );
-          AppLogger.info(
-            '[SCHEDULE] Seat override with week cached successfully',
-            {
-              'vehicleAssignmentId': vehicleAssignmentId,
-              'seatOverride': seatOverride,
-              'week': week,
-            },
-          );
-        } catch (cacheError) {
-          AppLogger.warning(
-            '[SCHEDULE] Cache write failed (operation: updateSeatOverrideWithWeek_cache_write)',
-            cacheError,
-          );
-        }
-      },
-      context: {
-        'feature': 'schedule_management',
-        'operation_type': 'update',
-        'groupId': groupId,
-        'vehicleAssignmentId': vehicleAssignmentId,
-        'seatOverride': seatOverride,
-        'week': week,
-      },
-    );
+              // Use provided week for cache update (no need to search)
+              AppLogger.debug(
+                '[SCHEDULE] Using provided week $week for slot $slotId cache update',
+              );
+              await _updateWeeklyScheduleCacheAfterSeatOverride(
+                groupId,
+                week,
+                slotId,
+                updatedAssignment,
+              );
+              AppLogger.info(
+                '[SCHEDULE] Seat override with week cached successfully',
+                {
+                  'vehicleAssignmentId': vehicleAssignmentId,
+                  'seatOverride': seatOverride,
+                  'week': week,
+                },
+              );
+            } catch (cacheError) {
+              AppLogger.warning(
+                '[SCHEDULE] Cache write failed (operation: updateSeatOverrideWithWeek_cache_write)',
+                cacheError,
+              );
+            }
+          },
+          context: {
+            'feature': 'schedule_management',
+            'operation_type': 'update',
+            'groupId': groupId,
+            'vehicleAssignmentId': vehicleAssignmentId,
+            'seatOverride': seatOverride,
+            'week': week,
+          },
+        );
 
     return result.when(
       ok: (dto) => Result.ok(dto.toDomain()),
@@ -662,29 +662,29 @@ class ScheduleRepositoryImpl implements GroupScheduleRepository {
 
   @override
   Future<Result<schedule_entities.ScheduleConfig, ApiFailure>>
-      getScheduleConfig(String groupId) async {
+  getScheduleConfig(String groupId) async {
     // Use NetworkErrorHandler with networkOnly strategy + manual cache fallback (EXACT PATTERN)
     final result = await _networkErrorHandler
         .executeRepositoryOperation<ScheduleConfigDto>(
-      () => _remoteDataSource.getScheduleConfig(groupId),
-      operationName: 'schedule.getScheduleConfig',
-      strategy: CacheStrategy.networkOnly,
-      serviceName: 'schedule',
-      config: RetryConfig.quick,
-      onSuccess: (dto) async {
-        final config = dto.toDomain();
-        await _localDataSource.cacheScheduleConfig(config);
-        AppLogger.info(
-          '[SCHEDULE] Schedule config cached successfully after network success',
+          () => _remoteDataSource.getScheduleConfig(groupId),
+          operationName: 'schedule.getScheduleConfig',
+          strategy: CacheStrategy.networkOnly,
+          serviceName: 'schedule',
+          config: RetryConfig.quick,
+          onSuccess: (dto) async {
+            final config = dto.toDomain();
+            await _localDataSource.cacheScheduleConfig(config);
+            AppLogger.info(
+              '[SCHEDULE] Schedule config cached successfully after network success',
+            );
+          },
+          context: {
+            'feature': 'schedule_management',
+            'operation_type': 'read',
+            'cache_strategy': 'network_only_with_manual_cache_fallback',
+            'groupId': groupId,
+          },
         );
-      },
-      context: {
-        'feature': 'schedule_management',
-        'operation_type': 'read',
-        'cache_strategy': 'network_only_with_manual_cache_fallback',
-        'groupId': groupId,
-      },
-    );
 
     return result.when(
       ok: (dto) {
@@ -728,7 +728,7 @@ class ScheduleRepositoryImpl implements GroupScheduleRepository {
 
   @override
   Future<Result<schedule_entities.ScheduleConfig, ApiFailure>>
-      updateScheduleConfig(
+  updateScheduleConfig(
     String groupId,
     schedule_entities.ScheduleConfig config,
   ) async {
@@ -741,33 +741,33 @@ class ScheduleRepositoryImpl implements GroupScheduleRepository {
     // Use NetworkErrorHandler for automatic retry, circuit breaker, and proper error handling
     final result = await _networkErrorHandler
         .executeRepositoryOperation<ScheduleConfigDto>(
-      () => _remoteDataSource.updateScheduleConfig(groupId, request),
-      operationName: 'schedule.updateScheduleConfig',
-      strategy: CacheStrategy.networkOnly, // Write operation = network-only
-      serviceName: 'schedule',
-      config: RetryConfig.quick,
-      onSuccess: (dto) async {
-        // CACHE AUTO-UPDATE: Update cache automatically on network success
-        final updatedConfig = dto.toDomain();
-        try {
-          await _localDataSource.cacheScheduleConfig(updatedConfig);
-          AppLogger.info(
-            '[SCHEDULE] Schedule config updated and cached successfully',
-            {'groupId': groupId},
-          );
-        } catch (cacheError) {
-          AppLogger.warning(
-            '[SCHEDULE] Cache write failed (operation: updateScheduleConfig_cache_write)',
-            cacheError,
-          );
-        }
-      },
-      context: {
-        'feature': 'schedule_management',
-        'operation_type': 'update',
-        'groupId': groupId,
-      },
-    );
+          () => _remoteDataSource.updateScheduleConfig(groupId, request),
+          operationName: 'schedule.updateScheduleConfig',
+          strategy: CacheStrategy.networkOnly, // Write operation = network-only
+          serviceName: 'schedule',
+          config: RetryConfig.quick,
+          onSuccess: (dto) async {
+            // CACHE AUTO-UPDATE: Update cache automatically on network success
+            final updatedConfig = dto.toDomain();
+            try {
+              await _localDataSource.cacheScheduleConfig(updatedConfig);
+              AppLogger.info(
+                '[SCHEDULE] Schedule config updated and cached successfully',
+                {'groupId': groupId},
+              );
+            } catch (cacheError) {
+              AppLogger.warning(
+                '[SCHEDULE] Cache write failed (operation: updateScheduleConfig_cache_write)',
+                cacheError,
+              );
+            }
+          },
+          context: {
+            'feature': 'schedule_management',
+            'operation_type': 'update',
+            'groupId': groupId,
+          },
+        );
 
     return result.when(
       ok: (dto) => Result.ok(dto.toDomain()),
@@ -777,37 +777,37 @@ class ScheduleRepositoryImpl implements GroupScheduleRepository {
 
   @override
   Future<Result<schedule_entities.ScheduleConfig, ApiFailure>>
-      resetScheduleConfig(String groupId) async {
+  resetScheduleConfig(String groupId) async {
     // Use NetworkErrorHandler for automatic retry, circuit breaker, and proper error handling
     final result = await _networkErrorHandler
         .executeRepositoryOperation<ScheduleConfigDto>(
-      () => _remoteDataSource.resetScheduleConfig(groupId),
-      operationName: 'schedule.resetScheduleConfig',
-      strategy: CacheStrategy.networkOnly, // Write operation = network-only
-      serviceName: 'schedule',
-      config: RetryConfig.quick,
-      onSuccess: (dto) async {
-        // CACHE AUTO-UPDATE: Update cache automatically on network success
-        final resetConfig = dto.toDomain();
-        try {
-          await _localDataSource.cacheScheduleConfig(resetConfig);
-          AppLogger.info(
-            '[SCHEDULE] Schedule config reset and cached successfully',
-            {'groupId': groupId},
-          );
-        } catch (cacheError) {
-          AppLogger.warning(
-            '[SCHEDULE] Cache write failed (operation: resetScheduleConfig_cache_write)',
-            cacheError,
-          );
-        }
-      },
-      context: {
-        'feature': 'schedule_management',
-        'operation_type': 'update',
-        'groupId': groupId,
-      },
-    );
+          () => _remoteDataSource.resetScheduleConfig(groupId),
+          operationName: 'schedule.resetScheduleConfig',
+          strategy: CacheStrategy.networkOnly, // Write operation = network-only
+          serviceName: 'schedule',
+          config: RetryConfig.quick,
+          onSuccess: (dto) async {
+            // CACHE AUTO-UPDATE: Update cache automatically on network success
+            final resetConfig = dto.toDomain();
+            try {
+              await _localDataSource.cacheScheduleConfig(resetConfig);
+              AppLogger.info(
+                '[SCHEDULE] Schedule config reset and cached successfully',
+                {'groupId': groupId},
+              );
+            } catch (cacheError) {
+              AppLogger.warning(
+                '[SCHEDULE] Cache write failed (operation: resetScheduleConfig_cache_write)',
+                cacheError,
+              );
+            }
+          },
+          context: {
+            'feature': 'schedule_management',
+            'operation_type': 'update',
+            'groupId': groupId,
+          },
+        );
 
     return result.when(
       ok: (dto) => Result.ok(dto.toDomain()),
@@ -829,8 +829,9 @@ class ScheduleRepositoryImpl implements GroupScheduleRepository {
     return scheduleResult.when(
       ok: (schedules) => Result.ok({
         'totalSlots': schedules.length,
-        'slotsWithVehicles':
-            schedules.where((s) => s.vehicleAssignments.isNotEmpty).length,
+        'slotsWithVehicles': schedules
+            .where((s) => s.vehicleAssignments.isNotEmpty)
+            .length,
         'totalChildren': schedules
             .expand((s) => s.vehicleAssignments)
             .expand((v) => v.childAssignments)
@@ -844,7 +845,7 @@ class ScheduleRepositoryImpl implements GroupScheduleRepository {
 
   @override
   Stream<Result<schedule_entities.ScheduleSlot, ApiFailure>>
-      listenToScheduleUpdates(String groupId, String week) {
+  listenToScheduleUpdates(String groupId, String week) {
     // Basic implementation - return empty stream for now
     // Real-time updates would require WebSocket or similar
     return const Stream.empty();
@@ -871,7 +872,7 @@ class ScheduleRepositoryImpl implements GroupScheduleRepository {
 
   @override
   Future<Result<List<schedule_entities.ScheduleSlot>, ApiFailure>>
-      getGroupSchedules(
+  getGroupSchedules(
     String groupId, {
     DateTime? fromDate,
     DateTime? toDate,

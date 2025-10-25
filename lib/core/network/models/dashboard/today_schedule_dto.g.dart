@@ -30,15 +30,13 @@ Map<String, dynamic> _$TodayScheduleDtoToJson(_TodayScheduleDto instance) =>
 
 _TodayScheduleListDto _$TodayScheduleListDtoFromJson(
   Map<String, dynamic> json,
-) =>
-    _TodayScheduleListDto(
-      schedules: (json['schedules'] as List<dynamic>)
-          .map((e) => TodayScheduleDto.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      date: json['date'] as String,
-    );
+) => _TodayScheduleListDto(
+  schedules: (json['schedules'] as List<dynamic>)
+      .map((e) => TodayScheduleDto.fromJson(e as Map<String, dynamic>))
+      .toList(),
+  date: json['date'] as String,
+);
 
 Map<String, dynamic> _$TodayScheduleListDtoToJson(
   _TodayScheduleListDto instance,
-) =>
-    <String, dynamic>{'schedules': instance.schedules, 'date': instance.date};
+) => <String, dynamic>{'schedules': instance.schedules, 'date': instance.date};

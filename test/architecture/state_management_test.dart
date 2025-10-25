@@ -167,11 +167,13 @@ void main() {
         final content = file.readAsStringSync();
 
         // Check for getter injection pattern (proper DI)
-        final hasLegacyDIUsage = content.contains('legacy_di') ||
+        final hasLegacyDIUsage =
+            content.contains('legacy_di') ||
             content.contains('sl(') ||
             content.contains('ref.watch(') ||
             content.contains('ref.read(');
-        final hasProviderUsage = content.contains('Provider.of') ||
+        final hasProviderUsage =
+            content.contains('Provider.of') ||
             content.contains('context.read') ||
             content.contains('context.watch');
 

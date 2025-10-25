@@ -22,14 +22,14 @@ String _$localAuthenticationHash() =>
 @ProviderFor(localAuthentication)
 final localAuthenticationProvider =
     AutoDisposeProvider<LocalAuthentication>.internal(
-  localAuthentication,
-  name: r'localAuthenticationProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$localAuthenticationHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
+      localAuthentication,
+      name: r'localAuthenticationProvider',
+      debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+          ? null
+          : _$localAuthenticationHash,
+      dependencies: null,
+      allTransitiveDependencies: null,
+    );
 
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
@@ -66,18 +66,18 @@ String _$deepLinkServiceHash() => r'0d9a2fac5cf951bb0419a28b2147895a7f023745';
 @ProviderFor(deepLinkService)
 final deepLinkServiceProvider =
     AutoDisposeProvider<domain_deep_link.DeepLinkService>.internal(
-  deepLinkService,
-  name: r'deepLinkServiceProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$deepLinkServiceHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
+      deepLinkService,
+      name: r'deepLinkServiceProvider',
+      debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+          ? null
+          : _$deepLinkServiceHash,
+      dependencies: null,
+      allTransitiveDependencies: null,
+    );
 
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
-typedef DeepLinkServiceRef
-    = AutoDisposeProviderRef<domain_deep_link.DeepLinkService>;
+typedef DeepLinkServiceRef =
+    AutoDisposeProviderRef<domain_deep_link.DeepLinkService>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

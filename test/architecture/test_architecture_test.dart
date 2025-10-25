@@ -533,7 +533,8 @@ void main() {
         }
 
         // Check for proper isolation
-        final usesMocks = content.contains('Mock') ||
+        final usesMocks =
+            content.contains('Mock') ||
             content.contains('Stub') ||
             content.contains('Fake');
         if (usesMocks) {
@@ -693,10 +694,11 @@ void main() {
         // Check for accessibility testing patterns
         final hasAccessibilityHelpers =
             content.contains('AccessibilityTestHelper') ||
-                content.contains('SemanticsTestHelper') ||
-                content.contains('accessibility_test_helper');
+            content.contains('SemanticsTestHelper') ||
+            content.contains('accessibility_test_helper');
 
-        final hasAccessibilityChecks = content.contains('expectLater') &&
+        final hasAccessibilityChecks =
+            content.contains('expectLater') &&
                 content.contains('meetsGuideline') ||
             content.contains('SemanticsData') ||
             content.contains('semantics');

@@ -62,8 +62,8 @@ class VehicleFormNotifier extends ChangeNotifier {
     required VehicleFormMode mode,
     Vehicle? vehicle,
     required Ref ref,
-  })  : _familyRepository = familyRepository,
-        _ref = ref {
+  }) : _familyRepository = familyRepository,
+       _ref = ref {
     _initializeFormState(mode, vehicle);
 
     // CRITICAL: Listen to auth changes continuously for TRUE reactive architecture

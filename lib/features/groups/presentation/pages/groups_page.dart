@@ -30,20 +30,24 @@ class _GroupsPageState extends ConsumerState<GroupsPage>
 
   void _handleSelectGroup(String groupId) {
     // MODERN ARCHITECTURE: Use navigation state with trigger
-    ref.read(navigationStateProvider.notifier).navigateTo(
-      route: '/groups/$groupId',
-      trigger: NavigationTrigger.userNavigation,
-      context: {'groupId': groupId, 'action': 'view_details'},
-    );
+    ref
+        .read(navigationStateProvider.notifier)
+        .navigateTo(
+          route: '/groups/$groupId',
+          trigger: NavigationTrigger.userNavigation,
+          context: {'groupId': groupId, 'action': 'view_details'},
+        );
   }
 
   void _handleManageGroup(String groupId) {
     // MODERN ARCHITECTURE: Use navigation state for group schedule management
-    ref.read(navigationStateProvider.notifier).navigateTo(
-      route: '/groups/$groupId/manage',
-      trigger: NavigationTrigger.userNavigation,
-      context: {'groupId': groupId, 'action': 'manage_schedule'},
-    );
+    ref
+        .read(navigationStateProvider.notifier)
+        .navigateTo(
+          route: '/groups/$groupId/manage',
+          trigger: NavigationTrigger.userNavigation,
+          context: {'groupId': groupId, 'action': 'manage_schedule'},
+        );
   }
 
   @override
@@ -74,7 +78,9 @@ class _GroupsPageState extends ConsumerState<GroupsPage>
             ),
             onPressed: () {
               ref.read(groupsComposedProvider.notifier).clearJoinError();
-              ref.read(navigationStateProvider.notifier).navigateTo(
+              ref
+                  .read(navigationStateProvider.notifier)
+                  .navigateTo(
                     route: '/group-invitation',
                     trigger: NavigationTrigger.userNavigation,
                   );
@@ -94,7 +100,9 @@ class _GroupsPageState extends ConsumerState<GroupsPage>
             ),
             onPressed: () {
               ref.read(groupsComposedProvider.notifier).clearCreateError();
-              ref.read(navigationStateProvider.notifier).navigateTo(
+              ref
+                  .read(navigationStateProvider.notifier)
+                  .navigateTo(
                     route: '/groups/create',
                     trigger: NavigationTrigger.userNavigation,
                   );
@@ -104,16 +112,16 @@ class _GroupsPageState extends ConsumerState<GroupsPage>
         ],
       ),
       body: // Build UI based on GroupsState
-          groupsState.isLoading && groupsState.groups.isEmpty
-              ? const Center(child: CircularProgressIndicator())
-              : groupsState.error != null && groupsState.groups.isEmpty
-                  ? _buildErrorState(
-                      GroupsErrorTranslationHelper.translateError(
-                        l10n,
-                        groupsState.error!,
-                      ),
-                    )
-                  : _buildGroupsList(groupsState.groups),
+      groupsState.isLoading && groupsState.groups.isEmpty
+          ? const Center(child: CircularProgressIndicator())
+          : groupsState.error != null && groupsState.groups.isEmpty
+          ? _buildErrorState(
+              GroupsErrorTranslationHelper.translateError(
+                l10n,
+                groupsState.error!,
+              ),
+            )
+          : _buildGroupsList(groupsState.groups),
     );
   }
 
@@ -169,14 +177,16 @@ class _GroupsPageState extends ConsumerState<GroupsPage>
                     ),
                     Text(
                       l10n.noTransportGroups,
-                      style: (isTablet
-                              ? Theme.of(context).textTheme.headlineMedium
-                              : Theme.of(context).textTheme.headlineSmall)
-                          ?.copyWith(
-                        color: AppColors.textSecondaryThemed(context),
-                        fontWeight: FontWeight.w600,
-                        fontSize: (isTablet ? 28 : 24) * context.fontScale,
-                      ),
+                      style:
+                          (isTablet
+                                  ? Theme.of(context).textTheme.headlineMedium
+                                  : Theme.of(context).textTheme.headlineSmall)
+                              ?.copyWith(
+                                color: AppColors.textSecondaryThemed(context),
+                                fontWeight: FontWeight.w600,
+                                fontSize:
+                                    (isTablet ? 28 : 24) * context.fontScale,
+                              ),
                       textAlign: TextAlign.center,
                     ),
                     SizedBox(
@@ -189,13 +199,15 @@ class _GroupsPageState extends ConsumerState<GroupsPage>
                     Text(
                       l10n.noTransportGroupsDescription,
                       textAlign: TextAlign.center,
-                      style: (isTablet
-                              ? Theme.of(context).textTheme.titleMedium
-                              : Theme.of(context).textTheme.bodyMedium)
-                          ?.copyWith(
-                        color: AppColors.textSecondaryThemed(context),
-                        fontSize: (isTablet ? 18 : 16) * context.fontScale,
-                      ),
+                      style:
+                          (isTablet
+                                  ? Theme.of(context).textTheme.titleMedium
+                                  : Theme.of(context).textTheme.bodyMedium)
+                              ?.copyWith(
+                                color: AppColors.textSecondaryThemed(context),
+                                fontSize:
+                                    (isTablet ? 18 : 16) * context.fontScale,
+                              ),
                       maxLines: 4,
                       overflow: TextOverflow.ellipsis,
                     ),
@@ -376,8 +388,9 @@ class _GroupsPageState extends ConsumerState<GroupsPage>
       wide: 4,
     );
 
-    final childAspectRatio =
-        context.isDesktop ? 1.0 : (context.isTablet ? 0.9 : 0.8);
+    final childAspectRatio = context.isDesktop
+        ? 1.0
+        : (context.isTablet ? 0.9 : 0.8);
 
     return Padding(
       padding: context.getAdaptivePadding(
@@ -468,14 +481,16 @@ class _GroupsPageState extends ConsumerState<GroupsPage>
                     ),
                     Text(
                       l10n.failedToLoadGroups,
-                      style: (isTablet
-                              ? Theme.of(context).textTheme.headlineMedium
-                              : Theme.of(context).textTheme.headlineSmall)
-                          ?.copyWith(
-                        color: AppColors.errorThemed(context),
-                        fontSize: (isTablet ? 28 : 24) * context.fontScale,
-                        fontWeight: FontWeight.w600,
-                      ),
+                      style:
+                          (isTablet
+                                  ? Theme.of(context).textTheme.headlineMedium
+                                  : Theme.of(context).textTheme.headlineSmall)
+                              ?.copyWith(
+                                color: AppColors.errorThemed(context),
+                                fontSize:
+                                    (isTablet ? 28 : 24) * context.fontScale,
+                                fontWeight: FontWeight.w600,
+                              ),
                       textAlign: TextAlign.center,
                     ),
                     SizedBox(
@@ -488,13 +503,15 @@ class _GroupsPageState extends ConsumerState<GroupsPage>
                     Text(
                       error,
                       textAlign: TextAlign.center,
-                      style: (isTablet
-                              ? Theme.of(context).textTheme.titleMedium
-                              : Theme.of(context).textTheme.bodyMedium)
-                          ?.copyWith(
-                        color: AppColors.textSecondaryThemed(context),
-                        fontSize: (isTablet ? 18 : 16) * context.fontScale,
-                      ),
+                      style:
+                          (isTablet
+                                  ? Theme.of(context).textTheme.titleMedium
+                                  : Theme.of(context).textTheme.bodyMedium)
+                              ?.copyWith(
+                                color: AppColors.textSecondaryThemed(context),
+                                fontSize:
+                                    (isTablet ? 18 : 16) * context.fontScale,
+                              ),
                       maxLines: 4,
                       overflow: TextOverflow.ellipsis,
                     ),

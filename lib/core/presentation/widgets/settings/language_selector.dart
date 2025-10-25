@@ -30,8 +30,8 @@ class LanguageSelector extends ConsumerWidget {
                 Text(
                   l10n.language,
                   style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                        fontWeight: FontWeight.w600,
-                      ),
+                    fontWeight: FontWeight.w600,
+                  ),
                 ),
               ],
             ),
@@ -95,20 +95,20 @@ class LanguageSelector extends ConsumerWidget {
                   Text(
                     nativeName,
                     style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                          fontWeight:
-                              isSelected ? FontWeight.w600 : FontWeight.w500,
-                          color: isSelected
-                              ? Theme.of(context).colorScheme.primary
-                              : null,
-                        ),
+                      fontWeight: isSelected
+                          ? FontWeight.w600
+                          : FontWeight.w500,
+                      color: isSelected
+                          ? Theme.of(context).colorScheme.primary
+                          : null,
+                    ),
                   ),
                   if (languageName != nativeName)
                     Text(
                       languageName,
                       style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                            color:
-                                Theme.of(context).colorScheme.onSurfaceVariant,
-                          ),
+                        color: Theme.of(context).colorScheme.onSurfaceVariant,
+                      ),
                     ),
                 ],
               ),

@@ -15,14 +15,14 @@ String _$userFamilyServiceHash() => r'a4c3fabd8933fc07a719d2e4ddc907d4f11306ac';
 @ProviderFor(userFamilyService)
 final userFamilyServiceProvider =
     AutoDisposeProvider<UserFamilyService>.internal(
-  userFamilyService,
-  name: r'userFamilyServiceProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$userFamilyServiceHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
+      userFamilyService,
+      name: r'userFamilyServiceProvider',
+      debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+          ? null
+          : _$userFamilyServiceHash,
+      dependencies: null,
+      allTransitiveDependencies: null,
+    );
 
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
@@ -109,20 +109,19 @@ class CachedUserFamilyStatusProvider extends AutoDisposeFutureProvider<bool> {
   ///
   /// Copied from [cachedUserFamilyStatus].
   CachedUserFamilyStatusProvider(String? userId)
-      : this._internal(
-          (ref) =>
-              cachedUserFamilyStatus(ref as CachedUserFamilyStatusRef, userId),
-          from: cachedUserFamilyStatusProvider,
-          name: r'cachedUserFamilyStatusProvider',
-          debugGetCreateSourceHash:
-              const bool.fromEnvironment('dart.vm.product')
-                  ? null
-                  : _$cachedUserFamilyStatusHash,
-          dependencies: CachedUserFamilyStatusFamily._dependencies,
-          allTransitiveDependencies:
-              CachedUserFamilyStatusFamily._allTransitiveDependencies,
-          userId: userId,
-        );
+    : this._internal(
+        (ref) =>
+            cachedUserFamilyStatus(ref as CachedUserFamilyStatusRef, userId),
+        from: cachedUserFamilyStatusProvider,
+        name: r'cachedUserFamilyStatusProvider',
+        debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+            ? null
+            : _$cachedUserFamilyStatusHash,
+        dependencies: CachedUserFamilyStatusFamily._dependencies,
+        allTransitiveDependencies:
+            CachedUserFamilyStatusFamily._allTransitiveDependencies,
+        userId: userId,
+      );
 
   CachedUserFamilyStatusProvider._internal(
     super._createNotifier, {

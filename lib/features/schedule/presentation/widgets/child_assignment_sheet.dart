@@ -101,8 +101,8 @@ class _ChildAssignmentSheetState extends ConsumerState<ChildAssignmentSheet> {
                     Text(
                       'Select Children',
                       style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                            fontWeight: FontWeight.w600,
-                          ),
+                        fontWeight: FontWeight.w600,
+                      ),
                     ),
                     const SizedBox(height: ScheduleDimensions.spacingMd),
                     ...widget.availableChildren.map(
@@ -163,8 +163,8 @@ class _ChildAssignmentSheetState extends ConsumerState<ChildAssignmentSheet> {
                 Text(
                   widget.vehicleAssignment.vehicleName,
                   style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                        color: AppColors.textSecondaryThemed(context),
-                      ),
+                    color: AppColors.textSecondaryThemed(context),
+                  ),
                 ),
               ],
             ),
@@ -180,8 +180,9 @@ class _ChildAssignmentSheetState extends ConsumerState<ChildAssignmentSheet> {
     final baseCapacity = widget.vehicleAssignment.capacity;
     final hasOverride = widget.vehicleAssignment.hasOverride;
 
-    final percentage =
-        effectiveCapacity > 0 ? usedSeats / effectiveCapacity : 0.0;
+    final percentage = effectiveCapacity > 0
+        ? usedSeats / effectiveCapacity
+        : 0.0;
 
     // Use domain logic through temporary vehicle assignment for capacity status
     final tempAssignment = widget.vehicleAssignment.copyWith(
@@ -290,8 +291,9 @@ class _ChildAssignmentSheetState extends ConsumerState<ChildAssignmentSheet> {
         ),
       ),
       child: InkWell(
-        onTap:
-            canAssign || isSelected ? () => _toggleChildSelection(child) : null,
+        onTap: canAssign || isSelected
+            ? () => _toggleChildSelection(child)
+            : null,
         borderRadius: ScheduleDimensions.cardRadius,
         child: Padding(
           padding: const EdgeInsets.all(ScheduleDimensions.spacingMd),
@@ -581,14 +583,15 @@ class _ChildAssignmentSheetState extends ConsumerState<ChildAssignmentSheet> {
 
     // Assign new children
     for (final childId in childrenToAdd) {
-      final result =
-          await ref.read(assignmentStateNotifierProvider.notifier).assignChild(
-                groupId: widget.groupId,
-                week: widget.week,
-                assignmentId: widget.vehicleAssignment.id,
-                childId: childId,
-                vehicleAssignment: widget.vehicleAssignment,
-              );
+      final result = await ref
+          .read(assignmentStateNotifierProvider.notifier)
+          .assignChild(
+            groupId: widget.groupId,
+            week: widget.week,
+            assignmentId: widget.vehicleAssignment.id,
+            childId: childId,
+            vehicleAssignment: widget.vehicleAssignment,
+          );
 
       if (result.isErr) {
         setState(() => _isLoading = false);
@@ -607,7 +610,8 @@ class _ChildAssignmentSheetState extends ConsumerState<ChildAssignmentSheet> {
             // Conflict - Check specific error code for targeted messaging
             if (error.code == 'schedule.child_already_assigned') {
               // Child already assigned to another vehicle
-              errorMessage = error.message ??
+              errorMessage =
+                  error.message ??
                   'This child is already assigned to another vehicle for this time slot. '
                       'Please check the schedule and try again.';
               errorColor = AppColors.warning;
@@ -623,7 +627,8 @@ class _ChildAssignmentSheetState extends ConsumerState<ChildAssignmentSheet> {
               canRetry = true;
             } else {
               // Generic 409 conflict
-              errorMessage = error.message ??
+              errorMessage =
+                  error.message ??
                   'Conflict detected. Please refresh and try again.';
               errorColor = AppColors.warning;
               errorIcon = Icons.warning_amber_rounded;
@@ -633,7 +638,8 @@ class _ChildAssignmentSheetState extends ConsumerState<ChildAssignmentSheet> {
 
           case 400:
             // Validation error
-            errorMessage = error.message ??
+            errorMessage =
+                error.message ??
                 'Invalid assignment. Please check your selection.';
             errorColor = AppColors.error;
             errorIcon = Icons.error_outline;

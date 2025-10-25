@@ -33,7 +33,7 @@ class FamilyState implements BaseState<FamilyState> {
   final List<entities.Child> children;
   final List<entities.Vehicle> vehicles; // Added vehicles list
   final List<entities.FamilyInvitation>
-      pendingInvitations; // Added pending invitations
+  pendingInvitations; // Added pending invitations
   @override
   final bool isLoading;
   @override
@@ -61,7 +61,7 @@ class FamilyState implements BaseState<FamilyState> {
     List<entities.Child>? children,
     List<entities.Vehicle>? vehicles, // Added vehicles parameter
     List<entities.FamilyInvitation>?
-        pendingInvitations, // Added pending invitations parameter
+    pendingInvitations, // Added pending invitations parameter
     bool? isLoading,
     String? error,
     String? errorInfo,
@@ -75,7 +75,8 @@ class FamilyState implements BaseState<FamilyState> {
       family: family ?? this.family,
       children: children ?? this.children,
       vehicles: vehicles ?? this.vehicles, // Copy vehicles
-      pendingInvitations: pendingInvitations ??
+      pendingInvitations:
+          pendingInvitations ??
           this.pendingInvitations, // Copy pending invitations
       isLoading: isLoading ?? this.isLoading,
       error: clearError ? null : (error ?? this.error),
@@ -443,8 +444,9 @@ class FamilyNotifier extends StateNotifier<FamilyState>
         // Remove child from local state - no need to reload entire family
         await _coordinator.coordinateCriticalState(
           () {
-            final updatedChildren =
-                state.children.where((child) => child.id != childId).toList();
+            final updatedChildren = state.children
+                .where((child) => child.id != childId)
+                .toList();
             state = state.copyWith(children: updatedChildren);
           },
           description:
@@ -1092,7 +1094,7 @@ class FamilyNotifier extends StateNotifier<FamilyState>
   /// Send family invitation to a member (Admin only) - ReactiveStateCoordinator pattern
   /// Returns Result<entities.FamilyInvitation, InvitationFailure> following PHASE2 pattern
   Future<Result<entities.FamilyInvitation, InvitationFailure>>
-      sendFamilyInvitationToMember({
+  sendFamilyInvitationToMember({
     required String familyId,
     required String email,
     required String role,
@@ -1296,13 +1298,13 @@ class AutoLoadFamilyNotifier extends FamilyNotifier {
     InvitationRepository invitationRepository,
     Ref ref,
   ) : super(
-          getFamilyUsecase,
-          childrenService,
-          leaveFamilyUsecase,
-          familyRepository,
-          invitationRepository,
-          ref,
-        ) {
+        getFamilyUsecase,
+        childrenService,
+        leaveFamilyUsecase,
+        familyRepository,
+        invitationRepository,
+        ref,
+      ) {
     // ✅ FIX: Schedule auto-load immediately in constructor
     // This ensures it runs as soon as the provider is created,
     // BEFORE the router makes any navigation decisions
@@ -1340,12 +1342,12 @@ class AutoLoadFamilyNotifier extends FamilyNotifier {
 
 final familyProvider =
     StateNotifierProvider.autoDispose<FamilyNotifier, FamilyState>((ref) {
-  // SECURITY FIX: Watch currentUser and auto-dispose when user becomes null
-  ref.watch(currentUserProvider);
+      // SECURITY FIX: Watch currentUser and auto-dispose when user becomes null
+      ref.watch(currentUserProvider);
 
-  // Always create normal provider - reactive auth listening will handle cleanup
-  return FamilyNotifierFactory.create(ref);
-});
+      // Always create normal provider - reactive auth listening will handle cleanup
+      return FamilyNotifierFactory.create(ref);
+    });
 
 // Convenience providers - SECURITY FIX: Made auth-reactive with autoDispose
 final familyChildrenProvider = Provider.autoDispose<List<entities.Child>>((
@@ -1379,14 +1381,14 @@ final childProvider = Provider.autoDispose.family<entities.Child?, String>((
   }
 });
 
-final familyChildrenByGroupProvider =
-    Provider.autoDispose.family<List<entities.Child>, String>((ref, groupId) {
-  final currentUser = ref.watch(currentUserProvider);
-  if (currentUser == null) return <entities.Child>[];
+final familyChildrenByGroupProvider = Provider.autoDispose
+    .family<List<entities.Child>, String>((ref, groupId) {
+      final currentUser = ref.watch(currentUserProvider);
+      if (currentUser == null) return <entities.Child>[];
 
-  // Group functionality not implemented in backend - return empty list
-  return <entities.Child>[];
-});
+      // Group functionality not implemented in backend - return empty list
+      return <entities.Child>[];
+    });
 // Vehicle convenience providers - SECURITY FIX: Made auth-reactive with autoDispose
 final familyVehiclesProvider = Provider.autoDispose<List<entities.Vehicle>>((
   ref,

@@ -52,7 +52,9 @@ class _OnboardingWizardPageState extends ConsumerState<OnboardingWizardPage> {
 
   void _handleCreateFamily() {
     // Use declarative navigation pattern following app architecture
-    ref.read(navigationStateProvider.notifier).navigateTo(
+    ref
+        .read(navigationStateProvider.notifier)
+        .navigateTo(
           route: '/family/create',
           trigger: NavigationTrigger.userNavigation,
         );
@@ -64,7 +66,9 @@ class _OnboardingWizardPageState extends ConsumerState<OnboardingWizardPage> {
       _processJoinFamily(widget.invitationCode!);
     } else {
       // Navigate to family invitation page for manual code entry
-      ref.read(navigationStateProvider.notifier).navigateTo(
+      ref
+          .read(navigationStateProvider.notifier)
+          .navigateTo(
             route: '/family-invitation',
             trigger: NavigationTrigger.userNavigation,
           );
@@ -73,7 +77,9 @@ class _OnboardingWizardPageState extends ConsumerState<OnboardingWizardPage> {
 
   void _processJoinFamily(String invitationCode) {
     // Use declarative navigation pattern - navigate to family join page
-    ref.read(navigationStateProvider.notifier).navigateTo(
+    ref
+        .read(navigationStateProvider.notifier)
+        .navigateTo(
           route: '/family-invitation?code=$invitationCode',
           trigger: NavigationTrigger.userNavigation,
         );
@@ -124,27 +130,31 @@ class _OnboardingWizardPageState extends ConsumerState<OnboardingWizardPage> {
                 children: [
                   Text(
                     AppLocalizations.of(context).loggedInAs,
-                    style: (isTablet
-                            ? Theme.of(context).textTheme.bodyMedium
-                            : Theme.of(context).textTheme.bodySmall)
-                        ?.copyWith(
-                      color: Theme.of(
-                        context,
-                      ).colorScheme.onSurfaceVariant,
-                      fontSize: (isTablet ? 14 : 12) * context.fontScale,
-                    ),
+                    style:
+                        (isTablet
+                                ? Theme.of(context).textTheme.bodyMedium
+                                : Theme.of(context).textTheme.bodySmall)
+                            ?.copyWith(
+                              color: Theme.of(
+                                context,
+                              ).colorScheme.onSurfaceVariant,
+                              fontSize:
+                                  (isTablet ? 14 : 12) * context.fontScale,
+                            ),
                   ),
                   const SizedBox(height: 2),
                   Text(
                     user.name.isNotEmpty ? user.name : 'Unknown User',
                     key: const Key('onboarding_user_name'),
-                    style: (isTablet
-                            ? Theme.of(context).textTheme.titleMedium
-                            : Theme.of(context).textTheme.bodyLarge)
-                        ?.copyWith(
-                      fontWeight: FontWeight.w500,
-                      fontSize: (isTablet ? 18 : 16) * context.fontScale,
-                    ),
+                    style:
+                        (isTablet
+                                ? Theme.of(context).textTheme.titleMedium
+                                : Theme.of(context).textTheme.bodyLarge)
+                            ?.copyWith(
+                              fontWeight: FontWeight.w500,
+                              fontSize:
+                                  (isTablet ? 18 : 16) * context.fontScale,
+                            ),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                   ),
@@ -153,15 +163,17 @@ class _OnboardingWizardPageState extends ConsumerState<OnboardingWizardPage> {
                     Text(
                       user.email,
                       key: const Key('onboarding_user_email'),
-                      style: (isTablet
-                              ? Theme.of(context).textTheme.bodyMedium
-                              : Theme.of(context).textTheme.bodySmall)
-                          ?.copyWith(
-                        color: Theme.of(
-                          context,
-                        ).colorScheme.onSurfaceVariant,
-                        fontSize: (isTablet ? 14 : 12) * context.fontScale,
-                      ),
+                      style:
+                          (isTablet
+                                  ? Theme.of(context).textTheme.bodyMedium
+                                  : Theme.of(context).textTheme.bodySmall)
+                              ?.copyWith(
+                                color: Theme.of(
+                                  context,
+                                ).colorScheme.onSurfaceVariant,
+                                fontSize:
+                                    (isTablet ? 14 : 12) * context.fontScale,
+                              ),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                     ),
@@ -197,7 +209,9 @@ class _OnboardingWizardPageState extends ConsumerState<OnboardingWizardPage> {
                 Navigator.of(context).pop();
                 // ARCHITECTURE FIX: Direct navigation after logout since targetRoute doesn't work
                 await ref.read(authStateProvider.notifier).logout();
-                ref.read(navigationStateProvider.notifier).navigateTo(
+                ref
+                    .read(navigationStateProvider.notifier)
+                    .navigateTo(
                       route: '/auth/login',
                       trigger: NavigationTrigger.userNavigation,
                     );
@@ -300,18 +314,20 @@ class _OnboardingWizardPageState extends ConsumerState<OnboardingWizardPage> {
                           Text(
                             AppLocalizations.of(context).welcomeOnboarding,
                             key: const Key('onboarding_welcome_message'),
-                            style: (isTablet
-                                    ? Theme.of(
-                                        context,
-                                      ).textTheme.headlineMedium
-                                    : Theme.of(
-                                        context,
-                                      ).textTheme.headlineSmall)
-                                ?.copyWith(
-                              fontSize:
-                                  (isTablet ? 28 : 24) * context.fontScale,
-                              fontWeight: FontWeight.bold,
-                            ),
+                            style:
+                                (isTablet
+                                        ? Theme.of(
+                                            context,
+                                          ).textTheme.headlineMedium
+                                        : Theme.of(
+                                            context,
+                                          ).textTheme.headlineSmall)
+                                    ?.copyWith(
+                                      fontSize:
+                                          (isTablet ? 28 : 24) *
+                                          context.fontScale,
+                                      fontWeight: FontWeight.bold,
+                                    ),
                             textAlign: TextAlign.center,
                           ),
                           SizedBox(
@@ -326,18 +342,20 @@ class _OnboardingWizardPageState extends ConsumerState<OnboardingWizardPage> {
                             AppLocalizations.of(
                               context,
                             ).toGetStartedSetupFamily,
-                            style: (isTablet
-                                    ? Theme.of(
+                            style:
+                                (isTablet
+                                        ? Theme.of(
+                                            context,
+                                          ).textTheme.titleMedium
+                                        : Theme.of(context).textTheme.bodyLarge)
+                                    ?.copyWith(
+                                      color: Theme.of(
                                         context,
-                                      ).textTheme.titleMedium
-                                    : Theme.of(context).textTheme.bodyLarge)
-                                ?.copyWith(
-                              color: Theme.of(
-                                context,
-                              ).colorScheme.onSurfaceVariant,
-                              fontSize:
-                                  (isTablet ? 18 : 16) * context.fontScale,
-                            ),
+                                      ).colorScheme.onSurfaceVariant,
+                                      fontSize:
+                                          (isTablet ? 18 : 16) *
+                                          context.fontScale,
+                                    ),
                             textAlign: TextAlign.center,
                             maxLines: 2,
                             overflow: TextOverflow.ellipsis,
@@ -404,18 +422,20 @@ class _OnboardingWizardPageState extends ConsumerState<OnboardingWizardPage> {
                                         AppLocalizations.of(
                                           context,
                                         ).youveBeenInvitedToJoinFamily,
-                                        style: (isTablet
-                                                ? Theme.of(
-                                                    context,
-                                                  ).textTheme.headlineSmall
-                                                : Theme.of(
-                                                    context,
-                                                  ).textTheme.titleLarge)
-                                            ?.copyWith(
-                                          fontSize: (isTablet ? 26 : 22) *
-                                              context.fontScale,
-                                          fontWeight: FontWeight.bold,
-                                        ),
+                                        style:
+                                            (isTablet
+                                                    ? Theme.of(
+                                                        context,
+                                                      ).textTheme.headlineSmall
+                                                    : Theme.of(
+                                                        context,
+                                                      ).textTheme.titleLarge)
+                                                ?.copyWith(
+                                                  fontSize:
+                                                      (isTablet ? 26 : 22) *
+                                                      context.fontScale,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
                                         textAlign: TextAlign.center,
                                         maxLines: 2,
                                         overflow: TextOverflow.ellipsis,
@@ -432,20 +452,22 @@ class _OnboardingWizardPageState extends ConsumerState<OnboardingWizardPage> {
                                         AppLocalizations.of(
                                           context,
                                         ).acceptInvitationToCoordinate,
-                                        style: (isTablet
-                                                ? Theme.of(
-                                                    context,
-                                                  ).textTheme.titleMedium
-                                                : Theme.of(
-                                                    context,
-                                                  ).textTheme.bodyMedium)
-                                            ?.copyWith(
-                                          color: Theme.of(context)
-                                              .colorScheme
-                                              .onSurfaceVariant,
-                                          fontSize: (isTablet ? 18 : 16) *
-                                              context.fontScale,
-                                        ),
+                                        style:
+                                            (isTablet
+                                                    ? Theme.of(
+                                                        context,
+                                                      ).textTheme.titleMedium
+                                                    : Theme.of(
+                                                        context,
+                                                      ).textTheme.bodyMedium)
+                                                ?.copyWith(
+                                                  color: Theme.of(context)
+                                                      .colorScheme
+                                                      .onSurfaceVariant,
+                                                  fontSize:
+                                                      (isTablet ? 18 : 16) *
+                                                      context.fontScale,
+                                                ),
                                         textAlign: TextAlign.center,
                                         maxLines: 3,
                                         overflow: TextOverflow.ellipsis,
@@ -473,7 +495,8 @@ class _OnboardingWizardPageState extends ConsumerState<OnboardingWizardPage> {
                                               context,
                                             ).getStarted,
                                             style: TextStyle(
-                                              fontSize: (isTablet ? 18 : 16) *
+                                              fontSize:
+                                                  (isTablet ? 18 : 16) *
                                                   context.fontScale,
                                               fontWeight: FontWeight.w600,
                                             ),
@@ -505,7 +528,8 @@ class _OnboardingWizardPageState extends ConsumerState<OnboardingWizardPage> {
                                               context,
                                             ).skipOnboarding,
                                             style: TextStyle(
-                                              fontSize: (isTablet ? 16 : 14) *
+                                              fontSize:
+                                                  (isTablet ? 16 : 14) *
                                                   context.fontScale,
                                             ),
                                           ),
@@ -517,18 +541,20 @@ class _OnboardingWizardPageState extends ConsumerState<OnboardingWizardPage> {
                                         AppLocalizations.of(
                                           context,
                                         ).chooseYourFamilySetup,
-                                        style: (isTablet
-                                                ? Theme.of(
-                                                    context,
-                                                  ).textTheme.headlineSmall
-                                                : Theme.of(
-                                                    context,
-                                                  ).textTheme.titleLarge)
-                                            ?.copyWith(
-                                          fontSize: (isTablet ? 26 : 22) *
-                                              context.fontScale,
-                                          fontWeight: FontWeight.bold,
-                                        ),
+                                        style:
+                                            (isTablet
+                                                    ? Theme.of(
+                                                        context,
+                                                      ).textTheme.headlineSmall
+                                                    : Theme.of(
+                                                        context,
+                                                      ).textTheme.titleLarge)
+                                                ?.copyWith(
+                                                  fontSize:
+                                                      (isTablet ? 26 : 22) *
+                                                      context.fontScale,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
                                         textAlign: TextAlign.center,
                                         maxLines: 2,
                                         overflow: TextOverflow.ellipsis,
@@ -568,7 +594,8 @@ class _OnboardingWizardPageState extends ConsumerState<OnboardingWizardPage> {
                                               context,
                                             ).createFamily,
                                             style: TextStyle(
-                                              fontSize: (isTablet ? 18 : 16) *
+                                              fontSize:
+                                                  (isTablet ? 18 : 16) *
                                                   context.fontScale,
                                               fontWeight: FontWeight.w600,
                                             ),
@@ -610,7 +637,8 @@ class _OnboardingWizardPageState extends ConsumerState<OnboardingWizardPage> {
                                               context,
                                             ).joinExistingFamily,
                                             style: TextStyle(
-                                              fontSize: (isTablet ? 18 : 16) *
+                                              fontSize:
+                                                  (isTablet ? 18 : 16) *
                                                   context.fontScale,
                                               fontWeight: FontWeight.w600,
                                             ),

@@ -32,11 +32,11 @@ class AuthState {
   final String? pendingEmail;
   final String? pendingName; // MAGIC LINK FIX: Store name for resends
   final String?
-      pendingInviteCode; // INVITATION FIX: Store invite code for resends
+  pendingInviteCode; // INVITATION FIX: Store invite code for resends
   final bool showNameField;
   final String? welcomeMessage;
   final InvitationResult?
-      invitationResult; // PHASE 1: Store invitation result from magic link
+  invitationResult; // PHASE 1: Store invitation result from magic link
 
   const AuthState({
     this.user,
@@ -66,7 +66,7 @@ class AuthState {
     bool? showNameField,
     String? welcomeMessage,
     InvitationResult?
-        invitationResult, // PHASE 1: Add invitationResult parameter
+    invitationResult, // PHASE 1: Add invitationResult parameter
     bool clearUser = false,
     bool clearError = false,
     bool clearUserStatus = false,
@@ -85,22 +85,25 @@ class AuthState {
       isInitialized: isInitialized ?? this.isInitialized,
       userStatus: clearUserStatus ? null : (userStatus ?? this.userStatus),
       isCheckingUserStatus: isCheckingUserStatus ?? this.isCheckingUserStatus,
-      pendingEmail:
-          clearPendingEmail ? null : (pendingEmail ?? this.pendingEmail),
-      pendingName: clearPendingName // MAGIC LINK FIX: Store name for resends
+      pendingEmail: clearPendingEmail
+          ? null
+          : (pendingEmail ?? this.pendingEmail),
+      pendingName:
+          clearPendingName // MAGIC LINK FIX: Store name for resends
           ? null
           : (pendingName ?? this.pendingName),
       pendingInviteCode:
           clearPendingInviteCode // INVITATION FIX: Store invite code for resends
-              ? null
-              : (pendingInviteCode ?? this.pendingInviteCode),
+          ? null
+          : (pendingInviteCode ?? this.pendingInviteCode),
       showNameField: showNameField ?? this.showNameField,
-      welcomeMessage:
-          clearWelcomeMessage ? null : (welcomeMessage ?? this.welcomeMessage),
+      welcomeMessage: clearWelcomeMessage
+          ? null
+          : (welcomeMessage ?? this.welcomeMessage),
       invitationResult:
           clearInvitationResult // PHASE 1: Handle invitation result
-              ? null
-              : (invitationResult ?? this.invitationResult),
+          ? null
+          : (invitationResult ?? this.invitationResult),
     );
   }
 
@@ -119,7 +122,7 @@ class AuthNotifier extends StateNotifier<AuthState> {
 
   // NETWORK FIX: Track pending magic link operation to prevent zombie futures
   async_pkg.CancelableOperation<Result<void, Failure>>?
-      _pendingSendMagicLinkOperation;
+  _pendingSendMagicLinkOperation;
 
   AuthNotifier(
     this._authService,
@@ -153,19 +156,21 @@ class AuthNotifier extends StateNotifier<AuthState> {
           '🔑 AuthNotifier: Token expiry detected - ${next.statusCode} on ${next.endpoint}',
         );
         // Trigger logout when token expires
-        logout().then((_) {
-          // Clear the token expiry state after handling
-          TokenExpiryNotifier.clearTokenExpiredState(_ref);
-          AppLogger.info(
-            '🔑 AuthNotifier: Logout completed due to token expiry',
-          );
-        }).catchError((error) {
-          AppLogger.error(
-            '🔑 AuthNotifier: Failed to logout after token expiry: $error',
-          );
-          // Still clear the state even if logout fails
-          TokenExpiryNotifier.clearTokenExpiredState(_ref);
-        });
+        logout()
+            .then((_) {
+              // Clear the token expiry state after handling
+              TokenExpiryNotifier.clearTokenExpiredState(_ref);
+              AppLogger.info(
+                '🔑 AuthNotifier: Logout completed due to token expiry',
+              );
+            })
+            .catchError((error) {
+              AppLogger.error(
+                '🔑 AuthNotifier: Failed to logout after token expiry: $error',
+              );
+              // Still clear the state even if logout fails
+              TokenExpiryNotifier.clearTokenExpiredState(_ref);
+            });
       }
     });
   }

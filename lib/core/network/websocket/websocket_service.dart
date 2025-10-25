@@ -52,17 +52,17 @@ class WebSocketService {
   final StreamController<GroupInvitationEvent> _groupInvitationController =
       StreamController<GroupInvitationEvent>.broadcast();
   final StreamController<InvitationNotificationEvent>
-      _invitationNotificationController =
+  _invitationNotificationController =
       StreamController<InvitationNotificationEvent>.broadcast();
   final StreamController<InvitationStatusUpdateEvent>
-      _invitationStatusUpdateController =
+  _invitationStatusUpdateController =
       StreamController<InvitationStatusUpdateEvent>.broadcast();
 
   // Schedule-specific stream controllers
   final StreamController<ScheduleUpdateEvent> _scheduleUpdateController =
       StreamController<ScheduleUpdateEvent>.broadcast();
   final StreamController<ScheduleNotificationEvent>
-      _scheduleNotificationController =
+  _scheduleNotificationController =
       StreamController<ScheduleNotificationEvent>.broadcast();
 
   // NEW: Vehicle Management Controllers
@@ -81,19 +81,19 @@ class WebSocketService {
 
   // NEW: System Events Controllers
   final StreamController<ConnectionStatusEvent>
-      _enhancedConnectionStatusController =
+  _enhancedConnectionStatusController =
       StreamController<ConnectionStatusEvent>.broadcast();
   final StreamController<HeartbeatEvent> _heartbeatController =
       StreamController<HeartbeatEvent>.broadcast();
   final StreamController<SystemNotificationEvent>
-      _systemNotificationController =
+  _systemNotificationController =
       StreamController<SystemNotificationEvent>.broadcast();
   final StreamController<SystemErrorEvent> _systemErrorController =
       StreamController<SystemErrorEvent>.broadcast();
 
   // NEW: Schedule Subscription Controllers
   final StreamController<ScheduleSubscriptionEvent>
-      _scheduleSubscriptionController =
+  _scheduleSubscriptionController =
       StreamController<ScheduleSubscriptionEvent>.broadcast();
   final StreamController<CollaborationEvent> _collaborationController =
       StreamController<CollaborationEvent>.broadcast();
@@ -804,8 +804,9 @@ class WebSocketService {
           'scheduleSlotId': event.scheduleSlotId,
           'groupId': event.groupId,
           'conflictDetails': event.conflictDetails,
-          'affectedVehicles':
-              event.vehicleAssignments.map((v) => v.vehicle.id).toList(),
+          'affectedVehicles': event.vehicleAssignments
+              .map((v) => v.vehicle.id)
+              .toList(),
           'affectedChildren':
               event.childAssignments?.map((c) => c.childId).toList() ?? [],
         },
@@ -823,7 +824,8 @@ class WebSocketService {
         const assignedChildren =
             0; // TODO: Get children count from proper source
         // Get capacity from vehicle relation or use seatOverride
-        final capacity = vehicleAssignment.seatOverride ??
+        final capacity =
+            vehicleAssignment.seatOverride ??
             vehicleAssignment.vehicle.capacity;
 
         if (assignedChildren >= capacity * 0.9) {

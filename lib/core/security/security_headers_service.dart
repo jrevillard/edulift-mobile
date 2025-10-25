@@ -57,8 +57,8 @@ class SecurityHeadersService {
     headers['X-Request-Nonce'] = nonce;
 
     // Timestamp for request freshness
-    headers['X-Request-Timestamp'] =
-        DateTime.now().millisecondsSinceEpoch.toString();
+    headers['X-Request-Timestamp'] = DateTime.now().millisecondsSinceEpoch
+        .toString();
 
     // CSRF Token
     if (includeCSRF) {
@@ -189,8 +189,9 @@ class SecurityHeadersService {
         headers.entries.toList()..sort((a, b) => a.key.compareTo(b.key)),
       );
 
-      final headerString =
-          sortedHeaders.entries.map((e) => '${e.key}:${e.value}').join('|');
+      final headerString = sortedHeaders.entries
+          .map((e) => '${e.key}:${e.value}')
+          .join('|');
 
       // Generate HMAC-SHA256 hash
       final key = await _getIntegrityKey();

@@ -406,11 +406,11 @@ void main() {
       test('should handle null values in equality comparison', () {
         // Arrange
         const config1 = GroupScheduleConfig(
-            /* defaultStartTime: null */
-            ); // Removed redundant default
+          /* defaultStartTime: null */
+        ); // Removed redundant default
         const config2 = GroupScheduleConfig(
-            /* defaultStartTime: null */
-            ); // Removed redundant default
+          /* defaultStartTime: null */
+        ); // Removed redundant default
         const config3 = GroupScheduleConfig(defaultStartTime: '09:00');
 
         // Act & Assert

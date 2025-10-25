@@ -282,8 +282,7 @@ void main() {
     });
 
     group('FINAL: Complete Architecture Validation', () {
-      test('should demonstrate complete new architecture pattern working',
-          () async {
+      test('should demonstrate complete new architecture pattern working', () async {
         // This test demonstrates the complete flow working with the new pattern:
         // AuthApiClient (DTOs) → ApiResponseHelper.execute<DTO>() → response.unwrap() → AuthService
 

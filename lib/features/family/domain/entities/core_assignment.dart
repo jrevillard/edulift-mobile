@@ -66,15 +66,15 @@ class CoreAssignment extends Equatable implements ICoreAssignment {
 
   @override
   List<Object?> get props => [
-        id,
-        childId,
-        assignmentType,
-        assignmentId,
-        createdAt,
-        updatedAt,
-        isActive,
-        _metadataForEquality(),
-      ];
+    id,
+    childId,
+    assignmentType,
+    assignmentId,
+    createdAt,
+    updatedAt,
+    isActive,
+    _metadataForEquality(),
+  ];
 
   /// Helper method to ensure metadata comparison is done by content, not reference
   Object? _metadataForEquality() {

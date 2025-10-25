@@ -49,7 +49,8 @@ abstract class ScheduleSlotDto
     final timeOfDay = TimeOfDayValue.fromDateTime(utcDatetime);
 
     // STEP 1: Convert childAssignments to domain and inject scheduleSlotId
-    final childAssignmentsDomain = childAssignments?.map((dto) {
+    final childAssignmentsDomain =
+        childAssignments?.map((dto) {
           final assignment = dto.toDomain();
           // If scheduleSlotId is empty (from nested response), inject parent's ID
           if (assignment.scheduleSlotId?.isEmpty ?? true) {
@@ -69,7 +70,8 @@ abstract class ScheduleSlotDto
     }
 
     // STEP 3: Inject scheduleSlotId AND attach children to vehicle assignments
-    final vehicleAssignmentsWithSlotId = vehicleAssignments?.map((dto) {
+    final vehicleAssignmentsWithSlotId =
+        vehicleAssignments?.map((dto) {
           final assignment = dto.toDomain();
           // Inject scheduleSlotId if empty
           final withSlotId = assignment.scheduleSlotId.isEmpty

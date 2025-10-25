@@ -56,18 +56,18 @@ class MailpitHelper {
 
     return emails
         .where(
-      (email) =>
-          email.to.any((to) => to.contains(recipientEmail)) &&
-          email.subject.contains('Magic Link'),
-    )
+          (email) =>
+              email.to.any((to) => to.contains(recipientEmail)) &&
+              email.subject.contains('Magic Link'),
+        )
         .fold<MailpitMessage?>(null, (latest, current) {
-      if (latest == null) return current;
-      return DateTime.parse(
-        current.created,
-      ).isAfter(DateTime.parse(latest.created))
-          ? current
-          : latest;
-    });
+          if (latest == null) return current;
+          return DateTime.parse(
+                current.created,
+              ).isAfter(DateTime.parse(latest.created))
+              ? current
+              : latest;
+        });
   }
 
   /// Extract magic link token from email content

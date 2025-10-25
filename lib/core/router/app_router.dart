@@ -71,8 +71,7 @@ class AppRouter {
     // Listen to auth state changes and trigger router refresh with throttling
     ref.listen(authStateProvider, (previous, next) {
       // Use reactive state coordinator for proper async handling
-      ReactiveStateCoordinatorService.instance.coordinateReactiveListener(
-          () async {
+      ReactiveStateCoordinatorService.instance.coordinateReactiveListener(() async {
         core_logger.AppLogger.info(
           '🚨 [Router Listener] ═══ AUTH STATE CHANGE DETECTED ═══\n'
           '   - Listener callback TRIGGERED at ${DateTime.now().toIso8601String()}\n'
@@ -346,7 +345,8 @@ class AppRouter {
         );
         final isMagicLinkVerifyRoute = state.matchedLocation == '/auth/verify';
         // ARCHITECTURE FIX: Removed isMagicLinkWaitingRoute - no longer needed with state-driven navigation
-        final isInvitationRoute = state.matchedLocation.startsWith('/invite') ||
+        final isInvitationRoute =
+            state.matchedLocation.startsWith('/invite') ||
             state.matchedLocation.startsWith('/family-invitation') ||
             state.matchedLocation.startsWith('/group-invitation');
 
@@ -545,8 +545,9 @@ class AppRouter {
           // STATE-OF-THE-ART: For successful verification, redirect authenticated users
           if (isAuthenticated && currentUser != null) {
             // PHASE 3: Check for invitation result from magic link
-            final invitationResult =
-                ref.read(authStateProvider).invitationResult;
+            final invitationResult = ref
+                .read(authStateProvider)
+                .invitationResult;
 
             if (invitationResult != null) {
               core_logger.AppLogger.info(
@@ -987,7 +988,9 @@ class AppBottomNavigation extends ConsumerWidget {
 
         // Only navigate if we're not already on the target route
         if (currentLocation != targetRoute) {
-          ref.read(nav.navigationStateProvider.notifier).navigateTo(
+          ref
+              .read(nav.navigationStateProvider.notifier)
+              .navigateTo(
                 route: targetRoute,
                 trigger: nav.NavigationTrigger.userNavigation,
               );

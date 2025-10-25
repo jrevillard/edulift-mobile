@@ -193,8 +193,9 @@ class TestCoverageValidator {
           hitLines += coverage.linesHit;
         }
 
-        final coveragePercent =
-            totalLines > 0 ? (hitLines / totalLines) * 100 : 0.0;
+        final coveragePercent = totalLines > 0
+            ? (hitLines / totalLines) * 100
+            : 0.0;
         componentCoverages[component] = coveragePercent;
       }
     }

@@ -135,36 +135,36 @@ class ThemeConfigurations {
 
   /// Accessibility themes with font scaling
   static List<ThemeConfig> get accessibility => [
-        lightSmallFont,
-        lightNormalFont,
-        lightLargeFont,
-        lightExtraLargeFont,
-      ];
+    lightSmallFont,
+    lightNormalFont,
+    lightLargeFont,
+    lightExtraLargeFont,
+  ];
 
   /// High contrast themes for accessibility
   static List<ThemeConfig> get highContrast => [
-        highContrastLight,
-        highContrastDark,
-      ];
+    highContrastLight,
+    highContrastDark,
+  ];
 
   /// All themes for comprehensive testing
   static List<ThemeConfig> get all => [
-        light,
-        dark,
-        highContrastLight,
-        highContrastDark,
-        ...accessibility,
-        eduLiftBrand,
-      ];
+    light,
+    dark,
+    highContrastLight,
+    highContrastDark,
+    ...accessibility,
+    eduLiftBrand,
+  ];
 
   /// Default subset for fast tests
   static List<ThemeConfig> get defaultSet => [light, dark];
 
   /// Extended set for regression tests
   static List<ThemeConfig> get extendedSet => [
-        light,
-        dark,
-        lightLargeFont,
-        highContrastLight,
-      ];
+    light,
+    dark,
+    lightLargeFont,
+    highContrastLight,
+  ];
 }

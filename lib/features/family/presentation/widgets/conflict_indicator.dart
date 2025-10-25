@@ -37,9 +37,9 @@ class ConflictIndicator extends StatelessWidget {
             Text(
               '${conflicts.length}',
               style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                    color: Theme.of(context).colorScheme.onError,
-                    fontWeight: FontWeight.w600,
-                  ),
+                color: Theme.of(context).colorScheme.onError,
+                fontWeight: FontWeight.w600,
+              ),
             ),
           ],
         ),

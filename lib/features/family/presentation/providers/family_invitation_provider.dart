@@ -220,7 +220,8 @@ class FamilyInvitationNotifier extends StateNotifier<FamilyInvitationState> {
         if (failure is ServerFailure) {
           switch (failure.statusCode) {
             case 409:
-              errorMessage = failure.message ??
+              errorMessage =
+                  failure.message ??
                   'Conflict occurred'; // Conflict errors are usually descriptive
               break;
             case 403:
@@ -305,15 +306,18 @@ class FamilyInvitationNotifier extends StateNotifier<FamilyInvitationState> {
 }
 
 /// Provider for the family invitation notifier
-final familyInvitationProvider = StateNotifierProvider.autoDispose<
-    FamilyInvitationNotifier, FamilyInvitationState>((ref) {
-  final invitationUseCase = ref.watch(invitationUsecaseProvider);
-  final authService = ref.watch(authServiceProvider);
-  final userFamilyService = ref.watch(userFamilyServiceProvider);
-  return FamilyInvitationNotifier(
-    invitationUseCase,
-    authService,
-    userFamilyService,
-    ref,
-  );
-});
+final familyInvitationProvider =
+    StateNotifierProvider.autoDispose<
+      FamilyInvitationNotifier,
+      FamilyInvitationState
+    >((ref) {
+      final invitationUseCase = ref.watch(invitationUsecaseProvider);
+      final authService = ref.watch(authServiceProvider);
+      final userFamilyService = ref.watch(userFamilyServiceProvider);
+      return FamilyInvitationNotifier(
+        invitationUseCase,
+        authService,
+        userFamilyService,
+        ref,
+      );
+    });

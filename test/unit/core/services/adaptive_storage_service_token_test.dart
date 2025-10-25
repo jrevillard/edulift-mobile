@@ -40,8 +40,7 @@ void main() {
       reset(mockKeyManager);
     });
 
-    group('Development Mode Token Storage (Flutter Test Environment Default)',
-        () {
+    group('Development Mode Token Storage (Flutter Test Environment Default)', () {
       setUp(() {
         storageService = AdaptiveStorageService(
           storage: mockStorage,

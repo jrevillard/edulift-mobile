@@ -8,19 +8,19 @@ import '../pages/create_schedule_page.dart';
 class ScheduleRouteFactory implements AppRouteFactory {
   @override
   List<RouteBase> get routes => [
-        // Schedule
+    // Schedule
+    GoRoute(
+      path: AppRoutes.schedule,
+      name: 'schedule',
+      pageBuilder: (context, state) =>
+          const NoTransitionPage(child: SchedulePage()),
+      routes: [
         GoRoute(
-          path: AppRoutes.schedule,
-          name: 'schedule',
-          pageBuilder: (context, state) =>
-              const NoTransitionPage(child: SchedulePage()),
-          routes: [
-            GoRoute(
-              path: 'create',
-              name: 'create-schedule',
-              builder: (context, state) => const CreateSchedulePage(),
-            ),
-          ],
+          path: 'create',
+          name: 'create-schedule',
+          builder: (context, state) => const CreateSchedulePage(),
         ),
-      ];
+      ],
+    ),
+  ];
 }

@@ -9,11 +9,11 @@ import '../../../../core/domain/entities/family/child.dart';
 abstract class GroupScheduleRepository {
   /// Get weekly schedule for a group
   Future<Result<List<schedule_entities.ScheduleSlot>, ApiFailure>>
-      getWeeklySchedule(String groupId, String week);
+  getWeeklySchedule(String groupId, String week);
 
   /// Get schedule configuration for a group
   Future<Result<schedule_entities.ScheduleConfig, ApiFailure>>
-      getScheduleConfig(String groupId);
+  getScheduleConfig(String groupId);
 
   /// Create or update a schedule slot
   Future<Result<schedule_entities.ScheduleSlot, ApiFailure>> upsertScheduleSlot(
@@ -25,7 +25,7 @@ abstract class GroupScheduleRepository {
 
   /// Assign a vehicle to a schedule slot
   Future<Result<schedule_entities.VehicleAssignment, ApiFailure>>
-      assignVehicleToSlot(
+  assignVehicleToSlot(
     String groupId,
     String day,
     String time,
@@ -51,7 +51,7 @@ abstract class GroupScheduleRepository {
 
   /// Assign children to a vehicle
   Future<Result<schedule_entities.VehicleAssignment, ApiFailure>>
-      assignChildrenToVehicle(
+  assignChildrenToVehicle(
     String groupId,
     String slotId,
     String vehicleAssignmentId,
@@ -68,7 +68,7 @@ abstract class GroupScheduleRepository {
 
   /// Update child assignment status
   Future<Result<family_entities.ChildAssignment, ApiFailure>>
-      updateChildAssignmentStatus(
+  updateChildAssignmentStatus(
     String groupId,
     String slotId,
     String vehicleAssignmentId,
@@ -78,7 +78,7 @@ abstract class GroupScheduleRepository {
 
   /// Update seat override for a vehicle assignment
   Future<Result<schedule_entities.VehicleAssignment, ApiFailure>>
-      updateSeatOverride(
+  updateSeatOverride(
     String groupId,
     String vehicleAssignmentId,
     int? seatOverride,
@@ -94,7 +94,7 @@ abstract class GroupScheduleRepository {
 
   /// Check for schedule conflicts
   Future<Result<List<schedule_entities.ScheduleConflict>, ApiFailure>>
-      checkScheduleConflicts(
+  checkScheduleConflicts(
     String groupId,
     String vehicleId,
     String week,
@@ -104,12 +104,11 @@ abstract class GroupScheduleRepository {
 
   /// Update schedule configuration
   Future<Result<schedule_entities.ScheduleConfig, ApiFailure>>
-      updateScheduleConfig(
-          String groupId, schedule_entities.ScheduleConfig config);
+  updateScheduleConfig(String groupId, schedule_entities.ScheduleConfig config);
 
   /// Reset schedule configuration to defaults
   Future<Result<schedule_entities.ScheduleConfig, ApiFailure>>
-      resetScheduleConfig(String groupId);
+  resetScheduleConfig(String groupId);
 
   /// Copy weekly schedule
   Future<Result<void, ApiFailure>> copyWeeklySchedule(
@@ -132,7 +131,7 @@ abstract class GroupScheduleRepository {
 
   /// Listen to real-time schedule updates
   Stream<Result<schedule_entities.ScheduleSlot, ApiFailure>>
-      listenToScheduleUpdates(String groupId, String week);
+  listenToScheduleUpdates(String groupId, String week);
 
   /// Send typing indicator for collaborative editing
   Future<Result<void, ApiFailure>> sendTypingIndicator(
@@ -149,7 +148,7 @@ abstract class GroupScheduleRepository {
 
   /// Get all schedules for a group with optional date filtering
   Future<Result<List<schedule_entities.ScheduleSlot>, ApiFailure>>
-      getGroupSchedules(String groupId, {DateTime? fromDate, DateTime? toDate});
+  getGroupSchedules(String groupId, {DateTime? fromDate, DateTime? toDate});
 
   /// Optimize schedule for a group
   Future<Result<Map<String, dynamic>, ApiFailure>> optimizeGroupSchedule(

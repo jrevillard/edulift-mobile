@@ -218,8 +218,9 @@ void main() {
             return ListTile(
               title: Text(family.name),
               subtitle: Text(family.role.displayName),
-              trailing:
-                  family.isPending ? const Chip(label: Text('Pending')) : null,
+              trailing: family.isPending
+                  ? const Chip(label: Text('Pending'))
+                  : null,
             );
           },
         ),

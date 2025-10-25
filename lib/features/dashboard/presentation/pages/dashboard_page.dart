@@ -71,7 +71,9 @@ class _DashboardPageState extends ConsumerState<DashboardPage>
                         icon: const Icon(Icons.logout),
                         onPressed: () async {
                           await ref.read(authStateProvider.notifier).logout();
-                          ref.read(navigationStateProvider.notifier).navigateTo(
+                          ref
+                              .read(navigationStateProvider.notifier)
+                              .navigateTo(
                                 route: '/auth/login',
                                 trigger: NavigationTrigger.userNavigation,
                               );
@@ -131,9 +133,9 @@ class _DashboardPageState extends ConsumerState<DashboardPage>
                   child: Text(
                     userInitials,
                     style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                          color: Theme.of(context).colorScheme.onPrimary,
-                          fontWeight: FontWeight.bold,
-                        ),
+                      color: Theme.of(context).colorScheme.onPrimary,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
               ),
@@ -159,10 +161,8 @@ class _DashboardPageState extends ConsumerState<DashboardPage>
                         l10n.yourTransportDashboard(_formatCurrentDate()),
                         key: const Key('current_date'),
                         style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                              color: Theme.of(context)
-                                  .colorScheme
-                                  .onSurfaceVariant,
-                            ),
+                          color: Theme.of(context).colorScheme.onSurfaceVariant,
+                        ),
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
                       ),
@@ -384,8 +384,8 @@ class _DashboardPageState extends ConsumerState<DashboardPage>
                   Text(
                     'Error loading family',
                     style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                          color: Theme.of(context).colorScheme.error,
-                        ),
+                      color: Theme.of(context).colorScheme.error,
+                    ),
                   ),
                   const SizedBox(height: 8),
                   Text(
@@ -779,9 +779,9 @@ class _QuickActionButton extends StatelessWidget {
           child: Text(
             title,
             style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                  fontWeight: FontWeight.w500,
-                  fontSize: 12,
-                ),
+              fontWeight: FontWeight.w500,
+              fontSize: 12,
+            ),
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
           ),
@@ -816,8 +816,8 @@ class _QuickActionButton extends StatelessWidget {
               Text(
                 description,
                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                      color: Theme.of(context).colorScheme.onSurfaceVariant,
-                    ),
+                  color: Theme.of(context).colorScheme.onSurfaceVariant,
+                ),
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
               ),
@@ -882,8 +882,8 @@ class _ActivityItem extends StatelessWidget {
                   Text(
                     subtitle,
                     style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                          color: Theme.of(context).colorScheme.onSurfaceVariant,
-                        ),
+                      color: Theme.of(context).colorScheme.onSurfaceVariant,
+                    ),
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                   ),
@@ -946,11 +946,11 @@ class _TripItem extends StatelessWidget {
                       child: Text(
                         time,
                         style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                              color: type == TripType.dropOff
-                                  ? Colors.orange
-                                  : Colors.blue,
-                              fontWeight: FontWeight.bold,
-                            ),
+                          color: type == TripType.dropOff
+                              ? Colors.orange
+                              : Colors.blue,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ),
                   ),
@@ -986,8 +986,8 @@ class _TripItem extends StatelessWidget {
                     child: Text(
                       '$tripTypeLabel • $date',
                       style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                            color: Theme.of(context).colorScheme.primary,
-                          ),
+                        color: Theme.of(context).colorScheme.primary,
+                      ),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                     ),
@@ -1001,9 +1001,9 @@ class _TripItem extends StatelessWidget {
                   child: Text(
                     childrenNames,
                     style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                          color: Theme.of(context).colorScheme.onSurfaceVariant,
-                          fontWeight: FontWeight.w500,
-                        ),
+                      color: Theme.of(context).colorScheme.onSurfaceVariant,
+                      fontWeight: FontWeight.w500,
+                    ),
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                   ),

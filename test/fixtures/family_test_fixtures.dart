@@ -10,13 +10,13 @@ class FamilyTestFixtures {
 
   /// Standard success result with default family
   static Result<Family, ApiFailure> get successResult => Result.ok(
-        Family(
-          id: 'test-family-id',
-          name: 'Test Family',
-          createdAt: DateTime(2024),
-          updatedAt: DateTime(2024),
-        ),
-      );
+    Family(
+      id: 'test-family-id',
+      name: 'Test Family',
+      createdAt: DateTime(2024),
+      updatedAt: DateTime(2024),
+    ),
+  );
 
   /// Success result with custom family name
   static Result<Family, ApiFailure> successResultForFamily(String name) =>
@@ -31,23 +31,23 @@ class FamilyTestFixtures {
 
   /// Integration test success result
   static Result<Family, ApiFailure> get integrationSuccessResult => Result.ok(
-        Family(
-          id: 'integration-test-family-id',
-          name: 'Integration Test Family',
-          createdAt: DateTime(2024),
-          updatedAt: DateTime(2024),
-        ),
-      );
+    Family(
+      id: 'integration-test-family-id',
+      name: 'Integration Test Family',
+      createdAt: DateTime(2024),
+      updatedAt: DateTime(2024),
+    ),
+  );
 
   /// Server error result for testing error scenarios
   static Result<Family, ApiFailure> get serverErrorResult => Result.err(
-        ApiFailure.serverError(message: 'Internal server error occurred'),
-      );
+    ApiFailure.serverError(message: 'Internal server error occurred'),
+  );
 
   /// Creation failed result for testing creation failures
   static Result<Family, ApiFailure> get creationFailedResult => Result.err(
-        ApiFailure.validationError(message: 'Family name already exists'),
-      );
+    ApiFailure.validationError(message: 'Family name already exists'),
+  );
 
   /// Network error result
   static Result<Family, ApiFailure> get networkErrorResult =>
@@ -55,6 +55,6 @@ class FamilyTestFixtures {
 
   /// Validation error result
   static Result<Family, ApiFailure> get validationErrorResult => Result.err(
-        ApiFailure.validationError(message: 'Invalid family data provided'),
-      );
+    ApiFailure.validationError(message: 'Invalid family data provided'),
+  );
 }

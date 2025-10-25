@@ -149,8 +149,9 @@ void main() {
 
       // OLD BUGGY CODE (line 595):
       // Used _getAssignedVehicles() which gets ALL vehicles in period
-      final allVehiclesInPeriod =
-          slotData.slots.expand((slot) => slot.vehicleAssignments).toList();
+      final allVehiclesInPeriod = slotData.slots
+          .expand((slot) => slot.vehicleAssignments)
+          .toList();
 
       // SUBTITLE (line 488): Correctly used _getAssignedVehiclesForTime()
       const target0800 = TimeOfDayValue(8, 0);

@@ -70,19 +70,19 @@ class FamilyPermissions extends Equatable {
 
   @override
   List<Object?> get props => [
-        id,
-        familyId,
-        userId,
-        canManageFamily,
-        canInviteMembers,
-        canManageMembers,
-        canManageChildren,
-        canManageVehicles,
-        canManageSchedule,
-        canViewReports,
-        isAdmin,
-        role,
-        createdAt,
-        updatedAt,
-      ];
+    id,
+    familyId,
+    userId,
+    canManageFamily,
+    canInviteMembers,
+    canManageMembers,
+    canManageChildren,
+    canManageVehicles,
+    canManageSchedule,
+    canViewReports,
+    isAdmin,
+    role,
+    createdAt,
+    updatedAt,
+  ];
 }

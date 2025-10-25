@@ -114,7 +114,8 @@ void main() {
         expect(family.administrators.length, equals(1));
 
         // BUSINESS RULE: Last admin protection
-        final isLastAdmin = family.administrators.length == 1 &&
+        final isLastAdmin =
+            family.administrators.length == 1 &&
             family.administrators.first.id == 'admin1';
         expect(
           isLastAdmin,

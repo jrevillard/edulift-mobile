@@ -87,15 +87,15 @@ class Family extends Equatable {
 
   @override
   List<Object?> get props => [
-        id,
-        name,
-        createdAt,
-        updatedAt,
-        members,
-        children,
-        vehicles,
-        description,
-      ];
+    id,
+    name,
+    createdAt,
+    updatedAt,
+    members,
+    children,
+    vehicles,
+    description,
+  ];
 
   @override
   String toString() {

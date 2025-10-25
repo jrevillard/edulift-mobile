@@ -34,8 +34,8 @@ class AuthTestFixtures {
 
   /// Creates a validation error for missing name
   static Result<void, Failure> nameRequiredError() => Result<void, Failure>.err(
-        ApiFailure.serverError(message: 'Name is required for new users'),
-      );
+    ApiFailure.serverError(message: 'Name is required for new users'),
+  );
 
   /// Creates a generic validation error
   static Result<void, Failure> validationError(String message) =>

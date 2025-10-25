@@ -53,7 +53,8 @@ class HiveOrchestrator {
         final homeDir = Platform.environment['HOME'] ?? '/tmp';
         fallbackPath = '$homeDir/.mobile_app_hive';
       } else if (Platform.isWindows) {
-        final homeDir = Platform.environment['USERPROFILE'] ??
+        final homeDir =
+            Platform.environment['USERPROFILE'] ??
             Platform.environment['HOMEPATH'] ??
             'C:\\temp';
         fallbackPath = '$homeDir\\.mobile_app_hive';
@@ -148,50 +149,57 @@ class HiveOrchestrator {
 
   /// Open all domain-specific boxes with proper error handling
   Future<void> _openDomainBoxes(bool enableEncryption) async {
-    final encryptionKey =
-        enableEncryption ? await _keyManager.getDeviceEncryptionKey() : null;
+    final encryptionKey = enableEncryption
+        ? await _keyManager.getDeviceEncryptionKey()
+        : null;
 
     try {
       // Family domain - family entities, members, permissions
       _familyBox = await Hive.openBox<Map>(
         HiveBoxNames.familyBox,
-        encryptionCipher:
-            encryptionKey != null ? HiveAesCipher(encryptionKey) : null,
+        encryptionCipher: encryptionKey != null
+            ? HiveAesCipher(encryptionKey)
+            : null,
       );
 
       // Children domain - child profiles, assignments, medical info
       _childrenBox = await Hive.openBox<Map>(
         HiveBoxNames.childrenBox,
-        encryptionCipher:
-            encryptionKey != null ? HiveAesCipher(encryptionKey) : null,
+        encryptionCipher: encryptionKey != null
+            ? HiveAesCipher(encryptionKey)
+            : null,
       );
 
       // Vehicle domain - vehicle information, schedules, availability
       _vehicleBox = await Hive.openBox<Map>(
         HiveBoxNames.vehicleBox,
-        encryptionCipher:
-            encryptionKey != null ? HiveAesCipher(encryptionKey) : null,
+        encryptionCipher: encryptionKey != null
+            ? HiveAesCipher(encryptionKey)
+            : null,
       );
 
       // Schedule domain - time slots, appointments, conflicts
       _scheduleBox = await Hive.openBox<Map>(
         HiveBoxNames.scheduleBox,
-        encryptionCipher:
-            encryptionKey != null ? HiveAesCipher(encryptionKey) : null,
+        encryptionCipher: encryptionKey != null
+            ? HiveAesCipher(encryptionKey)
+            : null,
       );
 
       // Sync domain - pending changes, offline operations
       _syncBox = await Hive.openBox<Map>(
         HiveBoxNames.syncBox,
-        encryptionCipher:
-            encryptionKey != null ? HiveAesCipher(encryptionKey) : null,
+        encryptionCipher: encryptionKey != null
+            ? HiveAesCipher(encryptionKey)
+            : null,
       );
 
       // ID mappings domain - temporary entity mappings (30-day TTL)
       _idMappingsBox = await Hive.openBox<Map>(
         HiveBoxNames.idMappingsBox,
-        encryptionCipher:
-            encryptionKey != null ? HiveAesCipher(encryptionKey) : null,
+        encryptionCipher: encryptionKey != null
+            ? HiveAesCipher(encryptionKey)
+            : null,
       );
 
       developer.log(
@@ -315,13 +323,13 @@ class HiveOrchestrator {
 
   /// Get all available domain names
   List<String> get availableDomains => [
-        'family',
-        'children',
-        'vehicle',
-        'schedule',
-        'sync',
-        'idMappings',
-      ];
+    'family',
+    'children',
+    'vehicle',
+    'schedule',
+    'sync',
+    'idMappings',
+  ];
 
   /// Get initialization status
   bool get isInitialized => _isInitialized;

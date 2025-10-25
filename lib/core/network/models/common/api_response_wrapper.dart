@@ -233,6 +233,5 @@ class ApiResponseUtils {
     Map<String, dynamic> wrapperData,
     T Function(dynamic json) fromJsonT, {
     int? statusCode,
-  }) =>
-      fromApiJson(wrapperData, fromJsonT);
+  }) => fromApiJson(wrapperData, fromJsonT);
 }

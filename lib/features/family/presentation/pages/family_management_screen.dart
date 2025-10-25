@@ -227,8 +227,8 @@ class _FamilyManagementScreenState extends ConsumerState<FamilyManagementScreen>
             Text(
               l10n.noFamily,
               style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                    color: AppColors.textSecondaryThemed(context),
-                  ),
+                color: AppColors.textSecondaryThemed(context),
+              ),
             ),
             const SizedBox(height: 16),
             Container(
@@ -239,11 +239,12 @@ class _FamilyManagementScreenState extends ConsumerState<FamilyManagementScreen>
               ),
               child: GestureDetector(
                 key: const Key('familyManagement_noFamily_inviteMember_button'),
-                onTap: () =>
-                    ref.read(nav.navigationStateProvider.notifier).navigateTo(
-                          route: AppRoutes.inviteMember,
-                          trigger: nav.NavigationTrigger.userNavigation,
-                        ),
+                onTap: () => ref
+                    .read(nav.navigationStateProvider.notifier)
+                    .navigateTo(
+                      route: AppRoutes.inviteMember,
+                      trigger: nav.NavigationTrigger.userNavigation,
+                    ),
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
@@ -365,7 +366,8 @@ class _FamilyManagementScreenState extends ConsumerState<FamilyManagementScreen>
 
     // Check if current user can manage members (only admins can) - use orchestrator
     final familyId = ref.read(familyComposedProvider).family?.id ?? '';
-    final canManageMembers = currentUser != null &&
+    final canManageMembers =
+        currentUser != null &&
         ref.watch(canPerformMemberActionsComposedProvider(familyId));
 
     // Debug logging for member card
@@ -541,17 +543,18 @@ class _FamilyManagementScreenState extends ConsumerState<FamilyManagementScreen>
             Text(
               l10n.noChildren,
               style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                    color: AppColors.textSecondaryThemed(context),
-                  ),
+                color: AppColors.textSecondaryThemed(context),
+              ),
             ),
             const SizedBox(height: 16),
             ElevatedButton(
               key: const Key('familyManagement_noChildren_addChild_button'),
-              onPressed: () =>
-                  ref.read(nav.navigationStateProvider.notifier).navigateTo(
-                        route: AppRoutes.addChild,
-                        trigger: nav.NavigationTrigger.userNavigation,
-                      ),
+              onPressed: () => ref
+                  .read(nav.navigationStateProvider.notifier)
+                  .navigateTo(
+                    route: AppRoutes.addChild,
+                    trigger: nav.NavigationTrigger.userNavigation,
+                  ),
               child: Text(l10n.addChild),
             ),
           ],
@@ -624,17 +627,18 @@ class _FamilyManagementScreenState extends ConsumerState<FamilyManagementScreen>
             Text(
               l10n.noVehicles,
               style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                    color: AppColors.textSecondaryThemed(context),
-                  ),
+                color: AppColors.textSecondaryThemed(context),
+              ),
             ),
             const SizedBox(height: 16),
             ElevatedButton(
               key: const Key('familyManagement_noVehicles_addVehicle_button'),
-              onPressed: () =>
-                  ref.read(nav.navigationStateProvider.notifier).navigateTo(
-                        route: AppRoutes.addVehicle,
-                        trigger: nav.NavigationTrigger.userNavigation,
-                      ),
+              onPressed: () => ref
+                  .read(nav.navigationStateProvider.notifier)
+                  .navigateTo(
+                    route: AppRoutes.addVehicle,
+                    trigger: nav.NavigationTrigger.userNavigation,
+                  ),
               child: Text(l10n.addVehicle),
             ),
           ],
@@ -892,7 +896,9 @@ class _FamilyManagementScreenState extends ConsumerState<FamilyManagementScreen>
           AppLogger.debug(
             'FAB clicked for tab 0 - navigating to invite member',
           );
-          ref.read(nav.navigationStateProvider.notifier).navigateTo(
+          ref
+              .read(nav.navigationStateProvider.notifier)
+              .navigateTo(
                 route: AppRoutes.inviteMember,
                 trigger: nav.NavigationTrigger.userNavigation,
               );
@@ -903,7 +909,9 @@ class _FamilyManagementScreenState extends ConsumerState<FamilyManagementScreen>
         icon = Icons.add_circle;
         onPressed = () {
           AppLogger.debug('FAB clicked for tab 1 - navigating to add child');
-          ref.read(nav.navigationStateProvider.notifier).navigateTo(
+          ref
+              .read(nav.navigationStateProvider.notifier)
+              .navigateTo(
                 route: AppRoutes.addChild,
                 trigger: nav.NavigationTrigger.userNavigation,
               );
@@ -914,7 +922,9 @@ class _FamilyManagementScreenState extends ConsumerState<FamilyManagementScreen>
         icon = Icons.add_circle;
         onPressed = () {
           AppLogger.debug('FAB clicked for tab 2 - navigating to add vehicle');
-          ref.read(nav.navigationStateProvider.notifier).navigateTo(
+          ref
+              .read(nav.navigationStateProvider.notifier)
+              .navigateTo(
                 route: AppRoutes.addVehicle,
                 trigger: nav.NavigationTrigger.userNavigation,
               );
@@ -1027,14 +1037,18 @@ class _FamilyManagementScreenState extends ConsumerState<FamilyManagementScreen>
   }
 
   void _showChildDetails(entities.Child child) {
-    ref.read(nav.navigationStateProvider.notifier).navigateTo(
+    ref
+        .read(nav.navigationStateProvider.notifier)
+        .navigateTo(
           route: AppRoutes.childDetails(child.id),
           trigger: nav.NavigationTrigger.userNavigation,
         );
   }
 
   void _showVehicleDetails(entities.Vehicle vehicle) {
-    ref.read(nav.navigationStateProvider.notifier).navigateTo(
+    ref
+        .read(nav.navigationStateProvider.notifier)
+        .navigateTo(
           route: AppRoutes.vehicleDetails(vehicle.id),
           trigger: nav.NavigationTrigger.userNavigation,
         );
@@ -1045,7 +1059,8 @@ class _FamilyManagementScreenState extends ConsumerState<FamilyManagementScreen>
 
     // Check admin permissions for child management
     final familyId = ref.read(familyComposedProvider).family?.id;
-    final isAdmin = familyId != null &&
+    final isAdmin =
+        familyId != null &&
         ref.read(canPerformMemberActionsComposedProvider(familyId));
 
     showModalBottomSheet(
@@ -1070,7 +1085,9 @@ class _FamilyManagementScreenState extends ConsumerState<FamilyManagementScreen>
                 title: Text(l10n.edit),
                 onTap: () {
                   Navigator.pop(context);
-                  ref.read(nav.navigationStateProvider.notifier).navigateTo(
+                  ref
+                      .read(nav.navigationStateProvider.notifier)
+                      .navigateTo(
                         route: AppRoutes.editChild(child.id),
                         trigger: nav.NavigationTrigger.userNavigation,
                       );
@@ -1273,7 +1290,8 @@ class _FamilyManagementScreenState extends ConsumerState<FamilyManagementScreen>
 
     // CRITICAL: Last admin protection - cannot change role of last admin
     // This prevents families from being left without any administrator
-    final adminCount = family?.members
+    final adminCount =
+        family?.members
             .where((m) => m.role == entities.FamilyRole.admin)
             .length ??
         0;
@@ -1310,12 +1328,15 @@ class _FamilyManagementScreenState extends ConsumerState<FamilyManagementScreen>
         member: member,
         canManageRoles: canManageRoles,
         onViewDetails: () => _showMemberDetails(member),
-        onChangeRole:
-            canManageRoles ? () => _showRoleChangeConfirmation(member) : null,
-        onRemoveMember:
-            !isCurrentUser ? () => _showRemoveMemberConfirmation(member) : null,
-        onLeaveFamily:
-            isCurrentUser ? () => _showLeaveFamilyConfirmation(member) : null,
+        onChangeRole: canManageRoles
+            ? () => _showRoleChangeConfirmation(member)
+            : null,
+        onRemoveMember: !isCurrentUser
+            ? () => _showRemoveMemberConfirmation(member)
+            : null,
+        onLeaveFamily: isCurrentUser
+            ? () => _showLeaveFamilyConfirmation(member)
+            : null,
       ),
     );
   }
@@ -1390,7 +1411,8 @@ class _FamilyManagementScreenState extends ConsumerState<FamilyManagementScreen>
 
     // Check admin permissions for vehicle management
     final familyId = ref.read(familyComposedProvider).family?.id;
-    final isAdmin = familyId != null &&
+    final isAdmin =
+        familyId != null &&
         ref.read(canPerformMemberActionsComposedProvider(familyId));
 
     showModalBottomSheet(
@@ -1437,7 +1459,9 @@ class _FamilyManagementScreenState extends ConsumerState<FamilyManagementScreen>
                     title: Text(l10n.edit),
                     onTap: () {
                       Navigator.pop(context);
-                      ref.read(nav.navigationStateProvider.notifier).navigateTo(
+                      ref
+                          .read(nav.navigationStateProvider.notifier)
+                          .navigateTo(
                             route: '/family/vehicles/${vehicle.id}/edit',
                             trigger: nav.NavigationTrigger.userNavigation,
                           );

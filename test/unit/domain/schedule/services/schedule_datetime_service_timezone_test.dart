@@ -198,8 +198,7 @@ void main() {
       });
 
       group('Regression Tests', () {
-        test('should NOT apply timezone conversion (regression test for issue)',
-            () {
+        test('should NOT apply timezone conversion (regression test for issue)', () {
           // This test specifically verifies that the timezone conversion bug is fixed
           // The bug was: 07:00 (user local) was being converted to 04:00 UTC instead of 05:00 UTC
           // After fix: 07:00 should remain 07:00 UTC (no conversion in domain layer)
@@ -370,8 +369,9 @@ void main() {
       });
 
       test('should validate past dates correctly', () {
-        final pastDate =
-            DateTime.now().subtract(const Duration(days: 1)).toUtc();
+        final pastDate = DateTime.now()
+            .subtract(const Duration(days: 1))
+            .toUtc();
 
         final isPast = dateTimeService.isPastDate(
           pastDate,

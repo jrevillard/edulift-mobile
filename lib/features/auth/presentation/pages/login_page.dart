@@ -106,29 +106,31 @@ class _LoginPageState extends ConsumerState<LoginPage>
                           Text(
                             l10n.welcomeToEduLiftLogin,
                             key: const Key('welcomeToEduLift'),
-                            style: (isTablet
-                                    ? Theme.of(
-                                        context,
-                                      ).textTheme.displaySmall
-                                    : Theme.of(
-                                        context,
-                                      ).textTheme.headlineMedium)
-                                ?.copyWith(fontWeight: FontWeight.bold),
+                            style:
+                                (isTablet
+                                        ? Theme.of(
+                                            context,
+                                          ).textTheme.displaySmall
+                                        : Theme.of(
+                                            context,
+                                          ).textTheme.headlineMedium)
+                                    ?.copyWith(fontWeight: FontWeight.bold),
                             textAlign: TextAlign.center,
                           ),
                           SizedBox(height: isTablet ? 8 : 6),
                           Text(
                             l10n.secureLogin,
-                            style: (isTablet
-                                    ? Theme.of(context).textTheme.bodyLarge
-                                    : Theme.of(
+                            style:
+                                (isTablet
+                                        ? Theme.of(context).textTheme.bodyLarge
+                                        : Theme.of(
+                                            context,
+                                          ).textTheme.bodyMedium)
+                                    ?.copyWith(
+                                      color: Theme.of(
                                         context,
-                                      ).textTheme.bodyMedium)
-                                ?.copyWith(
-                              color: Theme.of(
-                                context,
-                              ).colorScheme.onSurfaceVariant,
-                            ),
+                                      ).colorScheme.onSurfaceVariant,
+                                    ),
                             textAlign: TextAlign.center,
                           ),
                           SizedBox(height: isTablet ? 48 : 32),
@@ -141,7 +143,8 @@ class _LoginPageState extends ConsumerState<LoginPage>
                             submitButtonText: authState.showNameField
                                 ? l10n.createAccount
                                 : l10n.continueButton,
-                            isLoading: authState.isLoading ||
+                            isLoading:
+                                authState.isLoading ||
                                 authState.isCheckingUserStatus,
                           ),
 
@@ -150,7 +153,8 @@ class _LoginPageState extends ConsumerState<LoginPage>
                           if (_canUseBiometric && !authState.showNameField)
                             AccessibleButton.outlined(
                               key: const Key('biometricButton'),
-                              onPressed: (authState.isLoading ||
+                              onPressed:
+                                  (authState.isLoading ||
                                       authState.isCheckingUserStatus)
                                   ? null
                                   : _authenticateWithBiometric,

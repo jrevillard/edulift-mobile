@@ -16,8 +16,9 @@ String _$themeHash() => r'81a74de82a5f3c15a4af72f8acf7acdeca3f9479';
 final themeProvider = Provider<ThemeState>.internal(
   theme,
   name: r'themeProvider',
-  debugGetCreateSourceHash:
-      const bool.fromEnvironment('dart.vm.product') ? null : _$themeHash,
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$themeHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
@@ -55,8 +56,9 @@ String _$isDarkModeHash() => r'e945b157ad3688046801288e81da9bbf7198e28d';
 final isDarkModeProvider = Provider<bool>.internal(
   isDarkMode,
   name: r'isDarkModeProvider',
-  debugGetCreateSourceHash:
-      const bool.fromEnvironment('dart.vm.product') ? null : _$isDarkModeHash,
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$isDarkModeHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );

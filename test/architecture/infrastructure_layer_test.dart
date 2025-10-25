@@ -130,8 +130,7 @@ void main() {
         !className.endsWith('UseCase');
   }
 
-  group('Infrastructure Layer Architecture Rules - EXTERNAL SERVICES ISOLATION',
-      () {
+  group('Infrastructure Layer Architecture Rules - EXTERNAL SERVICES ISOLATION', () {
     test('Infrastructure layer must be properly defined and isolated', () {
       final infrastructureFiles = findDartFiles(
         'lib',

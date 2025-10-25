@@ -49,11 +49,11 @@ class FamilyMemberActionsState extends Equatable {
 
   @override
   List<Object?> get props => [
-        isProcessing,
-        processingMemberId,
-        lastAction,
-        error,
-      ];
+    isProcessing,
+    processingMemberId,
+    lastAction,
+    error,
+  ];
 }
 
 /// Enumeration of possible member actions
@@ -82,7 +82,7 @@ class FamilyMemberActionsNotifier
   final Ref _ref;
 
   FamilyMemberActionsNotifier(this._ref)
-      : super(const FamilyMemberActionsState()) {
+    : super(const FamilyMemberActionsState()) {
     // CRITICAL: Listen to auth changes continuously for TRUE reactive architecture
     _ref.listen(currentUserProvider, (previous, next) {
       if (next == null && previous != null) {
@@ -193,10 +193,13 @@ class FamilyMemberActionsNotifier
 }
 
 /// Provider for family member actions
-final familyMemberActionsProvider = StateNotifierProvider<
-    FamilyMemberActionsNotifier, FamilyMemberActionsState>((ref) {
-  return FamilyMemberActionsNotifier(ref);
-});
+final familyMemberActionsProvider =
+    StateNotifierProvider<
+      FamilyMemberActionsNotifier,
+      FamilyMemberActionsState
+    >((ref) {
+      return FamilyMemberActionsNotifier(ref);
+    });
 
 /// Provider to check if a specific member is being processed
 final isMemberBeingProcessedProvider = Provider.family<bool, String>((
@@ -216,17 +219,17 @@ final lastMemberActionProvider = Provider<MemberAction?>((ref) {
 /// Provider that combines permissions and actions for UI components
 final memberActionCapabilitiesProvider =
     Provider.family<MemberActionCapabilities, String>((ref, memberId) {
-  final actionsState = ref.watch(familyMemberActionsProvider);
-  final memberPermissions = ref.watch(memberPermissionsProvider(memberId));
-  return MemberActionCapabilities(
-    canPromote: memberPermissions.canPromote,
-    canDemote: memberPermissions.canDemote,
-    canRemove: memberPermissions.canRemove,
-    isProcessing: actionsState.isProcessingMember(memberId),
-    hasError: actionsState.error != null,
-    errorMessage: actionsState.error,
-  );
-});
+      final actionsState = ref.watch(familyMemberActionsProvider);
+      final memberPermissions = ref.watch(memberPermissionsProvider(memberId));
+      return MemberActionCapabilities(
+        canPromote: memberPermissions.canPromote,
+        canDemote: memberPermissions.canDemote,
+        canRemove: memberPermissions.canRemove,
+        isProcessing: actionsState.isProcessingMember(memberId),
+        hasError: actionsState.error != null,
+        errorMessage: actionsState.error,
+      );
+    });
 
 /// Helper class combining permission checks and action states for UI
 class MemberActionCapabilities extends Equatable {
@@ -249,11 +252,11 @@ class MemberActionCapabilities extends Equatable {
 
   @override
   List<Object?> get props => [
-        canPromote,
-        canDemote,
-        canRemove,
-        isProcessing,
-        hasError,
-        errorMessage,
-      ];
+    canPromote,
+    canDemote,
+    canRemove,
+    isProcessing,
+    hasError,
+    errorMessage,
+  ];
 }

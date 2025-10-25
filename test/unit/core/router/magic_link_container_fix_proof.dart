@@ -18,8 +18,7 @@ void main() {
       await TestEnvironment.initialize();
     });
 
-    testWidgets('PROOF: AppRouter.createRouter uses same container as main app',
-        (
+    testWidgets('PROOF: AppRouter.createRouter uses same container as main app', (
       tester,
     ) async {
       final container = ProviderContainer();

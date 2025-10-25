@@ -269,8 +269,8 @@ class NavigationStateNotifier extends StateNotifier<NavigationState> {
 /// Provider for navigation state
 final navigationStateProvider =
     StateNotifierProvider<NavigationStateNotifier, NavigationState>(
-  (ref) => NavigationStateNotifier(),
-);
+      (ref) => NavigationStateNotifier(),
+    );
 
 /// Helper methods for common navigation patterns
 extension NavigationHelpers on NavigationStateNotifier {

@@ -89,22 +89,22 @@ final canPerformMemberActionsComposedProvider = canPerformMemberActionsProvider;
 // Famille members with capabilities provider
 final familyMembersWithCapabilitiesComposedProvider =
     Provider.family<AsyncValue<List<Map<String, dynamic>>>, String>((
-  ref,
-  familyId,
-) {
-  final familyState = ref.watch(familyProvider);
-  // Simple implementation returning empty list for now - implement if needed
-  if (familyState.isLoading) {
-    return const AsyncValue.loading();
-  } else if (familyState.error != null) {
-    return AsyncValue.error(
-      Exception(familyState.error!),
-      StackTrace.current,
-    );
-  } else {
-    return const AsyncValue.data([]);
-  }
-});
+      ref,
+      familyId,
+    ) {
+      final familyState = ref.watch(familyProvider);
+      // Simple implementation returning empty list for now - implement if needed
+      if (familyState.isLoading) {
+        return const AsyncValue.loading();
+      } else if (familyState.error != null) {
+        return AsyncValue.error(
+          Exception(familyState.error!),
+          StackTrace.current,
+        );
+      } else {
+        return const AsyncValue.data([]);
+      }
+    });
 final permissionSyncStatusComposedProvider = permissionSyncStatusProvider;
 
 // Re-export low-level permission provider (for internal orchestrator use only)

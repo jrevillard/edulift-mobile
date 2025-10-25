@@ -65,8 +65,9 @@ class MailpitHelper {
 
         if (messages != null && messages.isNotEmpty) {
           debugPrint('📬 Found ${messages.length} emails in Mailpit');
-          final allEmails =
-              messages.map((msg) => MailpitMessage.fromJson(msg)).toList();
+          final allEmails = messages
+              .map((msg) => MailpitMessage.fromJson(msg))
+              .toList();
 
           // Apply recipient filter if specified
           if (recipientFilter != null) {
@@ -186,8 +187,8 @@ class MailpitHelper {
       debugPrint('🔍 Applying subject filter: "$subjectFilter"');
       filteredEmails = filteredEmails.where((email) {
         final subjectMatches = email.subject.toLowerCase().contains(
-              subjectFilter.toLowerCase(),
-            );
+          subjectFilter.toLowerCase(),
+        );
         debugPrint(
           '🔍 Subject "${email.subject}" contains "$subjectFilter"? $subjectMatches',
         );
@@ -843,9 +844,10 @@ class MailpitFullMessage {
       read: json['Read'] == true,
       tags: (json['Tags'] as List?)?.cast<String>() ?? [],
       attachments: (json['Attachments'] is List)
-          ? (json['Attachments'] as List).length // If it's a list, count items
+          ? (json['Attachments'] as List)
+                .length // If it's a list, count items
           : (json['Attachments'] as int? ??
-              0), // If it's a number, use directly
+                0), // If it's a number, use directly
     );
   }
 

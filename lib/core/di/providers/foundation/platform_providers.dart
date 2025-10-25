@@ -45,8 +45,7 @@ BiometricService biometricService(Ref ref) {
 @riverpod
 domain_deep_link.DeepLinkService deepLinkService(Ref ref) {
   // SINGLETON PATTERN: Use getInstance() to prevent multiple protocol handlers
-  return DeepLinkServiceImpl
-      .getInstance(); // Keep getInstance() - DeepLinkService has complex file watching
+  return DeepLinkServiceImpl.getInstance(); // Keep getInstance() - DeepLinkService has complex file watching
 }
 
 // =============================================================================

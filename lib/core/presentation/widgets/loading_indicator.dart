@@ -109,7 +109,8 @@ class InlineLoadingIndicator extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // Adaptive size for inline use
-    final adaptiveSize = size ??
+    final adaptiveSize =
+        size ??
         context.getAdaptiveIconSize(mobile: 16, tablet: 18, desktop: 20);
 
     final strokeWidth = (adaptiveSize / 10).clamp(1.5, 3.0);
@@ -149,7 +150,8 @@ class LoadingOverlay extends StatelessWidget {
         child,
         if (isLoading)
           Container(
-            color: overlayColor ??
+            color:
+                overlayColor ??
                 Theme.of(context).colorScheme.scrim.withValues(alpha: 0.4),
             child: LoadingIndicator(
               message: loadingMessage ?? 'Loading...',

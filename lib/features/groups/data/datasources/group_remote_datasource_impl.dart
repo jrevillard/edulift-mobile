@@ -111,8 +111,8 @@ class GroupRemoteDataSourceImpl implements GroupRemoteDataSource {
   ) async {
     final validation =
         await ApiResponseHelper.executeAndUnwrap<GroupInvitationValidationData>(
-      () => _apiClient.validateInviteCode(code),
-    );
+          () => _apiClient.validateInviteCode(code),
+        );
     return validation;
   }
 
@@ -120,8 +120,8 @@ class GroupRemoteDataSourceImpl implements GroupRemoteDataSource {
   Future<Map<String, dynamic>> acceptGroupInvitation(String code) async {
     final response =
         await ApiResponseHelper.executeAndUnwrap<AcceptInvitationResponse>(
-      () => _apiClient.acceptGroupInvitationByCode(code),
-    );
+          () => _apiClient.acceptGroupInvitationByCode(code),
+        );
     return {'success': response.success};
   }
 
@@ -177,8 +177,8 @@ class GroupRemoteDataSourceImpl implements GroupRemoteDataSource {
     );
     final families =
         await ApiResponseHelper.executeAndUnwrap<List<FamilySearchResult>>(
-      () => _apiClient.searchFamilies(groupId, request),
-    );
+          () => _apiClient.searchFamilies(groupId, request),
+        );
     return families.map((family) => family.toJson()).toList();
   }
 
@@ -197,8 +197,8 @@ class GroupRemoteDataSourceImpl implements GroupRemoteDataSource {
     );
     final invitation =
         await ApiResponseHelper.executeAndUnwrap<GroupInvitationData>(
-      () => _apiClient.inviteFamilyToGroup(groupId, request),
-    );
+          () => _apiClient.inviteFamilyToGroup(groupId, request),
+        );
     return invitation.toJson();
   }
 
@@ -209,8 +209,8 @@ class GroupRemoteDataSourceImpl implements GroupRemoteDataSource {
   ) async {
     final invitations =
         await ApiResponseHelper.executeAndUnwrap<List<GroupInvitationData>>(
-      () => _apiClient.getPendingInvitations(groupId),
-    );
+          () => _apiClient.getPendingInvitations(groupId),
+        );
     return invitations.map((invitation) => invitation.toJson()).toList();
   }
 
@@ -241,8 +241,8 @@ class GroupRemoteDataSourceImpl implements GroupRemoteDataSource {
     );
     final invitation =
         await ApiResponseHelper.executeAndUnwrap<GroupInvitationData>(
-      () => _apiClient.createGroupInvitation(request),
-    );
+          () => _apiClient.createGroupInvitation(request),
+        );
     return invitation;
   }
 }

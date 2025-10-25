@@ -163,8 +163,7 @@ class ScheduleApiClient {
   Future<ScheduleConfigDto> updateGroupScheduleConfigTyped(
     String groupId,
     UpdateScheduleConfigRequest request,
-  ) =>
-      _client.updateGroupScheduleConfigTyped(groupId, request);
+  ) => _client.updateGroupScheduleConfigTyped(groupId, request);
 
   /// Reset group schedule configuration
   /// POST /api/v1/groups/{groupId}/schedule-config/reset
@@ -180,8 +179,7 @@ class ScheduleApiClient {
   Future<ScheduleSlotDto> createScheduleSlot(
     String groupId,
     CreateScheduleSlotRequest request,
-  ) =>
-      _client.createScheduleSlot(groupId, request);
+  ) => _client.createScheduleSlot(groupId, request);
 
   /// Get group schedule
   /// GET /api/v1/groups/{groupId}/schedule
@@ -189,8 +187,7 @@ class ScheduleApiClient {
     String groupId,
     String? startDate,
     String? endDate,
-  ) =>
-      _client.getGroupSchedule(groupId, startDate, endDate);
+  ) => _client.getGroupSchedule(groupId, startDate, endDate);
 
   /// Get schedule slot
   /// GET /api/v1/schedule-slots/{slotId}
@@ -207,16 +204,14 @@ class ScheduleApiClient {
   Future<VehicleAssignmentDto> assignVehicleToSlotTyped(
     String slotId,
     AssignVehicleRequest request,
-  ) =>
-      _client.assignVehicleToSlotTyped(slotId, request);
+  ) => _client.assignVehicleToSlotTyped(slotId, request);
 
   /// Remove vehicle from slot (typed)
   /// DELETE /api/v1/schedule-slots/{slotId}/vehicles
   Future<void> removeVehicleFromSlotTyped(
     String slotId,
     RemoveVehicleRequest request,
-  ) =>
-      _client.removeVehicleFromSlotTyped(slotId, request);
+  ) => _client.removeVehicleFromSlotTyped(slotId, request);
 
   /// Update vehicle driver
   /// PATCH /api/v1/schedule-slots/{slotId}/vehicles/{vehicleId}/driver
@@ -224,8 +219,7 @@ class ScheduleApiClient {
     String slotId,
     String vehicleId,
     UpdateDriverRequest request,
-  ) =>
-      _client.updateVehicleDriver(slotId, vehicleId, request);
+  ) => _client.updateVehicleDriver(slotId, vehicleId, request);
 
   // ========================================
   // CHILDREN ASSIGNMENT ENDPOINTS
@@ -236,8 +230,7 @@ class ScheduleApiClient {
   Future<ScheduleSlotChildDto> assignChildToSlot(
     String slotId,
     AssignChildRequest request,
-  ) =>
-      _client.assignChildToSlot(slotId, request);
+  ) => _client.assignChildToSlot(slotId, request);
 
   /// Remove child from slot
   /// DELETE /api/v1/schedule-slots/{slotId}/children/{childId}
@@ -259,6 +252,5 @@ class ScheduleApiClient {
   Future<VehicleAssignmentDto> updateSeatOverride(
     String vehicleAssignmentId,
     UpdateSeatOverrideRequest request,
-  ) =>
-      _client.updateSeatOverride(vehicleAssignmentId, request);
+  ) => _client.updateSeatOverride(vehicleAssignmentId, request);
 }

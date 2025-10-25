@@ -42,7 +42,7 @@ class RealtimeWebSocketService {
 
   // Enhanced stream controllers for real-time collaboration
   final StreamController<ScheduleCollaborationEvent>
-      _scheduleCollaborationController =
+  _scheduleCollaborationController =
       StreamController<ScheduleCollaborationEvent>.broadcast();
   final StreamController<ConflictDetectionEvent> _conflictDetectionController =
       StreamController<ConflictDetectionEvent>.broadcast();

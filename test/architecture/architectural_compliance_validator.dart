@@ -278,8 +278,9 @@ class ArchitecturalValidator {
       // Individual feature providers with >5 providers may need refactoring
 
       final isCompositionRoot = file.path.endsWith('providers.dart');
-      final threshold =
-          isCompositionRoot ? 15 : 8; // Higher threshold for composition roots
+      final threshold = isCompositionRoot
+          ? 15
+          : 8; // Higher threshold for composition roots
 
       if (providerCount > threshold) {
         results.addWarning(
@@ -429,7 +430,8 @@ class ArchitecturalValidator {
           // 2. Infrastructure services that work with domain entities
           // 3. WebSocket/Event services that reference domain types
           // 4. Services that need domain entity types for operations
-          final hasLegitimatePattern = content.contains('toDomain()') ||
+          final hasLegitimatePattern =
+              content.contains('toDomain()') ||
               content.contains('fromDomain(') ||
               content.contains('DomainConverter') ||
               content.contains('Mapper') ||

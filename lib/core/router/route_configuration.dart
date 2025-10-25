@@ -6,7 +6,7 @@ abstract class RouteConfiguration {
   String get path;
   String get name;
   Function
-      get builder; // FIXED: Removed Flutter widget dependency for clean architecture
+  get builder; // FIXED: Removed Flutter widget dependency for clean architecture
   List<RouteConfiguration> get routes => [];
 }
 

@@ -7,9 +7,9 @@ part of 'group_api_client.dart';
 // **************************************************************************
 
 BaseResponse _$BaseResponseFromJson(Map<String, dynamic> json) => BaseResponse(
-      success: json['success'] as bool,
-      message: json['message'] as String?,
-    );
+  success: json['success'] as bool,
+  message: json['message'] as String?,
+);
 
 Map<String, dynamic> _$BaseResponseToJson(BaseResponse instance) =>
     <String, dynamic>{
@@ -18,34 +18,34 @@ Map<String, dynamic> _$BaseResponseToJson(BaseResponse instance) =>
     };
 
 GroupData _$GroupDataFromJson(Map<String, dynamic> json) => GroupData(
-      id: json['id'] as String,
-      name: json['name'] as String,
-      description: json['description'] as String?,
-      familyId: json['familyId'] as String,
-      inviteCode: json['invite_code'] as String?,
-      createdAt: json['createdAt'] as String,
-      updatedAt: json['updatedAt'] as String,
-      userRole: json['userRole'] as String?,
-      joinedAt: json['joinedAt'] as String?,
-      ownerFamily: json['ownerFamily'] as Map<String, dynamic>?,
-      familyCount: (json['familyCount'] as num?)?.toInt(),
-      scheduleCount: (json['scheduleCount'] as num?)?.toInt(),
-    );
+  id: json['id'] as String,
+  name: json['name'] as String,
+  description: json['description'] as String?,
+  familyId: json['familyId'] as String,
+  inviteCode: json['invite_code'] as String?,
+  createdAt: json['createdAt'] as String,
+  updatedAt: json['updatedAt'] as String,
+  userRole: json['userRole'] as String?,
+  joinedAt: json['joinedAt'] as String?,
+  ownerFamily: json['ownerFamily'] as Map<String, dynamic>?,
+  familyCount: (json['familyCount'] as num?)?.toInt(),
+  scheduleCount: (json['scheduleCount'] as num?)?.toInt(),
+);
 
 Map<String, dynamic> _$GroupDataToJson(GroupData instance) => <String, dynamic>{
-      'id': instance.id,
-      'name': instance.name,
-      if (instance.description case final value?) 'description': value,
-      'familyId': instance.familyId,
-      if (instance.inviteCode case final value?) 'invite_code': value,
-      'createdAt': instance.createdAt,
-      'updatedAt': instance.updatedAt,
-      if (instance.userRole case final value?) 'userRole': value,
-      if (instance.joinedAt case final value?) 'joinedAt': value,
-      if (instance.ownerFamily case final value?) 'ownerFamily': value,
-      if (instance.familyCount case final value?) 'familyCount': value,
-      if (instance.scheduleCount case final value?) 'scheduleCount': value,
-    };
+  'id': instance.id,
+  'name': instance.name,
+  if (instance.description case final value?) 'description': value,
+  'familyId': instance.familyId,
+  if (instance.inviteCode case final value?) 'invite_code': value,
+  'createdAt': instance.createdAt,
+  'updatedAt': instance.updatedAt,
+  if (instance.userRole case final value?) 'userRole': value,
+  if (instance.joinedAt case final value?) 'joinedAt': value,
+  if (instance.ownerFamily case final value?) 'ownerFamily': value,
+  if (instance.familyCount case final value?) 'familyCount': value,
+  if (instance.scheduleCount case final value?) 'scheduleCount': value,
+};
 
 GroupResponse _$GroupResponseFromJson(Map<String, dynamic> json) =>
     GroupResponse(
@@ -69,63 +69,57 @@ Map<String, dynamic> _$GroupListResponseToJson(GroupListResponse instance) =>
 
 GroupInvitationValidationResponse _$GroupInvitationValidationResponseFromJson(
   Map<String, dynamic> json,
-) =>
-    GroupInvitationValidationResponse(
-      success: json['success'] as bool,
-      data: GroupInvitationValidationData.fromJson(
-        json['data'] as Map<String, dynamic>,
-      ),
-    );
+) => GroupInvitationValidationResponse(
+  success: json['success'] as bool,
+  data: GroupInvitationValidationData.fromJson(
+    json['data'] as Map<String, dynamic>,
+  ),
+);
 
 Map<String, dynamic> _$GroupInvitationValidationResponseToJson(
   GroupInvitationValidationResponse instance,
-) =>
-    <String, dynamic>{'success': instance.success, 'data': instance.data};
+) => <String, dynamic>{'success': instance.success, 'data': instance.data};
 
 GroupInvitationValidationData _$GroupInvitationValidationDataFromJson(
   Map<String, dynamic> json,
-) =>
-    GroupInvitationValidationData(
-      valid: json['valid'] as bool,
-      groupId: json['groupId'] as String?,
-      groupName: json['groupName'] as String?,
-      inviterName: json['inviterName'] as String?,
-      requiresAuth: json['requiresAuth'] as bool?,
-      error: json['error'] as String?,
-      errorCode: json['errorCode'] as String?,
-      email: json['email'] as String?,
-      existingUser: json['existingUser'] as bool?,
-    );
+) => GroupInvitationValidationData(
+  valid: json['valid'] as bool,
+  groupId: json['groupId'] as String?,
+  groupName: json['groupName'] as String?,
+  inviterName: json['inviterName'] as String?,
+  requiresAuth: json['requiresAuth'] as bool?,
+  error: json['error'] as String?,
+  errorCode: json['errorCode'] as String?,
+  email: json['email'] as String?,
+  existingUser: json['existingUser'] as bool?,
+);
 
 Map<String, dynamic> _$GroupInvitationValidationDataToJson(
   GroupInvitationValidationData instance,
-) =>
-    <String, dynamic>{
-      'valid': instance.valid,
-      'groupId': instance.groupId,
-      'groupName': instance.groupName,
-      'inviterName': instance.inviterName,
-      'requiresAuth': instance.requiresAuth,
-      'error': instance.error,
-      'errorCode': instance.errorCode,
-      'email': instance.email,
-      'existingUser': instance.existingUser,
-    };
+) => <String, dynamic>{
+  'valid': instance.valid,
+  'groupId': instance.groupId,
+  'groupName': instance.groupName,
+  'inviterName': instance.inviterName,
+  'requiresAuth': instance.requiresAuth,
+  'error': instance.error,
+  'errorCode': instance.errorCode,
+  'email': instance.email,
+  'existingUser': instance.existingUser,
+};
 
 GroupFamiliesResponse _$GroupFamiliesResponseFromJson(
   Map<String, dynamic> json,
-) =>
-    GroupFamiliesResponse(
-      success: json['success'] as bool,
-      data: (json['data'] as List<dynamic>)
-          .map((e) => GroupFamilyData.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
+) => GroupFamiliesResponse(
+  success: json['success'] as bool,
+  data: (json['data'] as List<dynamic>)
+      .map((e) => GroupFamilyData.fromJson(e as Map<String, dynamic>))
+      .toList(),
+);
 
 Map<String, dynamic> _$GroupFamiliesResponseToJson(
   GroupFamiliesResponse instance,
-) =>
-    <String, dynamic>{'success': instance.success, 'data': instance.data};
+) => <String, dynamic>{'success': instance.success, 'data': instance.data};
 
 FamilyAdminData _$FamilyAdminDataFromJson(Map<String, dynamic> json) =>
     FamilyAdminData(
@@ -176,23 +170,20 @@ GroupFamilyResponse _$GroupFamilyResponseFromJson(Map<String, dynamic> json) =>
 
 Map<String, dynamic> _$GroupFamilyResponseToJson(
   GroupFamilyResponse instance,
-) =>
-    <String, dynamic>{'success': instance.success, 'data': instance.data};
+) => <String, dynamic>{'success': instance.success, 'data': instance.data};
 
 SearchFamiliesResponse _$SearchFamiliesResponseFromJson(
   Map<String, dynamic> json,
-) =>
-    SearchFamiliesResponse(
-      success: json['success'] as bool,
-      data: (json['data'] as List<dynamic>)
-          .map((e) => FamilySearchResult.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
+) => SearchFamiliesResponse(
+  success: json['success'] as bool,
+  data: (json['data'] as List<dynamic>)
+      .map((e) => FamilySearchResult.fromJson(e as Map<String, dynamic>))
+      .toList(),
+);
 
 Map<String, dynamic> _$SearchFamiliesResponseToJson(
   SearchFamiliesResponse instance,
-) =>
-    <String, dynamic>{'success': instance.success, 'data': instance.data};
+) => <String, dynamic>{'success': instance.success, 'data': instance.data};
 
 AdminContact _$AdminContactFromJson(Map<String, dynamic> json) =>
     AdminContact(name: json['name'] as String, email: json['email'] as String);
@@ -222,16 +213,14 @@ Map<String, dynamic> _$FamilySearchResultToJson(FamilySearchResult instance) =>
 
 GroupInvitationResponse _$GroupInvitationResponseFromJson(
   Map<String, dynamic> json,
-) =>
-    GroupInvitationResponse(
-      success: json['success'] as bool,
-      data: GroupInvitationData.fromJson(json['data'] as Map<String, dynamic>),
-    );
+) => GroupInvitationResponse(
+  success: json['success'] as bool,
+  data: GroupInvitationData.fromJson(json['data'] as Map<String, dynamic>),
+);
 
 Map<String, dynamic> _$GroupInvitationResponseToJson(
   GroupInvitationResponse instance,
-) =>
-    <String, dynamic>{'success': instance.success, 'data': instance.data};
+) => <String, dynamic>{'success': instance.success, 'data': instance.data};
 
 GroupInvitationData _$GroupInvitationDataFromJson(Map<String, dynamic> json) =>
     GroupInvitationData(
@@ -254,65 +243,58 @@ GroupInvitationData _$GroupInvitationDataFromJson(Map<String, dynamic> json) =>
 
 Map<String, dynamic> _$GroupInvitationDataToJson(
   GroupInvitationData instance,
-) =>
-    <String, dynamic>{
-      'id': instance.id,
-      'groupId': instance.groupId,
-      'targetFamilyId': instance.targetFamilyId,
-      'email': instance.email,
-      'role': instance.role,
-      'personalMessage': instance.personalMessage,
-      'invitedBy': instance.invitedBy,
-      'createdBy': instance.createdBy,
-      'acceptedBy': instance.acceptedBy,
-      'status': instance.status,
-      'inviteCode': instance.inviteCode,
-      'expiresAt': instance.expiresAt,
-      'acceptedAt': instance.acceptedAt,
-      'createdAt': instance.createdAt,
-      'updatedAt': instance.updatedAt,
-    };
+) => <String, dynamic>{
+  'id': instance.id,
+  'groupId': instance.groupId,
+  'targetFamilyId': instance.targetFamilyId,
+  'email': instance.email,
+  'role': instance.role,
+  'personalMessage': instance.personalMessage,
+  'invitedBy': instance.invitedBy,
+  'createdBy': instance.createdBy,
+  'acceptedBy': instance.acceptedBy,
+  'status': instance.status,
+  'inviteCode': instance.inviteCode,
+  'expiresAt': instance.expiresAt,
+  'acceptedAt': instance.acceptedAt,
+  'createdAt': instance.createdAt,
+  'updatedAt': instance.updatedAt,
+};
 
 InvitationListResponse _$InvitationListResponseFromJson(
   Map<String, dynamic> json,
-) =>
-    InvitationListResponse(
-      success: json['success'] as bool,
-      data: (json['data'] as List<dynamic>)
-          .map((e) => GroupInvitationData.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
+) => InvitationListResponse(
+  success: json['success'] as bool,
+  data: (json['data'] as List<dynamic>)
+      .map((e) => GroupInvitationData.fromJson(e as Map<String, dynamic>))
+      .toList(),
+);
 
 Map<String, dynamic> _$InvitationListResponseToJson(
   InvitationListResponse instance,
-) =>
-    <String, dynamic>{'success': instance.success, 'data': instance.data};
+) => <String, dynamic>{'success': instance.success, 'data': instance.data};
 
 DefaultScheduleHoursResponse _$DefaultScheduleHoursResponseFromJson(
   Map<String, dynamic> json,
-) =>
-    DefaultScheduleHoursResponse(
-      success: json['success'] as bool,
-      data: json['data'] as Map<String, dynamic>,
-    );
+) => DefaultScheduleHoursResponse(
+  success: json['success'] as bool,
+  data: json['data'] as Map<String, dynamic>,
+);
 
 Map<String, dynamic> _$DefaultScheduleHoursResponseToJson(
   DefaultScheduleHoursResponse instance,
-) =>
-    <String, dynamic>{'success': instance.success, 'data': instance.data};
+) => <String, dynamic>{'success': instance.success, 'data': instance.data};
 
 GroupScheduleConfigResponse _$GroupScheduleConfigResponseFromJson(
   Map<String, dynamic> json,
-) =>
-    GroupScheduleConfigResponse(
-      success: json['success'] as bool,
-      data: json['data'] as Map<String, dynamic>,
-    );
+) => GroupScheduleConfigResponse(
+  success: json['success'] as bool,
+  data: json['data'] as Map<String, dynamic>,
+);
 
 Map<String, dynamic> _$GroupScheduleConfigResponseToJson(
   GroupScheduleConfigResponse instance,
-) =>
-    <String, dynamic>{'success': instance.success, 'data': instance.data};
+) => <String, dynamic>{'success': instance.success, 'data': instance.data};
 
 TimeSlotsResponse _$TimeSlotsResponseFromJson(Map<String, dynamic> json) =>
     TimeSlotsResponse(

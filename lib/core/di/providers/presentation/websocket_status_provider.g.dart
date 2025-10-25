@@ -14,19 +14,19 @@ String _$webSocketStatusHash() => r'a4f8ee8ffca16d52dcf1cc7717057001994f9d84';
 @ProviderFor(webSocketStatus)
 final webSocketStatusProvider =
     AutoDisposeStreamProvider<WebSocketConnectionStatus>.internal(
-  webSocketStatus,
-  name: r'webSocketStatusProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$webSocketStatusHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
+      webSocketStatus,
+      name: r'webSocketStatusProvider',
+      debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+          ? null
+          : _$webSocketStatusHash,
+      dependencies: null,
+      allTransitiveDependencies: null,
+    );
 
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
-typedef WebSocketStatusRef
-    = AutoDisposeStreamProviderRef<WebSocketConnectionStatus>;
+typedef WebSocketStatusRef =
+    AutoDisposeStreamProviderRef<WebSocketConnectionStatus>;
 String _$isRealTimeActiveHash() => r'65dd083b088997ff28150cbbfbe6e4b7bb890175';
 
 /// Provider for checking if real-time features are active
@@ -75,14 +75,14 @@ String _$connectionSemanticColorHash() =>
 @ProviderFor(connectionSemanticColor)
 final connectionSemanticColorProvider =
     AutoDisposeFutureProvider<String>.internal(
-  connectionSemanticColor,
-  name: r'connectionSemanticColorProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$connectionSemanticColorHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
+      connectionSemanticColor,
+      name: r'connectionSemanticColorProvider',
+      debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+          ? null
+          : _$connectionSemanticColorHash,
+      dependencies: null,
+      allTransitiveDependencies: null,
+    );
 
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
@@ -94,18 +94,21 @@ String _$webSocketConnectionStatusNotifierHash() =>
 ///
 /// Copied from [WebSocketConnectionStatusNotifier].
 @ProviderFor(WebSocketConnectionStatusNotifier)
-final webSocketConnectionStatusNotifierProvider = AutoDisposeNotifierProvider<
-    WebSocketConnectionStatusNotifier, WebSocketConnectionStatus>.internal(
-  WebSocketConnectionStatusNotifier.new,
-  name: r'webSocketConnectionStatusNotifierProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$webSocketConnectionStatusNotifierHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
+final webSocketConnectionStatusNotifierProvider =
+    AutoDisposeNotifierProvider<
+      WebSocketConnectionStatusNotifier,
+      WebSocketConnectionStatus
+    >.internal(
+      WebSocketConnectionStatusNotifier.new,
+      name: r'webSocketConnectionStatusNotifierProvider',
+      debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+          ? null
+          : _$webSocketConnectionStatusNotifierHash,
+      dependencies: null,
+      allTransitiveDependencies: null,
+    );
 
-typedef _$WebSocketConnectionStatusNotifier
-    = AutoDisposeNotifier<WebSocketConnectionStatus>;
+typedef _$WebSocketConnectionStatusNotifier =
+    AutoDisposeNotifier<WebSocketConnectionStatus>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

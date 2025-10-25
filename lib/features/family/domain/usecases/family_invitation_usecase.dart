@@ -20,7 +20,7 @@ class InvitationUseCase {
   final InvitationRepository _repository;
 
   const InvitationUseCase({required InvitationRepository repository})
-      : _repository = repository;
+    : _repository = repository;
 
   // ========================================
   // CORE INVITATION OPERATIONS
@@ -41,8 +41,9 @@ class InvitationUseCase {
       final invitations = result.value!;
       // Apply business rules: filter out expired invitations
       final now = DateTime.now();
-      final validInvitations =
-          invitations.where((inv) => inv.expiresAt.isAfter(now)).toList();
+      final validInvitations = invitations
+          .where((inv) => inv.expiresAt.isAfter(now))
+          .toList();
       AppLogger.debug(
         '[InvitationUseCase] Retrieved ${validInvitations.length} valid pending invitations',
       );
@@ -252,7 +253,7 @@ class InvitationUseCase {
   /// - Invitation code must not be empty
   /// - Returns validation details from backend
   Future<Result<FamilyInvitationValidationDto, Failure>>
-      validateFamilyInvitation({required String inviteCode}) async {
+  validateFamilyInvitation({required String inviteCode}) async {
     AppLogger.debug(
       '[InvitationUseCase] Validating family invitation code: $inviteCode',
     );

@@ -20,8 +20,7 @@ void main() {
       SharedPreferences.setMockInitialValues({});
     });
 
-    testWidgets(
-        'DBUS FIX: FlutterSecureStorage is NOT created in test environment', (
+    testWidgets('DBUS FIX: FlutterSecureStorage is NOT created in test environment', (
       tester,
     ) async {
       // CRITICAL: This test runs in Flutter test environment where DBus is not available

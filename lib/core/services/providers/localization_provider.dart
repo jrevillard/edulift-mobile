@@ -10,8 +10,8 @@ import '../../di/providers/service_providers.dart'; // For localizationServicePr
 /// Provider for current locale state with async operations
 final currentLocaleProvider =
     AsyncNotifierProvider<CurrentLocaleNotifier, Locale>(
-  CurrentLocaleNotifier.new,
-);
+      CurrentLocaleNotifier.new,
+    );
 
 /// AsyncNotifier for managing locale state with proper error handling and loading states
 class CurrentLocaleNotifier extends AsyncNotifier<Locale> {

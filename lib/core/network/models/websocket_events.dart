@@ -47,12 +47,12 @@ class VehicleAssignmentUpdateEvent extends WebSocketEvent {
     String? userId,
     Map<String, dynamic>? metadata,
   }) : super(
-          eventId: eventId,
-          eventType: 'vehicle_assignment_update',
-          timestamp: timestamp,
-          userId: userId,
-          metadata: metadata,
-        );
+         eventId: eventId,
+         eventType: 'vehicle_assignment_update',
+         timestamp: timestamp,
+         userId: userId,
+         metadata: metadata,
+       );
 
   factory VehicleAssignmentUpdateEvent.fromJson(Map<String, dynamic> json) {
     return VehicleAssignmentUpdateEvent(
@@ -95,20 +95,20 @@ class VehicleAssignmentUpdateEvent extends WebSocketEvent {
 
   @override
   List<Object?> get props => [
-        eventId,
-        eventType,
-        timestamp,
-        vehicleAssignmentId,
-        scheduleSlotId,
-        groupId,
-        action,
-        vehicleAssignmentData,
-        assignmentData,
-        updatedBy,
-        updatedByName,
-        userId,
-        metadata,
-      ];
+    eventId,
+    eventType,
+    timestamp,
+    vehicleAssignmentId,
+    scheduleSlotId,
+    groupId,
+    action,
+    vehicleAssignmentData,
+    assignmentData,
+    updatedBy,
+    updatedByName,
+    userId,
+    metadata,
+  ];
 }
 
 /// Real-time child assignment update event
@@ -140,12 +140,12 @@ class ChildAssignmentUpdateEvent extends WebSocketEvent {
     String? userId,
     Map<String, dynamic>? metadata,
   }) : super(
-          eventId: eventId,
-          eventType: SocketMessageTypes.CHILD_ASSIGNMENT_UPDATE,
-          timestamp: timestamp,
-          userId: userId,
-          metadata: metadata,
-        );
+         eventId: eventId,
+         eventType: SocketMessageTypes.CHILD_ASSIGNMENT_UPDATE,
+         timestamp: timestamp,
+         userId: userId,
+         metadata: metadata,
+       );
 
   factory ChildAssignmentUpdateEvent.fromJson(Map<String, dynamic> json) {
     return ChildAssignmentUpdateEvent(
@@ -191,22 +191,22 @@ class ChildAssignmentUpdateEvent extends WebSocketEvent {
 
   @override
   List<Object?> get props => [
-        eventId,
-        eventType,
-        timestamp,
-        childId,
-        childName,
-        vehicleAssignmentId,
-        scheduleSlotId,
-        groupId,
-        action,
-        childAssignmentData,
-        updatedBy,
-        updatedByName,
-        familyId,
-        userId,
-        metadata,
-      ];
+    eventId,
+    eventType,
+    timestamp,
+    childId,
+    childName,
+    vehicleAssignmentId,
+    scheduleSlotId,
+    groupId,
+    action,
+    childAssignmentData,
+    updatedBy,
+    updatedByName,
+    familyId,
+    userId,
+    metadata,
+  ];
 }
 
 /// Real-time schedule conflict event
@@ -236,12 +236,12 @@ class ScheduleConflictEvent extends WebSocketEvent {
     String? userId,
     Map<String, dynamic>? metadata,
   }) : super(
-          eventId: eventId,
-          eventType: SocketEvents.SCHEDULE_CONFLICT,
-          timestamp: timestamp,
-          userId: userId,
-          metadata: metadata,
-        );
+         eventId: eventId,
+         eventType: SocketEvents.SCHEDULE_CONFLICT,
+         timestamp: timestamp,
+         userId: userId,
+         metadata: metadata,
+       );
 
   factory ScheduleConflictEvent.fromJson(Map<String, dynamic> json) {
     return ScheduleConflictEvent(
@@ -277,21 +277,21 @@ class ScheduleConflictEvent extends WebSocketEvent {
 
   @override
   List<Object?> get props => [
-        eventId,
-        eventType,
-        timestamp,
-        conflictId,
-        groupId,
-        conflictType,
-        affectedScheduleSlots,
-        affectedVehicles,
-        affectedChildren,
-        conflictDetails,
-        detectedBy,
-        suggestedResolutions,
-        userId,
-        metadata,
-      ];
+    eventId,
+    eventType,
+    timestamp,
+    conflictId,
+    groupId,
+    conflictType,
+    affectedScheduleSlots,
+    affectedVehicles,
+    affectedChildren,
+    conflictDetails,
+    detectedBy,
+    suggestedResolutions,
+    userId,
+    metadata,
+  ];
 }
 
 /// Real-time typing indicator event
@@ -311,12 +311,12 @@ class TypingIndicatorEvent extends WebSocketEvent {
     String? userId,
     Map<String, dynamic>? metadata,
   }) : super(
-          eventId: eventId,
-          eventType: 'typing_indicator',
-          timestamp: timestamp,
-          userId: userId,
-          metadata: metadata,
-        );
+         eventId: eventId,
+         eventType: 'typing_indicator',
+         timestamp: timestamp,
+         userId: userId,
+         metadata: metadata,
+       );
 
   factory TypingIndicatorEvent.fromJson(Map<String, dynamic> json) {
     return TypingIndicatorEvent(
@@ -333,16 +333,16 @@ class TypingIndicatorEvent extends WebSocketEvent {
 
   @override
   List<Object?> get props => [
-        eventId,
-        eventType,
-        timestamp,
-        context,
-        userName,
-        isTyping,
-        action,
-        userId,
-        metadata,
-      ];
+    eventId,
+    eventType,
+    timestamp,
+    context,
+    userName,
+    isTyping,
+    action,
+    userId,
+    metadata,
+  ];
 }
 
 /// Presence update event for user online/offline status
@@ -364,12 +364,12 @@ class PresenceUpdateEvent extends WebSocketEvent {
     String? userId,
     Map<String, dynamic>? metadata,
   }) : super(
-          eventId: eventId,
-          eventType: 'presence_update',
-          timestamp: timestamp,
-          userId: userId,
-          metadata: metadata,
-        );
+         eventId: eventId,
+         eventType: 'presence_update',
+         timestamp: timestamp,
+         userId: userId,
+         metadata: metadata,
+       );
 
   factory PresenceUpdateEvent.fromJson(Map<String, dynamic> json) {
     return PresenceUpdateEvent(
@@ -390,17 +390,17 @@ class PresenceUpdateEvent extends WebSocketEvent {
 
   @override
   List<Object?> get props => [
-        eventId,
-        eventType,
-        timestamp,
-        targetUserId,
-        userName,
-        status,
-        lastSeen,
-        activity,
-        userId,
-        metadata,
-      ];
+    eventId,
+    eventType,
+    timestamp,
+    targetUserId,
+    userName,
+    status,
+    lastSeen,
+    activity,
+    userId,
+    metadata,
+  ];
 }
 
 /// Action enums
@@ -456,10 +456,10 @@ class ConflictResolution extends Equatable {
 
   @override
   List<Object?> get props => [
-        resolutionId,
-        type,
-        description,
-        resolutionData,
-        priority,
-      ];
+    resolutionId,
+    type,
+    description,
+    resolutionData,
+    priority,
+  ];
 }

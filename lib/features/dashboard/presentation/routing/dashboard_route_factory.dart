@@ -7,12 +7,12 @@ import '../pages/dashboard_page.dart';
 class DashboardRouteFactory implements AppRouteFactory {
   @override
   List<RouteBase> get routes => [
-        // Dashboard
-        GoRoute(
-          path: AppRoutes.dashboard,
-          name: 'dashboard',
-          pageBuilder: (context, state) =>
-              const NoTransitionPage(child: DashboardPage()),
-        ),
-      ];
+    // Dashboard
+    GoRoute(
+      path: AppRoutes.dashboard,
+      name: 'dashboard',
+      pageBuilder: (context, state) =>
+          const NoTransitionPage(child: DashboardPage()),
+    ),
+  ];
 }

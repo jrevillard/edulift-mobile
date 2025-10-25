@@ -251,7 +251,8 @@ void main() {
           for (final className in classes) {
             // Skip enum converters - enums use fromJson(String), not Map
             // Common enum naming patterns: Status, Level, Role, Permission, Type
-            final isEnumConverter = className.contains('Status') ||
+            final isEnumConverter =
+                className.contains('Status') ||
                 className.contains('Level') ||
                 className.contains('Role') ||
                 className.contains('Permission') ||
@@ -411,8 +412,7 @@ void main() {
       },
     );
 
-    test('Mapping direction rules - data layer orchestrates transformations',
-        () {
+    test('Mapping direction rules - data layer orchestrates transformations', () {
       final dataFiles = findDartFiles(
         'lib',
       ).where((file) => isInLayer(file.path, 'data')).toList();

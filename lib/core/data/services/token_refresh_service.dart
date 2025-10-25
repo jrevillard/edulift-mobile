@@ -89,36 +89,36 @@ class TokenRefreshService {
       // - Explicit unwrap() pattern (2025 best practices)
       final result = await _networkErrorHandler
           .executeRepositoryOperation<ApiResponse<TokenRefreshResponseDto>>(
-        () async {
-          // CRITICAL: Use the injected Dio instance (refreshDioProvider)
-          // which does NOT have auth interceptor to prevent infinite loop
-          final response = await _dio.post(
-            '/auth/refresh',
-            data: {'refreshToken': refreshToken},
-          );
+            () async {
+              // CRITICAL: Use the injected Dio instance (refreshDioProvider)
+              // which does NOT have auth interceptor to prevent infinite loop
+              final response = await _dio.post(
+                '/auth/refresh',
+                data: {'refreshToken': refreshToken},
+              );
 
-          if (response.statusCode != 200) {
-            throw Exception(
-              'Refresh failed with status ${response.statusCode}',
-            );
-          }
+              if (response.statusCode != 200) {
+                throw Exception(
+                  'Refresh failed with status ${response.statusCode}',
+                );
+              }
 
-          // Backend returns: { success: true, data: { accessToken, refreshToken, expiresIn, tokenType } }
-          // Use ApiResponse.fromBackendWrapper to parse and extract the DTO
-          return ApiResponse<TokenRefreshResponseDto>.fromBackendWrapper(
-            response.data as Map<String, dynamic>,
-            (json) => TokenRefreshResponseDto.fromJson(
-              json as Map<String, dynamic>,
-            ),
-            statusCode: response.statusCode,
+              // Backend returns: { success: true, data: { accessToken, refreshToken, expiresIn, tokenType } }
+              // Use ApiResponse.fromBackendWrapper to parse and extract the DTO
+              return ApiResponse<TokenRefreshResponseDto>.fromBackendWrapper(
+                response.data as Map<String, dynamic>,
+                (json) => TokenRefreshResponseDto.fromJson(
+                  json as Map<String, dynamic>,
+                ),
+                statusCode: response.statusCode,
+              );
+            },
+            operationName: 'auth.refreshToken',
+            strategy: CacheStrategy.networkOnly,
+            serviceName: 'auth',
+            config: RetryConfig
+                .critical, // 5 automatic retries with exponential backoff
           );
-        },
-        operationName: 'auth.refreshToken',
-        strategy: CacheStrategy.networkOnly,
-        serviceName: 'auth',
-        config: RetryConfig
-            .critical, // 5 automatic retries with exponential backoff
-      );
 
       // Handle success - use explicit unwrap() pattern
       if (result.isOk) {

@@ -106,18 +106,18 @@ class FeatureFlags {
   /// Returns a map of all feature flags and their current states.
   /// Useful for debugging configuration issues.
   static Map<String, bool> get flagSummary => {
-        'debugMode': debugMode,
-        'analyticsEnabled': analyticsEnabled,
-        'crashReporting': crashReporting,
-        'firebaseEnabled': firebaseEnabled,
-        'verboseLogging': verboseLogging,
-        'performanceProfiling': performanceProfiling,
-        'mockServicesEnabled': mockServicesEnabled,
-        'networkLogging': networkLogging,
-        'useExtendedTimeouts': useExtendedTimeouts,
-        'disableInfiniteAnimations': disableInfiniteAnimations,
-        'useSecureStorage': useSecureStorage,
-      };
+    'debugMode': debugMode,
+    'analyticsEnabled': analyticsEnabled,
+    'crashReporting': crashReporting,
+    'firebaseEnabled': firebaseEnabled,
+    'verboseLogging': verboseLogging,
+    'performanceProfiling': performanceProfiling,
+    'mockServicesEnabled': mockServicesEnabled,
+    'networkLogging': networkLogging,
+    'useExtendedTimeouts': useExtendedTimeouts,
+    'disableInfiniteAnimations': disableInfiniteAnimations,
+    'useSecureStorage': useSecureStorage,
+  };
 
   /// Log current feature flag configuration
   ///

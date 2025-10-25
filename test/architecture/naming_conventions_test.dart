@@ -50,8 +50,7 @@ void main() {
   }
 
   group('Repository Naming Conventions', () {
-    test('Repository interfaces must be in domain layer with correct naming',
-        () {
+    test('Repository interfaces must be in domain layer with correct naming', () {
       final repositoryInterfaces = <String>[];
       final violations = <String>[];
 
@@ -216,8 +215,9 @@ void main() {
 
       for (final file in useCaseFiles) {
         final classes = extractClassNames(file);
-        final useCaseClasses =
-            classes.where((c) => c.endsWith('Usecase')).toList();
+        final useCaseClasses = classes
+            .where((c) => c.endsWith('Usecase'))
+            .toList();
 
         if (useCaseClasses.length > 1) {
           violations.add(
@@ -450,7 +450,8 @@ void main() {
       for (final file in allFiles) {
         final content = file.readAsStringSync();
 
-        final providerCount = 'Provider<'.allMatches(content).length +
+        final providerCount =
+            'Provider<'.allMatches(content).length +
             'StateNotifierProvider<'.allMatches(content).length;
 
         if (providerCount > 1) {

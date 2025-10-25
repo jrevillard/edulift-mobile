@@ -108,15 +108,15 @@ class FamilyMember extends Equatable {
 
   @override
   List<Object?> get props => [
-        id,
-        familyId,
-        userId,
-        role,
-        status,
-        joinedAt,
-        updatedAt,
-        userName,
-        userEmail,
-        userPhone,
-      ];
+    id,
+    familyId,
+    userId,
+    role,
+    status,
+    joinedAt,
+    updatedAt,
+    userName,
+    userEmail,
+    userPhone,
+  ];
 }

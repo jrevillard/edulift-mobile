@@ -256,20 +256,19 @@ class WeeklyScheduleProvider
   ///
   /// Copied from [weeklySchedule].
   WeeklyScheduleProvider(String groupId, String week)
-      : this._internal(
-          (ref) => weeklySchedule(ref as WeeklyScheduleRef, groupId, week),
-          from: weeklyScheduleProvider,
-          name: r'weeklyScheduleProvider',
-          debugGetCreateSourceHash:
-              const bool.fromEnvironment('dart.vm.product')
-                  ? null
-                  : _$weeklyScheduleHash,
-          dependencies: WeeklyScheduleFamily._dependencies,
-          allTransitiveDependencies:
-              WeeklyScheduleFamily._allTransitiveDependencies,
-          groupId: groupId,
-          week: week,
-        );
+    : this._internal(
+        (ref) => weeklySchedule(ref as WeeklyScheduleRef, groupId, week),
+        from: weeklyScheduleProvider,
+        name: r'weeklyScheduleProvider',
+        debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+            ? null
+            : _$weeklyScheduleHash,
+        dependencies: WeeklyScheduleFamily._dependencies,
+        allTransitiveDependencies:
+            WeeklyScheduleFamily._allTransitiveDependencies,
+        groupId: groupId,
+        week: week,
+      );
 
   WeeklyScheduleProvider._internal(
     super._createNotifier, {
@@ -584,26 +583,25 @@ class VehicleAssignmentsProvider
   ///
   /// Copied from [vehicleAssignments].
   VehicleAssignmentsProvider(String groupId, String week, String slotId)
-      : this._internal(
-          (ref) => vehicleAssignments(
-            ref as VehicleAssignmentsRef,
-            groupId,
-            week,
-            slotId,
-          ),
-          from: vehicleAssignmentsProvider,
-          name: r'vehicleAssignmentsProvider',
-          debugGetCreateSourceHash:
-              const bool.fromEnvironment('dart.vm.product')
-                  ? null
-                  : _$vehicleAssignmentsHash,
-          dependencies: VehicleAssignmentsFamily._dependencies,
-          allTransitiveDependencies:
-              VehicleAssignmentsFamily._allTransitiveDependencies,
-          groupId: groupId,
-          week: week,
-          slotId: slotId,
-        );
+    : this._internal(
+        (ref) => vehicleAssignments(
+          ref as VehicleAssignmentsRef,
+          groupId,
+          week,
+          slotId,
+        ),
+        from: vehicleAssignmentsProvider,
+        name: r'vehicleAssignmentsProvider',
+        debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+            ? null
+            : _$vehicleAssignmentsHash,
+        dependencies: VehicleAssignmentsFamily._dependencies,
+        allTransitiveDependencies:
+            VehicleAssignmentsFamily._allTransitiveDependencies,
+        groupId: groupId,
+        week: week,
+        slotId: slotId,
+      );
 
   VehicleAssignmentsProvider._internal(
     super._createNotifier, {
@@ -624,7 +622,7 @@ class VehicleAssignmentsProvider
   @override
   Override overrideWith(
     FutureOr<List<VehicleAssignment>> Function(VehicleAssignmentsRef provider)
-        create,
+    create,
   ) {
     return ProviderOverride(
       origin: this,
@@ -949,27 +947,26 @@ class ChildAssignmentsProvider
     String slotId,
     String vehicleAssignmentId,
   ) : this._internal(
-          (ref) => childAssignments(
-            ref as ChildAssignmentsRef,
-            groupId,
-            week,
-            slotId,
-            vehicleAssignmentId,
-          ),
-          from: childAssignmentsProvider,
-          name: r'childAssignmentsProvider',
-          debugGetCreateSourceHash:
-              const bool.fromEnvironment('dart.vm.product')
-                  ? null
-                  : _$childAssignmentsHash,
-          dependencies: ChildAssignmentsFamily._dependencies,
-          allTransitiveDependencies:
-              ChildAssignmentsFamily._allTransitiveDependencies,
-          groupId: groupId,
-          week: week,
-          slotId: slotId,
-          vehicleAssignmentId: vehicleAssignmentId,
-        );
+        (ref) => childAssignments(
+          ref as ChildAssignmentsRef,
+          groupId,
+          week,
+          slotId,
+          vehicleAssignmentId,
+        ),
+        from: childAssignmentsProvider,
+        name: r'childAssignmentsProvider',
+        debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+            ? null
+            : _$childAssignmentsHash,
+        dependencies: ChildAssignmentsFamily._dependencies,
+        allTransitiveDependencies:
+            ChildAssignmentsFamily._allTransitiveDependencies,
+        groupId: groupId,
+        week: week,
+        slotId: slotId,
+        vehicleAssignmentId: vehicleAssignmentId,
+      );
 
   ChildAssignmentsProvider._internal(
     super._createNotifier, {
@@ -992,7 +989,7 @@ class ChildAssignmentsProvider
   @override
   Override overrideWith(
     FutureOr<List<ChildAssignment>> Function(ChildAssignmentsRef provider)
-        create,
+    create,
   ) {
     return ProviderOverride(
       origin: this,
@@ -1106,14 +1103,14 @@ String _$assignmentStateNotifierHash() =>
 @ProviderFor(AssignmentStateNotifier)
 final assignmentStateNotifierProvider =
     AutoDisposeAsyncNotifierProvider<AssignmentStateNotifier, void>.internal(
-  AssignmentStateNotifier.new,
-  name: r'assignmentStateNotifierProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$assignmentStateNotifierHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
+      AssignmentStateNotifier.new,
+      name: r'assignmentStateNotifierProvider',
+      debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+          ? null
+          : _$assignmentStateNotifierHash,
+      dependencies: null,
+      allTransitiveDependencies: null,
+    );
 
 typedef _$AssignmentStateNotifier = AutoDisposeAsyncNotifier<void>;
 String _$slotStateNotifierHash() => r'42f8f3ef215393885be4d9612ce3b399f04074f1';
@@ -1135,14 +1132,14 @@ String _$slotStateNotifierHash() => r'42f8f3ef215393885be4d9612ce3b399f04074f1';
 @ProviderFor(SlotStateNotifier)
 final slotStateNotifierProvider =
     AutoDisposeAsyncNotifierProvider<SlotStateNotifier, void>.internal(
-  SlotStateNotifier.new,
-  name: r'slotStateNotifierProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$slotStateNotifierHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
+      SlotStateNotifier.new,
+      name: r'slotStateNotifierProvider',
+      debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+          ? null
+          : _$slotStateNotifierHash,
+      dependencies: null,
+      allTransitiveDependencies: null,
+    );
 
 typedef _$SlotStateNotifier = AutoDisposeAsyncNotifier<void>;
 // ignore_for_file: type=lint

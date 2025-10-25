@@ -49,23 +49,24 @@ class AppTheme {
   }
 
   static ThemeData get darkTheme {
-    final colorScheme = ColorScheme.fromSeed(
-      seedColor: _primaryColor,
-      brightness: Brightness.dark,
-    ).copyWith(
-      // AA compliant dark mode colors
-      primary: _primaryColorDark,
-      onPrimary: const Color(0xFF0D47A1),
-      surface: const Color(0xFF121212),
-      onSurface: Colors.white,
-      error: const Color(0xFFCF6679),
-      onError: const Color(0xFF000000),
-      // Enhanced accessibility colors
-      secondary: const Color(0xFF81C784),
-      onSecondary: const Color(0xFF000000),
-      tertiary: const Color(0xFF4DB6AC),
-      onTertiary: const Color(0xFF000000),
-    );
+    final colorScheme =
+        ColorScheme.fromSeed(
+          seedColor: _primaryColor,
+          brightness: Brightness.dark,
+        ).copyWith(
+          // AA compliant dark mode colors
+          primary: _primaryColorDark,
+          onPrimary: const Color(0xFF0D47A1),
+          surface: const Color(0xFF121212),
+          onSurface: Colors.white,
+          error: const Color(0xFFCF6679),
+          onError: const Color(0xFF000000),
+          // Enhanced accessibility colors
+          secondary: const Color(0xFF81C784),
+          onSecondary: const Color(0xFF000000),
+          tertiary: const Color(0xFF4DB6AC),
+          onTertiary: const Color(0xFF000000),
+        );
 
     return ThemeData(
       useMaterial3: true,

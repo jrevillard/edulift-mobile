@@ -85,13 +85,13 @@ class SearchChildrenRequest extends Equatable {
 
   @override
   List<Object?> get props => [
-        query,
-        groupId,
-        minAge,
-        maxAge,
-        requirements,
-        hasRequirements,
-      ];
+    query,
+    groupId,
+    minAge,
+    maxAge,
+    requirements,
+    hasRequirements,
+  ];
 
   // JSON methods removed - moved to SearchChildrenRequestDto in data layer
   // This maintains domain layer purity

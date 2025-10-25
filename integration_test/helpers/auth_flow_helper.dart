@@ -980,8 +980,8 @@ class AuthFlowHelper {
 
     if (widget is Text) {
       // Case 2: Text widget has the key directly
-      actualMessage =
-          (widget.data ?? widget.textSpan?.toPlainText() ?? '').trim();
+      actualMessage = (widget.data ?? widget.textSpan?.toPlainText() ?? '')
+          .trim();
       debugPrint('📝 Found error message (direct Text): "$actualMessage"');
     } else {
       // Case 1: Container has the key, Text is a descendant
@@ -1092,8 +1092,8 @@ class AuthFlowHelper {
     // Look for a non-empty Text that's not the title itself
     String? actualMessage;
     for (final textWidget in textWidgetsList) {
-      final text =
-          (textWidget.data ?? textWidget.textSpan?.toPlainText() ?? '').trim();
+      final text = (textWidget.data ?? textWidget.textSpan?.toPlainText() ?? '')
+          .trim();
       // Skip empty texts and the title itself
       if (text.isNotEmpty &&
           text != verificationFailedText.data &&

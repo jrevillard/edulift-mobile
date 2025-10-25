@@ -11,18 +11,20 @@ import '../../../schedule/providers.dart' as schedule_providers;
 ///
 /// This provider manages schedule configuration for a specific group.
 /// Group schedule config is a GROUP responsibility, not a generic schedule responsibility.
-final groupScheduleConfigProvider = StateNotifierProvider.family<
-    GroupScheduleConfigNotifier,
-    AsyncValue<ScheduleConfig?>,
-    String>((ref, groupId) {
-  return GroupScheduleConfigNotifier(
-    groupId,
-    ref.read(schedule_providers.getScheduleConfigUsecaseProvider),
-    ref.read(schedule_providers.updateScheduleConfigUsecaseProvider),
-    ref.read(schedule_providers.resetScheduleConfigUsecaseProvider),
-    ref.read(coreErrorHandlerServiceProvider),
-  );
-});
+final groupScheduleConfigProvider =
+    StateNotifierProvider.family<
+      GroupScheduleConfigNotifier,
+      AsyncValue<ScheduleConfig?>,
+      String
+    >((ref, groupId) {
+      return GroupScheduleConfigNotifier(
+        groupId,
+        ref.read(schedule_providers.getScheduleConfigUsecaseProvider),
+        ref.read(schedule_providers.updateScheduleConfigUsecaseProvider),
+        ref.read(schedule_providers.resetScheduleConfigUsecaseProvider),
+        ref.read(coreErrorHandlerServiceProvider),
+      );
+    });
 
 /// Notifier for group schedule configuration state
 class GroupScheduleConfigNotifier
@@ -264,29 +266,29 @@ final hasGroupScheduleConfigAccessProvider = Provider.family<bool, String>((
 /// Provider for schedule config statistics
 final groupScheduleConfigStatsProvider =
     Provider.family<GroupScheduleConfigStats?, String>((ref, groupId) {
-  final configState = ref.watch(groupScheduleConfigProvider(groupId));
-  return configState.when(
-    data: (config) {
-      if (config == null) return null;
-      return GroupScheduleConfigStats(
-        activeDays: config.scheduleHours.values
-            .where((slots) => slots.isNotEmpty)
-            .length,
-        totalDays: config.scheduleHours.length,
-        activeTimeSlots: config.scheduleHours.values.fold(
-          0,
-          (sum, slots) => sum + slots.length,
-        ),
-        totalTimeSlots: config.scheduleHours.values.fold(
-          0,
-          (sum, slots) => sum + slots.length,
-        ),
+      final configState = ref.watch(groupScheduleConfigProvider(groupId));
+      return configState.when(
+        data: (config) {
+          if (config == null) return null;
+          return GroupScheduleConfigStats(
+            activeDays: config.scheduleHours.values
+                .where((slots) => slots.isNotEmpty)
+                .length,
+            totalDays: config.scheduleHours.length,
+            activeTimeSlots: config.scheduleHours.values.fold(
+              0,
+              (sum, slots) => sum + slots.length,
+            ),
+            totalTimeSlots: config.scheduleHours.values.fold(
+              0,
+              (sum, slots) => sum + slots.length,
+            ),
+          );
+        },
+        loading: () => null,
+        error: (_, __) => null,
       );
-    },
-    loading: () => null,
-    error: (_, __) => null,
-  );
-});
+    });
 
 /// Statistics for group schedule configuration
 class GroupScheduleConfigStats {

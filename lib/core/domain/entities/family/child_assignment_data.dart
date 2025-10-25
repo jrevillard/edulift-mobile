@@ -111,16 +111,16 @@ class ChildAssignmentData extends Equatable {
 
   @override
   List<Object?> get props => [
-        id,
-        childId,
-        assignmentType,
-        assignmentId,
-        status,
-        assignmentDate,
-        metadata,
-        createdAt,
-        updatedAt,
-      ];
+    id,
+    childId,
+    assignmentType,
+    assignmentId,
+    status,
+    assignmentDate,
+    metadata,
+    createdAt,
+    updatedAt,
+  ];
 
   @override
   String toString() {

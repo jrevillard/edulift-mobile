@@ -83,8 +83,8 @@ void main() {
 
           final crossEmailTestUser =
               TestDataGenerator.generateUniqueUserProfile(
-            prefix: 'crossemail_test',
-          );
+                prefix: 'crossemail_test',
+              );
 
           await InvitationFlowHelper.sendInvitation(
             $,
@@ -94,8 +94,8 @@ void main() {
 
           final manualCodeTestUser =
               TestDataGenerator.generateUniqueUserProfile(
-            prefix: 'manual_code',
-          );
+                prefix: 'manual_code',
+              );
 
           await InvitationFlowHelper.sendInvitation(
             $,
@@ -161,8 +161,8 @@ void main() {
 
           final memberInvitationLink =
               await InvitationFlowHelper.getInvitationLinkFromEmail(
-            memberInvitee['email']!,
-          );
+                memberInvitee['email']!,
+              );
           expect(
             memberInvitationLink,
             isNotNull,
@@ -304,8 +304,8 @@ void main() {
 
           final adminInvitationLink =
               await InvitationFlowHelper.getInvitationLinkFromEmail(
-            adminInvitee['email']!,
-          );
+                adminInvitee['email']!,
+              );
           expect(
             adminInvitationLink,
             isNotNull,
@@ -315,8 +315,8 @@ void main() {
           // Get cross-email test invitation link
           final crossEmailInvitationLink =
               await InvitationFlowHelper.getInvitationLinkFromEmail(
-            crossEmailTestUser['email']!,
-          );
+                crossEmailTestUser['email']!,
+              );
           expect(
             crossEmailInvitationLink,
             isNotNull,
@@ -356,8 +356,8 @@ void main() {
 
           final promotionInvitationLink =
               await InvitationFlowHelper.getInvitationLinkFromEmail(
-            promotionTestUser['email']!,
-          );
+                promotionTestUser['email']!,
+              );
 
           await AuthFlowHelper.completeNewUserAuthentication(
             $,
@@ -380,8 +380,8 @@ void main() {
 
           final demotionInvitationLink =
               await InvitationFlowHelper.getInvitationLinkFromEmail(
-            demotionTestUser['email']!,
-          );
+                demotionTestUser['email']!,
+              );
 
           await AuthFlowHelper.completeNewUserAuthentication(
             $,
@@ -435,10 +435,10 @@ void main() {
           // ENHANCED: Verify invitation error message content, not just presence
           final errorMessage =
               await InvitationFlowHelper.verifyInvitationErrorMessage(
-            $,
-            'errorInvitationEmailMismatch',
-            timeout: const Duration(seconds: 8),
-          );
+                $,
+                'errorInvitationEmailMismatch',
+                timeout: const Duration(seconds: 8),
+              );
           debugPrint(
             '✅ Email mismatch error displayed with correct localized message',
           );
@@ -483,10 +483,10 @@ void main() {
           // ENHANCED: Verify invitation error message content, not just presence
           final invalidCodeErrorMessage =
               await InvitationFlowHelper.verifyInvitationErrorMessage(
-            $,
-            'errorInvitationCodeInvalid',
-            timeout: const Duration(seconds: 8),
-          );
+                $,
+                'errorInvitationCodeInvalid',
+                timeout: const Duration(seconds: 8),
+              );
           debugPrint(
             '✅ Invalid code error displayed for already-used invitation (backend behavior)',
           );
@@ -959,8 +959,8 @@ void main() {
 
           final manualCodeInvitationCode =
               await InvitationFlowHelper.getInvitationCodeFromEmail(
-            manualCodeTestUser['email']!,
-          );
+                manualCodeTestUser['email']!,
+              );
 
           expect(
             manualCodeInvitationCode,

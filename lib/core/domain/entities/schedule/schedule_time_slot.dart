@@ -61,12 +61,12 @@ class ScheduleTimeSlot extends Equatable {
 
   @override
   List<Object?> get props => [
-        id,
-        startTime,
-        endTime,
-        isAvailable,
-        conflictingScheduleIds,
-        groupId,
-        metadata,
-      ];
+    id,
+    startTime,
+    endTime,
+    isAvailable,
+    conflictingScheduleIds,
+    groupId,
+    metadata,
+  ];
 }

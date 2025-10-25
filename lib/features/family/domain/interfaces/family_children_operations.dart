@@ -28,7 +28,7 @@ class FamilyChildrenOperationsImpl implements FamilyChildrenOperations {
 
   // Create defensive copy to ensure immutability
   FamilyChildrenOperationsImpl(List<Child> children)
-      : _children = List.from(children);
+    : _children = List.from(children);
 
   @override
   List<Child> getChildren() => List.unmodifiable(_children);

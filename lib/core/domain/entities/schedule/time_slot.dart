@@ -51,22 +51,22 @@ class TimeSlot extends Equatable {
 
   @override
   List<Object?> get props => [
-        id,
-        scheduleId,
-        startTime,
-        endTime,
-        title,
-        description,
-        location,
-        assignedChildIds,
-        assignedVehicleId,
-        driverId,
-        isRecurring,
-        recurrencePattern,
-        isActive,
-        createdAt,
-        updatedAt,
-      ];
+    id,
+    scheduleId,
+    startTime,
+    endTime,
+    title,
+    description,
+    location,
+    assignedChildIds,
+    assignedVehicleId,
+    driverId,
+    isRecurring,
+    recurrencePattern,
+    isActive,
+    createdAt,
+    updatedAt,
+  ];
 
   TimeSlot copyWith({
     String? id,

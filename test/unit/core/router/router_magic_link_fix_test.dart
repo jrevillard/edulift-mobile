@@ -103,27 +103,27 @@ void main() {
       // OLD LOGIC (broken): would redirect away from waiting page even with email in URL
       final oldLogicWouldRedirectWaiting =
           waitingPageLocation.startsWith(AppRoutes.magicLink) &&
-              !isAuthenticated &&
-              !hasPendingEmail;
+          !isAuthenticated &&
+          !hasPendingEmail;
 
       // NEW LOGIC (fixed): same for waiting page (this is correct behavior)
       final newLogicWouldRedirectWaiting =
           waitingPageLocation.startsWith(AppRoutes.magicLink) &&
-              !waitingPageLocation.startsWith(AppRoutes.verifyMagicLink) &&
-              !isAuthenticated &&
-              !hasPendingEmail;
+          !waitingPageLocation.startsWith(AppRoutes.verifyMagicLink) &&
+          !isAuthenticated &&
+          !hasPendingEmail;
 
       // For verification page - neither old nor new logic should redirect
       final oldLogicWouldRedirectVerify =
           verificationLocation.startsWith(AppRoutes.magicLink) &&
-              !isAuthenticated &&
-              !hasPendingEmail;
+          !isAuthenticated &&
+          !hasPendingEmail;
 
       final newLogicWouldRedirectVerify =
           verificationLocation.startsWith(AppRoutes.magicLink) &&
-              !verificationLocation.startsWith(AppRoutes.verifyMagicLink) &&
-              !isAuthenticated &&
-              !hasPendingEmail;
+          !verificationLocation.startsWith(AppRoutes.verifyMagicLink) &&
+          !isAuthenticated &&
+          !hasPendingEmail;
 
       // Both old and new logic should redirect from waiting page without pending email
       expect(

@@ -132,7 +132,8 @@ class GroupFlowHelper {
 
     // Step 5: Validate message is localized (not a raw key)
     // Check if it looks like a camelCase key (starts with lowercase, has uppercase letters)
-    final looksLikeKey = actualMessage.isNotEmpty &&
+    final looksLikeKey =
+        actualMessage.isNotEmpty &&
         actualMessage[0] == actualMessage[0].toLowerCase() &&
         actualMessage.contains(RegExp(r'[A-Z]')) &&
         !actualMessage.contains(' ');
@@ -188,8 +189,8 @@ class GroupFlowHelper {
 
     String actualMessage;
     if (widget is Text) {
-      actualMessage =
-          (widget.data ?? widget.textSpan?.toPlainText() ?? '').trim();
+      actualMessage = (widget.data ?? widget.textSpan?.toPlainText() ?? '')
+          .trim();
     } else {
       throw TestFailure('Expected Text widget with key $errorKey');
     }

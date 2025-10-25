@@ -36,7 +36,8 @@ void main() {
       final nameFieldFinder = find.byKey(const Key('child_name_field'));
       final textFieldFinder = find.byType(TextFormField);
 
-      final hasFormFields = nameFieldFinder.evaluate().isNotEmpty ||
+      final hasFormFields =
+          nameFieldFinder.evaluate().isNotEmpty ||
           textFieldFinder.evaluate().isNotEmpty;
       expect(hasFormFields, isTrue);
 
@@ -78,7 +79,8 @@ void main() {
         final required = find.textContaining('required');
         final cannotBeEmpty = find.textContaining('cannot be empty');
 
-        final hasValidationError = nameRequired.evaluate().isNotEmpty ||
+        final hasValidationError =
+            nameRequired.evaluate().isNotEmpty ||
             required.evaluate().isNotEmpty ||
             cannotBeEmpty.evaluate().isNotEmpty;
 
@@ -159,9 +161,11 @@ void main() {
       await SimpleWidgetTestHelper.pumpAndSettleWithTimeout(tester);
 
       // Check for any form fields or semantic labels (flexible accessibility check)
-      final hasTextFields = find.byType(TextField).evaluate().isNotEmpty ||
+      final hasTextFields =
+          find.byType(TextField).evaluate().isNotEmpty ||
           find.byType(TextFormField).evaluate().isNotEmpty;
-      final hasButtons = find.byType(ElevatedButton).evaluate().isNotEmpty ||
+      final hasButtons =
+          find.byType(ElevatedButton).evaluate().isNotEmpty ||
           find.byType(FilledButton).evaluate().isNotEmpty ||
           find.byType(OutlinedButton).evaluate().isNotEmpty;
       final hasBasicAccessibility = hasTextFields || hasButtons;

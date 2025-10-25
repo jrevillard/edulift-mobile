@@ -290,19 +290,18 @@ void main() {
         // Test all HTTP methods used in AuthApiClient
         final requests = [
           () => mockAuthApiClient.sendMagicLink(
-                const MagicLinkRequest(
-                  email: 'test@example.com',
-                  codeChallenge:
-                      'test_code_challenge_43_chars_minimum_required',
-                ),
-              ),
+            const MagicLinkRequest(
+              email: 'test@example.com',
+              codeChallenge: 'test_code_challenge_43_chars_minimum_required',
+            ),
+          ),
           () => mockAuthApiClient.verifyMagicLink(
-                const VerifyTokenRequest(token: 'test'),
-                null,
-              ),
+            const VerifyTokenRequest(token: 'test'),
+            null,
+          ),
           () => mockAuthApiClient.refreshToken(
-                const RefreshTokenRequest(refreshToken: 'test'),
-              ),
+            const RefreshTokenRequest(refreshToken: 'test'),
+          ),
           () => mockAuthApiClient.logout(),
         ];
 

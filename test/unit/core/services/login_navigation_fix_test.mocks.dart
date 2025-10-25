@@ -28,12 +28,12 @@ import 'package:state_notifier/state_notifier.dart' as _i7;
 
 class _FakeAuthService_0 extends _i1.SmartFake implements _i2.AuthService {
   _FakeAuthService_0(Object parent, Invocation parentInvocation)
-      : super(parent, parentInvocation);
+    : super(parent, parentInvocation);
 }
 
 class _FakeAuthState_1 extends _i1.SmartFake implements _i3.AuthState {
   _FakeAuthState_1(Object parent, Invocation parentInvocation)
-      : super(parent, parentInvocation);
+    : super(parent, parentInvocation);
 }
 
 /// A class which mocks [AuthNotifier].
@@ -41,84 +41,100 @@ class _FakeAuthState_1 extends _i1.SmartFake implements _i3.AuthState {
 /// See the documentation for Mockito's code generation for more information.
 class MockAuthNotifier extends _i1.Mock implements _i3.AuthNotifier {
   @override
-  _i2.AuthService get authService => (super.noSuchMethod(
-        Invocation.getter(#authService),
-        returnValue: _FakeAuthService_0(
-          this,
-          Invocation.getter(#authService),
-        ),
-        returnValueForMissingStub: _FakeAuthService_0(
-          this,
-          Invocation.getter(#authService),
-        ),
-      ) as _i2.AuthService);
+  _i2.AuthService get authService =>
+      (super.noSuchMethod(
+            Invocation.getter(#authService),
+            returnValue: _FakeAuthService_0(
+              this,
+              Invocation.getter(#authService),
+            ),
+            returnValueForMissingStub: _FakeAuthService_0(
+              this,
+              Invocation.getter(#authService),
+            ),
+          )
+          as _i2.AuthService);
 
   @override
-  bool get mounted => (super.noSuchMethod(
-        Invocation.getter(#mounted),
-        returnValue: false,
-        returnValueForMissingStub: false,
-      ) as bool);
+  bool get mounted =>
+      (super.noSuchMethod(
+            Invocation.getter(#mounted),
+            returnValue: false,
+            returnValueForMissingStub: false,
+          )
+          as bool);
 
   @override
-  _i4.Stream<_i3.AuthState> get stream => (super.noSuchMethod(
-        Invocation.getter(#stream),
-        returnValue: _i4.Stream<_i3.AuthState>.empty(),
-        returnValueForMissingStub: _i4.Stream<_i3.AuthState>.empty(),
-      ) as _i4.Stream<_i3.AuthState>);
+  _i4.Stream<_i3.AuthState> get stream =>
+      (super.noSuchMethod(
+            Invocation.getter(#stream),
+            returnValue: _i4.Stream<_i3.AuthState>.empty(),
+            returnValueForMissingStub: _i4.Stream<_i3.AuthState>.empty(),
+          )
+          as _i4.Stream<_i3.AuthState>);
 
   @override
-  _i3.AuthState get state => (super.noSuchMethod(
-        Invocation.getter(#state),
-        returnValue: _FakeAuthState_1(this, Invocation.getter(#state)),
-        returnValueForMissingStub: _FakeAuthState_1(
-          this,
-          Invocation.getter(#state),
-        ),
-      ) as _i3.AuthState);
+  _i3.AuthState get state =>
+      (super.noSuchMethod(
+            Invocation.getter(#state),
+            returnValue: _FakeAuthState_1(this, Invocation.getter(#state)),
+            returnValueForMissingStub: _FakeAuthState_1(
+              this,
+              Invocation.getter(#state),
+            ),
+          )
+          as _i3.AuthState);
 
   @override
-  _i3.AuthState get debugState => (super.noSuchMethod(
-        Invocation.getter(#debugState),
-        returnValue: _FakeAuthState_1(this, Invocation.getter(#debugState)),
-        returnValueForMissingStub: _FakeAuthState_1(
-          this,
-          Invocation.getter(#debugState),
-        ),
-      ) as _i3.AuthState);
+  _i3.AuthState get debugState =>
+      (super.noSuchMethod(
+            Invocation.getter(#debugState),
+            returnValue: _FakeAuthState_1(this, Invocation.getter(#debugState)),
+            returnValueForMissingStub: _FakeAuthState_1(
+              this,
+              Invocation.getter(#debugState),
+            ),
+          )
+          as _i3.AuthState);
 
   @override
-  bool get hasListeners => (super.noSuchMethod(
-        Invocation.getter(#hasListeners),
-        returnValue: false,
-        returnValueForMissingStub: false,
-      ) as bool);
+  bool get hasListeners =>
+      (super.noSuchMethod(
+            Invocation.getter(#hasListeners),
+            returnValue: false,
+            returnValueForMissingStub: false,
+          )
+          as bool);
 
   @override
   set onError(_i5.ErrorListener? _onError) => super.noSuchMethod(
-        Invocation.setter(#onError, _onError),
-        returnValueForMissingStub: null,
-      );
+    Invocation.setter(#onError, _onError),
+    returnValueForMissingStub: null,
+  );
 
   @override
   set state(_i3.AuthState? value) => super.noSuchMethod(
-        Invocation.setter(#state, value),
-        returnValueForMissingStub: null,
-      );
+    Invocation.setter(#state, value),
+    returnValueForMissingStub: null,
+  );
 
   @override
-  _i4.Future<void> initializeAuth() => (super.noSuchMethod(
-        Invocation.method(#initializeAuth, []),
-        returnValue: _i4.Future<void>.value(),
-        returnValueForMissingStub: _i4.Future<void>.value(),
-      ) as _i4.Future<void>);
+  _i4.Future<void> initializeAuth() =>
+      (super.noSuchMethod(
+            Invocation.method(#initializeAuth, []),
+            returnValue: _i4.Future<void>.value(),
+            returnValueForMissingStub: _i4.Future<void>.value(),
+          )
+          as _i4.Future<void>);
 
   @override
-  _i4.Future<void> checkUserStatus(String? email) => (super.noSuchMethod(
-        Invocation.method(#checkUserStatus, [email]),
-        returnValue: _i4.Future<void>.value(),
-        returnValueForMissingStub: _i4.Future<void>.value(),
-      ) as _i4.Future<void>);
+  _i4.Future<void> checkUserStatus(String? email) =>
+      (super.noSuchMethod(
+            Invocation.method(#checkUserStatus, [email]),
+            returnValue: _i4.Future<void>.value(),
+            returnValueForMissingStub: _i4.Future<void>.value(),
+          )
+          as _i4.Future<void>);
 
   @override
   _i4.Future<void> sendMagicLink(
@@ -127,80 +143,90 @@ class MockAuthNotifier extends _i1.Mock implements _i3.AuthNotifier {
     String? inviteCode,
   }) =>
       (super.noSuchMethod(
-        Invocation.method(
-          #sendMagicLink,
-          [email],
-          {#name: name, #inviteCode: inviteCode},
-        ),
-        returnValue: _i4.Future<void>.value(),
-        returnValueForMissingStub: _i4.Future<void>.value(),
-      ) as _i4.Future<void>);
+            Invocation.method(
+              #sendMagicLink,
+              [email],
+              {#name: name, #inviteCode: inviteCode},
+            ),
+            returnValue: _i4.Future<void>.value(),
+            returnValueForMissingStub: _i4.Future<void>.value(),
+          )
+          as _i4.Future<void>);
 
   @override
-  _i4.Future<void> validateToken() => (super.noSuchMethod(
-        Invocation.method(#validateToken, []),
-        returnValue: _i4.Future<void>.value(),
-        returnValueForMissingStub: _i4.Future<void>.value(),
-      ) as _i4.Future<void>);
+  _i4.Future<void> validateToken() =>
+      (super.noSuchMethod(
+            Invocation.method(#validateToken, []),
+            returnValue: _i4.Future<void>.value(),
+            returnValueForMissingStub: _i4.Future<void>.value(),
+          )
+          as _i4.Future<void>);
 
   @override
-  _i4.Future<void> logout({String? targetRoute}) => (super.noSuchMethod(
-        Invocation.method(#logout, [], {#targetRoute: targetRoute}),
-        returnValue: _i4.Future<void>.value(),
-        returnValueForMissingStub: _i4.Future<void>.value(),
-      ) as _i4.Future<void>);
+  _i4.Future<void> logout({String? targetRoute}) =>
+      (super.noSuchMethod(
+            Invocation.method(#logout, [], {#targetRoute: targetRoute}),
+            returnValue: _i4.Future<void>.value(),
+            returnValueForMissingStub: _i4.Future<void>.value(),
+          )
+          as _i4.Future<void>);
 
   @override
   void clearError() => super.noSuchMethod(
-        Invocation.method(#clearError, []),
-        returnValueForMissingStub: null,
-      );
+    Invocation.method(#clearError, []),
+    returnValueForMissingStub: null,
+  );
 
   @override
   void clearUserStatus() => super.noSuchMethod(
-        Invocation.method(#clearUserStatus, []),
-        returnValueForMissingStub: null,
-      );
+    Invocation.method(#clearUserStatus, []),
+    returnValueForMissingStub: null,
+  );
 
   @override
   void setShowNameField(bool? show) => super.noSuchMethod(
-        Invocation.method(#setShowNameField, [show]),
-        returnValueForMissingStub: null,
-      );
+    Invocation.method(#setShowNameField, [show]),
+    returnValueForMissingStub: null,
+  );
 
   @override
   void login(_i6.User? user) => super.noSuchMethod(
-        Invocation.method(#login, [user]),
-        returnValueForMissingStub: null,
-      );
+    Invocation.method(#login, [user]),
+    returnValueForMissingStub: null,
+  );
 
   @override
-  _i4.Future<void> refreshCurrentUser() => (super.noSuchMethod(
-        Invocation.method(#refreshCurrentUser, []),
-        returnValue: _i4.Future<void>.value(),
-        returnValueForMissingStub: _i4.Future<void>.value(),
-      ) as _i4.Future<void>);
+  _i4.Future<void> refreshCurrentUser() =>
+      (super.noSuchMethod(
+            Invocation.method(#refreshCurrentUser, []),
+            returnValue: _i4.Future<void>.value(),
+            returnValueForMissingStub: _i4.Future<void>.value(),
+          )
+          as _i4.Future<void>);
 
   @override
-  _i4.Future<void> authenticateWithBiometric() => (super.noSuchMethod(
-        Invocation.method(#authenticateWithBiometric, []),
-        returnValue: _i4.Future<void>.value(),
-        returnValueForMissingStub: _i4.Future<void>.value(),
-      ) as _i4.Future<void>);
+  _i4.Future<void> authenticateWithBiometric() =>
+      (super.noSuchMethod(
+            Invocation.method(#authenticateWithBiometric, []),
+            returnValue: _i4.Future<void>.value(),
+            returnValueForMissingStub: _i4.Future<void>.value(),
+          )
+          as _i4.Future<void>);
 
   @override
   void dispose() => super.noSuchMethod(
-        Invocation.method(#dispose, []),
-        returnValueForMissingStub: null,
-      );
+    Invocation.method(#dispose, []),
+    returnValueForMissingStub: null,
+  );
 
   @override
   bool updateShouldNotify(_i3.AuthState? old, _i3.AuthState? current) =>
       (super.noSuchMethod(
-        Invocation.method(#updateShouldNotify, [old, current]),
-        returnValue: false,
-        returnValueForMissingStub: false,
-      ) as bool);
+            Invocation.method(#updateShouldNotify, [old, current]),
+            returnValue: false,
+            returnValueForMissingStub: false,
+          )
+          as bool);
 
   @override
   _i5.RemoveListener addListener(
@@ -208,12 +234,13 @@ class MockAuthNotifier extends _i1.Mock implements _i3.AuthNotifier {
     bool? fireImmediately = true,
   }) =>
       (super.noSuchMethod(
-        Invocation.method(
-          #addListener,
-          [listener],
-          {#fireImmediately: fireImmediately},
-        ),
-        returnValue: () {},
-        returnValueForMissingStub: () {},
-      ) as _i5.RemoveListener);
+            Invocation.method(
+              #addListener,
+              [listener],
+              {#fireImmediately: fireImmediately},
+            ),
+            returnValue: () {},
+            returnValueForMissingStub: () {},
+          )
+          as _i5.RemoveListener);
 }

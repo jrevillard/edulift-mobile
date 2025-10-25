@@ -169,13 +169,13 @@ class _PreInitializedScheduleFamilyNotifier
     Ref ref, {
     required entities.Family? initialFamily,
   }) : super(
-          getFamilyUsecase,
-          childrenService,
-          leaveFamilyUsecase,
-          familyRepository,
-          invitationRepository,
-          ref,
-        ) {
+         getFamilyUsecase,
+         childrenService,
+         leaveFamilyUsecase,
+         familyRepository,
+         invitationRepository,
+         ref,
+       ) {
     // Pre-set the state with test data to avoid async initialization issues
     if (initialFamily != null) {
       state = family_provider.FamilyState(
@@ -305,12 +305,12 @@ class _PreInitializedGroupScheduleConfigNotifier
     ErrorHandlerService? errorHandlerService, {
     required AsyncValue<ScheduleConfig?> initialState,
   }) : super(
-          groupId,
-          getConfigUseCase,
-          updateConfigUseCase,
-          resetConfigUseCase,
-          errorHandlerService ?? MockErrorHandlerService(),
-        ) {
+         groupId,
+         getConfigUseCase,
+         updateConfigUseCase,
+         resetConfigUseCase,
+         errorHandlerService ?? MockErrorHandlerService(),
+       ) {
     // Pre-set the state with test data to avoid async initialization issues
     state = initialState;
   }
@@ -339,8 +339,9 @@ Override createMockedGroupScheduleConfigProvider(
     String providedGroupId,
   ) {
     // Create initial state
-    final initialState =
-        config != null ? AsyncValue.data(config) : const AsyncValue.data(null);
+    final initialState = config != null
+        ? AsyncValue.data(config)
+        : const AsyncValue.data(null);
 
     // Create a custom notifier that pre-sets the state
     final notifier = _PreInitializedGroupScheduleConfigNotifier(
@@ -1605,15 +1606,17 @@ void main() {
 
       testWidgets('ScheduleSlotWidget - multiple vehicles', (tester) async {
         final groups = GroupDataFactory.createLargeGroupList(count: 1);
-        final scheduleSlots = ScheduleDataFactory.createLargeScheduleSlotList(
-          count: 3,
-          groupId: groups[0].id,
-          // Create multiple slots for the same time period
-        )
-            .map(
-              (slot) => slot.copyWith(timeOfDay: const TimeOfDayValue(8, 0)),
-            )
-            .toList();
+        final scheduleSlots =
+            ScheduleDataFactory.createLargeScheduleSlotList(
+                  count: 3,
+                  groupId: groups[0].id,
+                  // Create multiple slots for the same time period
+                )
+                .map(
+                  (slot) =>
+                      slot.copyWith(timeOfDay: const TimeOfDayValue(8, 0)),
+                )
+                .toList();
 
         // Create PeriodSlotData with multiple slots
         final periodSlotData = PeriodSlotData(
@@ -1729,14 +1732,16 @@ void main() {
         tester,
       ) async {
         final groups = GroupDataFactory.createLargeGroupList(count: 1);
-        final scheduleSlots = ScheduleDataFactory.createLargeScheduleSlotList(
-          count: 5,
-          groupId: groups[0].id,
-        )
-            .map(
-              (slot) => slot.copyWith(timeOfDay: const TimeOfDayValue(8, 0)),
-            )
-            .toList();
+        final scheduleSlots =
+            ScheduleDataFactory.createLargeScheduleSlotList(
+                  count: 5,
+                  groupId: groups[0].id,
+                )
+                .map(
+                  (slot) =>
+                      slot.copyWith(timeOfDay: const TimeOfDayValue(8, 0)),
+                )
+                .toList();
 
         final periodSlotData = PeriodSlotData(
           dayOfWeek: scheduleSlots[0].dayOfWeek,
@@ -1789,14 +1794,16 @@ void main() {
         tester,
       ) async {
         final groups = GroupDataFactory.createLargeGroupList(count: 1);
-        final scheduleSlots = ScheduleDataFactory.createLargeScheduleSlotList(
-          count: 8,
-          groupId: groups[0].id,
-        )
-            .map(
-              (slot) => slot.copyWith(timeOfDay: const TimeOfDayValue(15, 30)),
-            )
-            .toList();
+        final scheduleSlots =
+            ScheduleDataFactory.createLargeScheduleSlotList(
+                  count: 8,
+                  groupId: groups[0].id,
+                )
+                .map(
+                  (slot) =>
+                      slot.copyWith(timeOfDay: const TimeOfDayValue(15, 30)),
+                )
+                .toList();
 
         final periodSlotData = PeriodSlotData(
           dayOfWeek: scheduleSlots[0].dayOfWeek,
@@ -1904,14 +1911,16 @@ void main() {
         tester,
       ) async {
         final groups = GroupDataFactory.createLargeGroupList(count: 1);
-        final scheduleSlots = ScheduleDataFactory.createLargeScheduleSlotList(
-          count: 15,
-          groupId: groups[0].id,
-        )
-            .map(
-              (slot) => slot.copyWith(timeOfDay: const TimeOfDayValue(8, 0)),
-            )
-            .toList();
+        final scheduleSlots =
+            ScheduleDataFactory.createLargeScheduleSlotList(
+                  count: 15,
+                  groupId: groups[0].id,
+                )
+                .map(
+                  (slot) =>
+                      slot.copyWith(timeOfDay: const TimeOfDayValue(8, 0)),
+                )
+                .toList();
 
         final periodSlotData = PeriodSlotData(
           dayOfWeek: scheduleSlots[0].dayOfWeek,
@@ -2042,9 +2051,9 @@ void main() {
           final groups = GroupDataFactory.createLargeGroupList(count: 1);
           final vehicleAssignment =
               ScheduleDataFactory.createRealisticVehicleAssignment(
-            index: 1,
-            childCount: 2,
-          );
+                index: 1,
+                childCount: 2,
+              );
           final availableChildren = FamilyDataFactory.createLargeChildList(
             count: 5,
           );
@@ -2117,9 +2126,9 @@ void main() {
         final groups = GroupDataFactory.createLargeGroupList(count: 1);
         final vehicleAssignment =
             ScheduleDataFactory.createRealisticVehicleAssignment(
-          index: 3,
-          childCount: 0,
-        );
+              index: 3,
+              childCount: 0,
+            );
         final availableChildren = FamilyDataFactory.createLargeChildList();
         final assignedChildIds = <String>[];
 
@@ -2153,9 +2162,9 @@ void main() {
         final groups = GroupDataFactory.createLargeGroupList(count: 1);
         final vehicleAssignment =
             ScheduleDataFactory.createRealisticVehicleAssignment(
-          index: 4,
-          childCount: 1,
-        );
+              index: 4,
+              childCount: 1,
+            );
         final availableChildren = FamilyDataFactory.createLargeChildList(
           count: 6,
         );

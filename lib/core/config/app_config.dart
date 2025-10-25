@@ -42,10 +42,10 @@ class DevelopmentConfig implements BaseConfig {
 
   @override
   Map<String, String> get defaultHeaders => {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-        'API-Version': 'v1',
-      };
+    'Content-Type': 'application/json',
+    'Accept': 'application/json',
+    'API-Version': 'v1',
+  };
 
   @override
   bool validate() {
@@ -67,16 +67,16 @@ class DevelopmentConfig implements BaseConfig {
 
   @override
   Map<String, dynamic> get configSummary => {
-        'environment': environmentName,
-        'appName': appName,
-        'apiBaseUrl': apiBaseUrl,
-        'websocketUrl': websocketUrl,
-        'mailpitWebUrl': mailpitWebUrl,
-        'debugEnabled': debugEnabled,
-        'firebaseEnabled': firebaseEnabled,
-        'connectTimeout': connectTimeout.inSeconds,
-        'receiveTimeout': receiveTimeout.inSeconds,
-      };
+    'environment': environmentName,
+    'appName': appName,
+    'apiBaseUrl': apiBaseUrl,
+    'websocketUrl': websocketUrl,
+    'mailpitWebUrl': mailpitWebUrl,
+    'debugEnabled': debugEnabled,
+    'firebaseEnabled': firebaseEnabled,
+    'connectTimeout': connectTimeout.inSeconds,
+    'receiveTimeout': receiveTimeout.inSeconds,
+  };
 }
 
 /// Staging environment configuration
@@ -117,10 +117,10 @@ class StagingConfig implements BaseConfig {
 
   @override
   Map<String, String> get defaultHeaders => {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-        'API-Version': 'v1',
-      };
+    'Content-Type': 'application/json',
+    'Accept': 'application/json',
+    'API-Version': 'v1',
+  };
 
   @override
   bool validate() {
@@ -139,31 +139,28 @@ class StagingConfig implements BaseConfig {
 
   @override
   Map<String, dynamic> get configSummary => {
-        'environment': environmentName,
-        'appName': appName,
-        'apiBaseUrl': apiBaseUrl,
-        'websocketUrl': websocketUrl,
-        'debugEnabled': debugEnabled,
-        'firebaseEnabled': firebaseEnabled,
-        'connectTimeout': connectTimeout.inSeconds,
-        'receiveTimeout': receiveTimeout.inSeconds,
-      };
+    'environment': environmentName,
+    'appName': appName,
+    'apiBaseUrl': apiBaseUrl,
+    'websocketUrl': websocketUrl,
+    'debugEnabled': debugEnabled,
+    'firebaseEnabled': firebaseEnabled,
+    'connectTimeout': connectTimeout.inSeconds,
+    'receiveTimeout': receiveTimeout.inSeconds,
+  };
 }
 
 /// E2E testing environment configuration
 /// Used for automated integration testing with Docker services on Android emulator
 class E2EConfig implements BaseConfig {
   @override
-  String get apiBaseUrl =>
-      'http://10.0.2.2:8030/api/v1'; // Android emulator special IP to host
+  String get apiBaseUrl => 'http://10.0.2.2:8030/api/v1'; // Android emulator special IP to host
 
   @override
-  String get websocketUrl =>
-      'ws://10.0.2.2:8030'; // Android emulator special IP to host
+  String get websocketUrl => 'ws://10.0.2.2:8030'; // Android emulator special IP to host
 
   @override
-  String get mailpitWebUrl =>
-      'http://10.0.2.2:8031'; // Android emulator special IP to host
+  String get mailpitWebUrl => 'http://10.0.2.2:8031'; // Android emulator special IP to host
 
   @override
   String get mailpitApiUrl => '$mailpitWebUrl/api/v1';
@@ -190,10 +187,10 @@ class E2EConfig implements BaseConfig {
 
   @override
   Map<String, String> get defaultHeaders => {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-        'API-Version': 'v1',
-      };
+    'Content-Type': 'application/json',
+    'Accept': 'application/json',
+    'API-Version': 'v1',
+  };
 
   @override
   bool validate() {
@@ -215,16 +212,16 @@ class E2EConfig implements BaseConfig {
 
   @override
   Map<String, dynamic> get configSummary => {
-        'environment': environmentName,
-        'appName': appName,
-        'apiBaseUrl': apiBaseUrl,
-        'websocketUrl': websocketUrl,
-        'mailpitWebUrl': mailpitWebUrl,
-        'debugEnabled': debugEnabled,
-        'firebaseEnabled': firebaseEnabled,
-        'connectTimeout': connectTimeout.inSeconds,
-        'receiveTimeout': receiveTimeout.inSeconds,
-      };
+    'environment': environmentName,
+    'appName': appName,
+    'apiBaseUrl': apiBaseUrl,
+    'websocketUrl': websocketUrl,
+    'mailpitWebUrl': mailpitWebUrl,
+    'debugEnabled': debugEnabled,
+    'firebaseEnabled': firebaseEnabled,
+    'connectTimeout': connectTimeout.inSeconds,
+    'receiveTimeout': receiveTimeout.inSeconds,
+  };
 }
 
 /// Production environment configuration
@@ -265,10 +262,10 @@ class ProductionConfig implements BaseConfig {
 
   @override
   Map<String, String> get defaultHeaders => {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-        'API-Version': 'v1',
-      };
+    'Content-Type': 'application/json',
+    'Accept': 'application/json',
+    'API-Version': 'v1',
+  };
 
   @override
   bool validate() {
@@ -287,13 +284,13 @@ class ProductionConfig implements BaseConfig {
 
   @override
   Map<String, dynamic> get configSummary => {
-        'environment': environmentName,
-        'appName': appName,
-        'apiBaseUrl': apiBaseUrl,
-        'websocketUrl': websocketUrl,
-        'debugEnabled': debugEnabled,
-        'firebaseEnabled': firebaseEnabled,
-        'connectTimeout': connectTimeout.inSeconds,
-        'receiveTimeout': receiveTimeout.inSeconds,
-      };
+    'environment': environmentName,
+    'appName': appName,
+    'apiBaseUrl': apiBaseUrl,
+    'websocketUrl': websocketUrl,
+    'debugEnabled': debugEnabled,
+    'firebaseEnabled': firebaseEnabled,
+    'connectTimeout': connectTimeout.inSeconds,
+    'receiveTimeout': receiveTimeout.inSeconds,
+  };
 }

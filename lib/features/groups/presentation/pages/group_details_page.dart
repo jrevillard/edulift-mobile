@@ -45,8 +45,8 @@ class _GroupDetailsPageState extends ConsumerState<GroupDetailsPage>
       body: groupsState.isLoading && groupsState.groups.isEmpty
           ? const Center(child: CircularProgressIndicator())
           : groupsState.error != null && groupsState.groups.isEmpty
-              ? _buildErrorWidget(l10n, groupsState.error!)
-              : _buildGroupDetails(context, l10n, groupsState.groups, isTablet),
+          ? _buildErrorWidget(l10n, groupsState.error!)
+          : _buildGroupDetails(context, l10n, groupsState.groups, isTablet),
     );
   }
 
@@ -86,11 +86,12 @@ class _GroupDetailsPageState extends ConsumerState<GroupDetailsPage>
             const SizedBox(height: 24),
             ElevatedButton(
               key: const Key('groupDetails_error_goBack_button'),
-              onPressed: () =>
-                  ref.read(navigationStateProvider.notifier).navigateTo(
-                        route: '/groups',
-                        trigger: NavigationTrigger.userNavigation,
-                      ),
+              onPressed: () => ref
+                  .read(navigationStateProvider.notifier)
+                  .navigateTo(
+                    route: '/groups',
+                    trigger: NavigationTrigger.userNavigation,
+                  ),
               child: Text(l10n.goBackButton),
             ),
           ],
@@ -98,15 +99,19 @@ class _GroupDetailsPageState extends ConsumerState<GroupDetailsPage>
       );
     }
 
-    final groupName =
-        group is Map ? group['name'] : group?.name ?? 'Unnamed Group';
-    final groupDescription =
-        group is Map ? group['description'] : group?.description;
+    final groupName = group is Map
+        ? group['name']
+        : group?.name ?? 'Unnamed Group';
+    final groupDescription = group is Map
+        ? group['description']
+        : group?.description;
     final userRole = group is Map ? group['userRole'] : group?.userRole;
-    final familyCount =
-        group is Map ? group['familyCount'] : group?.familyCount ?? 0;
-    final scheduleCount =
-        group is Map ? group['scheduleCount'] : group?.scheduleCount ?? 0;
+    final familyCount = group is Map
+        ? group['familyCount']
+        : group?.familyCount ?? 0;
+    final scheduleCount = group is Map
+        ? group['scheduleCount']
+        : group?.scheduleCount ?? 0;
     final createdAt = group is Map ? group['createdAt'] : group?.createdAt;
 
     final isGroupAdmin =
@@ -208,12 +213,12 @@ class _GroupDetailsPageState extends ConsumerState<GroupDetailsPage>
                                             ),
                                             onPressed: () =>
                                                 _navigateToEditGroup(
-                                              context,
-                                              ref,
-                                              widget.groupId,
-                                              groupName,
-                                              groupDescription,
-                                            ),
+                                                  context,
+                                                  ref,
+                                                  widget.groupId,
+                                                  groupName,
+                                                  groupDescription,
+                                                ),
                                             tooltip: l10n.editGroup,
                                             padding: EdgeInsets.zero,
                                             constraints: const BoxConstraints(),
@@ -250,9 +255,7 @@ class _GroupDetailsPageState extends ConsumerState<GroupDetailsPage>
                             ),
                             Text(
                               groupDescription,
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyMedium
+                              style: Theme.of(context).textTheme.bodyMedium
                                   ?.copyWith(fontSize: 16 * context.fontScale),
                             ),
                           ],
@@ -309,9 +312,7 @@ class _GroupDetailsPageState extends ConsumerState<GroupDetailsPage>
                               const SizedBox(width: 12),
                               Text(
                                 l10n.manageMembers,
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .titleLarge
+                                style: Theme.of(context).textTheme.titleLarge
                                     ?.copyWith(fontWeight: FontWeight.bold),
                               ),
                             ],
@@ -319,9 +320,7 @@ class _GroupDetailsPageState extends ConsumerState<GroupDetailsPage>
                           const SizedBox(height: 8),
                           Text(
                             l10n.manageMembersDescription,
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyMedium
+                            style: Theme.of(context).textTheme.bodyMedium
                                 ?.copyWith(
                                   color: AppColors.textSecondaryThemed(context),
                                 ),
@@ -369,9 +368,7 @@ class _GroupDetailsPageState extends ConsumerState<GroupDetailsPage>
                                 const SizedBox(width: 12),
                                 Text(
                                   l10n.scheduleConfiguration,
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .titleLarge
+                                  style: Theme.of(context).textTheme.titleLarge
                                       ?.copyWith(fontWeight: FontWeight.bold),
                                 ),
                               ],
@@ -379,9 +376,7 @@ class _GroupDetailsPageState extends ConsumerState<GroupDetailsPage>
                             const SizedBox(height: 8),
                             Text(
                               'Configure the schedule for this group including time slots and active days',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyMedium
+                              style: Theme.of(context).textTheme.bodyMedium
                                   ?.copyWith(
                                     color: AppColors.textSecondaryThemed(
                                       context,
@@ -432,9 +427,7 @@ class _GroupDetailsPageState extends ConsumerState<GroupDetailsPage>
                               const SizedBox(width: 12),
                               Text(
                                 'Group Actions',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .titleLarge
+                                style: Theme.of(context).textTheme.titleLarge
                                     ?.copyWith(fontWeight: FontWeight.bold),
                               ),
                             ],
@@ -512,9 +505,7 @@ class _GroupDetailsPageState extends ConsumerState<GroupDetailsPage>
                               const SizedBox(width: 12),
                               Text(
                                 'Group Information',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .titleLarge
+                                style: Theme.of(context).textTheme.titleLarge
                                     ?.copyWith(fontWeight: FontWeight.bold),
                               ),
                             ],
@@ -718,7 +709,9 @@ class _GroupDetailsPageState extends ConsumerState<GroupDetailsPage>
         userRole: userRole,
         onSuccess: () {
           // Navigate to groups list after successful leave
-          ref.read(navigationStateProvider.notifier).navigateTo(
+          ref
+              .read(navigationStateProvider.notifier)
+              .navigateTo(
                 route: '/groups',
                 trigger: NavigationTrigger.userNavigation,
               );

@@ -418,9 +418,11 @@ class ScheduleDataFactory {
     List<String>? timeStrings,
     int? slotCount,
   }) {
-    final day = dayOfWeek ??
+    final day =
+        dayOfWeek ??
         daysOfWeek[TestDataFactory.randomInt(0, daysOfWeek.length - 1)];
-    final period = periodType ??
+    final period =
+        periodType ??
         PeriodType.values[TestDataFactory.randomInt(
           0,
           PeriodType.values.length - 1,
@@ -545,7 +547,8 @@ class ScheduleDataFactory {
     PeriodType? periodType,
     List<String>? timeStrings,
   }) {
-    final type = periodType ??
+    final type =
+        periodType ??
         PeriodType.values[TestDataFactory.randomInt(
           0,
           PeriodType.values.length - 1,

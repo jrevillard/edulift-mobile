@@ -35,7 +35,9 @@ class _CreateGroupPageState extends ConsumerState<CreateGroupPage>
     ref.read(navigationStateProvider.notifier).clearNavigation();
 
     // Navigate back to groups page
-    ref.read(navigationStateProvider.notifier).navigateTo(
+    ref
+        .read(navigationStateProvider.notifier)
+        .navigateTo(
           route: '/groups',
           trigger: NavigationTrigger.userNavigation,
         );
@@ -51,7 +53,9 @@ class _CreateGroupPageState extends ConsumerState<CreateGroupPage>
       if (current.isCreateSuccess && mounted) {
         // Group creation succeeded - clear previous navigation and navigate back to groups
         ref.read(navigationStateProvider.notifier).clearNavigation();
-        ref.read(navigationStateProvider.notifier).navigateTo(
+        ref
+            .read(navigationStateProvider.notifier)
+            .navigateTo(
               route: '/groups',
               trigger: NavigationTrigger.userNavigation,
             );
@@ -96,7 +100,8 @@ class _CreateGroupPageState extends ConsumerState<CreateGroupPage>
             return SingleChildScrollView(
               child: ConstrainedBox(
                 constraints: BoxConstraints(
-                  minHeight: constraints.maxHeight -
+                  minHeight:
+                      constraints.maxHeight -
                       MediaQuery.of(context).viewInsets.bottom,
                 ),
                 child: IntrinsicHeight(
@@ -125,9 +130,7 @@ class _CreateGroupPageState extends ConsumerState<CreateGroupPage>
                           Text(
                             l10n.createNewGroup,
                             key: const Key('create_new_group_header'),
-                            style: Theme.of(context)
-                                .textTheme
-                                .headlineSmall
+                            style: Theme.of(context).textTheme.headlineSmall
                                 ?.copyWith(fontWeight: FontWeight.bold),
                           ),
                           SizedBox(
@@ -139,9 +142,7 @@ class _CreateGroupPageState extends ConsumerState<CreateGroupPage>
                           ),
                           Text(
                             l10n.createTransportGroupDescription,
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyMedium
+                            style: Theme.of(context).textTheme.bodyMedium
                                 ?.copyWith(
                                   color: Theme.of(
                                     context,
@@ -159,9 +160,7 @@ class _CreateGroupPageState extends ConsumerState<CreateGroupPage>
                           // Group Name Field
                           Text(
                             l10n.groupName,
-                            style: Theme.of(context)
-                                .textTheme
-                                .titleMedium
+                            style: Theme.of(context).textTheme.titleMedium
                                 ?.copyWith(fontWeight: FontWeight.w500),
                           ),
                           SizedBox(
@@ -249,8 +248,8 @@ class _CreateGroupPageState extends ConsumerState<CreateGroupPage>
                                                 height: 16,
                                                 child:
                                                     CircularProgressIndicator(
-                                                  strokeWidth: 2,
-                                                ),
+                                                      strokeWidth: 2,
+                                                    ),
                                               ),
                                               const SizedBox(width: 8),
                                               Text(l10n.creating),
@@ -332,8 +331,8 @@ class _CreateGroupPageState extends ConsumerState<CreateGroupPage>
                                                   height: 16,
                                                   child:
                                                       CircularProgressIndicator(
-                                                    strokeWidth: 2,
-                                                  ),
+                                                        strokeWidth: 2,
+                                                      ),
                                                 ),
                                                 const SizedBox(width: 8),
                                                 Text(l10n.creating),

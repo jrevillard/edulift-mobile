@@ -15,7 +15,7 @@ class ServerException extends AppException {
   final String? errorCode;
 
   const ServerException(String message, {this.statusCode, this.errorCode})
-      : super(message);
+    : super(message);
 
   @override
   String toString() => 'ServerException($statusCode): $message';
@@ -45,7 +45,7 @@ class AuthenticationException extends AppException {
   final String? authCode;
 
   const AuthenticationException(String message, {this.authCode})
-      : super(message);
+    : super(message);
 
   @override
   String toString() => 'AuthenticationException: $message';
@@ -56,7 +56,7 @@ class AuthorizationException extends AppException {
   final String? requiredPermission;
 
   const AuthorizationException(String message, {this.requiredPermission})
-      : super(message);
+    : super(message);
 
   @override
   String toString() => 'AuthorizationException: $message';
@@ -67,7 +67,7 @@ class ValidationException extends AppException {
   final Map<String, String>? fieldErrors;
 
   const ValidationException(String message, {this.fieldErrors})
-      : super(message);
+    : super(message);
 
   @override
   String toString() => 'ValidationException: $message';
@@ -79,7 +79,7 @@ class SyncException extends AppException {
   final int? conflictCount;
 
   const SyncException(String message, {this.operation, this.conflictCount})
-      : super(message);
+    : super(message);
 
   @override
   String toString() => 'SyncException: $message';
@@ -102,7 +102,7 @@ class CryptographyException extends AppException {
   final String? algorithm;
 
   const CryptographyException(String message, {this.operation, this.algorithm})
-      : super(message);
+    : super(message);
 
   @override
   String toString() =>
@@ -136,31 +136,31 @@ class InvitationException extends AppException {
 /// Exception thrown when user is already a member
 class UserAlreadyMemberException extends InvitationException {
   const UserAlreadyMemberException(String message, {String? invitationCode})
-      : super(
-          message,
-          invitationCode: invitationCode,
-          errorCode: 'USER_ALREADY_MEMBER',
-        );
+    : super(
+        message,
+        invitationCode: invitationCode,
+        errorCode: 'USER_ALREADY_MEMBER',
+      );
 }
 
 /// Exception thrown when invitation is expired
 class InvitationExpiredException extends InvitationException {
   const InvitationExpiredException(String message, {String? invitationCode})
-      : super(
-          message,
-          invitationCode: invitationCode,
-          errorCode: 'INVITATION_EXPIRED',
-        );
+    : super(
+        message,
+        invitationCode: invitationCode,
+        errorCode: 'INVITATION_EXPIRED',
+      );
 }
 
 /// Exception thrown when invitation is invalid
 class InvalidInvitationException extends InvitationException {
   const InvalidInvitationException(String message, {String? invitationCode})
-      : super(
-          message,
-          invitationCode: invitationCode,
-          errorCode: 'INVALID_INVITATION',
-        );
+    : super(
+        message,
+        invitationCode: invitationCode,
+        errorCode: 'INVALID_INVITATION',
+      );
 }
 
 /// Alias for AuthenticationException (for backward compatibility)

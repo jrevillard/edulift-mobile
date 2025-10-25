@@ -38,7 +38,9 @@ class _CreateFamilyPageState extends ConsumerState<CreateFamilyPage>
     ref.read(navigationStateProvider.notifier).clearNavigation();
 
     // Navigate back to onboarding wizard
-    ref.read(navigationStateProvider.notifier).navigateTo(
+    ref
+        .read(navigationStateProvider.notifier)
+        .navigateTo(
           route: '/onboarding/wizard',
           trigger: NavigationTrigger.userNavigation,
         );
@@ -57,7 +59,9 @@ class _CreateFamilyPageState extends ConsumerState<CreateFamilyPage>
       if (current.isSuccess && mounted) {
         // Family creation succeeded - clear previous navigation and navigate to dashboard
         ref.read(navigationStateProvider.notifier).clearNavigation();
-        ref.read(navigationStateProvider.notifier).navigateTo(
+        ref
+            .read(navigationStateProvider.notifier)
+            .navigateTo(
               route: '/dashboard',
               trigger: NavigationTrigger.userNavigation,
             );
@@ -113,7 +117,8 @@ class _CreateFamilyPageState extends ConsumerState<CreateFamilyPage>
             return SingleChildScrollView(
               child: ConstrainedBox(
                 constraints: BoxConstraints(
-                  minHeight: constraints.maxHeight -
+                  minHeight:
+                      constraints.maxHeight -
                       MediaQuery.of(context).viewInsets.bottom,
                 ),
                 child: IntrinsicHeight(
@@ -129,17 +134,13 @@ class _CreateFamilyPageState extends ConsumerState<CreateFamilyPage>
                           Text(
                             AppLocalizations.of(context).createFamily,
                             key: const Key('create_your_family_header'),
-                            style: Theme.of(context)
-                                .textTheme
-                                .headlineSmall
+                            style: Theme.of(context).textTheme.headlineSmall
                                 ?.copyWith(fontWeight: FontWeight.bold),
                           ),
                           SizedBox(height: isSmallScreen ? 4.0 : 8.0),
                           Text(
                             'Set up your family to start coordinating transportation with other families.',
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyMedium
+                            style: Theme.of(context).textTheme.bodyMedium
                                 ?.copyWith(
                                   color: Theme.of(
                                     context,
@@ -151,9 +152,7 @@ class _CreateFamilyPageState extends ConsumerState<CreateFamilyPage>
                           // Family Name Field
                           Text(
                             'Family Name',
-                            style: Theme.of(context)
-                                .textTheme
-                                .titleMedium
+                            style: Theme.of(context).textTheme.titleMedium
                                 ?.copyWith(fontWeight: FontWeight.w500),
                           ),
                           SizedBox(height: isSmallScreen ? 4.0 : 8.0),
@@ -195,9 +194,7 @@ class _CreateFamilyPageState extends ConsumerState<CreateFamilyPage>
                           // Description Field
                           Text(
                             'Description (Optional)',
-                            style: Theme.of(context)
-                                .textTheme
-                                .titleMedium
+                            style: Theme.of(context).textTheme.titleMedium
                                 ?.copyWith(fontWeight: FontWeight.w500),
                           ),
                           SizedBox(height: isSmallScreen ? 4.0 : 8.0),
@@ -263,8 +260,8 @@ class _CreateFamilyPageState extends ConsumerState<CreateFamilyPage>
                                                 height: 16,
                                                 child:
                                                     CircularProgressIndicator(
-                                                  strokeWidth: 2,
-                                                ),
+                                                      strokeWidth: 2,
+                                                    ),
                                               ),
                                               const SizedBox(width: 8),
                                               Text(
@@ -354,8 +351,8 @@ class _CreateFamilyPageState extends ConsumerState<CreateFamilyPage>
                                                   height: 16,
                                                   child:
                                                       CircularProgressIndicator(
-                                                    strokeWidth: 2,
-                                                  ),
+                                                        strokeWidth: 2,
+                                                      ),
                                                 ),
                                                 const SizedBox(width: 8),
                                                 Text(

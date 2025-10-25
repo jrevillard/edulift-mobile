@@ -20,8 +20,9 @@ String _$appConfigHash() => r'0610c0c321abd60f0aad340d13bea60cd026a8b9';
 final appConfigProvider = Provider<BaseConfig>.internal(
   appConfig,
   name: r'appConfigProvider',
-  debugGetCreateSourceHash:
-      const bool.fromEnvironment('dart.vm.product') ? null : _$appConfigHash,
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$appConfigHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
@@ -39,8 +40,9 @@ String _$apiBaseUrlHash() => r'a48ab85013008a4b884ee44bede4593d88bd406a';
 final apiBaseUrlProvider = Provider<String>.internal(
   apiBaseUrl,
   name: r'apiBaseUrlProvider',
-  debugGetCreateSourceHash:
-      const bool.fromEnvironment('dart.vm.product') ? null : _$apiBaseUrlHash,
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$apiBaseUrlHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
@@ -55,8 +57,9 @@ String _$websocketUrlHash() => r'0201cafb02c316c889c4327c3413405d8386ca60';
 final websocketUrlProvider = Provider<String>.internal(
   websocketUrl,
   name: r'websocketUrlProvider',
-  debugGetCreateSourceHash:
-      const bool.fromEnvironment('dart.vm.product') ? null : _$websocketUrlHash,
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$websocketUrlHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
@@ -122,8 +125,9 @@ String _$sendTimeoutHash() => r'f4f8d66b0b2de859fcd17128cde0a087f11761d5';
 final sendTimeoutProvider = Provider<Duration>.internal(
   sendTimeout,
   name: r'sendTimeoutProvider',
-  debugGetCreateSourceHash:
-      const bool.fromEnvironment('dart.vm.product') ? null : _$sendTimeoutHash,
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$sendTimeoutHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
@@ -138,8 +142,9 @@ String _$debugEnabledHash() => r'67e1757adaff436d4faaf3453be092f05d0c54b6';
 final debugEnabledProvider = Provider<bool>.internal(
   debugEnabled,
   name: r'debugEnabledProvider',
-  debugGetCreateSourceHash:
-      const bool.fromEnvironment('dart.vm.product') ? null : _$debugEnabledHash,
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$debugEnabledHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
@@ -188,8 +193,9 @@ String _$appNameHash() => r'953a854e6c206e34defa0d10b365081b0cb84cbd';
 final appNameProvider = Provider<String>.internal(
   appName,
   name: r'appNameProvider',
-  debugGetCreateSourceHash:
-      const bool.fromEnvironment('dart.vm.product') ? null : _$appNameHash,
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$appNameHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );

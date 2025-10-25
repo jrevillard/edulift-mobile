@@ -12,9 +12,9 @@ class GroupsState {
   final bool isLoading;
   final String? error; // Error when loading groups list
   final String?
-      joinError; // Error when joining a group (separate from list loading error)
+  joinError; // Error when joining a group (separate from list loading error)
   final String?
-      createError; // Error when creating a group (separate from list loading error)
+  createError; // Error when creating a group (separate from list loading error)
   final bool isCreateSuccess; // Flag to indicate successful group creation
 
   const GroupsState({
@@ -111,11 +111,11 @@ final groupsProvider = StateNotifierProvider<GroupsNotifier, GroupsState>((
 // Provider for individual group details - compliant with Family pattern
 final groupDetailProvider =
     StateNotifierProvider.family<GroupDetailNotifier, GroupDetailState, String>(
-  (ref, groupId) {
-    final repository = ref.watch(groupRepositoryProvider);
-    return GroupDetailNotifier(repository, groupId);
-  },
-);
+      (ref, groupId) {
+        final repository = ref.watch(groupRepositoryProvider);
+        return GroupDetailNotifier(repository, groupId);
+      },
+    );
 // Provider for group families/members
 final groupFamiliesProvider = FutureProvider.family<List<dynamic>, String>((
   ref,
@@ -267,8 +267,9 @@ class GroupsNotifier extends StateNotifier<GroupsState> {
 
     if (result.isOk) {
       // Remove the left group from the state instead of reloading everything
-      final updatedGroups =
-          state.groups.where((group) => group.id != groupId).toList();
+      final updatedGroups = state.groups
+          .where((group) => group.id != groupId)
+          .toList();
 
       state = state.copyWith(groups: updatedGroups, isLoading: false);
       return true;
@@ -313,8 +314,9 @@ class GroupsNotifier extends StateNotifier<GroupsState> {
 
     if (result.isOk) {
       // Remove the deleted group from the state instead of reloading everything
-      final updatedGroups =
-          state.groups.where((group) => group.id != groupId).toList();
+      final updatedGroups = state.groups
+          .where((group) => group.id != groupId)
+          .toList();
 
       state = state.copyWith(groups: updatedGroups, isLoading: false);
       return true;
@@ -372,7 +374,7 @@ class GroupDetailNotifier extends StateNotifier<GroupDetailState> {
   final String _groupId;
 
   GroupDetailNotifier(this._repository, this._groupId)
-      : super(const GroupDetailState(isLoading: true)) {
+    : super(const GroupDetailState(isLoading: true)) {
     loadGroup(_groupId);
   }
 

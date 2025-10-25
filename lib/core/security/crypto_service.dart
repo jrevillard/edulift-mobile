@@ -32,8 +32,8 @@ class CryptoService {
 
   // Test constructor for faster test execution
   CryptoService.forTesting()
-      : _config = CryptoConfig.test,
-        _secureRandom = _createSecureRandom();
+    : _config = CryptoConfig.test,
+      _secureRandom = _createSecureRandom();
 
   // Expose iterations for compatibility
   int get _pbkdf2Iterations => _config.pbkdf2Iterations;
@@ -231,8 +231,7 @@ class CryptoService {
 
   /// Perform AES-256-GCM encryption with authentication
   Result<({Uint8List ciphertext, Uint8List tag}), CryptographyException>
-      _performAesGcmEncryption(
-          Uint8List plaintext, Uint8List key, Uint8List iv) {
+  _performAesGcmEncryption(Uint8List plaintext, Uint8List key, Uint8List iv) {
     try {
       final cipher = GCMBlockCipher(AESEngine());
       final params = AEADParameters(

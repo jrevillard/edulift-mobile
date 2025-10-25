@@ -97,113 +97,113 @@ void _configurePlatformChannels() {
   // Set up method channel mocks that are commonly needed
   TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
       .setMockMethodCallHandler(
-    const MethodChannel('plugins.flutter.io/path_provider'),
-    (methodCall) async {
-      switch (methodCall.method) {
-        case 'getTemporaryDirectory':
-          return Directory.systemTemp.path;
-        case 'getApplicationSupportDirectory':
-          return Directory.systemTemp.path;
-        case 'getApplicationDocumentsDirectory':
-          return Directory.systemTemp.path;
-        default:
-          return null;
-      }
-    },
-  );
+        const MethodChannel('plugins.flutter.io/path_provider'),
+        (methodCall) async {
+          switch (methodCall.method) {
+            case 'getTemporaryDirectory':
+              return Directory.systemTemp.path;
+            case 'getApplicationSupportDirectory':
+              return Directory.systemTemp.path;
+            case 'getApplicationDocumentsDirectory':
+              return Directory.systemTemp.path;
+            default:
+              return null;
+          }
+        },
+      );
 
   // Mock secure storage for tests
   TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
       .setMockMethodCallHandler(
-    const MethodChannel('plugins.it_nomads.com/flutter_secure_storage'),
-    (methodCall) async {
-      return null; // Default empty response
-    },
-  );
+        const MethodChannel('plugins.it_nomads.com/flutter_secure_storage'),
+        (methodCall) async {
+          return null; // Default empty response
+        },
+      );
 
   // Mock connectivity for tests
   TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
       .setMockMethodCallHandler(
-    const MethodChannel('dev.fluttercommunity.plus/connectivity'),
-    (methodCall) async {
-      return ['wifi']; // Default connected state
-    },
-  );
+        const MethodChannel('dev.fluttercommunity.plus/connectivity'),
+        (methodCall) async {
+          return ['wifi']; // Default connected state
+        },
+      );
 
   // Mock shared_preferences for tests
   TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
       .setMockMethodCallHandler(
-    const MethodChannel('plugins.flutter.io/shared_preferences'),
-    (methodCall) async {
-      switch (methodCall.method) {
-        case 'getAll':
-          return <String, dynamic>{};
-        case 'setBool':
-        case 'setDouble':
-        case 'setInt':
-        case 'setString':
-        case 'setStringList':
-          return true;
-        case 'remove':
-        case 'clear':
-          return true;
-        default:
-          return null;
-      }
-    },
-  );
+        const MethodChannel('plugins.flutter.io/shared_preferences'),
+        (methodCall) async {
+          switch (methodCall.method) {
+            case 'getAll':
+              return <String, dynamic>{};
+            case 'setBool':
+            case 'setDouble':
+            case 'setInt':
+            case 'setString':
+            case 'setStringList':
+              return true;
+            case 'remove':
+            case 'clear':
+              return true;
+            default:
+              return null;
+          }
+        },
+      );
 
   // Mock app_links for tests
   TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
       .setMockMethodCallHandler(
-    const MethodChannel('com.llfbandit.app_links/messages'),
-    (methodCall) async {
-      switch (methodCall.method) {
-        case 'getInitialAppLink':
-          return null;
-        case 'getLatestAppLink':
-          return null;
-        default:
-          return null;
-      }
-    },
-  );
+        const MethodChannel('com.llfbandit.app_links/messages'),
+        (methodCall) async {
+          switch (methodCall.method) {
+            case 'getInitialAppLink':
+              return null;
+            case 'getLatestAppLink':
+              return null;
+            default:
+              return null;
+          }
+        },
+      );
 
   // Mock local_auth for tests
   TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
       .setMockMethodCallHandler(
-    const MethodChannel('plugins.flutter.io/local_auth'),
-    (methodCall) async {
-      switch (methodCall.method) {
-        case 'isDeviceSupported':
-          return true;
-        case 'getAvailableBiometrics':
-          return <String>['face', 'fingerprint'];
-        case 'authenticate':
-          return true;
-        case 'deviceSupportsBiometrics':
-          return true;
-        default:
-          return null;
-      }
-    },
-  );
+        const MethodChannel('plugins.flutter.io/local_auth'),
+        (methodCall) async {
+          switch (methodCall.method) {
+            case 'isDeviceSupported':
+              return true;
+            case 'getAvailableBiometrics':
+              return <String>['face', 'fingerprint'];
+            case 'authenticate':
+              return true;
+            case 'deviceSupportsBiometrics':
+              return true;
+            default:
+              return null;
+          }
+        },
+      );
 
   // Mock url_launcher for tests
   TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
       .setMockMethodCallHandler(
-    const MethodChannel('plugins.flutter.io/url_launcher'),
-    (methodCall) async {
-      switch (methodCall.method) {
-        case 'canLaunch':
-          return true;
-        case 'launch':
-          return true;
-        default:
-          return null;
-      }
-    },
-  );
+        const MethodChannel('plugins.flutter.io/url_launcher'),
+        (methodCall) async {
+          switch (methodCall.method) {
+            case 'canLaunch':
+              return true;
+            case 'launch':
+              return true;
+            default:
+              return null;
+          }
+        },
+      );
 }
 
 /// Check if the current test is an integration test
@@ -219,7 +219,8 @@ bool _isIntegrationTest() {
     }
 
     // Look for integration test indicators in the stack trace
-    final hasIntegrationInPath = stackTrace.contains('/integration/') ||
+    final hasIntegrationInPath =
+        stackTrace.contains('/integration/') ||
         stackTrace.contains('integration_test') ||
         stackTrace.contains('_e2e_test.dart') ||
         stackTrace.contains('tab_navigation_integration_test.dart') ||

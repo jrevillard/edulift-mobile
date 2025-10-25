@@ -63,8 +63,8 @@ class AppNavigationRail extends StatelessWidget {
     final currentIndex = navigationShell.currentIndex;
     final selectedIndex =
         (currentIndex >= 0 && currentIndex < destinations.length)
-            ? currentIndex
-            : null;
+        ? currentIndex
+        : null;
 
     return NavigationRail(
       selectedIndex: selectedIndex,
@@ -99,7 +99,9 @@ class AppNavigationRail extends StatelessWidget {
                     color: Theme.of(context).colorScheme.onSurfaceVariant,
                   ),
                   onPressed: () {
-                    ref.read(navigationStateProvider.notifier).navigateTo(
+                    ref
+                        .read(navigationStateProvider.notifier)
+                        .navigateTo(
                           route: '/profile',
                           trigger: NavigationTrigger.userNavigation,
                         );
@@ -284,13 +286,12 @@ class _TabletNavItem extends StatelessWidget {
                 Text(
                   label,
                   style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                        color: isSelected
-                            ? Theme.of(context).colorScheme.primary
-                            : Theme.of(context).colorScheme.onSurfaceVariant,
-                        fontWeight:
-                            isSelected ? FontWeight.w600 : FontWeight.w400,
-                        fontSize: 12 * context.fontScale,
-                      ),
+                    color: isSelected
+                        ? Theme.of(context).colorScheme.primary
+                        : Theme.of(context).colorScheme.onSurfaceVariant,
+                    fontWeight: isSelected ? FontWeight.w600 : FontWeight.w400,
+                    fontSize: 12 * context.fontScale,
+                  ),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                 ),

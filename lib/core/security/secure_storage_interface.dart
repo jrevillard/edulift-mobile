@@ -246,7 +246,7 @@ abstract class SecureStorageInterface {
   /// - [Result.ok] with performance metrics map
   /// - [Result.err] with [StorageException] on errors
   Future<Result<Map<String, dynamic>, StorageException>>
-      getPerformanceMetrics();
+  getPerformanceMetrics();
 }
 
 /// Interface for managing storage-related settings and configuration

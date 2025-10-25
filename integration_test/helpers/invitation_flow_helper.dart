@@ -292,8 +292,9 @@ class InvitationFlowHelper {
     if (fullMessage == null) {
       return {
         'status': 'content_not_found',
-        'email':
-            invitationEmail.to.isNotEmpty ? invitationEmail.to.first : null,
+        'email': invitationEmail.to.isNotEmpty
+            ? invitationEmail.to.first
+            : null,
         'code': null,
         'link': null,
       };
@@ -329,8 +330,9 @@ class InvitationFlowHelper {
   /// Helper function to extract invitation code from email content
   static String? _extractInvitationCode(MailpitFullMessage fullMessage) {
     // Try HTML content first, then fallback to text
-    final content =
-        fullMessage.html.isNotEmpty ? fullMessage.html : fullMessage.text;
+    final content = fullMessage.html.isNotEmpty
+        ? fullMessage.html
+        : fullMessage.text;
 
     // Various patterns to match invitation codes
     final patterns = [
@@ -621,7 +623,8 @@ class InvitationFlowHelper {
 
       // Provide helpful error context
       final cardExists = cardFinder.evaluate().isNotEmpty;
-      final errorMessage = 'Failed to make invitation card visible. '
+      final errorMessage =
+          'Failed to make invitation card visible. '
           'Card exists in widget tree: $cardExists. '
           'Original error: $e';
 
@@ -782,8 +785,8 @@ class InvitationFlowHelper {
         'reason': uiCode == null
             ? 'code_not_displayed_in_ui'
             : !codesMatch
-                ? 'codes_do_not_match'
-                : 'success',
+            ? 'codes_do_not_match'
+            : 'success',
         'emailCode': emailCode,
         'uiCode': uiCode,
         'emailSubject': emailContent['subject'],
@@ -1054,8 +1057,8 @@ class InvitationFlowHelper {
     // Step 3: Extract the message text
     String actualMessage;
     if (widget is Text) {
-      actualMessage =
-          (widget.data ?? widget.textSpan?.toPlainText() ?? '').trim();
+      actualMessage = (widget.data ?? widget.textSpan?.toPlainText() ?? '')
+          .trim();
       debugPrint('📝 Found invitation error message: "$actualMessage"');
     } else {
       throw TestFailure(

@@ -417,8 +417,7 @@ class VehicleTestBuilders {
   /// Success result with vehicle list
   static Result<List<Vehicle>, ApiFailure> successListResult(
     List<Vehicle> vehicles,
-  ) =>
-      VehicleResultBuilder.successList(vehicles);
+  ) => VehicleResultBuilder.successList(vehicles);
 
   /// Failure result
   static Result<Vehicle, ApiFailure> failureResult([String? message]) =>

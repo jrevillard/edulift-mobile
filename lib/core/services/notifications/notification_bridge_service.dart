@@ -4,7 +4,8 @@ import '../../utils/app_logger.dart';
 import 'unified_notification_service.dart';
 
 // Use alias to resolve naming conflict
-import '../../network/websocket/realtime_websocket_service.dart' as ws
+import '../../network/websocket/realtime_websocket_service.dart'
+    as ws
     show NotificationPriority;
 
 /// Bridge service that connects WebSocket notifications to native notifications
@@ -28,8 +29,8 @@ class NotificationBridgeService {
   NotificationBridgeService({
     required RealtimeWebSocketService webSocketService,
     required UnifiedNotificationService notificationService,
-  })  : _webSocketService = webSocketService,
-        _notificationService = notificationService;
+  }) : _webSocketService = webSocketService,
+       _notificationService = notificationService;
 
   /// Initialize the bridge service
   Future<void> initialize() async {

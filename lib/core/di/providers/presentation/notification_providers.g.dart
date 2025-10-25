@@ -15,19 +15,19 @@ String _$notificationPermissionStatusHash() =>
 @ProviderFor(notificationPermissionStatus)
 final notificationPermissionStatusProvider =
     AutoDisposeFutureProvider<NotificationPermissionStatus>.internal(
-  notificationPermissionStatus,
-  name: r'notificationPermissionStatusProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$notificationPermissionStatusHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
+      notificationPermissionStatus,
+      name: r'notificationPermissionStatusProvider',
+      debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+          ? null
+          : _$notificationPermissionStatusHash,
+      dependencies: null,
+      allTransitiveDependencies: null,
+    );
 
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
-typedef NotificationPermissionStatusRef
-    = AutoDisposeFutureProviderRef<NotificationPermissionStatus>;
+typedef NotificationPermissionStatusRef =
+    AutoDisposeFutureProviderRef<NotificationPermissionStatus>;
 String _$notificationsEnabledHash() =>
     r'3191c4fb8c95f7738f392861ffd6c7d1ba55fb66';
 
@@ -57,19 +57,19 @@ String _$notificationBridgeStatusHash() =>
 @ProviderFor(notificationBridgeStatus)
 final notificationBridgeStatusProvider =
     AutoDisposeProvider<NotificationBridgeStatus>.internal(
-  notificationBridgeStatus,
-  name: r'notificationBridgeStatusProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$notificationBridgeStatusHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
+      notificationBridgeStatus,
+      name: r'notificationBridgeStatusProvider',
+      debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+          ? null
+          : _$notificationBridgeStatusHash,
+      dependencies: null,
+      allTransitiveDependencies: null,
+    );
 
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
-typedef NotificationBridgeStatusRef
-    = AutoDisposeProviderRef<NotificationBridgeStatus>;
+typedef NotificationBridgeStatusRef =
+    AutoDisposeProviderRef<NotificationBridgeStatus>;
 String _$fcmTokenHash() => r'79f739517fbd7932d19a2170652573151e8066fe';
 
 /// Provider for FCM token
@@ -79,8 +79,9 @@ String _$fcmTokenHash() => r'79f739517fbd7932d19a2170652573151e8066fe';
 final fcmTokenProvider = AutoDisposeProvider<String?>.internal(
   fcmToken,
   name: r'fcmTokenProvider',
-  debugGetCreateSourceHash:
-      const bool.fromEnvironment('dart.vm.product') ? null : _$fcmTokenHash,
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$fcmTokenHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
@@ -97,19 +98,19 @@ String _$notificationActionEventsHash() =>
 @ProviderFor(notificationActionEvents)
 final notificationActionEventsProvider =
     AutoDisposeStreamProvider<NotificationActionEvent>.internal(
-  notificationActionEvents,
-  name: r'notificationActionEventsProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$notificationActionEventsHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
+      notificationActionEvents,
+      name: r'notificationActionEventsProvider',
+      debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+          ? null
+          : _$notificationActionEventsHash,
+      dependencies: null,
+      allTransitiveDependencies: null,
+    );
 
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
-typedef NotificationActionEventsRef
-    = AutoDisposeStreamProviderRef<NotificationActionEvent>;
+typedef NotificationActionEventsRef =
+    AutoDisposeStreamProviderRef<NotificationActionEvent>;
 String _$fcmTokenRefreshHash() => r'a6ae2ab48dec461952ceba396a2b8e18a32fc23e';
 
 /// Provider for FCM token refresh stream
@@ -138,14 +139,14 @@ String _$shouldShowNotificationRationaleHash() =>
 @ProviderFor(shouldShowNotificationRationale)
 final shouldShowNotificationRationaleProvider =
     AutoDisposeFutureProvider<bool>.internal(
-  shouldShowNotificationRationale,
-  name: r'shouldShowNotificationRationaleProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$shouldShowNotificationRationaleHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
+      shouldShowNotificationRationale,
+      name: r'shouldShowNotificationRationaleProvider',
+      debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+          ? null
+          : _$shouldShowNotificationRationaleHash,
+      dependencies: null,
+      allTransitiveDependencies: null,
+    );
 
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
@@ -159,19 +160,19 @@ String _$detailedNotificationPermissionInfoHash() =>
 @ProviderFor(detailedNotificationPermissionInfo)
 final detailedNotificationPermissionInfoProvider =
     AutoDisposeFutureProvider<DetailedPermissionInfo>.internal(
-  detailedNotificationPermissionInfo,
-  name: r'detailedNotificationPermissionInfoProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$detailedNotificationPermissionInfoHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
+      detailedNotificationPermissionInfo,
+      name: r'detailedNotificationPermissionInfoProvider',
+      debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+          ? null
+          : _$detailedNotificationPermissionInfoHash,
+      dependencies: null,
+      allTransitiveDependencies: null,
+    );
 
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
-typedef DetailedNotificationPermissionInfoRef
-    = AutoDisposeFutureProviderRef<DetailedPermissionInfo>;
+typedef DetailedNotificationPermissionInfoRef =
+    AutoDisposeFutureProviderRef<DetailedPermissionInfo>;
 String _$notificationPermissionControllerHash() =>
     r'c98c1cbfd16242eee97e9cc1ce264073cb9f90ff';
 
@@ -179,20 +180,22 @@ String _$notificationPermissionControllerHash() =>
 ///
 /// Copied from [NotificationPermissionController].
 @ProviderFor(NotificationPermissionController)
-final notificationPermissionControllerProvider = AutoDisposeNotifierProvider<
-    NotificationPermissionController,
-    AsyncValue<NotificationPermissionResult?>>.internal(
-  NotificationPermissionController.new,
-  name: r'notificationPermissionControllerProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$notificationPermissionControllerHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
+final notificationPermissionControllerProvider =
+    AutoDisposeNotifierProvider<
+      NotificationPermissionController,
+      AsyncValue<NotificationPermissionResult?>
+    >.internal(
+      NotificationPermissionController.new,
+      name: r'notificationPermissionControllerProvider',
+      debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+          ? null
+          : _$notificationPermissionControllerHash,
+      dependencies: null,
+      allTransitiveDependencies: null,
+    );
 
-typedef _$NotificationPermissionController
-    = AutoDisposeNotifier<AsyncValue<NotificationPermissionResult?>>;
+typedef _$NotificationPermissionController =
+    AutoDisposeNotifier<AsyncValue<NotificationPermissionResult?>>;
 String _$notificationSystemControllerHash() =>
     r'd04d306c08e524e5e7950aa301ab3781c14d2a0e';
 
@@ -200,16 +203,19 @@ String _$notificationSystemControllerHash() =>
 ///
 /// Copied from [NotificationSystemController].
 @ProviderFor(NotificationSystemController)
-final notificationSystemControllerProvider = AutoDisposeNotifierProvider<
-    NotificationSystemController, AsyncValue<bool>>.internal(
-  NotificationSystemController.new,
-  name: r'notificationSystemControllerProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$notificationSystemControllerHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
+final notificationSystemControllerProvider =
+    AutoDisposeNotifierProvider<
+      NotificationSystemController,
+      AsyncValue<bool>
+    >.internal(
+      NotificationSystemController.new,
+      name: r'notificationSystemControllerProvider',
+      debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+          ? null
+          : _$notificationSystemControllerHash,
+      dependencies: null,
+      allTransitiveDependencies: null,
+    );
 
 typedef _$NotificationSystemController = AutoDisposeNotifier<AsyncValue<bool>>;
 String _$fCMTopicControllerHash() =>
@@ -221,14 +227,14 @@ String _$fCMTopicControllerHash() =>
 @ProviderFor(FCMTopicController)
 final fCMTopicControllerProvider =
     AutoDisposeNotifierProvider<FCMTopicController, Set<String>>.internal(
-  FCMTopicController.new,
-  name: r'fCMTopicControllerProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$fCMTopicControllerHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
+      FCMTopicController.new,
+      name: r'fCMTopicControllerProvider',
+      debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+          ? null
+          : _$fCMTopicControllerHash,
+      dependencies: null,
+      allTransitiveDependencies: null,
+    );
 
 typedef _$FCMTopicController = AutoDisposeNotifier<Set<String>>;
 // ignore_for_file: type=lint

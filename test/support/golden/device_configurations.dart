@@ -84,10 +84,10 @@ class DeviceConfigurations {
   static List<DeviceConfig> get largePhones => [iphoneProMax];
 
   static List<DeviceConfig> get mobilePhones => [
-        ...smallPhones,
-        ...regularPhones,
-        ...largePhones,
-      ];
+    ...smallPhones,
+    ...regularPhones,
+    ...largePhones,
+  ];
 
   static List<DeviceConfig> get tablets => [iPadPro];
 
@@ -95,27 +95,27 @@ class DeviceConfigurations {
 
   /// Default subset for fast tests (iOS only - existing tests)
   static List<DeviceConfig> get defaultSet => [
-        iphoneSE, // Small iOS
-        iphone13, // Regular iOS
-        iPadPro, // Tablet iOS
-      ];
+    iphoneSE, // Small iOS
+    iphone13, // Regular iOS
+    iPadPro, // Tablet iOS
+  ];
 
   /// Cross-platform subset for comprehensive tests (iOS + Android)
   static List<DeviceConfig> get crossPlatformSet => [
-        iphoneSE, // Small iOS
-        pixel4a, // Small Android
-        iphone13, // Regular iOS
-        pixel6, // Regular Android
-        iPadPro, // Tablet iOS
-      ];
+    iphoneSE, // Small iOS
+    pixel4a, // Small Android
+    iphone13, // Regular iOS
+    pixel6, // Regular Android
+    iPadPro, // Tablet iOS
+  ];
 
   /// Extended set for regression tests
   static List<DeviceConfig> get extendedSet => [
-        ...smallPhones,
-        ...regularPhones,
-        largePhones.first,
-        ...tablets,
-      ];
+    ...smallPhones,
+    ...regularPhones,
+    largePhones.first,
+    ...tablets,
+  ];
 }
 
 /// Test configuration combining device, theme, and pixel ratio

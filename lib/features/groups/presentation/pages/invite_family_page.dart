@@ -569,7 +569,9 @@ class _AdminContactsDisplay extends StatelessWidget {
             spacing: 6,
             runSpacing: 4,
             children: [
-              ...adminContacts.take(displayCount).map(
+              ...adminContacts
+                  .take(displayCount)
+                  .map(
                     (admin) => Text(
                       _getCompactContact(admin),
                       style: theme.textTheme.bodySmall?.copyWith(

@@ -58,15 +58,16 @@ class _VehicleCapacityIndicatorState extends State<VehicleCapacityIndicator>
       vsync: this,
     );
 
-    _progressAnimation = Tween<double>(
-      begin: 0.0,
-      end: widget.usedSeats / widget.totalSeats,
-    ).animate(
-      CurvedAnimation(
-        parent: _animationController,
-        curve: Curves.easeInOut,
-      ),
-    );
+    _progressAnimation =
+        Tween<double>(
+          begin: 0.0,
+          end: widget.usedSeats / widget.totalSeats,
+        ).animate(
+          CurvedAnimation(
+            parent: _animationController,
+            curve: Curves.easeInOut,
+          ),
+        );
 
     _pulseAnimation = Tween<double>(begin: 1.0, end: 1.1).animate(
       CurvedAnimation(parent: _pulseController, curve: Curves.easeInOut),
@@ -94,15 +95,16 @@ class _VehicleCapacityIndicatorState extends State<VehicleCapacityIndicator>
 
     if (widget.usedSeats != oldWidget.usedSeats ||
         widget.totalSeats != oldWidget.totalSeats) {
-      _progressAnimation = Tween<double>(
-        begin: _progressAnimation.value,
-        end: widget.usedSeats / widget.totalSeats,
-      ).animate(
-        CurvedAnimation(
-          parent: _animationController,
-          curve: Curves.easeInOut,
-        ),
-      );
+      _progressAnimation =
+          Tween<double>(
+            begin: _progressAnimation.value,
+            end: widget.usedSeats / widget.totalSeats,
+          ).animate(
+            CurvedAnimation(
+              parent: _animationController,
+              curve: Curves.easeInOut,
+            ),
+          );
 
       if (widget.animated) {
         _animationController.forward(from: 0.0);
@@ -166,8 +168,9 @@ class _VehicleCapacityIndicatorState extends State<VehicleCapacityIndicator>
                     width: widget.size - 8,
                     height: widget.size - 8,
                     child: CircularProgressIndicator(
-                      value:
-                          widget.animated ? _progressAnimation.value : progress,
+                      value: widget.animated
+                          ? _progressAnimation.value
+                          : progress,
                       strokeWidth: 4,
                       backgroundColor: statusColor.withValues(alpha: 0.2),
                       valueColor: AlwaysStoppedAnimation<Color>(statusColor),

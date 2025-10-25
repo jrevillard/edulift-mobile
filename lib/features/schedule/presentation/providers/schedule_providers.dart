@@ -399,11 +399,11 @@ class AssignmentStateNotifier extends _$AssignmentStateNotifier {
       final repository = ref.read(scheduleRepositoryProvider);
       final result = await (repository as ScheduleRepositoryImpl)
           .updateSeatOverrideWithWeek(
-        groupId, // Pass groupId for cache invalidation
-        assignmentId,
-        seatOverride,
-        week, // Pass week for reliable cache updates
-      );
+            groupId, // Pass groupId for cache invalidation
+            assignmentId,
+            seatOverride,
+            week, // Pass week for reliable cache updates
+          );
 
       // Single result.when() to handle both state update and return value
       return result.when(

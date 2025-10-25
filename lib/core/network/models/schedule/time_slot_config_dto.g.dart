@@ -13,8 +13,9 @@ _TimeSlotConfigDto _$TimeSlotConfigDtoFromJson(Map<String, dynamic> json) =>
       availableDays: (json['availableDays'] as List<dynamic>)
           .map((e) => e as String)
           .toList(),
-      timeSlots:
-          (json['timeSlots'] as List<dynamic>).map((e) => e as String).toList(),
+      timeSlots: (json['timeSlots'] as List<dynamic>)
+          .map((e) => e as String)
+          .toList(),
       settings: json['settings'] as Map<String, dynamic>,
       createdAt: json['createdAt'] == null
           ? null

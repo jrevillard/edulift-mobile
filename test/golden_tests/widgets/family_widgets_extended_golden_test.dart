@@ -237,8 +237,9 @@ void main() {
                     child: Text(child.name.substring(0, 1).toUpperCase()),
                   ),
                   title: Text(child.name),
-                  subtitle:
-                      child.age != null ? Text('Age: ${child.age}') : null,
+                  subtitle: child.age != null
+                      ? Text('Age: ${child.age}')
+                      : null,
                   trailing: const Icon(Icons.edit),
                 );
               },

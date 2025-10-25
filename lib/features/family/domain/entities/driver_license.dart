@@ -132,28 +132,28 @@ class DriverLicense extends Equatable {
 
   /// Check if license has specific restriction
   bool hasRestriction(String restriction) => restrictions.any(
-        (r) => r.toLowerCase().contains(restriction.toLowerCase()),
-      );
+    (r) => r.toLowerCase().contains(restriction.toLowerCase()),
+  );
 
   /// Check if license has specific endorsement
   bool hasEndorsement(String endorsement) => endorsements.any(
-        (e) => e.toLowerCase().contains(endorsement.toLowerCase()),
-      );
+    (e) => e.toLowerCase().contains(endorsement.toLowerCase()),
+  );
 
   /// Get formatted license display text
   String get displayText => '$licenseClass - $licenseNumber ($issuingState)';
 
   @override
   List<Object?> get props => [
-        licenseNumber,
-        status,
-        issuedDate,
-        expirationDate,
-        issuingState,
-        licenseClass,
-        restrictions,
-        endorsements,
-      ];
+    licenseNumber,
+    status,
+    issuedDate,
+    expirationDate,
+    issuingState,
+    licenseClass,
+    restrictions,
+    endorsements,
+  ];
 
   @override
   String toString() {

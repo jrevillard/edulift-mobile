@@ -99,8 +99,8 @@ class SchedulePreview extends ConsumerWidget {
             value: l10n.daysCount(activeDays),
             detail: activeDays > 0
                 ? config.scheduleHours.keys
-                    .where((day) => config.scheduleHours[day]!.isNotEmpty)
-                    .join(', ')
+                      .where((day) => config.scheduleHours[day]!.isNotEmpty)
+                      .join(', ')
                 : l10n.noDaysConfigured,
             theme: theme,
           ),

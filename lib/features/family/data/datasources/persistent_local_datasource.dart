@@ -27,20 +27,19 @@ class CacheEntry<T> {
   });
 
   Map<String, dynamic> toJson() => {
-        'data': data,
-        'cachedAt': cachedAt.toIso8601String(),
-        'version': version,
-      };
+    'data': data,
+    'cachedAt': cachedAt.toIso8601String(),
+    'version': version,
+  };
 
   static CacheEntry<T> fromJson<T>(
     Map<String, dynamic> json,
     T Function(dynamic) fromData,
-  ) =>
-      CacheEntry(
-        data: fromData(json['data']),
-        cachedAt: DateTime.parse(json['cachedAt']),
-        version: json['version'] ?? 1,
-      );
+  ) => CacheEntry(
+    data: fromData(json['data']),
+    cachedAt: DateTime.parse(json['cachedAt']),
+    version: json['version'] ?? 1,
+  );
 
   bool isExpired(Duration ttl) => DateTime.now().difference(cachedAt) > ttl;
 }

@@ -96,10 +96,13 @@ class _GroupInvitationPageState extends ConsumerState<GroupInvitationPage>
 
       // Use progressive disclosure logic like Family page
       final authState = ref.read(authStateProvider);
-      final nameToSend =
-          authState.showNameField ? _nameController.text.trim() : null;
+      final nameToSend = authState.showNameField
+          ? _nameController.text.trim()
+          : null;
 
-      await ref.read(authStateProvider.notifier).sendMagicLink(
+      await ref
+          .read(authStateProvider.notifier)
+          .sendMagicLink(
             email,
             name: nameToSend,
             inviteCode: widget.inviteCode,
@@ -113,7 +116,9 @@ class _GroupInvitationPageState extends ConsumerState<GroupInvitationPage>
   /// Navigate back to groups page with proper state cleanup
   void _navigateBackToGroups() {
     ref.read(nav.navigationStateProvider.notifier).clearNavigation();
-    ref.read(nav.navigationStateProvider.notifier).navigateTo(
+    ref
+        .read(nav.navigationStateProvider.notifier)
+        .navigateTo(
           route: '/groups',
           trigger: nav.NavigationTrigger.userNavigation,
         );
@@ -131,7 +136,9 @@ class _GroupInvitationPageState extends ConsumerState<GroupInvitationPage>
       if (result && mounted) {
         // EXPLICIT NAVIGATION: Navigate to groups page after successful group join
         ref.read(nav.navigationStateProvider.notifier).clearNavigation();
-        ref.read(nav.navigationStateProvider.notifier).navigateTo(
+        ref
+            .read(nav.navigationStateProvider.notifier)
+            .navigateTo(
               route: '/groups',
               trigger: nav.NavigationTrigger.userNavigation,
             );
@@ -297,7 +304,9 @@ class _GroupInvitationPageState extends ConsumerState<GroupInvitationPage>
         if (canGoBack) {
           Navigator.of(context).pop();
         } else {
-          ref.read(nav.navigationStateProvider.notifier).navigateTo(
+          ref
+              .read(nav.navigationStateProvider.notifier)
+              .navigateTo(
                 route: '/dashboard',
                 trigger: nav.NavigationTrigger.userNavigation,
               );
@@ -327,13 +336,14 @@ class _GroupInvitationPageState extends ConsumerState<GroupInvitationPage>
         SizedBox(height: isTablet ? 20 : 16),
         Text(
           l10n.groupInvitation,
-          style: (isTablet
-                  ? theme.textTheme.headlineSmall
-                  : theme.textTheme.titleLarge)
-              ?.copyWith(
-            color: theme.colorScheme.primary,
-            fontWeight: FontWeight.bold,
-          ),
+          style:
+              (isTablet
+                      ? theme.textTheme.headlineSmall
+                      : theme.textTheme.titleLarge)
+                  ?.copyWith(
+                    color: theme.colorScheme.primary,
+                    fontWeight: FontWeight.bold,
+                  ),
         ),
         SizedBox(height: isTablet ? 16 : 12),
 
@@ -442,7 +452,9 @@ class _GroupInvitationPageState extends ConsumerState<GroupInvitationPage>
                   Navigator.of(context).pop();
                 } else {
                   // No navigation history - go to dashboard
-                  ref.read(nav.navigationStateProvider.notifier).navigateTo(
+                  ref
+                      .read(nav.navigationStateProvider.notifier)
+                      .navigateTo(
                         route: '/dashboard',
                         trigger: nav.NavigationTrigger.userNavigation,
                       );

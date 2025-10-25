@@ -25,16 +25,16 @@ class _KeyStorage {
   _KeyStorage({required this.currentKeyId, required this.keys});
 
   Map<String, dynamic> toJson() => {
-        'currentKeyId': currentKeyId,
-        'keys': keys.map((k, v) => MapEntry(k.toString(), v)),
-      };
+    'currentKeyId': currentKeyId,
+    'keys': keys.map((k, v) => MapEntry(k.toString(), v)),
+  };
 
   factory _KeyStorage.fromJson(Map<String, dynamic> json) => _KeyStorage(
-        currentKeyId: json['currentKeyId'] as int,
-        keys: (json['keys'] as Map<String, dynamic>).map(
-          (k, v) => MapEntry(int.parse(k), v as String),
-        ),
-      );
+    currentKeyId: json['currentKeyId'] as int,
+    keys: (json['keys'] as Map<String, dynamic>).map(
+      (k, v) => MapEntry(int.parse(k), v as String),
+    ),
+  );
 }
 
 /// Production-grade data protection service

@@ -189,9 +189,9 @@ class _VehicleFormPageState extends ConsumerState<VehicleFormPage> {
             Text(
               l10n.basicInformation,
               style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                    fontWeight: FontWeight.w600,
-                    fontSize: isTablet ? 18 : null,
-                  ),
+                fontWeight: FontWeight.w600,
+                fontSize: isTablet ? 18 : null,
+              ),
             ),
             SizedBox(height: isSmallScreen ? 12 : 16),
             TextFormField(
@@ -238,9 +238,9 @@ class _VehicleFormPageState extends ConsumerState<VehicleFormPage> {
             Text(
               l10n.capacityInformation,
               style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                    fontWeight: FontWeight.w600,
-                    fontSize: isTablet ? 18 : null,
-                  ),
+                fontWeight: FontWeight.w600,
+                fontSize: isTablet ? 18 : null,
+              ),
             ),
             SizedBox(height: isSmallScreen ? 12 : 16),
             TextFormField(
@@ -278,8 +278,8 @@ class _VehicleFormPageState extends ConsumerState<VehicleFormPage> {
                     child: Text(
                       l10n.capacityHelpText,
                       style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                            color: Theme.of(context).colorScheme.onSurface,
-                          ),
+                        color: Theme.of(context).colorScheme.onSurface,
+                      ),
                     ),
                   ),
                 ],
@@ -382,7 +382,9 @@ class _VehicleFormPageState extends ConsumerState<VehicleFormPage> {
 
       if (widget.mode.isEdit) {
         // Update existing vehicle
-        await ref.read(familyComposedProvider.notifier).updateVehicle(
+        await ref
+            .read(familyComposedProvider.notifier)
+            .updateVehicle(
               vehicleId: widget.vehicle!.id,
               name: _nameController.text.trim(),
               capacity: capacity,
@@ -390,7 +392,9 @@ class _VehicleFormPageState extends ConsumerState<VehicleFormPage> {
             );
       } else {
         // Create new vehicle
-        await ref.read(familyComposedProvider.notifier).addVehicle(
+        await ref
+            .read(familyComposedProvider.notifier)
+            .addVehicle(
               name: _nameController.text.trim(),
               capacity: capacity,
               description: description.isEmpty ? null : description,

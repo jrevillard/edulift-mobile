@@ -33,9 +33,9 @@ class AdaptiveStorageService {
     required AdaptiveSecureStorage storage,
     required CryptoService cryptoService,
     required SecureKeyManager keyManager,
-  })  : _storage = storage,
-        _cryptoService = cryptoService,
-        _keyManager = keyManager;
+  }) : _storage = storage,
+       _cryptoService = cryptoService,
+       _keyManager = keyManager;
 
   // ========== TOKEN MANAGEMENT ==========
 

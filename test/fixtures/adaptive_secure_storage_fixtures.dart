@@ -109,10 +109,10 @@ class AdaptiveSecureStorageTestData {
   static Map<String, String> get emptyStorage => {};
 
   static Map<String, String> get populatedStorage => {
-        validKey: validValue,
-        accessTokenKey: accessTokenValue,
-        refreshTokenKey: refreshTokenValue,
-      };
+    validKey: validValue,
+    accessTokenKey: accessTokenValue,
+    refreshTokenKey: refreshTokenValue,
+  };
 
   static Map<String, String> get largeStorage => generateTestDataMap(100);
 }

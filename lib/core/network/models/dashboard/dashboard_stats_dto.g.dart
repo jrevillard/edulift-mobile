@@ -29,11 +29,11 @@ Map<String, dynamic> _$DashboardStatsDtoToJson(_DashboardStatsDto instance) =>
     };
 
 _TrendsDto _$TrendsDtoFromJson(Map<String, dynamic> json) => _TrendsDto(
-      groupsChange: (json['groups_change'] as num?)?.toDouble(),
-      childrenChange: (json['children_change'] as num?)?.toDouble(),
-      vehiclesChange: (json['vehicles_change'] as num?)?.toDouble(),
-      tripsChange: (json['trips_change'] as num?)?.toDouble(),
-    );
+  groupsChange: (json['groups_change'] as num?)?.toDouble(),
+  childrenChange: (json['children_change'] as num?)?.toDouble(),
+  vehiclesChange: (json['vehicles_change'] as num?)?.toDouble(),
+  tripsChange: (json['trips_change'] as num?)?.toDouble(),
+);
 
 Map<String, dynamic> _$TrendsDtoToJson(_TrendsDto instance) =>
     <String, dynamic>{

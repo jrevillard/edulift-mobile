@@ -192,26 +192,26 @@ class GroupInvitation extends Equatable {
 
   @override
   List<Object?> get props => [
-        id,
-        groupId,
-        groupName,
-        targetFamilyId,
-        targetFamilyName,
-        role,
-        invitedBy,
-        invitedByName,
-        createdAt,
-        expiresAt,
-        status,
-        personalMessage,
-        inviteCode,
-        acceptedAt,
-        acceptedBy,
-        updatedAt,
-        groupDescription,
-        ownerFamilyName,
-        metadata,
-      ];
+    id,
+    groupId,
+    groupName,
+    targetFamilyId,
+    targetFamilyName,
+    role,
+    invitedBy,
+    invitedByName,
+    createdAt,
+    expiresAt,
+    status,
+    personalMessage,
+    inviteCode,
+    acceptedAt,
+    acceptedBy,
+    updatedAt,
+    groupDescription,
+    ownerFamilyName,
+    metadata,
+  ];
 
   @override
   String toString() {

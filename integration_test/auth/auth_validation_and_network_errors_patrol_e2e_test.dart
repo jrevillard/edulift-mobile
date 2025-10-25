@@ -46,9 +46,7 @@ import '../helpers/network_device_helper.dart';
 /// - User experience should remain smooth during network changes
 /// - Eliminate redundant tests that provide no additional value
 void main() {
-  group(
-      'Enhanced Authentication Error Handling E2E Tests (Patrol Device Controls)',
-      () {
+  group('Enhanced Authentication Error Handling E2E Tests (Patrol Device Controls)', () {
     String? testEmail;
 
     setUpAll(() async {

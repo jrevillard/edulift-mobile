@@ -90,20 +90,20 @@ class MagicLinkRepositoryImpl implements IMagicLinkService {
     );
 
     // STEP 4: Send request via NetworkErrorHandler
-    final result =
-        await _networkErrorHandler.executeRepositoryOperation<String>(
-      () => _authApiClient.sendMagicLink(request),
-      operationName: 'auth.sendMagicLink',
-      strategy: CacheStrategy.networkOnly, // AUTH: never cache
-      serviceName: 'auth',
-      config: RetryConfig.quick,
-      context: {
-        'feature': 'authentication',
-        'operation_type': 'create',
-        'email': maskedEmail, // Masked email for security
-        'has_invite_code': context.inviteCode?.isNotEmpty ?? false,
-      },
-    );
+    final result = await _networkErrorHandler
+        .executeRepositoryOperation<String>(
+          () => _authApiClient.sendMagicLink(request),
+          operationName: 'auth.sendMagicLink',
+          strategy: CacheStrategy.networkOnly, // AUTH: never cache
+          serviceName: 'auth',
+          config: RetryConfig.quick,
+          context: {
+            'feature': 'authentication',
+            'operation_type': 'create',
+            'email': maskedEmail, // Masked email for security
+            'has_invite_code': context.inviteCode?.isNotEmpty ?? false,
+          },
+        );
 
     return result.when(
       ok: (response) {
@@ -147,8 +147,9 @@ class MagicLinkRepositoryImpl implements IMagicLinkService {
       final verifier = pkceResult.value;
       if (verifier != null) {
         codeVerifier = verifier;
-        final preview =
-            verifier.length > 20 ? '${verifier.substring(0, 20)}...' : verifier;
+        final preview = verifier.length > 20
+            ? '${verifier.substring(0, 20)}...'
+            : verifier;
         AppLogger.info(
           '[AUTH] PKCE: Successfully retrieved code_verifier: $preview (${verifier.length} chars)',
         );

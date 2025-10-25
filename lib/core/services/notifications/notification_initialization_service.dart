@@ -30,10 +30,10 @@ class NotificationInitializationService {
     required NotificationBridgeService bridgeService,
     required NotificationPermissionService permissionService,
     required AuthServiceImpl authService,
-  })  : _unifiedService = unifiedService,
-        _bridgeService = bridgeService,
-        _permissionService = permissionService,
-        _authService = authService;
+  }) : _unifiedService = unifiedService,
+       _bridgeService = bridgeService,
+       _permissionService = permissionService,
+       _authService = authService;
 
   /// Initialize the complete notification system
   Future<NotificationInitializationResult> initialize() async {

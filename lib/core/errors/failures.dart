@@ -197,55 +197,55 @@ class ApiFailure extends Failure {
 
   /// Create an ApiFailure from a network timeout.
   factory ApiFailure.timeout({String? url}) => ApiFailure(
-        code: 'api.timeout',
-        statusCode: 408,
-        requestUrl: url,
-        details: const {'type': 'timeout'},
-      );
+    code: 'api.timeout',
+    statusCode: 408,
+    requestUrl: url,
+    details: const {'type': 'timeout'},
+  );
 
   /// Create an ApiFailure from a network connectivity issue.
   factory ApiFailure.noConnection() => const ApiFailure(
-        code: 'api.no_connection',
-        statusCode: 0,
-        details: {'type': 'no_connection'},
-      );
+    code: 'api.no_connection',
+    statusCode: 0,
+    details: {'type': 'no_connection'},
+  );
 
   /// Create an ApiFailure from a bad request response.
   factory ApiFailure.badRequest({String? message, String? code}) => ApiFailure(
-        message: message,
-        code: code ?? 'api.bad_request',
-        statusCode: 400,
-        details: const {'type': 'bad_request'},
-      );
+    message: message,
+    code: code ?? 'api.bad_request',
+    statusCode: 400,
+    details: const {'type': 'bad_request'},
+  );
 
   /// Create an ApiFailure from an unauthorized response.
   factory ApiFailure.unauthorized() => const ApiFailure(
-        code: 'api.unauthorized',
-        statusCode: 401,
-        details: {'type': 'unauthorized'},
-      );
+    code: 'api.unauthorized',
+    statusCode: 401,
+    details: {'type': 'unauthorized'},
+  );
 
   /// Create an ApiFailure from a not found response.
   factory ApiFailure.notFound({String? resource}) => ApiFailure(
-        code: 'api.not_found',
-        statusCode: 404,
-        details: {'type': 'not_found', 'resource': resource},
-      );
+    code: 'api.not_found',
+    statusCode: 404,
+    details: {'type': 'not_found', 'resource': resource},
+  );
 
   /// Create an ApiFailure from a server error.
   factory ApiFailure.serverError({String? message, String? code}) => ApiFailure(
-        message: message,
-        code: code ?? 'api.server_error',
-        statusCode: 500,
-        details: const {'type': 'server_error'},
-      );
+    message: message,
+    code: code ?? 'api.server_error',
+    statusCode: 500,
+    details: const {'type': 'server_error'},
+  );
 
   /// Create an ApiFailure from JSON parsing errors.
   factory ApiFailure.parseError({String? details}) => ApiFailure(
-        code: 'api.parse_error',
-        statusCode: 200,
-        details: {'type': 'parse_error', 'parse_details': details},
-      );
+    code: 'api.parse_error',
+    statusCode: 200,
+    details: {'type': 'parse_error', 'parse_details': details},
+  );
 
   /// Create an ApiFailure from validation errors.
   factory ApiFailure.validationError({String? message, String? code}) =>
@@ -258,19 +258,19 @@ class ApiFailure extends Failure {
 
   /// Create an ApiFailure from cache errors.
   factory ApiFailure.cacheError({String? message, String? code}) => ApiFailure(
-        message: message,
-        code: code ?? 'api.cache_error',
-        statusCode: 0,
-        details: const {'type': 'cache_error'},
-      );
+    message: message,
+    code: code ?? 'api.cache_error',
+    statusCode: 0,
+    details: const {'type': 'cache_error'},
+  );
 
   /// Create an ApiFailure from network errors.
   factory ApiFailure.network({String? message, String? code}) => ApiFailure(
-        message: message,
-        code: code ?? 'api.network_error',
-        statusCode: 0,
-        details: const {'type': 'network_error'},
-      );
+    message: message,
+    code: code ?? 'api.network_error',
+    statusCode: 0,
+    details: const {'type': 'network_error'},
+  );
 
   /// Determine if this error is retryable based on the status code and type.
   /// Network errors and 5xx server errors are retryable.
@@ -296,7 +296,8 @@ class ApiFailure extends Failure {
   List<Object?> get props => [...super.props, requestUrl, requestMethod];
 
   @override
-  String toString() => 'ApiFailure('
+  String toString() =>
+      'ApiFailure('
       'message: $message, '
       'statusCode: $statusCode, '
       'requestUrl: $requestUrl, '

@@ -30,9 +30,9 @@ final assignVehicleToSlotUsecaseProvider = Provider<AssignVehicleToSlot>((ref) {
 
 final assignChildrenToVehicleUsecaseProvider =
     Provider<AssignChildrenToVehicle>((ref) {
-  final repository = ref.watch(scheduleRepositoryProvider);
-  return AssignChildrenToVehicle(repository);
-});
+      final repository = ref.watch(scheduleRepositoryProvider);
+      return AssignChildrenToVehicle(repository);
+    });
 
 final removeVehicleFromSlotUsecaseProvider = Provider<RemoveVehicleFromSlot>((
   ref,

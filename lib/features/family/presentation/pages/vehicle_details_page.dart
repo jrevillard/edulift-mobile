@@ -35,8 +35,9 @@ class _VehicleDetailsPageState extends ConsumerState<VehicleDetailsPage> {
 
   void _loadVehicle() {
     final familyState = ref.read(familyComposedProvider);
-    final vehicle =
-        familyState.vehicles.where((v) => v.id == widget.vehicleId).firstOrNull;
+    final vehicle = familyState.vehicles
+        .where((v) => v.id == widget.vehicleId)
+        .firstOrNull;
 
     if (vehicle != null) {
       setState(() => _vehicle = vehicle);
@@ -50,8 +51,9 @@ class _VehicleDetailsPageState extends ConsumerState<VehicleDetailsPage> {
   Widget build(BuildContext context) {
     // Listen for updates to the vehicle
     ref.listen<FamilyState>(familyComposedProvider, (previous, next) {
-      final updatedVehicle =
-          next.vehicles.where((v) => v.id == widget.vehicleId).firstOrNull;
+      final updatedVehicle = next.vehicles
+          .where((v) => v.id == widget.vehicleId)
+          .firstOrNull;
       if (updatedVehicle != null) {
         setState(() => _vehicle = updatedVehicle);
       }
@@ -79,11 +81,12 @@ class _VehicleDetailsPageState extends ConsumerState<VehicleDetailsPage> {
           IconButton(
             key: const Key('vehicleDetails_edit_button'),
             icon: const Icon(Icons.edit),
-            onPressed: () =>
-                ref.read(navigationStateProvider.notifier).navigateTo(
-                      route: '/family/vehicles/${_vehicle!.id}/edit',
-                      trigger: NavigationTrigger.userNavigation,
-                    ),
+            onPressed: () => ref
+                .read(navigationStateProvider.notifier)
+                .navigateTo(
+                  route: '/family/vehicles/${_vehicle!.id}/edit',
+                  trigger: NavigationTrigger.userNavigation,
+                ),
             tooltip: l10n.editVehicleTooltip,
           ),
         ],
@@ -107,7 +110,8 @@ class _VehicleDetailsPageState extends ConsumerState<VehicleDetailsPage> {
                         constraints: BoxConstraints(
                           maxWidth: constraints
                               .maxWidth, // Ensure bounded height for mobile screens
-                          maxHeight: constraints.maxHeight -
+                          maxHeight:
+                              constraints.maxHeight -
                               120, // Account for app bar
                         ),
                         child: SingleChildScrollView(
@@ -184,10 +188,11 @@ class _VehicleDetailsPageState extends ConsumerState<VehicleDetailsPage> {
                 children: [
                   Text(
                     _vehicle!.name,
-                    style: (isTablet
-                            ? Theme.of(context).textTheme.headlineSmall
-                            : Theme.of(context).textTheme.titleLarge)
-                        ?.copyWith(fontWeight: FontWeight.bold),
+                    style:
+                        (isTablet
+                                ? Theme.of(context).textTheme.headlineSmall
+                                : Theme.of(context).textTheme.titleLarge)
+                            ?.copyWith(fontWeight: FontWeight.bold),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                   ),
@@ -195,8 +200,8 @@ class _VehicleDetailsPageState extends ConsumerState<VehicleDetailsPage> {
                   Text(
                     _vehicle!.displayNameWithCapacity,
                     style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                          color: Theme.of(context).colorScheme.onSurfaceVariant,
-                        ),
+                      color: Theme.of(context).colorScheme.onSurfaceVariant,
+                    ),
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                   ),
@@ -225,8 +230,9 @@ class _VehicleDetailsPageState extends ConsumerState<VehicleDetailsPage> {
         padding: EdgeInsets.all(cardPadding),
         child: ConstrainedBox(
           constraints: BoxConstraints(
-            maxHeight:
-                isSmallScreen ? 280 : 320, // Prevent overflow on small screens
+            maxHeight: isSmallScreen
+                ? 280
+                : 320, // Prevent overflow on small screens
           ),
           child: SingleChildScrollView(
             child: Column(
@@ -236,8 +242,8 @@ class _VehicleDetailsPageState extends ConsumerState<VehicleDetailsPage> {
                 Text(
                   l10n.vehicleInformation,
                   style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                        fontWeight: FontWeight.bold,
-                      ),
+                    fontWeight: FontWeight.bold,
+                  ),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                 ),
@@ -309,10 +315,10 @@ class _VehicleDetailsPageState extends ConsumerState<VehicleDetailsPage> {
           child: Text(
             label,
             style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  fontWeight: FontWeight.w500,
-                  color: Theme.of(context).colorScheme.onSurfaceVariant,
-                  fontSize: isSmallScreen ? 13 : null,
-                ),
+              fontWeight: FontWeight.w500,
+              color: Theme.of(context).colorScheme.onSurfaceVariant,
+              fontSize: isSmallScreen ? 13 : null,
+            ),
             maxLines: 2,
             overflow: TextOverflow.ellipsis,
           ),
@@ -321,8 +327,8 @@ class _VehicleDetailsPageState extends ConsumerState<VehicleDetailsPage> {
           child: Text(
             value,
             style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  fontSize: isSmallScreen ? 13 : null,
-                ),
+              fontSize: isSmallScreen ? 13 : null,
+            ),
             maxLines: 3,
             overflow: TextOverflow.ellipsis,
           ),
@@ -347,8 +353,9 @@ class _VehicleDetailsPageState extends ConsumerState<VehicleDetailsPage> {
         padding: EdgeInsets.all(cardPadding),
         child: ConstrainedBox(
           constraints: BoxConstraints(
-            maxHeight:
-                isSmallScreen ? 200 : 250, // Prevent overflow on small screens
+            maxHeight: isSmallScreen
+                ? 200
+                : 250, // Prevent overflow on small screens
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,

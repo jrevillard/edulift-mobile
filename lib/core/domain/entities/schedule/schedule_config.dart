@@ -6,7 +6,7 @@ class ScheduleConfig extends Equatable {
   final String id;
   final String groupId;
   final Map<String, List<String>>
-      scheduleHours; // { 'MONDAY': ['07:00', '07:30'], 'TUESDAY': ['08:00'] }
+  scheduleHours; // { 'MONDAY': ['07:00', '07:30'], 'TUESDAY': ['08:00'] }
   final DateTime createdAt;
   final DateTime updatedAt;
 

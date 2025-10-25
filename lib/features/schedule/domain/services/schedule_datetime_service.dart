@@ -170,7 +170,8 @@ class ScheduleDateTimeService {
 
         return ScheduleDateTimeValidationResult(
           isValid: false,
-          errorMessage: 'Cannot create schedule for past time. '
+          errorMessage:
+              'Cannot create schedule for past time. '
               'Selected time has already passed in your timezone ($tzAbbr).',
         );
       }

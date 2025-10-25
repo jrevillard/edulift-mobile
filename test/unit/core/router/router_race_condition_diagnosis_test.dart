@@ -122,13 +122,17 @@ void main() {
 
         // CRITICAL TEST: Check if router correctly redirects to dashboard
         // The router should automatically redirect authenticated users from auth routes to dashboard
-        final currentLocation =
-            testRouter.routerDelegate.currentConfiguration.uri.toString();
+        final currentLocation = testRouter
+            .routerDelegate
+            .currentConfiguration
+            .uri
+            .toString();
 
         expect(
           currentLocation,
           '/dashboard',
-          reason: 'Router should redirect authenticated user to dashboard. '
+          reason:
+              'Router should redirect authenticated user to dashboard. '
               'Actual location: $currentLocation. '
               'If this fails, the router refresh mechanism is not working.',
         );
@@ -206,13 +210,14 @@ void main() {
 
       // CRITICAL TEST: Check if router correctly redirects to dashboard
       // The router should automatically redirect authenticated users from auth routes to dashboard
-      final currentLocation =
-          testRouter.routerDelegate.currentConfiguration.uri.toString();
+      final currentLocation = testRouter.routerDelegate.currentConfiguration.uri
+          .toString();
 
       expect(
         currentLocation,
         '/dashboard',
-        reason: 'Router should redirect authenticated user to dashboard. '
+        reason:
+            'Router should redirect authenticated user to dashboard. '
             'Actual location: $currentLocation. '
             'If this fails, the router refresh mechanism is not working.',
       );
@@ -307,8 +312,8 @@ void main() {
         await tester.pumpAndSettle();
 
         // Check router location - the redirect might still happen through other mechanisms
-        final currentLocation =
-            router.routerDelegate.currentConfiguration.uri.toString();
+        final currentLocation = router.routerDelegate.currentConfiguration.uri
+            .toString();
 
         // Accept various possible router behaviors without refresh notifier
         // The key insight is that without refresh notifier, behavior is unpredictable
@@ -417,8 +422,8 @@ void main() {
 
       // After manual refresh, router should redirect correctly
       // FIXED: Check router location instead of widget rendering (Dashboard page has complex dependencies)
-      final currentLocation =
-          router.routerDelegate.currentConfiguration.uri.toString();
+      final currentLocation = router.routerDelegate.currentConfiguration.uri
+          .toString();
 
       expect(
         currentLocation,

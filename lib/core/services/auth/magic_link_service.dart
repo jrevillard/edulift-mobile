@@ -32,8 +32,9 @@ class MagicLinkState {
       isLoading: isLoading ?? this.isLoading,
       error: clearError ? null : (error ?? this.error),
       requiresName: requiresName ?? this.requiresName,
-      welcomeMessage:
-          clearWelcomeMessage ? null : (welcomeMessage ?? this.welcomeMessage),
+      welcomeMessage: clearWelcomeMessage
+          ? null
+          : (welcomeMessage ?? this.welcomeMessage),
     );
   }
 }

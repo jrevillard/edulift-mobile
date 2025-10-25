@@ -28,8 +28,8 @@ class TimeOfDayValue extends Equatable {
   ///
   /// Throws [ArgumentError] if hour or minute are out of range
   const TimeOfDayValue(this.hour, this.minute)
-      : assert(hour >= 0 && hour <= 23, 'Hour must be between 0 and 23'),
-        assert(minute >= 0 && minute <= 59, 'Minute must be between 0 and 59');
+    : assert(hour >= 0 && hour <= 23, 'Hour must be between 0 and 23'),
+      assert(minute >= 0 && minute <= 59, 'Minute must be between 0 and 59');
 
   /// Creates a TimeOfDayValue from a string in HH:mm or H:mm format
   ///
@@ -121,8 +121,9 @@ class TimeOfDayValue extends Equatable {
   /// Subtracts duration from this time (wraps around midnight)
   TimeOfDayValue subtract(Duration duration) {
     final totalMinutes = hour * 60 + minute - duration.inMinutes;
-    final adjustedMinutes =
-        totalMinutes < 0 ? totalMinutes + 24 * 60 : totalMinutes;
+    final adjustedMinutes = totalMinutes < 0
+        ? totalMinutes + 24 * 60
+        : totalMinutes;
     final newHour = (adjustedMinutes ~/ 60) % 24;
     final newMinute = adjustedMinutes % 60;
     return TimeOfDayValue(newHour, newMinute);

@@ -21,8 +21,9 @@ String _$cryptoConfigHash() => r'd3fd853d560fa6736420cae392851476353093c2';
 final cryptoConfigProvider = AutoDisposeProvider<CryptoConfig>.internal(
   cryptoConfig,
   name: r'cryptoConfigProvider',
-  debugGetCreateSourceHash:
-      const bool.fromEnvironment('dart.vm.product') ? null : _$cryptoConfigHash,
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$cryptoConfigHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
@@ -42,19 +43,19 @@ String _$adaptiveSecureStorageHash() =>
 @ProviderFor(adaptiveSecureStorage)
 final adaptiveSecureStorageProvider =
     AutoDisposeProvider<AdaptiveSecureStorage>.internal(
-  adaptiveSecureStorage,
-  name: r'adaptiveSecureStorageProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$adaptiveSecureStorageHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
+      adaptiveSecureStorage,
+      name: r'adaptiveSecureStorageProvider',
+      debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+          ? null
+          : _$adaptiveSecureStorageHash,
+      dependencies: null,
+      allTransitiveDependencies: null,
+    );
 
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
-typedef AdaptiveSecureStorageRef
-    = AutoDisposeProviderRef<AdaptiveSecureStorage>;
+typedef AdaptiveSecureStorageRef =
+    AutoDisposeProviderRef<AdaptiveSecureStorage>;
 String _$namedSecureStorageHash() =>
     r'1802219c30a026fc87756ca175b6b0dbe3d4ac2e';
 
@@ -87,14 +88,14 @@ String _$sharedPreferencesHash() => r'dc403fbb1d968c7d5ab4ae1721a29ffe173701c7';
 @ProviderFor(sharedPreferences)
 final sharedPreferencesProvider =
     AutoDisposeFutureProvider<SharedPreferences>.internal(
-  sharedPreferences,
-  name: r'sharedPreferencesProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$sharedPreferencesHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
+      sharedPreferences,
+      name: r'sharedPreferencesProvider',
+      debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+          ? null
+          : _$sharedPreferencesHash,
+      dependencies: null,
+      allTransitiveDependencies: null,
+    );
 
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
@@ -173,18 +174,18 @@ String _$adaptiveStorageServiceHash() =>
 @ProviderFor(adaptiveStorageService)
 final adaptiveStorageServiceProvider =
     AutoDisposeProvider<AdaptiveStorageService>.internal(
-  adaptiveStorageService,
-  name: r'adaptiveStorageServiceProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$adaptiveStorageServiceHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
+      adaptiveStorageService,
+      name: r'adaptiveStorageServiceProvider',
+      debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+          ? null
+          : _$adaptiveStorageServiceHash,
+      dependencies: null,
+      allTransitiveDependencies: null,
+    );
 
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
-typedef AdaptiveStorageServiceRef
-    = AutoDisposeProviderRef<AdaptiveStorageService>;
+typedef AdaptiveStorageServiceRef =
+    AutoDisposeProviderRef<AdaptiveStorageService>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

@@ -19,10 +19,10 @@ void main() {
       // Prevent real Firebase initialization during tests
       TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
           .setMockMessageHandler('plugins.flutter.io/firebase_core', (
-        message,
-      ) async {
-        return null;
-      });
+            message,
+          ) async {
+            return null;
+          });
     });
 
     group('DefaultFirebaseOptions Configuration', () {

@@ -485,7 +485,8 @@ class SemanticTestPatterns {
     expect(
       finder,
       findsOneWidget,
-      reason: 'Widget with testId $testId should be visible'
+      reason:
+          'Widget with testId $testId should be visible'
           '${context != null ? ' in context: $context' : ''}',
     );
   }
@@ -496,7 +497,8 @@ class SemanticTestPatterns {
     expect(
       finder,
       findsNothing,
-      reason: 'Widget with testId $testId should be hidden'
+      reason:
+          'Widget with testId $testId should be hidden'
           '${context != null ? ' in context: $context' : ''}',
     );
   }
@@ -544,7 +546,8 @@ class SemanticTestPatterns {
     expect(
       finder,
       findsOneWidget,
-      reason: 'Widget with testId $testId should exist for tapping'
+      reason:
+          'Widget with testId $testId should exist for tapping'
           '${context != null ? ' in context: $context' : ''}',
     );
 
@@ -562,7 +565,8 @@ class SemanticTestPatterns {
     expect(
       fieldFinder,
       findsOneWidget,
-      reason: 'Text field with testId $fieldTestId should exist'
+      reason:
+          'Text field with testId $fieldTestId should exist'
           '${context != null ? ' in context: $context' : ''}',
     );
 

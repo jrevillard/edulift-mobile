@@ -163,8 +163,8 @@ class TestDataGenerator {
   static String generateUniquePhoneNumber() {
     final timestamp = DateTime.now().millisecondsSinceEpoch;
     final last7Digits = timestamp.toString().substring(
-          timestamp.toString().length - 7,
-        );
+      timestamp.toString().length - 7,
+    );
     return '+1555${last7Digits}';
   }
 

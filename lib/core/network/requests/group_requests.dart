@@ -30,21 +30,21 @@ class CreateGroupRequest extends Equatable {
   }
 
   Map<String, dynamic> toJson() => {
-        'name': name,
-        if (description != null) 'description': description,
-        if (settings != null) 'settings': settings,
-        if (maxMembers != null) 'maxMembers': maxMembers,
-        if (scheduleConfig != null) 'scheduleConfig': scheduleConfig,
-      };
+    'name': name,
+    if (description != null) 'description': description,
+    if (settings != null) 'settings': settings,
+    if (maxMembers != null) 'maxMembers': maxMembers,
+    if (scheduleConfig != null) 'scheduleConfig': scheduleConfig,
+  };
 
   @override
   List<Object?> get props => [
-        name,
-        description,
-        settings,
-        maxMembers,
-        scheduleConfig,
-      ];
+    name,
+    description,
+    settings,
+    maxMembers,
+    scheduleConfig,
+  ];
 }
 
 /// Group update request model
@@ -63,9 +63,9 @@ class UpdateGroupRequest extends Equatable {
   }
 
   Map<String, dynamic> toJson() => {
-        if (name != null) 'name': name,
-        if (description != null) 'description': description,
-      };
+    if (name != null) 'name': name,
+    if (description != null) 'description': description,
+  };
 
   @override
   List<Object?> get props => [name, description];
@@ -96,11 +96,11 @@ class CreateGroupInvitationRequest extends Equatable {
   }
 
   Map<String, dynamic> toJson() => {
-        'group_id': groupId,
-        'email': email,
-        if (role != null) 'role': role,
-        if (message != null) 'message': message,
-      };
+    'group_id': groupId,
+    'email': email,
+    if (role != null) 'role': role,
+    if (message != null) 'message': message,
+  };
 
   @override
   List<Object?> get props => [groupId, email, role, message];
@@ -150,9 +150,9 @@ class SearchFamiliesRequest extends Equatable {
   }
 
   Map<String, dynamic> toJson() => {
-        if (query != null) 'searchTerm': query, // Backend expects 'searchTerm'
-        if (limit != null) 'limit': limit,
-      };
+    if (query != null) 'searchTerm': query, // Backend expects 'searchTerm'
+    if (limit != null) 'limit': limit,
+  };
 
   @override
   List<Object?> get props => [query, limit];
@@ -179,10 +179,10 @@ class InviteGroupFamilyRequest extends Equatable {
   }
 
   Map<String, dynamic> toJson() => {
-        'familyId': familyId,
-        if (message != null) 'message': message,
-        'platform': platform,
-      };
+    'familyId': familyId,
+    if (message != null) 'message': message,
+    'platform': platform,
+  };
 
   @override
   List<Object?> get props => [familyId, message, platform];
@@ -225,12 +225,12 @@ class InviteFamilyToGroupRequest extends Equatable {
   }
 
   Map<String, dynamic> toJson() => {
-        'familyId': familyId, // Backend expects camelCase
-        if (role != null) 'role': role,
-        if (message != null)
-          'personalMessage': message, // Backend expects 'personalMessage'
-        'platform': 'native', // Backend requires platform field
-      };
+    'familyId': familyId, // Backend expects camelCase
+    if (role != null) 'role': role,
+    if (message != null)
+      'personalMessage': message, // Backend expects 'personalMessage'
+    'platform': 'native', // Backend requires platform field
+  };
 
   @override
   List<Object?> get props => [familyId, role, message];

@@ -189,12 +189,12 @@ class _PreInitializedScheduleConfigNotifier
     required String groupId,
     required ScheduleConfig? initialConfig,
   }) : super(
-          groupId,
-          null, // No use case - won't make API calls
-          _StubUpdateScheduleConfig(), // Stub for update use case
-          null, // No reset use case
-          MockErrorHandlerService(),
-        ) {
+         groupId,
+         null, // No use case - won't make API calls
+         _StubUpdateScheduleConfig(), // Stub for update use case
+         null, // No reset use case
+         MockErrorHandlerService(),
+       ) {
     // Pre-set state to avoid API calls
     state = AsyncValue.data(initialConfig);
   }

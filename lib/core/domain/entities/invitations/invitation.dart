@@ -231,29 +231,29 @@ class Invitation extends Equatable {
 
   @override
   List<Object?> get props => [
-        id,
-        type,
-        status,
-        direction,
-        inviterId,
-        inviterName,
-        inviterEmail,
-        recipientEmail,
-        recipientId,
-        role,
-        familyId,
-        familyName,
-        groupId,
-        groupName,
-        message,
-        inviteCode,
-        createdAt,
-        expiresAt,
-        acceptedAt,
-        declinedAt,
-        respondedAt,
-        metadata,
-      ];
+    id,
+    type,
+    status,
+    direction,
+    inviterId,
+    inviterName,
+    inviterEmail,
+    recipientEmail,
+    recipientId,
+    role,
+    familyId,
+    familyName,
+    groupId,
+    groupName,
+    message,
+    inviteCode,
+    createdAt,
+    expiresAt,
+    acceptedAt,
+    declinedAt,
+    respondedAt,
+    metadata,
+  ];
 }
 
 /// Represents an invitation code for quick access
@@ -296,18 +296,18 @@ class InvitationCode extends Equatable {
 
   @override
   List<Object?> get props => [
-        code,
-        type,
-        targetId,
-        targetName,
-        createdById,
-        createdByName,
-        createdAt,
-        expiresAt,
-        usageLimit,
-        usageCount,
-        isActive,
-      ];
+    code,
+    type,
+    targetId,
+    targetName,
+    createdById,
+    createdByName,
+    createdAt,
+    expiresAt,
+    usageLimit,
+    usageCount,
+    isActive,
+  ];
 }
 
 /// Statistics about invitations
@@ -354,17 +354,17 @@ class InvitationStats extends Equatable {
 
   @override
   List<Object?> get props => [
-        totalSent,
-        totalReceived,
-        pendingSent,
-        pendingReceived,
-        acceptedSent,
-        acceptedReceived,
-        declinedSent,
-        declinedReceived,
-        expiredSent,
-        expiredReceived,
-        lastInvitationSent,
-        lastInvitationReceived,
-      ];
+    totalSent,
+    totalReceived,
+    pendingSent,
+    pendingReceived,
+    acceptedSent,
+    acceptedReceived,
+    declinedSent,
+    declinedReceived,
+    expiredSent,
+    expiredReceived,
+    lastInvitationSent,
+    lastInvitationReceived,
+  ];
 }

@@ -143,8 +143,10 @@ class AccessibilityTestHelper {
     // This handles loading states, empty states, etc.
     if (!hasFocusableElements) {
       // Check if page is in loading state
-      final hasLoadingIndicator =
-          find.byType(CircularProgressIndicator).evaluate().isNotEmpty;
+      final hasLoadingIndicator = find
+          .byType(CircularProgressIndicator)
+          .evaluate()
+          .isNotEmpty;
       if (hasLoadingIndicator) {
         // Page is loading, keyboard navigation test is not applicable
         return;

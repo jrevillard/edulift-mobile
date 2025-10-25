@@ -10,7 +10,8 @@ _ScheduleConfigDto _$ScheduleConfigDtoFromJson(Map<String, dynamic> json) =>
     _ScheduleConfigDto(
       id: json['id'] as String,
       groupId: json['groupId'] as String,
-      scheduleHours: (json['scheduleHours'] as Map<String, dynamic>?)?.map(
+      scheduleHours:
+          (json['scheduleHours'] as Map<String, dynamic>?)?.map(
             (k, e) => MapEntry(
               k,
               (e as List<dynamic>).map((e) => e as String).toList(),

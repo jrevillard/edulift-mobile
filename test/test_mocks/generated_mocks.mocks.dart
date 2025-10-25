@@ -144,204 +144,204 @@ import 'package:state_notifier/state_notifier.dart' as _i60;
 class _FakeRouteConfiguration_0 extends _i1.SmartFake
     implements _i2.RouteConfiguration {
   _FakeRouteConfiguration_0(Object parent, Invocation parentInvocation)
-      : super(parent, parentInvocation);
+    : super(parent, parentInvocation);
 }
 
 class _FakeBackButtonDispatcher_1 extends _i1.SmartFake
     implements _i3.BackButtonDispatcher {
   _FakeBackButtonDispatcher_1(Object parent, Invocation parentInvocation)
-      : super(parent, parentInvocation);
+    : super(parent, parentInvocation);
 }
 
 class _FakeGoRouterDelegate_2 extends _i1.SmartFake
     implements _i4.GoRouterDelegate {
   _FakeGoRouterDelegate_2(Object parent, Invocation parentInvocation)
-      : super(parent, parentInvocation);
+    : super(parent, parentInvocation);
 }
 
 class _FakeGoRouteInformationProvider_3 extends _i1.SmartFake
     implements _i5.GoRouteInformationProvider {
   _FakeGoRouteInformationProvider_3(Object parent, Invocation parentInvocation)
-      : super(parent, parentInvocation);
+    : super(parent, parentInvocation);
 }
 
 class _FakeGoRouteInformationParser_4 extends _i1.SmartFake
     implements _i6.GoRouteInformationParser {
   _FakeGoRouteInformationParser_4(Object parent, Invocation parentInvocation)
-      : super(parent, parentInvocation);
+    : super(parent, parentInvocation);
 }
 
 class _FakeGoRouterState_5 extends _i1.SmartFake implements _i7.GoRouterState {
   _FakeGoRouterState_5(Object parent, Invocation parentInvocation)
-      : super(parent, parentInvocation);
+    : super(parent, parentInvocation);
 }
 
 class _FakeBaseOptions_6 extends _i1.SmartFake implements _i8.BaseOptions {
   _FakeBaseOptions_6(Object parent, Invocation parentInvocation)
-      : super(parent, parentInvocation);
+    : super(parent, parentInvocation);
 }
 
 class _FakeHttpClientAdapter_7 extends _i1.SmartFake
     implements _i9.HttpClientAdapter {
   _FakeHttpClientAdapter_7(Object parent, Invocation parentInvocation)
-      : super(parent, parentInvocation);
+    : super(parent, parentInvocation);
 }
 
 class _FakeTransformer_8 extends _i1.SmartFake implements _i10.Transformer {
   _FakeTransformer_8(Object parent, Invocation parentInvocation)
-      : super(parent, parentInvocation);
+    : super(parent, parentInvocation);
 }
 
 class _FakeInterceptors_9 extends _i1.SmartFake implements _i11.Interceptors {
   _FakeInterceptors_9(Object parent, Invocation parentInvocation)
-      : super(parent, parentInvocation);
+    : super(parent, parentInvocation);
 }
 
 class _FakeResponse_10<T1> extends _i1.SmartFake implements _i12.Response<T1> {
   _FakeResponse_10(Object parent, Invocation parentInvocation)
-      : super(parent, parentInvocation);
+    : super(parent, parentInvocation);
 }
 
 class _FakeDio_11 extends _i1.SmartFake implements _i13.Dio {
   _FakeDio_11(Object parent, Invocation parentInvocation)
-      : super(parent, parentInvocation);
+    : super(parent, parentInvocation);
 }
 
 class _FakeEither_12<L, R> extends _i1.SmartFake implements _i14.Either<L, R> {
   _FakeEither_12(Object parent, Invocation parentInvocation)
-      : super(parent, parentInvocation);
+    : super(parent, parentInvocation);
 }
 
 class _FakeAppState_13 extends _i1.SmartFake implements _i15.AppState {
   _FakeAppState_13(Object parent, Invocation parentInvocation)
-      : super(parent, parentInvocation);
+    : super(parent, parentInvocation);
 }
 
 class _FakeAuthService_14 extends _i1.SmartFake implements _i16.AuthService {
   _FakeAuthService_14(Object parent, Invocation parentInvocation)
-      : super(parent, parentInvocation);
+    : super(parent, parentInvocation);
 }
 
 class _FakeAuthState_15 extends _i1.SmartFake implements _i17.AuthState {
   _FakeAuthState_15(Object parent, Invocation parentInvocation)
-      : super(parent, parentInvocation);
+    : super(parent, parentInvocation);
 }
 
 class _FakeLegacyBiometricAuthResult_16 extends _i1.SmartFake
     implements _i18.LegacyBiometricAuthResult {
   _FakeLegacyBiometricAuthResult_16(Object parent, Invocation parentInvocation)
-      : super(parent, parentInvocation);
+    : super(parent, parentInvocation);
 }
 
 class _FakeErrorHandlingResult_17 extends _i1.SmartFake
     implements _i19.ErrorHandlingResult {
   _FakeErrorHandlingResult_17(Object parent, Invocation parentInvocation)
-      : super(parent, parentInvocation);
+    : super(parent, parentInvocation);
 }
 
 class _FakeErrorClassification_18 extends _i1.SmartFake
     implements _i19.ErrorClassification {
   _FakeErrorClassification_18(Object parent, Invocation parentInvocation)
-      : super(parent, parentInvocation);
+    : super(parent, parentInvocation);
 }
 
 class _FakeAuthDto_19 extends _i1.SmartFake implements _i20.AuthDto {
   _FakeAuthDto_19(Object parent, Invocation parentInvocation)
-      : super(parent, parentInvocation);
+    : super(parent, parentInvocation);
 }
 
 class _FakeUserProfileDto_20 extends _i1.SmartFake
     implements _i21.UserProfileDto {
   _FakeUserProfileDto_20(Object parent, Invocation parentInvocation)
-      : super(parent, parentInvocation);
+    : super(parent, parentInvocation);
 }
 
 class _FakeAuthConfigDto_21 extends _i1.SmartFake
     implements _i20.AuthConfigDto {
   _FakeAuthConfigDto_21(Object parent, Invocation parentInvocation)
-      : super(parent, parentInvocation);
+    : super(parent, parentInvocation);
 }
 
 class _FakeUserExistsDto_22 extends _i1.SmartFake
     implements _i20.UserExistsDto {
   _FakeUserExistsDto_22(Object parent, Invocation parentInvocation)
-      : super(parent, parentInvocation);
+    : super(parent, parentInvocation);
 }
 
 class _FakeApiResponse_23<T> extends _i1.SmartFake
     implements _i22.ApiResponse<T> {
   _FakeApiResponse_23(Object parent, Invocation parentInvocation)
-      : super(parent, parentInvocation);
+    : super(parent, parentInvocation);
 }
 
 class _FakeChildDto_24 extends _i1.SmartFake implements _i23.ChildDto {
   _FakeChildDto_24(Object parent, Invocation parentInvocation)
-      : super(parent, parentInvocation);
+    : super(parent, parentInvocation);
 }
 
 class _FakeChildrenListDto_25 extends _i1.SmartFake
     implements _i24.ChildrenListDto {
   _FakeChildrenListDto_25(Object parent, Invocation parentInvocation)
-      : super(parent, parentInvocation);
+    : super(parent, parentInvocation);
 }
 
 class _FakeChildAssignmentsDto_26 extends _i1.SmartFake
     implements _i24.ChildAssignmentsDto {
   _FakeChildAssignmentsDto_26(Object parent, Invocation parentInvocation)
-      : super(parent, parentInvocation);
+    : super(parent, parentInvocation);
 }
 
 class _FakeChildGroupMembershipsDto_27 extends _i1.SmartFake
     implements _i24.ChildGroupMembershipsDto {
   _FakeChildGroupMembershipsDto_27(Object parent, Invocation parentInvocation)
-      : super(parent, parentInvocation);
+    : super(parent, parentInvocation);
 }
 
 class _FakeScheduleConfigDto_28 extends _i1.SmartFake
     implements _i25.ScheduleConfigDto {
   _FakeScheduleConfigDto_28(Object parent, Invocation parentInvocation)
-      : super(parent, parentInvocation);
+    : super(parent, parentInvocation);
 }
 
 class _FakeTimeSlotConfigDto_29 extends _i1.SmartFake
     implements _i26.TimeSlotConfigDto {
   _FakeTimeSlotConfigDto_29(Object parent, Invocation parentInvocation)
-      : super(parent, parentInvocation);
+    : super(parent, parentInvocation);
 }
 
 class _FakeScheduleSlotDto_30 extends _i1.SmartFake
     implements _i27.ScheduleSlotDto {
   _FakeScheduleSlotDto_30(Object parent, Invocation parentInvocation)
-      : super(parent, parentInvocation);
+    : super(parent, parentInvocation);
 }
 
 class _FakeScheduleResponseDto_31 extends _i1.SmartFake
     implements _i28.ScheduleResponseDto {
   _FakeScheduleResponseDto_31(Object parent, Invocation parentInvocation)
-      : super(parent, parentInvocation);
+    : super(parent, parentInvocation);
 }
 
 class _FakeScheduleSlotWithDetailsDto_32 extends _i1.SmartFake
     implements _i29.ScheduleSlotWithDetailsDto {
   _FakeScheduleSlotWithDetailsDto_32(Object parent, Invocation parentInvocation)
-      : super(parent, parentInvocation);
+    : super(parent, parentInvocation);
 }
 
 class _FakeVehicleAssignmentDto_33 extends _i1.SmartFake
     implements _i30.VehicleAssignmentDto {
   _FakeVehicleAssignmentDto_33(Object parent, Invocation parentInvocation)
-      : super(parent, parentInvocation);
+    : super(parent, parentInvocation);
 }
 
 class _FakeScheduleSlotChildDto_34 extends _i1.SmartFake
     implements _i31.ScheduleSlotChildDto {
   _FakeScheduleSlotChildDto_34(Object parent, Invocation parentInvocation)
-      : super(parent, parentInvocation);
+    : super(parent, parentInvocation);
 }
 
 class _FakeFamilyDto_35 extends _i1.SmartFake implements _i31.FamilyDto {
   _FakeFamilyDto_35(Object parent, Invocation parentInvocation)
-      : super(parent, parentInvocation);
+    : super(parent, parentInvocation);
 }
 
 class _FakeFamilyInvitationValidationDto_36 extends _i1.SmartFake
@@ -354,36 +354,36 @@ class _FakeFamilyInvitationValidationDto_36 extends _i1.SmartFake
 
 class _FakeInvitation_37 extends _i1.SmartFake implements _i32.Invitation {
   _FakeInvitation_37(Object parent, Invocation parentInvocation)
-      : super(parent, parentInvocation);
+    : super(parent, parentInvocation);
 }
 
 class _FakeFamilyInvitationDto_38 extends _i1.SmartFake
     implements _i31.FamilyInvitationDto {
   _FakeFamilyInvitationDto_38(Object parent, Invocation parentInvocation)
-      : super(parent, parentInvocation);
+    : super(parent, parentInvocation);
 }
 
 class _FakeInvitationStats_39 extends _i1.SmartFake
     implements _i32.InvitationStats {
   _FakeInvitationStats_39(Object parent, Invocation parentInvocation)
-      : super(parent, parentInvocation);
+    : super(parent, parentInvocation);
 }
 
 class _FakeDeleteResponseDto_40 extends _i1.SmartFake
     implements _i33.DeleteResponseDto {
   _FakeDeleteResponseDto_40(Object parent, Invocation parentInvocation)
-      : super(parent, parentInvocation);
+    : super(parent, parentInvocation);
 }
 
 class _FakeVehicleDto_41 extends _i1.SmartFake implements _i34.VehicleDto {
   _FakeVehicleDto_41(Object parent, Invocation parentInvocation)
-      : super(parent, parentInvocation);
+    : super(parent, parentInvocation);
 }
 
 class _FakeGroupInvitationData_42 extends _i1.SmartFake
     implements _i35.GroupInvitationData {
   _FakeGroupInvitationData_42(Object parent, Invocation parentInvocation)
-      : super(parent, parentInvocation);
+    : super(parent, parentInvocation);
 }
 
 class _FakeGroupInvitationValidationData_43 extends _i1.SmartFake
@@ -397,18 +397,18 @@ class _FakeGroupInvitationValidationData_43 extends _i1.SmartFake
 class _FakeGroupFamilyData_44 extends _i1.SmartFake
     implements _i35.GroupFamilyData {
   _FakeGroupFamilyData_44(Object parent, Invocation parentInvocation)
-      : super(parent, parentInvocation);
+    : super(parent, parentInvocation);
 }
 
 class _FakeFamilyRepository_45 extends _i1.SmartFake
     implements _i36.FamilyRepository {
   _FakeFamilyRepository_45(Object parent, Invocation parentInvocation)
-      : super(parent, parentInvocation);
+    : super(parent, parentInvocation);
 }
 
 class _FakeFamilyState_46 extends _i1.SmartFake implements _i37.FamilyState {
   _FakeFamilyState_46(Object parent, Invocation parentInvocation)
-      : super(parent, parentInvocation);
+    : super(parent, parentInvocation);
 }
 
 /// A class which mocks [Connectivity].
@@ -418,24 +418,26 @@ class MockConnectivity extends _i1.Mock implements _i38.Connectivity {
   @override
   _i39.Stream<List<_i40.ConnectivityResult>> get onConnectivityChanged =>
       (super.noSuchMethod(
-        Invocation.getter(#onConnectivityChanged),
-        returnValue: _i39.Stream<List<_i40.ConnectivityResult>>.empty(),
-        returnValueForMissingStub:
-            _i39.Stream<List<_i40.ConnectivityResult>>.empty(),
-      ) as _i39.Stream<List<_i40.ConnectivityResult>>);
+            Invocation.getter(#onConnectivityChanged),
+            returnValue: _i39.Stream<List<_i40.ConnectivityResult>>.empty(),
+            returnValueForMissingStub:
+                _i39.Stream<List<_i40.ConnectivityResult>>.empty(),
+          )
+          as _i39.Stream<List<_i40.ConnectivityResult>>);
 
   @override
   _i39.Future<List<_i40.ConnectivityResult>> checkConnectivity() =>
       (super.noSuchMethod(
-        Invocation.method(#checkConnectivity, []),
-        returnValue: _i39.Future<List<_i40.ConnectivityResult>>.value(
-          <_i40.ConnectivityResult>[],
-        ),
-        returnValueForMissingStub:
-            _i39.Future<List<_i40.ConnectivityResult>>.value(
-          <_i40.ConnectivityResult>[],
-        ),
-      ) as _i39.Future<List<_i40.ConnectivityResult>>);
+            Invocation.method(#checkConnectivity, []),
+            returnValue: _i39.Future<List<_i40.ConnectivityResult>>.value(
+              <_i40.ConnectivityResult>[],
+            ),
+            returnValueForMissingStub:
+                _i39.Future<List<_i40.ConnectivityResult>>.value(
+                  <_i40.ConnectivityResult>[],
+                ),
+          )
+          as _i39.Future<List<_i40.ConnectivityResult>>);
 }
 
 /// A class which mocks [GoRouter].
@@ -443,88 +445,100 @@ class MockConnectivity extends _i1.Mock implements _i38.Connectivity {
 /// See the documentation for Mockito's code generation for more information.
 class MockGoRouter extends _i1.Mock implements _i41.GoRouter {
   @override
-  _i2.RouteConfiguration get configuration => (super.noSuchMethod(
-        Invocation.getter(#configuration),
-        returnValue: _FakeRouteConfiguration_0(
-          this,
-          Invocation.getter(#configuration),
-        ),
-        returnValueForMissingStub: _FakeRouteConfiguration_0(
-          this,
-          Invocation.getter(#configuration),
-        ),
-      ) as _i2.RouteConfiguration);
+  _i2.RouteConfiguration get configuration =>
+      (super.noSuchMethod(
+            Invocation.getter(#configuration),
+            returnValue: _FakeRouteConfiguration_0(
+              this,
+              Invocation.getter(#configuration),
+            ),
+            returnValueForMissingStub: _FakeRouteConfiguration_0(
+              this,
+              Invocation.getter(#configuration),
+            ),
+          )
+          as _i2.RouteConfiguration);
 
   @override
-  _i3.BackButtonDispatcher get backButtonDispatcher => (super.noSuchMethod(
-        Invocation.getter(#backButtonDispatcher),
-        returnValue: _FakeBackButtonDispatcher_1(
-          this,
-          Invocation.getter(#backButtonDispatcher),
-        ),
-        returnValueForMissingStub: _FakeBackButtonDispatcher_1(
-          this,
-          Invocation.getter(#backButtonDispatcher),
-        ),
-      ) as _i3.BackButtonDispatcher);
+  _i3.BackButtonDispatcher get backButtonDispatcher =>
+      (super.noSuchMethod(
+            Invocation.getter(#backButtonDispatcher),
+            returnValue: _FakeBackButtonDispatcher_1(
+              this,
+              Invocation.getter(#backButtonDispatcher),
+            ),
+            returnValueForMissingStub: _FakeBackButtonDispatcher_1(
+              this,
+              Invocation.getter(#backButtonDispatcher),
+            ),
+          )
+          as _i3.BackButtonDispatcher);
 
   @override
-  _i4.GoRouterDelegate get routerDelegate => (super.noSuchMethod(
-        Invocation.getter(#routerDelegate),
-        returnValue: _FakeGoRouterDelegate_2(
-          this,
-          Invocation.getter(#routerDelegate),
-        ),
-        returnValueForMissingStub: _FakeGoRouterDelegate_2(
-          this,
-          Invocation.getter(#routerDelegate),
-        ),
-      ) as _i4.GoRouterDelegate);
+  _i4.GoRouterDelegate get routerDelegate =>
+      (super.noSuchMethod(
+            Invocation.getter(#routerDelegate),
+            returnValue: _FakeGoRouterDelegate_2(
+              this,
+              Invocation.getter(#routerDelegate),
+            ),
+            returnValueForMissingStub: _FakeGoRouterDelegate_2(
+              this,
+              Invocation.getter(#routerDelegate),
+            ),
+          )
+          as _i4.GoRouterDelegate);
 
   @override
   _i5.GoRouteInformationProvider get routeInformationProvider =>
       (super.noSuchMethod(
-        Invocation.getter(#routeInformationProvider),
-        returnValue: _FakeGoRouteInformationProvider_3(
-          this,
-          Invocation.getter(#routeInformationProvider),
-        ),
-        returnValueForMissingStub: _FakeGoRouteInformationProvider_3(
-          this,
-          Invocation.getter(#routeInformationProvider),
-        ),
-      ) as _i5.GoRouteInformationProvider);
+            Invocation.getter(#routeInformationProvider),
+            returnValue: _FakeGoRouteInformationProvider_3(
+              this,
+              Invocation.getter(#routeInformationProvider),
+            ),
+            returnValueForMissingStub: _FakeGoRouteInformationProvider_3(
+              this,
+              Invocation.getter(#routeInformationProvider),
+            ),
+          )
+          as _i5.GoRouteInformationProvider);
 
   @override
   _i6.GoRouteInformationParser get routeInformationParser =>
       (super.noSuchMethod(
-        Invocation.getter(#routeInformationParser),
-        returnValue: _FakeGoRouteInformationParser_4(
-          this,
-          Invocation.getter(#routeInformationParser),
-        ),
-        returnValueForMissingStub: _FakeGoRouteInformationParser_4(
-          this,
-          Invocation.getter(#routeInformationParser),
-        ),
-      ) as _i6.GoRouteInformationParser);
+            Invocation.getter(#routeInformationParser),
+            returnValue: _FakeGoRouteInformationParser_4(
+              this,
+              Invocation.getter(#routeInformationParser),
+            ),
+            returnValueForMissingStub: _FakeGoRouteInformationParser_4(
+              this,
+              Invocation.getter(#routeInformationParser),
+            ),
+          )
+          as _i6.GoRouteInformationParser);
 
   @override
-  bool get overridePlatformDefaultLocation => (super.noSuchMethod(
-        Invocation.getter(#overridePlatformDefaultLocation),
-        returnValue: false,
-        returnValueForMissingStub: false,
-      ) as bool);
+  bool get overridePlatformDefaultLocation =>
+      (super.noSuchMethod(
+            Invocation.getter(#overridePlatformDefaultLocation),
+            returnValue: false,
+            returnValueForMissingStub: false,
+          )
+          as bool);
 
   @override
-  _i7.GoRouterState get state => (super.noSuchMethod(
-        Invocation.getter(#state),
-        returnValue: _FakeGoRouterState_5(this, Invocation.getter(#state)),
-        returnValueForMissingStub: _FakeGoRouterState_5(
-          this,
-          Invocation.getter(#state),
-        ),
-      ) as _i7.GoRouterState);
+  _i7.GoRouterState get state =>
+      (super.noSuchMethod(
+            Invocation.getter(#state),
+            returnValue: _FakeGoRouterState_5(this, Invocation.getter(#state)),
+            returnValueForMissingStub: _FakeGoRouterState_5(
+              this,
+              Invocation.getter(#state),
+            ),
+          )
+          as _i7.GoRouterState);
 
   @override
   set configuration(_i2.RouteConfiguration? _configuration) =>
@@ -543,27 +557,27 @@ class MockGoRouter extends _i1.Mock implements _i41.GoRouter {
   @override
   set routeInformationProvider(
     _i5.GoRouteInformationProvider? _routeInformationProvider,
-  ) =>
-      super.noSuchMethod(
-        Invocation.setter(#routeInformationProvider, _routeInformationProvider),
-        returnValueForMissingStub: null,
-      );
+  ) => super.noSuchMethod(
+    Invocation.setter(#routeInformationProvider, _routeInformationProvider),
+    returnValueForMissingStub: null,
+  );
 
   @override
   set routeInformationParser(
     _i6.GoRouteInformationParser? _routeInformationParser,
-  ) =>
-      super.noSuchMethod(
-        Invocation.setter(#routeInformationParser, _routeInformationParser),
-        returnValueForMissingStub: null,
-      );
+  ) => super.noSuchMethod(
+    Invocation.setter(#routeInformationParser, _routeInformationParser),
+    returnValueForMissingStub: null,
+  );
 
   @override
-  bool canPop() => (super.noSuchMethod(
-        Invocation.method(#canPop, []),
-        returnValue: false,
-        returnValueForMissingStub: false,
-      ) as bool);
+  bool canPop() =>
+      (super.noSuchMethod(
+            Invocation.method(#canPop, []),
+            returnValue: false,
+            returnValueForMissingStub: false,
+          )
+          as bool);
 
   @override
   String namedLocation(
@@ -573,52 +587,53 @@ class MockGoRouter extends _i1.Mock implements _i41.GoRouter {
     String? fragment,
   }) =>
       (super.noSuchMethod(
-        Invocation.method(
-          #namedLocation,
-          [name],
-          {
-            #pathParameters: pathParameters,
-            #queryParameters: queryParameters,
-            #fragment: fragment,
-          },
-        ),
-        returnValue: _i42.dummyValue<String>(
-          this,
-          Invocation.method(
-            #namedLocation,
-            [name],
-            {
-              #pathParameters: pathParameters,
-              #queryParameters: queryParameters,
-              #fragment: fragment,
-            },
-          ),
-        ),
-        returnValueForMissingStub: _i42.dummyValue<String>(
-          this,
-          Invocation.method(
-            #namedLocation,
-            [name],
-            {
-              #pathParameters: pathParameters,
-              #queryParameters: queryParameters,
-              #fragment: fragment,
-            },
-          ),
-        ),
-      ) as String);
+            Invocation.method(
+              #namedLocation,
+              [name],
+              {
+                #pathParameters: pathParameters,
+                #queryParameters: queryParameters,
+                #fragment: fragment,
+              },
+            ),
+            returnValue: _i42.dummyValue<String>(
+              this,
+              Invocation.method(
+                #namedLocation,
+                [name],
+                {
+                  #pathParameters: pathParameters,
+                  #queryParameters: queryParameters,
+                  #fragment: fragment,
+                },
+              ),
+            ),
+            returnValueForMissingStub: _i42.dummyValue<String>(
+              this,
+              Invocation.method(
+                #namedLocation,
+                [name],
+                {
+                  #pathParameters: pathParameters,
+                  #queryParameters: queryParameters,
+                  #fragment: fragment,
+                },
+              ),
+            ),
+          )
+          as String);
 
   @override
   void go(String? location, {Object? extra}) => super.noSuchMethod(
-        Invocation.method(#go, [location], {#extra: extra}),
-        returnValueForMissingStub: null,
-      );
+    Invocation.method(#go, [location], {#extra: extra}),
+    returnValueForMissingStub: null,
+  );
 
   @override
   void restore(_i43.RouteMatchList? matchList) => super.noSuchMethod(
-        Invocation.method(#restore, [matchList]),
-        returnValueForMissingStub: null,
-      );
+    Invocation.method(#restore, [matchList]),
+    returnValueForMissingStub: null,
+  );
 
   @override
   void goNamed(
@@ -627,28 +642,28 @@ class MockGoRouter extends _i1.Mock implements _i41.GoRouter {
     Map<String, dynamic>? queryParameters = const {},
     Object? extra,
     String? fragment,
-  }) =>
-      super.noSuchMethod(
-        Invocation.method(
-          #goNamed,
-          [name],
-          {
-            #pathParameters: pathParameters,
-            #queryParameters: queryParameters,
-            #extra: extra,
-            #fragment: fragment,
-          },
-        ),
-        returnValueForMissingStub: null,
-      );
+  }) => super.noSuchMethod(
+    Invocation.method(
+      #goNamed,
+      [name],
+      {
+        #pathParameters: pathParameters,
+        #queryParameters: queryParameters,
+        #extra: extra,
+        #fragment: fragment,
+      },
+    ),
+    returnValueForMissingStub: null,
+  );
 
   @override
   _i39.Future<T?> push<T extends Object?>(String? location, {Object? extra}) =>
       (super.noSuchMethod(
-        Invocation.method(#push, [location], {#extra: extra}),
-        returnValue: _i39.Future<T?>.value(),
-        returnValueForMissingStub: _i39.Future<T?>.value(),
-      ) as _i39.Future<T?>);
+            Invocation.method(#push, [location], {#extra: extra}),
+            returnValue: _i39.Future<T?>.value(),
+            returnValueForMissingStub: _i39.Future<T?>.value(),
+          )
+          as _i39.Future<T?>);
 
   @override
   _i39.Future<T?> pushNamed<T extends Object?>(
@@ -658,18 +673,19 @@ class MockGoRouter extends _i1.Mock implements _i41.GoRouter {
     Object? extra,
   }) =>
       (super.noSuchMethod(
-        Invocation.method(
-          #pushNamed,
-          [name],
-          {
-            #pathParameters: pathParameters,
-            #queryParameters: queryParameters,
-            #extra: extra,
-          },
-        ),
-        returnValue: _i39.Future<T?>.value(),
-        returnValueForMissingStub: _i39.Future<T?>.value(),
-      ) as _i39.Future<T?>);
+            Invocation.method(
+              #pushNamed,
+              [name],
+              {
+                #pathParameters: pathParameters,
+                #queryParameters: queryParameters,
+                #extra: extra,
+              },
+            ),
+            returnValue: _i39.Future<T?>.value(),
+            returnValueForMissingStub: _i39.Future<T?>.value(),
+          )
+          as _i39.Future<T?>);
 
   @override
   _i39.Future<T?> pushReplacement<T extends Object?>(
@@ -677,10 +693,11 @@ class MockGoRouter extends _i1.Mock implements _i41.GoRouter {
     Object? extra,
   }) =>
       (super.noSuchMethod(
-        Invocation.method(#pushReplacement, [location], {#extra: extra}),
-        returnValue: _i39.Future<T?>.value(),
-        returnValueForMissingStub: _i39.Future<T?>.value(),
-      ) as _i39.Future<T?>);
+            Invocation.method(#pushReplacement, [location], {#extra: extra}),
+            returnValue: _i39.Future<T?>.value(),
+            returnValueForMissingStub: _i39.Future<T?>.value(),
+          )
+          as _i39.Future<T?>);
 
   @override
   _i39.Future<T?> pushReplacementNamed<T extends Object?>(
@@ -690,26 +707,28 @@ class MockGoRouter extends _i1.Mock implements _i41.GoRouter {
     Object? extra,
   }) =>
       (super.noSuchMethod(
-        Invocation.method(
-          #pushReplacementNamed,
-          [name],
-          {
-            #pathParameters: pathParameters,
-            #queryParameters: queryParameters,
-            #extra: extra,
-          },
-        ),
-        returnValue: _i39.Future<T?>.value(),
-        returnValueForMissingStub: _i39.Future<T?>.value(),
-      ) as _i39.Future<T?>);
+            Invocation.method(
+              #pushReplacementNamed,
+              [name],
+              {
+                #pathParameters: pathParameters,
+                #queryParameters: queryParameters,
+                #extra: extra,
+              },
+            ),
+            returnValue: _i39.Future<T?>.value(),
+            returnValueForMissingStub: _i39.Future<T?>.value(),
+          )
+          as _i39.Future<T?>);
 
   @override
   _i39.Future<T?> replace<T>(String? location, {Object? extra}) =>
       (super.noSuchMethod(
-        Invocation.method(#replace, [location], {#extra: extra}),
-        returnValue: _i39.Future<T?>.value(),
-        returnValueForMissingStub: _i39.Future<T?>.value(),
-      ) as _i39.Future<T?>);
+            Invocation.method(#replace, [location], {#extra: extra}),
+            returnValue: _i39.Future<T?>.value(),
+            returnValueForMissingStub: _i39.Future<T?>.value(),
+          )
+          as _i39.Future<T?>);
 
   @override
   _i39.Future<T?> replaceNamed<T>(
@@ -719,36 +738,37 @@ class MockGoRouter extends _i1.Mock implements _i41.GoRouter {
     Object? extra,
   }) =>
       (super.noSuchMethod(
-        Invocation.method(
-          #replaceNamed,
-          [name],
-          {
-            #pathParameters: pathParameters,
-            #queryParameters: queryParameters,
-            #extra: extra,
-          },
-        ),
-        returnValue: _i39.Future<T?>.value(),
-        returnValueForMissingStub: _i39.Future<T?>.value(),
-      ) as _i39.Future<T?>);
+            Invocation.method(
+              #replaceNamed,
+              [name],
+              {
+                #pathParameters: pathParameters,
+                #queryParameters: queryParameters,
+                #extra: extra,
+              },
+            ),
+            returnValue: _i39.Future<T?>.value(),
+            returnValueForMissingStub: _i39.Future<T?>.value(),
+          )
+          as _i39.Future<T?>);
 
   @override
   void pop<T extends Object?>([T? result]) => super.noSuchMethod(
-        Invocation.method(#pop, [result]),
-        returnValueForMissingStub: null,
-      );
+    Invocation.method(#pop, [result]),
+    returnValueForMissingStub: null,
+  );
 
   @override
   void refresh() => super.noSuchMethod(
-        Invocation.method(#refresh, []),
-        returnValueForMissingStub: null,
-      );
+    Invocation.method(#refresh, []),
+    returnValueForMissingStub: null,
+  );
 
   @override
   void dispose() => super.noSuchMethod(
-        Invocation.method(#dispose, []),
-        returnValueForMissingStub: null,
-      );
+    Invocation.method(#dispose, []),
+    returnValueForMissingStub: null,
+  );
 }
 
 /// A class which mocks [Dio].
@@ -756,59 +776,67 @@ class MockGoRouter extends _i1.Mock implements _i41.GoRouter {
 /// See the documentation for Mockito's code generation for more information.
 class MockDio extends _i1.Mock implements _i13.Dio {
   @override
-  _i8.BaseOptions get options => (super.noSuchMethod(
-        Invocation.getter(#options),
-        returnValue: _FakeBaseOptions_6(this, Invocation.getter(#options)),
-        returnValueForMissingStub: _FakeBaseOptions_6(
-          this,
-          Invocation.getter(#options),
-        ),
-      ) as _i8.BaseOptions);
+  _i8.BaseOptions get options =>
+      (super.noSuchMethod(
+            Invocation.getter(#options),
+            returnValue: _FakeBaseOptions_6(this, Invocation.getter(#options)),
+            returnValueForMissingStub: _FakeBaseOptions_6(
+              this,
+              Invocation.getter(#options),
+            ),
+          )
+          as _i8.BaseOptions);
 
   @override
-  _i9.HttpClientAdapter get httpClientAdapter => (super.noSuchMethod(
-        Invocation.getter(#httpClientAdapter),
-        returnValue: _FakeHttpClientAdapter_7(
-          this,
-          Invocation.getter(#httpClientAdapter),
-        ),
-        returnValueForMissingStub: _FakeHttpClientAdapter_7(
-          this,
-          Invocation.getter(#httpClientAdapter),
-        ),
-      ) as _i9.HttpClientAdapter);
+  _i9.HttpClientAdapter get httpClientAdapter =>
+      (super.noSuchMethod(
+            Invocation.getter(#httpClientAdapter),
+            returnValue: _FakeHttpClientAdapter_7(
+              this,
+              Invocation.getter(#httpClientAdapter),
+            ),
+            returnValueForMissingStub: _FakeHttpClientAdapter_7(
+              this,
+              Invocation.getter(#httpClientAdapter),
+            ),
+          )
+          as _i9.HttpClientAdapter);
 
   @override
-  _i10.Transformer get transformer => (super.noSuchMethod(
-        Invocation.getter(#transformer),
-        returnValue: _FakeTransformer_8(
-          this,
-          Invocation.getter(#transformer),
-        ),
-        returnValueForMissingStub: _FakeTransformer_8(
-          this,
-          Invocation.getter(#transformer),
-        ),
-      ) as _i10.Transformer);
+  _i10.Transformer get transformer =>
+      (super.noSuchMethod(
+            Invocation.getter(#transformer),
+            returnValue: _FakeTransformer_8(
+              this,
+              Invocation.getter(#transformer),
+            ),
+            returnValueForMissingStub: _FakeTransformer_8(
+              this,
+              Invocation.getter(#transformer),
+            ),
+          )
+          as _i10.Transformer);
 
   @override
-  _i11.Interceptors get interceptors => (super.noSuchMethod(
-        Invocation.getter(#interceptors),
-        returnValue: _FakeInterceptors_9(
-          this,
-          Invocation.getter(#interceptors),
-        ),
-        returnValueForMissingStub: _FakeInterceptors_9(
-          this,
-          Invocation.getter(#interceptors),
-        ),
-      ) as _i11.Interceptors);
+  _i11.Interceptors get interceptors =>
+      (super.noSuchMethod(
+            Invocation.getter(#interceptors),
+            returnValue: _FakeInterceptors_9(
+              this,
+              Invocation.getter(#interceptors),
+            ),
+            returnValueForMissingStub: _FakeInterceptors_9(
+              this,
+              Invocation.getter(#interceptors),
+            ),
+          )
+          as _i11.Interceptors);
 
   @override
   set options(_i8.BaseOptions? _options) => super.noSuchMethod(
-        Invocation.setter(#options, _options),
-        returnValueForMissingStub: null,
-      );
+    Invocation.setter(#options, _options),
+    returnValueForMissingStub: null,
+  );
 
   @override
   set httpClientAdapter(_i9.HttpClientAdapter? _httpClientAdapter) =>
@@ -819,15 +847,15 @@ class MockDio extends _i1.Mock implements _i13.Dio {
 
   @override
   set transformer(_i10.Transformer? _transformer) => super.noSuchMethod(
-        Invocation.setter(#transformer, _transformer),
-        returnValueForMissingStub: null,
-      );
+    Invocation.setter(#transformer, _transformer),
+    returnValueForMissingStub: null,
+  );
 
   @override
   void close({bool? force = false}) => super.noSuchMethod(
-        Invocation.method(#close, [], {#force: force}),
-        returnValueForMissingStub: null,
-      );
+    Invocation.method(#close, [], {#force: force}),
+    returnValueForMissingStub: null,
+  );
 
   @override
   _i39.Future<_i12.Response<T>> head<T>(
@@ -838,19 +866,6 @@ class MockDio extends _i1.Mock implements _i13.Dio {
     _i44.CancelToken? cancelToken,
   }) =>
       (super.noSuchMethod(
-        Invocation.method(
-          #head,
-          [path],
-          {
-            #data: data,
-            #queryParameters: queryParameters,
-            #options: options,
-            #cancelToken: cancelToken,
-          },
-        ),
-        returnValue: _i39.Future<_i12.Response<T>>.value(
-          _FakeResponse_10<T>(
-            this,
             Invocation.method(
               #head,
               [path],
@@ -861,24 +876,38 @@ class MockDio extends _i1.Mock implements _i13.Dio {
                 #cancelToken: cancelToken,
               },
             ),
-          ),
-        ),
-        returnValueForMissingStub: _i39.Future<_i12.Response<T>>.value(
-          _FakeResponse_10<T>(
-            this,
-            Invocation.method(
-              #head,
-              [path],
-              {
-                #data: data,
-                #queryParameters: queryParameters,
-                #options: options,
-                #cancelToken: cancelToken,
-              },
+            returnValue: _i39.Future<_i12.Response<T>>.value(
+              _FakeResponse_10<T>(
+                this,
+                Invocation.method(
+                  #head,
+                  [path],
+                  {
+                    #data: data,
+                    #queryParameters: queryParameters,
+                    #options: options,
+                    #cancelToken: cancelToken,
+                  },
+                ),
+              ),
             ),
-          ),
-        ),
-      ) as _i39.Future<_i12.Response<T>>);
+            returnValueForMissingStub: _i39.Future<_i12.Response<T>>.value(
+              _FakeResponse_10<T>(
+                this,
+                Invocation.method(
+                  #head,
+                  [path],
+                  {
+                    #data: data,
+                    #queryParameters: queryParameters,
+                    #options: options,
+                    #cancelToken: cancelToken,
+                  },
+                ),
+              ),
+            ),
+          )
+          as _i39.Future<_i12.Response<T>>);
 
   @override
   _i39.Future<_i12.Response<T>> headUri<T>(
@@ -888,32 +917,33 @@ class MockDio extends _i1.Mock implements _i13.Dio {
     _i44.CancelToken? cancelToken,
   }) =>
       (super.noSuchMethod(
-        Invocation.method(
-          #headUri,
-          [uri],
-          {#data: data, #options: options, #cancelToken: cancelToken},
-        ),
-        returnValue: _i39.Future<_i12.Response<T>>.value(
-          _FakeResponse_10<T>(
-            this,
             Invocation.method(
               #headUri,
               [uri],
               {#data: data, #options: options, #cancelToken: cancelToken},
             ),
-          ),
-        ),
-        returnValueForMissingStub: _i39.Future<_i12.Response<T>>.value(
-          _FakeResponse_10<T>(
-            this,
-            Invocation.method(
-              #headUri,
-              [uri],
-              {#data: data, #options: options, #cancelToken: cancelToken},
+            returnValue: _i39.Future<_i12.Response<T>>.value(
+              _FakeResponse_10<T>(
+                this,
+                Invocation.method(
+                  #headUri,
+                  [uri],
+                  {#data: data, #options: options, #cancelToken: cancelToken},
+                ),
+              ),
             ),
-          ),
-        ),
-      ) as _i39.Future<_i12.Response<T>>);
+            returnValueForMissingStub: _i39.Future<_i12.Response<T>>.value(
+              _FakeResponse_10<T>(
+                this,
+                Invocation.method(
+                  #headUri,
+                  [uri],
+                  {#data: data, #options: options, #cancelToken: cancelToken},
+                ),
+              ),
+            ),
+          )
+          as _i39.Future<_i12.Response<T>>);
 
   @override
   _i39.Future<_i12.Response<T>> get<T>(
@@ -925,20 +955,6 @@ class MockDio extends _i1.Mock implements _i13.Dio {
     _i8.ProgressCallback? onReceiveProgress,
   }) =>
       (super.noSuchMethod(
-        Invocation.method(
-          #get,
-          [path],
-          {
-            #data: data,
-            #queryParameters: queryParameters,
-            #options: options,
-            #cancelToken: cancelToken,
-            #onReceiveProgress: onReceiveProgress,
-          },
-        ),
-        returnValue: _i39.Future<_i12.Response<T>>.value(
-          _FakeResponse_10<T>(
-            this,
             Invocation.method(
               #get,
               [path],
@@ -950,25 +966,40 @@ class MockDio extends _i1.Mock implements _i13.Dio {
                 #onReceiveProgress: onReceiveProgress,
               },
             ),
-          ),
-        ),
-        returnValueForMissingStub: _i39.Future<_i12.Response<T>>.value(
-          _FakeResponse_10<T>(
-            this,
-            Invocation.method(
-              #get,
-              [path],
-              {
-                #data: data,
-                #queryParameters: queryParameters,
-                #options: options,
-                #cancelToken: cancelToken,
-                #onReceiveProgress: onReceiveProgress,
-              },
+            returnValue: _i39.Future<_i12.Response<T>>.value(
+              _FakeResponse_10<T>(
+                this,
+                Invocation.method(
+                  #get,
+                  [path],
+                  {
+                    #data: data,
+                    #queryParameters: queryParameters,
+                    #options: options,
+                    #cancelToken: cancelToken,
+                    #onReceiveProgress: onReceiveProgress,
+                  },
+                ),
+              ),
             ),
-          ),
-        ),
-      ) as _i39.Future<_i12.Response<T>>);
+            returnValueForMissingStub: _i39.Future<_i12.Response<T>>.value(
+              _FakeResponse_10<T>(
+                this,
+                Invocation.method(
+                  #get,
+                  [path],
+                  {
+                    #data: data,
+                    #queryParameters: queryParameters,
+                    #options: options,
+                    #cancelToken: cancelToken,
+                    #onReceiveProgress: onReceiveProgress,
+                  },
+                ),
+              ),
+            ),
+          )
+          as _i39.Future<_i12.Response<T>>);
 
   @override
   _i39.Future<_i12.Response<T>> getUri<T>(
@@ -979,19 +1010,6 @@ class MockDio extends _i1.Mock implements _i13.Dio {
     _i8.ProgressCallback? onReceiveProgress,
   }) =>
       (super.noSuchMethod(
-        Invocation.method(
-          #getUri,
-          [uri],
-          {
-            #data: data,
-            #options: options,
-            #cancelToken: cancelToken,
-            #onReceiveProgress: onReceiveProgress,
-          },
-        ),
-        returnValue: _i39.Future<_i12.Response<T>>.value(
-          _FakeResponse_10<T>(
-            this,
             Invocation.method(
               #getUri,
               [uri],
@@ -1002,24 +1020,38 @@ class MockDio extends _i1.Mock implements _i13.Dio {
                 #onReceiveProgress: onReceiveProgress,
               },
             ),
-          ),
-        ),
-        returnValueForMissingStub: _i39.Future<_i12.Response<T>>.value(
-          _FakeResponse_10<T>(
-            this,
-            Invocation.method(
-              #getUri,
-              [uri],
-              {
-                #data: data,
-                #options: options,
-                #cancelToken: cancelToken,
-                #onReceiveProgress: onReceiveProgress,
-              },
+            returnValue: _i39.Future<_i12.Response<T>>.value(
+              _FakeResponse_10<T>(
+                this,
+                Invocation.method(
+                  #getUri,
+                  [uri],
+                  {
+                    #data: data,
+                    #options: options,
+                    #cancelToken: cancelToken,
+                    #onReceiveProgress: onReceiveProgress,
+                  },
+                ),
+              ),
             ),
-          ),
-        ),
-      ) as _i39.Future<_i12.Response<T>>);
+            returnValueForMissingStub: _i39.Future<_i12.Response<T>>.value(
+              _FakeResponse_10<T>(
+                this,
+                Invocation.method(
+                  #getUri,
+                  [uri],
+                  {
+                    #data: data,
+                    #options: options,
+                    #cancelToken: cancelToken,
+                    #onReceiveProgress: onReceiveProgress,
+                  },
+                ),
+              ),
+            ),
+          )
+          as _i39.Future<_i12.Response<T>>);
 
   @override
   _i39.Future<_i12.Response<T>> post<T>(
@@ -1032,21 +1064,6 @@ class MockDio extends _i1.Mock implements _i13.Dio {
     _i8.ProgressCallback? onReceiveProgress,
   }) =>
       (super.noSuchMethod(
-        Invocation.method(
-          #post,
-          [path],
-          {
-            #data: data,
-            #queryParameters: queryParameters,
-            #options: options,
-            #cancelToken: cancelToken,
-            #onSendProgress: onSendProgress,
-            #onReceiveProgress: onReceiveProgress,
-          },
-        ),
-        returnValue: _i39.Future<_i12.Response<T>>.value(
-          _FakeResponse_10<T>(
-            this,
             Invocation.method(
               #post,
               [path],
@@ -1059,26 +1076,42 @@ class MockDio extends _i1.Mock implements _i13.Dio {
                 #onReceiveProgress: onReceiveProgress,
               },
             ),
-          ),
-        ),
-        returnValueForMissingStub: _i39.Future<_i12.Response<T>>.value(
-          _FakeResponse_10<T>(
-            this,
-            Invocation.method(
-              #post,
-              [path],
-              {
-                #data: data,
-                #queryParameters: queryParameters,
-                #options: options,
-                #cancelToken: cancelToken,
-                #onSendProgress: onSendProgress,
-                #onReceiveProgress: onReceiveProgress,
-              },
+            returnValue: _i39.Future<_i12.Response<T>>.value(
+              _FakeResponse_10<T>(
+                this,
+                Invocation.method(
+                  #post,
+                  [path],
+                  {
+                    #data: data,
+                    #queryParameters: queryParameters,
+                    #options: options,
+                    #cancelToken: cancelToken,
+                    #onSendProgress: onSendProgress,
+                    #onReceiveProgress: onReceiveProgress,
+                  },
+                ),
+              ),
             ),
-          ),
-        ),
-      ) as _i39.Future<_i12.Response<T>>);
+            returnValueForMissingStub: _i39.Future<_i12.Response<T>>.value(
+              _FakeResponse_10<T>(
+                this,
+                Invocation.method(
+                  #post,
+                  [path],
+                  {
+                    #data: data,
+                    #queryParameters: queryParameters,
+                    #options: options,
+                    #cancelToken: cancelToken,
+                    #onSendProgress: onSendProgress,
+                    #onReceiveProgress: onReceiveProgress,
+                  },
+                ),
+              ),
+            ),
+          )
+          as _i39.Future<_i12.Response<T>>);
 
   @override
   _i39.Future<_i12.Response<T>> postUri<T>(
@@ -1090,20 +1123,6 @@ class MockDio extends _i1.Mock implements _i13.Dio {
     _i8.ProgressCallback? onReceiveProgress,
   }) =>
       (super.noSuchMethod(
-        Invocation.method(
-          #postUri,
-          [uri],
-          {
-            #data: data,
-            #options: options,
-            #cancelToken: cancelToken,
-            #onSendProgress: onSendProgress,
-            #onReceiveProgress: onReceiveProgress,
-          },
-        ),
-        returnValue: _i39.Future<_i12.Response<T>>.value(
-          _FakeResponse_10<T>(
-            this,
             Invocation.method(
               #postUri,
               [uri],
@@ -1115,25 +1134,40 @@ class MockDio extends _i1.Mock implements _i13.Dio {
                 #onReceiveProgress: onReceiveProgress,
               },
             ),
-          ),
-        ),
-        returnValueForMissingStub: _i39.Future<_i12.Response<T>>.value(
-          _FakeResponse_10<T>(
-            this,
-            Invocation.method(
-              #postUri,
-              [uri],
-              {
-                #data: data,
-                #options: options,
-                #cancelToken: cancelToken,
-                #onSendProgress: onSendProgress,
-                #onReceiveProgress: onReceiveProgress,
-              },
+            returnValue: _i39.Future<_i12.Response<T>>.value(
+              _FakeResponse_10<T>(
+                this,
+                Invocation.method(
+                  #postUri,
+                  [uri],
+                  {
+                    #data: data,
+                    #options: options,
+                    #cancelToken: cancelToken,
+                    #onSendProgress: onSendProgress,
+                    #onReceiveProgress: onReceiveProgress,
+                  },
+                ),
+              ),
             ),
-          ),
-        ),
-      ) as _i39.Future<_i12.Response<T>>);
+            returnValueForMissingStub: _i39.Future<_i12.Response<T>>.value(
+              _FakeResponse_10<T>(
+                this,
+                Invocation.method(
+                  #postUri,
+                  [uri],
+                  {
+                    #data: data,
+                    #options: options,
+                    #cancelToken: cancelToken,
+                    #onSendProgress: onSendProgress,
+                    #onReceiveProgress: onReceiveProgress,
+                  },
+                ),
+              ),
+            ),
+          )
+          as _i39.Future<_i12.Response<T>>);
 
   @override
   _i39.Future<_i12.Response<T>> put<T>(
@@ -1146,21 +1180,6 @@ class MockDio extends _i1.Mock implements _i13.Dio {
     _i8.ProgressCallback? onReceiveProgress,
   }) =>
       (super.noSuchMethod(
-        Invocation.method(
-          #put,
-          [path],
-          {
-            #data: data,
-            #queryParameters: queryParameters,
-            #options: options,
-            #cancelToken: cancelToken,
-            #onSendProgress: onSendProgress,
-            #onReceiveProgress: onReceiveProgress,
-          },
-        ),
-        returnValue: _i39.Future<_i12.Response<T>>.value(
-          _FakeResponse_10<T>(
-            this,
             Invocation.method(
               #put,
               [path],
@@ -1173,26 +1192,42 @@ class MockDio extends _i1.Mock implements _i13.Dio {
                 #onReceiveProgress: onReceiveProgress,
               },
             ),
-          ),
-        ),
-        returnValueForMissingStub: _i39.Future<_i12.Response<T>>.value(
-          _FakeResponse_10<T>(
-            this,
-            Invocation.method(
-              #put,
-              [path],
-              {
-                #data: data,
-                #queryParameters: queryParameters,
-                #options: options,
-                #cancelToken: cancelToken,
-                #onSendProgress: onSendProgress,
-                #onReceiveProgress: onReceiveProgress,
-              },
+            returnValue: _i39.Future<_i12.Response<T>>.value(
+              _FakeResponse_10<T>(
+                this,
+                Invocation.method(
+                  #put,
+                  [path],
+                  {
+                    #data: data,
+                    #queryParameters: queryParameters,
+                    #options: options,
+                    #cancelToken: cancelToken,
+                    #onSendProgress: onSendProgress,
+                    #onReceiveProgress: onReceiveProgress,
+                  },
+                ),
+              ),
             ),
-          ),
-        ),
-      ) as _i39.Future<_i12.Response<T>>);
+            returnValueForMissingStub: _i39.Future<_i12.Response<T>>.value(
+              _FakeResponse_10<T>(
+                this,
+                Invocation.method(
+                  #put,
+                  [path],
+                  {
+                    #data: data,
+                    #queryParameters: queryParameters,
+                    #options: options,
+                    #cancelToken: cancelToken,
+                    #onSendProgress: onSendProgress,
+                    #onReceiveProgress: onReceiveProgress,
+                  },
+                ),
+              ),
+            ),
+          )
+          as _i39.Future<_i12.Response<T>>);
 
   @override
   _i39.Future<_i12.Response<T>> putUri<T>(
@@ -1204,20 +1239,6 @@ class MockDio extends _i1.Mock implements _i13.Dio {
     _i8.ProgressCallback? onReceiveProgress,
   }) =>
       (super.noSuchMethod(
-        Invocation.method(
-          #putUri,
-          [uri],
-          {
-            #data: data,
-            #options: options,
-            #cancelToken: cancelToken,
-            #onSendProgress: onSendProgress,
-            #onReceiveProgress: onReceiveProgress,
-          },
-        ),
-        returnValue: _i39.Future<_i12.Response<T>>.value(
-          _FakeResponse_10<T>(
-            this,
             Invocation.method(
               #putUri,
               [uri],
@@ -1229,25 +1250,40 @@ class MockDio extends _i1.Mock implements _i13.Dio {
                 #onReceiveProgress: onReceiveProgress,
               },
             ),
-          ),
-        ),
-        returnValueForMissingStub: _i39.Future<_i12.Response<T>>.value(
-          _FakeResponse_10<T>(
-            this,
-            Invocation.method(
-              #putUri,
-              [uri],
-              {
-                #data: data,
-                #options: options,
-                #cancelToken: cancelToken,
-                #onSendProgress: onSendProgress,
-                #onReceiveProgress: onReceiveProgress,
-              },
+            returnValue: _i39.Future<_i12.Response<T>>.value(
+              _FakeResponse_10<T>(
+                this,
+                Invocation.method(
+                  #putUri,
+                  [uri],
+                  {
+                    #data: data,
+                    #options: options,
+                    #cancelToken: cancelToken,
+                    #onSendProgress: onSendProgress,
+                    #onReceiveProgress: onReceiveProgress,
+                  },
+                ),
+              ),
             ),
-          ),
-        ),
-      ) as _i39.Future<_i12.Response<T>>);
+            returnValueForMissingStub: _i39.Future<_i12.Response<T>>.value(
+              _FakeResponse_10<T>(
+                this,
+                Invocation.method(
+                  #putUri,
+                  [uri],
+                  {
+                    #data: data,
+                    #options: options,
+                    #cancelToken: cancelToken,
+                    #onSendProgress: onSendProgress,
+                    #onReceiveProgress: onReceiveProgress,
+                  },
+                ),
+              ),
+            ),
+          )
+          as _i39.Future<_i12.Response<T>>);
 
   @override
   _i39.Future<_i12.Response<T>> patch<T>(
@@ -1260,21 +1296,6 @@ class MockDio extends _i1.Mock implements _i13.Dio {
     _i8.ProgressCallback? onReceiveProgress,
   }) =>
       (super.noSuchMethod(
-        Invocation.method(
-          #patch,
-          [path],
-          {
-            #data: data,
-            #queryParameters: queryParameters,
-            #options: options,
-            #cancelToken: cancelToken,
-            #onSendProgress: onSendProgress,
-            #onReceiveProgress: onReceiveProgress,
-          },
-        ),
-        returnValue: _i39.Future<_i12.Response<T>>.value(
-          _FakeResponse_10<T>(
-            this,
             Invocation.method(
               #patch,
               [path],
@@ -1287,26 +1308,42 @@ class MockDio extends _i1.Mock implements _i13.Dio {
                 #onReceiveProgress: onReceiveProgress,
               },
             ),
-          ),
-        ),
-        returnValueForMissingStub: _i39.Future<_i12.Response<T>>.value(
-          _FakeResponse_10<T>(
-            this,
-            Invocation.method(
-              #patch,
-              [path],
-              {
-                #data: data,
-                #queryParameters: queryParameters,
-                #options: options,
-                #cancelToken: cancelToken,
-                #onSendProgress: onSendProgress,
-                #onReceiveProgress: onReceiveProgress,
-              },
+            returnValue: _i39.Future<_i12.Response<T>>.value(
+              _FakeResponse_10<T>(
+                this,
+                Invocation.method(
+                  #patch,
+                  [path],
+                  {
+                    #data: data,
+                    #queryParameters: queryParameters,
+                    #options: options,
+                    #cancelToken: cancelToken,
+                    #onSendProgress: onSendProgress,
+                    #onReceiveProgress: onReceiveProgress,
+                  },
+                ),
+              ),
             ),
-          ),
-        ),
-      ) as _i39.Future<_i12.Response<T>>);
+            returnValueForMissingStub: _i39.Future<_i12.Response<T>>.value(
+              _FakeResponse_10<T>(
+                this,
+                Invocation.method(
+                  #patch,
+                  [path],
+                  {
+                    #data: data,
+                    #queryParameters: queryParameters,
+                    #options: options,
+                    #cancelToken: cancelToken,
+                    #onSendProgress: onSendProgress,
+                    #onReceiveProgress: onReceiveProgress,
+                  },
+                ),
+              ),
+            ),
+          )
+          as _i39.Future<_i12.Response<T>>);
 
   @override
   _i39.Future<_i12.Response<T>> patchUri<T>(
@@ -1318,20 +1355,6 @@ class MockDio extends _i1.Mock implements _i13.Dio {
     _i8.ProgressCallback? onReceiveProgress,
   }) =>
       (super.noSuchMethod(
-        Invocation.method(
-          #patchUri,
-          [uri],
-          {
-            #data: data,
-            #options: options,
-            #cancelToken: cancelToken,
-            #onSendProgress: onSendProgress,
-            #onReceiveProgress: onReceiveProgress,
-          },
-        ),
-        returnValue: _i39.Future<_i12.Response<T>>.value(
-          _FakeResponse_10<T>(
-            this,
             Invocation.method(
               #patchUri,
               [uri],
@@ -1343,25 +1366,40 @@ class MockDio extends _i1.Mock implements _i13.Dio {
                 #onReceiveProgress: onReceiveProgress,
               },
             ),
-          ),
-        ),
-        returnValueForMissingStub: _i39.Future<_i12.Response<T>>.value(
-          _FakeResponse_10<T>(
-            this,
-            Invocation.method(
-              #patchUri,
-              [uri],
-              {
-                #data: data,
-                #options: options,
-                #cancelToken: cancelToken,
-                #onSendProgress: onSendProgress,
-                #onReceiveProgress: onReceiveProgress,
-              },
+            returnValue: _i39.Future<_i12.Response<T>>.value(
+              _FakeResponse_10<T>(
+                this,
+                Invocation.method(
+                  #patchUri,
+                  [uri],
+                  {
+                    #data: data,
+                    #options: options,
+                    #cancelToken: cancelToken,
+                    #onSendProgress: onSendProgress,
+                    #onReceiveProgress: onReceiveProgress,
+                  },
+                ),
+              ),
             ),
-          ),
-        ),
-      ) as _i39.Future<_i12.Response<T>>);
+            returnValueForMissingStub: _i39.Future<_i12.Response<T>>.value(
+              _FakeResponse_10<T>(
+                this,
+                Invocation.method(
+                  #patchUri,
+                  [uri],
+                  {
+                    #data: data,
+                    #options: options,
+                    #cancelToken: cancelToken,
+                    #onSendProgress: onSendProgress,
+                    #onReceiveProgress: onReceiveProgress,
+                  },
+                ),
+              ),
+            ),
+          )
+          as _i39.Future<_i12.Response<T>>);
 
   @override
   _i39.Future<_i12.Response<T>> delete<T>(
@@ -1372,19 +1410,6 @@ class MockDio extends _i1.Mock implements _i13.Dio {
     _i44.CancelToken? cancelToken,
   }) =>
       (super.noSuchMethod(
-        Invocation.method(
-          #delete,
-          [path],
-          {
-            #data: data,
-            #queryParameters: queryParameters,
-            #options: options,
-            #cancelToken: cancelToken,
-          },
-        ),
-        returnValue: _i39.Future<_i12.Response<T>>.value(
-          _FakeResponse_10<T>(
-            this,
             Invocation.method(
               #delete,
               [path],
@@ -1395,24 +1420,38 @@ class MockDio extends _i1.Mock implements _i13.Dio {
                 #cancelToken: cancelToken,
               },
             ),
-          ),
-        ),
-        returnValueForMissingStub: _i39.Future<_i12.Response<T>>.value(
-          _FakeResponse_10<T>(
-            this,
-            Invocation.method(
-              #delete,
-              [path],
-              {
-                #data: data,
-                #queryParameters: queryParameters,
-                #options: options,
-                #cancelToken: cancelToken,
-              },
+            returnValue: _i39.Future<_i12.Response<T>>.value(
+              _FakeResponse_10<T>(
+                this,
+                Invocation.method(
+                  #delete,
+                  [path],
+                  {
+                    #data: data,
+                    #queryParameters: queryParameters,
+                    #options: options,
+                    #cancelToken: cancelToken,
+                  },
+                ),
+              ),
             ),
-          ),
-        ),
-      ) as _i39.Future<_i12.Response<T>>);
+            returnValueForMissingStub: _i39.Future<_i12.Response<T>>.value(
+              _FakeResponse_10<T>(
+                this,
+                Invocation.method(
+                  #delete,
+                  [path],
+                  {
+                    #data: data,
+                    #queryParameters: queryParameters,
+                    #options: options,
+                    #cancelToken: cancelToken,
+                  },
+                ),
+              ),
+            ),
+          )
+          as _i39.Future<_i12.Response<T>>);
 
   @override
   _i39.Future<_i12.Response<T>> deleteUri<T>(
@@ -1422,32 +1461,33 @@ class MockDio extends _i1.Mock implements _i13.Dio {
     _i44.CancelToken? cancelToken,
   }) =>
       (super.noSuchMethod(
-        Invocation.method(
-          #deleteUri,
-          [uri],
-          {#data: data, #options: options, #cancelToken: cancelToken},
-        ),
-        returnValue: _i39.Future<_i12.Response<T>>.value(
-          _FakeResponse_10<T>(
-            this,
             Invocation.method(
               #deleteUri,
               [uri],
               {#data: data, #options: options, #cancelToken: cancelToken},
             ),
-          ),
-        ),
-        returnValueForMissingStub: _i39.Future<_i12.Response<T>>.value(
-          _FakeResponse_10<T>(
-            this,
-            Invocation.method(
-              #deleteUri,
-              [uri],
-              {#data: data, #options: options, #cancelToken: cancelToken},
+            returnValue: _i39.Future<_i12.Response<T>>.value(
+              _FakeResponse_10<T>(
+                this,
+                Invocation.method(
+                  #deleteUri,
+                  [uri],
+                  {#data: data, #options: options, #cancelToken: cancelToken},
+                ),
+              ),
             ),
-          ),
-        ),
-      ) as _i39.Future<_i12.Response<T>>);
+            returnValueForMissingStub: _i39.Future<_i12.Response<T>>.value(
+              _FakeResponse_10<T>(
+                this,
+                Invocation.method(
+                  #deleteUri,
+                  [uri],
+                  {#data: data, #options: options, #cancelToken: cancelToken},
+                ),
+              ),
+            ),
+          )
+          as _i39.Future<_i12.Response<T>>);
 
   @override
   _i39.Future<_i12.Response<dynamic>> download(
@@ -1463,23 +1503,6 @@ class MockDio extends _i1.Mock implements _i13.Dio {
     _i8.Options? options,
   }) =>
       (super.noSuchMethod(
-        Invocation.method(
-          #download,
-          [urlPath, savePath],
-          {
-            #onReceiveProgress: onReceiveProgress,
-            #queryParameters: queryParameters,
-            #cancelToken: cancelToken,
-            #deleteOnError: deleteOnError,
-            #fileAccessMode: fileAccessMode,
-            #lengthHeader: lengthHeader,
-            #data: data,
-            #options: options,
-          },
-        ),
-        returnValue: _i39.Future<_i12.Response<dynamic>>.value(
-          _FakeResponse_10<dynamic>(
-            this,
             Invocation.method(
               #download,
               [urlPath, savePath],
@@ -1494,28 +1517,47 @@ class MockDio extends _i1.Mock implements _i13.Dio {
                 #options: options,
               },
             ),
-          ),
-        ),
-        returnValueForMissingStub: _i39.Future<_i12.Response<dynamic>>.value(
-          _FakeResponse_10<dynamic>(
-            this,
-            Invocation.method(
-              #download,
-              [urlPath, savePath],
-              {
-                #onReceiveProgress: onReceiveProgress,
-                #queryParameters: queryParameters,
-                #cancelToken: cancelToken,
-                #deleteOnError: deleteOnError,
-                #fileAccessMode: fileAccessMode,
-                #lengthHeader: lengthHeader,
-                #data: data,
-                #options: options,
-              },
+            returnValue: _i39.Future<_i12.Response<dynamic>>.value(
+              _FakeResponse_10<dynamic>(
+                this,
+                Invocation.method(
+                  #download,
+                  [urlPath, savePath],
+                  {
+                    #onReceiveProgress: onReceiveProgress,
+                    #queryParameters: queryParameters,
+                    #cancelToken: cancelToken,
+                    #deleteOnError: deleteOnError,
+                    #fileAccessMode: fileAccessMode,
+                    #lengthHeader: lengthHeader,
+                    #data: data,
+                    #options: options,
+                  },
+                ),
+              ),
             ),
-          ),
-        ),
-      ) as _i39.Future<_i12.Response<dynamic>>);
+            returnValueForMissingStub:
+                _i39.Future<_i12.Response<dynamic>>.value(
+                  _FakeResponse_10<dynamic>(
+                    this,
+                    Invocation.method(
+                      #download,
+                      [urlPath, savePath],
+                      {
+                        #onReceiveProgress: onReceiveProgress,
+                        #queryParameters: queryParameters,
+                        #cancelToken: cancelToken,
+                        #deleteOnError: deleteOnError,
+                        #fileAccessMode: fileAccessMode,
+                        #lengthHeader: lengthHeader,
+                        #data: data,
+                        #options: options,
+                      },
+                    ),
+                  ),
+                ),
+          )
+          as _i39.Future<_i12.Response<dynamic>>);
 
   @override
   _i39.Future<_i12.Response<dynamic>> downloadUri(
@@ -1530,22 +1572,6 @@ class MockDio extends _i1.Mock implements _i13.Dio {
     _i8.Options? options,
   }) =>
       (super.noSuchMethod(
-        Invocation.method(
-          #downloadUri,
-          [uri, savePath],
-          {
-            #onReceiveProgress: onReceiveProgress,
-            #cancelToken: cancelToken,
-            #deleteOnError: deleteOnError,
-            #fileAccessMode: fileAccessMode,
-            #lengthHeader: lengthHeader,
-            #data: data,
-            #options: options,
-          },
-        ),
-        returnValue: _i39.Future<_i12.Response<dynamic>>.value(
-          _FakeResponse_10<dynamic>(
-            this,
             Invocation.method(
               #downloadUri,
               [uri, savePath],
@@ -1559,27 +1585,45 @@ class MockDio extends _i1.Mock implements _i13.Dio {
                 #options: options,
               },
             ),
-          ),
-        ),
-        returnValueForMissingStub: _i39.Future<_i12.Response<dynamic>>.value(
-          _FakeResponse_10<dynamic>(
-            this,
-            Invocation.method(
-              #downloadUri,
-              [uri, savePath],
-              {
-                #onReceiveProgress: onReceiveProgress,
-                #cancelToken: cancelToken,
-                #deleteOnError: deleteOnError,
-                #fileAccessMode: fileAccessMode,
-                #lengthHeader: lengthHeader,
-                #data: data,
-                #options: options,
-              },
+            returnValue: _i39.Future<_i12.Response<dynamic>>.value(
+              _FakeResponse_10<dynamic>(
+                this,
+                Invocation.method(
+                  #downloadUri,
+                  [uri, savePath],
+                  {
+                    #onReceiveProgress: onReceiveProgress,
+                    #cancelToken: cancelToken,
+                    #deleteOnError: deleteOnError,
+                    #fileAccessMode: fileAccessMode,
+                    #lengthHeader: lengthHeader,
+                    #data: data,
+                    #options: options,
+                  },
+                ),
+              ),
             ),
-          ),
-        ),
-      ) as _i39.Future<_i12.Response<dynamic>>);
+            returnValueForMissingStub:
+                _i39.Future<_i12.Response<dynamic>>.value(
+                  _FakeResponse_10<dynamic>(
+                    this,
+                    Invocation.method(
+                      #downloadUri,
+                      [uri, savePath],
+                      {
+                        #onReceiveProgress: onReceiveProgress,
+                        #cancelToken: cancelToken,
+                        #deleteOnError: deleteOnError,
+                        #fileAccessMode: fileAccessMode,
+                        #lengthHeader: lengthHeader,
+                        #data: data,
+                        #options: options,
+                      },
+                    ),
+                  ),
+                ),
+          )
+          as _i39.Future<_i12.Response<dynamic>>);
 
   @override
   _i39.Future<_i12.Response<T>> request<T>(
@@ -1592,21 +1636,6 @@ class MockDio extends _i1.Mock implements _i13.Dio {
     _i8.ProgressCallback? onReceiveProgress,
   }) =>
       (super.noSuchMethod(
-        Invocation.method(
-          #request,
-          [url],
-          {
-            #data: data,
-            #queryParameters: queryParameters,
-            #cancelToken: cancelToken,
-            #options: options,
-            #onSendProgress: onSendProgress,
-            #onReceiveProgress: onReceiveProgress,
-          },
-        ),
-        returnValue: _i39.Future<_i12.Response<T>>.value(
-          _FakeResponse_10<T>(
-            this,
             Invocation.method(
               #request,
               [url],
@@ -1619,26 +1648,42 @@ class MockDio extends _i1.Mock implements _i13.Dio {
                 #onReceiveProgress: onReceiveProgress,
               },
             ),
-          ),
-        ),
-        returnValueForMissingStub: _i39.Future<_i12.Response<T>>.value(
-          _FakeResponse_10<T>(
-            this,
-            Invocation.method(
-              #request,
-              [url],
-              {
-                #data: data,
-                #queryParameters: queryParameters,
-                #cancelToken: cancelToken,
-                #options: options,
-                #onSendProgress: onSendProgress,
-                #onReceiveProgress: onReceiveProgress,
-              },
+            returnValue: _i39.Future<_i12.Response<T>>.value(
+              _FakeResponse_10<T>(
+                this,
+                Invocation.method(
+                  #request,
+                  [url],
+                  {
+                    #data: data,
+                    #queryParameters: queryParameters,
+                    #cancelToken: cancelToken,
+                    #options: options,
+                    #onSendProgress: onSendProgress,
+                    #onReceiveProgress: onReceiveProgress,
+                  },
+                ),
+              ),
             ),
-          ),
-        ),
-      ) as _i39.Future<_i12.Response<T>>);
+            returnValueForMissingStub: _i39.Future<_i12.Response<T>>.value(
+              _FakeResponse_10<T>(
+                this,
+                Invocation.method(
+                  #request,
+                  [url],
+                  {
+                    #data: data,
+                    #queryParameters: queryParameters,
+                    #cancelToken: cancelToken,
+                    #options: options,
+                    #onSendProgress: onSendProgress,
+                    #onReceiveProgress: onReceiveProgress,
+                  },
+                ),
+              ),
+            ),
+          )
+          as _i39.Future<_i12.Response<T>>);
 
   @override
   _i39.Future<_i12.Response<T>> requestUri<T>(
@@ -1650,20 +1695,6 @@ class MockDio extends _i1.Mock implements _i13.Dio {
     _i8.ProgressCallback? onReceiveProgress,
   }) =>
       (super.noSuchMethod(
-        Invocation.method(
-          #requestUri,
-          [uri],
-          {
-            #data: data,
-            #cancelToken: cancelToken,
-            #options: options,
-            #onSendProgress: onSendProgress,
-            #onReceiveProgress: onReceiveProgress,
-          },
-        ),
-        returnValue: _i39.Future<_i12.Response<T>>.value(
-          _FakeResponse_10<T>(
-            this,
             Invocation.method(
               #requestUri,
               [uri],
@@ -1675,43 +1706,59 @@ class MockDio extends _i1.Mock implements _i13.Dio {
                 #onReceiveProgress: onReceiveProgress,
               },
             ),
-          ),
-        ),
-        returnValueForMissingStub: _i39.Future<_i12.Response<T>>.value(
-          _FakeResponse_10<T>(
-            this,
-            Invocation.method(
-              #requestUri,
-              [uri],
-              {
-                #data: data,
-                #cancelToken: cancelToken,
-                #options: options,
-                #onSendProgress: onSendProgress,
-                #onReceiveProgress: onReceiveProgress,
-              },
+            returnValue: _i39.Future<_i12.Response<T>>.value(
+              _FakeResponse_10<T>(
+                this,
+                Invocation.method(
+                  #requestUri,
+                  [uri],
+                  {
+                    #data: data,
+                    #cancelToken: cancelToken,
+                    #options: options,
+                    #onSendProgress: onSendProgress,
+                    #onReceiveProgress: onReceiveProgress,
+                  },
+                ),
+              ),
             ),
-          ),
-        ),
-      ) as _i39.Future<_i12.Response<T>>);
+            returnValueForMissingStub: _i39.Future<_i12.Response<T>>.value(
+              _FakeResponse_10<T>(
+                this,
+                Invocation.method(
+                  #requestUri,
+                  [uri],
+                  {
+                    #data: data,
+                    #cancelToken: cancelToken,
+                    #options: options,
+                    #onSendProgress: onSendProgress,
+                    #onReceiveProgress: onReceiveProgress,
+                  },
+                ),
+              ),
+            ),
+          )
+          as _i39.Future<_i12.Response<T>>);
 
   @override
   _i39.Future<_i12.Response<T>> fetch<T>(_i8.RequestOptions? requestOptions) =>
       (super.noSuchMethod(
-        Invocation.method(#fetch, [requestOptions]),
-        returnValue: _i39.Future<_i12.Response<T>>.value(
-          _FakeResponse_10<T>(
-            this,
             Invocation.method(#fetch, [requestOptions]),
-          ),
-        ),
-        returnValueForMissingStub: _i39.Future<_i12.Response<T>>.value(
-          _FakeResponse_10<T>(
-            this,
-            Invocation.method(#fetch, [requestOptions]),
-          ),
-        ),
-      ) as _i39.Future<_i12.Response<T>>);
+            returnValue: _i39.Future<_i12.Response<T>>.value(
+              _FakeResponse_10<T>(
+                this,
+                Invocation.method(#fetch, [requestOptions]),
+              ),
+            ),
+            returnValueForMissingStub: _i39.Future<_i12.Response<T>>.value(
+              _FakeResponse_10<T>(
+                this,
+                Invocation.method(#fetch, [requestOptions]),
+              ),
+            ),
+          )
+          as _i39.Future<_i12.Response<T>>);
 
   @override
   _i13.Dio clone({
@@ -1721,31 +1768,32 @@ class MockDio extends _i1.Mock implements _i13.Dio {
     _i10.Transformer? transformer,
   }) =>
       (super.noSuchMethod(
-        Invocation.method(#clone, [], {
-          #options: options,
-          #interceptors: interceptors,
-          #httpClientAdapter: httpClientAdapter,
-          #transformer: transformer,
-        }),
-        returnValue: _FakeDio_11(
-          this,
-          Invocation.method(#clone, [], {
-            #options: options,
-            #interceptors: interceptors,
-            #httpClientAdapter: httpClientAdapter,
-            #transformer: transformer,
-          }),
-        ),
-        returnValueForMissingStub: _FakeDio_11(
-          this,
-          Invocation.method(#clone, [], {
-            #options: options,
-            #interceptors: interceptors,
-            #httpClientAdapter: httpClientAdapter,
-            #transformer: transformer,
-          }),
-        ),
-      ) as _i13.Dio);
+            Invocation.method(#clone, [], {
+              #options: options,
+              #interceptors: interceptors,
+              #httpClientAdapter: httpClientAdapter,
+              #transformer: transformer,
+            }),
+            returnValue: _FakeDio_11(
+              this,
+              Invocation.method(#clone, [], {
+                #options: options,
+                #interceptors: interceptors,
+                #httpClientAdapter: httpClientAdapter,
+                #transformer: transformer,
+              }),
+            ),
+            returnValueForMissingStub: _FakeDio_11(
+              this,
+              Invocation.method(#clone, [], {
+                #options: options,
+                #interceptors: interceptors,
+                #httpClientAdapter: httpClientAdapter,
+                #transformer: transformer,
+              }),
+            ),
+          )
+          as _i13.Dio);
 }
 
 /// A class which mocks [AuthService].
@@ -1759,38 +1807,39 @@ class MockAuthService extends _i1.Mock implements _i16.AuthService {
     String? inviteCode,
   }) =>
       (super.noSuchMethod(
-        Invocation.method(
-          #sendMagicLink,
-          [email],
-          {#name: name, #inviteCode: inviteCode},
-        ),
-        returnValue: _i39.Future<_i45.Result<void, _i46.Failure>>.value(
-          _i42.dummyValue<_i45.Result<void, _i46.Failure>>(
-            this,
             Invocation.method(
               #sendMagicLink,
               [email],
               {#name: name, #inviteCode: inviteCode},
             ),
-          ),
-        ),
-        returnValueForMissingStub:
-            _i39.Future<_i45.Result<void, _i46.Failure>>.value(
-          _i42.dummyValue<_i45.Result<void, _i46.Failure>>(
-            this,
-            Invocation.method(
-              #sendMagicLink,
-              [email],
-              {#name: name, #inviteCode: inviteCode},
+            returnValue: _i39.Future<_i45.Result<void, _i46.Failure>>.value(
+              _i42.dummyValue<_i45.Result<void, _i46.Failure>>(
+                this,
+                Invocation.method(
+                  #sendMagicLink,
+                  [email],
+                  {#name: name, #inviteCode: inviteCode},
+                ),
+              ),
             ),
-          ),
-        ),
-      ) as _i39.Future<_i45.Result<void, _i46.Failure>>);
+            returnValueForMissingStub:
+                _i39.Future<_i45.Result<void, _i46.Failure>>.value(
+                  _i42.dummyValue<_i45.Result<void, _i46.Failure>>(
+                    this,
+                    Invocation.method(
+                      #sendMagicLink,
+                      [email],
+                      {#name: name, #inviteCode: inviteCode},
+                    ),
+                  ),
+                ),
+          )
+          as _i39.Future<_i45.Result<void, _i46.Failure>>);
 
   @override
   _i39.Future<_i45.Result<_i16.AuthResult, _i46.Failure>>
-      authenticateWithMagicLink(String? token, {String? inviteCode}) =>
-          (super.noSuchMethod(
+  authenticateWithMagicLink(String? token, {String? inviteCode}) =>
+      (super.noSuchMethod(
             Invocation.method(
               #authenticateWithMagicLink,
               [token],
@@ -1798,37 +1847,38 @@ class MockAuthService extends _i1.Mock implements _i16.AuthService {
             ),
             returnValue:
                 _i39.Future<_i45.Result<_i16.AuthResult, _i46.Failure>>.value(
-              _i42.dummyValue<_i45.Result<_i16.AuthResult, _i46.Failure>>(
-                this,
-                Invocation.method(
-                  #authenticateWithMagicLink,
-                  [token],
-                  {#inviteCode: inviteCode},
+                  _i42.dummyValue<_i45.Result<_i16.AuthResult, _i46.Failure>>(
+                    this,
+                    Invocation.method(
+                      #authenticateWithMagicLink,
+                      [token],
+                      {#inviteCode: inviteCode},
+                    ),
+                  ),
                 ),
-              ),
-            ),
             returnValueForMissingStub:
                 _i39.Future<_i45.Result<_i16.AuthResult, _i46.Failure>>.value(
-              _i42.dummyValue<_i45.Result<_i16.AuthResult, _i46.Failure>>(
-                this,
-                Invocation.method(
-                  #authenticateWithMagicLink,
-                  [token],
-                  {#inviteCode: inviteCode},
+                  _i42.dummyValue<_i45.Result<_i16.AuthResult, _i46.Failure>>(
+                    this,
+                    Invocation.method(
+                      #authenticateWithMagicLink,
+                      [token],
+                      {#inviteCode: inviteCode},
+                    ),
+                  ),
                 ),
-              ),
-            ),
-          ) as _i39.Future<_i45.Result<_i16.AuthResult, _i46.Failure>>);
+          )
+          as _i39.Future<_i45.Result<_i16.AuthResult, _i46.Failure>>);
 
   @override
   _i39.Future<_i45.Result<_i16.AuthResult, _i46.Failure>>
-      authenticateWithVerifiedData({
+  authenticateWithVerifiedData({
     required String? token,
     required String? refreshToken,
     required int? expiresIn,
     required Map<String, dynamic>? userData,
   }) =>
-          (super.noSuchMethod(
+      (super.noSuchMethod(
             Invocation.method(#authenticateWithVerifiedData, [], {
               #token: token,
               #refreshToken: refreshToken,
@@ -1837,29 +1887,30 @@ class MockAuthService extends _i1.Mock implements _i16.AuthService {
             }),
             returnValue:
                 _i39.Future<_i45.Result<_i16.AuthResult, _i46.Failure>>.value(
-              _i42.dummyValue<_i45.Result<_i16.AuthResult, _i46.Failure>>(
-                this,
-                Invocation.method(#authenticateWithVerifiedData, [], {
-                  #token: token,
-                  #refreshToken: refreshToken,
-                  #expiresIn: expiresIn,
-                  #userData: userData,
-                }),
-              ),
-            ),
+                  _i42.dummyValue<_i45.Result<_i16.AuthResult, _i46.Failure>>(
+                    this,
+                    Invocation.method(#authenticateWithVerifiedData, [], {
+                      #token: token,
+                      #refreshToken: refreshToken,
+                      #expiresIn: expiresIn,
+                      #userData: userData,
+                    }),
+                  ),
+                ),
             returnValueForMissingStub:
                 _i39.Future<_i45.Result<_i16.AuthResult, _i46.Failure>>.value(
-              _i42.dummyValue<_i45.Result<_i16.AuthResult, _i46.Failure>>(
-                this,
-                Invocation.method(#authenticateWithVerifiedData, [], {
-                  #token: token,
-                  #refreshToken: refreshToken,
-                  #expiresIn: expiresIn,
-                  #userData: userData,
-                }),
-              ),
-            ),
-          ) as _i39.Future<_i45.Result<_i16.AuthResult, _i46.Failure>>);
+                  _i42.dummyValue<_i45.Result<_i16.AuthResult, _i46.Failure>>(
+                    this,
+                    Invocation.method(#authenticateWithVerifiedData, [], {
+                      #token: token,
+                      #refreshToken: refreshToken,
+                      #expiresIn: expiresIn,
+                      #userData: userData,
+                    }),
+                  ),
+                ),
+          )
+          as _i39.Future<_i45.Result<_i16.AuthResult, _i46.Failure>>);
 
   @override
   _i39.Future<_i45.Result<_i47.User, _i46.Failure>> getCurrentUser({
@@ -1867,320 +1918,348 @@ class MockAuthService extends _i1.Mock implements _i16.AuthService {
     Map<String, dynamic>? userData,
   }) =>
       (super.noSuchMethod(
-        Invocation.method(#getCurrentUser, [], {
-          #forceRefresh: forceRefresh,
-          #userData: userData,
-        }),
-        returnValue: _i39.Future<_i45.Result<_i47.User, _i46.Failure>>.value(
-          _i42.dummyValue<_i45.Result<_i47.User, _i46.Failure>>(
-            this,
             Invocation.method(#getCurrentUser, [], {
               #forceRefresh: forceRefresh,
               #userData: userData,
             }),
-          ),
-        ),
-        returnValueForMissingStub:
-            _i39.Future<_i45.Result<_i47.User, _i46.Failure>>.value(
-          _i42.dummyValue<_i45.Result<_i47.User, _i46.Failure>>(
-            this,
-            Invocation.method(#getCurrentUser, [], {
-              #forceRefresh: forceRefresh,
-              #userData: userData,
-            }),
-          ),
-        ),
-      ) as _i39.Future<_i45.Result<_i47.User, _i46.Failure>>);
+            returnValue:
+                _i39.Future<_i45.Result<_i47.User, _i46.Failure>>.value(
+                  _i42.dummyValue<_i45.Result<_i47.User, _i46.Failure>>(
+                    this,
+                    Invocation.method(#getCurrentUser, [], {
+                      #forceRefresh: forceRefresh,
+                      #userData: userData,
+                    }),
+                  ),
+                ),
+            returnValueForMissingStub:
+                _i39.Future<_i45.Result<_i47.User, _i46.Failure>>.value(
+                  _i42.dummyValue<_i45.Result<_i47.User, _i46.Failure>>(
+                    this,
+                    Invocation.method(#getCurrentUser, [], {
+                      #forceRefresh: forceRefresh,
+                      #userData: userData,
+                    }),
+                  ),
+                ),
+          )
+          as _i39.Future<_i45.Result<_i47.User, _i46.Failure>>);
 
   @override
   _i39.Future<_i45.Result<_i47.User, _i46.Failure>> enableBiometricAuth() =>
       (super.noSuchMethod(
-        Invocation.method(#enableBiometricAuth, []),
-        returnValue: _i39.Future<_i45.Result<_i47.User, _i46.Failure>>.value(
-          _i42.dummyValue<_i45.Result<_i47.User, _i46.Failure>>(
-            this,
             Invocation.method(#enableBiometricAuth, []),
-          ),
-        ),
-        returnValueForMissingStub:
-            _i39.Future<_i45.Result<_i47.User, _i46.Failure>>.value(
-          _i42.dummyValue<_i45.Result<_i47.User, _i46.Failure>>(
-            this,
-            Invocation.method(#enableBiometricAuth, []),
-          ),
-        ),
-      ) as _i39.Future<_i45.Result<_i47.User, _i46.Failure>>);
+            returnValue:
+                _i39.Future<_i45.Result<_i47.User, _i46.Failure>>.value(
+                  _i42.dummyValue<_i45.Result<_i47.User, _i46.Failure>>(
+                    this,
+                    Invocation.method(#enableBiometricAuth, []),
+                  ),
+                ),
+            returnValueForMissingStub:
+                _i39.Future<_i45.Result<_i47.User, _i46.Failure>>.value(
+                  _i42.dummyValue<_i45.Result<_i47.User, _i46.Failure>>(
+                    this,
+                    Invocation.method(#enableBiometricAuth, []),
+                  ),
+                ),
+          )
+          as _i39.Future<_i45.Result<_i47.User, _i46.Failure>>);
 
   @override
   _i39.Future<_i45.Result<_i47.User, _i46.Failure>> disableBiometricAuth() =>
       (super.noSuchMethod(
-        Invocation.method(#disableBiometricAuth, []),
-        returnValue: _i39.Future<_i45.Result<_i47.User, _i46.Failure>>.value(
-          _i42.dummyValue<_i45.Result<_i47.User, _i46.Failure>>(
-            this,
             Invocation.method(#disableBiometricAuth, []),
-          ),
-        ),
-        returnValueForMissingStub:
-            _i39.Future<_i45.Result<_i47.User, _i46.Failure>>.value(
-          _i42.dummyValue<_i45.Result<_i47.User, _i46.Failure>>(
-            this,
-            Invocation.method(#disableBiometricAuth, []),
-          ),
-        ),
-      ) as _i39.Future<_i45.Result<_i47.User, _i46.Failure>>);
+            returnValue:
+                _i39.Future<_i45.Result<_i47.User, _i46.Failure>>.value(
+                  _i42.dummyValue<_i45.Result<_i47.User, _i46.Failure>>(
+                    this,
+                    Invocation.method(#disableBiometricAuth, []),
+                  ),
+                ),
+            returnValueForMissingStub:
+                _i39.Future<_i45.Result<_i47.User, _i46.Failure>>.value(
+                  _i42.dummyValue<_i45.Result<_i47.User, _i46.Failure>>(
+                    this,
+                    Invocation.method(#disableBiometricAuth, []),
+                  ),
+                ),
+          )
+          as _i39.Future<_i45.Result<_i47.User, _i46.Failure>>);
 
   @override
   _i39.Future<_i45.Result<_i47.User, _i46.Failure>> updateUserTimezone(
     String? timezone,
   ) =>
       (super.noSuchMethod(
-        Invocation.method(#updateUserTimezone, [timezone]),
-        returnValue: _i39.Future<_i45.Result<_i47.User, _i46.Failure>>.value(
-          _i42.dummyValue<_i45.Result<_i47.User, _i46.Failure>>(
-            this,
             Invocation.method(#updateUserTimezone, [timezone]),
-          ),
-        ),
-        returnValueForMissingStub:
-            _i39.Future<_i45.Result<_i47.User, _i46.Failure>>.value(
-          _i42.dummyValue<_i45.Result<_i47.User, _i46.Failure>>(
-            this,
-            Invocation.method(#updateUserTimezone, [timezone]),
-          ),
-        ),
-      ) as _i39.Future<_i45.Result<_i47.User, _i46.Failure>>);
+            returnValue:
+                _i39.Future<_i45.Result<_i47.User, _i46.Failure>>.value(
+                  _i42.dummyValue<_i45.Result<_i47.User, _i46.Failure>>(
+                    this,
+                    Invocation.method(#updateUserTimezone, [timezone]),
+                  ),
+                ),
+            returnValueForMissingStub:
+                _i39.Future<_i45.Result<_i47.User, _i46.Failure>>.value(
+                  _i42.dummyValue<_i45.Result<_i47.User, _i46.Failure>>(
+                    this,
+                    Invocation.method(#updateUserTimezone, [timezone]),
+                  ),
+                ),
+          )
+          as _i39.Future<_i45.Result<_i47.User, _i46.Failure>>);
 
   @override
-  _i39.Future<_i45.Result<void, _i46.Failure>> logout() => (super.noSuchMethod(
-        Invocation.method(#logout, []),
-        returnValue: _i39.Future<_i45.Result<void, _i46.Failure>>.value(
-          _i42.dummyValue<_i45.Result<void, _i46.Failure>>(
-            this,
+  _i39.Future<_i45.Result<void, _i46.Failure>> logout() =>
+      (super.noSuchMethod(
             Invocation.method(#logout, []),
-          ),
-        ),
-        returnValueForMissingStub:
-            _i39.Future<_i45.Result<void, _i46.Failure>>.value(
-          _i42.dummyValue<_i45.Result<void, _i46.Failure>>(
-            this,
-            Invocation.method(#logout, []),
-          ),
-        ),
-      ) as _i39.Future<_i45.Result<void, _i46.Failure>>);
+            returnValue: _i39.Future<_i45.Result<void, _i46.Failure>>.value(
+              _i42.dummyValue<_i45.Result<void, _i46.Failure>>(
+                this,
+                Invocation.method(#logout, []),
+              ),
+            ),
+            returnValueForMissingStub:
+                _i39.Future<_i45.Result<void, _i46.Failure>>.value(
+                  _i42.dummyValue<_i45.Result<void, _i46.Failure>>(
+                    this,
+                    Invocation.method(#logout, []),
+                  ),
+                ),
+          )
+          as _i39.Future<_i45.Result<void, _i46.Failure>>);
 
   @override
   _i39.Future<_i45.Result<void, _i46.Failure>> storeToken(String? token) =>
       (super.noSuchMethod(
-        Invocation.method(#storeToken, [token]),
-        returnValue: _i39.Future<_i45.Result<void, _i46.Failure>>.value(
-          _i42.dummyValue<_i45.Result<void, _i46.Failure>>(
-            this,
             Invocation.method(#storeToken, [token]),
-          ),
-        ),
-        returnValueForMissingStub:
-            _i39.Future<_i45.Result<void, _i46.Failure>>.value(
-          _i42.dummyValue<_i45.Result<void, _i46.Failure>>(
-            this,
-            Invocation.method(#storeToken, [token]),
-          ),
-        ),
-      ) as _i39.Future<_i45.Result<void, _i46.Failure>>);
+            returnValue: _i39.Future<_i45.Result<void, _i46.Failure>>.value(
+              _i42.dummyValue<_i45.Result<void, _i46.Failure>>(
+                this,
+                Invocation.method(#storeToken, [token]),
+              ),
+            ),
+            returnValueForMissingStub:
+                _i39.Future<_i45.Result<void, _i46.Failure>>.value(
+                  _i42.dummyValue<_i45.Result<void, _i46.Failure>>(
+                    this,
+                    Invocation.method(#storeToken, [token]),
+                  ),
+                ),
+          )
+          as _i39.Future<_i45.Result<void, _i46.Failure>>);
 
   @override
   _i39.Future<_i45.Result<void, _i46.Failure>> updateCurrentUser(
     _i47.User? user,
   ) =>
       (super.noSuchMethod(
-        Invocation.method(#updateCurrentUser, [user]),
-        returnValue: _i39.Future<_i45.Result<void, _i46.Failure>>.value(
-          _i42.dummyValue<_i45.Result<void, _i46.Failure>>(
-            this,
             Invocation.method(#updateCurrentUser, [user]),
-          ),
-        ),
-        returnValueForMissingStub:
-            _i39.Future<_i45.Result<void, _i46.Failure>>.value(
-          _i42.dummyValue<_i45.Result<void, _i46.Failure>>(
-            this,
-            Invocation.method(#updateCurrentUser, [user]),
-          ),
-        ),
-      ) as _i39.Future<_i45.Result<void, _i46.Failure>>);
-
-  @override
-  _i39.Future<_i45.Result<_i16.AuthResult, _i46.Failure>>
-      authenticateWithBiometrics(String? email) => (super.noSuchMethod(
-            Invocation.method(#authenticateWithBiometrics, [email]),
-            returnValue:
-                _i39.Future<_i45.Result<_i16.AuthResult, _i46.Failure>>.value(
-              _i42.dummyValue<_i45.Result<_i16.AuthResult, _i46.Failure>>(
+            returnValue: _i39.Future<_i45.Result<void, _i46.Failure>>.value(
+              _i42.dummyValue<_i45.Result<void, _i46.Failure>>(
                 this,
-                Invocation.method(#authenticateWithBiometrics, [email]),
+                Invocation.method(#updateCurrentUser, [user]),
               ),
             ),
             returnValueForMissingStub:
-                _i39.Future<_i45.Result<_i16.AuthResult, _i46.Failure>>.value(
-              _i42.dummyValue<_i45.Result<_i16.AuthResult, _i46.Failure>>(
-                this,
-                Invocation.method(#authenticateWithBiometrics, [email]),
-              ),
-            ),
-          ) as _i39.Future<_i45.Result<_i16.AuthResult, _i46.Failure>>);
+                _i39.Future<_i45.Result<void, _i46.Failure>>.value(
+                  _i42.dummyValue<_i45.Result<void, _i46.Failure>>(
+                    this,
+                    Invocation.method(#updateCurrentUser, [user]),
+                  ),
+                ),
+          )
+          as _i39.Future<_i45.Result<void, _i46.Failure>>);
 
   @override
-  _i39.Future<
-      _i45.Result<_i48.AuthUserProfile?,
-          _i46.Failure>> getUserProfile() => (super.noSuchMethod(
-        Invocation.method(#getUserProfile, []),
-        returnValue:
-            _i39.Future<_i45.Result<_i48.AuthUserProfile?, _i46.Failure>>.value(
-          _i42.dummyValue<_i45.Result<_i48.AuthUserProfile?, _i46.Failure>>(
-              this, Invocation.method(#getUserProfile, [])),
-        ),
-        returnValueForMissingStub:
-            _i39.Future<_i45.Result<_i48.AuthUserProfile?, _i46.Failure>>.value(
-          _i42.dummyValue<_i45.Result<_i48.AuthUserProfile?, _i46.Failure>>(
-              this, Invocation.method(#getUserProfile, [])),
-        ),
-      ) as _i39.Future<_i45.Result<_i48.AuthUserProfile?, _i46.Failure>>);
+  _i39.Future<_i45.Result<_i16.AuthResult, _i46.Failure>>
+  authenticateWithBiometrics(String? email) =>
+      (super.noSuchMethod(
+            Invocation.method(#authenticateWithBiometrics, [email]),
+            returnValue:
+                _i39.Future<_i45.Result<_i16.AuthResult, _i46.Failure>>.value(
+                  _i42.dummyValue<_i45.Result<_i16.AuthResult, _i46.Failure>>(
+                    this,
+                    Invocation.method(#authenticateWithBiometrics, [email]),
+                  ),
+                ),
+            returnValueForMissingStub:
+                _i39.Future<_i45.Result<_i16.AuthResult, _i46.Failure>>.value(
+                  _i42.dummyValue<_i45.Result<_i16.AuthResult, _i46.Failure>>(
+                    this,
+                    Invocation.method(#authenticateWithBiometrics, [email]),
+                  ),
+                ),
+          )
+          as _i39.Future<_i45.Result<_i16.AuthResult, _i46.Failure>>);
+
+  @override
+  _i39.Future<_i45.Result<_i48.AuthUserProfile?, _i46.Failure>>
+  getUserProfile() =>
+      (super.noSuchMethod(
+            Invocation.method(#getUserProfile, []),
+            returnValue:
+                _i39.Future<
+                  _i45.Result<_i48.AuthUserProfile?, _i46.Failure>
+                >.value(
+                  _i42.dummyValue<
+                    _i45.Result<_i48.AuthUserProfile?, _i46.Failure>
+                  >(this, Invocation.method(#getUserProfile, [])),
+                ),
+            returnValueForMissingStub:
+                _i39.Future<
+                  _i45.Result<_i48.AuthUserProfile?, _i46.Failure>
+                >.value(
+                  _i42.dummyValue<
+                    _i45.Result<_i48.AuthUserProfile?, _i46.Failure>
+                  >(this, Invocation.method(#getUserProfile, [])),
+                ),
+          )
+          as _i39.Future<_i45.Result<_i48.AuthUserProfile?, _i46.Failure>>);
 
   @override
   _i39.Future<_i45.Result<void, _i46.Failure>> saveAuthState(
     _i48.AuthState? state,
   ) =>
       (super.noSuchMethod(
-        Invocation.method(#saveAuthState, [state]),
-        returnValue: _i39.Future<_i45.Result<void, _i46.Failure>>.value(
-          _i42.dummyValue<_i45.Result<void, _i46.Failure>>(
-            this,
             Invocation.method(#saveAuthState, [state]),
-          ),
-        ),
-        returnValueForMissingStub:
-            _i39.Future<_i45.Result<void, _i46.Failure>>.value(
-          _i42.dummyValue<_i45.Result<void, _i46.Failure>>(
-            this,
-            Invocation.method(#saveAuthState, [state]),
-          ),
-        ),
-      ) as _i39.Future<_i45.Result<void, _i46.Failure>>);
+            returnValue: _i39.Future<_i45.Result<void, _i46.Failure>>.value(
+              _i42.dummyValue<_i45.Result<void, _i46.Failure>>(
+                this,
+                Invocation.method(#saveAuthState, [state]),
+              ),
+            ),
+            returnValueForMissingStub:
+                _i39.Future<_i45.Result<void, _i46.Failure>>.value(
+                  _i42.dummyValue<_i45.Result<void, _i46.Failure>>(
+                    this,
+                    Invocation.method(#saveAuthState, [state]),
+                  ),
+                ),
+          )
+          as _i39.Future<_i45.Result<void, _i46.Failure>>);
 
   @override
   _i39.Future<_i45.Result<_i48.AuthState?, _i46.Failure>> getAuthState() =>
       (super.noSuchMethod(
-        Invocation.method(#getAuthState, []),
-        returnValue:
-            _i39.Future<_i45.Result<_i48.AuthState?, _i46.Failure>>.value(
-          _i42.dummyValue<_i45.Result<_i48.AuthState?, _i46.Failure>>(
-            this,
             Invocation.method(#getAuthState, []),
-          ),
-        ),
-        returnValueForMissingStub:
-            _i39.Future<_i45.Result<_i48.AuthState?, _i46.Failure>>.value(
-          _i42.dummyValue<_i45.Result<_i48.AuthState?, _i46.Failure>>(
-            this,
-            Invocation.method(#getAuthState, []),
-          ),
-        ),
-      ) as _i39.Future<_i45.Result<_i48.AuthState?, _i46.Failure>>);
+            returnValue:
+                _i39.Future<_i45.Result<_i48.AuthState?, _i46.Failure>>.value(
+                  _i42.dummyValue<_i45.Result<_i48.AuthState?, _i46.Failure>>(
+                    this,
+                    Invocation.method(#getAuthState, []),
+                  ),
+                ),
+            returnValueForMissingStub:
+                _i39.Future<_i45.Result<_i48.AuthState?, _i46.Failure>>.value(
+                  _i42.dummyValue<_i45.Result<_i48.AuthState?, _i46.Failure>>(
+                    this,
+                    Invocation.method(#getAuthState, []),
+                  ),
+                ),
+          )
+          as _i39.Future<_i45.Result<_i48.AuthState?, _i46.Failure>>);
 
   @override
   _i39.Future<_i45.Result<bool, _i46.Failure>> isAuthenticated() =>
       (super.noSuchMethod(
-        Invocation.method(#isAuthenticated, []),
-        returnValue: _i39.Future<_i45.Result<bool, _i46.Failure>>.value(
-          _i42.dummyValue<_i45.Result<bool, _i46.Failure>>(
-            this,
             Invocation.method(#isAuthenticated, []),
-          ),
-        ),
-        returnValueForMissingStub:
-            _i39.Future<_i45.Result<bool, _i46.Failure>>.value(
-          _i42.dummyValue<_i45.Result<bool, _i46.Failure>>(
-            this,
-            Invocation.method(#isAuthenticated, []),
-          ),
-        ),
-      ) as _i39.Future<_i45.Result<bool, _i46.Failure>>);
+            returnValue: _i39.Future<_i45.Result<bool, _i46.Failure>>.value(
+              _i42.dummyValue<_i45.Result<bool, _i46.Failure>>(
+                this,
+                Invocation.method(#isAuthenticated, []),
+              ),
+            ),
+            returnValueForMissingStub:
+                _i39.Future<_i45.Result<bool, _i46.Failure>>.value(
+                  _i42.dummyValue<_i45.Result<bool, _i46.Failure>>(
+                    this,
+                    Invocation.method(#isAuthenticated, []),
+                  ),
+                ),
+          )
+          as _i39.Future<_i45.Result<bool, _i46.Failure>>);
 
   @override
   _i39.Future<_i45.Result<void, _i46.Failure>> clearSession() =>
       (super.noSuchMethod(
-        Invocation.method(#clearSession, []),
-        returnValue: _i39.Future<_i45.Result<void, _i46.Failure>>.value(
-          _i42.dummyValue<_i45.Result<void, _i46.Failure>>(
-            this,
             Invocation.method(#clearSession, []),
-          ),
-        ),
-        returnValueForMissingStub:
-            _i39.Future<_i45.Result<void, _i46.Failure>>.value(
-          _i42.dummyValue<_i45.Result<void, _i46.Failure>>(
-            this,
-            Invocation.method(#clearSession, []),
-          ),
-        ),
-      ) as _i39.Future<_i45.Result<void, _i46.Failure>>);
+            returnValue: _i39.Future<_i45.Result<void, _i46.Failure>>.value(
+              _i42.dummyValue<_i45.Result<void, _i46.Failure>>(
+                this,
+                Invocation.method(#clearSession, []),
+              ),
+            ),
+            returnValueForMissingStub:
+                _i39.Future<_i45.Result<void, _i46.Failure>>.value(
+                  _i42.dummyValue<_i45.Result<void, _i46.Failure>>(
+                    this,
+                    Invocation.method(#clearSession, []),
+                  ),
+                ),
+          )
+          as _i39.Future<_i45.Result<void, _i46.Failure>>);
 
   @override
   _i39.Future<_i45.Result<void, _i46.Failure>> cleanupExpiredTokens() =>
       (super.noSuchMethod(
-        Invocation.method(#cleanupExpiredTokens, []),
-        returnValue: _i39.Future<_i45.Result<void, _i46.Failure>>.value(
-          _i42.dummyValue<_i45.Result<void, _i46.Failure>>(
-            this,
             Invocation.method(#cleanupExpiredTokens, []),
-          ),
-        ),
-        returnValueForMissingStub:
-            _i39.Future<_i45.Result<void, _i46.Failure>>.value(
-          _i42.dummyValue<_i45.Result<void, _i46.Failure>>(
-            this,
-            Invocation.method(#cleanupExpiredTokens, []),
-          ),
-        ),
-      ) as _i39.Future<_i45.Result<void, _i46.Failure>>);
+            returnValue: _i39.Future<_i45.Result<void, _i46.Failure>>.value(
+              _i42.dummyValue<_i45.Result<void, _i46.Failure>>(
+                this,
+                Invocation.method(#cleanupExpiredTokens, []),
+              ),
+            ),
+            returnValueForMissingStub:
+                _i39.Future<_i45.Result<void, _i46.Failure>>.value(
+                  _i42.dummyValue<_i45.Result<void, _i46.Failure>>(
+                    this,
+                    Invocation.method(#cleanupExpiredTokens, []),
+                  ),
+                ),
+          )
+          as _i39.Future<_i45.Result<void, _i46.Failure>>);
 
   @override
   _i39.Future<_i45.Result<bool, _i46.Failure>> isStorageHealthy() =>
       (super.noSuchMethod(
-        Invocation.method(#isStorageHealthy, []),
-        returnValue: _i39.Future<_i45.Result<bool, _i46.Failure>>.value(
-          _i42.dummyValue<_i45.Result<bool, _i46.Failure>>(
-            this,
             Invocation.method(#isStorageHealthy, []),
-          ),
-        ),
-        returnValueForMissingStub:
-            _i39.Future<_i45.Result<bool, _i46.Failure>>.value(
-          _i42.dummyValue<_i45.Result<bool, _i46.Failure>>(
-            this,
-            Invocation.method(#isStorageHealthy, []),
-          ),
-        ),
-      ) as _i39.Future<_i45.Result<bool, _i46.Failure>>);
+            returnValue: _i39.Future<_i45.Result<bool, _i46.Failure>>.value(
+              _i42.dummyValue<_i45.Result<bool, _i46.Failure>>(
+                this,
+                Invocation.method(#isStorageHealthy, []),
+              ),
+            ),
+            returnValueForMissingStub:
+                _i39.Future<_i45.Result<bool, _i46.Failure>>.value(
+                  _i42.dummyValue<_i45.Result<bool, _i46.Failure>>(
+                    this,
+                    Invocation.method(#isStorageHealthy, []),
+                  ),
+                ),
+          )
+          as _i39.Future<_i45.Result<bool, _i46.Failure>>);
 
   @override
   _i39.Future<_i45.Result<void, _i46.Failure>> clearUserData() =>
       (super.noSuchMethod(
-        Invocation.method(#clearUserData, []),
-        returnValue: _i39.Future<_i45.Result<void, _i46.Failure>>.value(
-          _i42.dummyValue<_i45.Result<void, _i46.Failure>>(
-            this,
             Invocation.method(#clearUserData, []),
-          ),
-        ),
-        returnValueForMissingStub:
-            _i39.Future<_i45.Result<void, _i46.Failure>>.value(
-          _i42.dummyValue<_i45.Result<void, _i46.Failure>>(
-            this,
-            Invocation.method(#clearUserData, []),
-          ),
-        ),
-      ) as _i39.Future<_i45.Result<void, _i46.Failure>>);
+            returnValue: _i39.Future<_i45.Result<void, _i46.Failure>>.value(
+              _i42.dummyValue<_i45.Result<void, _i46.Failure>>(
+                this,
+                Invocation.method(#clearUserData, []),
+              ),
+            ),
+            returnValueForMissingStub:
+                _i39.Future<_i45.Result<void, _i46.Failure>>.value(
+                  _i42.dummyValue<_i45.Result<void, _i46.Failure>>(
+                    this,
+                    Invocation.method(#clearUserData, []),
+                  ),
+                ),
+          )
+          as _i39.Future<_i45.Result<void, _i46.Failure>>);
 }
 
 /// A class which mocks [DeepLinkService].
@@ -2190,28 +2269,32 @@ class MockDeepLinkService extends _i1.Mock implements _i49.DeepLinkService {
   @override
   _i39.Future<_i45.Result<void, _i46.Failure>> initialize() =>
       (super.noSuchMethod(
-        Invocation.method(#initialize, []),
-        returnValue: _i39.Future<_i45.Result<void, _i46.Failure>>.value(
-          _i42.dummyValue<_i45.Result<void, _i46.Failure>>(
-            this,
             Invocation.method(#initialize, []),
-          ),
-        ),
-        returnValueForMissingStub:
-            _i39.Future<_i45.Result<void, _i46.Failure>>.value(
-          _i42.dummyValue<_i45.Result<void, _i46.Failure>>(
-            this,
-            Invocation.method(#initialize, []),
-          ),
-        ),
-      ) as _i39.Future<_i45.Result<void, _i46.Failure>>);
+            returnValue: _i39.Future<_i45.Result<void, _i46.Failure>>.value(
+              _i42.dummyValue<_i45.Result<void, _i46.Failure>>(
+                this,
+                Invocation.method(#initialize, []),
+              ),
+            ),
+            returnValueForMissingStub:
+                _i39.Future<_i45.Result<void, _i46.Failure>>.value(
+                  _i42.dummyValue<_i45.Result<void, _i46.Failure>>(
+                    this,
+                    Invocation.method(#initialize, []),
+                  ),
+                ),
+          )
+          as _i39.Future<_i45.Result<void, _i46.Failure>>);
 
   @override
-  _i39.Future<_i50.DeepLinkResult?> getInitialDeepLink() => (super.noSuchMethod(
-        Invocation.method(#getInitialDeepLink, []),
-        returnValue: _i39.Future<_i50.DeepLinkResult?>.value(),
-        returnValueForMissingStub: _i39.Future<_i50.DeepLinkResult?>.value(),
-      ) as _i39.Future<_i50.DeepLinkResult?>);
+  _i39.Future<_i50.DeepLinkResult?> getInitialDeepLink() =>
+      (super.noSuchMethod(
+            Invocation.method(#getInitialDeepLink, []),
+            returnValue: _i39.Future<_i50.DeepLinkResult?>.value(),
+            returnValueForMissingStub:
+                _i39.Future<_i50.DeepLinkResult?>.value(),
+          )
+          as _i39.Future<_i50.DeepLinkResult?>);
 
   @override
   void setDeepLinkHandler(dynamic Function(_i50.DeepLinkResult)? handler) =>
@@ -2221,42 +2304,45 @@ class MockDeepLinkService extends _i1.Mock implements _i49.DeepLinkService {
       );
 
   @override
-  _i50.DeepLinkResult? parseDeepLink(String? url) => (super.noSuchMethod(
-        Invocation.method(#parseDeepLink, [url]),
-        returnValueForMissingStub: null,
-      ) as _i50.DeepLinkResult?);
+  _i50.DeepLinkResult? parseDeepLink(String? url) =>
+      (super.noSuchMethod(
+            Invocation.method(#parseDeepLink, [url]),
+            returnValueForMissingStub: null,
+          )
+          as _i50.DeepLinkResult?);
 
   @override
   String generateNativeDeepLink(String? token, {String? inviteCode}) =>
       (super.noSuchMethod(
-        Invocation.method(
-          #generateNativeDeepLink,
-          [token],
-          {#inviteCode: inviteCode},
-        ),
-        returnValue: _i42.dummyValue<String>(
-          this,
-          Invocation.method(
-            #generateNativeDeepLink,
-            [token],
-            {#inviteCode: inviteCode},
-          ),
-        ),
-        returnValueForMissingStub: _i42.dummyValue<String>(
-          this,
-          Invocation.method(
-            #generateNativeDeepLink,
-            [token],
-            {#inviteCode: inviteCode},
-          ),
-        ),
-      ) as String);
+            Invocation.method(
+              #generateNativeDeepLink,
+              [token],
+              {#inviteCode: inviteCode},
+            ),
+            returnValue: _i42.dummyValue<String>(
+              this,
+              Invocation.method(
+                #generateNativeDeepLink,
+                [token],
+                {#inviteCode: inviteCode},
+              ),
+            ),
+            returnValueForMissingStub: _i42.dummyValue<String>(
+              this,
+              Invocation.method(
+                #generateNativeDeepLink,
+                [token],
+                {#inviteCode: inviteCode},
+              ),
+            ),
+          )
+          as String);
 
   @override
   void dispose() => super.noSuchMethod(
-        Invocation.method(#dispose, []),
-        returnValueForMissingStub: null,
-      );
+    Invocation.method(#dispose, []),
+    returnValueForMissingStub: null,
+  );
 }
 
 /// A class which mocks [DeepLinkServiceImpl].
@@ -2267,28 +2353,32 @@ class MockDeepLinkServiceImpl extends _i1.Mock
   @override
   _i39.Future<_i45.Result<void, _i46.Failure>> initialize() =>
       (super.noSuchMethod(
-        Invocation.method(#initialize, []),
-        returnValue: _i39.Future<_i45.Result<void, _i46.Failure>>.value(
-          _i42.dummyValue<_i45.Result<void, _i46.Failure>>(
-            this,
             Invocation.method(#initialize, []),
-          ),
-        ),
-        returnValueForMissingStub:
-            _i39.Future<_i45.Result<void, _i46.Failure>>.value(
-          _i42.dummyValue<_i45.Result<void, _i46.Failure>>(
-            this,
-            Invocation.method(#initialize, []),
-          ),
-        ),
-      ) as _i39.Future<_i45.Result<void, _i46.Failure>>);
+            returnValue: _i39.Future<_i45.Result<void, _i46.Failure>>.value(
+              _i42.dummyValue<_i45.Result<void, _i46.Failure>>(
+                this,
+                Invocation.method(#initialize, []),
+              ),
+            ),
+            returnValueForMissingStub:
+                _i39.Future<_i45.Result<void, _i46.Failure>>.value(
+                  _i42.dummyValue<_i45.Result<void, _i46.Failure>>(
+                    this,
+                    Invocation.method(#initialize, []),
+                  ),
+                ),
+          )
+          as _i39.Future<_i45.Result<void, _i46.Failure>>);
 
   @override
-  _i39.Future<_i50.DeepLinkResult?> getInitialDeepLink() => (super.noSuchMethod(
-        Invocation.method(#getInitialDeepLink, []),
-        returnValue: _i39.Future<_i50.DeepLinkResult?>.value(),
-        returnValueForMissingStub: _i39.Future<_i50.DeepLinkResult?>.value(),
-      ) as _i39.Future<_i50.DeepLinkResult?>);
+  _i39.Future<_i50.DeepLinkResult?> getInitialDeepLink() =>
+      (super.noSuchMethod(
+            Invocation.method(#getInitialDeepLink, []),
+            returnValue: _i39.Future<_i50.DeepLinkResult?>.value(),
+            returnValueForMissingStub:
+                _i39.Future<_i50.DeepLinkResult?>.value(),
+          )
+          as _i39.Future<_i50.DeepLinkResult?>);
 
   @override
   void setDeepLinkHandler(dynamic Function(_i50.DeepLinkResult)? handler) =>
@@ -2298,42 +2388,45 @@ class MockDeepLinkServiceImpl extends _i1.Mock
       );
 
   @override
-  _i50.DeepLinkResult? parseDeepLink(String? url) => (super.noSuchMethod(
-        Invocation.method(#parseDeepLink, [url]),
-        returnValueForMissingStub: null,
-      ) as _i50.DeepLinkResult?);
+  _i50.DeepLinkResult? parseDeepLink(String? url) =>
+      (super.noSuchMethod(
+            Invocation.method(#parseDeepLink, [url]),
+            returnValueForMissingStub: null,
+          )
+          as _i50.DeepLinkResult?);
 
   @override
   String generateNativeDeepLink(String? token, {String? inviteCode}) =>
       (super.noSuchMethod(
-        Invocation.method(
-          #generateNativeDeepLink,
-          [token],
-          {#inviteCode: inviteCode},
-        ),
-        returnValue: _i42.dummyValue<String>(
-          this,
-          Invocation.method(
-            #generateNativeDeepLink,
-            [token],
-            {#inviteCode: inviteCode},
-          ),
-        ),
-        returnValueForMissingStub: _i42.dummyValue<String>(
-          this,
-          Invocation.method(
-            #generateNativeDeepLink,
-            [token],
-            {#inviteCode: inviteCode},
-          ),
-        ),
-      ) as String);
+            Invocation.method(
+              #generateNativeDeepLink,
+              [token],
+              {#inviteCode: inviteCode},
+            ),
+            returnValue: _i42.dummyValue<String>(
+              this,
+              Invocation.method(
+                #generateNativeDeepLink,
+                [token],
+                {#inviteCode: inviteCode},
+              ),
+            ),
+            returnValueForMissingStub: _i42.dummyValue<String>(
+              this,
+              Invocation.method(
+                #generateNativeDeepLink,
+                [token],
+                {#inviteCode: inviteCode},
+              ),
+            ),
+          )
+          as String);
 
   @override
   void dispose() => super.noSuchMethod(
-        Invocation.method(#dispose, []),
-        returnValueForMissingStub: null,
-      );
+    Invocation.method(#dispose, []),
+    returnValueForMissingStub: null,
+  );
 }
 
 /// A class which mocks [SecureStorageService].
@@ -2342,39 +2435,49 @@ class MockDeepLinkServiceImpl extends _i1.Mock
 class MockSecureStorageService extends _i1.Mock
     implements _i52.SecureStorageService {
   @override
-  _i39.Future<void> store(String? key, String? value) => (super.noSuchMethod(
-        Invocation.method(#store, [key, value]),
-        returnValue: _i39.Future<void>.value(),
-        returnValueForMissingStub: _i39.Future<void>.value(),
-      ) as _i39.Future<void>);
+  _i39.Future<void> store(String? key, String? value) =>
+      (super.noSuchMethod(
+            Invocation.method(#store, [key, value]),
+            returnValue: _i39.Future<void>.value(),
+            returnValueForMissingStub: _i39.Future<void>.value(),
+          )
+          as _i39.Future<void>);
 
   @override
-  _i39.Future<String?> retrieve(String? key) => (super.noSuchMethod(
-        Invocation.method(#retrieve, [key]),
-        returnValue: _i39.Future<String?>.value(),
-        returnValueForMissingStub: _i39.Future<String?>.value(),
-      ) as _i39.Future<String?>);
+  _i39.Future<String?> retrieve(String? key) =>
+      (super.noSuchMethod(
+            Invocation.method(#retrieve, [key]),
+            returnValue: _i39.Future<String?>.value(),
+            returnValueForMissingStub: _i39.Future<String?>.value(),
+          )
+          as _i39.Future<String?>);
 
   @override
-  _i39.Future<void> delete(String? key) => (super.noSuchMethod(
-        Invocation.method(#delete, [key]),
-        returnValue: _i39.Future<void>.value(),
-        returnValueForMissingStub: _i39.Future<void>.value(),
-      ) as _i39.Future<void>);
+  _i39.Future<void> delete(String? key) =>
+      (super.noSuchMethod(
+            Invocation.method(#delete, [key]),
+            returnValue: _i39.Future<void>.value(),
+            returnValueForMissingStub: _i39.Future<void>.value(),
+          )
+          as _i39.Future<void>);
 
   @override
-  _i39.Future<void> clear() => (super.noSuchMethod(
-        Invocation.method(#clear, []),
-        returnValue: _i39.Future<void>.value(),
-        returnValueForMissingStub: _i39.Future<void>.value(),
-      ) as _i39.Future<void>);
+  _i39.Future<void> clear() =>
+      (super.noSuchMethod(
+            Invocation.method(#clear, []),
+            returnValue: _i39.Future<void>.value(),
+            returnValueForMissingStub: _i39.Future<void>.value(),
+          )
+          as _i39.Future<void>);
 
   @override
-  _i39.Future<bool> containsKey(String? key) => (super.noSuchMethod(
-        Invocation.method(#containsKey, [key]),
-        returnValue: _i39.Future<bool>.value(false),
-        returnValueForMissingStub: _i39.Future<bool>.value(false),
-      ) as _i39.Future<bool>);
+  _i39.Future<bool> containsKey(String? key) =>
+      (super.noSuchMethod(
+            Invocation.method(#containsKey, [key]),
+            returnValue: _i39.Future<bool>.value(false),
+            returnValueForMissingStub: _i39.Future<bool>.value(false),
+          )
+          as _i39.Future<bool>);
 }
 
 /// A class which mocks [LocalizationService].
@@ -2383,67 +2486,75 @@ class MockSecureStorageService extends _i1.Mock
 class MockLocalizationService extends _i1.Mock
     implements _i53.LocalizationService {
   @override
-  _i39.Stream<_i54.LocaleInfo> get localeChanges => (super.noSuchMethod(
-        Invocation.getter(#localeChanges),
-        returnValue: _i39.Stream<_i54.LocaleInfo>.empty(),
-        returnValueForMissingStub: _i39.Stream<_i54.LocaleInfo>.empty(),
-      ) as _i39.Stream<_i54.LocaleInfo>);
+  _i39.Stream<_i54.LocaleInfo> get localeChanges =>
+      (super.noSuchMethod(
+            Invocation.getter(#localeChanges),
+            returnValue: _i39.Stream<_i54.LocaleInfo>.empty(),
+            returnValueForMissingStub: _i39.Stream<_i54.LocaleInfo>.empty(),
+          )
+          as _i39.Stream<_i54.LocaleInfo>);
 
   @override
   _i39.Future<_i45.Result<_i54.LocaleInfo, _i46.Failure>> getCurrentLocale() =>
       (super.noSuchMethod(
-        Invocation.method(#getCurrentLocale, []),
-        returnValue:
-            _i39.Future<_i45.Result<_i54.LocaleInfo, _i46.Failure>>.value(
-          _i42.dummyValue<_i45.Result<_i54.LocaleInfo, _i46.Failure>>(
-            this,
             Invocation.method(#getCurrentLocale, []),
-          ),
-        ),
-        returnValueForMissingStub:
-            _i39.Future<_i45.Result<_i54.LocaleInfo, _i46.Failure>>.value(
-          _i42.dummyValue<_i45.Result<_i54.LocaleInfo, _i46.Failure>>(
-            this,
-            Invocation.method(#getCurrentLocale, []),
-          ),
-        ),
-      ) as _i39.Future<_i45.Result<_i54.LocaleInfo, _i46.Failure>>);
+            returnValue:
+                _i39.Future<_i45.Result<_i54.LocaleInfo, _i46.Failure>>.value(
+                  _i42.dummyValue<_i45.Result<_i54.LocaleInfo, _i46.Failure>>(
+                    this,
+                    Invocation.method(#getCurrentLocale, []),
+                  ),
+                ),
+            returnValueForMissingStub:
+                _i39.Future<_i45.Result<_i54.LocaleInfo, _i46.Failure>>.value(
+                  _i42.dummyValue<_i45.Result<_i54.LocaleInfo, _i46.Failure>>(
+                    this,
+                    Invocation.method(#getCurrentLocale, []),
+                  ),
+                ),
+          )
+          as _i39.Future<_i45.Result<_i54.LocaleInfo, _i46.Failure>>);
 
   @override
-  List<_i54.LocaleInfo> getSupportedLocales() => (super.noSuchMethod(
-        Invocation.method(#getSupportedLocales, []),
-        returnValue: <_i54.LocaleInfo>[],
-        returnValueForMissingStub: <_i54.LocaleInfo>[],
-      ) as List<_i54.LocaleInfo>);
+  List<_i54.LocaleInfo> getSupportedLocales() =>
+      (super.noSuchMethod(
+            Invocation.method(#getSupportedLocales, []),
+            returnValue: <_i54.LocaleInfo>[],
+            returnValueForMissingStub: <_i54.LocaleInfo>[],
+          )
+          as List<_i54.LocaleInfo>);
 
   @override
   _i39.Future<_i45.Result<_i54.LocaleInfo, _i46.Failure>> setLocale(
     _i54.LocaleInfo? locale,
   ) =>
       (super.noSuchMethod(
-        Invocation.method(#setLocale, [locale]),
-        returnValue:
-            _i39.Future<_i45.Result<_i54.LocaleInfo, _i46.Failure>>.value(
-          _i42.dummyValue<_i45.Result<_i54.LocaleInfo, _i46.Failure>>(
-            this,
             Invocation.method(#setLocale, [locale]),
-          ),
-        ),
-        returnValueForMissingStub:
-            _i39.Future<_i45.Result<_i54.LocaleInfo, _i46.Failure>>.value(
-          _i42.dummyValue<_i45.Result<_i54.LocaleInfo, _i46.Failure>>(
-            this,
-            Invocation.method(#setLocale, [locale]),
-          ),
-        ),
-      ) as _i39.Future<_i45.Result<_i54.LocaleInfo, _i46.Failure>>);
+            returnValue:
+                _i39.Future<_i45.Result<_i54.LocaleInfo, _i46.Failure>>.value(
+                  _i42.dummyValue<_i45.Result<_i54.LocaleInfo, _i46.Failure>>(
+                    this,
+                    Invocation.method(#setLocale, [locale]),
+                  ),
+                ),
+            returnValueForMissingStub:
+                _i39.Future<_i45.Result<_i54.LocaleInfo, _i46.Failure>>.value(
+                  _i42.dummyValue<_i45.Result<_i54.LocaleInfo, _i46.Failure>>(
+                    this,
+                    Invocation.method(#setLocale, [locale]),
+                  ),
+                ),
+          )
+          as _i39.Future<_i45.Result<_i54.LocaleInfo, _i46.Failure>>);
 
   @override
-  bool isLocaleSupported(_i54.LocaleInfo? locale) => (super.noSuchMethod(
-        Invocation.method(#isLocaleSupported, [locale]),
-        returnValue: false,
-        returnValueForMissingStub: false,
-      ) as bool);
+  bool isLocaleSupported(_i54.LocaleInfo? locale) =>
+      (super.noSuchMethod(
+            Invocation.method(#isLocaleSupported, [locale]),
+            returnValue: false,
+            returnValueForMissingStub: false,
+          )
+          as bool);
 }
 
 /// A class which mocks [ComprehensiveFamilyDataService].
@@ -2454,40 +2565,42 @@ class MockComprehensiveFamilyDataService extends _i1.Mock
   @override
   _i39.Future<_i45.Result<String?, _i46.Failure>> cacheFamilyData() =>
       (super.noSuchMethod(
-        Invocation.method(#cacheFamilyData, []),
-        returnValue: _i39.Future<_i45.Result<String?, _i46.Failure>>.value(
-          _i42.dummyValue<_i45.Result<String?, _i46.Failure>>(
-            this,
             Invocation.method(#cacheFamilyData, []),
-          ),
-        ),
-        returnValueForMissingStub:
-            _i39.Future<_i45.Result<String?, _i46.Failure>>.value(
-          _i42.dummyValue<_i45.Result<String?, _i46.Failure>>(
-            this,
-            Invocation.method(#cacheFamilyData, []),
-          ),
-        ),
-      ) as _i39.Future<_i45.Result<String?, _i46.Failure>>);
+            returnValue: _i39.Future<_i45.Result<String?, _i46.Failure>>.value(
+              _i42.dummyValue<_i45.Result<String?, _i46.Failure>>(
+                this,
+                Invocation.method(#cacheFamilyData, []),
+              ),
+            ),
+            returnValueForMissingStub:
+                _i39.Future<_i45.Result<String?, _i46.Failure>>.value(
+                  _i42.dummyValue<_i45.Result<String?, _i46.Failure>>(
+                    this,
+                    Invocation.method(#cacheFamilyData, []),
+                  ),
+                ),
+          )
+          as _i39.Future<_i45.Result<String?, _i46.Failure>>);
 
   @override
   _i39.Future<_i45.Result<void, _i46.Failure>> clearFamilyData() =>
       (super.noSuchMethod(
-        Invocation.method(#clearFamilyData, []),
-        returnValue: _i39.Future<_i45.Result<void, _i46.Failure>>.value(
-          _i42.dummyValue<_i45.Result<void, _i46.Failure>>(
-            this,
             Invocation.method(#clearFamilyData, []),
-          ),
-        ),
-        returnValueForMissingStub:
-            _i39.Future<_i45.Result<void, _i46.Failure>>.value(
-          _i42.dummyValue<_i45.Result<void, _i46.Failure>>(
-            this,
-            Invocation.method(#clearFamilyData, []),
-          ),
-        ),
-      ) as _i39.Future<_i45.Result<void, _i46.Failure>>);
+            returnValue: _i39.Future<_i45.Result<void, _i46.Failure>>.value(
+              _i42.dummyValue<_i45.Result<void, _i46.Failure>>(
+                this,
+                Invocation.method(#clearFamilyData, []),
+              ),
+            ),
+            returnValueForMissingStub:
+                _i39.Future<_i45.Result<void, _i46.Failure>>.value(
+                  _i42.dummyValue<_i45.Result<void, _i46.Failure>>(
+                    this,
+                    Invocation.method(#clearFamilyData, []),
+                  ),
+                ),
+          )
+          as _i39.Future<_i45.Result<void, _i46.Failure>>);
 }
 
 /// A class which mocks [IMagicLinkService].
@@ -2500,63 +2613,74 @@ class MockIMagicLinkService extends _i1.Mock implements _i56.IMagicLinkService {
     _i50.MagicLinkContext? context,
   ) =>
       (super.noSuchMethod(
-        Invocation.method(#requestMagicLink, [email, context]),
-        returnValue: _i39.Future<_i14.Either<_i46.Failure, void>>.value(
-          _FakeEither_12<_i46.Failure, void>(
-            this,
             Invocation.method(#requestMagicLink, [email, context]),
-          ),
-        ),
-        returnValueForMissingStub:
-            _i39.Future<_i14.Either<_i46.Failure, void>>.value(
-          _FakeEither_12<_i46.Failure, void>(
-            this,
-            Invocation.method(#requestMagicLink, [email, context]),
-          ),
-        ),
-      ) as _i39.Future<_i14.Either<_i46.Failure, void>>);
+            returnValue: _i39.Future<_i14.Either<_i46.Failure, void>>.value(
+              _FakeEither_12<_i46.Failure, void>(
+                this,
+                Invocation.method(#requestMagicLink, [email, context]),
+              ),
+            ),
+            returnValueForMissingStub:
+                _i39.Future<_i14.Either<_i46.Failure, void>>.value(
+                  _FakeEither_12<_i46.Failure, void>(
+                    this,
+                    Invocation.method(#requestMagicLink, [email, context]),
+                  ),
+                ),
+          )
+          as _i39.Future<_i14.Either<_i46.Failure, void>>);
 
   @override
   _i39.Future<_i14.Either<_i46.Failure, _i50.MagicLinkVerificationResult>>
-      verifyMagicLink(String? token, {String? inviteCode}) =>
-          (super.noSuchMethod(
+  verifyMagicLink(String? token, {String? inviteCode}) =>
+      (super.noSuchMethod(
             Invocation.method(
               #verifyMagicLink,
               [token],
               {#inviteCode: inviteCode},
             ),
-            returnValue: _i39.Future<
-                _i14
-                .Either<_i46.Failure, _i50.MagicLinkVerificationResult>>.value(
-              _FakeEither_12<_i46.Failure, _i50.MagicLinkVerificationResult>(
-                this,
-                Invocation.method(
-                  #verifyMagicLink,
-                  [token],
-                  {#inviteCode: inviteCode},
+            returnValue:
+                _i39.Future<
+                  _i14.Either<_i46.Failure, _i50.MagicLinkVerificationResult>
+                >.value(
+                  _FakeEither_12<
+                    _i46.Failure,
+                    _i50.MagicLinkVerificationResult
+                  >(
+                    this,
+                    Invocation.method(
+                      #verifyMagicLink,
+                      [token],
+                      {#inviteCode: inviteCode},
+                    ),
+                  ),
                 ),
-              ),
-            ),
-            returnValueForMissingStub: _i39.Future<
-                _i14
-                .Either<_i46.Failure, _i50.MagicLinkVerificationResult>>.value(
-              _FakeEither_12<_i46.Failure, _i50.MagicLinkVerificationResult>(
-                this,
-                Invocation.method(
-                  #verifyMagicLink,
-                  [token],
-                  {#inviteCode: inviteCode},
+            returnValueForMissingStub:
+                _i39.Future<
+                  _i14.Either<_i46.Failure, _i50.MagicLinkVerificationResult>
+                >.value(
+                  _FakeEither_12<
+                    _i46.Failure,
+                    _i50.MagicLinkVerificationResult
+                  >(
+                    this,
+                    Invocation.method(
+                      #verifyMagicLink,
+                      [token],
+                      {#inviteCode: inviteCode},
+                    ),
+                  ),
                 ),
-              ),
-            ),
-          ) as _i39.Future<
-              _i14.Either<_i46.Failure, _i50.MagicLinkVerificationResult>>);
+          )
+          as _i39.Future<
+            _i14.Either<_i46.Failure, _i50.MagicLinkVerificationResult>
+          >);
 
   @override
   void dispose() => super.noSuchMethod(
-        Invocation.method(#dispose, []),
-        returnValueForMissingStub: null,
-      );
+    Invocation.method(#dispose, []),
+    returnValueForMissingStub: null,
+  );
 }
 
 /// A class which mocks [AdaptiveStorageService].
@@ -2565,212 +2689,264 @@ class MockIMagicLinkService extends _i1.Mock implements _i56.IMagicLinkService {
 class MockAdaptiveStorageService extends _i1.Mock
     implements _i57.AdaptiveStorageService {
   @override
-  _i39.Future<void> storeToken(String? token) => (super.noSuchMethod(
-        Invocation.method(#storeToken, [token]),
-        returnValue: _i39.Future<void>.value(),
-        returnValueForMissingStub: _i39.Future<void>.value(),
-      ) as _i39.Future<void>);
+  _i39.Future<void> storeToken(String? token) =>
+      (super.noSuchMethod(
+            Invocation.method(#storeToken, [token]),
+            returnValue: _i39.Future<void>.value(),
+            returnValueForMissingStub: _i39.Future<void>.value(),
+          )
+          as _i39.Future<void>);
 
   @override
-  _i39.Future<String?> getToken() => (super.noSuchMethod(
-        Invocation.method(#getToken, []),
-        returnValue: _i39.Future<String?>.value(),
-        returnValueForMissingStub: _i39.Future<String?>.value(),
-      ) as _i39.Future<String?>);
+  _i39.Future<String?> getToken() =>
+      (super.noSuchMethod(
+            Invocation.method(#getToken, []),
+            returnValue: _i39.Future<String?>.value(),
+            returnValueForMissingStub: _i39.Future<String?>.value(),
+          )
+          as _i39.Future<String?>);
 
   @override
-  _i39.Future<void> clearToken() => (super.noSuchMethod(
-        Invocation.method(#clearToken, []),
-        returnValue: _i39.Future<void>.value(),
-        returnValueForMissingStub: _i39.Future<void>.value(),
-      ) as _i39.Future<void>);
+  _i39.Future<void> clearToken() =>
+      (super.noSuchMethod(
+            Invocation.method(#clearToken, []),
+            returnValue: _i39.Future<void>.value(),
+            returnValueForMissingStub: _i39.Future<void>.value(),
+          )
+          as _i39.Future<void>);
 
   @override
-  _i39.Future<bool> hasStoredToken() => (super.noSuchMethod(
-        Invocation.method(#hasStoredToken, []),
-        returnValue: _i39.Future<bool>.value(false),
-        returnValueForMissingStub: _i39.Future<bool>.value(false),
-      ) as _i39.Future<bool>);
+  _i39.Future<bool> hasStoredToken() =>
+      (super.noSuchMethod(
+            Invocation.method(#hasStoredToken, []),
+            returnValue: _i39.Future<bool>.value(false),
+            returnValueForMissingStub: _i39.Future<bool>.value(false),
+          )
+          as _i39.Future<bool>);
 
   @override
-  _i39.Future<void> storeUserData(String? userData) => (super.noSuchMethod(
-        Invocation.method(#storeUserData, [userData]),
-        returnValue: _i39.Future<void>.value(),
-        returnValueForMissingStub: _i39.Future<void>.value(),
-      ) as _i39.Future<void>);
+  _i39.Future<void> storeUserData(String? userData) =>
+      (super.noSuchMethod(
+            Invocation.method(#storeUserData, [userData]),
+            returnValue: _i39.Future<void>.value(),
+            returnValueForMissingStub: _i39.Future<void>.value(),
+          )
+          as _i39.Future<void>);
 
   @override
-  _i39.Future<String?> getUserData() => (super.noSuchMethod(
-        Invocation.method(#getUserData, []),
-        returnValue: _i39.Future<String?>.value(),
-        returnValueForMissingStub: _i39.Future<String?>.value(),
-      ) as _i39.Future<String?>);
+  _i39.Future<String?> getUserData() =>
+      (super.noSuchMethod(
+            Invocation.method(#getUserData, []),
+            returnValue: _i39.Future<String?>.value(),
+            returnValueForMissingStub: _i39.Future<String?>.value(),
+          )
+          as _i39.Future<String?>);
 
   @override
-  _i39.Future<void> clearUserData() => (super.noSuchMethod(
-        Invocation.method(#clearUserData, []),
-        returnValue: _i39.Future<void>.value(),
-        returnValueForMissingStub: _i39.Future<void>.value(),
-      ) as _i39.Future<void>);
+  _i39.Future<void> clearUserData() =>
+      (super.noSuchMethod(
+            Invocation.method(#clearUserData, []),
+            returnValue: _i39.Future<void>.value(),
+            returnValueForMissingStub: _i39.Future<void>.value(),
+          )
+          as _i39.Future<void>);
 
   @override
-  _i39.Future<String?> getUserId() => (super.noSuchMethod(
-        Invocation.method(#getUserId, []),
-        returnValue: _i39.Future<String?>.value(),
-        returnValueForMissingStub: _i39.Future<String?>.value(),
-      ) as _i39.Future<String?>);
+  _i39.Future<String?> getUserId() =>
+      (super.noSuchMethod(
+            Invocation.method(#getUserId, []),
+            returnValue: _i39.Future<String?>.value(),
+            returnValueForMissingStub: _i39.Future<String?>.value(),
+          )
+          as _i39.Future<String?>);
 
   @override
-  _i39.Future<void> setBiometricEnabled(bool? enabled) => (super.noSuchMethod(
-        Invocation.method(#setBiometricEnabled, [enabled]),
-        returnValue: _i39.Future<void>.value(),
-        returnValueForMissingStub: _i39.Future<void>.value(),
-      ) as _i39.Future<void>);
+  _i39.Future<void> setBiometricEnabled(bool? enabled) =>
+      (super.noSuchMethod(
+            Invocation.method(#setBiometricEnabled, [enabled]),
+            returnValue: _i39.Future<void>.value(),
+            returnValueForMissingStub: _i39.Future<void>.value(),
+          )
+          as _i39.Future<void>);
 
   @override
-  _i39.Future<bool> getBiometricEnabled() => (super.noSuchMethod(
-        Invocation.method(#getBiometricEnabled, []),
-        returnValue: _i39.Future<bool>.value(false),
-        returnValueForMissingStub: _i39.Future<bool>.value(false),
-      ) as _i39.Future<bool>);
+  _i39.Future<bool> getBiometricEnabled() =>
+      (super.noSuchMethod(
+            Invocation.method(#getBiometricEnabled, []),
+            returnValue: _i39.Future<bool>.value(false),
+            returnValueForMissingStub: _i39.Future<bool>.value(false),
+          )
+          as _i39.Future<bool>);
 
   @override
-  _i39.Future<void> storeEmail(String? email) => (super.noSuchMethod(
-        Invocation.method(#storeEmail, [email]),
-        returnValue: _i39.Future<void>.value(),
-        returnValueForMissingStub: _i39.Future<void>.value(),
-      ) as _i39.Future<void>);
+  _i39.Future<void> storeEmail(String? email) =>
+      (super.noSuchMethod(
+            Invocation.method(#storeEmail, [email]),
+            returnValue: _i39.Future<void>.value(),
+            returnValueForMissingStub: _i39.Future<void>.value(),
+          )
+          as _i39.Future<void>);
 
   @override
-  _i39.Future<String?> getStoredEmail() => (super.noSuchMethod(
-        Invocation.method(#getStoredEmail, []),
-        returnValue: _i39.Future<String?>.value(),
-        returnValueForMissingStub: _i39.Future<String?>.value(),
-      ) as _i39.Future<String?>);
+  _i39.Future<String?> getStoredEmail() =>
+      (super.noSuchMethod(
+            Invocation.method(#getStoredEmail, []),
+            returnValue: _i39.Future<String?>.value(),
+            returnValueForMissingStub: _i39.Future<String?>.value(),
+          )
+          as _i39.Future<String?>);
 
   @override
-  _i39.Future<void> store(String? key, String? value) => (super.noSuchMethod(
-        Invocation.method(#store, [key, value]),
-        returnValue: _i39.Future<void>.value(),
-        returnValueForMissingStub: _i39.Future<void>.value(),
-      ) as _i39.Future<void>);
+  _i39.Future<void> store(String? key, String? value) =>
+      (super.noSuchMethod(
+            Invocation.method(#store, [key, value]),
+            returnValue: _i39.Future<void>.value(),
+            returnValueForMissingStub: _i39.Future<void>.value(),
+          )
+          as _i39.Future<void>);
 
   @override
-  _i39.Future<void> write(String? key, String? value) => (super.noSuchMethod(
-        Invocation.method(#write, [key, value]),
-        returnValue: _i39.Future<void>.value(),
-        returnValueForMissingStub: _i39.Future<void>.value(),
-      ) as _i39.Future<void>);
+  _i39.Future<void> write(String? key, String? value) =>
+      (super.noSuchMethod(
+            Invocation.method(#write, [key, value]),
+            returnValue: _i39.Future<void>.value(),
+            returnValueForMissingStub: _i39.Future<void>.value(),
+          )
+          as _i39.Future<void>);
 
   @override
-  _i39.Future<String?> read(String? key) => (super.noSuchMethod(
-        Invocation.method(#read, [key]),
-        returnValue: _i39.Future<String?>.value(),
-        returnValueForMissingStub: _i39.Future<String?>.value(),
-      ) as _i39.Future<String?>);
+  _i39.Future<String?> read(String? key) =>
+      (super.noSuchMethod(
+            Invocation.method(#read, [key]),
+            returnValue: _i39.Future<String?>.value(),
+            returnValueForMissingStub: _i39.Future<String?>.value(),
+          )
+          as _i39.Future<String?>);
 
   @override
-  _i39.Future<void> delete(String? key) => (super.noSuchMethod(
-        Invocation.method(#delete, [key]),
-        returnValue: _i39.Future<void>.value(),
-        returnValueForMissingStub: _i39.Future<void>.value(),
-      ) as _i39.Future<void>);
+  _i39.Future<void> delete(String? key) =>
+      (super.noSuchMethod(
+            Invocation.method(#delete, [key]),
+            returnValue: _i39.Future<void>.value(),
+            returnValueForMissingStub: _i39.Future<void>.value(),
+          )
+          as _i39.Future<void>);
 
   @override
-  _i39.Future<bool> containsKey(String? key) => (super.noSuchMethod(
-        Invocation.method(#containsKey, [key]),
-        returnValue: _i39.Future<bool>.value(false),
-        returnValueForMissingStub: _i39.Future<bool>.value(false),
-      ) as _i39.Future<bool>);
+  _i39.Future<bool> containsKey(String? key) =>
+      (super.noSuchMethod(
+            Invocation.method(#containsKey, [key]),
+            returnValue: _i39.Future<bool>.value(false),
+            returnValueForMissingStub: _i39.Future<bool>.value(false),
+          )
+          as _i39.Future<bool>);
 
   @override
-  _i39.Future<void> clearAll() => (super.noSuchMethod(
-        Invocation.method(#clearAll, []),
-        returnValue: _i39.Future<void>.value(),
-        returnValueForMissingStub: _i39.Future<void>.value(),
-      ) as _i39.Future<void>);
+  _i39.Future<void> clearAll() =>
+      (super.noSuchMethod(
+            Invocation.method(#clearAll, []),
+            returnValue: _i39.Future<void>.value(),
+            returnValueForMissingStub: _i39.Future<void>.value(),
+          )
+          as _i39.Future<void>);
 
   @override
-  _i39.Future<void> clear() => (super.noSuchMethod(
-        Invocation.method(#clear, []),
-        returnValue: _i39.Future<void>.value(),
-        returnValueForMissingStub: _i39.Future<void>.value(),
-      ) as _i39.Future<void>);
+  _i39.Future<void> clear() =>
+      (super.noSuchMethod(
+            Invocation.method(#clear, []),
+            returnValue: _i39.Future<void>.value(),
+            returnValueForMissingStub: _i39.Future<void>.value(),
+          )
+          as _i39.Future<void>);
 
   @override
-  _i39.Future<Map<String, String>> readAll() => (super.noSuchMethod(
-        Invocation.method(#readAll, []),
-        returnValue: _i39.Future<Map<String, String>>.value(
-          <String, String>{},
-        ),
-        returnValueForMissingStub: _i39.Future<Map<String, String>>.value(
-          <String, String>{},
-        ),
-      ) as _i39.Future<Map<String, String>>);
+  _i39.Future<Map<String, String>> readAll() =>
+      (super.noSuchMethod(
+            Invocation.method(#readAll, []),
+            returnValue: _i39.Future<Map<String, String>>.value(
+              <String, String>{},
+            ),
+            returnValueForMissingStub: _i39.Future<Map<String, String>>.value(
+              <String, String>{},
+            ),
+          )
+          as _i39.Future<Map<String, String>>);
 
   @override
   _i39.Future<String?> getUserDataLegacy(String? dataKey) =>
       (super.noSuchMethod(
-        Invocation.method(#getUserDataLegacy, [dataKey]),
-        returnValue: _i39.Future<String?>.value(),
-        returnValueForMissingStub: _i39.Future<String?>.value(),
-      ) as _i39.Future<String?>);
+            Invocation.method(#getUserDataLegacy, [dataKey]),
+            returnValue: _i39.Future<String?>.value(),
+            returnValueForMissingStub: _i39.Future<String?>.value(),
+          )
+          as _i39.Future<String?>);
 
   @override
   _i39.Future<void> storeUserDataLegacy(String? dataKey, String? value) =>
       (super.noSuchMethod(
-        Invocation.method(#storeUserDataLegacy, [dataKey, value]),
-        returnValue: _i39.Future<void>.value(),
-        returnValueForMissingStub: _i39.Future<void>.value(),
-      ) as _i39.Future<void>);
+            Invocation.method(#storeUserDataLegacy, [dataKey, value]),
+            returnValue: _i39.Future<void>.value(),
+            returnValueForMissingStub: _i39.Future<void>.value(),
+          )
+          as _i39.Future<void>);
 
   @override
-  _i39.Future<void> clearAllUserData() => (super.noSuchMethod(
-        Invocation.method(#clearAllUserData, []),
-        returnValue: _i39.Future<void>.value(),
-        returnValueForMissingStub: _i39.Future<void>.value(),
-      ) as _i39.Future<void>);
+  _i39.Future<void> clearAllUserData() =>
+      (super.noSuchMethod(
+            Invocation.method(#clearAllUserData, []),
+            returnValue: _i39.Future<void>.value(),
+            returnValueForMissingStub: _i39.Future<void>.value(),
+          )
+          as _i39.Future<void>);
 
   @override
   _i39.Future<void> storeEncryptedData(String? key, String? value) =>
       (super.noSuchMethod(
-        Invocation.method(#storeEncryptedData, [key, value]),
-        returnValue: _i39.Future<void>.value(),
-        returnValueForMissingStub: _i39.Future<void>.value(),
-      ) as _i39.Future<void>);
+            Invocation.method(#storeEncryptedData, [key, value]),
+            returnValue: _i39.Future<void>.value(),
+            returnValueForMissingStub: _i39.Future<void>.value(),
+          )
+          as _i39.Future<void>);
 
   @override
-  _i39.Future<String?> getEncryptedData(String? key) => (super.noSuchMethod(
-        Invocation.method(#getEncryptedData, [key]),
-        returnValue: _i39.Future<String?>.value(),
-        returnValueForMissingStub: _i39.Future<String?>.value(),
-      ) as _i39.Future<String?>);
+  _i39.Future<String?> getEncryptedData(String? key) =>
+      (super.noSuchMethod(
+            Invocation.method(#getEncryptedData, [key]),
+            returnValue: _i39.Future<String?>.value(),
+            returnValueForMissingStub: _i39.Future<String?>.value(),
+          )
+          as _i39.Future<String?>);
 
   @override
-  _i39.Future<String?> get(String? key) => (super.noSuchMethod(
-        Invocation.method(#get, [key]),
-        returnValue: _i39.Future<String?>.value(),
-        returnValueForMissingStub: _i39.Future<String?>.value(),
-      ) as _i39.Future<String?>);
+  _i39.Future<String?> get(String? key) =>
+      (super.noSuchMethod(
+            Invocation.method(#get, [key]),
+            returnValue: _i39.Future<String?>.value(),
+            returnValueForMissingStub: _i39.Future<String?>.value(),
+          )
+          as _i39.Future<String?>);
 
   @override
-  _i39.Future<bool> isStorageAvailable() => (super.noSuchMethod(
-        Invocation.method(#isStorageAvailable, []),
-        returnValue: _i39.Future<bool>.value(false),
-        returnValueForMissingStub: _i39.Future<bool>.value(false),
-      ) as _i39.Future<bool>);
+  _i39.Future<bool> isStorageAvailable() =>
+      (super.noSuchMethod(
+            Invocation.method(#isStorageAvailable, []),
+            returnValue: _i39.Future<bool>.value(false),
+            returnValueForMissingStub: _i39.Future<bool>.value(false),
+          )
+          as _i39.Future<bool>);
 
   @override
   _i39.Future<Map<String, dynamic>> getPerformanceMetrics() =>
       (super.noSuchMethod(
-        Invocation.method(#getPerformanceMetrics, []),
-        returnValue: _i39.Future<Map<String, dynamic>>.value(
-          <String, dynamic>{},
-        ),
-        returnValueForMissingStub: _i39.Future<Map<String, dynamic>>.value(
-          <String, dynamic>{},
-        ),
-      ) as _i39.Future<Map<String, dynamic>>);
+            Invocation.method(#getPerformanceMetrics, []),
+            returnValue: _i39.Future<Map<String, dynamic>>.value(
+              <String, dynamic>{},
+            ),
+            returnValueForMissingStub: _i39.Future<Map<String, dynamic>>.value(
+              <String, dynamic>{},
+            ),
+          )
+          as _i39.Future<Map<String, dynamic>>);
 }
 
 /// A class which mocks [UserStatusService].
@@ -2778,52 +2954,56 @@ class MockAdaptiveStorageService extends _i1.Mock
 /// See the documentation for Mockito's code generation for more information.
 class MockUserStatusService extends _i1.Mock implements _i58.UserStatusService {
   @override
-  bool isValidEmail(String? email) => (super.noSuchMethod(
-        Invocation.method(#isValidEmail, [email]),
-        returnValue: false,
-        returnValueForMissingStub: false,
-      ) as bool);
+  bool isValidEmail(String? email) =>
+      (super.noSuchMethod(
+            Invocation.method(#isValidEmail, [email]),
+            returnValue: false,
+            returnValueForMissingStub: false,
+          )
+          as bool);
 
   @override
   _i39.Future<_i14.Either<_i46.Failure, bool>> checkUserExists(String? email) =>
       (super.noSuchMethod(
-        Invocation.method(#checkUserExists, [email]),
-        returnValue: _i39.Future<_i14.Either<_i46.Failure, bool>>.value(
-          _FakeEither_12<_i46.Failure, bool>(
-            this,
             Invocation.method(#checkUserExists, [email]),
-          ),
-        ),
-        returnValueForMissingStub:
-            _i39.Future<_i14.Either<_i46.Failure, bool>>.value(
-          _FakeEither_12<_i46.Failure, bool>(
-            this,
-            Invocation.method(#checkUserExists, [email]),
-          ),
-        ),
-      ) as _i39.Future<_i14.Either<_i46.Failure, bool>>);
+            returnValue: _i39.Future<_i14.Either<_i46.Failure, bool>>.value(
+              _FakeEither_12<_i46.Failure, bool>(
+                this,
+                Invocation.method(#checkUserExists, [email]),
+              ),
+            ),
+            returnValueForMissingStub:
+                _i39.Future<_i14.Either<_i46.Failure, bool>>.value(
+                  _FakeEither_12<_i46.Failure, bool>(
+                    this,
+                    Invocation.method(#checkUserExists, [email]),
+                  ),
+                ),
+          )
+          as _i39.Future<_i14.Either<_i46.Failure, bool>>);
 
   @override
   _i39.Future<_i14.Either<_i46.Failure, _i58.UserStatus>> checkUserStatus(
     String? email,
   ) =>
       (super.noSuchMethod(
-        Invocation.method(#checkUserStatus, [email]),
-        returnValue:
-            _i39.Future<_i14.Either<_i46.Failure, _i58.UserStatus>>.value(
-          _FakeEither_12<_i46.Failure, _i58.UserStatus>(
-            this,
             Invocation.method(#checkUserStatus, [email]),
-          ),
-        ),
-        returnValueForMissingStub:
-            _i39.Future<_i14.Either<_i46.Failure, _i58.UserStatus>>.value(
-          _FakeEither_12<_i46.Failure, _i58.UserStatus>(
-            this,
-            Invocation.method(#checkUserStatus, [email]),
-          ),
-        ),
-      ) as _i39.Future<_i14.Either<_i46.Failure, _i58.UserStatus>>);
+            returnValue:
+                _i39.Future<_i14.Either<_i46.Failure, _i58.UserStatus>>.value(
+                  _FakeEither_12<_i46.Failure, _i58.UserStatus>(
+                    this,
+                    Invocation.method(#checkUserStatus, [email]),
+                  ),
+                ),
+            returnValueForMissingStub:
+                _i39.Future<_i14.Either<_i46.Failure, _i58.UserStatus>>.value(
+                  _FakeEither_12<_i46.Failure, _i58.UserStatus>(
+                    this,
+                    Invocation.method(#checkUserStatus, [email]),
+                  ),
+                ),
+          )
+          as _i39.Future<_i14.Either<_i46.Failure, _i58.UserStatus>>);
 
   @override
   _i39.Future<_i14.Either<_i46.Failure, _i47.User>> createUserProfile({
@@ -2832,33 +3012,35 @@ class MockUserStatusService extends _i1.Mock implements _i58.UserStatusService {
     String? token,
   }) =>
       (super.noSuchMethod(
-        Invocation.method(#createUserProfile, [], {
-          #email: email,
-          #name: name,
-          #token: token,
-        }),
-        returnValue: _i39.Future<_i14.Either<_i46.Failure, _i47.User>>.value(
-          _FakeEither_12<_i46.Failure, _i47.User>(
-            this,
             Invocation.method(#createUserProfile, [], {
               #email: email,
               #name: name,
               #token: token,
             }),
-          ),
-        ),
-        returnValueForMissingStub:
-            _i39.Future<_i14.Either<_i46.Failure, _i47.User>>.value(
-          _FakeEither_12<_i46.Failure, _i47.User>(
-            this,
-            Invocation.method(#createUserProfile, [], {
-              #email: email,
-              #name: name,
-              #token: token,
-            }),
-          ),
-        ),
-      ) as _i39.Future<_i14.Either<_i46.Failure, _i47.User>>);
+            returnValue:
+                _i39.Future<_i14.Either<_i46.Failure, _i47.User>>.value(
+                  _FakeEither_12<_i46.Failure, _i47.User>(
+                    this,
+                    Invocation.method(#createUserProfile, [], {
+                      #email: email,
+                      #name: name,
+                      #token: token,
+                    }),
+                  ),
+                ),
+            returnValueForMissingStub:
+                _i39.Future<_i14.Either<_i46.Failure, _i47.User>>.value(
+                  _FakeEither_12<_i46.Failure, _i47.User>(
+                    this,
+                    Invocation.method(#createUserProfile, [], {
+                      #email: email,
+                      #name: name,
+                      #token: token,
+                    }),
+                  ),
+                ),
+          )
+          as _i39.Future<_i14.Either<_i46.Failure, _i47.User>>);
 }
 
 /// A class which mocks [AppStateNotifier].
@@ -2866,114 +3048,127 @@ class MockUserStatusService extends _i1.Mock implements _i58.UserStatusService {
 /// See the documentation for Mockito's code generation for more information.
 class MockAppStateNotifier extends _i1.Mock implements _i15.AppStateNotifier {
   @override
-  bool get mounted => (super.noSuchMethod(
-        Invocation.getter(#mounted),
-        returnValue: false,
-        returnValueForMissingStub: false,
-      ) as bool);
+  bool get mounted =>
+      (super.noSuchMethod(
+            Invocation.getter(#mounted),
+            returnValue: false,
+            returnValueForMissingStub: false,
+          )
+          as bool);
 
   @override
-  _i39.Stream<_i15.AppState> get stream => (super.noSuchMethod(
-        Invocation.getter(#stream),
-        returnValue: _i39.Stream<_i15.AppState>.empty(),
-        returnValueForMissingStub: _i39.Stream<_i15.AppState>.empty(),
-      ) as _i39.Stream<_i15.AppState>);
+  _i39.Stream<_i15.AppState> get stream =>
+      (super.noSuchMethod(
+            Invocation.getter(#stream),
+            returnValue: _i39.Stream<_i15.AppState>.empty(),
+            returnValueForMissingStub: _i39.Stream<_i15.AppState>.empty(),
+          )
+          as _i39.Stream<_i15.AppState>);
 
   @override
-  _i15.AppState get state => (super.noSuchMethod(
-        Invocation.getter(#state),
-        returnValue: _FakeAppState_13(this, Invocation.getter(#state)),
-        returnValueForMissingStub: _FakeAppState_13(
-          this,
-          Invocation.getter(#state),
-        ),
-      ) as _i15.AppState);
+  _i15.AppState get state =>
+      (super.noSuchMethod(
+            Invocation.getter(#state),
+            returnValue: _FakeAppState_13(this, Invocation.getter(#state)),
+            returnValueForMissingStub: _FakeAppState_13(
+              this,
+              Invocation.getter(#state),
+            ),
+          )
+          as _i15.AppState);
 
   @override
-  _i15.AppState get debugState => (super.noSuchMethod(
-        Invocation.getter(#debugState),
-        returnValue: _FakeAppState_13(this, Invocation.getter(#debugState)),
-        returnValueForMissingStub: _FakeAppState_13(
-          this,
-          Invocation.getter(#debugState),
-        ),
-      ) as _i15.AppState);
+  _i15.AppState get debugState =>
+      (super.noSuchMethod(
+            Invocation.getter(#debugState),
+            returnValue: _FakeAppState_13(this, Invocation.getter(#debugState)),
+            returnValueForMissingStub: _FakeAppState_13(
+              this,
+              Invocation.getter(#debugState),
+            ),
+          )
+          as _i15.AppState);
 
   @override
-  bool get hasListeners => (super.noSuchMethod(
-        Invocation.getter(#hasListeners),
-        returnValue: false,
-        returnValueForMissingStub: false,
-      ) as bool);
+  bool get hasListeners =>
+      (super.noSuchMethod(
+            Invocation.getter(#hasListeners),
+            returnValue: false,
+            returnValueForMissingStub: false,
+          )
+          as bool);
 
   @override
   set onError(_i59.ErrorListener? _onError) => super.noSuchMethod(
-        Invocation.setter(#onError, _onError),
-        returnValueForMissingStub: null,
-      );
+    Invocation.setter(#onError, _onError),
+    returnValueForMissingStub: null,
+  );
 
   @override
   set state(_i15.AppState? value) => super.noSuchMethod(
-        Invocation.setter(#state, value),
-        returnValueForMissingStub: null,
-      );
+    Invocation.setter(#state, value),
+    returnValueForMissingStub: null,
+  );
 
   @override
   void setLoading(bool? loading) => super.noSuchMethod(
-        Invocation.method(#setLoading, [loading]),
-        returnValueForMissingStub: null,
-      );
+    Invocation.method(#setLoading, [loading]),
+    returnValueForMissingStub: null,
+  );
 
   @override
   void setError(String? error) => super.noSuchMethod(
-        Invocation.method(#setError, [error]),
-        returnValueForMissingStub: null,
-      );
+    Invocation.method(#setError, [error]),
+    returnValueForMissingStub: null,
+  );
 
   @override
   void clearError() => super.noSuchMethod(
-        Invocation.method(#clearError, []),
-        returnValueForMissingStub: null,
-      );
+    Invocation.method(#clearError, []),
+    returnValueForMissingStub: null,
+  );
 
   @override
   void setFeatureLoading(String? feature, bool? loading) => super.noSuchMethod(
-        Invocation.method(#setFeatureLoading, [feature, loading]),
-        returnValueForMissingStub: null,
-      );
+    Invocation.method(#setFeatureLoading, [feature, loading]),
+    returnValueForMissingStub: null,
+  );
 
   @override
   void setSyncing(bool? syncing) => super.noSuchMethod(
-        Invocation.method(#setSyncing, [syncing]),
-        returnValueForMissingStub: null,
-      );
+    Invocation.method(#setSyncing, [syncing]),
+    returnValueForMissingStub: null,
+  );
 
   @override
   void setPendingSyncItems(int? count) => super.noSuchMethod(
-        Invocation.method(#setPendingSyncItems, [count]),
-        returnValueForMissingStub: null,
-      );
+    Invocation.method(#setPendingSyncItems, [count]),
+    returnValueForMissingStub: null,
+  );
 
   @override
   void updateLastSyncTime() => super.noSuchMethod(
-        Invocation.method(#updateLastSyncTime, []),
-        returnValueForMissingStub: null,
-      );
+    Invocation.method(#updateLastSyncTime, []),
+    returnValueForMissingStub: null,
+  );
 
   @override
-  bool isFeatureLoading(String? feature) => (super.noSuchMethod(
-        Invocation.method(#isFeatureLoading, [feature]),
-        returnValue: false,
-        returnValueForMissingStub: false,
-      ) as bool);
+  bool isFeatureLoading(String? feature) =>
+      (super.noSuchMethod(
+            Invocation.method(#isFeatureLoading, [feature]),
+            returnValue: false,
+            returnValueForMissingStub: false,
+          )
+          as bool);
 
   @override
   bool updateShouldNotify(_i15.AppState? old, _i15.AppState? current) =>
       (super.noSuchMethod(
-        Invocation.method(#updateShouldNotify, [old, current]),
-        returnValue: false,
-        returnValueForMissingStub: false,
-      ) as bool);
+            Invocation.method(#updateShouldNotify, [old, current]),
+            returnValue: false,
+            returnValueForMissingStub: false,
+          )
+          as bool);
 
   @override
   _i59.RemoveListener addListener(
@@ -2981,20 +3176,21 @@ class MockAppStateNotifier extends _i1.Mock implements _i15.AppStateNotifier {
     bool? fireImmediately = true,
   }) =>
       (super.noSuchMethod(
-        Invocation.method(
-          #addListener,
-          [listener],
-          {#fireImmediately: fireImmediately},
-        ),
-        returnValue: () {},
-        returnValueForMissingStub: () {},
-      ) as _i59.RemoveListener);
+            Invocation.method(
+              #addListener,
+              [listener],
+              {#fireImmediately: fireImmediately},
+            ),
+            returnValue: () {},
+            returnValueForMissingStub: () {},
+          )
+          as _i59.RemoveListener);
 
   @override
   void dispose() => super.noSuchMethod(
-        Invocation.method(#dispose, []),
-        returnValueForMissingStub: null,
-      );
+    Invocation.method(#dispose, []),
+    returnValueForMissingStub: null,
+  );
 }
 
 /// A class which mocks [AuthNotifier].
@@ -3002,87 +3198,103 @@ class MockAppStateNotifier extends _i1.Mock implements _i15.AppStateNotifier {
 /// See the documentation for Mockito's code generation for more information.
 class MockAuthNotifier extends _i1.Mock implements _i17.AuthNotifier {
   @override
-  _i16.AuthService get authService => (super.noSuchMethod(
-        Invocation.getter(#authService),
-        returnValue: _FakeAuthService_14(
-          this,
-          Invocation.getter(#authService),
-        ),
-        returnValueForMissingStub: _FakeAuthService_14(
-          this,
-          Invocation.getter(#authService),
-        ),
-      ) as _i16.AuthService);
+  _i16.AuthService get authService =>
+      (super.noSuchMethod(
+            Invocation.getter(#authService),
+            returnValue: _FakeAuthService_14(
+              this,
+              Invocation.getter(#authService),
+            ),
+            returnValueForMissingStub: _FakeAuthService_14(
+              this,
+              Invocation.getter(#authService),
+            ),
+          )
+          as _i16.AuthService);
 
   @override
-  bool get mounted => (super.noSuchMethod(
-        Invocation.getter(#mounted),
-        returnValue: false,
-        returnValueForMissingStub: false,
-      ) as bool);
+  bool get mounted =>
+      (super.noSuchMethod(
+            Invocation.getter(#mounted),
+            returnValue: false,
+            returnValueForMissingStub: false,
+          )
+          as bool);
 
   @override
-  _i39.Stream<_i17.AuthState> get stream => (super.noSuchMethod(
-        Invocation.getter(#stream),
-        returnValue: _i39.Stream<_i17.AuthState>.empty(),
-        returnValueForMissingStub: _i39.Stream<_i17.AuthState>.empty(),
-      ) as _i39.Stream<_i17.AuthState>);
+  _i39.Stream<_i17.AuthState> get stream =>
+      (super.noSuchMethod(
+            Invocation.getter(#stream),
+            returnValue: _i39.Stream<_i17.AuthState>.empty(),
+            returnValueForMissingStub: _i39.Stream<_i17.AuthState>.empty(),
+          )
+          as _i39.Stream<_i17.AuthState>);
 
   @override
-  _i17.AuthState get state => (super.noSuchMethod(
-        Invocation.getter(#state),
-        returnValue: _FakeAuthState_15(this, Invocation.getter(#state)),
-        returnValueForMissingStub: _FakeAuthState_15(
-          this,
-          Invocation.getter(#state),
-        ),
-      ) as _i17.AuthState);
+  _i17.AuthState get state =>
+      (super.noSuchMethod(
+            Invocation.getter(#state),
+            returnValue: _FakeAuthState_15(this, Invocation.getter(#state)),
+            returnValueForMissingStub: _FakeAuthState_15(
+              this,
+              Invocation.getter(#state),
+            ),
+          )
+          as _i17.AuthState);
 
   @override
-  _i17.AuthState get debugState => (super.noSuchMethod(
-        Invocation.getter(#debugState),
-        returnValue: _FakeAuthState_15(
-          this,
-          Invocation.getter(#debugState),
-        ),
-        returnValueForMissingStub: _FakeAuthState_15(
-          this,
-          Invocation.getter(#debugState),
-        ),
-      ) as _i17.AuthState);
+  _i17.AuthState get debugState =>
+      (super.noSuchMethod(
+            Invocation.getter(#debugState),
+            returnValue: _FakeAuthState_15(
+              this,
+              Invocation.getter(#debugState),
+            ),
+            returnValueForMissingStub: _FakeAuthState_15(
+              this,
+              Invocation.getter(#debugState),
+            ),
+          )
+          as _i17.AuthState);
 
   @override
-  bool get hasListeners => (super.noSuchMethod(
-        Invocation.getter(#hasListeners),
-        returnValue: false,
-        returnValueForMissingStub: false,
-      ) as bool);
+  bool get hasListeners =>
+      (super.noSuchMethod(
+            Invocation.getter(#hasListeners),
+            returnValue: false,
+            returnValueForMissingStub: false,
+          )
+          as bool);
 
   @override
   set onError(_i59.ErrorListener? _onError) => super.noSuchMethod(
-        Invocation.setter(#onError, _onError),
-        returnValueForMissingStub: null,
-      );
+    Invocation.setter(#onError, _onError),
+    returnValueForMissingStub: null,
+  );
 
   @override
   set state(_i17.AuthState? value) => super.noSuchMethod(
-        Invocation.setter(#state, value),
-        returnValueForMissingStub: null,
-      );
+    Invocation.setter(#state, value),
+    returnValueForMissingStub: null,
+  );
 
   @override
-  _i39.Future<void> initializeAuth() => (super.noSuchMethod(
-        Invocation.method(#initializeAuth, []),
-        returnValue: _i39.Future<void>.value(),
-        returnValueForMissingStub: _i39.Future<void>.value(),
-      ) as _i39.Future<void>);
+  _i39.Future<void> initializeAuth() =>
+      (super.noSuchMethod(
+            Invocation.method(#initializeAuth, []),
+            returnValue: _i39.Future<void>.value(),
+            returnValueForMissingStub: _i39.Future<void>.value(),
+          )
+          as _i39.Future<void>);
 
   @override
-  _i39.Future<void> checkUserStatus(String? email) => (super.noSuchMethod(
-        Invocation.method(#checkUserStatus, [email]),
-        returnValue: _i39.Future<void>.value(),
-        returnValueForMissingStub: _i39.Future<void>.value(),
-      ) as _i39.Future<void>);
+  _i39.Future<void> checkUserStatus(String? email) =>
+      (super.noSuchMethod(
+            Invocation.method(#checkUserStatus, [email]),
+            returnValue: _i39.Future<void>.value(),
+            returnValueForMissingStub: _i39.Future<void>.value(),
+          )
+          as _i39.Future<void>);
 
   @override
   _i39.Future<void> sendMagicLink(
@@ -3091,104 +3303,114 @@ class MockAuthNotifier extends _i1.Mock implements _i17.AuthNotifier {
     String? inviteCode,
   }) =>
       (super.noSuchMethod(
-        Invocation.method(
-          #sendMagicLink,
-          [email],
-          {#name: name, #inviteCode: inviteCode},
-        ),
-        returnValue: _i39.Future<void>.value(),
-        returnValueForMissingStub: _i39.Future<void>.value(),
-      ) as _i39.Future<void>);
+            Invocation.method(
+              #sendMagicLink,
+              [email],
+              {#name: name, #inviteCode: inviteCode},
+            ),
+            returnValue: _i39.Future<void>.value(),
+            returnValueForMissingStub: _i39.Future<void>.value(),
+          )
+          as _i39.Future<void>);
 
   @override
-  _i39.Future<void> validateToken() => (super.noSuchMethod(
-        Invocation.method(#validateToken, []),
-        returnValue: _i39.Future<void>.value(),
-        returnValueForMissingStub: _i39.Future<void>.value(),
-      ) as _i39.Future<void>);
+  _i39.Future<void> validateToken() =>
+      (super.noSuchMethod(
+            Invocation.method(#validateToken, []),
+            returnValue: _i39.Future<void>.value(),
+            returnValueForMissingStub: _i39.Future<void>.value(),
+          )
+          as _i39.Future<void>);
 
   @override
-  _i39.Future<void> logout() => (super.noSuchMethod(
-        Invocation.method(#logout, []),
-        returnValue: _i39.Future<void>.value(),
-        returnValueForMissingStub: _i39.Future<void>.value(),
-      ) as _i39.Future<void>);
+  _i39.Future<void> logout() =>
+      (super.noSuchMethod(
+            Invocation.method(#logout, []),
+            returnValue: _i39.Future<void>.value(),
+            returnValueForMissingStub: _i39.Future<void>.value(),
+          )
+          as _i39.Future<void>);
 
   @override
   void clearError() => super.noSuchMethod(
-        Invocation.method(#clearError, []),
-        returnValueForMissingStub: null,
-      );
+    Invocation.method(#clearError, []),
+    returnValueForMissingStub: null,
+  );
 
   @override
   void setError(String? errorMessage) => super.noSuchMethod(
-        Invocation.method(#setError, [errorMessage]),
-        returnValueForMissingStub: null,
-      );
+    Invocation.method(#setError, [errorMessage]),
+    returnValueForMissingStub: null,
+  );
 
   @override
   void clearUserStatus() => super.noSuchMethod(
-        Invocation.method(#clearUserStatus, []),
-        returnValueForMissingStub: null,
-      );
+    Invocation.method(#clearUserStatus, []),
+    returnValueForMissingStub: null,
+  );
 
   @override
   void clearPendingEmail() => super.noSuchMethod(
-        Invocation.method(#clearPendingEmail, []),
-        returnValueForMissingStub: null,
-      );
+    Invocation.method(#clearPendingEmail, []),
+    returnValueForMissingStub: null,
+  );
 
   @override
   void setShowNameField(bool? show) => super.noSuchMethod(
-        Invocation.method(#setShowNameField, [show]),
-        returnValueForMissingStub: null,
-      );
+    Invocation.method(#setShowNameField, [show]),
+    returnValueForMissingStub: null,
+  );
 
   @override
   void setInvitationResult(_i16.InvitationResult? result) => super.noSuchMethod(
-        Invocation.method(#setInvitationResult, [result]),
-        returnValueForMissingStub: null,
-      );
+    Invocation.method(#setInvitationResult, [result]),
+    returnValueForMissingStub: null,
+  );
 
   @override
   void clearInvitationResult() => super.noSuchMethod(
-        Invocation.method(#clearInvitationResult, []),
-        returnValueForMissingStub: null,
-      );
+    Invocation.method(#clearInvitationResult, []),
+    returnValueForMissingStub: null,
+  );
 
   @override
   void login(_i47.User? user) => super.noSuchMethod(
-        Invocation.method(#login, [user]),
-        returnValueForMissingStub: null,
-      );
+    Invocation.method(#login, [user]),
+    returnValueForMissingStub: null,
+  );
 
   @override
-  _i39.Future<void> refreshCurrentUser() => (super.noSuchMethod(
-        Invocation.method(#refreshCurrentUser, []),
-        returnValue: _i39.Future<void>.value(),
-        returnValueForMissingStub: _i39.Future<void>.value(),
-      ) as _i39.Future<void>);
+  _i39.Future<void> refreshCurrentUser() =>
+      (super.noSuchMethod(
+            Invocation.method(#refreshCurrentUser, []),
+            returnValue: _i39.Future<void>.value(),
+            returnValueForMissingStub: _i39.Future<void>.value(),
+          )
+          as _i39.Future<void>);
 
   @override
-  _i39.Future<void> authenticateWithBiometric() => (super.noSuchMethod(
-        Invocation.method(#authenticateWithBiometric, []),
-        returnValue: _i39.Future<void>.value(),
-        returnValueForMissingStub: _i39.Future<void>.value(),
-      ) as _i39.Future<void>);
+  _i39.Future<void> authenticateWithBiometric() =>
+      (super.noSuchMethod(
+            Invocation.method(#authenticateWithBiometric, []),
+            returnValue: _i39.Future<void>.value(),
+            returnValueForMissingStub: _i39.Future<void>.value(),
+          )
+          as _i39.Future<void>);
 
   @override
   void dispose() => super.noSuchMethod(
-        Invocation.method(#dispose, []),
-        returnValueForMissingStub: null,
-      );
+    Invocation.method(#dispose, []),
+    returnValueForMissingStub: null,
+  );
 
   @override
   bool updateShouldNotify(_i17.AuthState? old, _i17.AuthState? current) =>
       (super.noSuchMethod(
-        Invocation.method(#updateShouldNotify, [old, current]),
-        returnValue: false,
-        returnValueForMissingStub: false,
-      ) as bool);
+            Invocation.method(#updateShouldNotify, [old, current]),
+            returnValue: false,
+            returnValueForMissingStub: false,
+          )
+          as bool);
 
   @override
   _i59.RemoveListener addListener(
@@ -3196,14 +3418,15 @@ class MockAuthNotifier extends _i1.Mock implements _i17.AuthNotifier {
     bool? fireImmediately = true,
   }) =>
       (super.noSuchMethod(
-        Invocation.method(
-          #addListener,
-          [listener],
-          {#fireImmediately: fireImmediately},
-        ),
-        returnValue: () {},
-        returnValueForMissingStub: () {},
-      ) as _i59.RemoveListener);
+            Invocation.method(
+              #addListener,
+              [listener],
+              {#fireImmediately: fireImmediately},
+            ),
+            returnValue: () {},
+            returnValueForMissingStub: () {},
+          )
+          as _i59.RemoveListener);
 }
 
 /// A class which mocks [BiometricService].
@@ -3211,37 +3434,45 @@ class MockAuthNotifier extends _i1.Mock implements _i17.AuthNotifier {
 /// See the documentation for Mockito's code generation for more information.
 class MockBiometricService extends _i1.Mock implements _i18.BiometricService {
   @override
-  _i39.Future<bool> isAvailable() => (super.noSuchMethod(
-        Invocation.method(#isAvailable, []),
-        returnValue: _i39.Future<bool>.value(false),
-        returnValueForMissingStub: _i39.Future<bool>.value(false),
-      ) as _i39.Future<bool>);
+  _i39.Future<bool> isAvailable() =>
+      (super.noSuchMethod(
+            Invocation.method(#isAvailable, []),
+            returnValue: _i39.Future<bool>.value(false),
+            returnValueForMissingStub: _i39.Future<bool>.value(false),
+          )
+          as _i39.Future<bool>);
 
   @override
-  _i39.Future<bool> canCheckBiometrics() => (super.noSuchMethod(
-        Invocation.method(#canCheckBiometrics, []),
-        returnValue: _i39.Future<bool>.value(false),
-        returnValueForMissingStub: _i39.Future<bool>.value(false),
-      ) as _i39.Future<bool>);
+  _i39.Future<bool> canCheckBiometrics() =>
+      (super.noSuchMethod(
+            Invocation.method(#canCheckBiometrics, []),
+            returnValue: _i39.Future<bool>.value(false),
+            returnValueForMissingStub: _i39.Future<bool>.value(false),
+          )
+          as _i39.Future<bool>);
 
   @override
   _i39.Future<List<_i61.BiometricType>> getAvailableBiometrics() =>
       (super.noSuchMethod(
-        Invocation.method(#getAvailableBiometrics, []),
-        returnValue: _i39.Future<List<_i61.BiometricType>>.value(
-          <_i61.BiometricType>[],
-        ),
-        returnValueForMissingStub: _i39.Future<List<_i61.BiometricType>>.value(
-          <_i61.BiometricType>[],
-        ),
-      ) as _i39.Future<List<_i61.BiometricType>>);
+            Invocation.method(#getAvailableBiometrics, []),
+            returnValue: _i39.Future<List<_i61.BiometricType>>.value(
+              <_i61.BiometricType>[],
+            ),
+            returnValueForMissingStub:
+                _i39.Future<List<_i61.BiometricType>>.value(
+                  <_i61.BiometricType>[],
+                ),
+          )
+          as _i39.Future<List<_i61.BiometricType>>);
 
   @override
-  _i39.Future<bool> isBiometricEnrolled() => (super.noSuchMethod(
-        Invocation.method(#isBiometricEnrolled, []),
-        returnValue: _i39.Future<bool>.value(false),
-        returnValueForMissingStub: _i39.Future<bool>.value(false),
-      ) as _i39.Future<bool>);
+  _i39.Future<bool> isBiometricEnrolled() =>
+      (super.noSuchMethod(
+            Invocation.method(#isBiometricEnrolled, []),
+            returnValue: _i39.Future<bool>.value(false),
+            returnValueForMissingStub: _i39.Future<bool>.value(false),
+          )
+          as _i39.Future<bool>);
 
   @override
   _i39.Future<bool> authenticateSimple({
@@ -3250,14 +3481,15 @@ class MockBiometricService extends _i1.Mock implements _i18.BiometricService {
     bool? stickyAuth = true,
   }) =>
       (super.noSuchMethod(
-        Invocation.method(#authenticateSimple, [], {
-          #reason: reason,
-          #useErrorDialogs: useErrorDialogs,
-          #stickyAuth: stickyAuth,
-        }),
-        returnValue: _i39.Future<bool>.value(false),
-        returnValueForMissingStub: _i39.Future<bool>.value(false),
-      ) as _i39.Future<bool>);
+            Invocation.method(#authenticateSimple, [], {
+              #reason: reason,
+              #useErrorDialogs: useErrorDialogs,
+              #stickyAuth: stickyAuth,
+            }),
+            returnValue: _i39.Future<bool>.value(false),
+            returnValueForMissingStub: _i39.Future<bool>.value(false),
+          )
+          as _i39.Future<bool>);
 
   @override
   _i39.Future<_i18.LegacyBiometricAuthResult> authenticate({
@@ -3267,108 +3499,117 @@ class MockBiometricService extends _i1.Mock implements _i18.BiometricService {
     bool? sensitiveTransaction = false,
   }) =>
       (super.noSuchMethod(
-        Invocation.method(#authenticate, [], {
-          #reason: reason,
-          #useErrorDialogs: useErrorDialogs,
-          #stickyAuth: stickyAuth,
-          #sensitiveTransaction: sensitiveTransaction,
-        }),
-        returnValue: _i39.Future<_i18.LegacyBiometricAuthResult>.value(
-          _FakeLegacyBiometricAuthResult_16(
-            this,
             Invocation.method(#authenticate, [], {
               #reason: reason,
               #useErrorDialogs: useErrorDialogs,
               #stickyAuth: stickyAuth,
               #sensitiveTransaction: sensitiveTransaction,
             }),
-          ),
-        ),
-        returnValueForMissingStub:
-            _i39.Future<_i18.LegacyBiometricAuthResult>.value(
-          _FakeLegacyBiometricAuthResult_16(
-            this,
-            Invocation.method(#authenticate, [], {
-              #reason: reason,
-              #useErrorDialogs: useErrorDialogs,
-              #stickyAuth: stickyAuth,
-              #sensitiveTransaction: sensitiveTransaction,
-            }),
-          ),
-        ),
-      ) as _i39.Future<_i18.LegacyBiometricAuthResult>);
+            returnValue: _i39.Future<_i18.LegacyBiometricAuthResult>.value(
+              _FakeLegacyBiometricAuthResult_16(
+                this,
+                Invocation.method(#authenticate, [], {
+                  #reason: reason,
+                  #useErrorDialogs: useErrorDialogs,
+                  #stickyAuth: stickyAuth,
+                  #sensitiveTransaction: sensitiveTransaction,
+                }),
+              ),
+            ),
+            returnValueForMissingStub:
+                _i39.Future<_i18.LegacyBiometricAuthResult>.value(
+                  _FakeLegacyBiometricAuthResult_16(
+                    this,
+                    Invocation.method(#authenticate, [], {
+                      #reason: reason,
+                      #useErrorDialogs: useErrorDialogs,
+                      #stickyAuth: stickyAuth,
+                      #sensitiveTransaction: sensitiveTransaction,
+                    }),
+                  ),
+                ),
+          )
+          as _i39.Future<_i18.LegacyBiometricAuthResult>);
 
   @override
-  _i39.Future<_i18.LegacyBiometricAuthResult> authenticateForSensitiveOperation(
-          {required String? operation}) =>
+  _i39.Future<_i18.LegacyBiometricAuthResult>
+  authenticateForSensitiveOperation({required String? operation}) =>
       (super.noSuchMethod(
-        Invocation.method(#authenticateForSensitiveOperation, [], {
-          #operation: operation,
-        }),
-        returnValue: _i39.Future<_i18.LegacyBiometricAuthResult>.value(
-          _FakeLegacyBiometricAuthResult_16(
-            this,
             Invocation.method(#authenticateForSensitiveOperation, [], {
               #operation: operation,
             }),
-          ),
-        ),
-        returnValueForMissingStub:
-            _i39.Future<_i18.LegacyBiometricAuthResult>.value(
-          _FakeLegacyBiometricAuthResult_16(
-            this,
-            Invocation.method(#authenticateForSensitiveOperation, [], {
-              #operation: operation,
-            }),
-          ),
-        ),
-      ) as _i39.Future<_i18.LegacyBiometricAuthResult>);
+            returnValue: _i39.Future<_i18.LegacyBiometricAuthResult>.value(
+              _FakeLegacyBiometricAuthResult_16(
+                this,
+                Invocation.method(#authenticateForSensitiveOperation, [], {
+                  #operation: operation,
+                }),
+              ),
+            ),
+            returnValueForMissingStub:
+                _i39.Future<_i18.LegacyBiometricAuthResult>.value(
+                  _FakeLegacyBiometricAuthResult_16(
+                    this,
+                    Invocation.method(#authenticateForSensitiveOperation, [], {
+                      #operation: operation,
+                    }),
+                  ),
+                ),
+          )
+          as _i39.Future<_i18.LegacyBiometricAuthResult>);
 
   @override
   _i39.Future<_i18.LegacyBiometricAuthResult> quickAuthenticate() =>
       (super.noSuchMethod(
-        Invocation.method(#quickAuthenticate, []),
-        returnValue: _i39.Future<_i18.LegacyBiometricAuthResult>.value(
-          _FakeLegacyBiometricAuthResult_16(
-            this,
             Invocation.method(#quickAuthenticate, []),
-          ),
-        ),
-        returnValueForMissingStub:
-            _i39.Future<_i18.LegacyBiometricAuthResult>.value(
-          _FakeLegacyBiometricAuthResult_16(
-            this,
-            Invocation.method(#quickAuthenticate, []),
-          ),
-        ),
-      ) as _i39.Future<_i18.LegacyBiometricAuthResult>);
+            returnValue: _i39.Future<_i18.LegacyBiometricAuthResult>.value(
+              _FakeLegacyBiometricAuthResult_16(
+                this,
+                Invocation.method(#quickAuthenticate, []),
+              ),
+            ),
+            returnValueForMissingStub:
+                _i39.Future<_i18.LegacyBiometricAuthResult>.value(
+                  _FakeLegacyBiometricAuthResult_16(
+                    this,
+                    Invocation.method(#quickAuthenticate, []),
+                  ),
+                ),
+          )
+          as _i39.Future<_i18.LegacyBiometricAuthResult>);
 
   @override
-  String getBiometricTypeName(_i61.BiometricType? type) => (super.noSuchMethod(
-        Invocation.method(#getBiometricTypeName, [type]),
-        returnValue: _i42.dummyValue<String>(
-          this,
-          Invocation.method(#getBiometricTypeName, [type]),
-        ),
-        returnValueForMissingStub: _i42.dummyValue<String>(
-          this,
-          Invocation.method(#getBiometricTypeName, [type]),
-        ),
-      ) as String);
+  String getBiometricTypeName(_i61.BiometricType? type) =>
+      (super.noSuchMethod(
+            Invocation.method(#getBiometricTypeName, [type]),
+            returnValue: _i42.dummyValue<String>(
+              this,
+              Invocation.method(#getBiometricTypeName, [type]),
+            ),
+            returnValueForMissingStub: _i42.dummyValue<String>(
+              this,
+              Invocation.method(#getBiometricTypeName, [type]),
+            ),
+          )
+          as String);
 
   @override
-  _i39.Future<bool> canUseBiometric(dynamic context) => (super.noSuchMethod(
-        Invocation.method(#canUseBiometric, [context]),
-        returnValue: _i39.Future<bool>.value(false),
-        returnValueForMissingStub: _i39.Future<bool>.value(false),
-      ) as _i39.Future<bool>);
+  _i39.Future<bool> canUseBiometric(dynamic context) =>
+      (super.noSuchMethod(
+            Invocation.method(#canUseBiometric, [context]),
+            returnValue: _i39.Future<bool>.value(false),
+            returnValueForMissingStub: _i39.Future<bool>.value(false),
+          )
+          as _i39.Future<bool>);
 
   @override
-  _i18.BiometricSecurityLevel getSecurityLevel() => (super.noSuchMethod(
-        Invocation.method(#getSecurityLevel, []),
-        returnValue: _i18.BiometricSecurityLevel.high,
-        returnValueForMissingStub: _i18.BiometricSecurityLevel.high,
-      ) as _i18.BiometricSecurityLevel);
+  _i18.BiometricSecurityLevel getSecurityLevel() =>
+      (super.noSuchMethod(
+            Invocation.method(#getSecurityLevel, []),
+            returnValue: _i18.BiometricSecurityLevel.high,
+            returnValueForMissingStub: _i18.BiometricSecurityLevel.high,
+          )
+          as _i18.BiometricSecurityLevel);
 }
 
 /// A class which mocks [IAuthLocalDatasource].
@@ -3379,210 +3620,234 @@ class MockIAuthLocalDatasource extends _i1.Mock
   @override
   _i39.Future<_i45.Result<void, _i46.ApiFailure>> saveToken(String? token) =>
       (super.noSuchMethod(
-        Invocation.method(#saveToken, [token]),
-        returnValue: _i39.Future<_i45.Result<void, _i46.ApiFailure>>.value(
-          _i42.dummyValue<_i45.Result<void, _i46.ApiFailure>>(
-            this,
             Invocation.method(#saveToken, [token]),
-          ),
-        ),
-        returnValueForMissingStub:
-            _i39.Future<_i45.Result<void, _i46.ApiFailure>>.value(
-          _i42.dummyValue<_i45.Result<void, _i46.ApiFailure>>(
-            this,
-            Invocation.method(#saveToken, [token]),
-          ),
-        ),
-      ) as _i39.Future<_i45.Result<void, _i46.ApiFailure>>);
+            returnValue: _i39.Future<_i45.Result<void, _i46.ApiFailure>>.value(
+              _i42.dummyValue<_i45.Result<void, _i46.ApiFailure>>(
+                this,
+                Invocation.method(#saveToken, [token]),
+              ),
+            ),
+            returnValueForMissingStub:
+                _i39.Future<_i45.Result<void, _i46.ApiFailure>>.value(
+                  _i42.dummyValue<_i45.Result<void, _i46.ApiFailure>>(
+                    this,
+                    Invocation.method(#saveToken, [token]),
+                  ),
+                ),
+          )
+          as _i39.Future<_i45.Result<void, _i46.ApiFailure>>);
 
   @override
   _i39.Future<_i45.Result<String?, _i46.ApiFailure>> getToken() =>
       (super.noSuchMethod(
-        Invocation.method(#getToken, []),
-        returnValue: _i39.Future<_i45.Result<String?, _i46.ApiFailure>>.value(
-          _i42.dummyValue<_i45.Result<String?, _i46.ApiFailure>>(
-            this,
             Invocation.method(#getToken, []),
-          ),
-        ),
-        returnValueForMissingStub:
-            _i39.Future<_i45.Result<String?, _i46.ApiFailure>>.value(
-          _i42.dummyValue<_i45.Result<String?, _i46.ApiFailure>>(
-            this,
-            Invocation.method(#getToken, []),
-          ),
-        ),
-      ) as _i39.Future<_i45.Result<String?, _i46.ApiFailure>>);
+            returnValue:
+                _i39.Future<_i45.Result<String?, _i46.ApiFailure>>.value(
+                  _i42.dummyValue<_i45.Result<String?, _i46.ApiFailure>>(
+                    this,
+                    Invocation.method(#getToken, []),
+                  ),
+                ),
+            returnValueForMissingStub:
+                _i39.Future<_i45.Result<String?, _i46.ApiFailure>>.value(
+                  _i42.dummyValue<_i45.Result<String?, _i46.ApiFailure>>(
+                    this,
+                    Invocation.method(#getToken, []),
+                  ),
+                ),
+          )
+          as _i39.Future<_i45.Result<String?, _i46.ApiFailure>>);
 
   @override
   _i39.Future<_i45.Result<void, _i46.ApiFailure>> saveUserProfile(
     _i48.AuthUserProfile? profile,
   ) =>
       (super.noSuchMethod(
-        Invocation.method(#saveUserProfile, [profile]),
-        returnValue: _i39.Future<_i45.Result<void, _i46.ApiFailure>>.value(
-          _i42.dummyValue<_i45.Result<void, _i46.ApiFailure>>(
-            this,
             Invocation.method(#saveUserProfile, [profile]),
-          ),
-        ),
-        returnValueForMissingStub:
-            _i39.Future<_i45.Result<void, _i46.ApiFailure>>.value(
-          _i42.dummyValue<_i45.Result<void, _i46.ApiFailure>>(
-            this,
-            Invocation.method(#saveUserProfile, [profile]),
-          ),
-        ),
-      ) as _i39.Future<_i45.Result<void, _i46.ApiFailure>>);
+            returnValue: _i39.Future<_i45.Result<void, _i46.ApiFailure>>.value(
+              _i42.dummyValue<_i45.Result<void, _i46.ApiFailure>>(
+                this,
+                Invocation.method(#saveUserProfile, [profile]),
+              ),
+            ),
+            returnValueForMissingStub:
+                _i39.Future<_i45.Result<void, _i46.ApiFailure>>.value(
+                  _i42.dummyValue<_i45.Result<void, _i46.ApiFailure>>(
+                    this,
+                    Invocation.method(#saveUserProfile, [profile]),
+                  ),
+                ),
+          )
+          as _i39.Future<_i45.Result<void, _i46.ApiFailure>>);
 
   @override
-  _i39.Future<
-      _i45.Result<_i48.AuthUserProfile?,
-          _i46.ApiFailure>> getUserProfile() => (super.noSuchMethod(
-        Invocation.method(#getUserProfile, []),
-        returnValue: _i39
-            .Future<_i45.Result<_i48.AuthUserProfile?, _i46.ApiFailure>>.value(
-          _i42.dummyValue<_i45.Result<_i48.AuthUserProfile?, _i46.ApiFailure>>(
-              this, Invocation.method(#getUserProfile, [])),
-        ),
-        returnValueForMissingStub: _i39
-            .Future<_i45.Result<_i48.AuthUserProfile?, _i46.ApiFailure>>.value(
-          _i42.dummyValue<_i45.Result<_i48.AuthUserProfile?, _i46.ApiFailure>>(
-              this, Invocation.method(#getUserProfile, [])),
-        ),
-      ) as _i39.Future<_i45.Result<_i48.AuthUserProfile?, _i46.ApiFailure>>);
+  _i39.Future<_i45.Result<_i48.AuthUserProfile?, _i46.ApiFailure>>
+  getUserProfile() =>
+      (super.noSuchMethod(
+            Invocation.method(#getUserProfile, []),
+            returnValue:
+                _i39.Future<
+                  _i45.Result<_i48.AuthUserProfile?, _i46.ApiFailure>
+                >.value(
+                  _i42.dummyValue<
+                    _i45.Result<_i48.AuthUserProfile?, _i46.ApiFailure>
+                  >(this, Invocation.method(#getUserProfile, [])),
+                ),
+            returnValueForMissingStub:
+                _i39.Future<
+                  _i45.Result<_i48.AuthUserProfile?, _i46.ApiFailure>
+                >.value(
+                  _i42.dummyValue<
+                    _i45.Result<_i48.AuthUserProfile?, _i46.ApiFailure>
+                  >(this, Invocation.method(#getUserProfile, [])),
+                ),
+          )
+          as _i39.Future<_i45.Result<_i48.AuthUserProfile?, _i46.ApiFailure>>);
 
   @override
   _i39.Future<_i45.Result<void, _i46.ApiFailure>> saveAuthState(
     _i48.AuthState? state,
   ) =>
       (super.noSuchMethod(
-        Invocation.method(#saveAuthState, [state]),
-        returnValue: _i39.Future<_i45.Result<void, _i46.ApiFailure>>.value(
-          _i42.dummyValue<_i45.Result<void, _i46.ApiFailure>>(
-            this,
             Invocation.method(#saveAuthState, [state]),
-          ),
-        ),
-        returnValueForMissingStub:
-            _i39.Future<_i45.Result<void, _i46.ApiFailure>>.value(
-          _i42.dummyValue<_i45.Result<void, _i46.ApiFailure>>(
-            this,
-            Invocation.method(#saveAuthState, [state]),
-          ),
-        ),
-      ) as _i39.Future<_i45.Result<void, _i46.ApiFailure>>);
+            returnValue: _i39.Future<_i45.Result<void, _i46.ApiFailure>>.value(
+              _i42.dummyValue<_i45.Result<void, _i46.ApiFailure>>(
+                this,
+                Invocation.method(#saveAuthState, [state]),
+              ),
+            ),
+            returnValueForMissingStub:
+                _i39.Future<_i45.Result<void, _i46.ApiFailure>>.value(
+                  _i42.dummyValue<_i45.Result<void, _i46.ApiFailure>>(
+                    this,
+                    Invocation.method(#saveAuthState, [state]),
+                  ),
+                ),
+          )
+          as _i39.Future<_i45.Result<void, _i46.ApiFailure>>);
 
   @override
   _i39.Future<_i45.Result<_i48.AuthState?, _i46.ApiFailure>> getAuthState() =>
       (super.noSuchMethod(
-        Invocation.method(#getAuthState, []),
-        returnValue:
-            _i39.Future<_i45.Result<_i48.AuthState?, _i46.ApiFailure>>.value(
-          _i42.dummyValue<_i45.Result<_i48.AuthState?, _i46.ApiFailure>>(
-              this, Invocation.method(#getAuthState, [])),
-        ),
-        returnValueForMissingStub:
-            _i39.Future<_i45.Result<_i48.AuthState?, _i46.ApiFailure>>.value(
-          _i42.dummyValue<_i45.Result<_i48.AuthState?, _i46.ApiFailure>>(
-              this, Invocation.method(#getAuthState, [])),
-        ),
-      ) as _i39.Future<_i45.Result<_i48.AuthState?, _i46.ApiFailure>>);
+            Invocation.method(#getAuthState, []),
+            returnValue:
+                _i39.Future<
+                  _i45.Result<_i48.AuthState?, _i46.ApiFailure>
+                >.value(
+                  _i42.dummyValue<
+                    _i45.Result<_i48.AuthState?, _i46.ApiFailure>
+                  >(this, Invocation.method(#getAuthState, [])),
+                ),
+            returnValueForMissingStub:
+                _i39.Future<
+                  _i45.Result<_i48.AuthState?, _i46.ApiFailure>
+                >.value(
+                  _i42.dummyValue<
+                    _i45.Result<_i48.AuthState?, _i46.ApiFailure>
+                  >(this, Invocation.method(#getAuthState, [])),
+                ),
+          )
+          as _i39.Future<_i45.Result<_i48.AuthState?, _i46.ApiFailure>>);
 
   @override
   _i39.Future<_i45.Result<void, _i46.ApiFailure>> clearSession() =>
       (super.noSuchMethod(
-        Invocation.method(#clearSession, []),
-        returnValue: _i39.Future<_i45.Result<void, _i46.ApiFailure>>.value(
-          _i42.dummyValue<_i45.Result<void, _i46.ApiFailure>>(
-            this,
             Invocation.method(#clearSession, []),
-          ),
-        ),
-        returnValueForMissingStub:
-            _i39.Future<_i45.Result<void, _i46.ApiFailure>>.value(
-          _i42.dummyValue<_i45.Result<void, _i46.ApiFailure>>(
-            this,
-            Invocation.method(#clearSession, []),
-          ),
-        ),
-      ) as _i39.Future<_i45.Result<void, _i46.ApiFailure>>);
+            returnValue: _i39.Future<_i45.Result<void, _i46.ApiFailure>>.value(
+              _i42.dummyValue<_i45.Result<void, _i46.ApiFailure>>(
+                this,
+                Invocation.method(#clearSession, []),
+              ),
+            ),
+            returnValueForMissingStub:
+                _i39.Future<_i45.Result<void, _i46.ApiFailure>>.value(
+                  _i42.dummyValue<_i45.Result<void, _i46.ApiFailure>>(
+                    this,
+                    Invocation.method(#clearSession, []),
+                  ),
+                ),
+          )
+          as _i39.Future<_i45.Result<void, _i46.ApiFailure>>);
 
   @override
   _i39.Future<_i45.Result<void, _i46.ApiFailure>> cleanupExpiredTokens() =>
       (super.noSuchMethod(
-        Invocation.method(#cleanupExpiredTokens, []),
-        returnValue: _i39.Future<_i45.Result<void, _i46.ApiFailure>>.value(
-          _i42.dummyValue<_i45.Result<void, _i46.ApiFailure>>(
-            this,
             Invocation.method(#cleanupExpiredTokens, []),
-          ),
-        ),
-        returnValueForMissingStub:
-            _i39.Future<_i45.Result<void, _i46.ApiFailure>>.value(
-          _i42.dummyValue<_i45.Result<void, _i46.ApiFailure>>(
-            this,
-            Invocation.method(#cleanupExpiredTokens, []),
-          ),
-        ),
-      ) as _i39.Future<_i45.Result<void, _i46.ApiFailure>>);
+            returnValue: _i39.Future<_i45.Result<void, _i46.ApiFailure>>.value(
+              _i42.dummyValue<_i45.Result<void, _i46.ApiFailure>>(
+                this,
+                Invocation.method(#cleanupExpiredTokens, []),
+              ),
+            ),
+            returnValueForMissingStub:
+                _i39.Future<_i45.Result<void, _i46.ApiFailure>>.value(
+                  _i42.dummyValue<_i45.Result<void, _i46.ApiFailure>>(
+                    this,
+                    Invocation.method(#cleanupExpiredTokens, []),
+                  ),
+                ),
+          )
+          as _i39.Future<_i45.Result<void, _i46.ApiFailure>>);
 
   @override
   _i39.Future<_i45.Result<bool, _i46.ApiFailure>> isStorageHealthy() =>
       (super.noSuchMethod(
-        Invocation.method(#isStorageHealthy, []),
-        returnValue: _i39.Future<_i45.Result<bool, _i46.ApiFailure>>.value(
-          _i42.dummyValue<_i45.Result<bool, _i46.ApiFailure>>(
-            this,
             Invocation.method(#isStorageHealthy, []),
-          ),
-        ),
-        returnValueForMissingStub:
-            _i39.Future<_i45.Result<bool, _i46.ApiFailure>>.value(
-          _i42.dummyValue<_i45.Result<bool, _i46.ApiFailure>>(
-            this,
-            Invocation.method(#isStorageHealthy, []),
-          ),
-        ),
-      ) as _i39.Future<_i45.Result<bool, _i46.ApiFailure>>);
+            returnValue: _i39.Future<_i45.Result<bool, _i46.ApiFailure>>.value(
+              _i42.dummyValue<_i45.Result<bool, _i46.ApiFailure>>(
+                this,
+                Invocation.method(#isStorageHealthy, []),
+              ),
+            ),
+            returnValueForMissingStub:
+                _i39.Future<_i45.Result<bool, _i46.ApiFailure>>.value(
+                  _i42.dummyValue<_i45.Result<bool, _i46.ApiFailure>>(
+                    this,
+                    Invocation.method(#isStorageHealthy, []),
+                  ),
+                ),
+          )
+          as _i39.Future<_i45.Result<bool, _i46.ApiFailure>>);
 
   @override
   _i39.Future<_i45.Result<void, _i46.ApiFailure>> storeToken(String? token) =>
       (super.noSuchMethod(
-        Invocation.method(#storeToken, [token]),
-        returnValue: _i39.Future<_i45.Result<void, _i46.ApiFailure>>.value(
-          _i42.dummyValue<_i45.Result<void, _i46.ApiFailure>>(
-            this,
             Invocation.method(#storeToken, [token]),
-          ),
-        ),
-        returnValueForMissingStub:
-            _i39.Future<_i45.Result<void, _i46.ApiFailure>>.value(
-          _i42.dummyValue<_i45.Result<void, _i46.ApiFailure>>(
-            this,
-            Invocation.method(#storeToken, [token]),
-          ),
-        ),
-      ) as _i39.Future<_i45.Result<void, _i46.ApiFailure>>);
+            returnValue: _i39.Future<_i45.Result<void, _i46.ApiFailure>>.value(
+              _i42.dummyValue<_i45.Result<void, _i46.ApiFailure>>(
+                this,
+                Invocation.method(#storeToken, [token]),
+              ),
+            ),
+            returnValueForMissingStub:
+                _i39.Future<_i45.Result<void, _i46.ApiFailure>>.value(
+                  _i42.dummyValue<_i45.Result<void, _i46.ApiFailure>>(
+                    this,
+                    Invocation.method(#storeToken, [token]),
+                  ),
+                ),
+          )
+          as _i39.Future<_i45.Result<void, _i46.ApiFailure>>);
 
   @override
   _i39.Future<_i45.Result<void, _i46.ApiFailure>> storeUserData(dynamic user) =>
       (super.noSuchMethod(
-        Invocation.method(#storeUserData, [user]),
-        returnValue: _i39.Future<_i45.Result<void, _i46.ApiFailure>>.value(
-          _i42.dummyValue<_i45.Result<void, _i46.ApiFailure>>(
-            this,
             Invocation.method(#storeUserData, [user]),
-          ),
-        ),
-        returnValueForMissingStub:
-            _i39.Future<_i45.Result<void, _i46.ApiFailure>>.value(
-          _i42.dummyValue<_i45.Result<void, _i46.ApiFailure>>(
-            this,
-            Invocation.method(#storeUserData, [user]),
-          ),
-        ),
-      ) as _i39.Future<_i45.Result<void, _i46.ApiFailure>>);
+            returnValue: _i39.Future<_i45.Result<void, _i46.ApiFailure>>.value(
+              _i42.dummyValue<_i45.Result<void, _i46.ApiFailure>>(
+                this,
+                Invocation.method(#storeUserData, [user]),
+              ),
+            ),
+            returnValueForMissingStub:
+                _i39.Future<_i45.Result<void, _i46.ApiFailure>>.value(
+                  _i42.dummyValue<_i45.Result<void, _i46.ApiFailure>>(
+                    this,
+                    Invocation.method(#storeUserData, [user]),
+                  ),
+                ),
+          )
+          as _i39.Future<_i45.Result<void, _i46.ApiFailure>>);
 
   @override
   _i39.Future<_i45.Result<void, _i46.ApiFailure>> storeTokens({
@@ -3591,246 +3856,262 @@ class MockIAuthLocalDatasource extends _i1.Mock
     required DateTime? expiresAt,
   }) =>
       (super.noSuchMethod(
-        Invocation.method(#storeTokens, [], {
-          #accessToken: accessToken,
-          #refreshToken: refreshToken,
-          #expiresAt: expiresAt,
-        }),
-        returnValue: _i39.Future<_i45.Result<void, _i46.ApiFailure>>.value(
-          _i42.dummyValue<_i45.Result<void, _i46.ApiFailure>>(
-            this,
             Invocation.method(#storeTokens, [], {
               #accessToken: accessToken,
               #refreshToken: refreshToken,
               #expiresAt: expiresAt,
             }),
-          ),
-        ),
-        returnValueForMissingStub:
-            _i39.Future<_i45.Result<void, _i46.ApiFailure>>.value(
-          _i42.dummyValue<_i45.Result<void, _i46.ApiFailure>>(
-            this,
-            Invocation.method(#storeTokens, [], {
-              #accessToken: accessToken,
-              #refreshToken: refreshToken,
-              #expiresAt: expiresAt,
-            }),
-          ),
-        ),
-      ) as _i39.Future<_i45.Result<void, _i46.ApiFailure>>);
+            returnValue: _i39.Future<_i45.Result<void, _i46.ApiFailure>>.value(
+              _i42.dummyValue<_i45.Result<void, _i46.ApiFailure>>(
+                this,
+                Invocation.method(#storeTokens, [], {
+                  #accessToken: accessToken,
+                  #refreshToken: refreshToken,
+                  #expiresAt: expiresAt,
+                }),
+              ),
+            ),
+            returnValueForMissingStub:
+                _i39.Future<_i45.Result<void, _i46.ApiFailure>>.value(
+                  _i42.dummyValue<_i45.Result<void, _i46.ApiFailure>>(
+                    this,
+                    Invocation.method(#storeTokens, [], {
+                      #accessToken: accessToken,
+                      #refreshToken: refreshToken,
+                      #expiresAt: expiresAt,
+                    }),
+                  ),
+                ),
+          )
+          as _i39.Future<_i45.Result<void, _i46.ApiFailure>>);
 
   @override
   _i39.Future<_i45.Result<String?, _i46.ApiFailure>> getRefreshToken() =>
       (super.noSuchMethod(
-        Invocation.method(#getRefreshToken, []),
-        returnValue: _i39.Future<_i45.Result<String?, _i46.ApiFailure>>.value(
-          _i42.dummyValue<_i45.Result<String?, _i46.ApiFailure>>(
-            this,
             Invocation.method(#getRefreshToken, []),
-          ),
-        ),
-        returnValueForMissingStub:
-            _i39.Future<_i45.Result<String?, _i46.ApiFailure>>.value(
-          _i42.dummyValue<_i45.Result<String?, _i46.ApiFailure>>(
-            this,
-            Invocation.method(#getRefreshToken, []),
-          ),
-        ),
-      ) as _i39.Future<_i45.Result<String?, _i46.ApiFailure>>);
+            returnValue:
+                _i39.Future<_i45.Result<String?, _i46.ApiFailure>>.value(
+                  _i42.dummyValue<_i45.Result<String?, _i46.ApiFailure>>(
+                    this,
+                    Invocation.method(#getRefreshToken, []),
+                  ),
+                ),
+            returnValueForMissingStub:
+                _i39.Future<_i45.Result<String?, _i46.ApiFailure>>.value(
+                  _i42.dummyValue<_i45.Result<String?, _i46.ApiFailure>>(
+                    this,
+                    Invocation.method(#getRefreshToken, []),
+                  ),
+                ),
+          )
+          as _i39.Future<_i45.Result<String?, _i46.ApiFailure>>);
 
   @override
   _i39.Future<_i45.Result<DateTime?, _i46.ApiFailure>> getTokenExpiry() =>
       (super.noSuchMethod(
-        Invocation.method(#getTokenExpiry, []),
-        returnValue: _i39.Future<_i45.Result<DateTime?, _i46.ApiFailure>>.value(
-          _i42.dummyValue<_i45.Result<DateTime?, _i46.ApiFailure>>(
-            this,
             Invocation.method(#getTokenExpiry, []),
-          ),
-        ),
-        returnValueForMissingStub:
-            _i39.Future<_i45.Result<DateTime?, _i46.ApiFailure>>.value(
-          _i42.dummyValue<_i45.Result<DateTime?, _i46.ApiFailure>>(
-            this,
-            Invocation.method(#getTokenExpiry, []),
-          ),
-        ),
-      ) as _i39.Future<_i45.Result<DateTime?, _i46.ApiFailure>>);
+            returnValue:
+                _i39.Future<_i45.Result<DateTime?, _i46.ApiFailure>>.value(
+                  _i42.dummyValue<_i45.Result<DateTime?, _i46.ApiFailure>>(
+                    this,
+                    Invocation.method(#getTokenExpiry, []),
+                  ),
+                ),
+            returnValueForMissingStub:
+                _i39.Future<_i45.Result<DateTime?, _i46.ApiFailure>>.value(
+                  _i42.dummyValue<_i45.Result<DateTime?, _i46.ApiFailure>>(
+                    this,
+                    Invocation.method(#getTokenExpiry, []),
+                  ),
+                ),
+          )
+          as _i39.Future<_i45.Result<DateTime?, _i46.ApiFailure>>);
 
   @override
   _i39.Future<_i45.Result<void, _i46.ApiFailure>> clearTokens() =>
       (super.noSuchMethod(
-        Invocation.method(#clearTokens, []),
-        returnValue: _i39.Future<_i45.Result<void, _i46.ApiFailure>>.value(
-          _i42.dummyValue<_i45.Result<void, _i46.ApiFailure>>(
-            this,
             Invocation.method(#clearTokens, []),
-          ),
-        ),
-        returnValueForMissingStub:
-            _i39.Future<_i45.Result<void, _i46.ApiFailure>>.value(
-          _i42.dummyValue<_i45.Result<void, _i46.ApiFailure>>(
-            this,
-            Invocation.method(#clearTokens, []),
-          ),
-        ),
-      ) as _i39.Future<_i45.Result<void, _i46.ApiFailure>>);
+            returnValue: _i39.Future<_i45.Result<void, _i46.ApiFailure>>.value(
+              _i42.dummyValue<_i45.Result<void, _i46.ApiFailure>>(
+                this,
+                Invocation.method(#clearTokens, []),
+              ),
+            ),
+            returnValueForMissingStub:
+                _i39.Future<_i45.Result<void, _i46.ApiFailure>>.value(
+                  _i42.dummyValue<_i45.Result<void, _i46.ApiFailure>>(
+                    this,
+                    Invocation.method(#clearTokens, []),
+                  ),
+                ),
+          )
+          as _i39.Future<_i45.Result<void, _i46.ApiFailure>>);
 
   @override
   _i39.Future<_i45.Result<void, _i46.ApiFailure>> storePKCEVerifier(
     String? codeVerifier,
   ) =>
       (super.noSuchMethod(
-        Invocation.method(#storePKCEVerifier, [codeVerifier]),
-        returnValue: _i39.Future<_i45.Result<void, _i46.ApiFailure>>.value(
-          _i42.dummyValue<_i45.Result<void, _i46.ApiFailure>>(
-            this,
             Invocation.method(#storePKCEVerifier, [codeVerifier]),
-          ),
-        ),
-        returnValueForMissingStub:
-            _i39.Future<_i45.Result<void, _i46.ApiFailure>>.value(
-          _i42.dummyValue<_i45.Result<void, _i46.ApiFailure>>(
-            this,
-            Invocation.method(#storePKCEVerifier, [codeVerifier]),
-          ),
-        ),
-      ) as _i39.Future<_i45.Result<void, _i46.ApiFailure>>);
+            returnValue: _i39.Future<_i45.Result<void, _i46.ApiFailure>>.value(
+              _i42.dummyValue<_i45.Result<void, _i46.ApiFailure>>(
+                this,
+                Invocation.method(#storePKCEVerifier, [codeVerifier]),
+              ),
+            ),
+            returnValueForMissingStub:
+                _i39.Future<_i45.Result<void, _i46.ApiFailure>>.value(
+                  _i42.dummyValue<_i45.Result<void, _i46.ApiFailure>>(
+                    this,
+                    Invocation.method(#storePKCEVerifier, [codeVerifier]),
+                  ),
+                ),
+          )
+          as _i39.Future<_i45.Result<void, _i46.ApiFailure>>);
 
   @override
   _i39.Future<_i45.Result<String?, _i46.ApiFailure>> getPKCEVerifier() =>
       (super.noSuchMethod(
-        Invocation.method(#getPKCEVerifier, []),
-        returnValue: _i39.Future<_i45.Result<String?, _i46.ApiFailure>>.value(
-          _i42.dummyValue<_i45.Result<String?, _i46.ApiFailure>>(
-            this,
             Invocation.method(#getPKCEVerifier, []),
-          ),
-        ),
-        returnValueForMissingStub:
-            _i39.Future<_i45.Result<String?, _i46.ApiFailure>>.value(
-          _i42.dummyValue<_i45.Result<String?, _i46.ApiFailure>>(
-            this,
-            Invocation.method(#getPKCEVerifier, []),
-          ),
-        ),
-      ) as _i39.Future<_i45.Result<String?, _i46.ApiFailure>>);
+            returnValue:
+                _i39.Future<_i45.Result<String?, _i46.ApiFailure>>.value(
+                  _i42.dummyValue<_i45.Result<String?, _i46.ApiFailure>>(
+                    this,
+                    Invocation.method(#getPKCEVerifier, []),
+                  ),
+                ),
+            returnValueForMissingStub:
+                _i39.Future<_i45.Result<String?, _i46.ApiFailure>>.value(
+                  _i42.dummyValue<_i45.Result<String?, _i46.ApiFailure>>(
+                    this,
+                    Invocation.method(#getPKCEVerifier, []),
+                  ),
+                ),
+          )
+          as _i39.Future<_i45.Result<String?, _i46.ApiFailure>>);
 
   @override
   _i39.Future<_i45.Result<void, _i46.ApiFailure>> clearPKCEVerifier() =>
       (super.noSuchMethod(
-        Invocation.method(#clearPKCEVerifier, []),
-        returnValue: _i39.Future<_i45.Result<void, _i46.ApiFailure>>.value(
-          _i42.dummyValue<_i45.Result<void, _i46.ApiFailure>>(
-            this,
             Invocation.method(#clearPKCEVerifier, []),
-          ),
-        ),
-        returnValueForMissingStub:
-            _i39.Future<_i45.Result<void, _i46.ApiFailure>>.value(
-          _i42.dummyValue<_i45.Result<void, _i46.ApiFailure>>(
-            this,
-            Invocation.method(#clearPKCEVerifier, []),
-          ),
-        ),
-      ) as _i39.Future<_i45.Result<void, _i46.ApiFailure>>);
+            returnValue: _i39.Future<_i45.Result<void, _i46.ApiFailure>>.value(
+              _i42.dummyValue<_i45.Result<void, _i46.ApiFailure>>(
+                this,
+                Invocation.method(#clearPKCEVerifier, []),
+              ),
+            ),
+            returnValueForMissingStub:
+                _i39.Future<_i45.Result<void, _i46.ApiFailure>>.value(
+                  _i42.dummyValue<_i45.Result<void, _i46.ApiFailure>>(
+                    this,
+                    Invocation.method(#clearPKCEVerifier, []),
+                  ),
+                ),
+          )
+          as _i39.Future<_i45.Result<void, _i46.ApiFailure>>);
 
   @override
   _i39.Future<_i45.Result<void, _i46.ApiFailure>> storeMagicLinkEmail(
     String? email,
   ) =>
       (super.noSuchMethod(
-        Invocation.method(#storeMagicLinkEmail, [email]),
-        returnValue: _i39.Future<_i45.Result<void, _i46.ApiFailure>>.value(
-          _i42.dummyValue<_i45.Result<void, _i46.ApiFailure>>(
-            this,
             Invocation.method(#storeMagicLinkEmail, [email]),
-          ),
-        ),
-        returnValueForMissingStub:
-            _i39.Future<_i45.Result<void, _i46.ApiFailure>>.value(
-          _i42.dummyValue<_i45.Result<void, _i46.ApiFailure>>(
-            this,
-            Invocation.method(#storeMagicLinkEmail, [email]),
-          ),
-        ),
-      ) as _i39.Future<_i45.Result<void, _i46.ApiFailure>>);
+            returnValue: _i39.Future<_i45.Result<void, _i46.ApiFailure>>.value(
+              _i42.dummyValue<_i45.Result<void, _i46.ApiFailure>>(
+                this,
+                Invocation.method(#storeMagicLinkEmail, [email]),
+              ),
+            ),
+            returnValueForMissingStub:
+                _i39.Future<_i45.Result<void, _i46.ApiFailure>>.value(
+                  _i42.dummyValue<_i45.Result<void, _i46.ApiFailure>>(
+                    this,
+                    Invocation.method(#storeMagicLinkEmail, [email]),
+                  ),
+                ),
+          )
+          as _i39.Future<_i45.Result<void, _i46.ApiFailure>>);
 
   @override
   _i39.Future<_i45.Result<String?, _i46.ApiFailure>> getMagicLinkEmail() =>
       (super.noSuchMethod(
-        Invocation.method(#getMagicLinkEmail, []),
-        returnValue: _i39.Future<_i45.Result<String?, _i46.ApiFailure>>.value(
-          _i42.dummyValue<_i45.Result<String?, _i46.ApiFailure>>(
-            this,
             Invocation.method(#getMagicLinkEmail, []),
-          ),
-        ),
-        returnValueForMissingStub:
-            _i39.Future<_i45.Result<String?, _i46.ApiFailure>>.value(
-          _i42.dummyValue<_i45.Result<String?, _i46.ApiFailure>>(
-            this,
-            Invocation.method(#getMagicLinkEmail, []),
-          ),
-        ),
-      ) as _i39.Future<_i45.Result<String?, _i46.ApiFailure>>);
+            returnValue:
+                _i39.Future<_i45.Result<String?, _i46.ApiFailure>>.value(
+                  _i42.dummyValue<_i45.Result<String?, _i46.ApiFailure>>(
+                    this,
+                    Invocation.method(#getMagicLinkEmail, []),
+                  ),
+                ),
+            returnValueForMissingStub:
+                _i39.Future<_i45.Result<String?, _i46.ApiFailure>>.value(
+                  _i42.dummyValue<_i45.Result<String?, _i46.ApiFailure>>(
+                    this,
+                    Invocation.method(#getMagicLinkEmail, []),
+                  ),
+                ),
+          )
+          as _i39.Future<_i45.Result<String?, _i46.ApiFailure>>);
 
   @override
   _i39.Future<_i45.Result<void, _i46.ApiFailure>> clearMagicLinkEmail() =>
       (super.noSuchMethod(
-        Invocation.method(#clearMagicLinkEmail, []),
-        returnValue: _i39.Future<_i45.Result<void, _i46.ApiFailure>>.value(
-          _i42.dummyValue<_i45.Result<void, _i46.ApiFailure>>(
-            this,
             Invocation.method(#clearMagicLinkEmail, []),
-          ),
-        ),
-        returnValueForMissingStub:
-            _i39.Future<_i45.Result<void, _i46.ApiFailure>>.value(
-          _i42.dummyValue<_i45.Result<void, _i46.ApiFailure>>(
-            this,
-            Invocation.method(#clearMagicLinkEmail, []),
-          ),
-        ),
-      ) as _i39.Future<_i45.Result<void, _i46.ApiFailure>>);
+            returnValue: _i39.Future<_i45.Result<void, _i46.ApiFailure>>.value(
+              _i42.dummyValue<_i45.Result<void, _i46.ApiFailure>>(
+                this,
+                Invocation.method(#clearMagicLinkEmail, []),
+              ),
+            ),
+            returnValueForMissingStub:
+                _i39.Future<_i45.Result<void, _i46.ApiFailure>>.value(
+                  _i42.dummyValue<_i45.Result<void, _i46.ApiFailure>>(
+                    this,
+                    Invocation.method(#clearMagicLinkEmail, []),
+                  ),
+                ),
+          )
+          as _i39.Future<_i45.Result<void, _i46.ApiFailure>>);
 
   @override
   _i39.Future<_i45.Result<void, _i46.ApiFailure>> clearToken() =>
       (super.noSuchMethod(
-        Invocation.method(#clearToken, []),
-        returnValue: _i39.Future<_i45.Result<void, _i46.ApiFailure>>.value(
-          _i42.dummyValue<_i45.Result<void, _i46.ApiFailure>>(
-            this,
             Invocation.method(#clearToken, []),
-          ),
-        ),
-        returnValueForMissingStub:
-            _i39.Future<_i45.Result<void, _i46.ApiFailure>>.value(
-          _i42.dummyValue<_i45.Result<void, _i46.ApiFailure>>(
-            this,
-            Invocation.method(#clearToken, []),
-          ),
-        ),
-      ) as _i39.Future<_i45.Result<void, _i46.ApiFailure>>);
+            returnValue: _i39.Future<_i45.Result<void, _i46.ApiFailure>>.value(
+              _i42.dummyValue<_i45.Result<void, _i46.ApiFailure>>(
+                this,
+                Invocation.method(#clearToken, []),
+              ),
+            ),
+            returnValueForMissingStub:
+                _i39.Future<_i45.Result<void, _i46.ApiFailure>>.value(
+                  _i42.dummyValue<_i45.Result<void, _i46.ApiFailure>>(
+                    this,
+                    Invocation.method(#clearToken, []),
+                  ),
+                ),
+          )
+          as _i39.Future<_i45.Result<void, _i46.ApiFailure>>);
 
   @override
   _i39.Future<_i45.Result<void, _i46.ApiFailure>> clearUserData() =>
       (super.noSuchMethod(
-        Invocation.method(#clearUserData, []),
-        returnValue: _i39.Future<_i45.Result<void, _i46.ApiFailure>>.value(
-          _i42.dummyValue<_i45.Result<void, _i46.ApiFailure>>(
-            this,
             Invocation.method(#clearUserData, []),
-          ),
-        ),
-        returnValueForMissingStub:
-            _i39.Future<_i45.Result<void, _i46.ApiFailure>>.value(
-          _i42.dummyValue<_i45.Result<void, _i46.ApiFailure>>(
-            this,
-            Invocation.method(#clearUserData, []),
-          ),
-        ),
-      ) as _i39.Future<_i45.Result<void, _i46.ApiFailure>>);
+            returnValue: _i39.Future<_i45.Result<void, _i46.ApiFailure>>.value(
+              _i42.dummyValue<_i45.Result<void, _i46.ApiFailure>>(
+                this,
+                Invocation.method(#clearUserData, []),
+              ),
+            ),
+            returnValueForMissingStub:
+                _i39.Future<_i45.Result<void, _i46.ApiFailure>>.value(
+                  _i42.dummyValue<_i45.Result<void, _i46.ApiFailure>>(
+                    this,
+                    Invocation.method(#clearUserData, []),
+                  ),
+                ),
+          )
+          as _i39.Future<_i45.Result<void, _i46.ApiFailure>>);
 }
 
 /// A class which mocks [AdaptiveSecureStorage].
@@ -3849,18 +4130,19 @@ class MockAdaptiveSecureStorage extends _i1.Mock
     _i63.WebOptions? webOptions,
   }) =>
       (super.noSuchMethod(
-        Invocation.method(#read, [], {
-          #key: key,
-          #aOptions: aOptions,
-          #iOptions: iOptions,
-          #lOptions: lOptions,
-          #mOptions: mOptions,
-          #wOptions: wOptions,
-          #webOptions: webOptions,
-        }),
-        returnValue: _i39.Future<String?>.value(),
-        returnValueForMissingStub: _i39.Future<String?>.value(),
-      ) as _i39.Future<String?>);
+            Invocation.method(#read, [], {
+              #key: key,
+              #aOptions: aOptions,
+              #iOptions: iOptions,
+              #lOptions: lOptions,
+              #mOptions: mOptions,
+              #wOptions: wOptions,
+              #webOptions: webOptions,
+            }),
+            returnValue: _i39.Future<String?>.value(),
+            returnValueForMissingStub: _i39.Future<String?>.value(),
+          )
+          as _i39.Future<String?>);
 
   @override
   _i39.Future<void> write({
@@ -3874,19 +4156,20 @@ class MockAdaptiveSecureStorage extends _i1.Mock
     _i63.WebOptions? webOptions,
   }) =>
       (super.noSuchMethod(
-        Invocation.method(#write, [], {
-          #key: key,
-          #value: value,
-          #aOptions: aOptions,
-          #iOptions: iOptions,
-          #lOptions: lOptions,
-          #mOptions: mOptions,
-          #wOptions: wOptions,
-          #webOptions: webOptions,
-        }),
-        returnValue: _i39.Future<void>.value(),
-        returnValueForMissingStub: _i39.Future<void>.value(),
-      ) as _i39.Future<void>);
+            Invocation.method(#write, [], {
+              #key: key,
+              #value: value,
+              #aOptions: aOptions,
+              #iOptions: iOptions,
+              #lOptions: lOptions,
+              #mOptions: mOptions,
+              #wOptions: wOptions,
+              #webOptions: webOptions,
+            }),
+            returnValue: _i39.Future<void>.value(),
+            returnValueForMissingStub: _i39.Future<void>.value(),
+          )
+          as _i39.Future<void>);
 
   @override
   _i39.Future<void> delete({
@@ -3899,18 +4182,19 @@ class MockAdaptiveSecureStorage extends _i1.Mock
     _i63.WebOptions? webOptions,
   }) =>
       (super.noSuchMethod(
-        Invocation.method(#delete, [], {
-          #key: key,
-          #aOptions: aOptions,
-          #iOptions: iOptions,
-          #lOptions: lOptions,
-          #mOptions: mOptions,
-          #wOptions: wOptions,
-          #webOptions: webOptions,
-        }),
-        returnValue: _i39.Future<void>.value(),
-        returnValueForMissingStub: _i39.Future<void>.value(),
-      ) as _i39.Future<void>);
+            Invocation.method(#delete, [], {
+              #key: key,
+              #aOptions: aOptions,
+              #iOptions: iOptions,
+              #lOptions: lOptions,
+              #mOptions: mOptions,
+              #wOptions: wOptions,
+              #webOptions: webOptions,
+            }),
+            returnValue: _i39.Future<void>.value(),
+            returnValueForMissingStub: _i39.Future<void>.value(),
+          )
+          as _i39.Future<void>);
 
   @override
   _i39.Future<void> deleteAll({
@@ -3922,17 +4206,18 @@ class MockAdaptiveSecureStorage extends _i1.Mock
     _i63.WebOptions? webOptions,
   }) =>
       (super.noSuchMethod(
-        Invocation.method(#deleteAll, [], {
-          #aOptions: aOptions,
-          #iOptions: iOptions,
-          #lOptions: lOptions,
-          #mOptions: mOptions,
-          #wOptions: wOptions,
-          #webOptions: webOptions,
-        }),
-        returnValue: _i39.Future<void>.value(),
-        returnValueForMissingStub: _i39.Future<void>.value(),
-      ) as _i39.Future<void>);
+            Invocation.method(#deleteAll, [], {
+              #aOptions: aOptions,
+              #iOptions: iOptions,
+              #lOptions: lOptions,
+              #mOptions: mOptions,
+              #wOptions: wOptions,
+              #webOptions: webOptions,
+            }),
+            returnValue: _i39.Future<void>.value(),
+            returnValueForMissingStub: _i39.Future<void>.value(),
+          )
+          as _i39.Future<void>);
 
   @override
   _i39.Future<Map<String, String>> readAll({
@@ -3944,21 +4229,22 @@ class MockAdaptiveSecureStorage extends _i1.Mock
     _i63.WebOptions? webOptions,
   }) =>
       (super.noSuchMethod(
-        Invocation.method(#readAll, [], {
-          #aOptions: aOptions,
-          #iOptions: iOptions,
-          #lOptions: lOptions,
-          #mOptions: mOptions,
-          #wOptions: wOptions,
-          #webOptions: webOptions,
-        }),
-        returnValue: _i39.Future<Map<String, String>>.value(
-          <String, String>{},
-        ),
-        returnValueForMissingStub: _i39.Future<Map<String, String>>.value(
-          <String, String>{},
-        ),
-      ) as _i39.Future<Map<String, String>>);
+            Invocation.method(#readAll, [], {
+              #aOptions: aOptions,
+              #iOptions: iOptions,
+              #lOptions: lOptions,
+              #mOptions: mOptions,
+              #wOptions: wOptions,
+              #webOptions: webOptions,
+            }),
+            returnValue: _i39.Future<Map<String, String>>.value(
+              <String, String>{},
+            ),
+            returnValueForMissingStub: _i39.Future<Map<String, String>>.value(
+              <String, String>{},
+            ),
+          )
+          as _i39.Future<Map<String, String>>);
 
   @override
   _i39.Future<bool> containsKey({
@@ -3971,18 +4257,19 @@ class MockAdaptiveSecureStorage extends _i1.Mock
     _i63.WebOptions? webOptions,
   }) =>
       (super.noSuchMethod(
-        Invocation.method(#containsKey, [], {
-          #key: key,
-          #aOptions: aOptions,
-          #iOptions: iOptions,
-          #lOptions: lOptions,
-          #mOptions: mOptions,
-          #wOptions: wOptions,
-          #webOptions: webOptions,
-        }),
-        returnValue: _i39.Future<bool>.value(false),
-        returnValueForMissingStub: _i39.Future<bool>.value(false),
-      ) as _i39.Future<bool>);
+            Invocation.method(#containsKey, [], {
+              #key: key,
+              #aOptions: aOptions,
+              #iOptions: iOptions,
+              #lOptions: lOptions,
+              #mOptions: mOptions,
+              #wOptions: wOptions,
+              #webOptions: webOptions,
+            }),
+            returnValue: _i39.Future<bool>.value(false),
+            returnValueForMissingStub: _i39.Future<bool>.value(false),
+          )
+          as _i39.Future<bool>);
 }
 
 /// A class which mocks [SecureKeyManager].
@@ -3990,27 +4277,33 @@ class MockAdaptiveSecureStorage extends _i1.Mock
 /// See the documentation for Mockito's code generation for more information.
 class MockSecureKeyManager extends _i1.Mock implements _i64.SecureKeyManager {
   @override
-  _i39.Future<_i65.Uint8List> getDeviceEncryptionKey() => (super.noSuchMethod(
-        Invocation.method(#getDeviceEncryptionKey, []),
-        returnValue: _i39.Future<_i65.Uint8List>.value(_i65.Uint8List(0)),
-        returnValueForMissingStub: _i39.Future<_i65.Uint8List>.value(
-          _i65.Uint8List(0),
-        ),
-      ) as _i39.Future<_i65.Uint8List>);
+  _i39.Future<_i65.Uint8List> getDeviceEncryptionKey() =>
+      (super.noSuchMethod(
+            Invocation.method(#getDeviceEncryptionKey, []),
+            returnValue: _i39.Future<_i65.Uint8List>.value(_i65.Uint8List(0)),
+            returnValueForMissingStub: _i39.Future<_i65.Uint8List>.value(
+              _i65.Uint8List(0),
+            ),
+          )
+          as _i39.Future<_i65.Uint8List>);
 
   @override
-  _i39.Future<void> clearStoredKey() => (super.noSuchMethod(
-        Invocation.method(#clearStoredKey, []),
-        returnValue: _i39.Future<void>.value(),
-        returnValueForMissingStub: _i39.Future<void>.value(),
-      ) as _i39.Future<void>);
+  _i39.Future<void> clearStoredKey() =>
+      (super.noSuchMethod(
+            Invocation.method(#clearStoredKey, []),
+            returnValue: _i39.Future<void>.value(),
+            returnValueForMissingStub: _i39.Future<void>.value(),
+          )
+          as _i39.Future<void>);
 
   @override
-  _i39.Future<bool> hasStoredKey() => (super.noSuchMethod(
-        Invocation.method(#hasStoredKey, []),
-        returnValue: _i39.Future<bool>.value(false),
-        returnValueForMissingStub: _i39.Future<bool>.value(false),
-      ) as _i39.Future<bool>);
+  _i39.Future<bool> hasStoredKey() =>
+      (super.noSuchMethod(
+            Invocation.method(#hasStoredKey, []),
+            returnValue: _i39.Future<bool>.value(false),
+            returnValueForMissingStub: _i39.Future<bool>.value(false),
+          )
+          as _i39.Future<bool>);
 }
 
 /// A class which mocks [CryptoService].
@@ -4018,11 +4311,13 @@ class MockSecureKeyManager extends _i1.Mock implements _i64.SecureKeyManager {
 /// See the documentation for Mockito's code generation for more information.
 class MockCryptoService extends _i1.Mock implements _i66.CryptoService {
   @override
-  int get recommendedIterations => (super.noSuchMethod(
-        Invocation.getter(#recommendedIterations),
-        returnValue: 0,
-        returnValueForMissingStub: 0,
-      ) as int);
+  int get recommendedIterations =>
+      (super.noSuchMethod(
+            Invocation.getter(#recommendedIterations),
+            returnValue: 0,
+            returnValueForMissingStub: 0,
+          )
+          as int);
 
   @override
   _i45.Result<String, _i67.CryptographyException> encrypt(
@@ -4031,66 +4326,86 @@ class MockCryptoService extends _i1.Mock implements _i66.CryptoService {
     int? keyId = 1,
   ]) =>
       (super.noSuchMethod(
-        Invocation.method(#encrypt, [plaintext, masterKey, keyId]),
-        returnValue:
-            _i42.dummyValue<_i45.Result<String, _i67.CryptographyException>>(
-          this,
-          Invocation.method(#encrypt, [plaintext, masterKey, keyId]),
-        ),
-        returnValueForMissingStub:
-            _i42.dummyValue<_i45.Result<String, _i67.CryptographyException>>(
-          this,
-          Invocation.method(#encrypt, [plaintext, masterKey, keyId]),
-        ),
-      ) as _i45.Result<String, _i67.CryptographyException>);
+            Invocation.method(#encrypt, [plaintext, masterKey, keyId]),
+            returnValue: _i42
+                .dummyValue<_i45.Result<String, _i67.CryptographyException>>(
+                  this,
+                  Invocation.method(#encrypt, [plaintext, masterKey, keyId]),
+                ),
+            returnValueForMissingStub: _i42
+                .dummyValue<_i45.Result<String, _i67.CryptographyException>>(
+                  this,
+                  Invocation.method(#encrypt, [plaintext, masterKey, keyId]),
+                ),
+          )
+          as _i45.Result<String, _i67.CryptographyException>);
 
   @override
   _i45.Result<({int keyId, String plaintext}), _i67.CryptographyException>
-      decrypt(String? encryptedData, _i65.Uint8List? masterKey) =>
-          (super.noSuchMethod(
+  decrypt(String? encryptedData, _i65.Uint8List? masterKey) =>
+      (super.noSuchMethod(
             Invocation.method(#decrypt, [encryptedData, masterKey]),
-            returnValue: _i42.dummyValue<
-                _i45.Result<({int keyId, String plaintext}),
-                    _i67.CryptographyException>>(
-              this,
-              Invocation.method(#decrypt, [encryptedData, masterKey]),
-            ),
-            returnValueForMissingStub: _i42.dummyValue<
-                _i45.Result<({int keyId, String plaintext}),
-                    _i67.CryptographyException>>(
-              this,
-              Invocation.method(#decrypt, [encryptedData, masterKey]),
-            ),
-          ) as _i45.Result<({int keyId, String plaintext}),
-              _i67.CryptographyException>);
+            returnValue: _i42
+                .dummyValue<
+                  _i45.Result<
+                    ({int keyId, String plaintext}),
+                    _i67.CryptographyException
+                  >
+                >(
+                  this,
+                  Invocation.method(#decrypt, [encryptedData, masterKey]),
+                ),
+            returnValueForMissingStub: _i42
+                .dummyValue<
+                  _i45.Result<
+                    ({int keyId, String plaintext}),
+                    _i67.CryptographyException
+                  >
+                >(
+                  this,
+                  Invocation.method(#decrypt, [encryptedData, masterKey]),
+                ),
+          )
+          as _i45.Result<
+            ({int keyId, String plaintext}),
+            _i67.CryptographyException
+          >);
 
   @override
-  _i65.Uint8List generateMasterKey() => (super.noSuchMethod(
-        Invocation.method(#generateMasterKey, []),
-        returnValue: _i65.Uint8List(0),
-        returnValueForMissingStub: _i65.Uint8List(0),
-      ) as _i65.Uint8List);
+  _i65.Uint8List generateMasterKey() =>
+      (super.noSuchMethod(
+            Invocation.method(#generateMasterKey, []),
+            returnValue: _i65.Uint8List(0),
+            returnValueForMissingStub: _i65.Uint8List(0),
+          )
+          as _i65.Uint8List);
 
   @override
-  _i65.Uint8List generateSalt() => (super.noSuchMethod(
-        Invocation.method(#generateSalt, []),
-        returnValue: _i65.Uint8List(0),
-        returnValueForMissingStub: _i65.Uint8List(0),
-      ) as _i65.Uint8List);
+  _i65.Uint8List generateSalt() =>
+      (super.noSuchMethod(
+            Invocation.method(#generateSalt, []),
+            returnValue: _i65.Uint8List(0),
+            returnValueForMissingStub: _i65.Uint8List(0),
+          )
+          as _i65.Uint8List);
 
   @override
-  _i65.Uint8List generateIV() => (super.noSuchMethod(
-        Invocation.method(#generateIV, []),
-        returnValue: _i65.Uint8List(0),
-        returnValueForMissingStub: _i65.Uint8List(0),
-      ) as _i65.Uint8List);
+  _i65.Uint8List generateIV() =>
+      (super.noSuchMethod(
+            Invocation.method(#generateIV, []),
+            returnValue: _i65.Uint8List(0),
+            returnValueForMissingStub: _i65.Uint8List(0),
+          )
+          as _i65.Uint8List);
 
   @override
-  _i39.Future<int> benchmarkEncryption(int? dataSize) => (super.noSuchMethod(
-        Invocation.method(#benchmarkEncryption, [dataSize]),
-        returnValue: _i39.Future<int>.value(0),
-        returnValueForMissingStub: _i39.Future<int>.value(0),
-      ) as _i39.Future<int>);
+  _i39.Future<int> benchmarkEncryption(int? dataSize) =>
+      (super.noSuchMethod(
+            Invocation.method(#benchmarkEncryption, [dataSize]),
+            returnValue: _i39.Future<int>.value(0),
+            returnValueForMissingStub: _i39.Future<int>.value(0),
+          )
+          as _i39.Future<int>);
 }
 
 /// A class which mocks [ErrorHandlerService].
@@ -4105,45 +4420,49 @@ class MockErrorHandlerService extends _i1.Mock
     StackTrace? stackTrace,
   }) =>
       (super.noSuchMethod(
-        Invocation.method(
-          #handleError,
-          [error, context],
-          {#stackTrace: stackTrace},
-        ),
-        returnValue: _i39.Future<_i19.ErrorHandlingResult>.value(
-          _FakeErrorHandlingResult_17(
-            this,
             Invocation.method(
               #handleError,
               [error, context],
               {#stackTrace: stackTrace},
             ),
-          ),
-        ),
-        returnValueForMissingStub: _i39.Future<_i19.ErrorHandlingResult>.value(
-          _FakeErrorHandlingResult_17(
-            this,
-            Invocation.method(
-              #handleError,
-              [error, context],
-              {#stackTrace: stackTrace},
+            returnValue: _i39.Future<_i19.ErrorHandlingResult>.value(
+              _FakeErrorHandlingResult_17(
+                this,
+                Invocation.method(
+                  #handleError,
+                  [error, context],
+                  {#stackTrace: stackTrace},
+                ),
+              ),
             ),
-          ),
-        ),
-      ) as _i39.Future<_i19.ErrorHandlingResult>);
+            returnValueForMissingStub:
+                _i39.Future<_i19.ErrorHandlingResult>.value(
+                  _FakeErrorHandlingResult_17(
+                    this,
+                    Invocation.method(
+                      #handleError,
+                      [error, context],
+                      {#stackTrace: stackTrace},
+                    ),
+                  ),
+                ),
+          )
+          as _i39.Future<_i19.ErrorHandlingResult>);
 
   @override
-  _i19.ErrorClassification classifyError(dynamic error) => (super.noSuchMethod(
-        Invocation.method(#classifyError, [error]),
-        returnValue: _FakeErrorClassification_18(
-          this,
-          Invocation.method(#classifyError, [error]),
-        ),
-        returnValueForMissingStub: _FakeErrorClassification_18(
-          this,
-          Invocation.method(#classifyError, [error]),
-        ),
-      ) as _i19.ErrorClassification);
+  _i19.ErrorClassification classifyError(dynamic error) =>
+      (super.noSuchMethod(
+            Invocation.method(#classifyError, [error]),
+            returnValue: _FakeErrorClassification_18(
+              this,
+              Invocation.method(#classifyError, [error]),
+            ),
+            returnValueForMissingStub: _FakeErrorClassification_18(
+              this,
+              Invocation.method(#classifyError, [error]),
+            ),
+          )
+          as _i19.ErrorClassification);
 
   @override
   void logError(
@@ -4151,46 +4470,51 @@ class MockErrorHandlerService extends _i1.Mock
     _i19.ErrorContext? context,
     dynamic error,
     StackTrace? stackTrace,
-  ) =>
-      super.noSuchMethod(
-        Invocation.method(
-            #logError, [classification, context, error, stackTrace]),
-        returnValueForMissingStub: null,
-      );
+  ) => super.noSuchMethod(
+    Invocation.method(#logError, [classification, context, error, stackTrace]),
+    returnValueForMissingStub: null,
+  );
 
   @override
-  String getErrorMessage(dynamic error) => (super.noSuchMethod(
-        Invocation.method(#getErrorMessage, [error]),
-        returnValue: _i42.dummyValue<String>(
-          this,
-          Invocation.method(#getErrorMessage, [error]),
-        ),
-        returnValueForMissingStub: _i42.dummyValue<String>(
-          this,
-          Invocation.method(#getErrorMessage, [error]),
-        ),
-      ) as String);
+  String getErrorMessage(dynamic error) =>
+      (super.noSuchMethod(
+            Invocation.method(#getErrorMessage, [error]),
+            returnValue: _i42.dummyValue<String>(
+              this,
+              Invocation.method(#getErrorMessage, [error]),
+            ),
+            returnValueForMissingStub: _i42.dummyValue<String>(
+              this,
+              Invocation.method(#getErrorMessage, [error]),
+            ),
+          )
+          as String);
 
   @override
-  bool isNameRequiredError(dynamic error) => (super.noSuchMethod(
-        Invocation.method(#isNameRequiredError, [error]),
-        returnValue: false,
-        returnValueForMissingStub: false,
-      ) as bool);
+  bool isNameRequiredError(dynamic error) =>
+      (super.noSuchMethod(
+            Invocation.method(#isNameRequiredError, [error]),
+            returnValue: false,
+            returnValueForMissingStub: false,
+          )
+          as bool);
 
   @override
-  bool testIsCleanUserMessage(String? message) => (super.noSuchMethod(
-        Invocation.method(#testIsCleanUserMessage, [message]),
-        returnValue: false,
-        returnValueForMissingStub: false,
-      ) as bool);
+  bool testIsCleanUserMessage(String? message) =>
+      (super.noSuchMethod(
+            Invocation.method(#testIsCleanUserMessage, [message]),
+            returnValue: false,
+            returnValueForMissingStub: false,
+          )
+          as bool);
 
   @override
   String? testExtractUserFriendlyMessage(String? message) =>
       (super.noSuchMethod(
-        Invocation.method(#testExtractUserFriendlyMessage, [message]),
-        returnValueForMissingStub: null,
-      ) as String?);
+            Invocation.method(#testExtractUserFriendlyMessage, [message]),
+            returnValueForMissingStub: null,
+          )
+          as String?);
 }
 
 /// A class which mocks [TokenStorageInterface].
@@ -4199,32 +4523,40 @@ class MockErrorHandlerService extends _i1.Mock
 class MockTokenStorageInterface extends _i1.Mock
     implements _i68.TokenStorageInterface {
   @override
-  _i39.Future<void> storeToken(String? token) => (super.noSuchMethod(
-        Invocation.method(#storeToken, [token]),
-        returnValue: _i39.Future<void>.value(),
-        returnValueForMissingStub: _i39.Future<void>.value(),
-      ) as _i39.Future<void>);
+  _i39.Future<void> storeToken(String? token) =>
+      (super.noSuchMethod(
+            Invocation.method(#storeToken, [token]),
+            returnValue: _i39.Future<void>.value(),
+            returnValueForMissingStub: _i39.Future<void>.value(),
+          )
+          as _i39.Future<void>);
 
   @override
-  _i39.Future<String?> getToken() => (super.noSuchMethod(
-        Invocation.method(#getToken, []),
-        returnValue: _i39.Future<String?>.value(),
-        returnValueForMissingStub: _i39.Future<String?>.value(),
-      ) as _i39.Future<String?>);
+  _i39.Future<String?> getToken() =>
+      (super.noSuchMethod(
+            Invocation.method(#getToken, []),
+            returnValue: _i39.Future<String?>.value(),
+            returnValueForMissingStub: _i39.Future<String?>.value(),
+          )
+          as _i39.Future<String?>);
 
   @override
-  _i39.Future<void> clearToken() => (super.noSuchMethod(
-        Invocation.method(#clearToken, []),
-        returnValue: _i39.Future<void>.value(),
-        returnValueForMissingStub: _i39.Future<void>.value(),
-      ) as _i39.Future<void>);
+  _i39.Future<void> clearToken() =>
+      (super.noSuchMethod(
+            Invocation.method(#clearToken, []),
+            returnValue: _i39.Future<void>.value(),
+            returnValueForMissingStub: _i39.Future<void>.value(),
+          )
+          as _i39.Future<void>);
 
   @override
-  _i39.Future<bool> hasToken() => (super.noSuchMethod(
-        Invocation.method(#hasToken, []),
-        returnValue: _i39.Future<bool>.value(false),
-        returnValueForMissingStub: _i39.Future<bool>.value(false),
-      ) as _i39.Future<bool>);
+  _i39.Future<bool> hasToken() =>
+      (super.noSuchMethod(
+            Invocation.method(#hasToken, []),
+            returnValue: _i39.Future<bool>.value(false),
+            returnValueForMissingStub: _i39.Future<bool>.value(false),
+          )
+          as _i39.Future<bool>);
 }
 
 /// A class which mocks [NetworkInfo].
@@ -4232,18 +4564,22 @@ class MockTokenStorageInterface extends _i1.Mock
 /// See the documentation for Mockito's code generation for more information.
 class MockNetworkInfo extends _i1.Mock implements _i69.NetworkInfo {
   @override
-  _i39.Future<bool> get isConnected => (super.noSuchMethod(
-        Invocation.getter(#isConnected),
-        returnValue: _i39.Future<bool>.value(false),
-        returnValueForMissingStub: _i39.Future<bool>.value(false),
-      ) as _i39.Future<bool>);
+  _i39.Future<bool> get isConnected =>
+      (super.noSuchMethod(
+            Invocation.getter(#isConnected),
+            returnValue: _i39.Future<bool>.value(false),
+            returnValueForMissingStub: _i39.Future<bool>.value(false),
+          )
+          as _i39.Future<bool>);
 
   @override
-  _i39.Stream<bool> get connectionStream => (super.noSuchMethod(
-        Invocation.getter(#connectionStream),
-        returnValue: _i39.Stream<bool>.empty(),
-        returnValueForMissingStub: _i39.Stream<bool>.empty(),
-      ) as _i39.Stream<bool>);
+  _i39.Stream<bool> get connectionStream =>
+      (super.noSuchMethod(
+            Invocation.getter(#connectionStream),
+            returnValue: _i39.Stream<bool>.empty(),
+            returnValueForMissingStub: _i39.Stream<bool>.empty(),
+          )
+          as _i39.Stream<bool>);
 }
 
 /// A class which mocks [AuthApiClient].
@@ -4253,20 +4589,21 @@ class MockAuthApiClient extends _i1.Mock implements _i70.AuthApiClient {
   @override
   _i39.Future<String> sendMagicLink(_i71.MagicLinkRequest? request) =>
       (super.noSuchMethod(
-        Invocation.method(#sendMagicLink, [request]),
-        returnValue: _i39.Future<String>.value(
-          _i42.dummyValue<String>(
-            this,
             Invocation.method(#sendMagicLink, [request]),
-          ),
-        ),
-        returnValueForMissingStub: _i39.Future<String>.value(
-          _i42.dummyValue<String>(
-            this,
-            Invocation.method(#sendMagicLink, [request]),
-          ),
-        ),
-      ) as _i39.Future<String>);
+            returnValue: _i39.Future<String>.value(
+              _i42.dummyValue<String>(
+                this,
+                Invocation.method(#sendMagicLink, [request]),
+              ),
+            ),
+            returnValueForMissingStub: _i39.Future<String>.value(
+              _i42.dummyValue<String>(
+                this,
+                Invocation.method(#sendMagicLink, [request]),
+              ),
+            ),
+          )
+          as _i39.Future<String>);
 
   @override
   _i39.Future<_i20.AuthDto> verifyMagicLink(
@@ -4274,160 +4611,171 @@ class MockAuthApiClient extends _i1.Mock implements _i70.AuthApiClient {
     String? inviteCode,
   ) =>
       (super.noSuchMethod(
-        Invocation.method(#verifyMagicLink, [request, inviteCode]),
-        returnValue: _i39.Future<_i20.AuthDto>.value(
-          _FakeAuthDto_19(
-            this,
             Invocation.method(#verifyMagicLink, [request, inviteCode]),
-          ),
-        ),
-        returnValueForMissingStub: _i39.Future<_i20.AuthDto>.value(
-          _FakeAuthDto_19(
-            this,
-            Invocation.method(#verifyMagicLink, [request, inviteCode]),
-          ),
-        ),
-      ) as _i39.Future<_i20.AuthDto>);
+            returnValue: _i39.Future<_i20.AuthDto>.value(
+              _FakeAuthDto_19(
+                this,
+                Invocation.method(#verifyMagicLink, [request, inviteCode]),
+              ),
+            ),
+            returnValueForMissingStub: _i39.Future<_i20.AuthDto>.value(
+              _FakeAuthDto_19(
+                this,
+                Invocation.method(#verifyMagicLink, [request, inviteCode]),
+              ),
+            ),
+          )
+          as _i39.Future<_i20.AuthDto>);
 
   @override
   _i39.Future<_i20.AuthDto> refreshToken(_i71.RefreshTokenRequest? request) =>
       (super.noSuchMethod(
-        Invocation.method(#refreshToken, [request]),
-        returnValue: _i39.Future<_i20.AuthDto>.value(
-          _FakeAuthDto_19(
-            this,
             Invocation.method(#refreshToken, [request]),
-          ),
-        ),
-        returnValueForMissingStub: _i39.Future<_i20.AuthDto>.value(
-          _FakeAuthDto_19(
-            this,
-            Invocation.method(#refreshToken, [request]),
-          ),
-        ),
-      ) as _i39.Future<_i20.AuthDto>);
+            returnValue: _i39.Future<_i20.AuthDto>.value(
+              _FakeAuthDto_19(
+                this,
+                Invocation.method(#refreshToken, [request]),
+              ),
+            ),
+            returnValueForMissingStub: _i39.Future<_i20.AuthDto>.value(
+              _FakeAuthDto_19(
+                this,
+                Invocation.method(#refreshToken, [request]),
+              ),
+            ),
+          )
+          as _i39.Future<_i20.AuthDto>);
 
   @override
-  _i39.Future<void> logout() => (super.noSuchMethod(
-        Invocation.method(#logout, []),
-        returnValue: _i39.Future<void>.value(),
-        returnValueForMissingStub: _i39.Future<void>.value(),
-      ) as _i39.Future<void>);
+  _i39.Future<void> logout() =>
+      (super.noSuchMethod(
+            Invocation.method(#logout, []),
+            returnValue: _i39.Future<void>.value(),
+            returnValueForMissingStub: _i39.Future<void>.value(),
+          )
+          as _i39.Future<void>);
 
   @override
   _i39.Future<_i21.UserProfileDto> updateProfile(
     _i71.UpdateProfileRequest? request,
   ) =>
       (super.noSuchMethod(
-        Invocation.method(#updateProfile, [request]),
-        returnValue: _i39.Future<_i21.UserProfileDto>.value(
-          _FakeUserProfileDto_20(
-            this,
             Invocation.method(#updateProfile, [request]),
-          ),
-        ),
-        returnValueForMissingStub: _i39.Future<_i21.UserProfileDto>.value(
-          _FakeUserProfileDto_20(
-            this,
-            Invocation.method(#updateProfile, [request]),
-          ),
-        ),
-      ) as _i39.Future<_i21.UserProfileDto>);
+            returnValue: _i39.Future<_i21.UserProfileDto>.value(
+              _FakeUserProfileDto_20(
+                this,
+                Invocation.method(#updateProfile, [request]),
+              ),
+            ),
+            returnValueForMissingStub: _i39.Future<_i21.UserProfileDto>.value(
+              _FakeUserProfileDto_20(
+                this,
+                Invocation.method(#updateProfile, [request]),
+              ),
+            ),
+          )
+          as _i39.Future<_i21.UserProfileDto>);
 
   @override
-  _i39.Future<_i20.AuthConfigDto> getAuthConfig() => (super.noSuchMethod(
-        Invocation.method(#getAuthConfig, []),
-        returnValue: _i39.Future<_i20.AuthConfigDto>.value(
-          _FakeAuthConfigDto_21(
-            this,
+  _i39.Future<_i20.AuthConfigDto> getAuthConfig() =>
+      (super.noSuchMethod(
             Invocation.method(#getAuthConfig, []),
-          ),
-        ),
-        returnValueForMissingStub: _i39.Future<_i20.AuthConfigDto>.value(
-          _FakeAuthConfigDto_21(
-            this,
-            Invocation.method(#getAuthConfig, []),
-          ),
-        ),
-      ) as _i39.Future<_i20.AuthConfigDto>);
+            returnValue: _i39.Future<_i20.AuthConfigDto>.value(
+              _FakeAuthConfigDto_21(
+                this,
+                Invocation.method(#getAuthConfig, []),
+              ),
+            ),
+            returnValueForMissingStub: _i39.Future<_i20.AuthConfigDto>.value(
+              _FakeAuthConfigDto_21(
+                this,
+                Invocation.method(#getAuthConfig, []),
+              ),
+            ),
+          )
+          as _i39.Future<_i20.AuthConfigDto>);
 
   @override
   _i39.Future<_i21.UserProfileDto> enableBiometricAuth(
     Map<String, dynamic>? request,
   ) =>
       (super.noSuchMethod(
-        Invocation.method(#enableBiometricAuth, [request]),
-        returnValue: _i39.Future<_i21.UserProfileDto>.value(
-          _FakeUserProfileDto_20(
-            this,
             Invocation.method(#enableBiometricAuth, [request]),
-          ),
-        ),
-        returnValueForMissingStub: _i39.Future<_i21.UserProfileDto>.value(
-          _FakeUserProfileDto_20(
-            this,
-            Invocation.method(#enableBiometricAuth, [request]),
-          ),
-        ),
-      ) as _i39.Future<_i21.UserProfileDto>);
+            returnValue: _i39.Future<_i21.UserProfileDto>.value(
+              _FakeUserProfileDto_20(
+                this,
+                Invocation.method(#enableBiometricAuth, [request]),
+              ),
+            ),
+            returnValueForMissingStub: _i39.Future<_i21.UserProfileDto>.value(
+              _FakeUserProfileDto_20(
+                this,
+                Invocation.method(#enableBiometricAuth, [request]),
+              ),
+            ),
+          )
+          as _i39.Future<_i21.UserProfileDto>);
 
   @override
   _i39.Future<_i21.UserProfileDto> disableBiometricAuth(
     Map<String, dynamic>? request,
   ) =>
       (super.noSuchMethod(
-        Invocation.method(#disableBiometricAuth, [request]),
-        returnValue: _i39.Future<_i21.UserProfileDto>.value(
-          _FakeUserProfileDto_20(
-            this,
             Invocation.method(#disableBiometricAuth, [request]),
-          ),
-        ),
-        returnValueForMissingStub: _i39.Future<_i21.UserProfileDto>.value(
-          _FakeUserProfileDto_20(
-            this,
-            Invocation.method(#disableBiometricAuth, [request]),
-          ),
-        ),
-      ) as _i39.Future<_i21.UserProfileDto>);
+            returnValue: _i39.Future<_i21.UserProfileDto>.value(
+              _FakeUserProfileDto_20(
+                this,
+                Invocation.method(#disableBiometricAuth, [request]),
+              ),
+            ),
+            returnValueForMissingStub: _i39.Future<_i21.UserProfileDto>.value(
+              _FakeUserProfileDto_20(
+                this,
+                Invocation.method(#disableBiometricAuth, [request]),
+              ),
+            ),
+          )
+          as _i39.Future<_i21.UserProfileDto>);
 
   @override
   _i39.Future<_i20.UserExistsDto> checkUserExists(String? email) =>
       (super.noSuchMethod(
-        Invocation.method(#checkUserExists, [email]),
-        returnValue: _i39.Future<_i20.UserExistsDto>.value(
-          _FakeUserExistsDto_22(
-            this,
             Invocation.method(#checkUserExists, [email]),
-          ),
-        ),
-        returnValueForMissingStub: _i39.Future<_i20.UserExistsDto>.value(
-          _FakeUserExistsDto_22(
-            this,
-            Invocation.method(#checkUserExists, [email]),
-          ),
-        ),
-      ) as _i39.Future<_i20.UserExistsDto>);
+            returnValue: _i39.Future<_i20.UserExistsDto>.value(
+              _FakeUserExistsDto_22(
+                this,
+                Invocation.method(#checkUserExists, [email]),
+              ),
+            ),
+            returnValueForMissingStub: _i39.Future<_i20.UserExistsDto>.value(
+              _FakeUserExistsDto_22(
+                this,
+                Invocation.method(#checkUserExists, [email]),
+              ),
+            ),
+          )
+          as _i39.Future<_i20.UserExistsDto>);
 
   @override
   _i39.Future<_i21.UserProfileDto> createUserProfile(
     _i71.CreateUserProfileRequest? request,
   ) =>
       (super.noSuchMethod(
-        Invocation.method(#createUserProfile, [request]),
-        returnValue: _i39.Future<_i21.UserProfileDto>.value(
-          _FakeUserProfileDto_20(
-            this,
             Invocation.method(#createUserProfile, [request]),
-          ),
-        ),
-        returnValueForMissingStub: _i39.Future<_i21.UserProfileDto>.value(
-          _FakeUserProfileDto_20(
-            this,
-            Invocation.method(#createUserProfile, [request]),
-          ),
-        ),
-      ) as _i39.Future<_i21.UserProfileDto>);
+            returnValue: _i39.Future<_i21.UserProfileDto>.value(
+              _FakeUserProfileDto_20(
+                this,
+                Invocation.method(#createUserProfile, [request]),
+              ),
+            ),
+            returnValueForMissingStub: _i39.Future<_i21.UserProfileDto>.value(
+              _FakeUserProfileDto_20(
+                this,
+                Invocation.method(#createUserProfile, [request]),
+              ),
+            ),
+          )
+          as _i39.Future<_i21.UserProfileDto>);
 }
 
 /// A class which mocks [FamilyApiClient].
@@ -4435,109 +4783,117 @@ class MockAuthApiClient extends _i1.Mock implements _i70.AuthApiClient {
 /// See the documentation for Mockito's code generation for more information.
 class MockFamilyApiClient extends _i1.Mock implements _i72.FamilyApiClient {
   @override
-  _i39.Future<
-      _i22.ApiResponse<_i31.FamilyInvitationValidationDto>> validateInviteCode(
-          String? code) =>
+  _i39.Future<_i22.ApiResponse<_i31.FamilyInvitationValidationDto>>
+  validateInviteCode(String? code) =>
       (super.noSuchMethod(
-        Invocation.method(#validateInviteCode, [code]),
-        returnValue: _i39
-            .Future<_i22.ApiResponse<_i31.FamilyInvitationValidationDto>>.value(
-          _FakeApiResponse_23<_i31.FamilyInvitationValidationDto>(
-            this,
             Invocation.method(#validateInviteCode, [code]),
-          ),
-        ),
-        returnValueForMissingStub: _i39
-            .Future<_i22.ApiResponse<_i31.FamilyInvitationValidationDto>>.value(
-          _FakeApiResponse_23<_i31.FamilyInvitationValidationDto>(
-            this,
-            Invocation.method(#validateInviteCode, [code]),
-          ),
-        ),
-      ) as _i39.Future<_i22.ApiResponse<_i31.FamilyInvitationValidationDto>>);
+            returnValue:
+                _i39.Future<
+                  _i22.ApiResponse<_i31.FamilyInvitationValidationDto>
+                >.value(
+                  _FakeApiResponse_23<_i31.FamilyInvitationValidationDto>(
+                    this,
+                    Invocation.method(#validateInviteCode, [code]),
+                  ),
+                ),
+            returnValueForMissingStub:
+                _i39.Future<
+                  _i22.ApiResponse<_i31.FamilyInvitationValidationDto>
+                >.value(
+                  _FakeApiResponse_23<_i31.FamilyInvitationValidationDto>(
+                    this,
+                    Invocation.method(#validateInviteCode, [code]),
+                  ),
+                ),
+          )
+          as _i39.Future<_i22.ApiResponse<_i31.FamilyInvitationValidationDto>>);
 
   @override
   _i39.Future<_i22.ApiResponse<_i31.FamilyDto>> createFamily(
     _i33.CreateFamilyRequest? request,
   ) =>
       (super.noSuchMethod(
-        Invocation.method(#createFamily, [request]),
-        returnValue: _i39.Future<_i22.ApiResponse<_i31.FamilyDto>>.value(
-          _FakeApiResponse_23<_i31.FamilyDto>(
-            this,
             Invocation.method(#createFamily, [request]),
-          ),
-        ),
-        returnValueForMissingStub:
-            _i39.Future<_i22.ApiResponse<_i31.FamilyDto>>.value(
-          _FakeApiResponse_23<_i31.FamilyDto>(
-            this,
-            Invocation.method(#createFamily, [request]),
-          ),
-        ),
-      ) as _i39.Future<_i22.ApiResponse<_i31.FamilyDto>>);
+            returnValue: _i39.Future<_i22.ApiResponse<_i31.FamilyDto>>.value(
+              _FakeApiResponse_23<_i31.FamilyDto>(
+                this,
+                Invocation.method(#createFamily, [request]),
+              ),
+            ),
+            returnValueForMissingStub:
+                _i39.Future<_i22.ApiResponse<_i31.FamilyDto>>.value(
+                  _FakeApiResponse_23<_i31.FamilyDto>(
+                    this,
+                    Invocation.method(#createFamily, [request]),
+                  ),
+                ),
+          )
+          as _i39.Future<_i22.ApiResponse<_i31.FamilyDto>>);
 
   @override
   _i39.Future<_i22.ApiResponse<_i31.FamilyDto>> joinFamily(
     _i33.JoinFamilyRequest? request,
   ) =>
       (super.noSuchMethod(
-        Invocation.method(#joinFamily, [request]),
-        returnValue: _i39.Future<_i22.ApiResponse<_i31.FamilyDto>>.value(
-          _FakeApiResponse_23<_i31.FamilyDto>(
-            this,
             Invocation.method(#joinFamily, [request]),
-          ),
-        ),
-        returnValueForMissingStub:
-            _i39.Future<_i22.ApiResponse<_i31.FamilyDto>>.value(
-          _FakeApiResponse_23<_i31.FamilyDto>(
-            this,
-            Invocation.method(#joinFamily, [request]),
-          ),
-        ),
-      ) as _i39.Future<_i22.ApiResponse<_i31.FamilyDto>>);
+            returnValue: _i39.Future<_i22.ApiResponse<_i31.FamilyDto>>.value(
+              _FakeApiResponse_23<_i31.FamilyDto>(
+                this,
+                Invocation.method(#joinFamily, [request]),
+              ),
+            ),
+            returnValueForMissingStub:
+                _i39.Future<_i22.ApiResponse<_i31.FamilyDto>>.value(
+                  _FakeApiResponse_23<_i31.FamilyDto>(
+                    this,
+                    Invocation.method(#joinFamily, [request]),
+                  ),
+                ),
+          )
+          as _i39.Future<_i22.ApiResponse<_i31.FamilyDto>>);
 
   @override
   _i39.Future<_i22.ApiResponse<_i31.FamilyDto>> getCurrentFamily() =>
       (super.noSuchMethod(
-        Invocation.method(#getCurrentFamily, []),
-        returnValue: _i39.Future<_i22.ApiResponse<_i31.FamilyDto>>.value(
-          _FakeApiResponse_23<_i31.FamilyDto>(
-            this,
             Invocation.method(#getCurrentFamily, []),
-          ),
-        ),
-        returnValueForMissingStub:
-            _i39.Future<_i22.ApiResponse<_i31.FamilyDto>>.value(
-          _FakeApiResponse_23<_i31.FamilyDto>(
-            this,
-            Invocation.method(#getCurrentFamily, []),
-          ),
-        ),
-      ) as _i39.Future<_i22.ApiResponse<_i31.FamilyDto>>);
+            returnValue: _i39.Future<_i22.ApiResponse<_i31.FamilyDto>>.value(
+              _FakeApiResponse_23<_i31.FamilyDto>(
+                this,
+                Invocation.method(#getCurrentFamily, []),
+              ),
+            ),
+            returnValueForMissingStub:
+                _i39.Future<_i22.ApiResponse<_i31.FamilyDto>>.value(
+                  _FakeApiResponse_23<_i31.FamilyDto>(
+                    this,
+                    Invocation.method(#getCurrentFamily, []),
+                  ),
+                ),
+          )
+          as _i39.Future<_i22.ApiResponse<_i31.FamilyDto>>);
 
   @override
   _i39.Future<_i22.ApiResponse<_i31.FamilyPermissionsDto>> getUserPermissions(
     String? familyId,
   ) =>
       (super.noSuchMethod(
-        Invocation.method(#getUserPermissions, [familyId]),
-        returnValue:
-            _i39.Future<_i22.ApiResponse<_i31.FamilyPermissionsDto>>.value(
-          _FakeApiResponse_23<_i31.FamilyPermissionsDto>(
-            this,
             Invocation.method(#getUserPermissions, [familyId]),
-          ),
-        ),
-        returnValueForMissingStub:
-            _i39.Future<_i22.ApiResponse<_i31.FamilyPermissionsDto>>.value(
-          _FakeApiResponse_23<_i31.FamilyPermissionsDto>(
-            this,
-            Invocation.method(#getUserPermissions, [familyId]),
-          ),
-        ),
-      ) as _i39.Future<_i22.ApiResponse<_i31.FamilyPermissionsDto>>);
+            returnValue:
+                _i39.Future<_i22.ApiResponse<_i31.FamilyPermissionsDto>>.value(
+                  _FakeApiResponse_23<_i31.FamilyPermissionsDto>(
+                    this,
+                    Invocation.method(#getUserPermissions, [familyId]),
+                  ),
+                ),
+            returnValueForMissingStub:
+                _i39.Future<_i22.ApiResponse<_i31.FamilyPermissionsDto>>.value(
+                  _FakeApiResponse_23<_i31.FamilyPermissionsDto>(
+                    this,
+                    Invocation.method(#getUserPermissions, [familyId]),
+                  ),
+                ),
+          )
+          as _i39.Future<_i22.ApiResponse<_i31.FamilyPermissionsDto>>);
 
   @override
   _i39.Future<_i22.ApiResponse<void>> updateMemberRole(
@@ -4545,40 +4901,44 @@ class MockFamilyApiClient extends _i1.Mock implements _i72.FamilyApiClient {
     _i33.UpdateMemberRoleRequest? request,
   ) =>
       (super.noSuchMethod(
-        Invocation.method(#updateMemberRole, [memberId, request]),
-        returnValue: _i39.Future<_i22.ApiResponse<void>>.value(
-          _FakeApiResponse_23<void>(
-            this,
             Invocation.method(#updateMemberRole, [memberId, request]),
-          ),
-        ),
-        returnValueForMissingStub: _i39.Future<_i22.ApiResponse<void>>.value(
-          _FakeApiResponse_23<void>(
-            this,
-            Invocation.method(#updateMemberRole, [memberId, request]),
-          ),
-        ),
-      ) as _i39.Future<_i22.ApiResponse<void>>);
-
-  @override
-  _i39.Future<_i22.ApiResponse<_i22.InviteCodeResponseDto>>
-      generateInviteCode() => (super.noSuchMethod(
-            Invocation.method(#generateInviteCode, []),
-            returnValue:
-                _i39.Future<_i22.ApiResponse<_i22.InviteCodeResponseDto>>.value(
-              _FakeApiResponse_23<_i22.InviteCodeResponseDto>(
+            returnValue: _i39.Future<_i22.ApiResponse<void>>.value(
+              _FakeApiResponse_23<void>(
                 this,
-                Invocation.method(#generateInviteCode, []),
+                Invocation.method(#updateMemberRole, [memberId, request]),
               ),
             ),
             returnValueForMissingStub:
+                _i39.Future<_i22.ApiResponse<void>>.value(
+                  _FakeApiResponse_23<void>(
+                    this,
+                    Invocation.method(#updateMemberRole, [memberId, request]),
+                  ),
+                ),
+          )
+          as _i39.Future<_i22.ApiResponse<void>>);
+
+  @override
+  _i39.Future<_i22.ApiResponse<_i22.InviteCodeResponseDto>>
+  generateInviteCode() =>
+      (super.noSuchMethod(
+            Invocation.method(#generateInviteCode, []),
+            returnValue:
                 _i39.Future<_i22.ApiResponse<_i22.InviteCodeResponseDto>>.value(
-              _FakeApiResponse_23<_i22.InviteCodeResponseDto>(
-                this,
-                Invocation.method(#generateInviteCode, []),
-              ),
-            ),
-          ) as _i39.Future<_i22.ApiResponse<_i22.InviteCodeResponseDto>>);
+                  _FakeApiResponse_23<_i22.InviteCodeResponseDto>(
+                    this,
+                    Invocation.method(#generateInviteCode, []),
+                  ),
+                ),
+            returnValueForMissingStub:
+                _i39.Future<_i22.ApiResponse<_i22.InviteCodeResponseDto>>.value(
+                  _FakeApiResponse_23<_i22.InviteCodeResponseDto>(
+                    this,
+                    Invocation.method(#generateInviteCode, []),
+                  ),
+                ),
+          )
+          as _i39.Future<_i22.ApiResponse<_i22.InviteCodeResponseDto>>);
 
   @override
   _i39.Future<_i22.ApiResponse<_i31.FamilyInvitationDto>> inviteMember(
@@ -4586,44 +4946,49 @@ class MockFamilyApiClient extends _i1.Mock implements _i72.FamilyApiClient {
     _i33.InviteMemberRequest? request,
   ) =>
       (super.noSuchMethod(
-        Invocation.method(#inviteMember, [familyId, request]),
-        returnValue:
-            _i39.Future<_i22.ApiResponse<_i31.FamilyInvitationDto>>.value(
-          _FakeApiResponse_23<_i31.FamilyInvitationDto>(
-            this,
             Invocation.method(#inviteMember, [familyId, request]),
-          ),
-        ),
-        returnValueForMissingStub:
-            _i39.Future<_i22.ApiResponse<_i31.FamilyInvitationDto>>.value(
-          _FakeApiResponse_23<_i31.FamilyInvitationDto>(
-            this,
-            Invocation.method(#inviteMember, [familyId, request]),
-          ),
-        ),
-      ) as _i39.Future<_i22.ApiResponse<_i31.FamilyInvitationDto>>);
+            returnValue:
+                _i39.Future<_i22.ApiResponse<_i31.FamilyInvitationDto>>.value(
+                  _FakeApiResponse_23<_i31.FamilyInvitationDto>(
+                    this,
+                    Invocation.method(#inviteMember, [familyId, request]),
+                  ),
+                ),
+            returnValueForMissingStub:
+                _i39.Future<_i22.ApiResponse<_i31.FamilyInvitationDto>>.value(
+                  _FakeApiResponse_23<_i31.FamilyInvitationDto>(
+                    this,
+                    Invocation.method(#inviteMember, [familyId, request]),
+                  ),
+                ),
+          )
+          as _i39.Future<_i22.ApiResponse<_i31.FamilyInvitationDto>>);
 
   @override
-  _i39.Future<
-      _i22.ApiResponse<List<_i31.FamilyInvitationDto>>> getPendingInvitations(
-          String? familyId) =>
+  _i39.Future<_i22.ApiResponse<List<_i31.FamilyInvitationDto>>>
+  getPendingInvitations(String? familyId) =>
       (super.noSuchMethod(
-        Invocation.method(#getPendingInvitations, [familyId]),
-        returnValue:
-            _i39.Future<_i22.ApiResponse<List<_i31.FamilyInvitationDto>>>.value(
-          _FakeApiResponse_23<List<_i31.FamilyInvitationDto>>(
-            this,
             Invocation.method(#getPendingInvitations, [familyId]),
-          ),
-        ),
-        returnValueForMissingStub:
-            _i39.Future<_i22.ApiResponse<List<_i31.FamilyInvitationDto>>>.value(
-          _FakeApiResponse_23<List<_i31.FamilyInvitationDto>>(
-            this,
-            Invocation.method(#getPendingInvitations, [familyId]),
-          ),
-        ),
-      ) as _i39.Future<_i22.ApiResponse<List<_i31.FamilyInvitationDto>>>);
+            returnValue:
+                _i39.Future<
+                  _i22.ApiResponse<List<_i31.FamilyInvitationDto>>
+                >.value(
+                  _FakeApiResponse_23<List<_i31.FamilyInvitationDto>>(
+                    this,
+                    Invocation.method(#getPendingInvitations, [familyId]),
+                  ),
+                ),
+            returnValueForMissingStub:
+                _i39.Future<
+                  _i22.ApiResponse<List<_i31.FamilyInvitationDto>>
+                >.value(
+                  _FakeApiResponse_23<List<_i31.FamilyInvitationDto>>(
+                    this,
+                    Invocation.method(#getPendingInvitations, [familyId]),
+                  ),
+                ),
+          )
+          as _i39.Future<_i22.ApiResponse<List<_i31.FamilyInvitationDto>>>);
 
   @override
   _i39.Future<_i22.ApiResponse<void>> cancelInvitation(
@@ -4631,44 +4996,47 @@ class MockFamilyApiClient extends _i1.Mock implements _i72.FamilyApiClient {
     String? invitationId,
   ) =>
       (super.noSuchMethod(
-        Invocation.method(#cancelInvitation, [familyId, invitationId]),
-        returnValue: _i39.Future<_i22.ApiResponse<void>>.value(
-          _FakeApiResponse_23<void>(
-            this,
             Invocation.method(#cancelInvitation, [familyId, invitationId]),
-          ),
-        ),
-        returnValueForMissingStub: _i39.Future<_i22.ApiResponse<void>>.value(
-          _FakeApiResponse_23<void>(
-            this,
-            Invocation.method(#cancelInvitation, [
-              familyId,
-              invitationId,
-            ]),
-          ),
-        ),
-      ) as _i39.Future<_i22.ApiResponse<void>>);
+            returnValue: _i39.Future<_i22.ApiResponse<void>>.value(
+              _FakeApiResponse_23<void>(
+                this,
+                Invocation.method(#cancelInvitation, [familyId, invitationId]),
+              ),
+            ),
+            returnValueForMissingStub:
+                _i39.Future<_i22.ApiResponse<void>>.value(
+                  _FakeApiResponse_23<void>(
+                    this,
+                    Invocation.method(#cancelInvitation, [
+                      familyId,
+                      invitationId,
+                    ]),
+                  ),
+                ),
+          )
+          as _i39.Future<_i22.ApiResponse<void>>);
 
   @override
   _i39.Future<_i22.ApiResponse<_i31.FamilyDto>> updateFamilyName(
     _i33.UpdateFamilyNameRequest? request,
   ) =>
       (super.noSuchMethod(
-        Invocation.method(#updateFamilyName, [request]),
-        returnValue: _i39.Future<_i22.ApiResponse<_i31.FamilyDto>>.value(
-          _FakeApiResponse_23<_i31.FamilyDto>(
-            this,
             Invocation.method(#updateFamilyName, [request]),
-          ),
-        ),
-        returnValueForMissingStub:
-            _i39.Future<_i22.ApiResponse<_i31.FamilyDto>>.value(
-          _FakeApiResponse_23<_i31.FamilyDto>(
-            this,
-            Invocation.method(#updateFamilyName, [request]),
-          ),
-        ),
-      ) as _i39.Future<_i22.ApiResponse<_i31.FamilyDto>>);
+            returnValue: _i39.Future<_i22.ApiResponse<_i31.FamilyDto>>.value(
+              _FakeApiResponse_23<_i31.FamilyDto>(
+                this,
+                Invocation.method(#updateFamilyName, [request]),
+              ),
+            ),
+            returnValueForMissingStub:
+                _i39.Future<_i22.ApiResponse<_i31.FamilyDto>>.value(
+                  _FakeApiResponse_23<_i31.FamilyDto>(
+                    this,
+                    Invocation.method(#updateFamilyName, [request]),
+                  ),
+                ),
+          )
+          as _i39.Future<_i22.ApiResponse<_i31.FamilyDto>>);
 
   @override
   _i39.Future<_i22.ApiResponse<void>> removeMember(
@@ -4676,59 +5044,64 @@ class MockFamilyApiClient extends _i1.Mock implements _i72.FamilyApiClient {
     String? memberId,
   ) =>
       (super.noSuchMethod(
-        Invocation.method(#removeMember, [familyId, memberId]),
-        returnValue: _i39.Future<_i22.ApiResponse<void>>.value(
-          _FakeApiResponse_23<void>(
-            this,
             Invocation.method(#removeMember, [familyId, memberId]),
-          ),
-        ),
-        returnValueForMissingStub: _i39.Future<_i22.ApiResponse<void>>.value(
-          _FakeApiResponse_23<void>(
-            this,
-            Invocation.method(#removeMember, [familyId, memberId]),
-          ),
-        ),
-      ) as _i39.Future<_i22.ApiResponse<void>>);
+            returnValue: _i39.Future<_i22.ApiResponse<void>>.value(
+              _FakeApiResponse_23<void>(
+                this,
+                Invocation.method(#removeMember, [familyId, memberId]),
+              ),
+            ),
+            returnValueForMissingStub:
+                _i39.Future<_i22.ApiResponse<void>>.value(
+                  _FakeApiResponse_23<void>(
+                    this,
+                    Invocation.method(#removeMember, [familyId, memberId]),
+                  ),
+                ),
+          )
+          as _i39.Future<_i22.ApiResponse<void>>);
 
   @override
   _i39.Future<_i22.ApiResponse<void>> leaveFamily(String? familyId) =>
       (super.noSuchMethod(
-        Invocation.method(#leaveFamily, [familyId]),
-        returnValue: _i39.Future<_i22.ApiResponse<void>>.value(
-          _FakeApiResponse_23<void>(
-            this,
             Invocation.method(#leaveFamily, [familyId]),
-          ),
-        ),
-        returnValueForMissingStub: _i39.Future<_i22.ApiResponse<void>>.value(
-          _FakeApiResponse_23<void>(
-            this,
-            Invocation.method(#leaveFamily, [familyId]),
-          ),
-        ),
-      ) as _i39.Future<_i22.ApiResponse<void>>);
+            returnValue: _i39.Future<_i22.ApiResponse<void>>.value(
+              _FakeApiResponse_23<void>(
+                this,
+                Invocation.method(#leaveFamily, [familyId]),
+              ),
+            ),
+            returnValueForMissingStub:
+                _i39.Future<_i22.ApiResponse<void>>.value(
+                  _FakeApiResponse_23<void>(
+                    this,
+                    Invocation.method(#leaveFamily, [familyId]),
+                  ),
+                ),
+          )
+          as _i39.Future<_i22.ApiResponse<void>>);
 
   @override
   _i39.Future<_i22.ApiResponse<_i23.ChildDto>> createChild(
     _i33.CreateChildRequest? request,
   ) =>
       (super.noSuchMethod(
-        Invocation.method(#createChild, [request]),
-        returnValue: _i39.Future<_i22.ApiResponse<_i23.ChildDto>>.value(
-          _FakeApiResponse_23<_i23.ChildDto>(
-            this,
             Invocation.method(#createChild, [request]),
-          ),
-        ),
-        returnValueForMissingStub:
-            _i39.Future<_i22.ApiResponse<_i23.ChildDto>>.value(
-          _FakeApiResponse_23<_i23.ChildDto>(
-            this,
-            Invocation.method(#createChild, [request]),
-          ),
-        ),
-      ) as _i39.Future<_i22.ApiResponse<_i23.ChildDto>>);
+            returnValue: _i39.Future<_i22.ApiResponse<_i23.ChildDto>>.value(
+              _FakeApiResponse_23<_i23.ChildDto>(
+                this,
+                Invocation.method(#createChild, [request]),
+              ),
+            ),
+            returnValueForMissingStub:
+                _i39.Future<_i22.ApiResponse<_i23.ChildDto>>.value(
+                  _FakeApiResponse_23<_i23.ChildDto>(
+                    this,
+                    Invocation.method(#createChild, [request]),
+                  ),
+                ),
+          )
+          as _i39.Future<_i22.ApiResponse<_i23.ChildDto>>);
 
   @override
   _i39.Future<_i22.ApiResponse<_i23.ChildDto>> updateChild(
@@ -4736,64 +5109,67 @@ class MockFamilyApiClient extends _i1.Mock implements _i72.FamilyApiClient {
     _i33.UpdateChildRequest? request,
   ) =>
       (super.noSuchMethod(
-        Invocation.method(#updateChild, [childId, request]),
-        returnValue: _i39.Future<_i22.ApiResponse<_i23.ChildDto>>.value(
-          _FakeApiResponse_23<_i23.ChildDto>(
-            this,
             Invocation.method(#updateChild, [childId, request]),
-          ),
-        ),
-        returnValueForMissingStub:
-            _i39.Future<_i22.ApiResponse<_i23.ChildDto>>.value(
-          _FakeApiResponse_23<_i23.ChildDto>(
-            this,
-            Invocation.method(#updateChild, [childId, request]),
-          ),
-        ),
-      ) as _i39.Future<_i22.ApiResponse<_i23.ChildDto>>);
+            returnValue: _i39.Future<_i22.ApiResponse<_i23.ChildDto>>.value(
+              _FakeApiResponse_23<_i23.ChildDto>(
+                this,
+                Invocation.method(#updateChild, [childId, request]),
+              ),
+            ),
+            returnValueForMissingStub:
+                _i39.Future<_i22.ApiResponse<_i23.ChildDto>>.value(
+                  _FakeApiResponse_23<_i23.ChildDto>(
+                    this,
+                    Invocation.method(#updateChild, [childId, request]),
+                  ),
+                ),
+          )
+          as _i39.Future<_i22.ApiResponse<_i23.ChildDto>>);
 
   @override
   _i39.Future<_i22.ApiResponse<_i33.DeleteResponseDto>> deleteChild(
     String? childId,
   ) =>
       (super.noSuchMethod(
-        Invocation.method(#deleteChild, [childId]),
-        returnValue:
-            _i39.Future<_i22.ApiResponse<_i33.DeleteResponseDto>>.value(
-          _FakeApiResponse_23<_i33.DeleteResponseDto>(
-            this,
             Invocation.method(#deleteChild, [childId]),
-          ),
-        ),
-        returnValueForMissingStub:
-            _i39.Future<_i22.ApiResponse<_i33.DeleteResponseDto>>.value(
-          _FakeApiResponse_23<_i33.DeleteResponseDto>(
-            this,
-            Invocation.method(#deleteChild, [childId]),
-          ),
-        ),
-      ) as _i39.Future<_i22.ApiResponse<_i33.DeleteResponseDto>>);
+            returnValue:
+                _i39.Future<_i22.ApiResponse<_i33.DeleteResponseDto>>.value(
+                  _FakeApiResponse_23<_i33.DeleteResponseDto>(
+                    this,
+                    Invocation.method(#deleteChild, [childId]),
+                  ),
+                ),
+            returnValueForMissingStub:
+                _i39.Future<_i22.ApiResponse<_i33.DeleteResponseDto>>.value(
+                  _FakeApiResponse_23<_i33.DeleteResponseDto>(
+                    this,
+                    Invocation.method(#deleteChild, [childId]),
+                  ),
+                ),
+          )
+          as _i39.Future<_i22.ApiResponse<_i33.DeleteResponseDto>>);
 
   @override
   _i39.Future<_i22.ApiResponse<_i34.VehicleDto>> createVehicle(
     _i33.CreateVehicleRequest? request,
   ) =>
       (super.noSuchMethod(
-        Invocation.method(#createVehicle, [request]),
-        returnValue: _i39.Future<_i22.ApiResponse<_i34.VehicleDto>>.value(
-          _FakeApiResponse_23<_i34.VehicleDto>(
-            this,
             Invocation.method(#createVehicle, [request]),
-          ),
-        ),
-        returnValueForMissingStub:
-            _i39.Future<_i22.ApiResponse<_i34.VehicleDto>>.value(
-          _FakeApiResponse_23<_i34.VehicleDto>(
-            this,
-            Invocation.method(#createVehicle, [request]),
-          ),
-        ),
-      ) as _i39.Future<_i22.ApiResponse<_i34.VehicleDto>>);
+            returnValue: _i39.Future<_i22.ApiResponse<_i34.VehicleDto>>.value(
+              _FakeApiResponse_23<_i34.VehicleDto>(
+                this,
+                Invocation.method(#createVehicle, [request]),
+              ),
+            ),
+            returnValueForMissingStub:
+                _i39.Future<_i22.ApiResponse<_i34.VehicleDto>>.value(
+                  _FakeApiResponse_23<_i34.VehicleDto>(
+                    this,
+                    Invocation.method(#createVehicle, [request]),
+                  ),
+                ),
+          )
+          as _i39.Future<_i22.ApiResponse<_i34.VehicleDto>>);
 
   @override
   _i39.Future<_i22.ApiResponse<_i34.VehicleDto>> updateVehicle(
@@ -4801,128 +5177,136 @@ class MockFamilyApiClient extends _i1.Mock implements _i72.FamilyApiClient {
     _i33.UpdateVehicleRequest? request,
   ) =>
       (super.noSuchMethod(
-        Invocation.method(#updateVehicle, [vehicleId, request]),
-        returnValue: _i39.Future<_i22.ApiResponse<_i34.VehicleDto>>.value(
-          _FakeApiResponse_23<_i34.VehicleDto>(
-            this,
             Invocation.method(#updateVehicle, [vehicleId, request]),
-          ),
-        ),
-        returnValueForMissingStub:
-            _i39.Future<_i22.ApiResponse<_i34.VehicleDto>>.value(
-          _FakeApiResponse_23<_i34.VehicleDto>(
-            this,
-            Invocation.method(#updateVehicle, [vehicleId, request]),
-          ),
-        ),
-      ) as _i39.Future<_i22.ApiResponse<_i34.VehicleDto>>);
+            returnValue: _i39.Future<_i22.ApiResponse<_i34.VehicleDto>>.value(
+              _FakeApiResponse_23<_i34.VehicleDto>(
+                this,
+                Invocation.method(#updateVehicle, [vehicleId, request]),
+              ),
+            ),
+            returnValueForMissingStub:
+                _i39.Future<_i22.ApiResponse<_i34.VehicleDto>>.value(
+                  _FakeApiResponse_23<_i34.VehicleDto>(
+                    this,
+                    Invocation.method(#updateVehicle, [vehicleId, request]),
+                  ),
+                ),
+          )
+          as _i39.Future<_i22.ApiResponse<_i34.VehicleDto>>);
 
   @override
   _i39.Future<_i22.ApiResponse<_i33.DeleteResponseDto>> deleteVehicle(
     String? vehicleId,
   ) =>
       (super.noSuchMethod(
-        Invocation.method(#deleteVehicle, [vehicleId]),
-        returnValue:
-            _i39.Future<_i22.ApiResponse<_i33.DeleteResponseDto>>.value(
-          _FakeApiResponse_23<_i33.DeleteResponseDto>(
-            this,
             Invocation.method(#deleteVehicle, [vehicleId]),
-          ),
-        ),
-        returnValueForMissingStub:
-            _i39.Future<_i22.ApiResponse<_i33.DeleteResponseDto>>.value(
-          _FakeApiResponse_23<_i33.DeleteResponseDto>(
-            this,
-            Invocation.method(#deleteVehicle, [vehicleId]),
-          ),
-        ),
-      ) as _i39.Future<_i22.ApiResponse<_i33.DeleteResponseDto>>);
+            returnValue:
+                _i39.Future<_i22.ApiResponse<_i33.DeleteResponseDto>>.value(
+                  _FakeApiResponse_23<_i33.DeleteResponseDto>(
+                    this,
+                    Invocation.method(#deleteVehicle, [vehicleId]),
+                  ),
+                ),
+            returnValueForMissingStub:
+                _i39.Future<_i22.ApiResponse<_i33.DeleteResponseDto>>.value(
+                  _FakeApiResponse_23<_i33.DeleteResponseDto>(
+                    this,
+                    Invocation.method(#deleteVehicle, [vehicleId]),
+                  ),
+                ),
+          )
+          as _i39.Future<_i22.ApiResponse<_i33.DeleteResponseDto>>);
 
   @override
   _i39.Future<_i22.ApiResponse<List<_i23.ChildDto>>> getFamilyChildren(
     String? familyId,
   ) =>
       (super.noSuchMethod(
-        Invocation.method(#getFamilyChildren, [familyId]),
-        returnValue: _i39.Future<_i22.ApiResponse<List<_i23.ChildDto>>>.value(
-          _FakeApiResponse_23<List<_i23.ChildDto>>(
-            this,
             Invocation.method(#getFamilyChildren, [familyId]),
-          ),
-        ),
-        returnValueForMissingStub:
-            _i39.Future<_i22.ApiResponse<List<_i23.ChildDto>>>.value(
-          _FakeApiResponse_23<List<_i23.ChildDto>>(
-            this,
-            Invocation.method(#getFamilyChildren, [familyId]),
-          ),
-        ),
-      ) as _i39.Future<_i22.ApiResponse<List<_i23.ChildDto>>>);
+            returnValue:
+                _i39.Future<_i22.ApiResponse<List<_i23.ChildDto>>>.value(
+                  _FakeApiResponse_23<List<_i23.ChildDto>>(
+                    this,
+                    Invocation.method(#getFamilyChildren, [familyId]),
+                  ),
+                ),
+            returnValueForMissingStub:
+                _i39.Future<_i22.ApiResponse<List<_i23.ChildDto>>>.value(
+                  _FakeApiResponse_23<List<_i23.ChildDto>>(
+                    this,
+                    Invocation.method(#getFamilyChildren, [familyId]),
+                  ),
+                ),
+          )
+          as _i39.Future<_i22.ApiResponse<List<_i23.ChildDto>>>);
 
   @override
   _i39.Future<_i22.ApiResponse<List<_i34.VehicleDto>>> getFamilyVehicles(
     String? familyId,
   ) =>
       (super.noSuchMethod(
-        Invocation.method(#getFamilyVehicles, [familyId]),
-        returnValue: _i39.Future<_i22.ApiResponse<List<_i34.VehicleDto>>>.value(
-          _FakeApiResponse_23<List<_i34.VehicleDto>>(
-            this,
             Invocation.method(#getFamilyVehicles, [familyId]),
-          ),
-        ),
-        returnValueForMissingStub:
-            _i39.Future<_i22.ApiResponse<List<_i34.VehicleDto>>>.value(
-          _FakeApiResponse_23<List<_i34.VehicleDto>>(
-            this,
-            Invocation.method(#getFamilyVehicles, [familyId]),
-          ),
-        ),
-      ) as _i39.Future<_i22.ApiResponse<List<_i34.VehicleDto>>>);
+            returnValue:
+                _i39.Future<_i22.ApiResponse<List<_i34.VehicleDto>>>.value(
+                  _FakeApiResponse_23<List<_i34.VehicleDto>>(
+                    this,
+                    Invocation.method(#getFamilyVehicles, [familyId]),
+                  ),
+                ),
+            returnValueForMissingStub:
+                _i39.Future<_i22.ApiResponse<List<_i34.VehicleDto>>>.value(
+                  _FakeApiResponse_23<List<_i34.VehicleDto>>(
+                    this,
+                    Invocation.method(#getFamilyVehicles, [familyId]),
+                  ),
+                ),
+          )
+          as _i39.Future<_i22.ApiResponse<List<_i34.VehicleDto>>>);
 
   @override
   _i39.Future<_i22.ApiResponse<List<_i31.FamilyMemberDto>>> getFamilyMembers(
     String? familyId,
   ) =>
       (super.noSuchMethod(
-        Invocation.method(#getFamilyMembers, [familyId]),
-        returnValue:
-            _i39.Future<_i22.ApiResponse<List<_i31.FamilyMemberDto>>>.value(
-          _FakeApiResponse_23<List<_i31.FamilyMemberDto>>(
-            this,
             Invocation.method(#getFamilyMembers, [familyId]),
-          ),
-        ),
-        returnValueForMissingStub:
-            _i39.Future<_i22.ApiResponse<List<_i31.FamilyMemberDto>>>.value(
-          _FakeApiResponse_23<List<_i31.FamilyMemberDto>>(
-            this,
-            Invocation.method(#getFamilyMembers, [familyId]),
-          ),
-        ),
-      ) as _i39.Future<_i22.ApiResponse<List<_i31.FamilyMemberDto>>>);
+            returnValue:
+                _i39.Future<_i22.ApiResponse<List<_i31.FamilyMemberDto>>>.value(
+                  _FakeApiResponse_23<List<_i31.FamilyMemberDto>>(
+                    this,
+                    Invocation.method(#getFamilyMembers, [familyId]),
+                  ),
+                ),
+            returnValueForMissingStub:
+                _i39.Future<_i22.ApiResponse<List<_i31.FamilyMemberDto>>>.value(
+                  _FakeApiResponse_23<List<_i31.FamilyMemberDto>>(
+                    this,
+                    Invocation.method(#getFamilyMembers, [familyId]),
+                  ),
+                ),
+          )
+          as _i39.Future<_i22.ApiResponse<List<_i31.FamilyMemberDto>>>);
 
   @override
   _i39.Future<_i22.ApiResponse<_i31.FamilyInvitationDto>>
-      createFamilyInvitation(_i33.CreateFamilyInvitationRequest? request) =>
-          (super.noSuchMethod(
+  createFamilyInvitation(_i33.CreateFamilyInvitationRequest? request) =>
+      (super.noSuchMethod(
             Invocation.method(#createFamilyInvitation, [request]),
             returnValue:
                 _i39.Future<_i22.ApiResponse<_i31.FamilyInvitationDto>>.value(
-              _FakeApiResponse_23<_i31.FamilyInvitationDto>(
-                this,
-                Invocation.method(#createFamilyInvitation, [request]),
-              ),
-            ),
+                  _FakeApiResponse_23<_i31.FamilyInvitationDto>(
+                    this,
+                    Invocation.method(#createFamilyInvitation, [request]),
+                  ),
+                ),
             returnValueForMissingStub:
                 _i39.Future<_i22.ApiResponse<_i31.FamilyInvitationDto>>.value(
-              _FakeApiResponse_23<_i31.FamilyInvitationDto>(
-                this,
-                Invocation.method(#createFamilyInvitation, [request]),
-              ),
-            ),
-          ) as _i39.Future<_i22.ApiResponse<_i31.FamilyInvitationDto>>);
+                  _FakeApiResponse_23<_i31.FamilyInvitationDto>(
+                    this,
+                    Invocation.method(#createFamilyInvitation, [request]),
+                  ),
+                ),
+          )
+          as _i39.Future<_i22.ApiResponse<_i31.FamilyInvitationDto>>);
 
   @override
   _i39.Future<_i22.ApiResponse<_i31.FamilyInvitationDto>> inviteFamilyMember(
@@ -4930,44 +5314,49 @@ class MockFamilyApiClient extends _i1.Mock implements _i72.FamilyApiClient {
     _i33.InviteFamilyMemberRequest? request,
   ) =>
       (super.noSuchMethod(
-        Invocation.method(#inviteFamilyMember, [familyId, request]),
-        returnValue:
-            _i39.Future<_i22.ApiResponse<_i31.FamilyInvitationDto>>.value(
-          _FakeApiResponse_23<_i31.FamilyInvitationDto>(
-            this,
             Invocation.method(#inviteFamilyMember, [familyId, request]),
-          ),
-        ),
-        returnValueForMissingStub:
-            _i39.Future<_i22.ApiResponse<_i31.FamilyInvitationDto>>.value(
-          _FakeApiResponse_23<_i31.FamilyInvitationDto>(
-            this,
-            Invocation.method(#inviteFamilyMember, [familyId, request]),
-          ),
-        ),
-      ) as _i39.Future<_i22.ApiResponse<_i31.FamilyInvitationDto>>);
+            returnValue:
+                _i39.Future<_i22.ApiResponse<_i31.FamilyInvitationDto>>.value(
+                  _FakeApiResponse_23<_i31.FamilyInvitationDto>(
+                    this,
+                    Invocation.method(#inviteFamilyMember, [familyId, request]),
+                  ),
+                ),
+            returnValueForMissingStub:
+                _i39.Future<_i22.ApiResponse<_i31.FamilyInvitationDto>>.value(
+                  _FakeApiResponse_23<_i31.FamilyInvitationDto>(
+                    this,
+                    Invocation.method(#inviteFamilyMember, [familyId, request]),
+                  ),
+                ),
+          )
+          as _i39.Future<_i22.ApiResponse<_i31.FamilyInvitationDto>>);
 
   @override
-  _i39.Future<
-      _i22.ApiResponse<List<_i31.FamilyInvitationDto>>> getFamilyInvitations(
-          String? familyId) =>
+  _i39.Future<_i22.ApiResponse<List<_i31.FamilyInvitationDto>>>
+  getFamilyInvitations(String? familyId) =>
       (super.noSuchMethod(
-        Invocation.method(#getFamilyInvitations, [familyId]),
-        returnValue:
-            _i39.Future<_i22.ApiResponse<List<_i31.FamilyInvitationDto>>>.value(
-          _FakeApiResponse_23<List<_i31.FamilyInvitationDto>>(
-            this,
             Invocation.method(#getFamilyInvitations, [familyId]),
-          ),
-        ),
-        returnValueForMissingStub:
-            _i39.Future<_i22.ApiResponse<List<_i31.FamilyInvitationDto>>>.value(
-          _FakeApiResponse_23<List<_i31.FamilyInvitationDto>>(
-            this,
-            Invocation.method(#getFamilyInvitations, [familyId]),
-          ),
-        ),
-      ) as _i39.Future<_i22.ApiResponse<List<_i31.FamilyInvitationDto>>>);
+            returnValue:
+                _i39.Future<
+                  _i22.ApiResponse<List<_i31.FamilyInvitationDto>>
+                >.value(
+                  _FakeApiResponse_23<List<_i31.FamilyInvitationDto>>(
+                    this,
+                    Invocation.method(#getFamilyInvitations, [familyId]),
+                  ),
+                ),
+            returnValueForMissingStub:
+                _i39.Future<
+                  _i22.ApiResponse<List<_i31.FamilyInvitationDto>>
+                >.value(
+                  _FakeApiResponse_23<List<_i31.FamilyInvitationDto>>(
+                    this,
+                    Invocation.method(#getFamilyInvitations, [familyId]),
+                  ),
+                ),
+          )
+          as _i39.Future<_i22.ApiResponse<List<_i31.FamilyInvitationDto>>>);
 
   @override
   _i39.Future<_i22.ApiResponse<void>> cancelFamilyInvitation(
@@ -4975,29 +5364,31 @@ class MockFamilyApiClient extends _i1.Mock implements _i72.FamilyApiClient {
     String? invitationId,
   ) =>
       (super.noSuchMethod(
-        Invocation.method(#cancelFamilyInvitation, [
-          familyId,
-          invitationId,
-        ]),
-        returnValue: _i39.Future<_i22.ApiResponse<void>>.value(
-          _FakeApiResponse_23<void>(
-            this,
             Invocation.method(#cancelFamilyInvitation, [
               familyId,
               invitationId,
             ]),
-          ),
-        ),
-        returnValueForMissingStub: _i39.Future<_i22.ApiResponse<void>>.value(
-          _FakeApiResponse_23<void>(
-            this,
-            Invocation.method(#cancelFamilyInvitation, [
-              familyId,
-              invitationId,
-            ]),
-          ),
-        ),
-      ) as _i39.Future<_i22.ApiResponse<void>>);
+            returnValue: _i39.Future<_i22.ApiResponse<void>>.value(
+              _FakeApiResponse_23<void>(
+                this,
+                Invocation.method(#cancelFamilyInvitation, [
+                  familyId,
+                  invitationId,
+                ]),
+              ),
+            ),
+            returnValueForMissingStub:
+                _i39.Future<_i22.ApiResponse<void>>.value(
+                  _FakeApiResponse_23<void>(
+                    this,
+                    Invocation.method(#cancelFamilyInvitation, [
+                      familyId,
+                      invitationId,
+                    ]),
+                  ),
+                ),
+          )
+          as _i39.Future<_i22.ApiResponse<void>>);
 
   @override
   _i39.Future<_i22.ApiResponse<void>> removeFamilyMember(
@@ -5005,23 +5396,25 @@ class MockFamilyApiClient extends _i1.Mock implements _i72.FamilyApiClient {
     String? memberId,
   ) =>
       (super.noSuchMethod(
-        Invocation.method(#removeFamilyMember, [familyId, memberId]),
-        returnValue: _i39.Future<_i22.ApiResponse<void>>.value(
-          _FakeApiResponse_23<void>(
-            this,
             Invocation.method(#removeFamilyMember, [familyId, memberId]),
-          ),
-        ),
-        returnValueForMissingStub: _i39.Future<_i22.ApiResponse<void>>.value(
-          _FakeApiResponse_23<void>(
-            this,
-            Invocation.method(#removeFamilyMember, [
-              familyId,
-              memberId,
-            ]),
-          ),
-        ),
-      ) as _i39.Future<_i22.ApiResponse<void>>);
+            returnValue: _i39.Future<_i22.ApiResponse<void>>.value(
+              _FakeApiResponse_23<void>(
+                this,
+                Invocation.method(#removeFamilyMember, [familyId, memberId]),
+              ),
+            ),
+            returnValueForMissingStub:
+                _i39.Future<_i22.ApiResponse<void>>.value(
+                  _FakeApiResponse_23<void>(
+                    this,
+                    Invocation.method(#removeFamilyMember, [
+                      familyId,
+                      memberId,
+                    ]),
+                  ),
+                ),
+          )
+          as _i39.Future<_i22.ApiResponse<void>>);
 }
 
 /// A class which mocks [ChildrenApiClient].
@@ -5033,48 +5426,53 @@ class MockChildrenApiClient extends _i1.Mock implements _i73.ChildrenApiClient {
     _i74.CreateChildInlineRequest? request,
   ) =>
       (super.noSuchMethod(
-        Invocation.method(#createChild, [request]),
-        returnValue: _i39.Future<_i23.ChildDto>.value(
-          _FakeChildDto_24(
-            this,
             Invocation.method(#createChild, [request]),
-          ),
-        ),
-        returnValueForMissingStub: _i39.Future<_i23.ChildDto>.value(
-          _FakeChildDto_24(
-            this,
-            Invocation.method(#createChild, [request]),
-          ),
-        ),
-      ) as _i39.Future<_i23.ChildDto>);
+            returnValue: _i39.Future<_i23.ChildDto>.value(
+              _FakeChildDto_24(
+                this,
+                Invocation.method(#createChild, [request]),
+              ),
+            ),
+            returnValueForMissingStub: _i39.Future<_i23.ChildDto>.value(
+              _FakeChildDto_24(
+                this,
+                Invocation.method(#createChild, [request]),
+              ),
+            ),
+          )
+          as _i39.Future<_i23.ChildDto>);
 
   @override
-  _i39.Future<_i24.ChildrenListDto> getChildren() => (super.noSuchMethod(
-        Invocation.method(#getChildren, []),
-        returnValue: _i39.Future<_i24.ChildrenListDto>.value(
-          _FakeChildrenListDto_25(
-            this,
+  _i39.Future<_i24.ChildrenListDto> getChildren() =>
+      (super.noSuchMethod(
             Invocation.method(#getChildren, []),
-          ),
-        ),
-        returnValueForMissingStub: _i39.Future<_i24.ChildrenListDto>.value(
-          _FakeChildrenListDto_25(
-            this,
-            Invocation.method(#getChildren, []),
-          ),
-        ),
-      ) as _i39.Future<_i24.ChildrenListDto>);
+            returnValue: _i39.Future<_i24.ChildrenListDto>.value(
+              _FakeChildrenListDto_25(
+                this,
+                Invocation.method(#getChildren, []),
+              ),
+            ),
+            returnValueForMissingStub: _i39.Future<_i24.ChildrenListDto>.value(
+              _FakeChildrenListDto_25(
+                this,
+                Invocation.method(#getChildren, []),
+              ),
+            ),
+          )
+          as _i39.Future<_i24.ChildrenListDto>);
 
   @override
-  _i39.Future<_i23.ChildDto> getChild(String? childId) => (super.noSuchMethod(
-        Invocation.method(#getChild, [childId]),
-        returnValue: _i39.Future<_i23.ChildDto>.value(
-          _FakeChildDto_24(this, Invocation.method(#getChild, [childId])),
-        ),
-        returnValueForMissingStub: _i39.Future<_i23.ChildDto>.value(
-          _FakeChildDto_24(this, Invocation.method(#getChild, [childId])),
-        ),
-      ) as _i39.Future<_i23.ChildDto>);
+  _i39.Future<_i23.ChildDto> getChild(String? childId) =>
+      (super.noSuchMethod(
+            Invocation.method(#getChild, [childId]),
+            returnValue: _i39.Future<_i23.ChildDto>.value(
+              _FakeChildDto_24(this, Invocation.method(#getChild, [childId])),
+            ),
+            returnValueForMissingStub: _i39.Future<_i23.ChildDto>.value(
+              _FakeChildDto_24(this, Invocation.method(#getChild, [childId])),
+            ),
+          )
+          as _i39.Future<_i23.ChildDto>);
 
   @override
   _i39.Future<_i23.ChildDto> updateChild(
@@ -5082,27 +5480,30 @@ class MockChildrenApiClient extends _i1.Mock implements _i73.ChildrenApiClient {
     _i74.UpdateChildInlineRequest? request,
   ) =>
       (super.noSuchMethod(
-        Invocation.method(#updateChild, [childId, request]),
-        returnValue: _i39.Future<_i23.ChildDto>.value(
-          _FakeChildDto_24(
-            this,
             Invocation.method(#updateChild, [childId, request]),
-          ),
-        ),
-        returnValueForMissingStub: _i39.Future<_i23.ChildDto>.value(
-          _FakeChildDto_24(
-            this,
-            Invocation.method(#updateChild, [childId, request]),
-          ),
-        ),
-      ) as _i39.Future<_i23.ChildDto>);
+            returnValue: _i39.Future<_i23.ChildDto>.value(
+              _FakeChildDto_24(
+                this,
+                Invocation.method(#updateChild, [childId, request]),
+              ),
+            ),
+            returnValueForMissingStub: _i39.Future<_i23.ChildDto>.value(
+              _FakeChildDto_24(
+                this,
+                Invocation.method(#updateChild, [childId, request]),
+              ),
+            ),
+          )
+          as _i39.Future<_i23.ChildDto>);
 
   @override
-  _i39.Future<void> deleteChild(String? childId) => (super.noSuchMethod(
-        Invocation.method(#deleteChild, [childId]),
-        returnValue: _i39.Future<void>.value(),
-        returnValueForMissingStub: _i39.Future<void>.value(),
-      ) as _i39.Future<void>);
+  _i39.Future<void> deleteChild(String? childId) =>
+      (super.noSuchMethod(
+            Invocation.method(#deleteChild, [childId]),
+            returnValue: _i39.Future<void>.value(),
+            returnValueForMissingStub: _i39.Future<void>.value(),
+          )
+          as _i39.Future<void>);
 
   @override
   _i39.Future<_i24.ChildAssignmentsDto> getChildAssignments(
@@ -5110,57 +5511,62 @@ class MockChildrenApiClient extends _i1.Mock implements _i73.ChildrenApiClient {
     String? week,
   ) =>
       (super.noSuchMethod(
-        Invocation.method(#getChildAssignments, [childId, week]),
-        returnValue: _i39.Future<_i24.ChildAssignmentsDto>.value(
-          _FakeChildAssignmentsDto_26(
-            this,
             Invocation.method(#getChildAssignments, [childId, week]),
-          ),
-        ),
-        returnValueForMissingStub: _i39.Future<_i24.ChildAssignmentsDto>.value(
-          _FakeChildAssignmentsDto_26(
-            this,
-            Invocation.method(#getChildAssignments, [childId, week]),
-          ),
-        ),
-      ) as _i39.Future<_i24.ChildAssignmentsDto>);
+            returnValue: _i39.Future<_i24.ChildAssignmentsDto>.value(
+              _FakeChildAssignmentsDto_26(
+                this,
+                Invocation.method(#getChildAssignments, [childId, week]),
+              ),
+            ),
+            returnValueForMissingStub:
+                _i39.Future<_i24.ChildAssignmentsDto>.value(
+                  _FakeChildAssignmentsDto_26(
+                    this,
+                    Invocation.method(#getChildAssignments, [childId, week]),
+                  ),
+                ),
+          )
+          as _i39.Future<_i24.ChildAssignmentsDto>);
 
   @override
   _i39.Future<void> addChildToGroup(String? childId, String? groupId) =>
       (super.noSuchMethod(
-        Invocation.method(#addChildToGroup, [childId, groupId]),
-        returnValue: _i39.Future<void>.value(),
-        returnValueForMissingStub: _i39.Future<void>.value(),
-      ) as _i39.Future<void>);
+            Invocation.method(#addChildToGroup, [childId, groupId]),
+            returnValue: _i39.Future<void>.value(),
+            returnValueForMissingStub: _i39.Future<void>.value(),
+          )
+          as _i39.Future<void>);
 
   @override
   _i39.Future<void> removeChildFromGroup(String? childId, String? groupId) =>
       (super.noSuchMethod(
-        Invocation.method(#removeChildFromGroup, [childId, groupId]),
-        returnValue: _i39.Future<void>.value(),
-        returnValueForMissingStub: _i39.Future<void>.value(),
-      ) as _i39.Future<void>);
+            Invocation.method(#removeChildFromGroup, [childId, groupId]),
+            returnValue: _i39.Future<void>.value(),
+            returnValueForMissingStub: _i39.Future<void>.value(),
+          )
+          as _i39.Future<void>);
 
   @override
   _i39.Future<_i24.ChildGroupMembershipsDto> getChildGroupMemberships(
     String? childId,
   ) =>
       (super.noSuchMethod(
-        Invocation.method(#getChildGroupMemberships, [childId]),
-        returnValue: _i39.Future<_i24.ChildGroupMembershipsDto>.value(
-          _FakeChildGroupMembershipsDto_27(
-            this,
             Invocation.method(#getChildGroupMemberships, [childId]),
-          ),
-        ),
-        returnValueForMissingStub:
-            _i39.Future<_i24.ChildGroupMembershipsDto>.value(
-          _FakeChildGroupMembershipsDto_27(
-            this,
-            Invocation.method(#getChildGroupMemberships, [childId]),
-          ),
-        ),
-      ) as _i39.Future<_i24.ChildGroupMembershipsDto>);
+            returnValue: _i39.Future<_i24.ChildGroupMembershipsDto>.value(
+              _FakeChildGroupMembershipsDto_27(
+                this,
+                Invocation.method(#getChildGroupMemberships, [childId]),
+              ),
+            ),
+            returnValueForMissingStub:
+                _i39.Future<_i24.ChildGroupMembershipsDto>.value(
+                  _FakeChildGroupMembershipsDto_27(
+                    this,
+                    Invocation.method(#getChildGroupMemberships, [childId]),
+                  ),
+                ),
+          )
+          as _i39.Future<_i24.ChildGroupMembershipsDto>);
 }
 
 /// A class which mocks [ScheduleApiClient].
@@ -5170,38 +5576,42 @@ class MockScheduleApiClient extends _i1.Mock implements _i75.ScheduleApiClient {
   @override
   _i39.Future<_i25.ScheduleConfigDto> getDefaultScheduleConfig() =>
       (super.noSuchMethod(
-        Invocation.method(#getDefaultScheduleConfig, []),
-        returnValue: _i39.Future<_i25.ScheduleConfigDto>.value(
-          _FakeScheduleConfigDto_28(
-            this,
             Invocation.method(#getDefaultScheduleConfig, []),
-          ),
-        ),
-        returnValueForMissingStub: _i39.Future<_i25.ScheduleConfigDto>.value(
-          _FakeScheduleConfigDto_28(
-            this,
-            Invocation.method(#getDefaultScheduleConfig, []),
-          ),
-        ),
-      ) as _i39.Future<_i25.ScheduleConfigDto>);
+            returnValue: _i39.Future<_i25.ScheduleConfigDto>.value(
+              _FakeScheduleConfigDto_28(
+                this,
+                Invocation.method(#getDefaultScheduleConfig, []),
+              ),
+            ),
+            returnValueForMissingStub:
+                _i39.Future<_i25.ScheduleConfigDto>.value(
+                  _FakeScheduleConfigDto_28(
+                    this,
+                    Invocation.method(#getDefaultScheduleConfig, []),
+                  ),
+                ),
+          )
+          as _i39.Future<_i25.ScheduleConfigDto>);
 
   @override
   _i39.Future<_i25.ScheduleConfigDto> getGroupScheduleConfig(String? groupId) =>
       (super.noSuchMethod(
-        Invocation.method(#getGroupScheduleConfig, [groupId]),
-        returnValue: _i39.Future<_i25.ScheduleConfigDto>.value(
-          _FakeScheduleConfigDto_28(
-            this,
             Invocation.method(#getGroupScheduleConfig, [groupId]),
-          ),
-        ),
-        returnValueForMissingStub: _i39.Future<_i25.ScheduleConfigDto>.value(
-          _FakeScheduleConfigDto_28(
-            this,
-            Invocation.method(#getGroupScheduleConfig, [groupId]),
-          ),
-        ),
-      ) as _i39.Future<_i25.ScheduleConfigDto>);
+            returnValue: _i39.Future<_i25.ScheduleConfigDto>.value(
+              _FakeScheduleConfigDto_28(
+                this,
+                Invocation.method(#getGroupScheduleConfig, [groupId]),
+              ),
+            ),
+            returnValueForMissingStub:
+                _i39.Future<_i25.ScheduleConfigDto>.value(
+                  _FakeScheduleConfigDto_28(
+                    this,
+                    Invocation.method(#getGroupScheduleConfig, [groupId]),
+                  ),
+                ),
+          )
+          as _i39.Future<_i25.ScheduleConfigDto>);
 
   @override
   _i39.Future<_i26.TimeSlotConfigDto> getGroupTimeSlots(
@@ -5209,20 +5619,22 @@ class MockScheduleApiClient extends _i1.Mock implements _i75.ScheduleApiClient {
     String? weekday,
   ) =>
       (super.noSuchMethod(
-        Invocation.method(#getGroupTimeSlots, [groupId, weekday]),
-        returnValue: _i39.Future<_i26.TimeSlotConfigDto>.value(
-          _FakeTimeSlotConfigDto_29(
-            this,
             Invocation.method(#getGroupTimeSlots, [groupId, weekday]),
-          ),
-        ),
-        returnValueForMissingStub: _i39.Future<_i26.TimeSlotConfigDto>.value(
-          _FakeTimeSlotConfigDto_29(
-            this,
-            Invocation.method(#getGroupTimeSlots, [groupId, weekday]),
-          ),
-        ),
-      ) as _i39.Future<_i26.TimeSlotConfigDto>);
+            returnValue: _i39.Future<_i26.TimeSlotConfigDto>.value(
+              _FakeTimeSlotConfigDto_29(
+                this,
+                Invocation.method(#getGroupTimeSlots, [groupId, weekday]),
+              ),
+            ),
+            returnValueForMissingStub:
+                _i39.Future<_i26.TimeSlotConfigDto>.value(
+                  _FakeTimeSlotConfigDto_29(
+                    this,
+                    Invocation.method(#getGroupTimeSlots, [groupId, weekday]),
+                  ),
+                ),
+          )
+          as _i39.Future<_i26.TimeSlotConfigDto>);
 
   @override
   _i39.Future<_i25.ScheduleConfigDto> updateGroupScheduleConfigTyped(
@@ -5230,49 +5642,53 @@ class MockScheduleApiClient extends _i1.Mock implements _i75.ScheduleApiClient {
     _i76.UpdateScheduleConfigRequest? request,
   ) =>
       (super.noSuchMethod(
-        Invocation.method(#updateGroupScheduleConfigTyped, [
-          groupId,
-          request,
-        ]),
-        returnValue: _i39.Future<_i25.ScheduleConfigDto>.value(
-          _FakeScheduleConfigDto_28(
-            this,
             Invocation.method(#updateGroupScheduleConfigTyped, [
               groupId,
               request,
             ]),
-          ),
-        ),
-        returnValueForMissingStub: _i39.Future<_i25.ScheduleConfigDto>.value(
-          _FakeScheduleConfigDto_28(
-            this,
-            Invocation.method(#updateGroupScheduleConfigTyped, [
-              groupId,
-              request,
-            ]),
-          ),
-        ),
-      ) as _i39.Future<_i25.ScheduleConfigDto>);
+            returnValue: _i39.Future<_i25.ScheduleConfigDto>.value(
+              _FakeScheduleConfigDto_28(
+                this,
+                Invocation.method(#updateGroupScheduleConfigTyped, [
+                  groupId,
+                  request,
+                ]),
+              ),
+            ),
+            returnValueForMissingStub:
+                _i39.Future<_i25.ScheduleConfigDto>.value(
+                  _FakeScheduleConfigDto_28(
+                    this,
+                    Invocation.method(#updateGroupScheduleConfigTyped, [
+                      groupId,
+                      request,
+                    ]),
+                  ),
+                ),
+          )
+          as _i39.Future<_i25.ScheduleConfigDto>);
 
   @override
   _i39.Future<_i25.ScheduleConfigDto> resetGroupScheduleConfig(
     String? groupId,
   ) =>
       (super.noSuchMethod(
-        Invocation.method(#resetGroupScheduleConfig, [groupId]),
-        returnValue: _i39.Future<_i25.ScheduleConfigDto>.value(
-          _FakeScheduleConfigDto_28(
-            this,
             Invocation.method(#resetGroupScheduleConfig, [groupId]),
-          ),
-        ),
-        returnValueForMissingStub: _i39.Future<_i25.ScheduleConfigDto>.value(
-          _FakeScheduleConfigDto_28(
-            this,
-            Invocation.method(#resetGroupScheduleConfig, [groupId]),
-          ),
-        ),
-      ) as _i39.Future<_i25.ScheduleConfigDto>);
+            returnValue: _i39.Future<_i25.ScheduleConfigDto>.value(
+              _FakeScheduleConfigDto_28(
+                this,
+                Invocation.method(#resetGroupScheduleConfig, [groupId]),
+              ),
+            ),
+            returnValueForMissingStub:
+                _i39.Future<_i25.ScheduleConfigDto>.value(
+                  _FakeScheduleConfigDto_28(
+                    this,
+                    Invocation.method(#resetGroupScheduleConfig, [groupId]),
+                  ),
+                ),
+          )
+          as _i39.Future<_i25.ScheduleConfigDto>);
 
   @override
   _i39.Future<_i27.ScheduleSlotDto> createScheduleSlot(
@@ -5280,20 +5696,21 @@ class MockScheduleApiClient extends _i1.Mock implements _i75.ScheduleApiClient {
     _i77.CreateScheduleSlotRequest? request,
   ) =>
       (super.noSuchMethod(
-        Invocation.method(#createScheduleSlot, [groupId, request]),
-        returnValue: _i39.Future<_i27.ScheduleSlotDto>.value(
-          _FakeScheduleSlotDto_30(
-            this,
             Invocation.method(#createScheduleSlot, [groupId, request]),
-          ),
-        ),
-        returnValueForMissingStub: _i39.Future<_i27.ScheduleSlotDto>.value(
-          _FakeScheduleSlotDto_30(
-            this,
-            Invocation.method(#createScheduleSlot, [groupId, request]),
-          ),
-        ),
-      ) as _i39.Future<_i27.ScheduleSlotDto>);
+            returnValue: _i39.Future<_i27.ScheduleSlotDto>.value(
+              _FakeScheduleSlotDto_30(
+                this,
+                Invocation.method(#createScheduleSlot, [groupId, request]),
+              ),
+            ),
+            returnValueForMissingStub: _i39.Future<_i27.ScheduleSlotDto>.value(
+              _FakeScheduleSlotDto_30(
+                this,
+                Invocation.method(#createScheduleSlot, [groupId, request]),
+              ),
+            ),
+          )
+          as _i39.Future<_i27.ScheduleSlotDto>);
 
   @override
   _i39.Future<_i28.ScheduleResponseDto> getGroupSchedule(
@@ -5302,67 +5719,71 @@ class MockScheduleApiClient extends _i1.Mock implements _i75.ScheduleApiClient {
     String? endDate,
   ) =>
       (super.noSuchMethod(
-        Invocation.method(#getGroupSchedule, [groupId, startDate, endDate]),
-        returnValue: _i39.Future<_i28.ScheduleResponseDto>.value(
-          _FakeScheduleResponseDto_31(
-            this,
-            Invocation.method(#getGroupSchedule, [
-              groupId,
-              startDate,
-              endDate,
-            ]),
-          ),
-        ),
-        returnValueForMissingStub: _i39.Future<_i28.ScheduleResponseDto>.value(
-          _FakeScheduleResponseDto_31(
-            this,
-            Invocation.method(#getGroupSchedule, [
-              groupId,
-              startDate,
-              endDate,
-            ]),
-          ),
-        ),
-      ) as _i39.Future<_i28.ScheduleResponseDto>);
+            Invocation.method(#getGroupSchedule, [groupId, startDate, endDate]),
+            returnValue: _i39.Future<_i28.ScheduleResponseDto>.value(
+              _FakeScheduleResponseDto_31(
+                this,
+                Invocation.method(#getGroupSchedule, [
+                  groupId,
+                  startDate,
+                  endDate,
+                ]),
+              ),
+            ),
+            returnValueForMissingStub:
+                _i39.Future<_i28.ScheduleResponseDto>.value(
+                  _FakeScheduleResponseDto_31(
+                    this,
+                    Invocation.method(#getGroupSchedule, [
+                      groupId,
+                      startDate,
+                      endDate,
+                    ]),
+                  ),
+                ),
+          )
+          as _i39.Future<_i28.ScheduleResponseDto>);
 
   @override
   _i39.Future<_i27.ScheduleSlotDto> getScheduleSlot(String? slotId) =>
       (super.noSuchMethod(
-        Invocation.method(#getScheduleSlot, [slotId]),
-        returnValue: _i39.Future<_i27.ScheduleSlotDto>.value(
-          _FakeScheduleSlotDto_30(
-            this,
             Invocation.method(#getScheduleSlot, [slotId]),
-          ),
-        ),
-        returnValueForMissingStub: _i39.Future<_i27.ScheduleSlotDto>.value(
-          _FakeScheduleSlotDto_30(
-            this,
-            Invocation.method(#getScheduleSlot, [slotId]),
-          ),
-        ),
-      ) as _i39.Future<_i27.ScheduleSlotDto>);
+            returnValue: _i39.Future<_i27.ScheduleSlotDto>.value(
+              _FakeScheduleSlotDto_30(
+                this,
+                Invocation.method(#getScheduleSlot, [slotId]),
+              ),
+            ),
+            returnValueForMissingStub: _i39.Future<_i27.ScheduleSlotDto>.value(
+              _FakeScheduleSlotDto_30(
+                this,
+                Invocation.method(#getScheduleSlot, [slotId]),
+              ),
+            ),
+          )
+          as _i39.Future<_i27.ScheduleSlotDto>);
 
   @override
   _i39.Future<_i29.ScheduleSlotWithDetailsDto> getScheduleSlotDetails(
     String? slotId,
   ) =>
       (super.noSuchMethod(
-        Invocation.method(#getScheduleSlotDetails, [slotId]),
-        returnValue: _i39.Future<_i29.ScheduleSlotWithDetailsDto>.value(
-          _FakeScheduleSlotWithDetailsDto_32(
-            this,
             Invocation.method(#getScheduleSlotDetails, [slotId]),
-          ),
-        ),
-        returnValueForMissingStub:
-            _i39.Future<_i29.ScheduleSlotWithDetailsDto>.value(
-          _FakeScheduleSlotWithDetailsDto_32(
-            this,
-            Invocation.method(#getScheduleSlotDetails, [slotId]),
-          ),
-        ),
-      ) as _i39.Future<_i29.ScheduleSlotWithDetailsDto>);
+            returnValue: _i39.Future<_i29.ScheduleSlotWithDetailsDto>.value(
+              _FakeScheduleSlotWithDetailsDto_32(
+                this,
+                Invocation.method(#getScheduleSlotDetails, [slotId]),
+              ),
+            ),
+            returnValueForMissingStub:
+                _i39.Future<_i29.ScheduleSlotWithDetailsDto>.value(
+                  _FakeScheduleSlotWithDetailsDto_32(
+                    this,
+                    Invocation.method(#getScheduleSlotDetails, [slotId]),
+                  ),
+                ),
+          )
+          as _i39.Future<_i29.ScheduleSlotWithDetailsDto>);
 
   @override
   _i39.Future<_i30.VehicleAssignmentDto> assignVehicleToSlotTyped(
@@ -5370,23 +5791,25 @@ class MockScheduleApiClient extends _i1.Mock implements _i75.ScheduleApiClient {
     _i77.AssignVehicleRequest? request,
   ) =>
       (super.noSuchMethod(
-        Invocation.method(#assignVehicleToSlotTyped, [slotId, request]),
-        returnValue: _i39.Future<_i30.VehicleAssignmentDto>.value(
-          _FakeVehicleAssignmentDto_33(
-            this,
             Invocation.method(#assignVehicleToSlotTyped, [slotId, request]),
-          ),
-        ),
-        returnValueForMissingStub: _i39.Future<_i30.VehicleAssignmentDto>.value(
-          _FakeVehicleAssignmentDto_33(
-            this,
-            Invocation.method(#assignVehicleToSlotTyped, [
-              slotId,
-              request,
-            ]),
-          ),
-        ),
-      ) as _i39.Future<_i30.VehicleAssignmentDto>);
+            returnValue: _i39.Future<_i30.VehicleAssignmentDto>.value(
+              _FakeVehicleAssignmentDto_33(
+                this,
+                Invocation.method(#assignVehicleToSlotTyped, [slotId, request]),
+              ),
+            ),
+            returnValueForMissingStub:
+                _i39.Future<_i30.VehicleAssignmentDto>.value(
+                  _FakeVehicleAssignmentDto_33(
+                    this,
+                    Invocation.method(#assignVehicleToSlotTyped, [
+                      slotId,
+                      request,
+                    ]),
+                  ),
+                ),
+          )
+          as _i39.Future<_i30.VehicleAssignmentDto>);
 
   @override
   _i39.Future<void> removeVehicleFromSlotTyped(
@@ -5394,10 +5817,11 @@ class MockScheduleApiClient extends _i1.Mock implements _i75.ScheduleApiClient {
     _i77.RemoveVehicleRequest? request,
   ) =>
       (super.noSuchMethod(
-        Invocation.method(#removeVehicleFromSlotTyped, [slotId, request]),
-        returnValue: _i39.Future<void>.value(),
-        returnValueForMissingStub: _i39.Future<void>.value(),
-      ) as _i39.Future<void>);
+            Invocation.method(#removeVehicleFromSlotTyped, [slotId, request]),
+            returnValue: _i39.Future<void>.value(),
+            returnValueForMissingStub: _i39.Future<void>.value(),
+          )
+          as _i39.Future<void>);
 
   @override
   _i39.Future<_i30.VehicleAssignmentDto> updateVehicleDriver(
@@ -5406,32 +5830,34 @@ class MockScheduleApiClient extends _i1.Mock implements _i75.ScheduleApiClient {
     _i77.UpdateDriverRequest? request,
   ) =>
       (super.noSuchMethod(
-        Invocation.method(#updateVehicleDriver, [
-          slotId,
-          vehicleId,
-          request,
-        ]),
-        returnValue: _i39.Future<_i30.VehicleAssignmentDto>.value(
-          _FakeVehicleAssignmentDto_33(
-            this,
             Invocation.method(#updateVehicleDriver, [
               slotId,
               vehicleId,
               request,
             ]),
-          ),
-        ),
-        returnValueForMissingStub: _i39.Future<_i30.VehicleAssignmentDto>.value(
-          _FakeVehicleAssignmentDto_33(
-            this,
-            Invocation.method(#updateVehicleDriver, [
-              slotId,
-              vehicleId,
-              request,
-            ]),
-          ),
-        ),
-      ) as _i39.Future<_i30.VehicleAssignmentDto>);
+            returnValue: _i39.Future<_i30.VehicleAssignmentDto>.value(
+              _FakeVehicleAssignmentDto_33(
+                this,
+                Invocation.method(#updateVehicleDriver, [
+                  slotId,
+                  vehicleId,
+                  request,
+                ]),
+              ),
+            ),
+            returnValueForMissingStub:
+                _i39.Future<_i30.VehicleAssignmentDto>.value(
+                  _FakeVehicleAssignmentDto_33(
+                    this,
+                    Invocation.method(#updateVehicleDriver, [
+                      slotId,
+                      vehicleId,
+                      request,
+                    ]),
+                  ),
+                ),
+          )
+          as _i39.Future<_i30.VehicleAssignmentDto>);
 
   @override
   _i39.Future<_i31.ScheduleSlotChildDto> assignChildToSlot(
@@ -5439,51 +5865,56 @@ class MockScheduleApiClient extends _i1.Mock implements _i75.ScheduleApiClient {
     _i77.AssignChildRequest? request,
   ) =>
       (super.noSuchMethod(
-        Invocation.method(#assignChildToSlot, [slotId, request]),
-        returnValue: _i39.Future<_i31.ScheduleSlotChildDto>.value(
-          _FakeScheduleSlotChildDto_34(
-            this,
             Invocation.method(#assignChildToSlot, [slotId, request]),
-          ),
-        ),
-        returnValueForMissingStub: _i39.Future<_i31.ScheduleSlotChildDto>.value(
-          _FakeScheduleSlotChildDto_34(
-            this,
-            Invocation.method(#assignChildToSlot, [slotId, request]),
-          ),
-        ),
-      ) as _i39.Future<_i31.ScheduleSlotChildDto>);
+            returnValue: _i39.Future<_i31.ScheduleSlotChildDto>.value(
+              _FakeScheduleSlotChildDto_34(
+                this,
+                Invocation.method(#assignChildToSlot, [slotId, request]),
+              ),
+            ),
+            returnValueForMissingStub:
+                _i39.Future<_i31.ScheduleSlotChildDto>.value(
+                  _FakeScheduleSlotChildDto_34(
+                    this,
+                    Invocation.method(#assignChildToSlot, [slotId, request]),
+                  ),
+                ),
+          )
+          as _i39.Future<_i31.ScheduleSlotChildDto>);
 
   @override
   _i39.Future<void> removeChildFromSlot(String? slotId, String? childId) =>
       (super.noSuchMethod(
-        Invocation.method(#removeChildFromSlot, [slotId, childId]),
-        returnValue: _i39.Future<void>.value(),
-        returnValueForMissingStub: _i39.Future<void>.value(),
-      ) as _i39.Future<void>);
+            Invocation.method(#removeChildFromSlot, [slotId, childId]),
+            returnValue: _i39.Future<void>.value(),
+            returnValueForMissingStub: _i39.Future<void>.value(),
+          )
+          as _i39.Future<void>);
 
   @override
   _i39.Future<List<_i23.ChildDto>> getAvailableChildren(String? slotId) =>
       (super.noSuchMethod(
-        Invocation.method(#getAvailableChildren, [slotId]),
-        returnValue: _i39.Future<List<_i23.ChildDto>>.value(
-          <_i23.ChildDto>[],
-        ),
-        returnValueForMissingStub: _i39.Future<List<_i23.ChildDto>>.value(
-          <_i23.ChildDto>[],
-        ),
-      ) as _i39.Future<List<_i23.ChildDto>>);
+            Invocation.method(#getAvailableChildren, [slotId]),
+            returnValue: _i39.Future<List<_i23.ChildDto>>.value(
+              <_i23.ChildDto>[],
+            ),
+            returnValueForMissingStub: _i39.Future<List<_i23.ChildDto>>.value(
+              <_i23.ChildDto>[],
+            ),
+          )
+          as _i39.Future<List<_i23.ChildDto>>);
 
   @override
   _i39.Future<List<_i78.ConflictDto>> getScheduleConflicts(String? slotId) =>
       (super.noSuchMethod(
-        Invocation.method(#getScheduleConflicts, [slotId]),
-        returnValue: _i39.Future<List<_i78.ConflictDto>>.value(
-          <_i78.ConflictDto>[],
-        ),
-        returnValueForMissingStub:
-            _i39.Future<List<_i78.ConflictDto>>.value(<_i78.ConflictDto>[]),
-      ) as _i39.Future<List<_i78.ConflictDto>>);
+            Invocation.method(#getScheduleConflicts, [slotId]),
+            returnValue: _i39.Future<List<_i78.ConflictDto>>.value(
+              <_i78.ConflictDto>[],
+            ),
+            returnValueForMissingStub:
+                _i39.Future<List<_i78.ConflictDto>>.value(<_i78.ConflictDto>[]),
+          )
+          as _i39.Future<List<_i78.ConflictDto>>);
 
   @override
   _i39.Future<_i30.VehicleAssignmentDto> updateSeatOverride(
@@ -5491,29 +5922,31 @@ class MockScheduleApiClient extends _i1.Mock implements _i75.ScheduleApiClient {
     _i77.UpdateSeatOverrideRequest? request,
   ) =>
       (super.noSuchMethod(
-        Invocation.method(#updateSeatOverride, [
-          vehicleAssignmentId,
-          request,
-        ]),
-        returnValue: _i39.Future<_i30.VehicleAssignmentDto>.value(
-          _FakeVehicleAssignmentDto_33(
-            this,
             Invocation.method(#updateSeatOverride, [
               vehicleAssignmentId,
               request,
             ]),
-          ),
-        ),
-        returnValueForMissingStub: _i39.Future<_i30.VehicleAssignmentDto>.value(
-          _FakeVehicleAssignmentDto_33(
-            this,
-            Invocation.method(#updateSeatOverride, [
-              vehicleAssignmentId,
-              request,
-            ]),
-          ),
-        ),
-      ) as _i39.Future<_i30.VehicleAssignmentDto>);
+            returnValue: _i39.Future<_i30.VehicleAssignmentDto>.value(
+              _FakeVehicleAssignmentDto_33(
+                this,
+                Invocation.method(#updateSeatOverride, [
+                  vehicleAssignmentId,
+                  request,
+                ]),
+              ),
+            ),
+            returnValueForMissingStub:
+                _i39.Future<_i30.VehicleAssignmentDto>.value(
+                  _FakeVehicleAssignmentDto_33(
+                    this,
+                    Invocation.method(#updateSeatOverride, [
+                      vehicleAssignmentId,
+                      request,
+                    ]),
+                  ),
+                ),
+          )
+          as _i39.Future<_i30.VehicleAssignmentDto>);
 }
 
 /// A class which mocks [AuthRepository].
@@ -5527,169 +5960,198 @@ class MockAuthRepository extends _i1.Mock implements _i79.AuthRepository {
     String? inviteCode,
   ) =>
       (super.noSuchMethod(
-        Invocation.method(#sendMagicLink, [email, redirectUrl, inviteCode]),
-        returnValue: _i39.Future<_i45.Result<String, _i46.ApiFailure>>.value(
-          _i42.dummyValue<_i45.Result<String, _i46.ApiFailure>>(
-            this,
-            Invocation.method(#sendMagicLink, [
-              email,
-              redirectUrl,
-              inviteCode,
-            ]),
-          ),
-        ),
-        returnValueForMissingStub:
-            _i39.Future<_i45.Result<String, _i46.ApiFailure>>.value(
-          _i42.dummyValue<_i45.Result<String, _i46.ApiFailure>>(
-            this,
-            Invocation.method(#sendMagicLink, [
-              email,
-              redirectUrl,
-              inviteCode,
-            ]),
-          ),
-        ),
-      ) as _i39.Future<_i45.Result<String, _i46.ApiFailure>>);
+            Invocation.method(#sendMagicLink, [email, redirectUrl, inviteCode]),
+            returnValue:
+                _i39.Future<_i45.Result<String, _i46.ApiFailure>>.value(
+                  _i42.dummyValue<_i45.Result<String, _i46.ApiFailure>>(
+                    this,
+                    Invocation.method(#sendMagicLink, [
+                      email,
+                      redirectUrl,
+                      inviteCode,
+                    ]),
+                  ),
+                ),
+            returnValueForMissingStub:
+                _i39.Future<_i45.Result<String, _i46.ApiFailure>>.value(
+                  _i42.dummyValue<_i45.Result<String, _i46.ApiFailure>>(
+                    this,
+                    Invocation.method(#sendMagicLink, [
+                      email,
+                      redirectUrl,
+                      inviteCode,
+                    ]),
+                  ),
+                ),
+          )
+          as _i39.Future<_i45.Result<String, _i46.ApiFailure>>);
 
   @override
   _i39.Future<_i45.Result<_i79.AuthenticationResult, _i46.ApiFailure>>
-      verifyMagicLinkToken(String? token) => (super.noSuchMethod(
+  verifyMagicLinkToken(String? token) =>
+      (super.noSuchMethod(
             Invocation.method(#verifyMagicLinkToken, [token]),
-            returnValue: _i39.Future<
-                _i45.Result<_i79.AuthenticationResult, _i46.ApiFailure>>.value(
-              _i42.dummyValue<
-                      _i45.Result<_i79.AuthenticationResult, _i46.ApiFailure>>(
-                  this, Invocation.method(#verifyMagicLinkToken, [token])),
-            ),
-            returnValueForMissingStub: _i39.Future<
-                _i45.Result<_i79.AuthenticationResult, _i46.ApiFailure>>.value(
-              _i42.dummyValue<
-                      _i45.Result<_i79.AuthenticationResult, _i46.ApiFailure>>(
-                  this, Invocation.method(#verifyMagicLinkToken, [token])),
-            ),
-          ) as _i39
-              .Future<_i45.Result<_i79.AuthenticationResult, _i46.ApiFailure>>);
+            returnValue:
+                _i39.Future<
+                  _i45.Result<_i79.AuthenticationResult, _i46.ApiFailure>
+                >.value(
+                  _i42.dummyValue<
+                    _i45.Result<_i79.AuthenticationResult, _i46.ApiFailure>
+                  >(this, Invocation.method(#verifyMagicLinkToken, [token])),
+                ),
+            returnValueForMissingStub:
+                _i39.Future<
+                  _i45.Result<_i79.AuthenticationResult, _i46.ApiFailure>
+                >.value(
+                  _i42.dummyValue<
+                    _i45.Result<_i79.AuthenticationResult, _i46.ApiFailure>
+                  >(this, Invocation.method(#verifyMagicLinkToken, [token])),
+                ),
+          )
+          as _i39.Future<
+            _i45.Result<_i79.AuthenticationResult, _i46.ApiFailure>
+          >);
 
   @override
   _i39.Future<_i45.Result<_i79.AuthenticationResult, _i46.ApiFailure>>
-      refreshToken(String? refreshToken) => (super.noSuchMethod(
+  refreshToken(String? refreshToken) =>
+      (super.noSuchMethod(
             Invocation.method(#refreshToken, [refreshToken]),
-            returnValue: _i39.Future<
-                _i45.Result<_i79.AuthenticationResult, _i46.ApiFailure>>.value(
-              _i42.dummyValue<
-                      _i45.Result<_i79.AuthenticationResult, _i46.ApiFailure>>(
-                  this, Invocation.method(#refreshToken, [refreshToken])),
-            ),
-            returnValueForMissingStub: _i39.Future<
-                _i45.Result<_i79.AuthenticationResult, _i46.ApiFailure>>.value(
-              _i42.dummyValue<
-                      _i45.Result<_i79.AuthenticationResult, _i46.ApiFailure>>(
-                  this, Invocation.method(#refreshToken, [refreshToken])),
-            ),
-          ) as _i39
-              .Future<_i45.Result<_i79.AuthenticationResult, _i46.ApiFailure>>);
+            returnValue:
+                _i39.Future<
+                  _i45.Result<_i79.AuthenticationResult, _i46.ApiFailure>
+                >.value(
+                  _i42.dummyValue<
+                    _i45.Result<_i79.AuthenticationResult, _i46.ApiFailure>
+                  >(this, Invocation.method(#refreshToken, [refreshToken])),
+                ),
+            returnValueForMissingStub:
+                _i39.Future<
+                  _i45.Result<_i79.AuthenticationResult, _i46.ApiFailure>
+                >.value(
+                  _i42.dummyValue<
+                    _i45.Result<_i79.AuthenticationResult, _i46.ApiFailure>
+                  >(this, Invocation.method(#refreshToken, [refreshToken])),
+                ),
+          )
+          as _i39.Future<
+            _i45.Result<_i79.AuthenticationResult, _i46.ApiFailure>
+          >);
 
   @override
   _i39.Future<_i45.Result<_i47.User, _i46.ApiFailure>> getCurrentUser({
     bool? forceRefresh = false,
   }) =>
       (super.noSuchMethod(
-        Invocation.method(#getCurrentUser, [], {
-          #forceRefresh: forceRefresh,
-        }),
-        returnValue: _i39.Future<_i45.Result<_i47.User, _i46.ApiFailure>>.value(
-          _i42.dummyValue<_i45.Result<_i47.User, _i46.ApiFailure>>(
-            this,
             Invocation.method(#getCurrentUser, [], {
               #forceRefresh: forceRefresh,
             }),
-          ),
-        ),
-        returnValueForMissingStub:
-            _i39.Future<_i45.Result<_i47.User, _i46.ApiFailure>>.value(
-          _i42.dummyValue<_i45.Result<_i47.User, _i46.ApiFailure>>(
-            this,
-            Invocation.method(#getCurrentUser, [], {
-              #forceRefresh: forceRefresh,
-            }),
-          ),
-        ),
-      ) as _i39.Future<_i45.Result<_i47.User, _i46.ApiFailure>>);
+            returnValue:
+                _i39.Future<_i45.Result<_i47.User, _i46.ApiFailure>>.value(
+                  _i42.dummyValue<_i45.Result<_i47.User, _i46.ApiFailure>>(
+                    this,
+                    Invocation.method(#getCurrentUser, [], {
+                      #forceRefresh: forceRefresh,
+                    }),
+                  ),
+                ),
+            returnValueForMissingStub:
+                _i39.Future<_i45.Result<_i47.User, _i46.ApiFailure>>.value(
+                  _i42.dummyValue<_i45.Result<_i47.User, _i46.ApiFailure>>(
+                    this,
+                    Invocation.method(#getCurrentUser, [], {
+                      #forceRefresh: forceRefresh,
+                    }),
+                  ),
+                ),
+          )
+          as _i39.Future<_i45.Result<_i47.User, _i46.ApiFailure>>);
 
   @override
   _i39.Future<_i45.Result<_i47.User, _i46.ApiFailure>> updateUserProfile(
     _i79.UpdateUserProfileRequest? request,
   ) =>
       (super.noSuchMethod(
-        Invocation.method(#updateUserProfile, [request]),
-        returnValue: _i39.Future<_i45.Result<_i47.User, _i46.ApiFailure>>.value(
-          _i42.dummyValue<_i45.Result<_i47.User, _i46.ApiFailure>>(
-            this,
             Invocation.method(#updateUserProfile, [request]),
-          ),
-        ),
-        returnValueForMissingStub:
-            _i39.Future<_i45.Result<_i47.User, _i46.ApiFailure>>.value(
-          _i42.dummyValue<_i45.Result<_i47.User, _i46.ApiFailure>>(
-            this,
-            Invocation.method(#updateUserProfile, [request]),
-          ),
-        ),
-      ) as _i39.Future<_i45.Result<_i47.User, _i46.ApiFailure>>);
+            returnValue:
+                _i39.Future<_i45.Result<_i47.User, _i46.ApiFailure>>.value(
+                  _i42.dummyValue<_i45.Result<_i47.User, _i46.ApiFailure>>(
+                    this,
+                    Invocation.method(#updateUserProfile, [request]),
+                  ),
+                ),
+            returnValueForMissingStub:
+                _i39.Future<_i45.Result<_i47.User, _i46.ApiFailure>>.value(
+                  _i42.dummyValue<_i45.Result<_i47.User, _i46.ApiFailure>>(
+                    this,
+                    Invocation.method(#updateUserProfile, [request]),
+                  ),
+                ),
+          )
+          as _i39.Future<_i45.Result<_i47.User, _i46.ApiFailure>>);
 
   @override
   _i39.Future<_i45.Result<void, _i46.ApiFailure>> logout() =>
       (super.noSuchMethod(
-        Invocation.method(#logout, []),
-        returnValue: _i39.Future<_i45.Result<void, _i46.ApiFailure>>.value(
-          _i42.dummyValue<_i45.Result<void, _i46.ApiFailure>>(
-            this,
             Invocation.method(#logout, []),
-          ),
-        ),
-        returnValueForMissingStub:
-            _i39.Future<_i45.Result<void, _i46.ApiFailure>>.value(
-          _i42.dummyValue<_i45.Result<void, _i46.ApiFailure>>(
-            this,
-            Invocation.method(#logout, []),
-          ),
-        ),
-      ) as _i39.Future<_i45.Result<void, _i46.ApiFailure>>);
+            returnValue: _i39.Future<_i45.Result<void, _i46.ApiFailure>>.value(
+              _i42.dummyValue<_i45.Result<void, _i46.ApiFailure>>(
+                this,
+                Invocation.method(#logout, []),
+              ),
+            ),
+            returnValueForMissingStub:
+                _i39.Future<_i45.Result<void, _i46.ApiFailure>>.value(
+                  _i42.dummyValue<_i45.Result<void, _i46.ApiFailure>>(
+                    this,
+                    Invocation.method(#logout, []),
+                  ),
+                ),
+          )
+          as _i39.Future<_i45.Result<void, _i46.ApiFailure>>);
 
   @override
   _i39.Future<_i45.Result<bool, _i46.ApiFailure>> isAuthenticated() =>
       (super.noSuchMethod(
-        Invocation.method(#isAuthenticated, []),
-        returnValue: _i39.Future<_i45.Result<bool, _i46.ApiFailure>>.value(
-          _i42.dummyValue<_i45.Result<bool, _i46.ApiFailure>>(
-            this,
             Invocation.method(#isAuthenticated, []),
-          ),
-        ),
-        returnValueForMissingStub:
-            _i39.Future<_i45.Result<bool, _i46.ApiFailure>>.value(
-          _i42.dummyValue<_i45.Result<bool, _i46.ApiFailure>>(
-            this,
-            Invocation.method(#isAuthenticated, []),
-          ),
-        ),
-      ) as _i39.Future<_i45.Result<bool, _i46.ApiFailure>>);
+            returnValue: _i39.Future<_i45.Result<bool, _i46.ApiFailure>>.value(
+              _i42.dummyValue<_i45.Result<bool, _i46.ApiFailure>>(
+                this,
+                Invocation.method(#isAuthenticated, []),
+              ),
+            ),
+            returnValueForMissingStub:
+                _i39.Future<_i45.Result<bool, _i46.ApiFailure>>.value(
+                  _i42.dummyValue<_i45.Result<bool, _i46.ApiFailure>>(
+                    this,
+                    Invocation.method(#isAuthenticated, []),
+                  ),
+                ),
+          )
+          as _i39.Future<_i45.Result<bool, _i46.ApiFailure>>);
 
   @override
   _i39.Future<_i45.Result<_i79.AuthConfig, _i46.ApiFailure>> getAuthConfig() =>
       (super.noSuchMethod(
-        Invocation.method(#getAuthConfig, []),
-        returnValue:
-            _i39.Future<_i45.Result<_i79.AuthConfig, _i46.ApiFailure>>.value(
-          _i42.dummyValue<_i45.Result<_i79.AuthConfig, _i46.ApiFailure>>(
-              this, Invocation.method(#getAuthConfig, [])),
-        ),
-        returnValueForMissingStub:
-            _i39.Future<_i45.Result<_i79.AuthConfig, _i46.ApiFailure>>.value(
-          _i42.dummyValue<_i45.Result<_i79.AuthConfig, _i46.ApiFailure>>(
-              this, Invocation.method(#getAuthConfig, [])),
-        ),
-      ) as _i39.Future<_i45.Result<_i79.AuthConfig, _i46.ApiFailure>>);
+            Invocation.method(#getAuthConfig, []),
+            returnValue:
+                _i39.Future<
+                  _i45.Result<_i79.AuthConfig, _i46.ApiFailure>
+                >.value(
+                  _i42.dummyValue<
+                    _i45.Result<_i79.AuthConfig, _i46.ApiFailure>
+                  >(this, Invocation.method(#getAuthConfig, [])),
+                ),
+            returnValueForMissingStub:
+                _i39.Future<
+                  _i45.Result<_i79.AuthConfig, _i46.ApiFailure>
+                >.value(
+                  _i42.dummyValue<
+                    _i45.Result<_i79.AuthConfig, _i46.ApiFailure>
+                  >(this, Invocation.method(#getAuthConfig, [])),
+                ),
+          )
+          as _i39.Future<_i45.Result<_i79.AuthConfig, _i46.ApiFailure>>);
 }
 
 /// A class which mocks [FamilyRepository].
@@ -5699,64 +6161,67 @@ class MockFamilyRepository extends _i1.Mock implements _i36.FamilyRepository {
   @override
   _i39.Future<_i45.Result<_i32.Family?, _i46.ApiFailure>> getCurrentFamily() =>
       (super.noSuchMethod(
-        Invocation.method(#getCurrentFamily, []),
-        returnValue:
-            _i39.Future<_i45.Result<_i32.Family?, _i46.ApiFailure>>.value(
-          _i42.dummyValue<_i45.Result<_i32.Family?, _i46.ApiFailure>>(
-            this,
             Invocation.method(#getCurrentFamily, []),
-          ),
-        ),
-        returnValueForMissingStub:
-            _i39.Future<_i45.Result<_i32.Family?, _i46.ApiFailure>>.value(
-          _i42.dummyValue<_i45.Result<_i32.Family?, _i46.ApiFailure>>(
-            this,
-            Invocation.method(#getCurrentFamily, []),
-          ),
-        ),
-      ) as _i39.Future<_i45.Result<_i32.Family?, _i46.ApiFailure>>);
+            returnValue:
+                _i39.Future<_i45.Result<_i32.Family?, _i46.ApiFailure>>.value(
+                  _i42.dummyValue<_i45.Result<_i32.Family?, _i46.ApiFailure>>(
+                    this,
+                    Invocation.method(#getCurrentFamily, []),
+                  ),
+                ),
+            returnValueForMissingStub:
+                _i39.Future<_i45.Result<_i32.Family?, _i46.ApiFailure>>.value(
+                  _i42.dummyValue<_i45.Result<_i32.Family?, _i46.ApiFailure>>(
+                    this,
+                    Invocation.method(#getCurrentFamily, []),
+                  ),
+                ),
+          )
+          as _i39.Future<_i45.Result<_i32.Family?, _i46.ApiFailure>>);
 
   @override
   _i39.Future<_i45.Result<_i32.Family?, _i46.ApiFailure>> getFamily() =>
       (super.noSuchMethod(
-        Invocation.method(#getFamily, []),
-        returnValue:
-            _i39.Future<_i45.Result<_i32.Family?, _i46.ApiFailure>>.value(
-          _i42.dummyValue<_i45.Result<_i32.Family?, _i46.ApiFailure>>(
-            this,
             Invocation.method(#getFamily, []),
-          ),
-        ),
-        returnValueForMissingStub:
-            _i39.Future<_i45.Result<_i32.Family?, _i46.ApiFailure>>.value(
-          _i42.dummyValue<_i45.Result<_i32.Family?, _i46.ApiFailure>>(
-            this,
-            Invocation.method(#getFamily, []),
-          ),
-        ),
-      ) as _i39.Future<_i45.Result<_i32.Family?, _i46.ApiFailure>>);
+            returnValue:
+                _i39.Future<_i45.Result<_i32.Family?, _i46.ApiFailure>>.value(
+                  _i42.dummyValue<_i45.Result<_i32.Family?, _i46.ApiFailure>>(
+                    this,
+                    Invocation.method(#getFamily, []),
+                  ),
+                ),
+            returnValueForMissingStub:
+                _i39.Future<_i45.Result<_i32.Family?, _i46.ApiFailure>>.value(
+                  _i42.dummyValue<_i45.Result<_i32.Family?, _i46.ApiFailure>>(
+                    this,
+                    Invocation.method(#getFamily, []),
+                  ),
+                ),
+          )
+          as _i39.Future<_i45.Result<_i32.Family?, _i46.ApiFailure>>);
 
   @override
   _i39.Future<_i45.Result<_i32.Family, _i46.ApiFailure>> createFamily({
     required String? name,
   }) =>
       (super.noSuchMethod(
-        Invocation.method(#createFamily, [], {#name: name}),
-        returnValue:
-            _i39.Future<_i45.Result<_i32.Family, _i46.ApiFailure>>.value(
-          _i42.dummyValue<_i45.Result<_i32.Family, _i46.ApiFailure>>(
-            this,
             Invocation.method(#createFamily, [], {#name: name}),
-          ),
-        ),
-        returnValueForMissingStub:
-            _i39.Future<_i45.Result<_i32.Family, _i46.ApiFailure>>.value(
-          _i42.dummyValue<_i45.Result<_i32.Family, _i46.ApiFailure>>(
-            this,
-            Invocation.method(#createFamily, [], {#name: name}),
-          ),
-        ),
-      ) as _i39.Future<_i45.Result<_i32.Family, _i46.ApiFailure>>);
+            returnValue:
+                _i39.Future<_i45.Result<_i32.Family, _i46.ApiFailure>>.value(
+                  _i42.dummyValue<_i45.Result<_i32.Family, _i46.ApiFailure>>(
+                    this,
+                    Invocation.method(#createFamily, [], {#name: name}),
+                  ),
+                ),
+            returnValueForMissingStub:
+                _i39.Future<_i45.Result<_i32.Family, _i46.ApiFailure>>.value(
+                  _i42.dummyValue<_i45.Result<_i32.Family, _i46.ApiFailure>>(
+                    this,
+                    Invocation.method(#createFamily, [], {#name: name}),
+                  ),
+                ),
+          )
+          as _i39.Future<_i45.Result<_i32.Family, _i46.ApiFailure>>);
 
   @override
   _i39.Future<_i45.Result<_i32.Family, _i46.ApiFailure>> updateFamilyName({
@@ -5764,183 +6229,213 @@ class MockFamilyRepository extends _i1.Mock implements _i36.FamilyRepository {
     required String? name,
   }) =>
       (super.noSuchMethod(
-        Invocation.method(#updateFamilyName, [], {
-          #familyId: familyId,
-          #name: name,
-        }),
-        returnValue:
-            _i39.Future<_i45.Result<_i32.Family, _i46.ApiFailure>>.value(
-          _i42.dummyValue<_i45.Result<_i32.Family, _i46.ApiFailure>>(
-            this,
             Invocation.method(#updateFamilyName, [], {
               #familyId: familyId,
               #name: name,
             }),
-          ),
-        ),
-        returnValueForMissingStub:
-            _i39.Future<_i45.Result<_i32.Family, _i46.ApiFailure>>.value(
-          _i42.dummyValue<_i45.Result<_i32.Family, _i46.ApiFailure>>(
-            this,
-            Invocation.method(#updateFamilyName, [], {
-              #familyId: familyId,
-              #name: name,
-            }),
-          ),
-        ),
-      ) as _i39.Future<_i45.Result<_i32.Family, _i46.ApiFailure>>);
+            returnValue:
+                _i39.Future<_i45.Result<_i32.Family, _i46.ApiFailure>>.value(
+                  _i42.dummyValue<_i45.Result<_i32.Family, _i46.ApiFailure>>(
+                    this,
+                    Invocation.method(#updateFamilyName, [], {
+                      #familyId: familyId,
+                      #name: name,
+                    }),
+                  ),
+                ),
+            returnValueForMissingStub:
+                _i39.Future<_i45.Result<_i32.Family, _i46.ApiFailure>>.value(
+                  _i42.dummyValue<_i45.Result<_i32.Family, _i46.ApiFailure>>(
+                    this,
+                    Invocation.method(#updateFamilyName, [], {
+                      #familyId: familyId,
+                      #name: name,
+                    }),
+                  ),
+                ),
+          )
+          as _i39.Future<_i45.Result<_i32.Family, _i46.ApiFailure>>);
 
   @override
   _i39.Future<_i45.Result<void, _i46.ApiFailure>> leaveFamily({
     required String? familyId,
   }) =>
       (super.noSuchMethod(
-        Invocation.method(#leaveFamily, [], {#familyId: familyId}),
-        returnValue: _i39.Future<_i45.Result<void, _i46.ApiFailure>>.value(
-          _i42.dummyValue<_i45.Result<void, _i46.ApiFailure>>(
-            this,
             Invocation.method(#leaveFamily, [], {#familyId: familyId}),
-          ),
-        ),
-        returnValueForMissingStub:
-            _i39.Future<_i45.Result<void, _i46.ApiFailure>>.value(
-          _i42.dummyValue<_i45.Result<void, _i46.ApiFailure>>(
-            this,
-            Invocation.method(#leaveFamily, [], {#familyId: familyId}),
-          ),
-        ),
-      ) as _i39.Future<_i45.Result<void, _i46.ApiFailure>>);
+            returnValue: _i39.Future<_i45.Result<void, _i46.ApiFailure>>.value(
+              _i42.dummyValue<_i45.Result<void, _i46.ApiFailure>>(
+                this,
+                Invocation.method(#leaveFamily, [], {#familyId: familyId}),
+              ),
+            ),
+            returnValueForMissingStub:
+                _i39.Future<_i45.Result<void, _i46.ApiFailure>>.value(
+                  _i42.dummyValue<_i45.Result<void, _i46.ApiFailure>>(
+                    this,
+                    Invocation.method(#leaveFamily, [], {#familyId: familyId}),
+                  ),
+                ),
+          )
+          as _i39.Future<_i45.Result<void, _i46.ApiFailure>>);
 
   @override
-  _i39.Future<
-      _i45.Result<_i32.FamilyInvitationValidation,
-          _i46.ApiFailure>> validateInvitation({required String? inviteCode}) =>
+  _i39.Future<_i45.Result<_i32.FamilyInvitationValidation, _i46.ApiFailure>>
+  validateInvitation({required String? inviteCode}) =>
       (super.noSuchMethod(
-        Invocation.method(#validateInvitation, [], {
-          #inviteCode: inviteCode,
-        }),
-        returnValue: _i39.Future<
-            _i45
-            .Result<_i32.FamilyInvitationValidation, _i46.ApiFailure>>.value(
-          _i42.dummyValue<
-              _i45.Result<_i32.FamilyInvitationValidation, _i46.ApiFailure>>(
-            this,
             Invocation.method(#validateInvitation, [], {
               #inviteCode: inviteCode,
             }),
-          ),
-        ),
-        returnValueForMissingStub: _i39.Future<
-            _i45
-            .Result<_i32.FamilyInvitationValidation, _i46.ApiFailure>>.value(
-          _i42.dummyValue<
-              _i45.Result<_i32.FamilyInvitationValidation, _i46.ApiFailure>>(
-            this,
-            Invocation.method(#validateInvitation, [], {
-              #inviteCode: inviteCode,
-            }),
-          ),
-        ),
-      ) as _i39.Future<
-          _i45.Result<_i32.FamilyInvitationValidation, _i46.ApiFailure>>);
+            returnValue:
+                _i39.Future<
+                  _i45.Result<_i32.FamilyInvitationValidation, _i46.ApiFailure>
+                >.value(
+                  _i42.dummyValue<
+                    _i45.Result<
+                      _i32.FamilyInvitationValidation,
+                      _i46.ApiFailure
+                    >
+                  >(
+                    this,
+                    Invocation.method(#validateInvitation, [], {
+                      #inviteCode: inviteCode,
+                    }),
+                  ),
+                ),
+            returnValueForMissingStub:
+                _i39.Future<
+                  _i45.Result<_i32.FamilyInvitationValidation, _i46.ApiFailure>
+                >.value(
+                  _i42.dummyValue<
+                    _i45.Result<
+                      _i32.FamilyInvitationValidation,
+                      _i46.ApiFailure
+                    >
+                  >(
+                    this,
+                    Invocation.method(#validateInvitation, [], {
+                      #inviteCode: inviteCode,
+                    }),
+                  ),
+                ),
+          )
+          as _i39.Future<
+            _i45.Result<_i32.FamilyInvitationValidation, _i46.ApiFailure>
+          >);
 
   @override
   _i39.Future<_i45.Result<_i32.Family, _i46.ApiFailure>> joinFamily({
     required String? inviteCode,
   }) =>
       (super.noSuchMethod(
-        Invocation.method(#joinFamily, [], {#inviteCode: inviteCode}),
-        returnValue:
-            _i39.Future<_i45.Result<_i32.Family, _i46.ApiFailure>>.value(
-          _i42.dummyValue<_i45.Result<_i32.Family, _i46.ApiFailure>>(
-            this,
-            Invocation.method(#joinFamily, [], {
-              #inviteCode: inviteCode,
-            }),
-          ),
-        ),
-        returnValueForMissingStub:
-            _i39.Future<_i45.Result<_i32.Family, _i46.ApiFailure>>.value(
-          _i42.dummyValue<_i45.Result<_i32.Family, _i46.ApiFailure>>(
-            this,
-            Invocation.method(#joinFamily, [], {
-              #inviteCode: inviteCode,
-            }),
-          ),
-        ),
-      ) as _i39.Future<_i45.Result<_i32.Family, _i46.ApiFailure>>);
+            Invocation.method(#joinFamily, [], {#inviteCode: inviteCode}),
+            returnValue:
+                _i39.Future<_i45.Result<_i32.Family, _i46.ApiFailure>>.value(
+                  _i42.dummyValue<_i45.Result<_i32.Family, _i46.ApiFailure>>(
+                    this,
+                    Invocation.method(#joinFamily, [], {
+                      #inviteCode: inviteCode,
+                    }),
+                  ),
+                ),
+            returnValueForMissingStub:
+                _i39.Future<_i45.Result<_i32.Family, _i46.ApiFailure>>.value(
+                  _i42.dummyValue<_i45.Result<_i32.Family, _i46.ApiFailure>>(
+                    this,
+                    Invocation.method(#joinFamily, [], {
+                      #inviteCode: inviteCode,
+                    }),
+                  ),
+                ),
+          )
+          as _i39.Future<_i45.Result<_i32.Family, _i46.ApiFailure>>);
 
   @override
-  _i39.Future<
-      _i45.Result<_i32.FamilyInvitation, _i46.ApiFailure>> inviteMember({
+  _i39.Future<_i45.Result<_i32.FamilyInvitation, _i46.ApiFailure>>
+  inviteMember({
     required String? familyId,
     required String? email,
     required String? role,
     String? personalMessage,
   }) =>
       (super.noSuchMethod(
-        Invocation.method(#inviteMember, [], {
-          #familyId: familyId,
-          #email: email,
-          #role: role,
-          #personalMessage: personalMessage,
-        }),
-        returnValue: _i39
-            .Future<_i45.Result<_i32.FamilyInvitation, _i46.ApiFailure>>.value(
-          _i42.dummyValue<_i45.Result<_i32.FamilyInvitation, _i46.ApiFailure>>(
-            this,
             Invocation.method(#inviteMember, [], {
               #familyId: familyId,
               #email: email,
               #role: role,
               #personalMessage: personalMessage,
             }),
-          ),
-        ),
-        returnValueForMissingStub: _i39
-            .Future<_i45.Result<_i32.FamilyInvitation, _i46.ApiFailure>>.value(
-          _i42.dummyValue<_i45.Result<_i32.FamilyInvitation, _i46.ApiFailure>>(
-            this,
-            Invocation.method(#inviteMember, [], {
-              #familyId: familyId,
-              #email: email,
-              #role: role,
-              #personalMessage: personalMessage,
-            }),
-          ),
-        ),
-      ) as _i39.Future<_i45.Result<_i32.FamilyInvitation, _i46.ApiFailure>>);
+            returnValue:
+                _i39.Future<
+                  _i45.Result<_i32.FamilyInvitation, _i46.ApiFailure>
+                >.value(
+                  _i42.dummyValue<
+                    _i45.Result<_i32.FamilyInvitation, _i46.ApiFailure>
+                  >(
+                    this,
+                    Invocation.method(#inviteMember, [], {
+                      #familyId: familyId,
+                      #email: email,
+                      #role: role,
+                      #personalMessage: personalMessage,
+                    }),
+                  ),
+                ),
+            returnValueForMissingStub:
+                _i39.Future<
+                  _i45.Result<_i32.FamilyInvitation, _i46.ApiFailure>
+                >.value(
+                  _i42.dummyValue<
+                    _i45.Result<_i32.FamilyInvitation, _i46.ApiFailure>
+                  >(
+                    this,
+                    Invocation.method(#inviteMember, [], {
+                      #familyId: familyId,
+                      #email: email,
+                      #role: role,
+                      #personalMessage: personalMessage,
+                    }),
+                  ),
+                ),
+          )
+          as _i39.Future<_i45.Result<_i32.FamilyInvitation, _i46.ApiFailure>>);
 
   @override
   _i39.Future<_i45.Result<List<_i32.FamilyInvitation>, _i46.ApiFailure>>
-      getPendingInvitations({required String? familyId}) => (super.noSuchMethod(
+  getPendingInvitations({required String? familyId}) =>
+      (super.noSuchMethod(
             Invocation.method(#getPendingInvitations, [], {
               #familyId: familyId,
             }),
-            returnValue: _i39.Future<
-                _i45
-                .Result<List<_i32.FamilyInvitation>, _i46.ApiFailure>>.value(
-              _i42.dummyValue<
-                  _i45.Result<List<_i32.FamilyInvitation>, _i46.ApiFailure>>(
-                this,
-                Invocation.method(#getPendingInvitations, [], {
-                  #familyId: familyId,
-                }),
-              ),
-            ),
-            returnValueForMissingStub: _i39.Future<
-                _i45
-                .Result<List<_i32.FamilyInvitation>, _i46.ApiFailure>>.value(
-              _i42.dummyValue<
-                  _i45.Result<List<_i32.FamilyInvitation>, _i46.ApiFailure>>(
-                this,
-                Invocation.method(#getPendingInvitations, [], {
-                  #familyId: familyId,
-                }),
-              ),
-            ),
-          ) as _i39.Future<
-              _i45.Result<List<_i32.FamilyInvitation>, _i46.ApiFailure>>);
+            returnValue:
+                _i39.Future<
+                  _i45.Result<List<_i32.FamilyInvitation>, _i46.ApiFailure>
+                >.value(
+                  _i42.dummyValue<
+                    _i45.Result<List<_i32.FamilyInvitation>, _i46.ApiFailure>
+                  >(
+                    this,
+                    Invocation.method(#getPendingInvitations, [], {
+                      #familyId: familyId,
+                    }),
+                  ),
+                ),
+            returnValueForMissingStub:
+                _i39.Future<
+                  _i45.Result<List<_i32.FamilyInvitation>, _i46.ApiFailure>
+                >.value(
+                  _i42.dummyValue<
+                    _i45.Result<List<_i32.FamilyInvitation>, _i46.ApiFailure>
+                  >(
+                    this,
+                    Invocation.method(#getPendingInvitations, [], {
+                      #familyId: familyId,
+                    }),
+                  ),
+                ),
+          )
+          as _i39.Future<
+            _i45.Result<List<_i32.FamilyInvitation>, _i46.ApiFailure>
+          >);
 
   @override
   _i39.Future<_i45.Result<void, _i46.ApiFailure>> cancelInvitation({
@@ -5948,67 +6443,77 @@ class MockFamilyRepository extends _i1.Mock implements _i36.FamilyRepository {
     required String? invitationId,
   }) =>
       (super.noSuchMethod(
-        Invocation.method(#cancelInvitation, [], {
-          #familyId: familyId,
-          #invitationId: invitationId,
-        }),
-        returnValue: _i39.Future<_i45.Result<void, _i46.ApiFailure>>.value(
-          _i42.dummyValue<_i45.Result<void, _i46.ApiFailure>>(
-            this,
             Invocation.method(#cancelInvitation, [], {
               #familyId: familyId,
               #invitationId: invitationId,
             }),
-          ),
-        ),
-        returnValueForMissingStub:
-            _i39.Future<_i45.Result<void, _i46.ApiFailure>>.value(
-          _i42.dummyValue<_i45.Result<void, _i46.ApiFailure>>(
-            this,
-            Invocation.method(#cancelInvitation, [], {
-              #familyId: familyId,
-              #invitationId: invitationId,
-            }),
-          ),
-        ),
-      ) as _i39.Future<_i45.Result<void, _i46.ApiFailure>>);
+            returnValue: _i39.Future<_i45.Result<void, _i46.ApiFailure>>.value(
+              _i42.dummyValue<_i45.Result<void, _i46.ApiFailure>>(
+                this,
+                Invocation.method(#cancelInvitation, [], {
+                  #familyId: familyId,
+                  #invitationId: invitationId,
+                }),
+              ),
+            ),
+            returnValueForMissingStub:
+                _i39.Future<_i45.Result<void, _i46.ApiFailure>>.value(
+                  _i42.dummyValue<_i45.Result<void, _i46.ApiFailure>>(
+                    this,
+                    Invocation.method(#cancelInvitation, [], {
+                      #familyId: familyId,
+                      #invitationId: invitationId,
+                    }),
+                  ),
+                ),
+          )
+          as _i39.Future<_i45.Result<void, _i46.ApiFailure>>);
 
   @override
-  _i39.Future<
-      _i45.Result<_i32.FamilyMember, _i46.ApiFailure>> updateMemberRole({
+  _i39.Future<_i45.Result<_i32.FamilyMember, _i46.ApiFailure>>
+  updateMemberRole({
     required String? familyId,
     required String? memberId,
     required String? role,
   }) =>
       (super.noSuchMethod(
-        Invocation.method(#updateMemberRole, [], {
-          #familyId: familyId,
-          #memberId: memberId,
-          #role: role,
-        }),
-        returnValue:
-            _i39.Future<_i45.Result<_i32.FamilyMember, _i46.ApiFailure>>.value(
-          _i42.dummyValue<_i45.Result<_i32.FamilyMember, _i46.ApiFailure>>(
-            this,
             Invocation.method(#updateMemberRole, [], {
               #familyId: familyId,
               #memberId: memberId,
               #role: role,
             }),
-          ),
-        ),
-        returnValueForMissingStub:
-            _i39.Future<_i45.Result<_i32.FamilyMember, _i46.ApiFailure>>.value(
-          _i42.dummyValue<_i45.Result<_i32.FamilyMember, _i46.ApiFailure>>(
-            this,
-            Invocation.method(#updateMemberRole, [], {
-              #familyId: familyId,
-              #memberId: memberId,
-              #role: role,
-            }),
-          ),
-        ),
-      ) as _i39.Future<_i45.Result<_i32.FamilyMember, _i46.ApiFailure>>);
+            returnValue:
+                _i39.Future<
+                  _i45.Result<_i32.FamilyMember, _i46.ApiFailure>
+                >.value(
+                  _i42.dummyValue<
+                    _i45.Result<_i32.FamilyMember, _i46.ApiFailure>
+                  >(
+                    this,
+                    Invocation.method(#updateMemberRole, [], {
+                      #familyId: familyId,
+                      #memberId: memberId,
+                      #role: role,
+                    }),
+                  ),
+                ),
+            returnValueForMissingStub:
+                _i39.Future<
+                  _i45.Result<_i32.FamilyMember, _i46.ApiFailure>
+                >.value(
+                  _i42.dummyValue<
+                    _i45.Result<_i32.FamilyMember, _i46.ApiFailure>
+                  >(
+                    this,
+                    Invocation.method(#updateMemberRole, [], {
+                      #familyId: familyId,
+                      #memberId: memberId,
+                      #role: role,
+                    }),
+                  ),
+                ),
+          )
+          as _i39.Future<_i45.Result<_i32.FamilyMember, _i46.ApiFailure>>);
 
   @override
   _i39.Future<_i45.Result<void, _i46.ApiFailure>> removeMember({
@@ -6016,30 +6521,31 @@ class MockFamilyRepository extends _i1.Mock implements _i36.FamilyRepository {
     required String? memberId,
   }) =>
       (super.noSuchMethod(
-        Invocation.method(#removeMember, [], {
-          #familyId: familyId,
-          #memberId: memberId,
-        }),
-        returnValue: _i39.Future<_i45.Result<void, _i46.ApiFailure>>.value(
-          _i42.dummyValue<_i45.Result<void, _i46.ApiFailure>>(
-            this,
             Invocation.method(#removeMember, [], {
               #familyId: familyId,
               #memberId: memberId,
             }),
-          ),
-        ),
-        returnValueForMissingStub:
-            _i39.Future<_i45.Result<void, _i46.ApiFailure>>.value(
-          _i42.dummyValue<_i45.Result<void, _i46.ApiFailure>>(
-            this,
-            Invocation.method(#removeMember, [], {
-              #familyId: familyId,
-              #memberId: memberId,
-            }),
-          ),
-        ),
-      ) as _i39.Future<_i45.Result<void, _i46.ApiFailure>>);
+            returnValue: _i39.Future<_i45.Result<void, _i46.ApiFailure>>.value(
+              _i42.dummyValue<_i45.Result<void, _i46.ApiFailure>>(
+                this,
+                Invocation.method(#removeMember, [], {
+                  #familyId: familyId,
+                  #memberId: memberId,
+                }),
+              ),
+            ),
+            returnValueForMissingStub:
+                _i39.Future<_i45.Result<void, _i46.ApiFailure>>.value(
+                  _i42.dummyValue<_i45.Result<void, _i46.ApiFailure>>(
+                    this,
+                    Invocation.method(#removeMember, [], {
+                      #familyId: familyId,
+                      #memberId: memberId,
+                    }),
+                  ),
+                ),
+          )
+          as _i39.Future<_i45.Result<void, _i46.ApiFailure>>);
 
   @override
   _i39.Future<_i45.Result<_i32.Child, _i46.ApiFailure>> addChildFromRequest(
@@ -6047,28 +6553,29 @@ class MockFamilyRepository extends _i1.Mock implements _i36.FamilyRepository {
     _i80.CreateChildRequest? request,
   ) =>
       (super.noSuchMethod(
-        Invocation.method(#addChildFromRequest, [familyId, request]),
-        returnValue:
-            _i39.Future<_i45.Result<_i32.Child, _i46.ApiFailure>>.value(
-          _i42.dummyValue<_i45.Result<_i32.Child, _i46.ApiFailure>>(
-            this,
-            Invocation.method(#addChildFromRequest, [
-              familyId,
-              request,
-            ]),
-          ),
-        ),
-        returnValueForMissingStub:
-            _i39.Future<_i45.Result<_i32.Child, _i46.ApiFailure>>.value(
-          _i42.dummyValue<_i45.Result<_i32.Child, _i46.ApiFailure>>(
-            this,
-            Invocation.method(#addChildFromRequest, [
-              familyId,
-              request,
-            ]),
-          ),
-        ),
-      ) as _i39.Future<_i45.Result<_i32.Child, _i46.ApiFailure>>);
+            Invocation.method(#addChildFromRequest, [familyId, request]),
+            returnValue:
+                _i39.Future<_i45.Result<_i32.Child, _i46.ApiFailure>>.value(
+                  _i42.dummyValue<_i45.Result<_i32.Child, _i46.ApiFailure>>(
+                    this,
+                    Invocation.method(#addChildFromRequest, [
+                      familyId,
+                      request,
+                    ]),
+                  ),
+                ),
+            returnValueForMissingStub:
+                _i39.Future<_i45.Result<_i32.Child, _i46.ApiFailure>>.value(
+                  _i42.dummyValue<_i45.Result<_i32.Child, _i46.ApiFailure>>(
+                    this,
+                    Invocation.method(#addChildFromRequest, [
+                      familyId,
+                      request,
+                    ]),
+                  ),
+                ),
+          )
+          as _i39.Future<_i45.Result<_i32.Child, _i46.ApiFailure>>);
 
   @override
   _i39.Future<_i45.Result<_i32.Child, _i46.ApiFailure>> updateChildFromRequest(
@@ -6077,34 +6584,35 @@ class MockFamilyRepository extends _i1.Mock implements _i36.FamilyRepository {
     _i80.UpdateChildRequest? request,
   ) =>
       (super.noSuchMethod(
-        Invocation.method(#updateChildFromRequest, [
-          familyId,
-          childId,
-          request,
-        ]),
-        returnValue:
-            _i39.Future<_i45.Result<_i32.Child, _i46.ApiFailure>>.value(
-          _i42.dummyValue<_i45.Result<_i32.Child, _i46.ApiFailure>>(
-            this,
             Invocation.method(#updateChildFromRequest, [
               familyId,
               childId,
               request,
             ]),
-          ),
-        ),
-        returnValueForMissingStub:
-            _i39.Future<_i45.Result<_i32.Child, _i46.ApiFailure>>.value(
-          _i42.dummyValue<_i45.Result<_i32.Child, _i46.ApiFailure>>(
-            this,
-            Invocation.method(#updateChildFromRequest, [
-              familyId,
-              childId,
-              request,
-            ]),
-          ),
-        ),
-      ) as _i39.Future<_i45.Result<_i32.Child, _i46.ApiFailure>>);
+            returnValue:
+                _i39.Future<_i45.Result<_i32.Child, _i46.ApiFailure>>.value(
+                  _i42.dummyValue<_i45.Result<_i32.Child, _i46.ApiFailure>>(
+                    this,
+                    Invocation.method(#updateChildFromRequest, [
+                      familyId,
+                      childId,
+                      request,
+                    ]),
+                  ),
+                ),
+            returnValueForMissingStub:
+                _i39.Future<_i45.Result<_i32.Child, _i46.ApiFailure>>.value(
+                  _i42.dummyValue<_i45.Result<_i32.Child, _i46.ApiFailure>>(
+                    this,
+                    Invocation.method(#updateChildFromRequest, [
+                      familyId,
+                      childId,
+                      request,
+                    ]),
+                  ),
+                ),
+          )
+          as _i39.Future<_i45.Result<_i32.Child, _i46.ApiFailure>>);
 
   @override
   _i39.Future<_i45.Result<void, _i46.ApiFailure>> deleteChild({
@@ -6112,30 +6620,31 @@ class MockFamilyRepository extends _i1.Mock implements _i36.FamilyRepository {
     required String? childId,
   }) =>
       (super.noSuchMethod(
-        Invocation.method(#deleteChild, [], {
-          #familyId: familyId,
-          #childId: childId,
-        }),
-        returnValue: _i39.Future<_i45.Result<void, _i46.ApiFailure>>.value(
-          _i42.dummyValue<_i45.Result<void, _i46.ApiFailure>>(
-            this,
             Invocation.method(#deleteChild, [], {
               #familyId: familyId,
               #childId: childId,
             }),
-          ),
-        ),
-        returnValueForMissingStub:
-            _i39.Future<_i45.Result<void, _i46.ApiFailure>>.value(
-          _i42.dummyValue<_i45.Result<void, _i46.ApiFailure>>(
-            this,
-            Invocation.method(#deleteChild, [], {
-              #familyId: familyId,
-              #childId: childId,
-            }),
-          ),
-        ),
-      ) as _i39.Future<_i45.Result<void, _i46.ApiFailure>>);
+            returnValue: _i39.Future<_i45.Result<void, _i46.ApiFailure>>.value(
+              _i42.dummyValue<_i45.Result<void, _i46.ApiFailure>>(
+                this,
+                Invocation.method(#deleteChild, [], {
+                  #familyId: familyId,
+                  #childId: childId,
+                }),
+              ),
+            ),
+            returnValueForMissingStub:
+                _i39.Future<_i45.Result<void, _i46.ApiFailure>>.value(
+                  _i42.dummyValue<_i45.Result<void, _i46.ApiFailure>>(
+                    this,
+                    Invocation.method(#deleteChild, [], {
+                      #familyId: familyId,
+                      #childId: childId,
+                    }),
+                  ),
+                ),
+          )
+          as _i39.Future<_i45.Result<void, _i46.ApiFailure>>);
 
   @override
   _i39.Future<_i45.Result<_i32.Vehicle, _i46.ApiFailure>> addVehicle({
@@ -6144,34 +6653,35 @@ class MockFamilyRepository extends _i1.Mock implements _i36.FamilyRepository {
     String? description,
   }) =>
       (super.noSuchMethod(
-        Invocation.method(#addVehicle, [], {
-          #name: name,
-          #capacity: capacity,
-          #description: description,
-        }),
-        returnValue:
-            _i39.Future<_i45.Result<_i32.Vehicle, _i46.ApiFailure>>.value(
-          _i42.dummyValue<_i45.Result<_i32.Vehicle, _i46.ApiFailure>>(
-            this,
             Invocation.method(#addVehicle, [], {
               #name: name,
               #capacity: capacity,
               #description: description,
             }),
-          ),
-        ),
-        returnValueForMissingStub:
-            _i39.Future<_i45.Result<_i32.Vehicle, _i46.ApiFailure>>.value(
-          _i42.dummyValue<_i45.Result<_i32.Vehicle, _i46.ApiFailure>>(
-            this,
-            Invocation.method(#addVehicle, [], {
-              #name: name,
-              #capacity: capacity,
-              #description: description,
-            }),
-          ),
-        ),
-      ) as _i39.Future<_i45.Result<_i32.Vehicle, _i46.ApiFailure>>);
+            returnValue:
+                _i39.Future<_i45.Result<_i32.Vehicle, _i46.ApiFailure>>.value(
+                  _i42.dummyValue<_i45.Result<_i32.Vehicle, _i46.ApiFailure>>(
+                    this,
+                    Invocation.method(#addVehicle, [], {
+                      #name: name,
+                      #capacity: capacity,
+                      #description: description,
+                    }),
+                  ),
+                ),
+            returnValueForMissingStub:
+                _i39.Future<_i45.Result<_i32.Vehicle, _i46.ApiFailure>>.value(
+                  _i42.dummyValue<_i45.Result<_i32.Vehicle, _i46.ApiFailure>>(
+                    this,
+                    Invocation.method(#addVehicle, [], {
+                      #name: name,
+                      #capacity: capacity,
+                      #description: description,
+                    }),
+                  ),
+                ),
+          )
+          as _i39.Future<_i45.Result<_i32.Vehicle, _i46.ApiFailure>>);
 
   @override
   _i39.Future<_i45.Result<_i32.Vehicle, _i46.ApiFailure>> updateVehicle({
@@ -6181,60 +6691,62 @@ class MockFamilyRepository extends _i1.Mock implements _i36.FamilyRepository {
     String? description,
   }) =>
       (super.noSuchMethod(
-        Invocation.method(#updateVehicle, [], {
-          #vehicleId: vehicleId,
-          #name: name,
-          #capacity: capacity,
-          #description: description,
-        }),
-        returnValue:
-            _i39.Future<_i45.Result<_i32.Vehicle, _i46.ApiFailure>>.value(
-          _i42.dummyValue<_i45.Result<_i32.Vehicle, _i46.ApiFailure>>(
-            this,
             Invocation.method(#updateVehicle, [], {
               #vehicleId: vehicleId,
               #name: name,
               #capacity: capacity,
               #description: description,
             }),
-          ),
-        ),
-        returnValueForMissingStub:
-            _i39.Future<_i45.Result<_i32.Vehicle, _i46.ApiFailure>>.value(
-          _i42.dummyValue<_i45.Result<_i32.Vehicle, _i46.ApiFailure>>(
-            this,
-            Invocation.method(#updateVehicle, [], {
-              #vehicleId: vehicleId,
-              #name: name,
-              #capacity: capacity,
-              #description: description,
-            }),
-          ),
-        ),
-      ) as _i39.Future<_i45.Result<_i32.Vehicle, _i46.ApiFailure>>);
+            returnValue:
+                _i39.Future<_i45.Result<_i32.Vehicle, _i46.ApiFailure>>.value(
+                  _i42.dummyValue<_i45.Result<_i32.Vehicle, _i46.ApiFailure>>(
+                    this,
+                    Invocation.method(#updateVehicle, [], {
+                      #vehicleId: vehicleId,
+                      #name: name,
+                      #capacity: capacity,
+                      #description: description,
+                    }),
+                  ),
+                ),
+            returnValueForMissingStub:
+                _i39.Future<_i45.Result<_i32.Vehicle, _i46.ApiFailure>>.value(
+                  _i42.dummyValue<_i45.Result<_i32.Vehicle, _i46.ApiFailure>>(
+                    this,
+                    Invocation.method(#updateVehicle, [], {
+                      #vehicleId: vehicleId,
+                      #name: name,
+                      #capacity: capacity,
+                      #description: description,
+                    }),
+                  ),
+                ),
+          )
+          as _i39.Future<_i45.Result<_i32.Vehicle, _i46.ApiFailure>>);
 
   @override
   _i39.Future<_i45.Result<void, _i46.ApiFailure>> deleteVehicle({
     required String? vehicleId,
   }) =>
       (super.noSuchMethod(
-        Invocation.method(#deleteVehicle, [], {#vehicleId: vehicleId}),
-        returnValue: _i39.Future<_i45.Result<void, _i46.ApiFailure>>.value(
-          _i42.dummyValue<_i45.Result<void, _i46.ApiFailure>>(
-            this,
             Invocation.method(#deleteVehicle, [], {#vehicleId: vehicleId}),
-          ),
-        ),
-        returnValueForMissingStub:
-            _i39.Future<_i45.Result<void, _i46.ApiFailure>>.value(
-          _i42.dummyValue<_i45.Result<void, _i46.ApiFailure>>(
-            this,
-            Invocation.method(#deleteVehicle, [], {
-              #vehicleId: vehicleId,
-            }),
-          ),
-        ),
-      ) as _i39.Future<_i45.Result<void, _i46.ApiFailure>>);
+            returnValue: _i39.Future<_i45.Result<void, _i46.ApiFailure>>.value(
+              _i42.dummyValue<_i45.Result<void, _i46.ApiFailure>>(
+                this,
+                Invocation.method(#deleteVehicle, [], {#vehicleId: vehicleId}),
+              ),
+            ),
+            returnValueForMissingStub:
+                _i39.Future<_i45.Result<void, _i46.ApiFailure>>.value(
+                  _i42.dummyValue<_i45.Result<void, _i46.ApiFailure>>(
+                    this,
+                    Invocation.method(#deleteVehicle, [], {
+                      #vehicleId: vehicleId,
+                    }),
+                  ),
+                ),
+          )
+          as _i39.Future<_i45.Result<void, _i46.ApiFailure>>);
 }
 
 /// A class which mocks [InvitationRepository].
@@ -6244,150 +6756,179 @@ class MockInvitationRepository extends _i1.Mock
     implements _i81.InvitationRepository {
   @override
   _i39.Future<_i45.Result<List<_i32.FamilyInvitation>, _i46.ApiFailure>>
-      getPendingInvitations({required String? familyId}) => (super.noSuchMethod(
+  getPendingInvitations({required String? familyId}) =>
+      (super.noSuchMethod(
             Invocation.method(#getPendingInvitations, [], {
               #familyId: familyId,
             }),
-            returnValue: _i39.Future<
-                _i45
-                .Result<List<_i32.FamilyInvitation>, _i46.ApiFailure>>.value(
-              _i42.dummyValue<
-                  _i45.Result<List<_i32.FamilyInvitation>, _i46.ApiFailure>>(
-                this,
-                Invocation.method(#getPendingInvitations, [], {
-                  #familyId: familyId,
-                }),
-              ),
-            ),
-            returnValueForMissingStub: _i39.Future<
-                _i45
-                .Result<List<_i32.FamilyInvitation>, _i46.ApiFailure>>.value(
-              _i42.dummyValue<
-                  _i45.Result<List<_i32.FamilyInvitation>, _i46.ApiFailure>>(
-                this,
-                Invocation.method(#getPendingInvitations, [], {
-                  #familyId: familyId,
-                }),
-              ),
-            ),
-          ) as _i39.Future<
-              _i45.Result<List<_i32.FamilyInvitation>, _i46.ApiFailure>>);
+            returnValue:
+                _i39.Future<
+                  _i45.Result<List<_i32.FamilyInvitation>, _i46.ApiFailure>
+                >.value(
+                  _i42.dummyValue<
+                    _i45.Result<List<_i32.FamilyInvitation>, _i46.ApiFailure>
+                  >(
+                    this,
+                    Invocation.method(#getPendingInvitations, [], {
+                      #familyId: familyId,
+                    }),
+                  ),
+                ),
+            returnValueForMissingStub:
+                _i39.Future<
+                  _i45.Result<List<_i32.FamilyInvitation>, _i46.ApiFailure>
+                >.value(
+                  _i42.dummyValue<
+                    _i45.Result<List<_i32.FamilyInvitation>, _i46.ApiFailure>
+                  >(
+                    this,
+                    Invocation.method(#getPendingInvitations, [], {
+                      #familyId: familyId,
+                    }),
+                  ),
+                ),
+          )
+          as _i39.Future<
+            _i45.Result<List<_i32.FamilyInvitation>, _i46.ApiFailure>
+          >);
 
   @override
-  _i39.Future<
-      _i45.Result<_i32.FamilyInvitation, _i82.InvitationFailure>> inviteMember({
+  _i39.Future<_i45.Result<_i32.FamilyInvitation, _i82.InvitationFailure>>
+  inviteMember({
     required String? familyId,
     required String? email,
     required String? role,
     String? personalMessage,
   }) =>
       (super.noSuchMethod(
-        Invocation.method(#inviteMember, [], {
-          #familyId: familyId,
-          #email: email,
-          #role: role,
-          #personalMessage: personalMessage,
-        }),
-        returnValue: _i39.Future<
-            _i45.Result<_i32.FamilyInvitation, _i82.InvitationFailure>>.value(
-          _i42.dummyValue<
-              _i45.Result<_i32.FamilyInvitation, _i82.InvitationFailure>>(
-            this,
             Invocation.method(#inviteMember, [], {
               #familyId: familyId,
               #email: email,
               #role: role,
               #personalMessage: personalMessage,
             }),
-          ),
-        ),
-        returnValueForMissingStub: _i39.Future<
-            _i45.Result<_i32.FamilyInvitation, _i82.InvitationFailure>>.value(
-          _i42.dummyValue<
-              _i45.Result<_i32.FamilyInvitation, _i82.InvitationFailure>>(
-            this,
-            Invocation.method(#inviteMember, [], {
-              #familyId: familyId,
-              #email: email,
-              #role: role,
-              #personalMessage: personalMessage,
-            }),
-          ),
-        ),
-      ) as _i39
-          .Future<_i45.Result<_i32.FamilyInvitation, _i82.InvitationFailure>>);
+            returnValue:
+                _i39.Future<
+                  _i45.Result<_i32.FamilyInvitation, _i82.InvitationFailure>
+                >.value(
+                  _i42.dummyValue<
+                    _i45.Result<_i32.FamilyInvitation, _i82.InvitationFailure>
+                  >(
+                    this,
+                    Invocation.method(#inviteMember, [], {
+                      #familyId: familyId,
+                      #email: email,
+                      #role: role,
+                      #personalMessage: personalMessage,
+                    }),
+                  ),
+                ),
+            returnValueForMissingStub:
+                _i39.Future<
+                  _i45.Result<_i32.FamilyInvitation, _i82.InvitationFailure>
+                >.value(
+                  _i42.dummyValue<
+                    _i45.Result<_i32.FamilyInvitation, _i82.InvitationFailure>
+                  >(
+                    this,
+                    Invocation.method(#inviteMember, [], {
+                      #familyId: familyId,
+                      #email: email,
+                      #role: role,
+                      #personalMessage: personalMessage,
+                    }),
+                  ),
+                ),
+          )
+          as _i39.Future<
+            _i45.Result<_i32.FamilyInvitation, _i82.InvitationFailure>
+          >);
 
   @override
-  _i39.Future<
-      _i45
-      .Result<_i32.FamilyInvitation, _i46.ApiFailure>> sendFamilyInvitation({
+  _i39.Future<_i45.Result<_i32.FamilyInvitation, _i46.ApiFailure>>
+  sendFamilyInvitation({
     required String? email,
     required String? familyId,
     String? message,
     String? role,
   }) =>
       (super.noSuchMethod(
-        Invocation.method(#sendFamilyInvitation, [], {
-          #email: email,
-          #familyId: familyId,
-          #message: message,
-          #role: role,
-        }),
-        returnValue: _i39
-            .Future<_i45.Result<_i32.FamilyInvitation, _i46.ApiFailure>>.value(
-          _i42.dummyValue<_i45.Result<_i32.FamilyInvitation, _i46.ApiFailure>>(
-            this,
             Invocation.method(#sendFamilyInvitation, [], {
               #email: email,
               #familyId: familyId,
               #message: message,
               #role: role,
             }),
-          ),
-        ),
-        returnValueForMissingStub: _i39
-            .Future<_i45.Result<_i32.FamilyInvitation, _i46.ApiFailure>>.value(
-          _i42.dummyValue<_i45.Result<_i32.FamilyInvitation, _i46.ApiFailure>>(
-            this,
-            Invocation.method(#sendFamilyInvitation, [], {
-              #email: email,
-              #familyId: familyId,
-              #message: message,
-              #role: role,
-            }),
-          ),
-        ),
-      ) as _i39.Future<_i45.Result<_i32.FamilyInvitation, _i46.ApiFailure>>);
+            returnValue:
+                _i39.Future<
+                  _i45.Result<_i32.FamilyInvitation, _i46.ApiFailure>
+                >.value(
+                  _i42.dummyValue<
+                    _i45.Result<_i32.FamilyInvitation, _i46.ApiFailure>
+                  >(
+                    this,
+                    Invocation.method(#sendFamilyInvitation, [], {
+                      #email: email,
+                      #familyId: familyId,
+                      #message: message,
+                      #role: role,
+                    }),
+                  ),
+                ),
+            returnValueForMissingStub:
+                _i39.Future<
+                  _i45.Result<_i32.FamilyInvitation, _i46.ApiFailure>
+                >.value(
+                  _i42.dummyValue<
+                    _i45.Result<_i32.FamilyInvitation, _i46.ApiFailure>
+                  >(
+                    this,
+                    Invocation.method(#sendFamilyInvitation, [], {
+                      #email: email,
+                      #familyId: familyId,
+                      #message: message,
+                      #role: role,
+                    }),
+                  ),
+                ),
+          )
+          as _i39.Future<_i45.Result<_i32.FamilyInvitation, _i46.ApiFailure>>);
 
   @override
   _i39.Future<_i45.Result<_i32.FamilyInvitation, _i46.ApiFailure>>
-      acceptFamilyInvitationByCode({required String? inviteCode}) =>
-          (super.noSuchMethod(
+  acceptFamilyInvitationByCode({required String? inviteCode}) =>
+      (super.noSuchMethod(
             Invocation.method(#acceptFamilyInvitationByCode, [], {
               #inviteCode: inviteCode,
             }),
-            returnValue: _i39.Future<
-                _i45.Result<_i32.FamilyInvitation, _i46.ApiFailure>>.value(
-              _i42.dummyValue<
-                  _i45.Result<_i32.FamilyInvitation, _i46.ApiFailure>>(
-                this,
-                Invocation.method(#acceptFamilyInvitationByCode, [], {
-                  #inviteCode: inviteCode,
-                }),
-              ),
-            ),
-            returnValueForMissingStub: _i39.Future<
-                _i45.Result<_i32.FamilyInvitation, _i46.ApiFailure>>.value(
-              _i42.dummyValue<
-                  _i45.Result<_i32.FamilyInvitation, _i46.ApiFailure>>(
-                this,
-                Invocation.method(#acceptFamilyInvitationByCode, [], {
-                  #inviteCode: inviteCode,
-                }),
-              ),
-            ),
-          ) as _i39
-              .Future<_i45.Result<_i32.FamilyInvitation, _i46.ApiFailure>>);
+            returnValue:
+                _i39.Future<
+                  _i45.Result<_i32.FamilyInvitation, _i46.ApiFailure>
+                >.value(
+                  _i42.dummyValue<
+                    _i45.Result<_i32.FamilyInvitation, _i46.ApiFailure>
+                  >(
+                    this,
+                    Invocation.method(#acceptFamilyInvitationByCode, [], {
+                      #inviteCode: inviteCode,
+                    }),
+                  ),
+                ),
+            returnValueForMissingStub:
+                _i39.Future<
+                  _i45.Result<_i32.FamilyInvitation, _i46.ApiFailure>
+                >.value(
+                  _i42.dummyValue<
+                    _i45.Result<_i32.FamilyInvitation, _i46.ApiFailure>
+                  >(
+                    this,
+                    Invocation.method(#acceptFamilyInvitationByCode, [], {
+                      #inviteCode: inviteCode,
+                    }),
+                  ),
+                ),
+          )
+          as _i39.Future<_i45.Result<_i32.FamilyInvitation, _i46.ApiFailure>>);
 
   @override
   _i39.Future<_i45.Result<void, _i46.ApiFailure>> cancelFamilyInvitation({
@@ -6395,86 +6936,103 @@ class MockInvitationRepository extends _i1.Mock
     required String? familyId,
   }) =>
       (super.noSuchMethod(
-        Invocation.method(#cancelFamilyInvitation, [], {
-          #invitationId: invitationId,
-          #familyId: familyId,
-        }),
-        returnValue: _i39.Future<_i45.Result<void, _i46.ApiFailure>>.value(
-          _i42.dummyValue<_i45.Result<void, _i46.ApiFailure>>(
-            this,
             Invocation.method(#cancelFamilyInvitation, [], {
               #invitationId: invitationId,
               #familyId: familyId,
             }),
-          ),
-        ),
-        returnValueForMissingStub:
-            _i39.Future<_i45.Result<void, _i46.ApiFailure>>.value(
-          _i42.dummyValue<_i45.Result<void, _i46.ApiFailure>>(
-            this,
-            Invocation.method(#cancelFamilyInvitation, [], {
-              #invitationId: invitationId,
-              #familyId: familyId,
-            }),
-          ),
-        ),
-      ) as _i39.Future<_i45.Result<void, _i46.ApiFailure>>);
+            returnValue: _i39.Future<_i45.Result<void, _i46.ApiFailure>>.value(
+              _i42.dummyValue<_i45.Result<void, _i46.ApiFailure>>(
+                this,
+                Invocation.method(#cancelFamilyInvitation, [], {
+                  #invitationId: invitationId,
+                  #familyId: familyId,
+                }),
+              ),
+            ),
+            returnValueForMissingStub:
+                _i39.Future<_i45.Result<void, _i46.ApiFailure>>.value(
+                  _i42.dummyValue<_i45.Result<void, _i46.ApiFailure>>(
+                    this,
+                    Invocation.method(#cancelFamilyInvitation, [], {
+                      #invitationId: invitationId,
+                      #familyId: familyId,
+                    }),
+                  ),
+                ),
+          )
+          as _i39.Future<_i45.Result<void, _i46.ApiFailure>>);
 
   @override
-  _i39.Future<_i45.Result<_i32.FamilyInvitation, _i46.ApiFailure>> joinWithCode(
-          {required String? code, String? role}) =>
+  _i39.Future<_i45.Result<_i32.FamilyInvitation, _i46.ApiFailure>>
+  joinWithCode({required String? code, String? role}) =>
       (super.noSuchMethod(
-        Invocation.method(#joinWithCode, [], {#code: code, #role: role}),
-        returnValue: _i39
-            .Future<_i45.Result<_i32.FamilyInvitation, _i46.ApiFailure>>.value(
-          _i42.dummyValue<_i45.Result<_i32.FamilyInvitation, _i46.ApiFailure>>(
-            this,
-            Invocation.method(#joinWithCode, [], {
-              #code: code,
-              #role: role,
-            }),
-          ),
-        ),
-        returnValueForMissingStub: _i39
-            .Future<_i45.Result<_i32.FamilyInvitation, _i46.ApiFailure>>.value(
-          _i42.dummyValue<_i45.Result<_i32.FamilyInvitation, _i46.ApiFailure>>(
-            this,
-            Invocation.method(#joinWithCode, [], {
-              #code: code,
-              #role: role,
-            }),
-          ),
-        ),
-      ) as _i39.Future<_i45.Result<_i32.FamilyInvitation, _i46.ApiFailure>>);
+            Invocation.method(#joinWithCode, [], {#code: code, #role: role}),
+            returnValue:
+                _i39.Future<
+                  _i45.Result<_i32.FamilyInvitation, _i46.ApiFailure>
+                >.value(
+                  _i42.dummyValue<
+                    _i45.Result<_i32.FamilyInvitation, _i46.ApiFailure>
+                  >(
+                    this,
+                    Invocation.method(#joinWithCode, [], {
+                      #code: code,
+                      #role: role,
+                    }),
+                  ),
+                ),
+            returnValueForMissingStub:
+                _i39.Future<
+                  _i45.Result<_i32.FamilyInvitation, _i46.ApiFailure>
+                >.value(
+                  _i42.dummyValue<
+                    _i45.Result<_i32.FamilyInvitation, _i46.ApiFailure>
+                  >(
+                    this,
+                    Invocation.method(#joinWithCode, [], {
+                      #code: code,
+                      #role: role,
+                    }),
+                  ),
+                ),
+          )
+          as _i39.Future<_i45.Result<_i32.FamilyInvitation, _i46.ApiFailure>>);
 
   @override
   _i39.Future<_i45.Result<List<_i32.FamilyInvitation>, _i46.ApiFailure>>
-      getFamilyInvitations({required String? familyId}) => (super.noSuchMethod(
+  getFamilyInvitations({required String? familyId}) =>
+      (super.noSuchMethod(
             Invocation.method(#getFamilyInvitations, [], {#familyId: familyId}),
-            returnValue: _i39.Future<
-                _i45
-                .Result<List<_i32.FamilyInvitation>, _i46.ApiFailure>>.value(
-              _i42.dummyValue<
-                  _i45.Result<List<_i32.FamilyInvitation>, _i46.ApiFailure>>(
-                this,
-                Invocation.method(#getFamilyInvitations, [], {
-                  #familyId: familyId,
-                }),
-              ),
-            ),
-            returnValueForMissingStub: _i39.Future<
-                _i45
-                .Result<List<_i32.FamilyInvitation>, _i46.ApiFailure>>.value(
-              _i42.dummyValue<
-                  _i45.Result<List<_i32.FamilyInvitation>, _i46.ApiFailure>>(
-                this,
-                Invocation.method(#getFamilyInvitations, [], {
-                  #familyId: familyId,
-                }),
-              ),
-            ),
-          ) as _i39.Future<
-              _i45.Result<List<_i32.FamilyInvitation>, _i46.ApiFailure>>);
+            returnValue:
+                _i39.Future<
+                  _i45.Result<List<_i32.FamilyInvitation>, _i46.ApiFailure>
+                >.value(
+                  _i42.dummyValue<
+                    _i45.Result<List<_i32.FamilyInvitation>, _i46.ApiFailure>
+                  >(
+                    this,
+                    Invocation.method(#getFamilyInvitations, [], {
+                      #familyId: familyId,
+                    }),
+                  ),
+                ),
+            returnValueForMissingStub:
+                _i39.Future<
+                  _i45.Result<List<_i32.FamilyInvitation>, _i46.ApiFailure>
+                >.value(
+                  _i42.dummyValue<
+                    _i45.Result<List<_i32.FamilyInvitation>, _i46.ApiFailure>
+                  >(
+                    this,
+                    Invocation.method(#getFamilyInvitations, [], {
+                      #familyId: familyId,
+                    }),
+                  ),
+                ),
+          )
+          as _i39.Future<
+            _i45.Result<List<_i32.FamilyInvitation>, _i46.ApiFailure>
+          >);
 
   @override
   _i39.Future<_i45.Result<void, _i46.ApiFailure>> revokeInvitation({
@@ -6482,96 +7040,120 @@ class MockInvitationRepository extends _i1.Mock
     required String? invitationId,
   }) =>
       (super.noSuchMethod(
-        Invocation.method(#revokeInvitation, [], {
-          #familyId: familyId,
-          #invitationId: invitationId,
-        }),
-        returnValue: _i39.Future<_i45.Result<void, _i46.ApiFailure>>.value(
-          _i42.dummyValue<_i45.Result<void, _i46.ApiFailure>>(
-            this,
             Invocation.method(#revokeInvitation, [], {
               #familyId: familyId,
               #invitationId: invitationId,
             }),
-          ),
-        ),
-        returnValueForMissingStub:
-            _i39.Future<_i45.Result<void, _i46.ApiFailure>>.value(
-          _i42.dummyValue<_i45.Result<void, _i46.ApiFailure>>(
-            this,
-            Invocation.method(#revokeInvitation, [], {
-              #familyId: familyId,
-              #invitationId: invitationId,
-            }),
-          ),
-        ),
-      ) as _i39.Future<_i45.Result<void, _i46.ApiFailure>>);
+            returnValue: _i39.Future<_i45.Result<void, _i46.ApiFailure>>.value(
+              _i42.dummyValue<_i45.Result<void, _i46.ApiFailure>>(
+                this,
+                Invocation.method(#revokeInvitation, [], {
+                  #familyId: familyId,
+                  #invitationId: invitationId,
+                }),
+              ),
+            ),
+            returnValueForMissingStub:
+                _i39.Future<_i45.Result<void, _i46.ApiFailure>>.value(
+                  _i42.dummyValue<_i45.Result<void, _i46.ApiFailure>>(
+                    this,
+                    Invocation.method(#revokeInvitation, [], {
+                      #familyId: familyId,
+                      #invitationId: invitationId,
+                    }),
+                  ),
+                ),
+          )
+          as _i39.Future<_i45.Result<void, _i46.ApiFailure>>);
 
   @override
-  _i39.Future<
-      _i45.Result<_i32.FamilyInvitation, _i46.ApiFailure>> declineInvitation(
-          {required String? invitationId, String? reason}) =>
+  _i39.Future<_i45.Result<_i32.FamilyInvitation, _i46.ApiFailure>>
+  declineInvitation({required String? invitationId, String? reason}) =>
       (super.noSuchMethod(
-        Invocation.method(#declineInvitation, [], {
-          #invitationId: invitationId,
-          #reason: reason,
-        }),
-        returnValue: _i39
-            .Future<_i45.Result<_i32.FamilyInvitation, _i46.ApiFailure>>.value(
-          _i42.dummyValue<_i45.Result<_i32.FamilyInvitation, _i46.ApiFailure>>(
-            this,
             Invocation.method(#declineInvitation, [], {
               #invitationId: invitationId,
               #reason: reason,
             }),
-          ),
-        ),
-        returnValueForMissingStub: _i39
-            .Future<_i45.Result<_i32.FamilyInvitation, _i46.ApiFailure>>.value(
-          _i42.dummyValue<_i45.Result<_i32.FamilyInvitation, _i46.ApiFailure>>(
-            this,
-            Invocation.method(#declineInvitation, [], {
-              #invitationId: invitationId,
-              #reason: reason,
-            }),
-          ),
-        ),
-      ) as _i39.Future<_i45.Result<_i32.FamilyInvitation, _i46.ApiFailure>>);
+            returnValue:
+                _i39.Future<
+                  _i45.Result<_i32.FamilyInvitation, _i46.ApiFailure>
+                >.value(
+                  _i42.dummyValue<
+                    _i45.Result<_i32.FamilyInvitation, _i46.ApiFailure>
+                  >(
+                    this,
+                    Invocation.method(#declineInvitation, [], {
+                      #invitationId: invitationId,
+                      #reason: reason,
+                    }),
+                  ),
+                ),
+            returnValueForMissingStub:
+                _i39.Future<
+                  _i45.Result<_i32.FamilyInvitation, _i46.ApiFailure>
+                >.value(
+                  _i42.dummyValue<
+                    _i45.Result<_i32.FamilyInvitation, _i46.ApiFailure>
+                  >(
+                    this,
+                    Invocation.method(#declineInvitation, [], {
+                      #invitationId: invitationId,
+                      #reason: reason,
+                    }),
+                  ),
+                ),
+          )
+          as _i39.Future<_i45.Result<_i32.FamilyInvitation, _i46.ApiFailure>>);
 
   @override
   _i39.Future<_i45.Result<_i31.FamilyInvitationValidationDto, _i46.ApiFailure>>
-      validateFamilyInvitation({required String? inviteCode}) =>
-          (super.noSuchMethod(
+  validateFamilyInvitation({required String? inviteCode}) =>
+      (super.noSuchMethod(
             Invocation.method(#validateFamilyInvitation, [], {
               #inviteCode: inviteCode,
             }),
-            returnValue: _i39.Future<
-                _i45.Result<_i31.FamilyInvitationValidationDto,
-                    _i46.ApiFailure>>.value(
-              _i42.dummyValue<
-                  _i45
-                  .Result<_i31.FamilyInvitationValidationDto, _i46.ApiFailure>>(
-                this,
-                Invocation.method(#validateFamilyInvitation, [], {
-                  #inviteCode: inviteCode,
-                }),
-              ),
-            ),
-            returnValueForMissingStub: _i39.Future<
-                _i45.Result<_i31.FamilyInvitationValidationDto,
-                    _i46.ApiFailure>>.value(
-              _i42.dummyValue<
-                  _i45
-                  .Result<_i31.FamilyInvitationValidationDto, _i46.ApiFailure>>(
-                this,
-                Invocation.method(#validateFamilyInvitation, [], {
-                  #inviteCode: inviteCode,
-                }),
-              ),
-            ),
-          ) as _i39.Future<
-              _i45
-              .Result<_i31.FamilyInvitationValidationDto, _i46.ApiFailure>>);
+            returnValue:
+                _i39.Future<
+                  _i45.Result<
+                    _i31.FamilyInvitationValidationDto,
+                    _i46.ApiFailure
+                  >
+                >.value(
+                  _i42.dummyValue<
+                    _i45.Result<
+                      _i31.FamilyInvitationValidationDto,
+                      _i46.ApiFailure
+                    >
+                  >(
+                    this,
+                    Invocation.method(#validateFamilyInvitation, [], {
+                      #inviteCode: inviteCode,
+                    }),
+                  ),
+                ),
+            returnValueForMissingStub:
+                _i39.Future<
+                  _i45.Result<
+                    _i31.FamilyInvitationValidationDto,
+                    _i46.ApiFailure
+                  >
+                >.value(
+                  _i42.dummyValue<
+                    _i45.Result<
+                      _i31.FamilyInvitationValidationDto,
+                      _i46.ApiFailure
+                    >
+                  >(
+                    this,
+                    Invocation.method(#validateFamilyInvitation, [], {
+                      #inviteCode: inviteCode,
+                    }),
+                  ),
+                ),
+          )
+          as _i39.Future<
+            _i45.Result<_i31.FamilyInvitationValidationDto, _i46.ApiFailure>
+          >);
 }
 
 /// A class which mocks [GroupScheduleRepository].
@@ -6581,84 +7163,108 @@ class MockGroupScheduleRepository extends _i1.Mock
     implements _i83.GroupScheduleRepository {
   @override
   _i39.Future<_i45.Result<List<_i84.ScheduleSlot>, _i46.ApiFailure>>
-      getWeeklySchedule(String? groupId, String? week) => (super.noSuchMethod(
-            Invocation.method(#getWeeklySchedule, [groupId, week]),
-            returnValue: _i39.Future<
-                _i45.Result<List<_i84.ScheduleSlot>, _i46.ApiFailure>>.value(
-              _i42.dummyValue<
-                  _i45.Result<List<_i84.ScheduleSlot>, _i46.ApiFailure>>(
-                this,
-                Invocation.method(#getWeeklySchedule, [groupId, week]),
-              ),
-            ),
-            returnValueForMissingStub: _i39.Future<
-                _i45.Result<List<_i84.ScheduleSlot>, _i46.ApiFailure>>.value(
-              _i42.dummyValue<
-                  _i45.Result<List<_i84.ScheduleSlot>, _i46.ApiFailure>>(
-                this,
-                Invocation.method(#getWeeklySchedule, [groupId, week]),
-              ),
-            ),
-          ) as _i39
-              .Future<_i45.Result<List<_i84.ScheduleSlot>, _i46.ApiFailure>>);
-
-  @override
-  _i39.Future<
-      _i45.Result<_i84.ScheduleConfig, _i46.ApiFailure>> getScheduleConfig(
-          String? groupId) =>
+  getWeeklySchedule(String? groupId, String? week) =>
       (super.noSuchMethod(
-        Invocation.method(#getScheduleConfig, [groupId]),
-        returnValue: _i39
-            .Future<_i45.Result<_i84.ScheduleConfig, _i46.ApiFailure>>.value(
-          _i42.dummyValue<_i45.Result<_i84.ScheduleConfig, _i46.ApiFailure>>(
-              this, Invocation.method(#getScheduleConfig, [groupId])),
-        ),
-        returnValueForMissingStub: _i39
-            .Future<_i45.Result<_i84.ScheduleConfig, _i46.ApiFailure>>.value(
-          _i42.dummyValue<_i45.Result<_i84.ScheduleConfig, _i46.ApiFailure>>(
-              this, Invocation.method(#getScheduleConfig, [groupId])),
-        ),
-      ) as _i39.Future<_i45.Result<_i84.ScheduleConfig, _i46.ApiFailure>>);
+            Invocation.method(#getWeeklySchedule, [groupId, week]),
+            returnValue:
+                _i39.Future<
+                  _i45.Result<List<_i84.ScheduleSlot>, _i46.ApiFailure>
+                >.value(
+                  _i42.dummyValue<
+                    _i45.Result<List<_i84.ScheduleSlot>, _i46.ApiFailure>
+                  >(
+                    this,
+                    Invocation.method(#getWeeklySchedule, [groupId, week]),
+                  ),
+                ),
+            returnValueForMissingStub:
+                _i39.Future<
+                  _i45.Result<List<_i84.ScheduleSlot>, _i46.ApiFailure>
+                >.value(
+                  _i42.dummyValue<
+                    _i45.Result<List<_i84.ScheduleSlot>, _i46.ApiFailure>
+                  >(
+                    this,
+                    Invocation.method(#getWeeklySchedule, [groupId, week]),
+                  ),
+                ),
+          )
+          as _i39.Future<
+            _i45.Result<List<_i84.ScheduleSlot>, _i46.ApiFailure>
+          >);
 
   @override
-  _i39.Future<
-      _i45.Result<_i84.ScheduleSlot, _i46.ApiFailure>> upsertScheduleSlot(
+  _i39.Future<_i45.Result<_i84.ScheduleConfig, _i46.ApiFailure>>
+  getScheduleConfig(String? groupId) =>
+      (super.noSuchMethod(
+            Invocation.method(#getScheduleConfig, [groupId]),
+            returnValue:
+                _i39.Future<
+                  _i45.Result<_i84.ScheduleConfig, _i46.ApiFailure>
+                >.value(
+                  _i42.dummyValue<
+                    _i45.Result<_i84.ScheduleConfig, _i46.ApiFailure>
+                  >(this, Invocation.method(#getScheduleConfig, [groupId])),
+                ),
+            returnValueForMissingStub:
+                _i39.Future<
+                  _i45.Result<_i84.ScheduleConfig, _i46.ApiFailure>
+                >.value(
+                  _i42.dummyValue<
+                    _i45.Result<_i84.ScheduleConfig, _i46.ApiFailure>
+                  >(this, Invocation.method(#getScheduleConfig, [groupId])),
+                ),
+          )
+          as _i39.Future<_i45.Result<_i84.ScheduleConfig, _i46.ApiFailure>>);
+
+  @override
+  _i39.Future<_i45.Result<_i84.ScheduleSlot, _i46.ApiFailure>>
+  upsertScheduleSlot(
     String? groupId,
     String? day,
     String? time,
     String? week,
   ) =>
       (super.noSuchMethod(
-        Invocation.method(#upsertScheduleSlot, [groupId, day, time, week]),
-        returnValue:
-            _i39.Future<_i45.Result<_i84.ScheduleSlot, _i46.ApiFailure>>.value(
-          _i42.dummyValue<_i45.Result<_i84.ScheduleSlot, _i46.ApiFailure>>(
-            this,
-            Invocation.method(#upsertScheduleSlot, [
-              groupId,
-              day,
-              time,
-              week,
-            ]),
-          ),
-        ),
-        returnValueForMissingStub:
-            _i39.Future<_i45.Result<_i84.ScheduleSlot, _i46.ApiFailure>>.value(
-          _i42.dummyValue<_i45.Result<_i84.ScheduleSlot, _i46.ApiFailure>>(
-            this,
-            Invocation.method(#upsertScheduleSlot, [
-              groupId,
-              day,
-              time,
-              week,
-            ]),
-          ),
-        ),
-      ) as _i39.Future<_i45.Result<_i84.ScheduleSlot, _i46.ApiFailure>>);
+            Invocation.method(#upsertScheduleSlot, [groupId, day, time, week]),
+            returnValue:
+                _i39.Future<
+                  _i45.Result<_i84.ScheduleSlot, _i46.ApiFailure>
+                >.value(
+                  _i42.dummyValue<
+                    _i45.Result<_i84.ScheduleSlot, _i46.ApiFailure>
+                  >(
+                    this,
+                    Invocation.method(#upsertScheduleSlot, [
+                      groupId,
+                      day,
+                      time,
+                      week,
+                    ]),
+                  ),
+                ),
+            returnValueForMissingStub:
+                _i39.Future<
+                  _i45.Result<_i84.ScheduleSlot, _i46.ApiFailure>
+                >.value(
+                  _i42.dummyValue<
+                    _i45.Result<_i84.ScheduleSlot, _i46.ApiFailure>
+                  >(
+                    this,
+                    Invocation.method(#upsertScheduleSlot, [
+                      groupId,
+                      day,
+                      time,
+                      week,
+                    ]),
+                  ),
+                ),
+          )
+          as _i39.Future<_i45.Result<_i84.ScheduleSlot, _i46.ApiFailure>>);
 
   @override
-  _i39.Future<
-      _i45.Result<_i84.VehicleAssignment, _i46.ApiFailure>> assignVehicleToSlot(
+  _i39.Future<_i45.Result<_i84.VehicleAssignment, _i46.ApiFailure>>
+  assignVehicleToSlot(
     String? groupId,
     String? day,
     String? time,
@@ -6666,17 +7272,6 @@ class MockGroupScheduleRepository extends _i1.Mock
     String? vehicleId,
   ) =>
       (super.noSuchMethod(
-        Invocation.method(#assignVehicleToSlot, [
-          groupId,
-          day,
-          time,
-          week,
-          vehicleId,
-        ]),
-        returnValue: _i39
-            .Future<_i45.Result<_i84.VehicleAssignment, _i46.ApiFailure>>.value(
-          _i42.dummyValue<_i45.Result<_i84.VehicleAssignment, _i46.ApiFailure>>(
-            this,
             Invocation.method(#assignVehicleToSlot, [
               groupId,
               day,
@@ -6684,22 +7279,42 @@ class MockGroupScheduleRepository extends _i1.Mock
               week,
               vehicleId,
             ]),
-          ),
-        ),
-        returnValueForMissingStub: _i39
-            .Future<_i45.Result<_i84.VehicleAssignment, _i46.ApiFailure>>.value(
-          _i42.dummyValue<_i45.Result<_i84.VehicleAssignment, _i46.ApiFailure>>(
-            this,
-            Invocation.method(#assignVehicleToSlot, [
-              groupId,
-              day,
-              time,
-              week,
-              vehicleId,
-            ]),
-          ),
-        ),
-      ) as _i39.Future<_i45.Result<_i84.VehicleAssignment, _i46.ApiFailure>>);
+            returnValue:
+                _i39.Future<
+                  _i45.Result<_i84.VehicleAssignment, _i46.ApiFailure>
+                >.value(
+                  _i42.dummyValue<
+                    _i45.Result<_i84.VehicleAssignment, _i46.ApiFailure>
+                  >(
+                    this,
+                    Invocation.method(#assignVehicleToSlot, [
+                      groupId,
+                      day,
+                      time,
+                      week,
+                      vehicleId,
+                    ]),
+                  ),
+                ),
+            returnValueForMissingStub:
+                _i39.Future<
+                  _i45.Result<_i84.VehicleAssignment, _i46.ApiFailure>
+                >.value(
+                  _i42.dummyValue<
+                    _i45.Result<_i84.VehicleAssignment, _i46.ApiFailure>
+                  >(
+                    this,
+                    Invocation.method(#assignVehicleToSlot, [
+                      groupId,
+                      day,
+                      time,
+                      week,
+                      vehicleId,
+                    ]),
+                  ),
+                ),
+          )
+          as _i39.Future<_i45.Result<_i84.VehicleAssignment, _i46.ApiFailure>>);
 
   @override
   _i39.Future<_i45.Result<void, _i46.ApiFailure>> removeVehicleFromSlot(
@@ -6708,33 +7323,34 @@ class MockGroupScheduleRepository extends _i1.Mock
     String? vehicleAssignmentId,
   ) =>
       (super.noSuchMethod(
-        Invocation.method(#removeVehicleFromSlot, [
-          groupId,
-          slotId,
-          vehicleAssignmentId,
-        ]),
-        returnValue: _i39.Future<_i45.Result<void, _i46.ApiFailure>>.value(
-          _i42.dummyValue<_i45.Result<void, _i46.ApiFailure>>(
-            this,
             Invocation.method(#removeVehicleFromSlot, [
               groupId,
               slotId,
               vehicleAssignmentId,
             ]),
-          ),
-        ),
-        returnValueForMissingStub:
-            _i39.Future<_i45.Result<void, _i46.ApiFailure>>.value(
-          _i42.dummyValue<_i45.Result<void, _i46.ApiFailure>>(
-            this,
-            Invocation.method(#removeVehicleFromSlot, [
-              groupId,
-              slotId,
-              vehicleAssignmentId,
-            ]),
-          ),
-        ),
-      ) as _i39.Future<_i45.Result<void, _i46.ApiFailure>>);
+            returnValue: _i39.Future<_i45.Result<void, _i46.ApiFailure>>.value(
+              _i42.dummyValue<_i45.Result<void, _i46.ApiFailure>>(
+                this,
+                Invocation.method(#removeVehicleFromSlot, [
+                  groupId,
+                  slotId,
+                  vehicleAssignmentId,
+                ]),
+              ),
+            ),
+            returnValueForMissingStub:
+                _i39.Future<_i45.Result<void, _i46.ApiFailure>>.value(
+                  _i42.dummyValue<_i45.Result<void, _i46.ApiFailure>>(
+                    this,
+                    Invocation.method(#removeVehicleFromSlot, [
+                      groupId,
+                      slotId,
+                      vehicleAssignmentId,
+                    ]),
+                  ),
+                ),
+          )
+          as _i39.Future<_i45.Result<void, _i46.ApiFailure>>);
 
   @override
   _i39.Future<_i45.Result<void, _i46.ApiFailure>> removeVehicleFromSlotWithWeek(
@@ -6744,78 +7360,87 @@ class MockGroupScheduleRepository extends _i1.Mock
     String? week,
   ) =>
       (super.noSuchMethod(
-        Invocation.method(#removeVehicleFromSlotWithWeek, [
-          groupId,
-          slotId,
-          vehicleAssignmentId,
-          week,
-        ]),
-        returnValue: _i39.Future<_i45.Result<void, _i46.ApiFailure>>.value(
-          _i42.dummyValue<_i45.Result<void, _i46.ApiFailure>>(
-            this,
             Invocation.method(#removeVehicleFromSlotWithWeek, [
               groupId,
               slotId,
               vehicleAssignmentId,
               week,
             ]),
-          ),
-        ),
-        returnValueForMissingStub:
-            _i39.Future<_i45.Result<void, _i46.ApiFailure>>.value(
-          _i42.dummyValue<_i45.Result<void, _i46.ApiFailure>>(
-            this,
-            Invocation.method(#removeVehicleFromSlotWithWeek, [
-              groupId,
-              slotId,
-              vehicleAssignmentId,
-              week,
-            ]),
-          ),
-        ),
-      ) as _i39.Future<_i45.Result<void, _i46.ApiFailure>>);
+            returnValue: _i39.Future<_i45.Result<void, _i46.ApiFailure>>.value(
+              _i42.dummyValue<_i45.Result<void, _i46.ApiFailure>>(
+                this,
+                Invocation.method(#removeVehicleFromSlotWithWeek, [
+                  groupId,
+                  slotId,
+                  vehicleAssignmentId,
+                  week,
+                ]),
+              ),
+            ),
+            returnValueForMissingStub:
+                _i39.Future<_i45.Result<void, _i46.ApiFailure>>.value(
+                  _i42.dummyValue<_i45.Result<void, _i46.ApiFailure>>(
+                    this,
+                    Invocation.method(#removeVehicleFromSlotWithWeek, [
+                      groupId,
+                      slotId,
+                      vehicleAssignmentId,
+                      week,
+                    ]),
+                  ),
+                ),
+          )
+          as _i39.Future<_i45.Result<void, _i46.ApiFailure>>);
 
   @override
-  _i39.Future<
-      _i45
-      .Result<_i84.VehicleAssignment, _i46.ApiFailure>> assignChildrenToVehicle(
+  _i39.Future<_i45.Result<_i84.VehicleAssignment, _i46.ApiFailure>>
+  assignChildrenToVehicle(
     String? groupId,
     String? slotId,
     String? vehicleAssignmentId,
     List<String>? childIds,
   ) =>
       (super.noSuchMethod(
-        Invocation.method(#assignChildrenToVehicle, [
-          groupId,
-          slotId,
-          vehicleAssignmentId,
-          childIds,
-        ]),
-        returnValue: _i39
-            .Future<_i45.Result<_i84.VehicleAssignment, _i46.ApiFailure>>.value(
-          _i42.dummyValue<_i45.Result<_i84.VehicleAssignment, _i46.ApiFailure>>(
-            this,
             Invocation.method(#assignChildrenToVehicle, [
               groupId,
               slotId,
               vehicleAssignmentId,
               childIds,
             ]),
-          ),
-        ),
-        returnValueForMissingStub: _i39
-            .Future<_i45.Result<_i84.VehicleAssignment, _i46.ApiFailure>>.value(
-          _i42.dummyValue<_i45.Result<_i84.VehicleAssignment, _i46.ApiFailure>>(
-            this,
-            Invocation.method(#assignChildrenToVehicle, [
-              groupId,
-              slotId,
-              vehicleAssignmentId,
-              childIds,
-            ]),
-          ),
-        ),
-      ) as _i39.Future<_i45.Result<_i84.VehicleAssignment, _i46.ApiFailure>>);
+            returnValue:
+                _i39.Future<
+                  _i45.Result<_i84.VehicleAssignment, _i46.ApiFailure>
+                >.value(
+                  _i42.dummyValue<
+                    _i45.Result<_i84.VehicleAssignment, _i46.ApiFailure>
+                  >(
+                    this,
+                    Invocation.method(#assignChildrenToVehicle, [
+                      groupId,
+                      slotId,
+                      vehicleAssignmentId,
+                      childIds,
+                    ]),
+                  ),
+                ),
+            returnValueForMissingStub:
+                _i39.Future<
+                  _i45.Result<_i84.VehicleAssignment, _i46.ApiFailure>
+                >.value(
+                  _i42.dummyValue<
+                    _i45.Result<_i84.VehicleAssignment, _i46.ApiFailure>
+                  >(
+                    this,
+                    Invocation.method(#assignChildrenToVehicle, [
+                      groupId,
+                      slotId,
+                      vehicleAssignmentId,
+                      childIds,
+                    ]),
+                  ),
+                ),
+          )
+          as _i39.Future<_i45.Result<_i84.VehicleAssignment, _i46.ApiFailure>>);
 
   @override
   _i39.Future<_i45.Result<void, _i46.ApiFailure>> removeChildFromVehicle(
@@ -6825,41 +7450,41 @@ class MockGroupScheduleRepository extends _i1.Mock
     String? childAssignmentId,
   ) =>
       (super.noSuchMethod(
-        Invocation.method(#removeChildFromVehicle, [
-          groupId,
-          slotId,
-          vehicleAssignmentId,
-          childAssignmentId,
-        ]),
-        returnValue: _i39.Future<_i45.Result<void, _i46.ApiFailure>>.value(
-          _i42.dummyValue<_i45.Result<void, _i46.ApiFailure>>(
-            this,
             Invocation.method(#removeChildFromVehicle, [
               groupId,
               slotId,
               vehicleAssignmentId,
               childAssignmentId,
             ]),
-          ),
-        ),
-        returnValueForMissingStub:
-            _i39.Future<_i45.Result<void, _i46.ApiFailure>>.value(
-          _i42.dummyValue<_i45.Result<void, _i46.ApiFailure>>(
-            this,
-            Invocation.method(#removeChildFromVehicle, [
-              groupId,
-              slotId,
-              vehicleAssignmentId,
-              childAssignmentId,
-            ]),
-          ),
-        ),
-      ) as _i39.Future<_i45.Result<void, _i46.ApiFailure>>);
+            returnValue: _i39.Future<_i45.Result<void, _i46.ApiFailure>>.value(
+              _i42.dummyValue<_i45.Result<void, _i46.ApiFailure>>(
+                this,
+                Invocation.method(#removeChildFromVehicle, [
+                  groupId,
+                  slotId,
+                  vehicleAssignmentId,
+                  childAssignmentId,
+                ]),
+              ),
+            ),
+            returnValueForMissingStub:
+                _i39.Future<_i45.Result<void, _i46.ApiFailure>>.value(
+                  _i42.dummyValue<_i45.Result<void, _i46.ApiFailure>>(
+                    this,
+                    Invocation.method(#removeChildFromVehicle, [
+                      groupId,
+                      slotId,
+                      vehicleAssignmentId,
+                      childAssignmentId,
+                    ]),
+                  ),
+                ),
+          )
+          as _i39.Future<_i45.Result<void, _i46.ApiFailure>>);
 
   @override
-  _i39.Future<
-      _i45.Result<_i32.ChildAssignment,
-          _i46.ApiFailure>> updateChildAssignmentStatus(
+  _i39.Future<_i45.Result<_i32.ChildAssignment, _i46.ApiFailure>>
+  updateChildAssignmentStatus(
     String? groupId,
     String? slotId,
     String? vehicleAssignmentId,
@@ -6867,17 +7492,6 @@ class MockGroupScheduleRepository extends _i1.Mock
     String? status,
   ) =>
       (super.noSuchMethod(
-        Invocation.method(#updateChildAssignmentStatus, [
-          groupId,
-          slotId,
-          vehicleAssignmentId,
-          childAssignmentId,
-          status,
-        ]),
-        returnValue: _i39
-            .Future<_i45.Result<_i32.ChildAssignment, _i46.ApiFailure>>.value(
-          _i42.dummyValue<_i45.Result<_i32.ChildAssignment, _i46.ApiFailure>>(
-            this,
             Invocation.method(#updateChildAssignmentStatus, [
               groupId,
               slotId,
@@ -6885,111 +7499,149 @@ class MockGroupScheduleRepository extends _i1.Mock
               childAssignmentId,
               status,
             ]),
-          ),
-        ),
-        returnValueForMissingStub: _i39
-            .Future<_i45.Result<_i32.ChildAssignment, _i46.ApiFailure>>.value(
-          _i42.dummyValue<_i45.Result<_i32.ChildAssignment, _i46.ApiFailure>>(
-            this,
-            Invocation.method(#updateChildAssignmentStatus, [
-              groupId,
-              slotId,
-              vehicleAssignmentId,
-              childAssignmentId,
-              status,
-            ]),
-          ),
-        ),
-      ) as _i39.Future<_i45.Result<_i32.ChildAssignment, _i46.ApiFailure>>);
+            returnValue:
+                _i39.Future<
+                  _i45.Result<_i32.ChildAssignment, _i46.ApiFailure>
+                >.value(
+                  _i42.dummyValue<
+                    _i45.Result<_i32.ChildAssignment, _i46.ApiFailure>
+                  >(
+                    this,
+                    Invocation.method(#updateChildAssignmentStatus, [
+                      groupId,
+                      slotId,
+                      vehicleAssignmentId,
+                      childAssignmentId,
+                      status,
+                    ]),
+                  ),
+                ),
+            returnValueForMissingStub:
+                _i39.Future<
+                  _i45.Result<_i32.ChildAssignment, _i46.ApiFailure>
+                >.value(
+                  _i42.dummyValue<
+                    _i45.Result<_i32.ChildAssignment, _i46.ApiFailure>
+                  >(
+                    this,
+                    Invocation.method(#updateChildAssignmentStatus, [
+                      groupId,
+                      slotId,
+                      vehicleAssignmentId,
+                      childAssignmentId,
+                      status,
+                    ]),
+                  ),
+                ),
+          )
+          as _i39.Future<_i45.Result<_i32.ChildAssignment, _i46.ApiFailure>>);
 
   @override
-  _i39.Future<
-      _i45.Result<_i84.VehicleAssignment, _i46.ApiFailure>> updateSeatOverride(
+  _i39.Future<_i45.Result<_i84.VehicleAssignment, _i46.ApiFailure>>
+  updateSeatOverride(
     String? groupId,
     String? vehicleAssignmentId,
     int? seatOverride,
   ) =>
       (super.noSuchMethod(
-        Invocation.method(#updateSeatOverride, [
-          groupId,
-          vehicleAssignmentId,
-          seatOverride,
-        ]),
-        returnValue: _i39
-            .Future<_i45.Result<_i84.VehicleAssignment, _i46.ApiFailure>>.value(
-          _i42.dummyValue<_i45.Result<_i84.VehicleAssignment, _i46.ApiFailure>>(
-            this,
             Invocation.method(#updateSeatOverride, [
               groupId,
               vehicleAssignmentId,
               seatOverride,
             ]),
-          ),
-        ),
-        returnValueForMissingStub: _i39
-            .Future<_i45.Result<_i84.VehicleAssignment, _i46.ApiFailure>>.value(
-          _i42.dummyValue<_i45.Result<_i84.VehicleAssignment, _i46.ApiFailure>>(
-            this,
-            Invocation.method(#updateSeatOverride, [
-              groupId,
-              vehicleAssignmentId,
-              seatOverride,
-            ]),
-          ),
-        ),
-      ) as _i39.Future<_i45.Result<_i84.VehicleAssignment, _i46.ApiFailure>>);
+            returnValue:
+                _i39.Future<
+                  _i45.Result<_i84.VehicleAssignment, _i46.ApiFailure>
+                >.value(
+                  _i42.dummyValue<
+                    _i45.Result<_i84.VehicleAssignment, _i46.ApiFailure>
+                  >(
+                    this,
+                    Invocation.method(#updateSeatOverride, [
+                      groupId,
+                      vehicleAssignmentId,
+                      seatOverride,
+                    ]),
+                  ),
+                ),
+            returnValueForMissingStub:
+                _i39.Future<
+                  _i45.Result<_i84.VehicleAssignment, _i46.ApiFailure>
+                >.value(
+                  _i42.dummyValue<
+                    _i45.Result<_i84.VehicleAssignment, _i46.ApiFailure>
+                  >(
+                    this,
+                    Invocation.method(#updateSeatOverride, [
+                      groupId,
+                      vehicleAssignmentId,
+                      seatOverride,
+                    ]),
+                  ),
+                ),
+          )
+          as _i39.Future<_i45.Result<_i84.VehicleAssignment, _i46.ApiFailure>>);
 
   @override
-  _i39.Future<
-      _i45.Result<List<_i32.Child>, _i46.ApiFailure>> getAvailableChildren(
+  _i39.Future<_i45.Result<List<_i32.Child>, _i46.ApiFailure>>
+  getAvailableChildren(
     String? groupId,
     String? week,
     String? day,
     String? time,
   ) =>
       (super.noSuchMethod(
-        Invocation.method(#getAvailableChildren, [
-          groupId,
-          week,
-          day,
-          time,
-        ]),
-        returnValue:
-            _i39.Future<_i45.Result<List<_i32.Child>, _i46.ApiFailure>>.value(
-          _i42.dummyValue<_i45.Result<List<_i32.Child>, _i46.ApiFailure>>(
-            this,
             Invocation.method(#getAvailableChildren, [
               groupId,
               week,
               day,
               time,
             ]),
-          ),
-        ),
-        returnValueForMissingStub:
-            _i39.Future<_i45.Result<List<_i32.Child>, _i46.ApiFailure>>.value(
-          _i42.dummyValue<_i45.Result<List<_i32.Child>, _i46.ApiFailure>>(
-            this,
-            Invocation.method(#getAvailableChildren, [
-              groupId,
-              week,
-              day,
-              time,
-            ]),
-          ),
-        ),
-      ) as _i39.Future<_i45.Result<List<_i32.Child>, _i46.ApiFailure>>);
+            returnValue:
+                _i39.Future<
+                  _i45.Result<List<_i32.Child>, _i46.ApiFailure>
+                >.value(
+                  _i42.dummyValue<
+                    _i45.Result<List<_i32.Child>, _i46.ApiFailure>
+                  >(
+                    this,
+                    Invocation.method(#getAvailableChildren, [
+                      groupId,
+                      week,
+                      day,
+                      time,
+                    ]),
+                  ),
+                ),
+            returnValueForMissingStub:
+                _i39.Future<
+                  _i45.Result<List<_i32.Child>, _i46.ApiFailure>
+                >.value(
+                  _i42.dummyValue<
+                    _i45.Result<List<_i32.Child>, _i46.ApiFailure>
+                  >(
+                    this,
+                    Invocation.method(#getAvailableChildren, [
+                      groupId,
+                      week,
+                      day,
+                      time,
+                    ]),
+                  ),
+                ),
+          )
+          as _i39.Future<_i45.Result<List<_i32.Child>, _i46.ApiFailure>>);
 
   @override
   _i39.Future<_i45.Result<List<_i84.ScheduleConflict>, _i46.ApiFailure>>
-      checkScheduleConflicts(
+  checkScheduleConflicts(
     String? groupId,
     String? vehicleId,
     String? week,
     String? day,
     String? time,
   ) =>
-          (super.noSuchMethod(
+      (super.noSuchMethod(
             Invocation.method(#checkScheduleConflicts, [
               groupId,
               vehicleId,
@@ -6997,78 +7649,98 @@ class MockGroupScheduleRepository extends _i1.Mock
               day,
               time,
             ]),
-            returnValue: _i39.Future<
-                _i45
-                .Result<List<_i84.ScheduleConflict>, _i46.ApiFailure>>.value(
-              _i42.dummyValue<
-                  _i45.Result<List<_i84.ScheduleConflict>, _i46.ApiFailure>>(
-                this,
-                Invocation.method(#checkScheduleConflicts, [
-                  groupId,
-                  vehicleId,
-                  week,
-                  day,
-                  time,
-                ]),
-              ),
-            ),
-            returnValueForMissingStub: _i39.Future<
-                _i45
-                .Result<List<_i84.ScheduleConflict>, _i46.ApiFailure>>.value(
-              _i42.dummyValue<
-                  _i45.Result<List<_i84.ScheduleConflict>, _i46.ApiFailure>>(
-                this,
-                Invocation.method(#checkScheduleConflicts, [
-                  groupId,
-                  vehicleId,
-                  week,
-                  day,
-                  time,
-                ]),
-              ),
-            ),
-          ) as _i39.Future<
-              _i45.Result<List<_i84.ScheduleConflict>, _i46.ApiFailure>>);
+            returnValue:
+                _i39.Future<
+                  _i45.Result<List<_i84.ScheduleConflict>, _i46.ApiFailure>
+                >.value(
+                  _i42.dummyValue<
+                    _i45.Result<List<_i84.ScheduleConflict>, _i46.ApiFailure>
+                  >(
+                    this,
+                    Invocation.method(#checkScheduleConflicts, [
+                      groupId,
+                      vehicleId,
+                      week,
+                      day,
+                      time,
+                    ]),
+                  ),
+                ),
+            returnValueForMissingStub:
+                _i39.Future<
+                  _i45.Result<List<_i84.ScheduleConflict>, _i46.ApiFailure>
+                >.value(
+                  _i42.dummyValue<
+                    _i45.Result<List<_i84.ScheduleConflict>, _i46.ApiFailure>
+                  >(
+                    this,
+                    Invocation.method(#checkScheduleConflicts, [
+                      groupId,
+                      vehicleId,
+                      week,
+                      day,
+                      time,
+                    ]),
+                  ),
+                ),
+          )
+          as _i39.Future<
+            _i45.Result<List<_i84.ScheduleConflict>, _i46.ApiFailure>
+          >);
 
   @override
-  _i39.Future<
-      _i45.Result<_i84.ScheduleConfig, _i46.ApiFailure>> updateScheduleConfig(
-          String? groupId, _i84.ScheduleConfig? config) =>
+  _i39.Future<_i45.Result<_i84.ScheduleConfig, _i46.ApiFailure>>
+  updateScheduleConfig(String? groupId, _i84.ScheduleConfig? config) =>
       (super.noSuchMethod(
-        Invocation.method(#updateScheduleConfig, [groupId, config]),
-        returnValue: _i39
-            .Future<_i45.Result<_i84.ScheduleConfig, _i46.ApiFailure>>.value(
-          _i42.dummyValue<_i45.Result<_i84.ScheduleConfig, _i46.ApiFailure>>(
-            this,
             Invocation.method(#updateScheduleConfig, [groupId, config]),
-          ),
-        ),
-        returnValueForMissingStub: _i39
-            .Future<_i45.Result<_i84.ScheduleConfig, _i46.ApiFailure>>.value(
-          _i42.dummyValue<_i45.Result<_i84.ScheduleConfig, _i46.ApiFailure>>(
-            this,
-            Invocation.method(#updateScheduleConfig, [groupId, config]),
-          ),
-        ),
-      ) as _i39.Future<_i45.Result<_i84.ScheduleConfig, _i46.ApiFailure>>);
+            returnValue:
+                _i39.Future<
+                  _i45.Result<_i84.ScheduleConfig, _i46.ApiFailure>
+                >.value(
+                  _i42.dummyValue<
+                    _i45.Result<_i84.ScheduleConfig, _i46.ApiFailure>
+                  >(
+                    this,
+                    Invocation.method(#updateScheduleConfig, [groupId, config]),
+                  ),
+                ),
+            returnValueForMissingStub:
+                _i39.Future<
+                  _i45.Result<_i84.ScheduleConfig, _i46.ApiFailure>
+                >.value(
+                  _i42.dummyValue<
+                    _i45.Result<_i84.ScheduleConfig, _i46.ApiFailure>
+                  >(
+                    this,
+                    Invocation.method(#updateScheduleConfig, [groupId, config]),
+                  ),
+                ),
+          )
+          as _i39.Future<_i45.Result<_i84.ScheduleConfig, _i46.ApiFailure>>);
 
   @override
-  _i39.Future<
-      _i45.Result<_i84.ScheduleConfig, _i46.ApiFailure>> resetScheduleConfig(
-          String? groupId) =>
+  _i39.Future<_i45.Result<_i84.ScheduleConfig, _i46.ApiFailure>>
+  resetScheduleConfig(String? groupId) =>
       (super.noSuchMethod(
-        Invocation.method(#resetScheduleConfig, [groupId]),
-        returnValue: _i39
-            .Future<_i45.Result<_i84.ScheduleConfig, _i46.ApiFailure>>.value(
-          _i42.dummyValue<_i45.Result<_i84.ScheduleConfig, _i46.ApiFailure>>(
-              this, Invocation.method(#resetScheduleConfig, [groupId])),
-        ),
-        returnValueForMissingStub: _i39
-            .Future<_i45.Result<_i84.ScheduleConfig, _i46.ApiFailure>>.value(
-          _i42.dummyValue<_i45.Result<_i84.ScheduleConfig, _i46.ApiFailure>>(
-              this, Invocation.method(#resetScheduleConfig, [groupId])),
-        ),
-      ) as _i39.Future<_i45.Result<_i84.ScheduleConfig, _i46.ApiFailure>>);
+            Invocation.method(#resetScheduleConfig, [groupId]),
+            returnValue:
+                _i39.Future<
+                  _i45.Result<_i84.ScheduleConfig, _i46.ApiFailure>
+                >.value(
+                  _i42.dummyValue<
+                    _i45.Result<_i84.ScheduleConfig, _i46.ApiFailure>
+                  >(this, Invocation.method(#resetScheduleConfig, [groupId])),
+                ),
+            returnValueForMissingStub:
+                _i39.Future<
+                  _i45.Result<_i84.ScheduleConfig, _i46.ApiFailure>
+                >.value(
+                  _i42.dummyValue<
+                    _i45.Result<_i84.ScheduleConfig, _i46.ApiFailure>
+                  >(this, Invocation.method(#resetScheduleConfig, [groupId])),
+                ),
+          )
+          as _i39.Future<_i45.Result<_i84.ScheduleConfig, _i46.ApiFailure>>);
 
   @override
   _i39.Future<_i45.Result<void, _i46.ApiFailure>> copyWeeklySchedule(
@@ -7077,33 +7749,34 @@ class MockGroupScheduleRepository extends _i1.Mock
     String? targetWeek,
   ) =>
       (super.noSuchMethod(
-        Invocation.method(#copyWeeklySchedule, [
-          groupId,
-          sourceWeek,
-          targetWeek,
-        ]),
-        returnValue: _i39.Future<_i45.Result<void, _i46.ApiFailure>>.value(
-          _i42.dummyValue<_i45.Result<void, _i46.ApiFailure>>(
-            this,
             Invocation.method(#copyWeeklySchedule, [
               groupId,
               sourceWeek,
               targetWeek,
             ]),
-          ),
-        ),
-        returnValueForMissingStub:
-            _i39.Future<_i45.Result<void, _i46.ApiFailure>>.value(
-          _i42.dummyValue<_i45.Result<void, _i46.ApiFailure>>(
-            this,
-            Invocation.method(#copyWeeklySchedule, [
-              groupId,
-              sourceWeek,
-              targetWeek,
-            ]),
-          ),
-        ),
-      ) as _i39.Future<_i45.Result<void, _i46.ApiFailure>>);
+            returnValue: _i39.Future<_i45.Result<void, _i46.ApiFailure>>.value(
+              _i42.dummyValue<_i45.Result<void, _i46.ApiFailure>>(
+                this,
+                Invocation.method(#copyWeeklySchedule, [
+                  groupId,
+                  sourceWeek,
+                  targetWeek,
+                ]),
+              ),
+            ),
+            returnValueForMissingStub:
+                _i39.Future<_i45.Result<void, _i46.ApiFailure>>.value(
+                  _i42.dummyValue<_i45.Result<void, _i46.ApiFailure>>(
+                    this,
+                    Invocation.method(#copyWeeklySchedule, [
+                      groupId,
+                      sourceWeek,
+                      targetWeek,
+                    ]),
+                  ),
+                ),
+          )
+          as _i39.Future<_i45.Result<void, _i46.ApiFailure>>);
 
   @override
   _i39.Future<_i45.Result<void, _i46.ApiFailure>> clearWeeklySchedule(
@@ -7111,55 +7784,68 @@ class MockGroupScheduleRepository extends _i1.Mock
     String? week,
   ) =>
       (super.noSuchMethod(
-        Invocation.method(#clearWeeklySchedule, [groupId, week]),
-        returnValue: _i39.Future<_i45.Result<void, _i46.ApiFailure>>.value(
-          _i42.dummyValue<_i45.Result<void, _i46.ApiFailure>>(
-            this,
             Invocation.method(#clearWeeklySchedule, [groupId, week]),
-          ),
-        ),
-        returnValueForMissingStub:
-            _i39.Future<_i45.Result<void, _i46.ApiFailure>>.value(
-          _i42.dummyValue<_i45.Result<void, _i46.ApiFailure>>(
-            this,
-            Invocation.method(#clearWeeklySchedule, [groupId, week]),
-          ),
-        ),
-      ) as _i39.Future<_i45.Result<void, _i46.ApiFailure>>);
+            returnValue: _i39.Future<_i45.Result<void, _i46.ApiFailure>>.value(
+              _i42.dummyValue<_i45.Result<void, _i46.ApiFailure>>(
+                this,
+                Invocation.method(#clearWeeklySchedule, [groupId, week]),
+              ),
+            ),
+            returnValueForMissingStub:
+                _i39.Future<_i45.Result<void, _i46.ApiFailure>>.value(
+                  _i42.dummyValue<_i45.Result<void, _i46.ApiFailure>>(
+                    this,
+                    Invocation.method(#clearWeeklySchedule, [groupId, week]),
+                  ),
+                ),
+          )
+          as _i39.Future<_i45.Result<void, _i46.ApiFailure>>);
 
   @override
-  _i39.Future<
-      _i45.Result<Map<String, dynamic>, _i46.ApiFailure>> getScheduleStatistics(
-          String? groupId, String? week) =>
+  _i39.Future<_i45.Result<Map<String, dynamic>, _i46.ApiFailure>>
+  getScheduleStatistics(String? groupId, String? week) =>
       (super.noSuchMethod(
-        Invocation.method(#getScheduleStatistics, [groupId, week]),
-        returnValue: _i39
-            .Future<_i45.Result<Map<String, dynamic>, _i46.ApiFailure>>.value(
-          _i42.dummyValue<_i45.Result<Map<String, dynamic>, _i46.ApiFailure>>(
-            this,
             Invocation.method(#getScheduleStatistics, [groupId, week]),
-          ),
-        ),
-        returnValueForMissingStub: _i39
-            .Future<_i45.Result<Map<String, dynamic>, _i46.ApiFailure>>.value(
-          _i42.dummyValue<_i45.Result<Map<String, dynamic>, _i46.ApiFailure>>(
-            this,
-            Invocation.method(#getScheduleStatistics, [groupId, week]),
-          ),
-        ),
-      ) as _i39.Future<_i45.Result<Map<String, dynamic>, _i46.ApiFailure>>);
+            returnValue:
+                _i39.Future<
+                  _i45.Result<Map<String, dynamic>, _i46.ApiFailure>
+                >.value(
+                  _i42.dummyValue<
+                    _i45.Result<Map<String, dynamic>, _i46.ApiFailure>
+                  >(
+                    this,
+                    Invocation.method(#getScheduleStatistics, [groupId, week]),
+                  ),
+                ),
+            returnValueForMissingStub:
+                _i39.Future<
+                  _i45.Result<Map<String, dynamic>, _i46.ApiFailure>
+                >.value(
+                  _i42.dummyValue<
+                    _i45.Result<Map<String, dynamic>, _i46.ApiFailure>
+                  >(
+                    this,
+                    Invocation.method(#getScheduleStatistics, [groupId, week]),
+                  ),
+                ),
+          )
+          as _i39.Future<_i45.Result<Map<String, dynamic>, _i46.ApiFailure>>);
 
   @override
-  _i39.Stream<
-      _i45.Result<_i84.ScheduleSlot, _i46.ApiFailure>> listenToScheduleUpdates(
-          String? groupId, String? week) =>
+  _i39.Stream<_i45.Result<_i84.ScheduleSlot, _i46.ApiFailure>>
+  listenToScheduleUpdates(String? groupId, String? week) =>
       (super.noSuchMethod(
-        Invocation.method(#listenToScheduleUpdates, [groupId, week]),
-        returnValue: _i39
-            .Stream<_i45.Result<_i84.ScheduleSlot, _i46.ApiFailure>>.empty(),
-        returnValueForMissingStub: _i39
-            .Stream<_i45.Result<_i84.ScheduleSlot, _i46.ApiFailure>>.empty(),
-      ) as _i39.Stream<_i45.Result<_i84.ScheduleSlot, _i46.ApiFailure>>);
+            Invocation.method(#listenToScheduleUpdates, [groupId, week]),
+            returnValue:
+                _i39.Stream<
+                  _i45.Result<_i84.ScheduleSlot, _i46.ApiFailure>
+                >.empty(),
+            returnValueForMissingStub:
+                _i39.Stream<
+                  _i45.Result<_i84.ScheduleSlot, _i46.ApiFailure>
+                >.empty(),
+          )
+          as _i39.Stream<_i45.Result<_i84.ScheduleSlot, _i46.ApiFailure>>);
 
   @override
   _i39.Future<_i45.Result<void, _i46.ApiFailure>> sendTypingIndicator(
@@ -7169,120 +7855,143 @@ class MockGroupScheduleRepository extends _i1.Mock
     Map<String, dynamic>? metadata,
   ) =>
       (super.noSuchMethod(
-        Invocation.method(#sendTypingIndicator, [
-          groupId,
-          userId,
-          action,
-          metadata,
-        ]),
-        returnValue: _i39.Future<_i45.Result<void, _i46.ApiFailure>>.value(
-          _i42.dummyValue<_i45.Result<void, _i46.ApiFailure>>(
-            this,
             Invocation.method(#sendTypingIndicator, [
               groupId,
               userId,
               action,
               metadata,
             ]),
-          ),
-        ),
-        returnValueForMissingStub:
-            _i39.Future<_i45.Result<void, _i46.ApiFailure>>.value(
-          _i42.dummyValue<_i45.Result<void, _i46.ApiFailure>>(
-            this,
-            Invocation.method(#sendTypingIndicator, [
-              groupId,
-              userId,
-              action,
-              metadata,
-            ]),
-          ),
-        ),
-      ) as _i39.Future<_i45.Result<void, _i46.ApiFailure>>);
+            returnValue: _i39.Future<_i45.Result<void, _i46.ApiFailure>>.value(
+              _i42.dummyValue<_i45.Result<void, _i46.ApiFailure>>(
+                this,
+                Invocation.method(#sendTypingIndicator, [
+                  groupId,
+                  userId,
+                  action,
+                  metadata,
+                ]),
+              ),
+            ),
+            returnValueForMissingStub:
+                _i39.Future<_i45.Result<void, _i46.ApiFailure>>.value(
+                  _i42.dummyValue<_i45.Result<void, _i46.ApiFailure>>(
+                    this,
+                    Invocation.method(#sendTypingIndicator, [
+                      groupId,
+                      userId,
+                      action,
+                      metadata,
+                    ]),
+                  ),
+                ),
+          )
+          as _i39.Future<_i45.Result<void, _i46.ApiFailure>>);
 
   @override
   _i39.Stream<_i45.Result<Map<String, dynamic>, _i46.ApiFailure>>
-      listenToTypingIndicators(String? groupId) => (super.noSuchMethod(
+  listenToTypingIndicators(String? groupId) =>
+      (super.noSuchMethod(
             Invocation.method(#listenToTypingIndicators, [groupId]),
-            returnValue: _i39.Stream<
-                _i45.Result<Map<String, dynamic>, _i46.ApiFailure>>.empty(),
-            returnValueForMissingStub: _i39.Stream<
-                _i45.Result<Map<String, dynamic>, _i46.ApiFailure>>.empty(),
-          ) as _i39.Stream<_i45.Result<Map<String, dynamic>, _i46.ApiFailure>>);
+            returnValue:
+                _i39.Stream<
+                  _i45.Result<Map<String, dynamic>, _i46.ApiFailure>
+                >.empty(),
+            returnValueForMissingStub:
+                _i39.Stream<
+                  _i45.Result<Map<String, dynamic>, _i46.ApiFailure>
+                >.empty(),
+          )
+          as _i39.Stream<_i45.Result<Map<String, dynamic>, _i46.ApiFailure>>);
 
   @override
   _i39.Future<_i45.Result<List<_i84.ScheduleSlot>, _i46.ApiFailure>>
-      getGroupSchedules(String? groupId,
-              {DateTime? fromDate, DateTime? toDate}) =>
-          (super.noSuchMethod(
+  getGroupSchedules(String? groupId, {DateTime? fromDate, DateTime? toDate}) =>
+      (super.noSuchMethod(
             Invocation.method(
               #getGroupSchedules,
               [groupId],
               {#fromDate: fromDate, #toDate: toDate},
             ),
-            returnValue: _i39.Future<
-                _i45.Result<List<_i84.ScheduleSlot>, _i46.ApiFailure>>.value(
-              _i42.dummyValue<
-                  _i45.Result<List<_i84.ScheduleSlot>, _i46.ApiFailure>>(
-                this,
-                Invocation.method(
-                  #getGroupSchedules,
-                  [groupId],
-                  {#fromDate: fromDate, #toDate: toDate},
+            returnValue:
+                _i39.Future<
+                  _i45.Result<List<_i84.ScheduleSlot>, _i46.ApiFailure>
+                >.value(
+                  _i42.dummyValue<
+                    _i45.Result<List<_i84.ScheduleSlot>, _i46.ApiFailure>
+                  >(
+                    this,
+                    Invocation.method(
+                      #getGroupSchedules,
+                      [groupId],
+                      {#fromDate: fromDate, #toDate: toDate},
+                    ),
+                  ),
                 ),
-              ),
-            ),
-            returnValueForMissingStub: _i39.Future<
-                _i45.Result<List<_i84.ScheduleSlot>, _i46.ApiFailure>>.value(
-              _i42.dummyValue<
-                  _i45.Result<List<_i84.ScheduleSlot>, _i46.ApiFailure>>(
-                this,
-                Invocation.method(
-                  #getGroupSchedules,
-                  [groupId],
-                  {#fromDate: fromDate, #toDate: toDate},
+            returnValueForMissingStub:
+                _i39.Future<
+                  _i45.Result<List<_i84.ScheduleSlot>, _i46.ApiFailure>
+                >.value(
+                  _i42.dummyValue<
+                    _i45.Result<List<_i84.ScheduleSlot>, _i46.ApiFailure>
+                  >(
+                    this,
+                    Invocation.method(
+                      #getGroupSchedules,
+                      [groupId],
+                      {#fromDate: fromDate, #toDate: toDate},
+                    ),
+                  ),
                 ),
-              ),
-            ),
-          ) as _i39
-              .Future<_i45.Result<List<_i84.ScheduleSlot>, _i46.ApiFailure>>);
+          )
+          as _i39.Future<
+            _i45.Result<List<_i84.ScheduleSlot>, _i46.ApiFailure>
+          >);
 
   @override
-  _i39.Future<
-      _i45.Result<Map<String, dynamic>, _i46.ApiFailure>> optimizeGroupSchedule(
+  _i39.Future<_i45.Result<Map<String, dynamic>, _i46.ApiFailure>>
+  optimizeGroupSchedule(
     String? groupId,
     String? week, {
     String? criteria = 'efficiency',
   }) =>
       (super.noSuchMethod(
-        Invocation.method(
-          #optimizeGroupSchedule,
-          [groupId, week],
-          {#criteria: criteria},
-        ),
-        returnValue: _i39
-            .Future<_i45.Result<Map<String, dynamic>, _i46.ApiFailure>>.value(
-          _i42.dummyValue<_i45.Result<Map<String, dynamic>, _i46.ApiFailure>>(
-            this,
             Invocation.method(
               #optimizeGroupSchedule,
               [groupId, week],
               {#criteria: criteria},
             ),
-          ),
-        ),
-        returnValueForMissingStub: _i39
-            .Future<_i45.Result<Map<String, dynamic>, _i46.ApiFailure>>.value(
-          _i42.dummyValue<_i45.Result<Map<String, dynamic>, _i46.ApiFailure>>(
-            this,
-            Invocation.method(
-              #optimizeGroupSchedule,
-              [groupId, week],
-              {#criteria: criteria},
-            ),
-          ),
-        ),
-      ) as _i39.Future<_i45.Result<Map<String, dynamic>, _i46.ApiFailure>>);
+            returnValue:
+                _i39.Future<
+                  _i45.Result<Map<String, dynamic>, _i46.ApiFailure>
+                >.value(
+                  _i42.dummyValue<
+                    _i45.Result<Map<String, dynamic>, _i46.ApiFailure>
+                  >(
+                    this,
+                    Invocation.method(
+                      #optimizeGroupSchedule,
+                      [groupId, week],
+                      {#criteria: criteria},
+                    ),
+                  ),
+                ),
+            returnValueForMissingStub:
+                _i39.Future<
+                  _i45.Result<Map<String, dynamic>, _i46.ApiFailure>
+                >.value(
+                  _i42.dummyValue<
+                    _i45.Result<Map<String, dynamic>, _i46.ApiFailure>
+                  >(
+                    this,
+                    Invocation.method(
+                      #optimizeGroupSchedule,
+                      [groupId, week],
+                      {#criteria: criteria},
+                    ),
+                  ),
+                ),
+          )
+          as _i39.Future<_i45.Result<Map<String, dynamic>, _i46.ApiFailure>>);
 }
 
 /// A class which mocks [GroupRepository].
@@ -7294,22 +8003,23 @@ class MockGroupRepository extends _i1.Mock implements _i85.GroupRepository {
     _i86.CreateGroupCommand? command,
   ) =>
       (super.noSuchMethod(
-        Invocation.method(#createGroup, [command]),
-        returnValue:
-            _i39.Future<_i45.Result<_i86.Group, _i46.ApiFailure>>.value(
-          _i42.dummyValue<_i45.Result<_i86.Group, _i46.ApiFailure>>(
-            this,
             Invocation.method(#createGroup, [command]),
-          ),
-        ),
-        returnValueForMissingStub:
-            _i39.Future<_i45.Result<_i86.Group, _i46.ApiFailure>>.value(
-          _i42.dummyValue<_i45.Result<_i86.Group, _i46.ApiFailure>>(
-            this,
-            Invocation.method(#createGroup, [command]),
-          ),
-        ),
-      ) as _i39.Future<_i45.Result<_i86.Group, _i46.ApiFailure>>);
+            returnValue:
+                _i39.Future<_i45.Result<_i86.Group, _i46.ApiFailure>>.value(
+                  _i42.dummyValue<_i45.Result<_i86.Group, _i46.ApiFailure>>(
+                    this,
+                    Invocation.method(#createGroup, [command]),
+                  ),
+                ),
+            returnValueForMissingStub:
+                _i39.Future<_i45.Result<_i86.Group, _i46.ApiFailure>>.value(
+                  _i42.dummyValue<_i45.Result<_i86.Group, _i46.ApiFailure>>(
+                    this,
+                    Invocation.method(#createGroup, [command]),
+                  ),
+                ),
+          )
+          as _i39.Future<_i45.Result<_i86.Group, _i46.ApiFailure>>);
 
   @override
   _i39.Future<_i45.Result<_i86.Group, _i46.ApiFailure>> updateGroup(
@@ -7317,165 +8027,196 @@ class MockGroupRepository extends _i1.Mock implements _i85.GroupRepository {
     Map<String, dynamic>? updates,
   ) =>
       (super.noSuchMethod(
-        Invocation.method(#updateGroup, [groupId, updates]),
-        returnValue:
-            _i39.Future<_i45.Result<_i86.Group, _i46.ApiFailure>>.value(
-          _i42.dummyValue<_i45.Result<_i86.Group, _i46.ApiFailure>>(
-            this,
             Invocation.method(#updateGroup, [groupId, updates]),
-          ),
-        ),
-        returnValueForMissingStub:
-            _i39.Future<_i45.Result<_i86.Group, _i46.ApiFailure>>.value(
-          _i42.dummyValue<_i45.Result<_i86.Group, _i46.ApiFailure>>(
-            this,
-            Invocation.method(#updateGroup, [groupId, updates]),
-          ),
-        ),
-      ) as _i39.Future<_i45.Result<_i86.Group, _i46.ApiFailure>>);
+            returnValue:
+                _i39.Future<_i45.Result<_i86.Group, _i46.ApiFailure>>.value(
+                  _i42.dummyValue<_i45.Result<_i86.Group, _i46.ApiFailure>>(
+                    this,
+                    Invocation.method(#updateGroup, [groupId, updates]),
+                  ),
+                ),
+            returnValueForMissingStub:
+                _i39.Future<_i45.Result<_i86.Group, _i46.ApiFailure>>.value(
+                  _i42.dummyValue<_i45.Result<_i86.Group, _i46.ApiFailure>>(
+                    this,
+                    Invocation.method(#updateGroup, [groupId, updates]),
+                  ),
+                ),
+          )
+          as _i39.Future<_i45.Result<_i86.Group, _i46.ApiFailure>>);
 
   @override
   _i39.Future<_i45.Result<_i86.Group, _i46.ApiFailure>> getGroup(
     String? groupId,
   ) =>
       (super.noSuchMethod(
-        Invocation.method(#getGroup, [groupId]),
-        returnValue:
-            _i39.Future<_i45.Result<_i86.Group, _i46.ApiFailure>>.value(
-          _i42.dummyValue<_i45.Result<_i86.Group, _i46.ApiFailure>>(
-            this,
             Invocation.method(#getGroup, [groupId]),
-          ),
-        ),
-        returnValueForMissingStub:
-            _i39.Future<_i45.Result<_i86.Group, _i46.ApiFailure>>.value(
-          _i42.dummyValue<_i45.Result<_i86.Group, _i46.ApiFailure>>(
-            this,
-            Invocation.method(#getGroup, [groupId]),
-          ),
-        ),
-      ) as _i39.Future<_i45.Result<_i86.Group, _i46.ApiFailure>>);
+            returnValue:
+                _i39.Future<_i45.Result<_i86.Group, _i46.ApiFailure>>.value(
+                  _i42.dummyValue<_i45.Result<_i86.Group, _i46.ApiFailure>>(
+                    this,
+                    Invocation.method(#getGroup, [groupId]),
+                  ),
+                ),
+            returnValueForMissingStub:
+                _i39.Future<_i45.Result<_i86.Group, _i46.ApiFailure>>.value(
+                  _i42.dummyValue<_i45.Result<_i86.Group, _i46.ApiFailure>>(
+                    this,
+                    Invocation.method(#getGroup, [groupId]),
+                  ),
+                ),
+          )
+          as _i39.Future<_i45.Result<_i86.Group, _i46.ApiFailure>>);
 
   @override
   _i39.Future<_i45.Result<List<_i86.Group>, _i46.ApiFailure>> getGroups() =>
       (super.noSuchMethod(
-        Invocation.method(#getGroups, []),
-        returnValue:
-            _i39.Future<_i45.Result<List<_i86.Group>, _i46.ApiFailure>>.value(
-          _i42.dummyValue<_i45.Result<List<_i86.Group>, _i46.ApiFailure>>(
-              this, Invocation.method(#getGroups, [])),
-        ),
-        returnValueForMissingStub:
-            _i39.Future<_i45.Result<List<_i86.Group>, _i46.ApiFailure>>.value(
-          _i42.dummyValue<_i45.Result<List<_i86.Group>, _i46.ApiFailure>>(
-              this, Invocation.method(#getGroups, [])),
-        ),
-      ) as _i39.Future<_i45.Result<List<_i86.Group>, _i46.ApiFailure>>);
+            Invocation.method(#getGroups, []),
+            returnValue:
+                _i39.Future<
+                  _i45.Result<List<_i86.Group>, _i46.ApiFailure>
+                >.value(
+                  _i42.dummyValue<
+                    _i45.Result<List<_i86.Group>, _i46.ApiFailure>
+                  >(this, Invocation.method(#getGroups, [])),
+                ),
+            returnValueForMissingStub:
+                _i39.Future<
+                  _i45.Result<List<_i86.Group>, _i46.ApiFailure>
+                >.value(
+                  _i42.dummyValue<
+                    _i45.Result<List<_i86.Group>, _i46.ApiFailure>
+                  >(this, Invocation.method(#getGroups, [])),
+                ),
+          )
+          as _i39.Future<_i45.Result<List<_i86.Group>, _i46.ApiFailure>>);
 
   @override
   _i39.Future<_i45.Result<void, _i46.ApiFailure>> deleteGroup(
     String? groupId,
   ) =>
       (super.noSuchMethod(
-        Invocation.method(#deleteGroup, [groupId]),
-        returnValue: _i39.Future<_i45.Result<void, _i46.ApiFailure>>.value(
-          _i42.dummyValue<_i45.Result<void, _i46.ApiFailure>>(
-            this,
             Invocation.method(#deleteGroup, [groupId]),
-          ),
-        ),
-        returnValueForMissingStub:
-            _i39.Future<_i45.Result<void, _i46.ApiFailure>>.value(
-          _i42.dummyValue<_i45.Result<void, _i46.ApiFailure>>(
-            this,
-            Invocation.method(#deleteGroup, [groupId]),
-          ),
-        ),
-      ) as _i39.Future<_i45.Result<void, _i46.ApiFailure>>);
+            returnValue: _i39.Future<_i45.Result<void, _i46.ApiFailure>>.value(
+              _i42.dummyValue<_i45.Result<void, _i46.ApiFailure>>(
+                this,
+                Invocation.method(#deleteGroup, [groupId]),
+              ),
+            ),
+            returnValueForMissingStub:
+                _i39.Future<_i45.Result<void, _i46.ApiFailure>>.value(
+                  _i42.dummyValue<_i45.Result<void, _i46.ApiFailure>>(
+                    this,
+                    Invocation.method(#deleteGroup, [groupId]),
+                  ),
+                ),
+          )
+          as _i39.Future<_i45.Result<void, _i46.ApiFailure>>);
 
   @override
   _i39.Future<_i45.Result<_i86.Group, _i46.ApiFailure>> joinGroup(
     String? inviteCode,
   ) =>
       (super.noSuchMethod(
-        Invocation.method(#joinGroup, [inviteCode]),
-        returnValue:
-            _i39.Future<_i45.Result<_i86.Group, _i46.ApiFailure>>.value(
-          _i42.dummyValue<_i45.Result<_i86.Group, _i46.ApiFailure>>(
-            this,
             Invocation.method(#joinGroup, [inviteCode]),
-          ),
-        ),
-        returnValueForMissingStub:
-            _i39.Future<_i45.Result<_i86.Group, _i46.ApiFailure>>.value(
-          _i42.dummyValue<_i45.Result<_i86.Group, _i46.ApiFailure>>(
-            this,
-            Invocation.method(#joinGroup, [inviteCode]),
-          ),
-        ),
-      ) as _i39.Future<_i45.Result<_i86.Group, _i46.ApiFailure>>);
+            returnValue:
+                _i39.Future<_i45.Result<_i86.Group, _i46.ApiFailure>>.value(
+                  _i42.dummyValue<_i45.Result<_i86.Group, _i46.ApiFailure>>(
+                    this,
+                    Invocation.method(#joinGroup, [inviteCode]),
+                  ),
+                ),
+            returnValueForMissingStub:
+                _i39.Future<_i45.Result<_i86.Group, _i46.ApiFailure>>.value(
+                  _i42.dummyValue<_i45.Result<_i86.Group, _i46.ApiFailure>>(
+                    this,
+                    Invocation.method(#joinGroup, [inviteCode]),
+                  ),
+                ),
+          )
+          as _i39.Future<_i45.Result<_i86.Group, _i46.ApiFailure>>);
 
   @override
   _i39.Future<_i45.Result<void, _i46.ApiFailure>> leaveGroup(String? groupId) =>
       (super.noSuchMethod(
-        Invocation.method(#leaveGroup, [groupId]),
-        returnValue: _i39.Future<_i45.Result<void, _i46.ApiFailure>>.value(
-          _i42.dummyValue<_i45.Result<void, _i46.ApiFailure>>(
-            this,
             Invocation.method(#leaveGroup, [groupId]),
-          ),
-        ),
-        returnValueForMissingStub:
-            _i39.Future<_i45.Result<void, _i46.ApiFailure>>.value(
-          _i42.dummyValue<_i45.Result<void, _i46.ApiFailure>>(
-            this,
-            Invocation.method(#leaveGroup, [groupId]),
-          ),
-        ),
-      ) as _i39.Future<_i45.Result<void, _i46.ApiFailure>>);
+            returnValue: _i39.Future<_i45.Result<void, _i46.ApiFailure>>.value(
+              _i42.dummyValue<_i45.Result<void, _i46.ApiFailure>>(
+                this,
+                Invocation.method(#leaveGroup, [groupId]),
+              ),
+            ),
+            returnValueForMissingStub:
+                _i39.Future<_i45.Result<void, _i46.ApiFailure>>.value(
+                  _i42.dummyValue<_i45.Result<void, _i46.ApiFailure>>(
+                    this,
+                    Invocation.method(#leaveGroup, [groupId]),
+                  ),
+                ),
+          )
+          as _i39.Future<_i45.Result<void, _i46.ApiFailure>>);
 
   @override
-  _i39.Future<
-      _i45.Result<_i35.GroupInvitationValidationData,
-          _i46.ApiFailure>> validateInvitation(String? code) =>
+  _i39.Future<_i45.Result<_i35.GroupInvitationValidationData, _i46.ApiFailure>>
+  validateInvitation(String? code) =>
       (super.noSuchMethod(
-        Invocation.method(#validateInvitation, [code]),
-        returnValue: _i39.Future<
-            _i45
-            .Result<_i35.GroupInvitationValidationData, _i46.ApiFailure>>.value(
-          _i42.dummyValue<
-                  _i45
-                  .Result<_i35.GroupInvitationValidationData, _i46.ApiFailure>>(
-              this, Invocation.method(#validateInvitation, [code])),
-        ),
-        returnValueForMissingStub: _i39.Future<
-            _i45
-            .Result<_i35.GroupInvitationValidationData, _i46.ApiFailure>>.value(
-          _i42.dummyValue<
-                  _i45
-                  .Result<_i35.GroupInvitationValidationData, _i46.ApiFailure>>(
-              this, Invocation.method(#validateInvitation, [code])),
-        ),
-      ) as _i39.Future<
-          _i45.Result<_i35.GroupInvitationValidationData, _i46.ApiFailure>>);
+            Invocation.method(#validateInvitation, [code]),
+            returnValue:
+                _i39.Future<
+                  _i45.Result<
+                    _i35.GroupInvitationValidationData,
+                    _i46.ApiFailure
+                  >
+                >.value(
+                  _i42.dummyValue<
+                    _i45.Result<
+                      _i35.GroupInvitationValidationData,
+                      _i46.ApiFailure
+                    >
+                  >(this, Invocation.method(#validateInvitation, [code])),
+                ),
+            returnValueForMissingStub:
+                _i39.Future<
+                  _i45.Result<
+                    _i35.GroupInvitationValidationData,
+                    _i46.ApiFailure
+                  >
+                >.value(
+                  _i42.dummyValue<
+                    _i45.Result<
+                      _i35.GroupInvitationValidationData,
+                      _i46.ApiFailure
+                    >
+                  >(this, Invocation.method(#validateInvitation, [code])),
+                ),
+          )
+          as _i39.Future<
+            _i45.Result<_i35.GroupInvitationValidationData, _i46.ApiFailure>
+          >);
 
   @override
-  _i39.Future<
-      _i45.Result<List<_i87.GroupFamily>, _i46.ApiFailure>> getGroupFamilies(
-          String? groupId) =>
+  _i39.Future<_i45.Result<List<_i87.GroupFamily>, _i46.ApiFailure>>
+  getGroupFamilies(String? groupId) =>
       (super.noSuchMethod(
-        Invocation.method(#getGroupFamilies, [groupId]),
-        returnValue: _i39
-            .Future<_i45.Result<List<_i87.GroupFamily>, _i46.ApiFailure>>.value(
-          _i42.dummyValue<_i45.Result<List<_i87.GroupFamily>, _i46.ApiFailure>>(
-              this, Invocation.method(#getGroupFamilies, [groupId])),
-        ),
-        returnValueForMissingStub: _i39
-            .Future<_i45.Result<List<_i87.GroupFamily>, _i46.ApiFailure>>.value(
-          _i42.dummyValue<_i45.Result<List<_i87.GroupFamily>, _i46.ApiFailure>>(
-              this, Invocation.method(#getGroupFamilies, [groupId])),
-        ),
-      ) as _i39.Future<_i45.Result<List<_i87.GroupFamily>, _i46.ApiFailure>>);
+            Invocation.method(#getGroupFamilies, [groupId]),
+            returnValue:
+                _i39.Future<
+                  _i45.Result<List<_i87.GroupFamily>, _i46.ApiFailure>
+                >.value(
+                  _i42.dummyValue<
+                    _i45.Result<List<_i87.GroupFamily>, _i46.ApiFailure>
+                  >(this, Invocation.method(#getGroupFamilies, [groupId])),
+                ),
+            returnValueForMissingStub:
+                _i39.Future<
+                  _i45.Result<List<_i87.GroupFamily>, _i46.ApiFailure>
+                >.value(
+                  _i42.dummyValue<
+                    _i45.Result<List<_i87.GroupFamily>, _i46.ApiFailure>
+                  >(this, Invocation.method(#getGroupFamilies, [groupId])),
+                ),
+          )
+          as _i39.Future<_i45.Result<List<_i87.GroupFamily>, _i46.ApiFailure>>);
 
   @override
   _i39.Future<_i45.Result<_i87.GroupFamily, _i46.ApiFailure>> updateFamilyRole(
@@ -7484,30 +8225,39 @@ class MockGroupRepository extends _i1.Mock implements _i85.GroupRepository {
     Map<String, dynamic>? updates,
   ) =>
       (super.noSuchMethod(
-        Invocation.method(#updateFamilyRole, [groupId, familyId, updates]),
-        returnValue:
-            _i39.Future<_i45.Result<_i87.GroupFamily, _i46.ApiFailure>>.value(
-          _i42.dummyValue<_i45.Result<_i87.GroupFamily, _i46.ApiFailure>>(
-            this,
-            Invocation.method(#updateFamilyRole, [
-              groupId,
-              familyId,
-              updates,
-            ]),
-          ),
-        ),
-        returnValueForMissingStub:
-            _i39.Future<_i45.Result<_i87.GroupFamily, _i46.ApiFailure>>.value(
-          _i42.dummyValue<_i45.Result<_i87.GroupFamily, _i46.ApiFailure>>(
-            this,
-            Invocation.method(#updateFamilyRole, [
-              groupId,
-              familyId,
-              updates,
-            ]),
-          ),
-        ),
-      ) as _i39.Future<_i45.Result<_i87.GroupFamily, _i46.ApiFailure>>);
+            Invocation.method(#updateFamilyRole, [groupId, familyId, updates]),
+            returnValue:
+                _i39.Future<
+                  _i45.Result<_i87.GroupFamily, _i46.ApiFailure>
+                >.value(
+                  _i42.dummyValue<
+                    _i45.Result<_i87.GroupFamily, _i46.ApiFailure>
+                  >(
+                    this,
+                    Invocation.method(#updateFamilyRole, [
+                      groupId,
+                      familyId,
+                      updates,
+                    ]),
+                  ),
+                ),
+            returnValueForMissingStub:
+                _i39.Future<
+                  _i45.Result<_i87.GroupFamily, _i46.ApiFailure>
+                >.value(
+                  _i42.dummyValue<
+                    _i45.Result<_i87.GroupFamily, _i46.ApiFailure>
+                  >(
+                    this,
+                    Invocation.method(#updateFamilyRole, [
+                      groupId,
+                      familyId,
+                      updates,
+                    ]),
+                  ),
+                ),
+          )
+          as _i39.Future<_i45.Result<_i87.GroupFamily, _i46.ApiFailure>>);
 
   @override
   _i39.Future<_i45.Result<void, _i46.ApiFailure>> removeFamilyFromGroup(
@@ -7515,24 +8265,25 @@ class MockGroupRepository extends _i1.Mock implements _i85.GroupRepository {
     String? familyId,
   ) =>
       (super.noSuchMethod(
-        Invocation.method(#removeFamilyFromGroup, [groupId, familyId]),
-        returnValue: _i39.Future<_i45.Result<void, _i46.ApiFailure>>.value(
-          _i42.dummyValue<_i45.Result<void, _i46.ApiFailure>>(
-            this,
             Invocation.method(#removeFamilyFromGroup, [groupId, familyId]),
-          ),
-        ),
-        returnValueForMissingStub:
-            _i39.Future<_i45.Result<void, _i46.ApiFailure>>.value(
-          _i42.dummyValue<_i45.Result<void, _i46.ApiFailure>>(
-            this,
-            Invocation.method(#removeFamilyFromGroup, [
-              groupId,
-              familyId,
-            ]),
-          ),
-        ),
-      ) as _i39.Future<_i45.Result<void, _i46.ApiFailure>>);
+            returnValue: _i39.Future<_i45.Result<void, _i46.ApiFailure>>.value(
+              _i42.dummyValue<_i45.Result<void, _i46.ApiFailure>>(
+                this,
+                Invocation.method(#removeFamilyFromGroup, [groupId, familyId]),
+              ),
+            ),
+            returnValueForMissingStub:
+                _i39.Future<_i45.Result<void, _i46.ApiFailure>>.value(
+                  _i42.dummyValue<_i45.Result<void, _i46.ApiFailure>>(
+                    this,
+                    Invocation.method(#removeFamilyFromGroup, [
+                      groupId,
+                      familyId,
+                    ]),
+                  ),
+                ),
+          )
+          as _i39.Future<_i45.Result<void, _i46.ApiFailure>>);
 
   @override
   _i39.Future<_i45.Result<void, _i46.ApiFailure>> cancelInvitation(
@@ -7540,62 +8291,69 @@ class MockGroupRepository extends _i1.Mock implements _i85.GroupRepository {
     String? invitationId,
   ) =>
       (super.noSuchMethod(
-        Invocation.method(#cancelInvitation, [groupId, invitationId]),
-        returnValue: _i39.Future<_i45.Result<void, _i46.ApiFailure>>.value(
-          _i42.dummyValue<_i45.Result<void, _i46.ApiFailure>>(
-            this,
             Invocation.method(#cancelInvitation, [groupId, invitationId]),
-          ),
-        ),
-        returnValueForMissingStub:
-            _i39.Future<_i45.Result<void, _i46.ApiFailure>>.value(
-          _i42.dummyValue<_i45.Result<void, _i46.ApiFailure>>(
-            this,
-            Invocation.method(#cancelInvitation, [
-              groupId,
-              invitationId,
-            ]),
-          ),
-        ),
-      ) as _i39.Future<_i45.Result<void, _i46.ApiFailure>>);
+            returnValue: _i39.Future<_i45.Result<void, _i46.ApiFailure>>.value(
+              _i42.dummyValue<_i45.Result<void, _i46.ApiFailure>>(
+                this,
+                Invocation.method(#cancelInvitation, [groupId, invitationId]),
+              ),
+            ),
+            returnValueForMissingStub:
+                _i39.Future<_i45.Result<void, _i46.ApiFailure>>.value(
+                  _i42.dummyValue<_i45.Result<void, _i46.ApiFailure>>(
+                    this,
+                    Invocation.method(#cancelInvitation, [
+                      groupId,
+                      invitationId,
+                    ]),
+                  ),
+                ),
+          )
+          as _i39.Future<_i45.Result<void, _i46.ApiFailure>>);
 
   @override
   _i39.Future<_i45.Result<List<_i35.FamilySearchResult>, _i46.ApiFailure>>
-      searchFamiliesForInvitation(String? groupId, String? query, int? limit) =>
-          (super.noSuchMethod(
+  searchFamiliesForInvitation(String? groupId, String? query, int? limit) =>
+      (super.noSuchMethod(
             Invocation.method(#searchFamiliesForInvitation, [
               groupId,
               query,
               limit,
             ]),
-            returnValue: _i39.Future<
-                _i45
-                .Result<List<_i35.FamilySearchResult>, _i46.ApiFailure>>.value(
-              _i42.dummyValue<
-                  _i45.Result<List<_i35.FamilySearchResult>, _i46.ApiFailure>>(
-                this,
-                Invocation.method(#searchFamiliesForInvitation, [
-                  groupId,
-                  query,
-                  limit,
-                ]),
-              ),
-            ),
-            returnValueForMissingStub: _i39.Future<
-                _i45
-                .Result<List<_i35.FamilySearchResult>, _i46.ApiFailure>>.value(
-              _i42.dummyValue<
-                  _i45.Result<List<_i35.FamilySearchResult>, _i46.ApiFailure>>(
-                this,
-                Invocation.method(#searchFamiliesForInvitation, [
-                  groupId,
-                  query,
-                  limit,
-                ]),
-              ),
-            ),
-          ) as _i39.Future<
-              _i45.Result<List<_i35.FamilySearchResult>, _i46.ApiFailure>>);
+            returnValue:
+                _i39.Future<
+                  _i45.Result<List<_i35.FamilySearchResult>, _i46.ApiFailure>
+                >.value(
+                  _i42.dummyValue<
+                    _i45.Result<List<_i35.FamilySearchResult>, _i46.ApiFailure>
+                  >(
+                    this,
+                    Invocation.method(#searchFamiliesForInvitation, [
+                      groupId,
+                      query,
+                      limit,
+                    ]),
+                  ),
+                ),
+            returnValueForMissingStub:
+                _i39.Future<
+                  _i45.Result<List<_i35.FamilySearchResult>, _i46.ApiFailure>
+                >.value(
+                  _i42.dummyValue<
+                    _i45.Result<List<_i35.FamilySearchResult>, _i46.ApiFailure>
+                  >(
+                    this,
+                    Invocation.method(#searchFamiliesForInvitation, [
+                      groupId,
+                      query,
+                      limit,
+                    ]),
+                  ),
+                ),
+          )
+          as _i39.Future<
+            _i45.Result<List<_i35.FamilySearchResult>, _i46.ApiFailure>
+          >);
 
   @override
   _i39.Future<_i45.Result<void, _i46.ApiFailure>> inviteFamilyToGroup(
@@ -7605,36 +8363,37 @@ class MockGroupRepository extends _i1.Mock implements _i85.GroupRepository {
     String? message,
   ) =>
       (super.noSuchMethod(
-        Invocation.method(#inviteFamilyToGroup, [
-          groupId,
-          familyId,
-          role,
-          message,
-        ]),
-        returnValue: _i39.Future<_i45.Result<void, _i46.ApiFailure>>.value(
-          _i42.dummyValue<_i45.Result<void, _i46.ApiFailure>>(
-            this,
             Invocation.method(#inviteFamilyToGroup, [
               groupId,
               familyId,
               role,
               message,
             ]),
-          ),
-        ),
-        returnValueForMissingStub:
-            _i39.Future<_i45.Result<void, _i46.ApiFailure>>.value(
-          _i42.dummyValue<_i45.Result<void, _i46.ApiFailure>>(
-            this,
-            Invocation.method(#inviteFamilyToGroup, [
-              groupId,
-              familyId,
-              role,
-              message,
-            ]),
-          ),
-        ),
-      ) as _i39.Future<_i45.Result<void, _i46.ApiFailure>>);
+            returnValue: _i39.Future<_i45.Result<void, _i46.ApiFailure>>.value(
+              _i42.dummyValue<_i45.Result<void, _i46.ApiFailure>>(
+                this,
+                Invocation.method(#inviteFamilyToGroup, [
+                  groupId,
+                  familyId,
+                  role,
+                  message,
+                ]),
+              ),
+            ),
+            returnValueForMissingStub:
+                _i39.Future<_i45.Result<void, _i46.ApiFailure>>.value(
+                  _i42.dummyValue<_i45.Result<void, _i46.ApiFailure>>(
+                    this,
+                    Invocation.method(#inviteFamilyToGroup, [
+                      groupId,
+                      familyId,
+                      role,
+                      message,
+                    ]),
+                  ),
+                ),
+          )
+          as _i39.Future<_i45.Result<void, _i46.ApiFailure>>);
 }
 
 /// A class which mocks [GroupService].
@@ -7644,60 +8403,69 @@ class MockGroupService extends _i1.Mock implements _i88.GroupService {
   @override
   _i39.Future<_i45.Result<List<_i86.Group>, _i46.ApiFailure>> getAll() =>
       (super.noSuchMethod(
-        Invocation.method(#getAll, []),
-        returnValue:
-            _i39.Future<_i45.Result<List<_i86.Group>, _i46.ApiFailure>>.value(
-          _i42.dummyValue<_i45.Result<List<_i86.Group>, _i46.ApiFailure>>(
-              this, Invocation.method(#getAll, [])),
-        ),
-        returnValueForMissingStub:
-            _i39.Future<_i45.Result<List<_i86.Group>, _i46.ApiFailure>>.value(
-          _i42.dummyValue<_i45.Result<List<_i86.Group>, _i46.ApiFailure>>(
-              this, Invocation.method(#getAll, [])),
-        ),
-      ) as _i39.Future<_i45.Result<List<_i86.Group>, _i46.ApiFailure>>);
+            Invocation.method(#getAll, []),
+            returnValue:
+                _i39.Future<
+                  _i45.Result<List<_i86.Group>, _i46.ApiFailure>
+                >.value(
+                  _i42.dummyValue<
+                    _i45.Result<List<_i86.Group>, _i46.ApiFailure>
+                  >(this, Invocation.method(#getAll, [])),
+                ),
+            returnValueForMissingStub:
+                _i39.Future<
+                  _i45.Result<List<_i86.Group>, _i46.ApiFailure>
+                >.value(
+                  _i42.dummyValue<
+                    _i45.Result<List<_i86.Group>, _i46.ApiFailure>
+                  >(this, Invocation.method(#getAll, [])),
+                ),
+          )
+          as _i39.Future<_i45.Result<List<_i86.Group>, _i46.ApiFailure>>);
 
   @override
   _i39.Future<_i45.Result<_i86.Group, _i46.ApiFailure>> getById(String? id) =>
       (super.noSuchMethod(
-        Invocation.method(#getById, [id]),
-        returnValue:
-            _i39.Future<_i45.Result<_i86.Group, _i46.ApiFailure>>.value(
-          _i42.dummyValue<_i45.Result<_i86.Group, _i46.ApiFailure>>(
-            this,
             Invocation.method(#getById, [id]),
-          ),
-        ),
-        returnValueForMissingStub:
-            _i39.Future<_i45.Result<_i86.Group, _i46.ApiFailure>>.value(
-          _i42.dummyValue<_i45.Result<_i86.Group, _i46.ApiFailure>>(
-            this,
-            Invocation.method(#getById, [id]),
-          ),
-        ),
-      ) as _i39.Future<_i45.Result<_i86.Group, _i46.ApiFailure>>);
+            returnValue:
+                _i39.Future<_i45.Result<_i86.Group, _i46.ApiFailure>>.value(
+                  _i42.dummyValue<_i45.Result<_i86.Group, _i46.ApiFailure>>(
+                    this,
+                    Invocation.method(#getById, [id]),
+                  ),
+                ),
+            returnValueForMissingStub:
+                _i39.Future<_i45.Result<_i86.Group, _i46.ApiFailure>>.value(
+                  _i42.dummyValue<_i45.Result<_i86.Group, _i46.ApiFailure>>(
+                    this,
+                    Invocation.method(#getById, [id]),
+                  ),
+                ),
+          )
+          as _i39.Future<_i45.Result<_i86.Group, _i46.ApiFailure>>);
 
   @override
   _i39.Future<_i45.Result<_i86.Group, _i46.ApiFailure>> create(
     _i86.CreateGroupCommand? command,
   ) =>
       (super.noSuchMethod(
-        Invocation.method(#create, [command]),
-        returnValue:
-            _i39.Future<_i45.Result<_i86.Group, _i46.ApiFailure>>.value(
-          _i42.dummyValue<_i45.Result<_i86.Group, _i46.ApiFailure>>(
-            this,
             Invocation.method(#create, [command]),
-          ),
-        ),
-        returnValueForMissingStub:
-            _i39.Future<_i45.Result<_i86.Group, _i46.ApiFailure>>.value(
-          _i42.dummyValue<_i45.Result<_i86.Group, _i46.ApiFailure>>(
-            this,
-            Invocation.method(#create, [command]),
-          ),
-        ),
-      ) as _i39.Future<_i45.Result<_i86.Group, _i46.ApiFailure>>);
+            returnValue:
+                _i39.Future<_i45.Result<_i86.Group, _i46.ApiFailure>>.value(
+                  _i42.dummyValue<_i45.Result<_i86.Group, _i46.ApiFailure>>(
+                    this,
+                    Invocation.method(#create, [command]),
+                  ),
+                ),
+            returnValueForMissingStub:
+                _i39.Future<_i45.Result<_i86.Group, _i46.ApiFailure>>.value(
+                  _i42.dummyValue<_i45.Result<_i86.Group, _i46.ApiFailure>>(
+                    this,
+                    Invocation.method(#create, [command]),
+                  ),
+                ),
+          )
+          as _i39.Future<_i45.Result<_i86.Group, _i46.ApiFailure>>);
 
   @override
   _i39.Future<_i45.Result<_i86.Group, _i46.ApiFailure>> update(
@@ -7705,41 +8473,43 @@ class MockGroupService extends _i1.Mock implements _i88.GroupService {
     Map<String, dynamic>? updates,
   ) =>
       (super.noSuchMethod(
-        Invocation.method(#update, [id, updates]),
-        returnValue:
-            _i39.Future<_i45.Result<_i86.Group, _i46.ApiFailure>>.value(
-          _i42.dummyValue<_i45.Result<_i86.Group, _i46.ApiFailure>>(
-            this,
             Invocation.method(#update, [id, updates]),
-          ),
-        ),
-        returnValueForMissingStub:
-            _i39.Future<_i45.Result<_i86.Group, _i46.ApiFailure>>.value(
-          _i42.dummyValue<_i45.Result<_i86.Group, _i46.ApiFailure>>(
-            this,
-            Invocation.method(#update, [id, updates]),
-          ),
-        ),
-      ) as _i39.Future<_i45.Result<_i86.Group, _i46.ApiFailure>>);
+            returnValue:
+                _i39.Future<_i45.Result<_i86.Group, _i46.ApiFailure>>.value(
+                  _i42.dummyValue<_i45.Result<_i86.Group, _i46.ApiFailure>>(
+                    this,
+                    Invocation.method(#update, [id, updates]),
+                  ),
+                ),
+            returnValueForMissingStub:
+                _i39.Future<_i45.Result<_i86.Group, _i46.ApiFailure>>.value(
+                  _i42.dummyValue<_i45.Result<_i86.Group, _i46.ApiFailure>>(
+                    this,
+                    Invocation.method(#update, [id, updates]),
+                  ),
+                ),
+          )
+          as _i39.Future<_i45.Result<_i86.Group, _i46.ApiFailure>>);
 
   @override
   _i39.Future<_i45.Result<void, _i46.ApiFailure>> delete(String? id) =>
       (super.noSuchMethod(
-        Invocation.method(#delete, [id]),
-        returnValue: _i39.Future<_i45.Result<void, _i46.ApiFailure>>.value(
-          _i42.dummyValue<_i45.Result<void, _i46.ApiFailure>>(
-            this,
             Invocation.method(#delete, [id]),
-          ),
-        ),
-        returnValueForMissingStub:
-            _i39.Future<_i45.Result<void, _i46.ApiFailure>>.value(
-          _i42.dummyValue<_i45.Result<void, _i46.ApiFailure>>(
-            this,
-            Invocation.method(#delete, [id]),
-          ),
-        ),
-      ) as _i39.Future<_i45.Result<void, _i46.ApiFailure>>);
+            returnValue: _i39.Future<_i45.Result<void, _i46.ApiFailure>>.value(
+              _i42.dummyValue<_i45.Result<void, _i46.ApiFailure>>(
+                this,
+                Invocation.method(#delete, [id]),
+              ),
+            ),
+            returnValueForMissingStub:
+                _i39.Future<_i45.Result<void, _i46.ApiFailure>>.value(
+                  _i42.dummyValue<_i45.Result<void, _i46.ApiFailure>>(
+                    this,
+                    Invocation.method(#delete, [id]),
+                  ),
+                ),
+          )
+          as _i39.Future<_i45.Result<void, _i46.ApiFailure>>);
 }
 
 /// A class which mocks [ChildrenService].
@@ -7752,31 +8522,32 @@ class MockChildrenService extends _i1.Mock implements _i89.ChildrenService {
     required _i80.CreateChildRequest? request,
   }) =>
       (super.noSuchMethod(
-        Invocation.method(#add, [], {
-          #familyId: familyId,
-          #request: request,
-        }),
-        returnValue:
-            _i39.Future<_i45.Result<_i32.Child, _i46.ApiFailure>>.value(
-          _i42.dummyValue<_i45.Result<_i32.Child, _i46.ApiFailure>>(
-            this,
             Invocation.method(#add, [], {
               #familyId: familyId,
               #request: request,
             }),
-          ),
-        ),
-        returnValueForMissingStub:
-            _i39.Future<_i45.Result<_i32.Child, _i46.ApiFailure>>.value(
-          _i42.dummyValue<_i45.Result<_i32.Child, _i46.ApiFailure>>(
-            this,
-            Invocation.method(#add, [], {
-              #familyId: familyId,
-              #request: request,
-            }),
-          ),
-        ),
-      ) as _i39.Future<_i45.Result<_i32.Child, _i46.ApiFailure>>);
+            returnValue:
+                _i39.Future<_i45.Result<_i32.Child, _i46.ApiFailure>>.value(
+                  _i42.dummyValue<_i45.Result<_i32.Child, _i46.ApiFailure>>(
+                    this,
+                    Invocation.method(#add, [], {
+                      #familyId: familyId,
+                      #request: request,
+                    }),
+                  ),
+                ),
+            returnValueForMissingStub:
+                _i39.Future<_i45.Result<_i32.Child, _i46.ApiFailure>>.value(
+                  _i42.dummyValue<_i45.Result<_i32.Child, _i46.ApiFailure>>(
+                    this,
+                    Invocation.method(#add, [], {
+                      #familyId: familyId,
+                      #request: request,
+                    }),
+                  ),
+                ),
+          )
+          as _i39.Future<_i45.Result<_i32.Child, _i46.ApiFailure>>);
 
   @override
   _i39.Future<_i45.Result<_i32.Child, _i46.ApiFailure>> update({
@@ -7784,31 +8555,32 @@ class MockChildrenService extends _i1.Mock implements _i89.ChildrenService {
     required _i80.UpdateChildParams? params,
   }) =>
       (super.noSuchMethod(
-        Invocation.method(#update, [], {
-          #familyId: familyId,
-          #params: params,
-        }),
-        returnValue:
-            _i39.Future<_i45.Result<_i32.Child, _i46.ApiFailure>>.value(
-          _i42.dummyValue<_i45.Result<_i32.Child, _i46.ApiFailure>>(
-            this,
             Invocation.method(#update, [], {
               #familyId: familyId,
               #params: params,
             }),
-          ),
-        ),
-        returnValueForMissingStub:
-            _i39.Future<_i45.Result<_i32.Child, _i46.ApiFailure>>.value(
-          _i42.dummyValue<_i45.Result<_i32.Child, _i46.ApiFailure>>(
-            this,
-            Invocation.method(#update, [], {
-              #familyId: familyId,
-              #params: params,
-            }),
-          ),
-        ),
-      ) as _i39.Future<_i45.Result<_i32.Child, _i46.ApiFailure>>);
+            returnValue:
+                _i39.Future<_i45.Result<_i32.Child, _i46.ApiFailure>>.value(
+                  _i42.dummyValue<_i45.Result<_i32.Child, _i46.ApiFailure>>(
+                    this,
+                    Invocation.method(#update, [], {
+                      #familyId: familyId,
+                      #params: params,
+                    }),
+                  ),
+                ),
+            returnValueForMissingStub:
+                _i39.Future<_i45.Result<_i32.Child, _i46.ApiFailure>>.value(
+                  _i42.dummyValue<_i45.Result<_i32.Child, _i46.ApiFailure>>(
+                    this,
+                    Invocation.method(#update, [], {
+                      #familyId: familyId,
+                      #params: params,
+                    }),
+                  ),
+                ),
+          )
+          as _i39.Future<_i45.Result<_i32.Child, _i46.ApiFailure>>);
 
   @override
   _i39.Future<_i45.Result<void, _i46.ApiFailure>> remove({
@@ -7816,30 +8588,31 @@ class MockChildrenService extends _i1.Mock implements _i89.ChildrenService {
     required String? childId,
   }) =>
       (super.noSuchMethod(
-        Invocation.method(#remove, [], {
-          #familyId: familyId,
-          #childId: childId,
-        }),
-        returnValue: _i39.Future<_i45.Result<void, _i46.ApiFailure>>.value(
-          _i42.dummyValue<_i45.Result<void, _i46.ApiFailure>>(
-            this,
             Invocation.method(#remove, [], {
               #familyId: familyId,
               #childId: childId,
             }),
-          ),
-        ),
-        returnValueForMissingStub:
-            _i39.Future<_i45.Result<void, _i46.ApiFailure>>.value(
-          _i42.dummyValue<_i45.Result<void, _i46.ApiFailure>>(
-            this,
-            Invocation.method(#remove, [], {
-              #familyId: familyId,
-              #childId: childId,
-            }),
-          ),
-        ),
-      ) as _i39.Future<_i45.Result<void, _i46.ApiFailure>>);
+            returnValue: _i39.Future<_i45.Result<void, _i46.ApiFailure>>.value(
+              _i42.dummyValue<_i45.Result<void, _i46.ApiFailure>>(
+                this,
+                Invocation.method(#remove, [], {
+                  #familyId: familyId,
+                  #childId: childId,
+                }),
+              ),
+            ),
+            returnValueForMissingStub:
+                _i39.Future<_i45.Result<void, _i46.ApiFailure>>.value(
+                  _i42.dummyValue<_i45.Result<void, _i46.ApiFailure>>(
+                    this,
+                    Invocation.method(#remove, [], {
+                      #familyId: familyId,
+                      #childId: childId,
+                    }),
+                  ),
+                ),
+          )
+          as _i39.Future<_i45.Result<void, _i46.ApiFailure>>);
 }
 
 /// A class which mocks [FamilyRemoteDataSource].
@@ -7848,103 +8621,111 @@ class MockChildrenService extends _i1.Mock implements _i89.ChildrenService {
 class MockFamilyRemoteDataSource extends _i1.Mock
     implements _i90.FamilyRemoteDataSource {
   @override
-  _i39.Future<_i31.FamilyDto> getCurrentFamily() => (super.noSuchMethod(
-        Invocation.method(#getCurrentFamily, []),
-        returnValue: _i39.Future<_i31.FamilyDto>.value(
-          _FakeFamilyDto_35(this, Invocation.method(#getCurrentFamily, [])),
-        ),
-        returnValueForMissingStub: _i39.Future<_i31.FamilyDto>.value(
-          _FakeFamilyDto_35(this, Invocation.method(#getCurrentFamily, [])),
-        ),
-      ) as _i39.Future<_i31.FamilyDto>);
+  _i39.Future<_i31.FamilyDto> getCurrentFamily() =>
+      (super.noSuchMethod(
+            Invocation.method(#getCurrentFamily, []),
+            returnValue: _i39.Future<_i31.FamilyDto>.value(
+              _FakeFamilyDto_35(this, Invocation.method(#getCurrentFamily, [])),
+            ),
+            returnValueForMissingStub: _i39.Future<_i31.FamilyDto>.value(
+              _FakeFamilyDto_35(this, Invocation.method(#getCurrentFamily, [])),
+            ),
+          )
+          as _i39.Future<_i31.FamilyDto>);
 
   @override
   _i39.Future<_i31.FamilyDto> createFamily({required String? name}) =>
       (super.noSuchMethod(
-        Invocation.method(#createFamily, [], {#name: name}),
-        returnValue: _i39.Future<_i31.FamilyDto>.value(
-          _FakeFamilyDto_35(
-            this,
             Invocation.method(#createFamily, [], {#name: name}),
-          ),
-        ),
-        returnValueForMissingStub: _i39.Future<_i31.FamilyDto>.value(
-          _FakeFamilyDto_35(
-            this,
-            Invocation.method(#createFamily, [], {#name: name}),
-          ),
-        ),
-      ) as _i39.Future<_i31.FamilyDto>);
+            returnValue: _i39.Future<_i31.FamilyDto>.value(
+              _FakeFamilyDto_35(
+                this,
+                Invocation.method(#createFamily, [], {#name: name}),
+              ),
+            ),
+            returnValueForMissingStub: _i39.Future<_i31.FamilyDto>.value(
+              _FakeFamilyDto_35(
+                this,
+                Invocation.method(#createFamily, [], {#name: name}),
+              ),
+            ),
+          )
+          as _i39.Future<_i31.FamilyDto>);
 
   @override
   _i39.Future<_i31.FamilyDto> updateFamilyName({required String? name}) =>
       (super.noSuchMethod(
-        Invocation.method(#updateFamilyName, [], {#name: name}),
-        returnValue: _i39.Future<_i31.FamilyDto>.value(
-          _FakeFamilyDto_35(
-            this,
             Invocation.method(#updateFamilyName, [], {#name: name}),
-          ),
-        ),
-        returnValueForMissingStub: _i39.Future<_i31.FamilyDto>.value(
-          _FakeFamilyDto_35(
-            this,
-            Invocation.method(#updateFamilyName, [], {#name: name}),
-          ),
-        ),
-      ) as _i39.Future<_i31.FamilyDto>);
+            returnValue: _i39.Future<_i31.FamilyDto>.value(
+              _FakeFamilyDto_35(
+                this,
+                Invocation.method(#updateFamilyName, [], {#name: name}),
+              ),
+            ),
+            returnValueForMissingStub: _i39.Future<_i31.FamilyDto>.value(
+              _FakeFamilyDto_35(
+                this,
+                Invocation.method(#updateFamilyName, [], {#name: name}),
+              ),
+            ),
+          )
+          as _i39.Future<_i31.FamilyDto>);
 
   @override
-  _i39.Future<void> leaveFamily(String? familyId) => (super.noSuchMethod(
-        Invocation.method(#leaveFamily, [familyId]),
-        returnValue: _i39.Future<void>.value(),
-        returnValueForMissingStub: _i39.Future<void>.value(),
-      ) as _i39.Future<void>);
+  _i39.Future<void> leaveFamily(String? familyId) =>
+      (super.noSuchMethod(
+            Invocation.method(#leaveFamily, [familyId]),
+            returnValue: _i39.Future<void>.value(),
+            returnValueForMissingStub: _i39.Future<void>.value(),
+          )
+          as _i39.Future<void>);
 
   @override
   _i39.Future<_i31.FamilyInvitationValidationDto> validateInvitation({
     required String? inviteCode,
   }) =>
       (super.noSuchMethod(
-        Invocation.method(#validateInvitation, [], {
-          #inviteCode: inviteCode,
-        }),
-        returnValue: _i39.Future<_i31.FamilyInvitationValidationDto>.value(
-          _FakeFamilyInvitationValidationDto_36(
-            this,
             Invocation.method(#validateInvitation, [], {
               #inviteCode: inviteCode,
             }),
-          ),
-        ),
-        returnValueForMissingStub:
-            _i39.Future<_i31.FamilyInvitationValidationDto>.value(
-          _FakeFamilyInvitationValidationDto_36(
-            this,
-            Invocation.method(#validateInvitation, [], {
-              #inviteCode: inviteCode,
-            }),
-          ),
-        ),
-      ) as _i39.Future<_i31.FamilyInvitationValidationDto>);
+            returnValue: _i39.Future<_i31.FamilyInvitationValidationDto>.value(
+              _FakeFamilyInvitationValidationDto_36(
+                this,
+                Invocation.method(#validateInvitation, [], {
+                  #inviteCode: inviteCode,
+                }),
+              ),
+            ),
+            returnValueForMissingStub:
+                _i39.Future<_i31.FamilyInvitationValidationDto>.value(
+                  _FakeFamilyInvitationValidationDto_36(
+                    this,
+                    Invocation.method(#validateInvitation, [], {
+                      #inviteCode: inviteCode,
+                    }),
+                  ),
+                ),
+          )
+          as _i39.Future<_i31.FamilyInvitationValidationDto>);
 
   @override
   _i39.Future<_i31.FamilyDto> joinFamily({required String? inviteCode}) =>
       (super.noSuchMethod(
-        Invocation.method(#joinFamily, [], {#inviteCode: inviteCode}),
-        returnValue: _i39.Future<_i31.FamilyDto>.value(
-          _FakeFamilyDto_35(
-            this,
             Invocation.method(#joinFamily, [], {#inviteCode: inviteCode}),
-          ),
-        ),
-        returnValueForMissingStub: _i39.Future<_i31.FamilyDto>.value(
-          _FakeFamilyDto_35(
-            this,
-            Invocation.method(#joinFamily, [], {#inviteCode: inviteCode}),
-          ),
-        ),
-      ) as _i39.Future<_i31.FamilyDto>);
+            returnValue: _i39.Future<_i31.FamilyDto>.value(
+              _FakeFamilyDto_35(
+                this,
+                Invocation.method(#joinFamily, [], {#inviteCode: inviteCode}),
+              ),
+            ),
+            returnValueForMissingStub: _i39.Future<_i31.FamilyDto>.value(
+              _FakeFamilyDto_35(
+                this,
+                Invocation.method(#joinFamily, [], {#inviteCode: inviteCode}),
+              ),
+            ),
+          )
+          as _i39.Future<_i31.FamilyDto>);
 
   @override
   _i39.Future<_i32.Invitation> joinWithCode({
@@ -7952,26 +8733,27 @@ class MockFamilyRemoteDataSource extends _i1.Mock
     String? role,
   }) =>
       (super.noSuchMethod(
-        Invocation.method(#joinWithCode, [], {#code: code, #role: role}),
-        returnValue: _i39.Future<_i32.Invitation>.value(
-          _FakeInvitation_37(
-            this,
-            Invocation.method(#joinWithCode, [], {
-              #code: code,
-              #role: role,
-            }),
-          ),
-        ),
-        returnValueForMissingStub: _i39.Future<_i32.Invitation>.value(
-          _FakeInvitation_37(
-            this,
-            Invocation.method(#joinWithCode, [], {
-              #code: code,
-              #role: role,
-            }),
-          ),
-        ),
-      ) as _i39.Future<_i32.Invitation>);
+            Invocation.method(#joinWithCode, [], {#code: code, #role: role}),
+            returnValue: _i39.Future<_i32.Invitation>.value(
+              _FakeInvitation_37(
+                this,
+                Invocation.method(#joinWithCode, [], {
+                  #code: code,
+                  #role: role,
+                }),
+              ),
+            ),
+            returnValueForMissingStub: _i39.Future<_i32.Invitation>.value(
+              _FakeInvitation_37(
+                this,
+                Invocation.method(#joinWithCode, [], {
+                  #code: code,
+                  #role: role,
+                }),
+              ),
+            ),
+          )
+          as _i39.Future<_i32.Invitation>);
 
   @override
   _i39.Future<_i31.FamilyInvitationDto> inviteMember({
@@ -7981,50 +8763,53 @@ class MockFamilyRemoteDataSource extends _i1.Mock
     String? personalMessage,
   }) =>
       (super.noSuchMethod(
-        Invocation.method(#inviteMember, [], {
-          #familyId: familyId,
-          #email: email,
-          #role: role,
-          #personalMessage: personalMessage,
-        }),
-        returnValue: _i39.Future<_i31.FamilyInvitationDto>.value(
-          _FakeFamilyInvitationDto_38(
-            this,
             Invocation.method(#inviteMember, [], {
               #familyId: familyId,
               #email: email,
               #role: role,
               #personalMessage: personalMessage,
             }),
-          ),
-        ),
-        returnValueForMissingStub: _i39.Future<_i31.FamilyInvitationDto>.value(
-          _FakeFamilyInvitationDto_38(
-            this,
-            Invocation.method(#inviteMember, [], {
-              #familyId: familyId,
-              #email: email,
-              #role: role,
-              #personalMessage: personalMessage,
-            }),
-          ),
-        ),
-      ) as _i39.Future<_i31.FamilyInvitationDto>);
+            returnValue: _i39.Future<_i31.FamilyInvitationDto>.value(
+              _FakeFamilyInvitationDto_38(
+                this,
+                Invocation.method(#inviteMember, [], {
+                  #familyId: familyId,
+                  #email: email,
+                  #role: role,
+                  #personalMessage: personalMessage,
+                }),
+              ),
+            ),
+            returnValueForMissingStub:
+                _i39.Future<_i31.FamilyInvitationDto>.value(
+                  _FakeFamilyInvitationDto_38(
+                    this,
+                    Invocation.method(#inviteMember, [], {
+                      #familyId: familyId,
+                      #email: email,
+                      #role: role,
+                      #personalMessage: personalMessage,
+                    }),
+                  ),
+                ),
+          )
+          as _i39.Future<_i31.FamilyInvitationDto>);
 
   @override
   _i39.Future<List<_i31.FamilyInvitationDto>> getFamilyInvitations({
     required String? familyId,
   }) =>
       (super.noSuchMethod(
-        Invocation.method(#getFamilyInvitations, [], {#familyId: familyId}),
-        returnValue: _i39.Future<List<_i31.FamilyInvitationDto>>.value(
-          <_i31.FamilyInvitationDto>[],
-        ),
-        returnValueForMissingStub:
-            _i39.Future<List<_i31.FamilyInvitationDto>>.value(
-          <_i31.FamilyInvitationDto>[],
-        ),
-      ) as _i39.Future<List<_i31.FamilyInvitationDto>>);
+            Invocation.method(#getFamilyInvitations, [], {#familyId: familyId}),
+            returnValue: _i39.Future<List<_i31.FamilyInvitationDto>>.value(
+              <_i31.FamilyInvitationDto>[],
+            ),
+            returnValueForMissingStub:
+                _i39.Future<List<_i31.FamilyInvitationDto>>.value(
+                  <_i31.FamilyInvitationDto>[],
+                ),
+          )
+          as _i39.Future<List<_i31.FamilyInvitationDto>>);
 
   @override
   _i39.Future<void> cancelInvitation({
@@ -8032,37 +8817,40 @@ class MockFamilyRemoteDataSource extends _i1.Mock
     required String? invitationId,
   }) =>
       (super.noSuchMethod(
-        Invocation.method(#cancelInvitation, [], {
-          #familyId: familyId,
-          #invitationId: invitationId,
-        }),
-        returnValue: _i39.Future<void>.value(),
-        returnValueForMissingStub: _i39.Future<void>.value(),
-      ) as _i39.Future<void>);
+            Invocation.method(#cancelInvitation, [], {
+              #familyId: familyId,
+              #invitationId: invitationId,
+            }),
+            returnValue: _i39.Future<void>.value(),
+            returnValueForMissingStub: _i39.Future<void>.value(),
+          )
+          as _i39.Future<void>);
 
   @override
   _i39.Future<_i31.FamilyInvitationDto> acceptInvitation({
     required String? inviteCode,
   }) =>
       (super.noSuchMethod(
-        Invocation.method(#acceptInvitation, [], {#inviteCode: inviteCode}),
-        returnValue: _i39.Future<_i31.FamilyInvitationDto>.value(
-          _FakeFamilyInvitationDto_38(
-            this,
-            Invocation.method(#acceptInvitation, [], {
-              #inviteCode: inviteCode,
-            }),
-          ),
-        ),
-        returnValueForMissingStub: _i39.Future<_i31.FamilyInvitationDto>.value(
-          _FakeFamilyInvitationDto_38(
-            this,
-            Invocation.method(#acceptInvitation, [], {
-              #inviteCode: inviteCode,
-            }),
-          ),
-        ),
-      ) as _i39.Future<_i31.FamilyInvitationDto>);
+            Invocation.method(#acceptInvitation, [], {#inviteCode: inviteCode}),
+            returnValue: _i39.Future<_i31.FamilyInvitationDto>.value(
+              _FakeFamilyInvitationDto_38(
+                this,
+                Invocation.method(#acceptInvitation, [], {
+                  #inviteCode: inviteCode,
+                }),
+              ),
+            ),
+            returnValueForMissingStub:
+                _i39.Future<_i31.FamilyInvitationDto>.value(
+                  _FakeFamilyInvitationDto_38(
+                    this,
+                    Invocation.method(#acceptInvitation, [], {
+                      #inviteCode: inviteCode,
+                    }),
+                  ),
+                ),
+          )
+          as _i39.Future<_i31.FamilyInvitationDto>);
 
   @override
   _i39.Future<_i31.FamilyInvitationDto> declineInvitation({
@@ -8070,29 +8858,31 @@ class MockFamilyRemoteDataSource extends _i1.Mock
     String? reason,
   }) =>
       (super.noSuchMethod(
-        Invocation.method(#declineInvitation, [], {
-          #invitationId: invitationId,
-          #reason: reason,
-        }),
-        returnValue: _i39.Future<_i31.FamilyInvitationDto>.value(
-          _FakeFamilyInvitationDto_38(
-            this,
             Invocation.method(#declineInvitation, [], {
               #invitationId: invitationId,
               #reason: reason,
             }),
-          ),
-        ),
-        returnValueForMissingStub: _i39.Future<_i31.FamilyInvitationDto>.value(
-          _FakeFamilyInvitationDto_38(
-            this,
-            Invocation.method(#declineInvitation, [], {
-              #invitationId: invitationId,
-              #reason: reason,
-            }),
-          ),
-        ),
-      ) as _i39.Future<_i31.FamilyInvitationDto>);
+            returnValue: _i39.Future<_i31.FamilyInvitationDto>.value(
+              _FakeFamilyInvitationDto_38(
+                this,
+                Invocation.method(#declineInvitation, [], {
+                  #invitationId: invitationId,
+                  #reason: reason,
+                }),
+              ),
+            ),
+            returnValueForMissingStub:
+                _i39.Future<_i31.FamilyInvitationDto>.value(
+                  _FakeFamilyInvitationDto_38(
+                    this,
+                    Invocation.method(#declineInvitation, [], {
+                      #invitationId: invitationId,
+                      #reason: reason,
+                    }),
+                  ),
+                ),
+          )
+          as _i39.Future<_i31.FamilyInvitationDto>);
 
   @override
   _i39.Future<List<_i32.InvitationCode>> generateInvitationCodes({
@@ -8103,37 +8893,41 @@ class MockFamilyRemoteDataSource extends _i1.Mock
     List<String>? allowedRoles,
   }) =>
       (super.noSuchMethod(
-        Invocation.method(#generateInvitationCodes, [], {
-          #entityId: entityId,
-          #type: type,
-          #count: count,
-          #validDays: validDays,
-          #allowedRoles: allowedRoles,
-        }),
-        returnValue: _i39.Future<List<_i32.InvitationCode>>.value(
-          <_i32.InvitationCode>[],
-        ),
-        returnValueForMissingStub: _i39.Future<List<_i32.InvitationCode>>.value(
-          <_i32.InvitationCode>[],
-        ),
-      ) as _i39.Future<List<_i32.InvitationCode>>);
+            Invocation.method(#generateInvitationCodes, [], {
+              #entityId: entityId,
+              #type: type,
+              #count: count,
+              #validDays: validDays,
+              #allowedRoles: allowedRoles,
+            }),
+            returnValue: _i39.Future<List<_i32.InvitationCode>>.value(
+              <_i32.InvitationCode>[],
+            ),
+            returnValueForMissingStub:
+                _i39.Future<List<_i32.InvitationCode>>.value(
+                  <_i32.InvitationCode>[],
+                ),
+          )
+          as _i39.Future<List<_i32.InvitationCode>>);
 
   @override
-  _i39.Future<_i32.InvitationStats> getInvitationStats() => (super.noSuchMethod(
-        Invocation.method(#getInvitationStats, []),
-        returnValue: _i39.Future<_i32.InvitationStats>.value(
-          _FakeInvitationStats_39(
-            this,
+  _i39.Future<_i32.InvitationStats> getInvitationStats() =>
+      (super.noSuchMethod(
             Invocation.method(#getInvitationStats, []),
-          ),
-        ),
-        returnValueForMissingStub: _i39.Future<_i32.InvitationStats>.value(
-          _FakeInvitationStats_39(
-            this,
-            Invocation.method(#getInvitationStats, []),
-          ),
-        ),
-      ) as _i39.Future<_i32.InvitationStats>);
+            returnValue: _i39.Future<_i32.InvitationStats>.value(
+              _FakeInvitationStats_39(
+                this,
+                Invocation.method(#getInvitationStats, []),
+              ),
+            ),
+            returnValueForMissingStub: _i39.Future<_i32.InvitationStats>.value(
+              _FakeInvitationStats_39(
+                this,
+                Invocation.method(#getInvitationStats, []),
+              ),
+            ),
+          )
+          as _i39.Future<_i32.InvitationStats>);
 
   @override
   _i39.Future<void> updateMemberRole({
@@ -8142,14 +8936,15 @@ class MockFamilyRemoteDataSource extends _i1.Mock
     required String? role,
   }) =>
       (super.noSuchMethod(
-        Invocation.method(#updateMemberRole, [], {
-          #familyId: familyId,
-          #memberId: memberId,
-          #role: role,
-        }),
-        returnValue: _i39.Future<void>.value(),
-        returnValueForMissingStub: _i39.Future<void>.value(),
-      ) as _i39.Future<void>);
+            Invocation.method(#updateMemberRole, [], {
+              #familyId: familyId,
+              #memberId: memberId,
+              #role: role,
+            }),
+            returnValue: _i39.Future<void>.value(),
+            returnValueForMissingStub: _i39.Future<void>.value(),
+          )
+          as _i39.Future<void>);
 
   @override
   _i39.Future<void> removeMember({
@@ -8157,31 +8952,33 @@ class MockFamilyRemoteDataSource extends _i1.Mock
     required String? memberId,
   }) =>
       (super.noSuchMethod(
-        Invocation.method(#removeMember, [], {
-          #familyId: familyId,
-          #memberId: memberId,
-        }),
-        returnValue: _i39.Future<void>.value(),
-        returnValueForMissingStub: _i39.Future<void>.value(),
-      ) as _i39.Future<void>);
+            Invocation.method(#removeMember, [], {
+              #familyId: familyId,
+              #memberId: memberId,
+            }),
+            returnValue: _i39.Future<void>.value(),
+            returnValueForMissingStub: _i39.Future<void>.value(),
+          )
+          as _i39.Future<void>);
 
   @override
   _i39.Future<_i23.ChildDto> addChild({required String? name, int? age}) =>
       (super.noSuchMethod(
-        Invocation.method(#addChild, [], {#name: name, #age: age}),
-        returnValue: _i39.Future<_i23.ChildDto>.value(
-          _FakeChildDto_24(
-            this,
             Invocation.method(#addChild, [], {#name: name, #age: age}),
-          ),
-        ),
-        returnValueForMissingStub: _i39.Future<_i23.ChildDto>.value(
-          _FakeChildDto_24(
-            this,
-            Invocation.method(#addChild, [], {#name: name, #age: age}),
-          ),
-        ),
-      ) as _i39.Future<_i23.ChildDto>);
+            returnValue: _i39.Future<_i23.ChildDto>.value(
+              _FakeChildDto_24(
+                this,
+                Invocation.method(#addChild, [], {#name: name, #age: age}),
+              ),
+            ),
+            returnValueForMissingStub: _i39.Future<_i23.ChildDto>.value(
+              _FakeChildDto_24(
+                this,
+                Invocation.method(#addChild, [], {#name: name, #age: age}),
+              ),
+            ),
+          )
+          as _i39.Future<_i23.ChildDto>);
 
   @override
   _i39.Future<_i23.ChildDto> updateChild({
@@ -8190,50 +8987,53 @@ class MockFamilyRemoteDataSource extends _i1.Mock
     int? age,
   }) =>
       (super.noSuchMethod(
-        Invocation.method(#updateChild, [], {
-          #childId: childId,
-          #name: name,
-          #age: age,
-        }),
-        returnValue: _i39.Future<_i23.ChildDto>.value(
-          _FakeChildDto_24(
-            this,
             Invocation.method(#updateChild, [], {
               #childId: childId,
               #name: name,
               #age: age,
             }),
-          ),
-        ),
-        returnValueForMissingStub: _i39.Future<_i23.ChildDto>.value(
-          _FakeChildDto_24(
-            this,
-            Invocation.method(#updateChild, [], {
-              #childId: childId,
-              #name: name,
-              #age: age,
-            }),
-          ),
-        ),
-      ) as _i39.Future<_i23.ChildDto>);
+            returnValue: _i39.Future<_i23.ChildDto>.value(
+              _FakeChildDto_24(
+                this,
+                Invocation.method(#updateChild, [], {
+                  #childId: childId,
+                  #name: name,
+                  #age: age,
+                }),
+              ),
+            ),
+            returnValueForMissingStub: _i39.Future<_i23.ChildDto>.value(
+              _FakeChildDto_24(
+                this,
+                Invocation.method(#updateChild, [], {
+                  #childId: childId,
+                  #name: name,
+                  #age: age,
+                }),
+              ),
+            ),
+          )
+          as _i39.Future<_i23.ChildDto>);
 
   @override
   _i39.Future<_i33.DeleteResponseDto> deleteChild({required String? childId}) =>
       (super.noSuchMethod(
-        Invocation.method(#deleteChild, [], {#childId: childId}),
-        returnValue: _i39.Future<_i33.DeleteResponseDto>.value(
-          _FakeDeleteResponseDto_40(
-            this,
             Invocation.method(#deleteChild, [], {#childId: childId}),
-          ),
-        ),
-        returnValueForMissingStub: _i39.Future<_i33.DeleteResponseDto>.value(
-          _FakeDeleteResponseDto_40(
-            this,
-            Invocation.method(#deleteChild, [], {#childId: childId}),
-          ),
-        ),
-      ) as _i39.Future<_i33.DeleteResponseDto>);
+            returnValue: _i39.Future<_i33.DeleteResponseDto>.value(
+              _FakeDeleteResponseDto_40(
+                this,
+                Invocation.method(#deleteChild, [], {#childId: childId}),
+              ),
+            ),
+            returnValueForMissingStub:
+                _i39.Future<_i33.DeleteResponseDto>.value(
+                  _FakeDeleteResponseDto_40(
+                    this,
+                    Invocation.method(#deleteChild, [], {#childId: childId}),
+                  ),
+                ),
+          )
+          as _i39.Future<_i33.DeleteResponseDto>);
 
   @override
   _i39.Future<_i34.VehicleDto> addVehicle({
@@ -8242,32 +9042,33 @@ class MockFamilyRemoteDataSource extends _i1.Mock
     String? description,
   }) =>
       (super.noSuchMethod(
-        Invocation.method(#addVehicle, [], {
-          #name: name,
-          #capacity: capacity,
-          #description: description,
-        }),
-        returnValue: _i39.Future<_i34.VehicleDto>.value(
-          _FakeVehicleDto_41(
-            this,
             Invocation.method(#addVehicle, [], {
               #name: name,
               #capacity: capacity,
               #description: description,
             }),
-          ),
-        ),
-        returnValueForMissingStub: _i39.Future<_i34.VehicleDto>.value(
-          _FakeVehicleDto_41(
-            this,
-            Invocation.method(#addVehicle, [], {
-              #name: name,
-              #capacity: capacity,
-              #description: description,
-            }),
-          ),
-        ),
-      ) as _i39.Future<_i34.VehicleDto>);
+            returnValue: _i39.Future<_i34.VehicleDto>.value(
+              _FakeVehicleDto_41(
+                this,
+                Invocation.method(#addVehicle, [], {
+                  #name: name,
+                  #capacity: capacity,
+                  #description: description,
+                }),
+              ),
+            ),
+            returnValueForMissingStub: _i39.Future<_i34.VehicleDto>.value(
+              _FakeVehicleDto_41(
+                this,
+                Invocation.method(#addVehicle, [], {
+                  #name: name,
+                  #capacity: capacity,
+                  #description: description,
+                }),
+              ),
+            ),
+          )
+          as _i39.Future<_i34.VehicleDto>);
 
   @override
   _i39.Future<_i34.VehicleDto> updateVehicle({
@@ -8277,57 +9078,60 @@ class MockFamilyRemoteDataSource extends _i1.Mock
     String? description,
   }) =>
       (super.noSuchMethod(
-        Invocation.method(#updateVehicle, [], {
-          #vehicleId: vehicleId,
-          #name: name,
-          #capacity: capacity,
-          #description: description,
-        }),
-        returnValue: _i39.Future<_i34.VehicleDto>.value(
-          _FakeVehicleDto_41(
-            this,
             Invocation.method(#updateVehicle, [], {
               #vehicleId: vehicleId,
               #name: name,
               #capacity: capacity,
               #description: description,
             }),
-          ),
-        ),
-        returnValueForMissingStub: _i39.Future<_i34.VehicleDto>.value(
-          _FakeVehicleDto_41(
-            this,
-            Invocation.method(#updateVehicle, [], {
-              #vehicleId: vehicleId,
-              #name: name,
-              #capacity: capacity,
-              #description: description,
-            }),
-          ),
-        ),
-      ) as _i39.Future<_i34.VehicleDto>);
+            returnValue: _i39.Future<_i34.VehicleDto>.value(
+              _FakeVehicleDto_41(
+                this,
+                Invocation.method(#updateVehicle, [], {
+                  #vehicleId: vehicleId,
+                  #name: name,
+                  #capacity: capacity,
+                  #description: description,
+                }),
+              ),
+            ),
+            returnValueForMissingStub: _i39.Future<_i34.VehicleDto>.value(
+              _FakeVehicleDto_41(
+                this,
+                Invocation.method(#updateVehicle, [], {
+                  #vehicleId: vehicleId,
+                  #name: name,
+                  #capacity: capacity,
+                  #description: description,
+                }),
+              ),
+            ),
+          )
+          as _i39.Future<_i34.VehicleDto>);
 
   @override
   _i39.Future<_i33.DeleteResponseDto> deleteVehicle({
     required String? vehicleId,
   }) =>
       (super.noSuchMethod(
-        Invocation.method(#deleteVehicle, [], {#vehicleId: vehicleId}),
-        returnValue: _i39.Future<_i33.DeleteResponseDto>.value(
-          _FakeDeleteResponseDto_40(
-            this,
             Invocation.method(#deleteVehicle, [], {#vehicleId: vehicleId}),
-          ),
-        ),
-        returnValueForMissingStub: _i39.Future<_i33.DeleteResponseDto>.value(
-          _FakeDeleteResponseDto_40(
-            this,
-            Invocation.method(#deleteVehicle, [], {
-              #vehicleId: vehicleId,
-            }),
-          ),
-        ),
-      ) as _i39.Future<_i33.DeleteResponseDto>);
+            returnValue: _i39.Future<_i33.DeleteResponseDto>.value(
+              _FakeDeleteResponseDto_40(
+                this,
+                Invocation.method(#deleteVehicle, [], {#vehicleId: vehicleId}),
+              ),
+            ),
+            returnValueForMissingStub:
+                _i39.Future<_i33.DeleteResponseDto>.value(
+                  _FakeDeleteResponseDto_40(
+                    this,
+                    Invocation.method(#deleteVehicle, [], {
+                      #vehicleId: vehicleId,
+                    }),
+                  ),
+                ),
+          )
+          as _i39.Future<_i33.DeleteResponseDto>);
 }
 
 /// A class which mocks [FamilyLocalDataSource].
@@ -8336,31 +9140,36 @@ class MockFamilyRemoteDataSource extends _i1.Mock
 class MockFamilyLocalDataSource extends _i1.Mock
     implements _i91.FamilyLocalDataSource {
   @override
-  _i39.Future<_i32.Family?> getCurrentFamily() => (super.noSuchMethod(
-        Invocation.method(#getCurrentFamily, []),
-        returnValue: _i39.Future<_i32.Family?>.value(),
-        returnValueForMissingStub: _i39.Future<_i32.Family?>.value(),
-      ) as _i39.Future<_i32.Family?>);
+  _i39.Future<_i32.Family?> getCurrentFamily() =>
+      (super.noSuchMethod(
+            Invocation.method(#getCurrentFamily, []),
+            returnValue: _i39.Future<_i32.Family?>.value(),
+            returnValueForMissingStub: _i39.Future<_i32.Family?>.value(),
+          )
+          as _i39.Future<_i32.Family?>);
 
   @override
-  _i39.Future<void> clearCache() => (super.noSuchMethod(
-        Invocation.method(#clearCache, []),
-        returnValue: _i39.Future<void>.value(),
-        returnValueForMissingStub: _i39.Future<void>.value(),
-      ) as _i39.Future<void>);
+  _i39.Future<void> clearCache() =>
+      (super.noSuchMethod(
+            Invocation.method(#clearCache, []),
+            returnValue: _i39.Future<void>.value(),
+            returnValueForMissingStub: _i39.Future<void>.value(),
+          )
+          as _i39.Future<void>);
 
   @override
   _i39.Future<List<_i32.FamilyInvitation>> getInvitations() =>
       (super.noSuchMethod(
-        Invocation.method(#getInvitations, []),
-        returnValue: _i39.Future<List<_i32.FamilyInvitation>>.value(
-          <_i32.FamilyInvitation>[],
-        ),
-        returnValueForMissingStub:
-            _i39.Future<List<_i32.FamilyInvitation>>.value(
-          <_i32.FamilyInvitation>[],
-        ),
-      ) as _i39.Future<List<_i32.FamilyInvitation>>);
+            Invocation.method(#getInvitations, []),
+            returnValue: _i39.Future<List<_i32.FamilyInvitation>>.value(
+              <_i32.FamilyInvitation>[],
+            ),
+            returnValueForMissingStub:
+                _i39.Future<List<_i32.FamilyInvitation>>.value(
+                  <_i32.FamilyInvitation>[],
+                ),
+          )
+          as _i39.Future<List<_i32.FamilyInvitation>>);
 
   @override
   _i39.Future<List<Map<String, dynamic>>> getInvitationHistory({
@@ -8371,55 +9180,61 @@ class MockFamilyLocalDataSource extends _i1.Mock
     int? limit,
   }) =>
       (super.noSuchMethod(
-        Invocation.method(#getInvitationHistory, [], {
-          #type: type,
-          #status: status,
-          #fromDate: fromDate,
-          #toDate: toDate,
-          #limit: limit,
-        }),
-        returnValue: _i39.Future<List<Map<String, dynamic>>>.value(
-          <Map<String, dynamic>>[],
-        ),
-        returnValueForMissingStub:
-            _i39.Future<List<Map<String, dynamic>>>.value(
-          <Map<String, dynamic>>[],
-        ),
-      ) as _i39.Future<List<Map<String, dynamic>>>);
+            Invocation.method(#getInvitationHistory, [], {
+              #type: type,
+              #status: status,
+              #fromDate: fromDate,
+              #toDate: toDate,
+              #limit: limit,
+            }),
+            returnValue: _i39.Future<List<Map<String, dynamic>>>.value(
+              <Map<String, dynamic>>[],
+            ),
+            returnValueForMissingStub:
+                _i39.Future<List<Map<String, dynamic>>>.value(
+                  <Map<String, dynamic>>[],
+                ),
+          )
+          as _i39.Future<List<Map<String, dynamic>>>);
 
   @override
   _i39.Future<Map<String, dynamic>?> getInvitation(String? invitationId) =>
       (super.noSuchMethod(
-        Invocation.method(#getInvitation, [invitationId]),
-        returnValue: _i39.Future<Map<String, dynamic>?>.value(),
-        returnValueForMissingStub: _i39.Future<Map<String, dynamic>?>.value(),
-      ) as _i39.Future<Map<String, dynamic>?>);
+            Invocation.method(#getInvitation, [invitationId]),
+            returnValue: _i39.Future<Map<String, dynamic>?>.value(),
+            returnValueForMissingStub:
+                _i39.Future<Map<String, dynamic>?>.value(),
+          )
+          as _i39.Future<Map<String, dynamic>?>);
 
   @override
   _i39.Future<void> cacheInvitations(
     List<_i32.FamilyInvitation>? invitations,
   ) =>
       (super.noSuchMethod(
-        Invocation.method(#cacheInvitations, [invitations]),
-        returnValue: _i39.Future<void>.value(),
-        returnValueForMissingStub: _i39.Future<void>.value(),
-      ) as _i39.Future<void>);
+            Invocation.method(#cacheInvitations, [invitations]),
+            returnValue: _i39.Future<void>.value(),
+            returnValueForMissingStub: _i39.Future<void>.value(),
+          )
+          as _i39.Future<void>);
 
   @override
   _i39.Future<void> cacheInvitation(_i32.Invitation? invitation) =>
       (super.noSuchMethod(
-        Invocation.method(#cacheInvitation, [invitation]),
-        returnValue: _i39.Future<void>.value(),
-        returnValueForMissingStub: _i39.Future<void>.value(),
-      ) as _i39.Future<void>);
+            Invocation.method(#cacheInvitation, [invitation]),
+            returnValue: _i39.Future<void>.value(),
+            returnValueForMissingStub: _i39.Future<void>.value(),
+          )
+          as _i39.Future<void>);
 
   @override
   _i39.Future<void> cacheFamilyInvitation(_i32.FamilyInvitation? invitation) =>
       (super.noSuchMethod(
-        Invocation.method(#cacheFamilyInvitation, [invitation]),
-        returnValue: _i39.Future<void>.value(),
-        returnValueForMissingStub: _i39.Future<void>.value(),
-      ) as _i39.Future<void>);
+            Invocation.method(#cacheFamilyInvitation, [invitation]),
+            returnValue: _i39.Future<void>.value(),
+            returnValueForMissingStub: _i39.Future<void>.value(),
+          )
+          as _i39.Future<void>);
 
   @override
   _i39.Future<void> cacheInvitationCode(
@@ -8427,60 +9242,74 @@ class MockFamilyLocalDataSource extends _i1.Mock
     Map<String, dynamic>? invitation,
   ) =>
       (super.noSuchMethod(
-        Invocation.method(#cacheInvitationCode, [code, invitation]),
-        returnValue: _i39.Future<void>.value(),
-        returnValueForMissingStub: _i39.Future<void>.value(),
-      ) as _i39.Future<void>);
+            Invocation.method(#cacheInvitationCode, [code, invitation]),
+            returnValue: _i39.Future<void>.value(),
+            returnValueForMissingStub: _i39.Future<void>.value(),
+          )
+          as _i39.Future<void>);
 
   @override
   _i39.Future<void> cacheCurrentFamily(_i32.Family? family) =>
       (super.noSuchMethod(
-        Invocation.method(#cacheCurrentFamily, [family]),
-        returnValue: _i39.Future<void>.value(),
-        returnValueForMissingStub: _i39.Future<void>.value(),
-      ) as _i39.Future<void>);
+            Invocation.method(#cacheCurrentFamily, [family]),
+            returnValue: _i39.Future<void>.value(),
+            returnValueForMissingStub: _i39.Future<void>.value(),
+          )
+          as _i39.Future<void>);
 
   @override
-  _i39.Future<void> clearCurrentFamily() => (super.noSuchMethod(
-        Invocation.method(#clearCurrentFamily, []),
-        returnValue: _i39.Future<void>.value(),
-        returnValueForMissingStub: _i39.Future<void>.value(),
-      ) as _i39.Future<void>);
+  _i39.Future<void> clearCurrentFamily() =>
+      (super.noSuchMethod(
+            Invocation.method(#clearCurrentFamily, []),
+            returnValue: _i39.Future<void>.value(),
+            returnValueForMissingStub: _i39.Future<void>.value(),
+          )
+          as _i39.Future<void>);
 
   @override
-  _i39.Future<void> cacheChild(_i32.Child? child) => (super.noSuchMethod(
-        Invocation.method(#cacheChild, [child]),
-        returnValue: _i39.Future<void>.value(),
-        returnValueForMissingStub: _i39.Future<void>.value(),
-      ) as _i39.Future<void>);
+  _i39.Future<void> cacheChild(_i32.Child? child) =>
+      (super.noSuchMethod(
+            Invocation.method(#cacheChild, [child]),
+            returnValue: _i39.Future<void>.value(),
+            returnValueForMissingStub: _i39.Future<void>.value(),
+          )
+          as _i39.Future<void>);
 
   @override
-  _i39.Future<void> cacheVehicle(_i32.Vehicle? vehicle) => (super.noSuchMethod(
-        Invocation.method(#cacheVehicle, [vehicle]),
-        returnValue: _i39.Future<void>.value(),
-        returnValueForMissingStub: _i39.Future<void>.value(),
-      ) as _i39.Future<void>);
+  _i39.Future<void> cacheVehicle(_i32.Vehicle? vehicle) =>
+      (super.noSuchMethod(
+            Invocation.method(#cacheVehicle, [vehicle]),
+            returnValue: _i39.Future<void>.value(),
+            returnValueForMissingStub: _i39.Future<void>.value(),
+          )
+          as _i39.Future<void>);
 
   @override
-  _i39.Future<void> removeChild(String? childId) => (super.noSuchMethod(
-        Invocation.method(#removeChild, [childId]),
-        returnValue: _i39.Future<void>.value(),
-        returnValueForMissingStub: _i39.Future<void>.value(),
-      ) as _i39.Future<void>);
+  _i39.Future<void> removeChild(String? childId) =>
+      (super.noSuchMethod(
+            Invocation.method(#removeChild, [childId]),
+            returnValue: _i39.Future<void>.value(),
+            returnValueForMissingStub: _i39.Future<void>.value(),
+          )
+          as _i39.Future<void>);
 
   @override
-  _i39.Future<void> removeVehicle(String? vehicleId) => (super.noSuchMethod(
-        Invocation.method(#removeVehicle, [vehicleId]),
-        returnValue: _i39.Future<void>.value(),
-        returnValueForMissingStub: _i39.Future<void>.value(),
-      ) as _i39.Future<void>);
+  _i39.Future<void> removeVehicle(String? vehicleId) =>
+      (super.noSuchMethod(
+            Invocation.method(#removeVehicle, [vehicleId]),
+            returnValue: _i39.Future<void>.value(),
+            returnValueForMissingStub: _i39.Future<void>.value(),
+          )
+          as _i39.Future<void>);
 
   @override
-  _i39.Future<void> clearExpiredCache() => (super.noSuchMethod(
-        Invocation.method(#clearExpiredCache, []),
-        returnValue: _i39.Future<void>.value(),
-        returnValueForMissingStub: _i39.Future<void>.value(),
-      ) as _i39.Future<void>);
+  _i39.Future<void> clearExpiredCache() =>
+      (super.noSuchMethod(
+            Invocation.method(#clearExpiredCache, []),
+            returnValue: _i39.Future<void>.value(),
+            returnValueForMissingStub: _i39.Future<void>.value(),
+          )
+          as _i39.Future<void>);
 }
 
 /// A class which mocks [GroupRemoteDataSource].
@@ -8489,42 +9318,46 @@ class MockFamilyLocalDataSource extends _i1.Mock
 class MockGroupRemoteDataSource extends _i1.Mock
     implements _i92.GroupRemoteDataSource {
   @override
-  _i39.Future<List<Map<String, dynamic>>> getMyGroups() => (super.noSuchMethod(
-        Invocation.method(#getMyGroups, []),
-        returnValue: _i39.Future<List<Map<String, dynamic>>>.value(
-          <Map<String, dynamic>>[],
-        ),
-        returnValueForMissingStub:
-            _i39.Future<List<Map<String, dynamic>>>.value(
-          <Map<String, dynamic>>[],
-        ),
-      ) as _i39.Future<List<Map<String, dynamic>>>);
+  _i39.Future<List<Map<String, dynamic>>> getMyGroups() =>
+      (super.noSuchMethod(
+            Invocation.method(#getMyGroups, []),
+            returnValue: _i39.Future<List<Map<String, dynamic>>>.value(
+              <Map<String, dynamic>>[],
+            ),
+            returnValueForMissingStub:
+                _i39.Future<List<Map<String, dynamic>>>.value(
+                  <Map<String, dynamic>>[],
+                ),
+          )
+          as _i39.Future<List<Map<String, dynamic>>>);
 
   @override
   _i39.Future<Map<String, dynamic>> getGroup(String? groupId) =>
       (super.noSuchMethod(
-        Invocation.method(#getGroup, [groupId]),
-        returnValue: _i39.Future<Map<String, dynamic>>.value(
-          <String, dynamic>{},
-        ),
-        returnValueForMissingStub: _i39.Future<Map<String, dynamic>>.value(
-          <String, dynamic>{},
-        ),
-      ) as _i39.Future<Map<String, dynamic>>);
+            Invocation.method(#getGroup, [groupId]),
+            returnValue: _i39.Future<Map<String, dynamic>>.value(
+              <String, dynamic>{},
+            ),
+            returnValueForMissingStub: _i39.Future<Map<String, dynamic>>.value(
+              <String, dynamic>{},
+            ),
+          )
+          as _i39.Future<Map<String, dynamic>>);
 
   @override
   _i39.Future<Map<String, dynamic>> createGroup(
     Map<String, dynamic>? groupData,
   ) =>
       (super.noSuchMethod(
-        Invocation.method(#createGroup, [groupData]),
-        returnValue: _i39.Future<Map<String, dynamic>>.value(
-          <String, dynamic>{},
-        ),
-        returnValueForMissingStub: _i39.Future<Map<String, dynamic>>.value(
-          <String, dynamic>{},
-        ),
-      ) as _i39.Future<Map<String, dynamic>>);
+            Invocation.method(#createGroup, [groupData]),
+            returnValue: _i39.Future<Map<String, dynamic>>.value(
+              <String, dynamic>{},
+            ),
+            returnValueForMissingStub: _i39.Future<Map<String, dynamic>>.value(
+              <String, dynamic>{},
+            ),
+          )
+          as _i39.Future<Map<String, dynamic>>);
 
   @override
   _i39.Future<Map<String, dynamic>> updateGroup(
@@ -8532,58 +9365,65 @@ class MockGroupRemoteDataSource extends _i1.Mock
     Map<String, dynamic>? updates,
   ) =>
       (super.noSuchMethod(
-        Invocation.method(#updateGroup, [groupId, updates]),
-        returnValue: _i39.Future<Map<String, dynamic>>.value(
-          <String, dynamic>{},
-        ),
-        returnValueForMissingStub: _i39.Future<Map<String, dynamic>>.value(
-          <String, dynamic>{},
-        ),
-      ) as _i39.Future<Map<String, dynamic>>);
+            Invocation.method(#updateGroup, [groupId, updates]),
+            returnValue: _i39.Future<Map<String, dynamic>>.value(
+              <String, dynamic>{},
+            ),
+            returnValueForMissingStub: _i39.Future<Map<String, dynamic>>.value(
+              <String, dynamic>{},
+            ),
+          )
+          as _i39.Future<Map<String, dynamic>>);
 
   @override
-  _i39.Future<void> deleteGroup(String? groupId) => (super.noSuchMethod(
-        Invocation.method(#deleteGroup, [groupId]),
-        returnValue: _i39.Future<void>.value(),
-        returnValueForMissingStub: _i39.Future<void>.value(),
-      ) as _i39.Future<void>);
+  _i39.Future<void> deleteGroup(String? groupId) =>
+      (super.noSuchMethod(
+            Invocation.method(#deleteGroup, [groupId]),
+            returnValue: _i39.Future<void>.value(),
+            returnValueForMissingStub: _i39.Future<void>.value(),
+          )
+          as _i39.Future<void>);
 
   @override
   _i39.Future<Map<String, dynamic>> joinGroup(String? inviteCode) =>
       (super.noSuchMethod(
-        Invocation.method(#joinGroup, [inviteCode]),
-        returnValue: _i39.Future<Map<String, dynamic>>.value(
-          <String, dynamic>{},
-        ),
-        returnValueForMissingStub: _i39.Future<Map<String, dynamic>>.value(
-          <String, dynamic>{},
-        ),
-      ) as _i39.Future<Map<String, dynamic>>);
+            Invocation.method(#joinGroup, [inviteCode]),
+            returnValue: _i39.Future<Map<String, dynamic>>.value(
+              <String, dynamic>{},
+            ),
+            returnValueForMissingStub: _i39.Future<Map<String, dynamic>>.value(
+              <String, dynamic>{},
+            ),
+          )
+          as _i39.Future<Map<String, dynamic>>);
 
   @override
-  _i39.Future<void> leaveGroup(String? groupId) => (super.noSuchMethod(
-        Invocation.method(#leaveGroup, [groupId]),
-        returnValue: _i39.Future<void>.value(),
-        returnValueForMissingStub: _i39.Future<void>.value(),
-      ) as _i39.Future<void>);
+  _i39.Future<void> leaveGroup(String? groupId) =>
+      (super.noSuchMethod(
+            Invocation.method(#leaveGroup, [groupId]),
+            returnValue: _i39.Future<void>.value(),
+            returnValueForMissingStub: _i39.Future<void>.value(),
+          )
+          as _i39.Future<void>);
 
   @override
   _i39.Future<String> generateGroupInvitationCode(String? groupId) =>
       (super.noSuchMethod(
-        Invocation.method(#generateGroupInvitationCode, [groupId]),
-        returnValue: _i39.Future<String>.value(
-          _i42.dummyValue<String>(
-            this,
             Invocation.method(#generateGroupInvitationCode, [groupId]),
-          ),
-        ),
-        returnValueForMissingStub: _i39.Future<String>.value(
-          _i42.dummyValue<String>(
-            this,
-            Invocation.method(#generateGroupInvitationCode, [groupId]),
-          ),
-        ),
-      ) as _i39.Future<String>);
+            returnValue: _i39.Future<String>.value(
+              _i42.dummyValue<String>(
+                this,
+                Invocation.method(#generateGroupInvitationCode, [groupId]),
+              ),
+            ),
+            returnValueForMissingStub: _i39.Future<String>.value(
+              _i42.dummyValue<String>(
+                this,
+                Invocation.method(#generateGroupInvitationCode, [groupId]),
+              ),
+            ),
+          )
+          as _i39.Future<String>);
 
   @override
   _i39.Future<_i35.GroupInvitationData> sendGroupInvitation({
@@ -8592,66 +9432,70 @@ class MockGroupRemoteDataSource extends _i1.Mock
     String? message,
   }) =>
       (super.noSuchMethod(
-        Invocation.method(#sendGroupInvitation, [], {
-          #groupId: groupId,
-          #email: email,
-          #message: message,
-        }),
-        returnValue: _i39.Future<_i35.GroupInvitationData>.value(
-          _FakeGroupInvitationData_42(
-            this,
             Invocation.method(#sendGroupInvitation, [], {
               #groupId: groupId,
               #email: email,
               #message: message,
             }),
-          ),
-        ),
-        returnValueForMissingStub: _i39.Future<_i35.GroupInvitationData>.value(
-          _FakeGroupInvitationData_42(
-            this,
-            Invocation.method(#sendGroupInvitation, [], {
-              #groupId: groupId,
-              #email: email,
-              #message: message,
-            }),
-          ),
-        ),
-      ) as _i39.Future<_i35.GroupInvitationData>);
+            returnValue: _i39.Future<_i35.GroupInvitationData>.value(
+              _FakeGroupInvitationData_42(
+                this,
+                Invocation.method(#sendGroupInvitation, [], {
+                  #groupId: groupId,
+                  #email: email,
+                  #message: message,
+                }),
+              ),
+            ),
+            returnValueForMissingStub:
+                _i39.Future<_i35.GroupInvitationData>.value(
+                  _FakeGroupInvitationData_42(
+                    this,
+                    Invocation.method(#sendGroupInvitation, [], {
+                      #groupId: groupId,
+                      #email: email,
+                      #message: message,
+                    }),
+                  ),
+                ),
+          )
+          as _i39.Future<_i35.GroupInvitationData>);
 
   @override
   _i39.Future<_i35.GroupInvitationValidationData> validateGroupInvitation(
     String? inviteCode,
   ) =>
       (super.noSuchMethod(
-        Invocation.method(#validateGroupInvitation, [inviteCode]),
-        returnValue: _i39.Future<_i35.GroupInvitationValidationData>.value(
-          _FakeGroupInvitationValidationData_43(
-            this,
             Invocation.method(#validateGroupInvitation, [inviteCode]),
-          ),
-        ),
-        returnValueForMissingStub:
-            _i39.Future<_i35.GroupInvitationValidationData>.value(
-          _FakeGroupInvitationValidationData_43(
-            this,
-            Invocation.method(#validateGroupInvitation, [inviteCode]),
-          ),
-        ),
-      ) as _i39.Future<_i35.GroupInvitationValidationData>);
+            returnValue: _i39.Future<_i35.GroupInvitationValidationData>.value(
+              _FakeGroupInvitationValidationData_43(
+                this,
+                Invocation.method(#validateGroupInvitation, [inviteCode]),
+              ),
+            ),
+            returnValueForMissingStub:
+                _i39.Future<_i35.GroupInvitationValidationData>.value(
+                  _FakeGroupInvitationValidationData_43(
+                    this,
+                    Invocation.method(#validateGroupInvitation, [inviteCode]),
+                  ),
+                ),
+          )
+          as _i39.Future<_i35.GroupInvitationValidationData>);
 
   @override
   _i39.Future<List<_i35.GroupFamilyData>> getGroupFamilies(String? groupId) =>
       (super.noSuchMethod(
-        Invocation.method(#getGroupFamilies, [groupId]),
-        returnValue: _i39.Future<List<_i35.GroupFamilyData>>.value(
-          <_i35.GroupFamilyData>[],
-        ),
-        returnValueForMissingStub:
-            _i39.Future<List<_i35.GroupFamilyData>>.value(
-          <_i35.GroupFamilyData>[],
-        ),
-      ) as _i39.Future<List<_i35.GroupFamilyData>>);
+            Invocation.method(#getGroupFamilies, [groupId]),
+            returnValue: _i39.Future<List<_i35.GroupFamilyData>>.value(
+              <_i35.GroupFamilyData>[],
+            ),
+            returnValueForMissingStub:
+                _i39.Future<List<_i35.GroupFamilyData>>.value(
+                  <_i35.GroupFamilyData>[],
+                ),
+          )
+          as _i39.Future<List<_i35.GroupFamilyData>>);
 
   @override
   _i39.Future<_i35.GroupFamilyData> updateFamilyRole(
@@ -8660,44 +9504,47 @@ class MockGroupRemoteDataSource extends _i1.Mock
     Map<String, dynamic>? updates,
   ) =>
       (super.noSuchMethod(
-        Invocation.method(#updateFamilyRole, [groupId, familyId, updates]),
-        returnValue: _i39.Future<_i35.GroupFamilyData>.value(
-          _FakeGroupFamilyData_44(
-            this,
-            Invocation.method(#updateFamilyRole, [
-              groupId,
-              familyId,
-              updates,
-            ]),
-          ),
-        ),
-        returnValueForMissingStub: _i39.Future<_i35.GroupFamilyData>.value(
-          _FakeGroupFamilyData_44(
-            this,
-            Invocation.method(#updateFamilyRole, [
-              groupId,
-              familyId,
-              updates,
-            ]),
-          ),
-        ),
-      ) as _i39.Future<_i35.GroupFamilyData>);
+            Invocation.method(#updateFamilyRole, [groupId, familyId, updates]),
+            returnValue: _i39.Future<_i35.GroupFamilyData>.value(
+              _FakeGroupFamilyData_44(
+                this,
+                Invocation.method(#updateFamilyRole, [
+                  groupId,
+                  familyId,
+                  updates,
+                ]),
+              ),
+            ),
+            returnValueForMissingStub: _i39.Future<_i35.GroupFamilyData>.value(
+              _FakeGroupFamilyData_44(
+                this,
+                Invocation.method(#updateFamilyRole, [
+                  groupId,
+                  familyId,
+                  updates,
+                ]),
+              ),
+            ),
+          )
+          as _i39.Future<_i35.GroupFamilyData>);
 
   @override
   _i39.Future<void> removeFamilyFromGroup(String? groupId, String? familyId) =>
       (super.noSuchMethod(
-        Invocation.method(#removeFamilyFromGroup, [groupId, familyId]),
-        returnValue: _i39.Future<void>.value(),
-        returnValueForMissingStub: _i39.Future<void>.value(),
-      ) as _i39.Future<void>);
+            Invocation.method(#removeFamilyFromGroup, [groupId, familyId]),
+            returnValue: _i39.Future<void>.value(),
+            returnValueForMissingStub: _i39.Future<void>.value(),
+          )
+          as _i39.Future<void>);
 
   @override
   _i39.Future<void> cancelInvitation(String? groupId, String? invitationId) =>
       (super.noSuchMethod(
-        Invocation.method(#cancelInvitation, [groupId, invitationId]),
-        returnValue: _i39.Future<void>.value(),
-        returnValueForMissingStub: _i39.Future<void>.value(),
-      ) as _i39.Future<void>);
+            Invocation.method(#cancelInvitation, [groupId, invitationId]),
+            returnValue: _i39.Future<void>.value(),
+            returnValueForMissingStub: _i39.Future<void>.value(),
+          )
+          as _i39.Future<void>);
 
   @override
   _i39.Future<List<Map<String, dynamic>>> searchFamiliesForInvitation(
@@ -8706,19 +9553,20 @@ class MockGroupRemoteDataSource extends _i1.Mock
     int? limit,
   ) =>
       (super.noSuchMethod(
-        Invocation.method(#searchFamiliesForInvitation, [
-          groupId,
-          query,
-          limit,
-        ]),
-        returnValue: _i39.Future<List<Map<String, dynamic>>>.value(
-          <Map<String, dynamic>>[],
-        ),
-        returnValueForMissingStub:
-            _i39.Future<List<Map<String, dynamic>>>.value(
-          <Map<String, dynamic>>[],
-        ),
-      ) as _i39.Future<List<Map<String, dynamic>>>);
+            Invocation.method(#searchFamiliesForInvitation, [
+              groupId,
+              query,
+              limit,
+            ]),
+            returnValue: _i39.Future<List<Map<String, dynamic>>>.value(
+              <Map<String, dynamic>>[],
+            ),
+            returnValueForMissingStub:
+                _i39.Future<List<Map<String, dynamic>>>.value(
+                  <Map<String, dynamic>>[],
+                ),
+          )
+          as _i39.Future<List<Map<String, dynamic>>>);
 
   @override
   _i39.Future<Map<String, dynamic>> inviteFamilyToGroup(
@@ -8728,34 +9576,36 @@ class MockGroupRemoteDataSource extends _i1.Mock
     String? message,
   ) =>
       (super.noSuchMethod(
-        Invocation.method(#inviteFamilyToGroup, [
-          groupId,
-          familyId,
-          role,
-          message,
-        ]),
-        returnValue: _i39.Future<Map<String, dynamic>>.value(
-          <String, dynamic>{},
-        ),
-        returnValueForMissingStub: _i39.Future<Map<String, dynamic>>.value(
-          <String, dynamic>{},
-        ),
-      ) as _i39.Future<Map<String, dynamic>>);
+            Invocation.method(#inviteFamilyToGroup, [
+              groupId,
+              familyId,
+              role,
+              message,
+            ]),
+            returnValue: _i39.Future<Map<String, dynamic>>.value(
+              <String, dynamic>{},
+            ),
+            returnValueForMissingStub: _i39.Future<Map<String, dynamic>>.value(
+              <String, dynamic>{},
+            ),
+          )
+          as _i39.Future<Map<String, dynamic>>);
 
   @override
   _i39.Future<List<Map<String, dynamic>>> getPendingInvitations(
     String? groupId,
   ) =>
       (super.noSuchMethod(
-        Invocation.method(#getPendingInvitations, [groupId]),
-        returnValue: _i39.Future<List<Map<String, dynamic>>>.value(
-          <Map<String, dynamic>>[],
-        ),
-        returnValueForMissingStub:
-            _i39.Future<List<Map<String, dynamic>>>.value(
-          <Map<String, dynamic>>[],
-        ),
-      ) as _i39.Future<List<Map<String, dynamic>>>);
+            Invocation.method(#getPendingInvitations, [groupId]),
+            returnValue: _i39.Future<List<Map<String, dynamic>>>.value(
+              <Map<String, dynamic>>[],
+            ),
+            returnValueForMissingStub:
+                _i39.Future<List<Map<String, dynamic>>>.value(
+                  <Map<String, dynamic>>[],
+                ),
+          )
+          as _i39.Future<List<Map<String, dynamic>>>);
 }
 
 /// A class which mocks [GetFamilyUsecase].
@@ -8767,18 +9617,25 @@ class MockGetFamilyUsecase extends _i1.Mock implements _i93.GetFamilyUsecase {
     _i93.NoParams? params,
   ) =>
       (super.noSuchMethod(
-        Invocation.method(#call, [params]),
-        returnValue:
-            _i39.Future<_i45.Result<_i93.FamilyData, _i46.ApiFailure>>.value(
-          _i42.dummyValue<_i45.Result<_i93.FamilyData, _i46.ApiFailure>>(
-              this, Invocation.method(#call, [params])),
-        ),
-        returnValueForMissingStub:
-            _i39.Future<_i45.Result<_i93.FamilyData, _i46.ApiFailure>>.value(
-          _i42.dummyValue<_i45.Result<_i93.FamilyData, _i46.ApiFailure>>(
-              this, Invocation.method(#call, [params])),
-        ),
-      ) as _i39.Future<_i45.Result<_i93.FamilyData, _i46.ApiFailure>>);
+            Invocation.method(#call, [params]),
+            returnValue:
+                _i39.Future<
+                  _i45.Result<_i93.FamilyData, _i46.ApiFailure>
+                >.value(
+                  _i42.dummyValue<
+                    _i45.Result<_i93.FamilyData, _i46.ApiFailure>
+                  >(this, Invocation.method(#call, [params])),
+                ),
+            returnValueForMissingStub:
+                _i39.Future<
+                  _i45.Result<_i93.FamilyData, _i46.ApiFailure>
+                >.value(
+                  _i42.dummyValue<
+                    _i45.Result<_i93.FamilyData, _i46.ApiFailure>
+                  >(this, Invocation.method(#call, [params])),
+                ),
+          )
+          as _i39.Future<_i45.Result<_i93.FamilyData, _i46.ApiFailure>>);
 }
 
 /// A class which mocks [LeaveFamilyUsecase].
@@ -8791,18 +9648,25 @@ class MockLeaveFamilyUsecase extends _i1.Mock
     _i94.LeaveFamilyParams? params,
   ) =>
       (super.noSuchMethod(
-        Invocation.method(#call, [params]),
-        returnValue: _i39
-            .Future<_i45.Result<_i94.LeaveFamilyResult, _i46.Failure>>.value(
-          _i42.dummyValue<_i45.Result<_i94.LeaveFamilyResult, _i46.Failure>>(
-              this, Invocation.method(#call, [params])),
-        ),
-        returnValueForMissingStub: _i39
-            .Future<_i45.Result<_i94.LeaveFamilyResult, _i46.Failure>>.value(
-          _i42.dummyValue<_i45.Result<_i94.LeaveFamilyResult, _i46.Failure>>(
-              this, Invocation.method(#call, [params])),
-        ),
-      ) as _i39.Future<_i45.Result<_i94.LeaveFamilyResult, _i46.Failure>>);
+            Invocation.method(#call, [params]),
+            returnValue:
+                _i39.Future<
+                  _i45.Result<_i94.LeaveFamilyResult, _i46.Failure>
+                >.value(
+                  _i42.dummyValue<
+                    _i45.Result<_i94.LeaveFamilyResult, _i46.Failure>
+                  >(this, Invocation.method(#call, [params])),
+                ),
+            returnValueForMissingStub:
+                _i39.Future<
+                  _i45.Result<_i94.LeaveFamilyResult, _i46.Failure>
+                >.value(
+                  _i42.dummyValue<
+                    _i45.Result<_i94.LeaveFamilyResult, _i46.Failure>
+                  >(this, Invocation.method(#call, [params])),
+                ),
+          )
+          as _i39.Future<_i45.Result<_i94.LeaveFamilyResult, _i46.Failure>>);
 }
 
 /// A class which mocks [CreateFamilyUsecase].
@@ -8811,39 +9675,42 @@ class MockLeaveFamilyUsecase extends _i1.Mock
 class MockCreateFamilyUsecase extends _i1.Mock
     implements _i95.CreateFamilyUsecase {
   @override
-  _i36.FamilyRepository get repository => (super.noSuchMethod(
-        Invocation.getter(#repository),
-        returnValue: _FakeFamilyRepository_45(
-          this,
-          Invocation.getter(#repository),
-        ),
-        returnValueForMissingStub: _FakeFamilyRepository_45(
-          this,
-          Invocation.getter(#repository),
-        ),
-      ) as _i36.FamilyRepository);
+  _i36.FamilyRepository get repository =>
+      (super.noSuchMethod(
+            Invocation.getter(#repository),
+            returnValue: _FakeFamilyRepository_45(
+              this,
+              Invocation.getter(#repository),
+            ),
+            returnValueForMissingStub: _FakeFamilyRepository_45(
+              this,
+              Invocation.getter(#repository),
+            ),
+          )
+          as _i36.FamilyRepository);
 
   @override
   _i39.Future<_i45.Result<_i32.Family, _i46.ApiFailure>> call(
     _i95.CreateFamilyParams? params,
   ) =>
       (super.noSuchMethod(
-        Invocation.method(#call, [params]),
-        returnValue:
-            _i39.Future<_i45.Result<_i32.Family, _i46.ApiFailure>>.value(
-          _i42.dummyValue<_i45.Result<_i32.Family, _i46.ApiFailure>>(
-            this,
             Invocation.method(#call, [params]),
-          ),
-        ),
-        returnValueForMissingStub:
-            _i39.Future<_i45.Result<_i32.Family, _i46.ApiFailure>>.value(
-          _i42.dummyValue<_i45.Result<_i32.Family, _i46.ApiFailure>>(
-            this,
-            Invocation.method(#call, [params]),
-          ),
-        ),
-      ) as _i39.Future<_i45.Result<_i32.Family, _i46.ApiFailure>>);
+            returnValue:
+                _i39.Future<_i45.Result<_i32.Family, _i46.ApiFailure>>.value(
+                  _i42.dummyValue<_i45.Result<_i32.Family, _i46.ApiFailure>>(
+                    this,
+                    Invocation.method(#call, [params]),
+                  ),
+                ),
+            returnValueForMissingStub:
+                _i39.Future<_i45.Result<_i32.Family, _i46.ApiFailure>>.value(
+                  _i42.dummyValue<_i45.Result<_i32.Family, _i46.ApiFailure>>(
+                    this,
+                    Invocation.method(#call, [params]),
+                  ),
+                ),
+          )
+          as _i39.Future<_i45.Result<_i32.Family, _i46.ApiFailure>>);
 }
 
 /// A class which mocks [ClearAllFamilyDataUsecase].
@@ -8856,21 +9723,22 @@ class MockClearAllFamilyDataUsecase extends _i1.Mock
     _i96.ClearAllFamilyDataParams? params,
   ) =>
       (super.noSuchMethod(
-        Invocation.method(#call, [params]),
-        returnValue: _i39.Future<_i45.Result<void, _i46.Failure>>.value(
-          _i42.dummyValue<_i45.Result<void, _i46.Failure>>(
-            this,
             Invocation.method(#call, [params]),
-          ),
-        ),
-        returnValueForMissingStub:
-            _i39.Future<_i45.Result<void, _i46.Failure>>.value(
-          _i42.dummyValue<_i45.Result<void, _i46.Failure>>(
-            this,
-            Invocation.method(#call, [params]),
-          ),
-        ),
-      ) as _i39.Future<_i45.Result<void, _i46.Failure>>);
+            returnValue: _i39.Future<_i45.Result<void, _i46.Failure>>.value(
+              _i42.dummyValue<_i45.Result<void, _i46.Failure>>(
+                this,
+                Invocation.method(#call, [params]),
+              ),
+            ),
+            returnValueForMissingStub:
+                _i39.Future<_i45.Result<void, _i46.Failure>>.value(
+                  _i42.dummyValue<_i45.Result<void, _i46.Failure>>(
+                    this,
+                    Invocation.method(#call, [params]),
+                  ),
+                ),
+          )
+          as _i39.Future<_i45.Result<void, _i46.Failure>>);
 }
 
 /// A class which mocks [FamilyNotifier].
@@ -8878,75 +9746,88 @@ class MockClearAllFamilyDataUsecase extends _i1.Mock
 /// See the documentation for Mockito's code generation for more information.
 class MockFamilyNotifier extends _i1.Mock implements _i97.FamilyNotifier {
   @override
-  bool get mounted => (super.noSuchMethod(
-        Invocation.getter(#mounted),
-        returnValue: false,
-        returnValueForMissingStub: false,
-      ) as bool);
+  bool get mounted =>
+      (super.noSuchMethod(
+            Invocation.getter(#mounted),
+            returnValue: false,
+            returnValueForMissingStub: false,
+          )
+          as bool);
 
   @override
-  _i39.Stream<_i37.FamilyState> get stream => (super.noSuchMethod(
-        Invocation.getter(#stream),
-        returnValue: _i39.Stream<_i37.FamilyState>.empty(),
-        returnValueForMissingStub: _i39.Stream<_i37.FamilyState>.empty(),
-      ) as _i39.Stream<_i37.FamilyState>);
+  _i39.Stream<_i37.FamilyState> get stream =>
+      (super.noSuchMethod(
+            Invocation.getter(#stream),
+            returnValue: _i39.Stream<_i37.FamilyState>.empty(),
+            returnValueForMissingStub: _i39.Stream<_i37.FamilyState>.empty(),
+          )
+          as _i39.Stream<_i37.FamilyState>);
 
   @override
-  _i37.FamilyState get state => (super.noSuchMethod(
-        Invocation.getter(#state),
-        returnValue: _FakeFamilyState_46(this, Invocation.getter(#state)),
-        returnValueForMissingStub: _FakeFamilyState_46(
-          this,
-          Invocation.getter(#state),
-        ),
-      ) as _i37.FamilyState);
+  _i37.FamilyState get state =>
+      (super.noSuchMethod(
+            Invocation.getter(#state),
+            returnValue: _FakeFamilyState_46(this, Invocation.getter(#state)),
+            returnValueForMissingStub: _FakeFamilyState_46(
+              this,
+              Invocation.getter(#state),
+            ),
+          )
+          as _i37.FamilyState);
 
   @override
-  _i37.FamilyState get debugState => (super.noSuchMethod(
-        Invocation.getter(#debugState),
-        returnValue: _FakeFamilyState_46(
-          this,
-          Invocation.getter(#debugState),
-        ),
-        returnValueForMissingStub: _FakeFamilyState_46(
-          this,
-          Invocation.getter(#debugState),
-        ),
-      ) as _i37.FamilyState);
+  _i37.FamilyState get debugState =>
+      (super.noSuchMethod(
+            Invocation.getter(#debugState),
+            returnValue: _FakeFamilyState_46(
+              this,
+              Invocation.getter(#debugState),
+            ),
+            returnValueForMissingStub: _FakeFamilyState_46(
+              this,
+              Invocation.getter(#debugState),
+            ),
+          )
+          as _i37.FamilyState);
 
   @override
-  bool get hasListeners => (super.noSuchMethod(
-        Invocation.getter(#hasListeners),
-        returnValue: false,
-        returnValueForMissingStub: false,
-      ) as bool);
+  bool get hasListeners =>
+      (super.noSuchMethod(
+            Invocation.getter(#hasListeners),
+            returnValue: false,
+            returnValueForMissingStub: false,
+          )
+          as bool);
 
   @override
   set onError(_i59.ErrorListener? _onError) => super.noSuchMethod(
-        Invocation.setter(#onError, _onError),
-        returnValueForMissingStub: null,
-      );
+    Invocation.setter(#onError, _onError),
+    returnValueForMissingStub: null,
+  );
 
   @override
   set state(_i37.FamilyState? value) => super.noSuchMethod(
-        Invocation.setter(#state, value),
-        returnValueForMissingStub: null,
-      );
+    Invocation.setter(#state, value),
+    returnValueForMissingStub: null,
+  );
 
   @override
-  _i39.Future<void> loadFamily() => (super.noSuchMethod(
-        Invocation.method(#loadFamily, []),
-        returnValue: _i39.Future<void>.value(),
-        returnValueForMissingStub: _i39.Future<void>.value(),
-      ) as _i39.Future<void>);
+  _i39.Future<void> loadFamily() =>
+      (super.noSuchMethod(
+            Invocation.method(#loadFamily, []),
+            returnValue: _i39.Future<void>.value(),
+            returnValueForMissingStub: _i39.Future<void>.value(),
+          )
+          as _i39.Future<void>);
 
   @override
   _i39.Future<void> addChild(_i80.CreateChildRequest? request) =>
       (super.noSuchMethod(
-        Invocation.method(#addChild, [request]),
-        returnValue: _i39.Future<void>.value(),
-        returnValueForMissingStub: _i39.Future<void>.value(),
-      ) as _i39.Future<void>);
+            Invocation.method(#addChild, [request]),
+            returnValue: _i39.Future<void>.value(),
+            returnValueForMissingStub: _i39.Future<void>.value(),
+          )
+          as _i39.Future<void>);
 
   @override
   _i39.Future<void> updateChild(
@@ -8954,24 +9835,29 @@ class MockFamilyNotifier extends _i1.Mock implements _i97.FamilyNotifier {
     _i80.UpdateChildRequest? request,
   ) =>
       (super.noSuchMethod(
-        Invocation.method(#updateChild, [childId, request]),
-        returnValue: _i39.Future<void>.value(),
-        returnValueForMissingStub: _i39.Future<void>.value(),
-      ) as _i39.Future<void>);
+            Invocation.method(#updateChild, [childId, request]),
+            returnValue: _i39.Future<void>.value(),
+            returnValueForMissingStub: _i39.Future<void>.value(),
+          )
+          as _i39.Future<void>);
 
   @override
-  _i39.Future<void> removeChild(String? childId) => (super.noSuchMethod(
-        Invocation.method(#removeChild, [childId]),
-        returnValue: _i39.Future<void>.value(),
-        returnValueForMissingStub: _i39.Future<void>.value(),
-      ) as _i39.Future<void>);
+  _i39.Future<void> removeChild(String? childId) =>
+      (super.noSuchMethod(
+            Invocation.method(#removeChild, [childId]),
+            returnValue: _i39.Future<void>.value(),
+            returnValueForMissingStub: _i39.Future<void>.value(),
+          )
+          as _i39.Future<void>);
 
   @override
-  _i39.Future<void> loadVehicles() => (super.noSuchMethod(
-        Invocation.method(#loadVehicles, []),
-        returnValue: _i39.Future<void>.value(),
-        returnValueForMissingStub: _i39.Future<void>.value(),
-      ) as _i39.Future<void>);
+  _i39.Future<void> loadVehicles() =>
+      (super.noSuchMethod(
+            Invocation.method(#loadVehicles, []),
+            returnValue: _i39.Future<void>.value(),
+            returnValueForMissingStub: _i39.Future<void>.value(),
+          )
+          as _i39.Future<void>);
 
   @override
   _i39.Future<void> addVehicle({
@@ -8980,14 +9866,15 @@ class MockFamilyNotifier extends _i1.Mock implements _i97.FamilyNotifier {
     String? description,
   }) =>
       (super.noSuchMethod(
-        Invocation.method(#addVehicle, [], {
-          #name: name,
-          #capacity: capacity,
-          #description: description,
-        }),
-        returnValue: _i39.Future<void>.value(),
-        returnValueForMissingStub: _i39.Future<void>.value(),
-      ) as _i39.Future<void>);
+            Invocation.method(#addVehicle, [], {
+              #name: name,
+              #capacity: capacity,
+              #description: description,
+            }),
+            returnValue: _i39.Future<void>.value(),
+            returnValueForMissingStub: _i39.Future<void>.value(),
+          )
+          as _i39.Future<void>);
 
   @override
   _i39.Future<void> updateVehicle({
@@ -8997,47 +9884,54 @@ class MockFamilyNotifier extends _i1.Mock implements _i97.FamilyNotifier {
     String? description,
   }) =>
       (super.noSuchMethod(
-        Invocation.method(#updateVehicle, [], {
-          #vehicleId: vehicleId,
-          #name: name,
-          #capacity: capacity,
-          #description: description,
-        }),
-        returnValue: _i39.Future<void>.value(),
-        returnValueForMissingStub: _i39.Future<void>.value(),
-      ) as _i39.Future<void>);
+            Invocation.method(#updateVehicle, [], {
+              #vehicleId: vehicleId,
+              #name: name,
+              #capacity: capacity,
+              #description: description,
+            }),
+            returnValue: _i39.Future<void>.value(),
+            returnValueForMissingStub: _i39.Future<void>.value(),
+          )
+          as _i39.Future<void>);
 
   @override
-  _i39.Future<void> deleteVehicle(String? vehicleId) => (super.noSuchMethod(
-        Invocation.method(#deleteVehicle, [vehicleId]),
-        returnValue: _i39.Future<void>.value(),
-        returnValueForMissingStub: _i39.Future<void>.value(),
-      ) as _i39.Future<void>);
+  _i39.Future<void> deleteVehicle(String? vehicleId) =>
+      (super.noSuchMethod(
+            Invocation.method(#deleteVehicle, [vehicleId]),
+            returnValue: _i39.Future<void>.value(),
+            returnValueForMissingStub: _i39.Future<void>.value(),
+          )
+          as _i39.Future<void>);
 
   @override
-  _i39.Future<void> selectVehicle(String? vehicleId) => (super.noSuchMethod(
-        Invocation.method(#selectVehicle, [vehicleId]),
-        returnValue: _i39.Future<void>.value(),
-        returnValueForMissingStub: _i39.Future<void>.value(),
-      ) as _i39.Future<void>);
+  _i39.Future<void> selectVehicle(String? vehicleId) =>
+      (super.noSuchMethod(
+            Invocation.method(#selectVehicle, [vehicleId]),
+            returnValue: _i39.Future<void>.value(),
+            returnValueForMissingStub: _i39.Future<void>.value(),
+          )
+          as _i39.Future<void>);
 
   @override
   void clearSelectedVehicle() => super.noSuchMethod(
-        Invocation.method(#clearSelectedVehicle, []),
-        returnValueForMissingStub: null,
-      );
+    Invocation.method(#clearSelectedVehicle, []),
+    returnValueForMissingStub: null,
+  );
 
   @override
   void clearError() => super.noSuchMethod(
-        Invocation.method(#clearError, []),
-        returnValueForMissingStub: null,
-      );
+    Invocation.method(#clearError, []),
+    returnValueForMissingStub: null,
+  );
 
   @override
-  _i32.Child? getChild(String? childId) => (super.noSuchMethod(
-        Invocation.method(#getChild, [childId]),
-        returnValueForMissingStub: null,
-      ) as _i32.Child?);
+  _i32.Child? getChild(String? childId) =>
+      (super.noSuchMethod(
+            Invocation.method(#getChild, [childId]),
+            returnValueForMissingStub: null,
+          )
+          as _i32.Child?);
 
   @override
   _i39.Future<void> updateMemberRole({
@@ -9045,13 +9939,14 @@ class MockFamilyNotifier extends _i1.Mock implements _i97.FamilyNotifier {
     required _i32.FamilyRole? role,
   }) =>
       (super.noSuchMethod(
-        Invocation.method(#updateMemberRole, [], {
-          #memberId: memberId,
-          #role: role,
-        }),
-        returnValue: _i39.Future<void>.value(),
-        returnValueForMissingStub: _i39.Future<void>.value(),
-      ) as _i39.Future<void>);
+            Invocation.method(#updateMemberRole, [], {
+              #memberId: memberId,
+              #role: role,
+            }),
+            returnValue: _i39.Future<void>.value(),
+            returnValueForMissingStub: _i39.Future<void>.value(),
+          )
+          as _i39.Future<void>);
 
   @override
   _i39.Future<void> removeMember({
@@ -9059,58 +9954,68 @@ class MockFamilyNotifier extends _i1.Mock implements _i97.FamilyNotifier {
     required String? memberId,
   }) =>
       (super.noSuchMethod(
-        Invocation.method(#removeMember, [], {
-          #familyId: familyId,
-          #memberId: memberId,
-        }),
-        returnValue: _i39.Future<void>.value(),
-        returnValueForMissingStub: _i39.Future<void>.value(),
-      ) as _i39.Future<void>);
+            Invocation.method(#removeMember, [], {
+              #familyId: familyId,
+              #memberId: memberId,
+            }),
+            returnValue: _i39.Future<void>.value(),
+            returnValueForMissingStub: _i39.Future<void>.value(),
+          )
+          as _i39.Future<void>);
 
   @override
-  _i39.Future<void> leaveFamily() => (super.noSuchMethod(
-        Invocation.method(#leaveFamily, []),
-        returnValue: _i39.Future<void>.value(),
-        returnValueForMissingStub: _i39.Future<void>.value(),
-      ) as _i39.Future<void>);
+  _i39.Future<void> leaveFamily() =>
+      (super.noSuchMethod(
+            Invocation.method(#leaveFamily, []),
+            returnValue: _i39.Future<void>.value(),
+            returnValueForMissingStub: _i39.Future<void>.value(),
+          )
+          as _i39.Future<void>);
 
   @override
-  _i39.Future<void> updateFamilyName(String? newName) => (super.noSuchMethod(
-        Invocation.method(#updateFamilyName, [newName]),
-        returnValue: _i39.Future<void>.value(),
-        returnValueForMissingStub: _i39.Future<void>.value(),
-      ) as _i39.Future<void>);
+  _i39.Future<void> updateFamilyName(String? newName) =>
+      (super.noSuchMethod(
+            Invocation.method(#updateFamilyName, [newName]),
+            returnValue: _i39.Future<void>.value(),
+            returnValueForMissingStub: _i39.Future<void>.value(),
+          )
+          as _i39.Future<void>);
 
   @override
   _i39.Future<void> promoteMemberToAdmin(String? memberId) =>
       (super.noSuchMethod(
-        Invocation.method(#promoteMemberToAdmin, [memberId]),
-        returnValue: _i39.Future<void>.value(),
-        returnValueForMissingStub: _i39.Future<void>.value(),
-      ) as _i39.Future<void>);
+            Invocation.method(#promoteMemberToAdmin, [memberId]),
+            returnValue: _i39.Future<void>.value(),
+            returnValueForMissingStub: _i39.Future<void>.value(),
+          )
+          as _i39.Future<void>);
 
   @override
   _i39.Future<void> demoteMemberToMember(String? memberId) =>
       (super.noSuchMethod(
-        Invocation.method(#demoteMemberToMember, [memberId]),
-        returnValue: _i39.Future<void>.value(),
-        returnValueForMissingStub: _i39.Future<void>.value(),
-      ) as _i39.Future<void>);
+            Invocation.method(#demoteMemberToMember, [memberId]),
+            returnValue: _i39.Future<void>.value(),
+            returnValueForMissingStub: _i39.Future<void>.value(),
+          )
+          as _i39.Future<void>);
 
   @override
   _i39.Future<void> transferOwnership(String? newAdminId) =>
       (super.noSuchMethod(
-        Invocation.method(#transferOwnership, [newAdminId]),
-        returnValue: _i39.Future<void>.value(),
-        returnValueForMissingStub: _i39.Future<void>.value(),
-      ) as _i39.Future<void>);
+            Invocation.method(#transferOwnership, [newAdminId]),
+            returnValue: _i39.Future<void>.value(),
+            returnValueForMissingStub: _i39.Future<void>.value(),
+          )
+          as _i39.Future<void>);
 
   @override
-  List<_i32.Child> getChildrenByGroup(String? groupId) => (super.noSuchMethod(
-        Invocation.method(#getChildrenByGroup, [groupId]),
-        returnValue: <_i32.Child>[],
-        returnValueForMissingStub: <_i32.Child>[],
-      ) as List<_i32.Child>);
+  List<_i32.Child> getChildrenByGroup(String? groupId) =>
+      (super.noSuchMethod(
+            Invocation.method(#getChildrenByGroup, [groupId]),
+            returnValue: <_i32.Child>[],
+            returnValueForMissingStub: <_i32.Child>[],
+          )
+          as List<_i32.Child>);
 
   @override
   List<_i32.Child> getFilteredChildren({
@@ -9119,89 +10024,99 @@ class MockFamilyNotifier extends _i1.Mock implements _i97.FamilyNotifier {
     int? maxAge,
   }) =>
       (super.noSuchMethod(
-        Invocation.method(#getFilteredChildren, [], {
-          #query: query,
-          #minAge: minAge,
-          #maxAge: maxAge,
-        }),
-        returnValue: <_i32.Child>[],
-        returnValueForMissingStub: <_i32.Child>[],
-      ) as List<_i32.Child>);
+            Invocation.method(#getFilteredChildren, [], {
+              #query: query,
+              #minAge: minAge,
+              #maxAge: maxAge,
+            }),
+            returnValue: <_i32.Child>[],
+            returnValueForMissingStub: <_i32.Child>[],
+          )
+          as List<_i32.Child>);
 
   @override
   _i39.Future<_i45.Result<_i32.FamilyInvitation, _i82.InvitationFailure>>
-      sendFamilyInvitationToMember({
+  sendFamilyInvitationToMember({
     required String? familyId,
     required String? email,
     required String? role,
     String? personalMessage,
   }) =>
-          (super.noSuchMethod(
+      (super.noSuchMethod(
             Invocation.method(#sendFamilyInvitationToMember, [], {
               #familyId: familyId,
               #email: email,
               #role: role,
               #personalMessage: personalMessage,
             }),
-            returnValue: _i39.Future<
-                _i45
-                .Result<_i32.FamilyInvitation, _i82.InvitationFailure>>.value(
-              _i42.dummyValue<
-                  _i45.Result<_i32.FamilyInvitation, _i82.InvitationFailure>>(
-                this,
-                Invocation.method(#sendFamilyInvitationToMember, [], {
-                  #familyId: familyId,
-                  #email: email,
-                  #role: role,
-                  #personalMessage: personalMessage,
-                }),
-              ),
-            ),
-            returnValueForMissingStub: _i39.Future<
-                _i45
-                .Result<_i32.FamilyInvitation, _i82.InvitationFailure>>.value(
-              _i42.dummyValue<
-                  _i45.Result<_i32.FamilyInvitation, _i82.InvitationFailure>>(
-                this,
-                Invocation.method(#sendFamilyInvitationToMember, [], {
-                  #familyId: familyId,
-                  #email: email,
-                  #role: role,
-                  #personalMessage: personalMessage,
-                }),
-              ),
-            ),
-          ) as _i39.Future<
-              _i45.Result<_i32.FamilyInvitation, _i82.InvitationFailure>>);
+            returnValue:
+                _i39.Future<
+                  _i45.Result<_i32.FamilyInvitation, _i82.InvitationFailure>
+                >.value(
+                  _i42.dummyValue<
+                    _i45.Result<_i32.FamilyInvitation, _i82.InvitationFailure>
+                  >(
+                    this,
+                    Invocation.method(#sendFamilyInvitationToMember, [], {
+                      #familyId: familyId,
+                      #email: email,
+                      #role: role,
+                      #personalMessage: personalMessage,
+                    }),
+                  ),
+                ),
+            returnValueForMissingStub:
+                _i39.Future<
+                  _i45.Result<_i32.FamilyInvitation, _i82.InvitationFailure>
+                >.value(
+                  _i42.dummyValue<
+                    _i45.Result<_i32.FamilyInvitation, _i82.InvitationFailure>
+                  >(
+                    this,
+                    Invocation.method(#sendFamilyInvitationToMember, [], {
+                      #familyId: familyId,
+                      #email: email,
+                      #role: role,
+                      #personalMessage: personalMessage,
+                    }),
+                  ),
+                ),
+          )
+          as _i39.Future<
+            _i45.Result<_i32.FamilyInvitation, _i82.InvitationFailure>
+          >);
 
   @override
   _i39.Future<List<_i32.FamilyInvitation>> getPendingInvitations() =>
       (super.noSuchMethod(
-        Invocation.method(#getPendingInvitations, []),
-        returnValue: _i39.Future<List<_i32.FamilyInvitation>>.value(
-          <_i32.FamilyInvitation>[],
-        ),
-        returnValueForMissingStub:
-            _i39.Future<List<_i32.FamilyInvitation>>.value(
-          <_i32.FamilyInvitation>[],
-        ),
-      ) as _i39.Future<List<_i32.FamilyInvitation>>);
+            Invocation.method(#getPendingInvitations, []),
+            returnValue: _i39.Future<List<_i32.FamilyInvitation>>.value(
+              <_i32.FamilyInvitation>[],
+            ),
+            returnValueForMissingStub:
+                _i39.Future<List<_i32.FamilyInvitation>>.value(
+                  <_i32.FamilyInvitation>[],
+                ),
+          )
+          as _i39.Future<List<_i32.FamilyInvitation>>);
 
   @override
   _i39.Future<void> cancelInvitation(String? invitationId) =>
       (super.noSuchMethod(
-        Invocation.method(#cancelInvitation, [invitationId]),
-        returnValue: _i39.Future<void>.value(),
-        returnValueForMissingStub: _i39.Future<void>.value(),
-      ) as _i39.Future<void>);
+            Invocation.method(#cancelInvitation, [invitationId]),
+            returnValue: _i39.Future<void>.value(),
+            returnValueForMissingStub: _i39.Future<void>.value(),
+          )
+          as _i39.Future<void>);
 
   @override
   bool updateShouldNotify(_i37.FamilyState? old, _i37.FamilyState? current) =>
       (super.noSuchMethod(
-        Invocation.method(#updateShouldNotify, [old, current]),
-        returnValue: false,
-        returnValueForMissingStub: false,
-      ) as bool);
+            Invocation.method(#updateShouldNotify, [old, current]),
+            returnValue: false,
+            returnValueForMissingStub: false,
+          )
+          as bool);
 
   @override
   _i59.RemoveListener addListener(
@@ -9209,20 +10124,21 @@ class MockFamilyNotifier extends _i1.Mock implements _i97.FamilyNotifier {
     bool? fireImmediately = true,
   }) =>
       (super.noSuchMethod(
-        Invocation.method(
-          #addListener,
-          [listener],
-          {#fireImmediately: fireImmediately},
-        ),
-        returnValue: () {},
-        returnValueForMissingStub: () {},
-      ) as _i59.RemoveListener);
+            Invocation.method(
+              #addListener,
+              [listener],
+              {#fireImmediately: fireImmediately},
+            ),
+            returnValue: () {},
+            returnValueForMissingStub: () {},
+          )
+          as _i59.RemoveListener);
 
   @override
   void dispose() => super.noSuchMethod(
-        Invocation.method(#dispose, []),
-        returnValueForMissingStub: null,
-      );
+    Invocation.method(#dispose, []),
+    returnValueForMissingStub: null,
+  );
 
   @override
   _i39.Future<void> coordinateCriticalState(
@@ -9231,17 +10147,18 @@ class MockFamilyNotifier extends _i1.Mock implements _i97.FamilyNotifier {
     bool? withFrameCallback = true,
   }) =>
       (super.noSuchMethod(
-        Invocation.method(
-          #coordinateCriticalState,
-          [stateUpdate],
-          {
-            #description: description,
-            #withFrameCallback: withFrameCallback,
-          },
-        ),
-        returnValue: _i39.Future<void>.value(),
-        returnValueForMissingStub: _i39.Future<void>.value(),
-      ) as _i39.Future<void>);
+            Invocation.method(
+              #coordinateCriticalState,
+              [stateUpdate],
+              {
+                #description: description,
+                #withFrameCallback: withFrameCallback,
+              },
+            ),
+            returnValue: _i39.Future<void>.value(),
+            returnValueForMissingStub: _i39.Future<void>.value(),
+          )
+          as _i39.Future<void>);
 
   @override
   _i39.Future<void> coordinateReactiveListener(
@@ -9249,14 +10166,15 @@ class MockFamilyNotifier extends _i1.Mock implements _i97.FamilyNotifier {
     required String? description,
   }) =>
       (super.noSuchMethod(
-        Invocation.method(
-          #coordinateReactiveListener,
-          [listenerLogic],
-          {#description: description},
-        ),
-        returnValue: _i39.Future<void>.value(),
-        returnValueForMissingStub: _i39.Future<void>.value(),
-      ) as _i39.Future<void>);
+            Invocation.method(
+              #coordinateReactiveListener,
+              [listenerLogic],
+              {#description: description},
+            ),
+            returnValue: _i39.Future<void>.value(),
+            returnValueForMissingStub: _i39.Future<void>.value(),
+          )
+          as _i39.Future<void>);
 
   @override
   _i39.Future<void> coordinateBatchStateUpdate(
@@ -9264,14 +10182,15 @@ class MockFamilyNotifier extends _i1.Mock implements _i97.FamilyNotifier {
     required String? description,
   }) =>
       (super.noSuchMethod(
-        Invocation.method(
-          #coordinateBatchStateUpdate,
-          [stateUpdates],
-          {#description: description},
-        ),
-        returnValue: _i39.Future<void>.value(),
-        returnValueForMissingStub: _i39.Future<void>.value(),
-      ) as _i39.Future<void>);
+            Invocation.method(
+              #coordinateBatchStateUpdate,
+              [stateUpdates],
+              {#description: description},
+            ),
+            returnValue: _i39.Future<void>.value(),
+            returnValueForMissingStub: _i39.Future<void>.value(),
+          )
+          as _i39.Future<void>);
 
   @override
   _i39.Future<void> coordinateWithDebounce(
@@ -9281,16 +10200,17 @@ class MockFamilyNotifier extends _i1.Mock implements _i97.FamilyNotifier {
     Duration? debounceWindow = const Duration(milliseconds: 16),
   }) =>
       (super.noSuchMethod(
-        Invocation.method(
-          #coordinateWithDebounce,
-          [stateUpdate],
-          {
-            #key: key,
-            #description: description,
-            #debounceWindow: debounceWindow,
-          },
-        ),
-        returnValue: _i39.Future<void>.value(),
-        returnValueForMissingStub: _i39.Future<void>.value(),
-      ) as _i39.Future<void>);
+            Invocation.method(
+              #coordinateWithDebounce,
+              [stateUpdate],
+              {
+                #key: key,
+                #description: description,
+                #debounceWindow: debounceWindow,
+              },
+            ),
+            returnValue: _i39.Future<void>.value(),
+            returnValueForMissingStub: _i39.Future<void>.value(),
+          )
+          as _i39.Future<void>);
 }

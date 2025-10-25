@@ -43,12 +43,12 @@ void main() {
           // Act - Emit schedule update with vehicle assignment
           final scheduleUpdate =
               WebSocketTestUtilities.createScheduleUpdateEvent(
-            scheduleSlotId: 'slot-monday-09-00',
-            groupId: 'group-eastside-primary',
-            day: 'Monday',
-            week: '2024-08-26',
-            eventType: ScheduleEventType.scheduleSlotUpdated,
-          );
+                scheduleSlotId: 'slot-monday-09-00',
+                groupId: 'group-eastside-primary',
+                day: 'Monday',
+                week: '2024-08-26',
+                eventType: ScheduleEventType.scheduleSlotUpdated,
+              );
 
           await testController.emitScheduleUpdate(scheduleUpdate);
 
@@ -94,10 +94,10 @@ void main() {
         // Act - Create conflict scenario
         final conflictScheduleUpdate =
             WebSocketTestUtilities.createScheduleUpdateEvent(
-          scheduleSlotId: 'slot-conflict-test',
-          groupId: 'group-conflict-test',
-          eventType: ScheduleEventType.scheduleConflictDetected,
-        );
+              scheduleSlotId: 'slot-conflict-test',
+              groupId: 'group-conflict-test',
+              eventType: ScheduleEventType.scheduleConflictDetected,
+            );
 
         final conflictEvent = WebSocketTestUtilities.createConflictEvent(
           conflictId: 'conflict-double-booking-123',
@@ -183,18 +183,18 @@ void main() {
         // Act - Family member joins
         final memberJoinedEvent =
             WebSocketTestUtilities.createFamilyUpdateEvent(
-          eventType: SocketEvents.FAMILY_MEMBER_JOINED,
-          familyId: 'family-johnson-123',
-          data: {
-            'member': {
-              'id': 'member-new-456',
-              'email': 'newparent@example.com',
-              'name': 'Alex Johnson',
-              'role': 'parent',
-              'joinedAt': DateTime.now().toIso8601String(),
-            },
-          },
-        );
+              eventType: SocketEvents.FAMILY_MEMBER_JOINED,
+              familyId: 'family-johnson-123',
+              data: {
+                'member': {
+                  'id': 'member-new-456',
+                  'email': 'newparent@example.com',
+                  'name': 'Alex Johnson',
+                  'role': 'parent',
+                  'joinedAt': DateTime.now().toIso8601String(),
+                },
+              },
+            );
 
         await testController.emitFamilyUpdate(memberJoinedEvent);
 
@@ -209,8 +209,9 @@ void main() {
           contains('memberJoined'),
         );
 
-        final memberData = receivedFamilyEvents.first.familyData['member']
-            as Map<String, dynamic>;
+        final memberData =
+            receivedFamilyEvents.first.familyData['member']
+                as Map<String, dynamic>;
         expect(memberData['name'], equals('Alex Johnson'));
         expect(memberData['role'], equals('parent'));
 
@@ -241,35 +242,35 @@ void main() {
           // Act - Child added to family
           final childAddedEvent =
               WebSocketTestUtilities.createFamilyUpdateEvent(
-            eventType: SocketEvents.CHILD_ADDED,
-            familyId: 'family-wilson-456',
-            data: {
-              'child': {
-                'id': 'child-new-emma',
-                'familyId': 'family-wilson-456',
-                'name': 'Emma Wilson',
-                'age': 6,
-                'createdAt': DateTime.now().toIso8601String(),
-                'updatedAt': '2024-08-26T00:00:00.000Z',
-                'createdBy': 'parent-sarah-wilson',
-              },
-            },
-          );
+                eventType: SocketEvents.CHILD_ADDED,
+                familyId: 'family-wilson-456',
+                data: {
+                  'child': {
+                    'id': 'child-new-emma',
+                    'familyId': 'family-wilson-456',
+                    'name': 'Emma Wilson',
+                    'age': 6,
+                    'createdAt': DateTime.now().toIso8601String(),
+                    'updatedAt': '2024-08-26T00:00:00.000Z',
+                    'createdBy': 'parent-sarah-wilson',
+                  },
+                },
+              );
 
           await testController.emitFamilyUpdate(childAddedEvent);
 
           // Simulate data refresh notification (as per actual implementation)
           final dataRefreshNotification =
               WebSocketTestUtilities.createNotificationEvent(
-            category: 'DATA_REFRESH_TRIGGER',
-            title: 'Family Data Updated',
-            message: 'Child Emma added to family',
-            data: {
-              'dataType': 'family_data',
-              'childId': 'child-new-emma',
-              'action': 'child_added',
-            },
-          );
+                category: 'DATA_REFRESH_TRIGGER',
+                title: 'Family Data Updated',
+                message: 'Child Emma added to family',
+                data: {
+                  'dataType': 'family_data',
+                  'childId': 'child-new-emma',
+                  'action': 'child_added',
+                },
+              );
 
           await testController.emitNotification(dataRefreshNotification);
 
@@ -278,8 +279,9 @@ void main() {
           expect(receivedNotifications, hasLength(1));
 
           // Verify child data structure
-          final childData = receivedFamilyEvents.first.familyData['child']
-              as Map<String, dynamic>;
+          final childData =
+              receivedFamilyEvents.first.familyData['child']
+                  as Map<String, dynamic>;
           expect(childData['name'], equals('Emma Wilson'));
           expect(childData['familyId'], equals('family-wilson-456'));
           expect(childData['createdBy'], equals('parent-sarah-wilson'));
@@ -309,14 +311,14 @@ void main() {
           // Act - Child deleted from family
           final childDeletedEvent =
               WebSocketTestUtilities.createFamilyUpdateEvent(
-            eventType: SocketEvents.CHILD_DELETED,
-            familyId: 'family-wilson-456',
-            data: {
-              'childId': 'child-to-remove-789',
-              'deletedAt': DateTime.now().toIso8601String(),
-              'deletedBy': 'parent-sarah-wilson',
-            },
-          );
+                eventType: SocketEvents.CHILD_DELETED,
+                familyId: 'family-wilson-456',
+                data: {
+                  'childId': 'child-to-remove-789',
+                  'deletedAt': DateTime.now().toIso8601String(),
+                  'deletedBy': 'parent-sarah-wilson',
+                },
+              );
 
           await testController.emitFamilyUpdate(childDeletedEvent);
 
@@ -408,8 +410,7 @@ void main() {
     });
 
     group('Error Recovery and Fault Tolerance - RELIABILITY', () {
-      test('should handle malformed schedule update events gracefully',
-          () async {
+      test('should handle malformed schedule update events gracefully', () async {
         // Arrange - Error handling scenario
         final receivedUpdates = <ScheduleUpdateEvent>[];
         var errorCount = 0;
@@ -546,8 +547,9 @@ void main() {
           ); // <500ms for 25 updates
 
           // Verify unique slot IDs
-          final uniqueSlotIds =
-              receivedUpdates.map((e) => e.scheduleSlotId).toSet();
+          final uniqueSlotIds = receivedUpdates
+              .map((e) => e.scheduleSlotId)
+              .toSet();
           expect(uniqueSlotIds, hasLength(updateCount));
         },
       );

@@ -410,8 +410,9 @@ class SecurityMonitorService {
       if (storedData != null) {
         final storedEvents = jsonDecode(storedData);
         final List<dynamic> eventsList = storedEvents['events'] ?? [];
-        _recentEvents =
-            eventsList.map((e) => SecurityEvent.fromJson(e)).toList();
+        _recentEvents = eventsList
+            .map((e) => SecurityEvent.fromJson(e))
+            .toList();
       }
     } catch (e) {
       if (kDebugMode) {
@@ -448,8 +449,9 @@ class SecurityMonitorService {
     final now = DateTime.now();
     final last24Hours = now.subtract(const Duration(hours: 24));
 
-    final recentEvents =
-        _recentEvents.where((e) => e.timestamp.isAfter(last24Hours)).toList();
+    final recentEvents = _recentEvents
+        .where((e) => e.timestamp.isAfter(last24Hours))
+        .toList();
 
     final eventsByType = <SecurityEventType, int>{};
     for (final event in recentEvents) {
@@ -460,8 +462,9 @@ class SecurityMonitorService {
         .where((e) => e.severity == SecuritySeverity.critical)
         .length;
 
-    final highEvents =
-        recentEvents.where((e) => e.severity == SecuritySeverity.high).length;
+    final highEvents = recentEvents
+        .where((e) => e.severity == SecuritySeverity.high)
+        .length;
 
     return SecuritySummary(
       totalEvents: recentEvents.length,

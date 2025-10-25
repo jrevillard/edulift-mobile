@@ -105,7 +105,8 @@ class CertificatePinning {
 
       // Validate against known good CAs
       // This is a simplified check - in production, implement full chain validation
-      final isKnownCA = issuer.contains('Let\'s Encrypt') ||
+      final isKnownCA =
+          issuer.contains('Let\'s Encrypt') ||
           issuer.contains('DigiCert') ||
           issuer.contains('GlobalSign') ||
           (kDebugMode && issuer.contains('localhost'));
@@ -140,24 +141,24 @@ class _CertificatePinningHttpOverrides extends HttpOverrides {
     // Override certificate validation
     client.badCertificateCallback =
         (X509Certificate cert, String host, int port) {
-      // Log certificate details in debug mode
-      if (kDebugMode) {
-        final certDetails = CertificatePinning.getCertificateDetails(cert);
-        debugPrint('Certificate validation for $host:$port');
-        debugPrint('Certificate details: $certDetails');
-      }
+          // Log certificate details in debug mode
+          if (kDebugMode) {
+            final certDetails = CertificatePinning.getCertificateDetails(cert);
+            debugPrint('Certificate validation for $host:$port');
+            debugPrint('Certificate details: $certDetails');
+          }
 
-      // Validate certificate against pinned certificates
-      final isValid = CertificatePinning.validateCertificate(cert);
+          // Validate certificate against pinned certificates
+          final isValid = CertificatePinning.validateCertificate(cert);
 
-      if (!isValid) {
-        debugPrint(
-          '❌ Certificate pinning validation failed for $host:$port',
-        );
-      }
+          if (!isValid) {
+            debugPrint(
+              '❌ Certificate pinning validation failed for $host:$port',
+            );
+          }
 
-      return isValid;
-    };
+          return isValid;
+        };
 
     // Set connection timeout
     client.connectionTimeout = const Duration(seconds: 10);

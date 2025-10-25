@@ -96,8 +96,10 @@ class User extends Equatable {
     final trimmedName = name.trim();
     if (trimmedName.isEmpty) return '';
 
-    final parts =
-        trimmedName.split(' ').where((part) => part.isNotEmpty).toList();
+    final parts = trimmedName
+        .split(' ')
+        .where((part) => part.isNotEmpty)
+        .toList();
     if (parts.isEmpty) return '';
 
     if (parts.length == 1) {
@@ -115,18 +117,18 @@ class User extends Equatable {
 
   @override
   List<Object?> get props => [
-        id,
-        email,
-        name,
-        createdAt,
-        updatedAt,
-        preferredLanguage,
-        timezone,
-        role,
-        hasCompletedOnboarding,
-        accessibilityPreferences,
-        isBiometricEnabled,
-      ];
+    id,
+    email,
+    name,
+    createdAt,
+    updatedAt,
+    preferredLanguage,
+    timezone,
+    role,
+    hasCompletedOnboarding,
+    accessibilityPreferences,
+    isBiometricEnabled,
+  ];
 
   @override
   String toString() {
@@ -222,14 +224,14 @@ class AccessibilityPreferences extends Equatable {
 
   @override
   List<Object?> get props => [
-        highContrast,
-        largeTouchTargets,
-        reduceMotion,
-        textScaleFactor,
-        voiceNavigation,
-        screenReaderOptimized,
-        hapticFeedback,
-      ];
+    highContrast,
+    largeTouchTargets,
+    reduceMotion,
+    textScaleFactor,
+    voiceNavigation,
+    screenReaderOptimized,
+    hapticFeedback,
+  ];
 }
 
 /// Haptic feedback intensity levels

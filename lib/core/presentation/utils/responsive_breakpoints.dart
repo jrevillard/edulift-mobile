@@ -235,45 +235,42 @@ extension ResponsiveContext on BuildContext {
     double? desktopHorizontal,
     double? desktopVertical,
     double? desktopAll,
-  }) =>
-      ResponsiveBreakpoints.getAdaptivePadding(
-        this,
-        mobileHorizontal: mobileHorizontal,
-        mobileVertical: mobileVertical,
-        mobileAll: mobileAll,
-        tabletHorizontal: tabletHorizontal,
-        tabletVertical: tabletVertical,
-        tabletAll: tabletAll,
-        desktopHorizontal: desktopHorizontal,
-        desktopVertical: desktopVertical,
-        desktopAll: desktopAll,
-      );
+  }) => ResponsiveBreakpoints.getAdaptivePadding(
+    this,
+    mobileHorizontal: mobileHorizontal,
+    mobileVertical: mobileVertical,
+    mobileAll: mobileAll,
+    tabletHorizontal: tabletHorizontal,
+    tabletVertical: tabletVertical,
+    tabletAll: tabletAll,
+    desktopHorizontal: desktopHorizontal,
+    desktopVertical: desktopVertical,
+    desktopAll: desktopAll,
+  );
 
   /// Get adaptive spacing
   double getAdaptiveSpacing({
     double? mobile,
     double? tablet,
     double? desktop,
-  }) =>
-      ResponsiveBreakpoints.getAdaptiveSpacing(
-        this,
-        mobile: mobile,
-        tablet: tablet,
-        desktop: desktop,
-      );
+  }) => ResponsiveBreakpoints.getAdaptiveSpacing(
+    this,
+    mobile: mobile,
+    tablet: tablet,
+    desktop: desktop,
+  );
 
   /// Get adaptive icon size
   double getAdaptiveIconSize({
     double? mobile,
     double? tablet,
     double? desktop,
-  }) =>
-      ResponsiveBreakpoints.getAdaptiveIconSize(
-        this,
-        mobile: mobile,
-        tablet: tablet,
-        desktop: desktop,
-      );
+  }) => ResponsiveBreakpoints.getAdaptiveIconSize(
+    this,
+    mobile: mobile,
+    tablet: tablet,
+    desktop: desktop,
+  );
 
   /// Get font scale
   double get fontScale => ResponsiveBreakpoints.getFontScale(this);
@@ -283,13 +280,12 @@ extension ResponsiveContext on BuildContext {
     double? mobile,
     double? tablet,
     double? desktop,
-  }) =>
-      ResponsiveBreakpoints.getAdaptiveButtonHeight(
-        this,
-        mobile: mobile,
-        tablet: tablet,
-        desktop: desktop,
-      );
+  }) => ResponsiveBreakpoints.getAdaptiveButtonHeight(
+    this,
+    mobile: mobile,
+    tablet: tablet,
+    desktop: desktop,
+  );
 
   /// Get grid columns
   int getGridColumns({int? mobile, int? tablet, int? desktop, int? wide}) =>

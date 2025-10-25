@@ -63,8 +63,10 @@ class Vehicle extends Equatable {
     final trimmedName = name.trim();
     if (trimmedName.isEmpty) return 'V';
 
-    final parts =
-        trimmedName.split(' ').where((part) => part.isNotEmpty).toList();
+    final parts = trimmedName
+        .split(' ')
+        .where((part) => part.isNotEmpty)
+        .toList();
     if (parts.isEmpty) return 'V';
 
     if (parts.length == 1) {
@@ -87,14 +89,14 @@ class Vehicle extends Equatable {
 
   @override
   List<Object?> get props => [
-        id,
-        name,
-        familyId,
-        capacity,
-        description,
-        createdAt,
-        updatedAt,
-      ];
+    id,
+    name,
+    familyId,
+    capacity,
+    description,
+    createdAt,
+    updatedAt,
+  ];
 
   @override
   String toString() {

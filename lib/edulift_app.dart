@@ -88,7 +88,8 @@ class _EduLiftAppState extends ConsumerState<EduLiftApp>
       if (timezoneSynced && mounted) {
         // Only show snackbar if it's been at least 5 minutes since last sync
         final now = DateTime.now();
-        final shouldShowSnackbar = _lastTimezoneSync == null ||
+        final shouldShowSnackbar =
+            _lastTimezoneSync == null ||
             now.difference(_lastTimezoneSync!).inMinutes >= 5;
 
         // Update auth state to reflect the new timezone
@@ -207,7 +208,9 @@ class _EduLiftAppState extends ConsumerState<EduLiftApp>
       );
 
       // CLEAN ARCHITECTURE: Set navigation state, router redirect will handle navigation
-      ref.read(nav.navigationStateProvider.notifier).navigateTo(
+      ref
+          .read(nav.navigationStateProvider.notifier)
+          .navigateTo(
             route: verifyUrl,
             trigger: nav.NavigationTrigger.deepLink,
           );
@@ -226,8 +229,9 @@ class _EduLiftAppState extends ConsumerState<EduLiftApp>
         scheme: 'edulift',
         host: deepLink.isGroupJoinPath ? 'groups' : 'families',
         path: '/join',
-        queryParameters:
-            deepLink.inviteCode != null ? {'code': deepLink.inviteCode!} : null,
+        queryParameters: deepLink.inviteCode != null
+            ? {'code': deepLink.inviteCode!}
+            : null,
       );
       final invitationRoute = transformInvitationDeepLink(deepLinkUri);
 
@@ -239,7 +243,9 @@ class _EduLiftAppState extends ConsumerState<EduLiftApp>
         );
 
         // Navigate to invalid deep link error page
-        ref.read(nav.navigationStateProvider.notifier).navigateTo(
+        ref
+            .read(nav.navigationStateProvider.notifier)
+            .navigateTo(
               route:
                   '/invalid-link?path=${Uri.encodeComponent(deepLink.path ?? 'unknown')}',
               trigger: nav.NavigationTrigger.deepLink,
@@ -252,11 +258,13 @@ class _EduLiftAppState extends ConsumerState<EduLiftApp>
         '🎫 Deep link: Navigating to $invitationType invitation: $invitationRoute',
       );
 
-      ref.read(nav.navigationStateProvider.notifier).navigateTo(
-        route: invitationRoute,
-        trigger: nav.NavigationTrigger.deepLink,
-        context: {'inviteCode': deepLink.inviteCode!},
-      );
+      ref
+          .read(nav.navigationStateProvider.notifier)
+          .navigateTo(
+            route: invitationRoute,
+            trigger: nav.NavigationTrigger.deepLink,
+            context: {'inviteCode': deepLink.inviteCode!},
+          );
       return;
     }
 

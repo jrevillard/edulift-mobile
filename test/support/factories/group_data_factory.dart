@@ -58,10 +58,12 @@ class GroupDataFactory {
     return GroupSettings(
       allowAutoAssignment: i % 2 == 0,
       requireParentalApproval: i % 3 == 0,
-      defaultPickupLocation:
-          i % 2 == 0 ? TestDataFactory.randomAddress() : null,
-      defaultDropoffLocation:
-          i % 2 == 1 ? TestDataFactory.randomAddress() : null,
+      defaultPickupLocation: i % 2 == 0
+          ? TestDataFactory.randomAddress()
+          : null,
+      defaultDropoffLocation: i % 2 == 1
+          ? TestDataFactory.randomAddress()
+          : null,
       groupColor: colors[i % colors.length],
       enableNotifications: i % 4 != 0,
       privacyLevel: i % 3 == 0
@@ -103,13 +105,15 @@ class GroupDataFactory {
       id: 'group-member-${i + 1}',
       name: TestDataFactory.randomName(),
       email: TestDataFactory.randomEmail(),
-      role: role ??
+      role:
+          role ??
           (i == 0
               ? GroupMemberRole.owner
               : (i % 3 == 0 ? GroupMemberRole.admin : GroupMemberRole.member)),
       joinedAt: TestDataFactory.randomPastDate(maxDaysAgo: 180),
-      status:
-          i % 10 == 0 ? GroupMemberStatus.suspended : GroupMemberStatus.active,
+      status: i % 10 == 0
+          ? GroupMemberStatus.suspended
+          : GroupMemberStatus.active,
       permissions: _generatePermissions(role ?? GroupMemberRole.member),
     );
   }
@@ -121,7 +125,8 @@ class GroupDataFactory {
     bool? isPending,
   }) {
     final i = index ?? _familyCounter++;
-    final familyRole = role ??
+    final familyRole =
+        role ??
         (i == 0
             ? GroupFamilyRole.owner
             : (i % 3 == 0 ? GroupFamilyRole.admin : GroupFamilyRole.member));
@@ -146,8 +151,9 @@ class GroupDataFactory {
       inviteCode: pending ? 'INV-${i + 1000}' : null,
       invitationId: pending ? 'invitation-${i + 1}' : null,
       invitedAt: pending ? TestDataFactory.randomPastDate(maxDaysAgo: 7) : null,
-      expiresAt:
-          pending ? TestDataFactory.randomFutureDate(maxDaysAhead: 7) : null,
+      expiresAt: pending
+          ? TestDataFactory.randomFutureDate(maxDaysAhead: 7)
+          : null,
     );
   }
 

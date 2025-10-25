@@ -77,8 +77,8 @@ class AssignmentCard extends ConsumerWidget {
               Text(
                 vehicle.name,
                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                      color: Theme.of(context).colorScheme.primary,
-                    ),
+                  color: Theme.of(context).colorScheme.primary,
+                ),
               ),
               const SizedBox(height: 8),
               Row(

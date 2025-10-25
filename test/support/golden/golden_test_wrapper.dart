@@ -322,8 +322,8 @@ class GoldenTestWrapper {
       final positionName = position == 0.0
           ? 'top'
           : position == 1.0
-              ? 'bottom'
-              : 'scroll_${(position * 100).toInt()}';
+          ? 'bottom'
+          : 'scroll_${(position * 100).toInt()}';
 
       await testAllVariants(
         tester: tester,

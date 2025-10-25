@@ -77,16 +77,16 @@ class VehicleAssignment extends Equatable {
 
   @override
   List<Object?> get props => [
-        id,
-        vehicleId,
-        scheduleId,
-        driverId,
-        routeId,
-        status,
-        capacity,
-        assignedAt,
-        metadata,
-      ];
+    id,
+    vehicleId,
+    scheduleId,
+    driverId,
+    routeId,
+    status,
+    capacity,
+    assignedAt,
+    metadata,
+  ];
 
   @override
   String toString() {

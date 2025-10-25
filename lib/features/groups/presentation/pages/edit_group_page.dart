@@ -219,9 +219,7 @@ class _EditGroupPageState extends ConsumerState<EditGroupPage> {
                         Expanded(
                           child: Text(
                             _error!,
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodySmall
+                            style: Theme.of(context).textTheme.bodySmall
                                 ?.copyWith(
                                   color: Theme.of(context).colorScheme.error,
                                 ),

@@ -10,8 +10,7 @@ import 'dart:io';
 import 'package:test/test.dart';
 
 void main() {
-  group('Provider Architecture Enforcement - PREVENTING ARCHITECTURAL DEBT',
-      () {
+  group('Provider Architecture Enforcement - PREVENTING ARCHITECTURAL DEBT', () {
     test('ENFORCE: No circular dependencies between providers', () {
       final providerFiles = _findDartFiles(
         'lib',
@@ -27,8 +26,10 @@ void main() {
         // Check if this provider imports other providers
         for (final import in imports) {
           if (import.contains('_provider.dart') && !import.contains(fileName)) {
-            final importedProvider =
-                import.split('/').last.replaceAll('.dart', '');
+            final importedProvider = import
+                .split('/')
+                .last
+                .replaceAll('.dart', '');
 
             // Check for reverse dependency (circular)
             final importedFile = providerFiles

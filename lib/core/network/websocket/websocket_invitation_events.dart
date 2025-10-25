@@ -91,19 +91,19 @@ class FamilyInvitationEvent extends Equatable {
 
   @override
   List<Object?> get props => [
-        invitationId,
-        familyId,
-        familyName,
-        invitedBy,
-        acceptedBy,
-        declinedBy,
-        role,
-        personalMessage,
-        declineReason,
-        eventType,
-        timestamp,
-        data,
-      ];
+    invitationId,
+    familyId,
+    familyName,
+    invitedBy,
+    acceptedBy,
+    declinedBy,
+    role,
+    personalMessage,
+    declineReason,
+    eventType,
+    timestamp,
+    data,
+  ];
 }
 
 /// Group invitation event from WebSocket
@@ -182,19 +182,19 @@ class GroupInvitationEvent extends Equatable {
 
   @override
   List<Object?> get props => [
-        invitationId,
-        groupId,
-        groupName,
-        targetFamilyId,
-        invitedBy,
-        acceptedBy,
-        role,
-        personalMessage,
-        membersAdded,
-        eventType,
-        timestamp,
-        data,
-      ];
+    invitationId,
+    groupId,
+    groupName,
+    targetFamilyId,
+    invitedBy,
+    acceptedBy,
+    role,
+    personalMessage,
+    membersAdded,
+    eventType,
+    timestamp,
+    data,
+  ];
 }
 
 /// Invitation notification event from WebSocket
@@ -258,18 +258,18 @@ class InvitationNotificationEvent extends Equatable {
 
   @override
   List<Object?> get props => [
-        notificationId,
-        invitationId,
-        invitationType,
-        title,
-        message,
-        priority,
-        actionRequired,
-        isReminder,
-        deepLink,
-        timestamp,
-        data,
-      ];
+    notificationId,
+    invitationId,
+    invitationType,
+    title,
+    message,
+    priority,
+    actionRequired,
+    isReminder,
+    deepLink,
+    timestamp,
+    data,
+  ];
 }
 
 /// Invitation status update event from WebSocket
@@ -309,11 +309,11 @@ class InvitationStatusUpdateEvent extends Equatable {
 
   @override
   List<Object?> get props => [
-        invitationId,
-        oldStatus,
-        newStatus,
-        updatedBy,
-        timestamp,
-        metadata,
-      ];
+    invitationId,
+    oldStatus,
+    newStatus,
+    updatedBy,
+    timestamp,
+    metadata,
+  ];
 }

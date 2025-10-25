@@ -431,7 +431,8 @@ void main() {
       expect(find.byType(MemberActionBottomSheet), findsOneWidget);
 
       // Check for any common fallback patterns
-      final hasAnyFallback = questionMarkFinder.evaluate().isNotEmpty ||
+      final hasAnyFallback =
+          questionMarkFinder.evaluate().isNotEmpty ||
           unknownFinder.evaluate().isNotEmpty ||
           nameFallbackFinder.evaluate().isNotEmpty;
 

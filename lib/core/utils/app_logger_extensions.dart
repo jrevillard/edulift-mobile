@@ -74,16 +74,15 @@ extension AppLoggerExtensions on AppLogger {
     dynamic error,
     StackTrace? stackTrace,
     Map<String, dynamic>? metadata,
-  }) =>
-      logOperation(
-        operation,
-        'FAMILY',
-        error != null ? LogLevel.error : LogLevel.info,
-        message,
-        error: error,
-        stackTrace: stackTrace,
-        metadata: metadata,
-      );
+  }) => logOperation(
+    operation,
+    'FAMILY',
+    error != null ? LogLevel.error : LogLevel.info,
+    message,
+    error: error,
+    stackTrace: stackTrace,
+    metadata: metadata,
+  );
 
   /// Authentication feature logging
   static void logAuthOperation(
@@ -92,16 +91,15 @@ extension AppLoggerExtensions on AppLogger {
     dynamic error,
     StackTrace? stackTrace,
     Map<String, dynamic>? metadata,
-  }) =>
-      logOperation(
-        operation,
-        'AUTH',
-        error != null ? LogLevel.error : LogLevel.info,
-        message,
-        error: error,
-        stackTrace: stackTrace,
-        metadata: metadata,
-      );
+  }) => logOperation(
+    operation,
+    'AUTH',
+    error != null ? LogLevel.error : LogLevel.info,
+    message,
+    error: error,
+    stackTrace: stackTrace,
+    metadata: metadata,
+  );
 
   /// Schedule feature logging
   static void logScheduleOperation(
@@ -110,16 +108,15 @@ extension AppLoggerExtensions on AppLogger {
     dynamic error,
     StackTrace? stackTrace,
     Map<String, dynamic>? metadata,
-  }) =>
-      logOperation(
-        operation,
-        'SCHEDULE',
-        error != null ? LogLevel.error : LogLevel.info,
-        message,
-        error: error,
-        stackTrace: stackTrace,
-        metadata: metadata,
-      );
+  }) => logOperation(
+    operation,
+    'SCHEDULE',
+    error != null ? LogLevel.error : LogLevel.info,
+    message,
+    error: error,
+    stackTrace: stackTrace,
+    metadata: metadata,
+  );
 
   /// Children feature logging
   static void logChildrenOperation(
@@ -128,16 +125,15 @@ extension AppLoggerExtensions on AppLogger {
     dynamic error,
     StackTrace? stackTrace,
     Map<String, dynamic>? metadata,
-  }) =>
-      logOperation(
-        operation,
-        'CHILDREN',
-        error != null ? LogLevel.error : LogLevel.info,
-        message,
-        error: error,
-        stackTrace: stackTrace,
-        metadata: metadata,
-      );
+  }) => logOperation(
+    operation,
+    'CHILDREN',
+    error != null ? LogLevel.error : LogLevel.info,
+    message,
+    error: error,
+    stackTrace: stackTrace,
+    metadata: metadata,
+  );
 
   /// Vehicle feature logging
   static void logVehicleOperation(
@@ -146,16 +142,15 @@ extension AppLoggerExtensions on AppLogger {
     dynamic error,
     StackTrace? stackTrace,
     Map<String, dynamic>? metadata,
-  }) =>
-      logOperation(
-        operation,
-        'VEHICLE',
-        error != null ? LogLevel.error : LogLevel.info,
-        message,
-        error: error,
-        stackTrace: stackTrace,
-        metadata: metadata,
-      );
+  }) => logOperation(
+    operation,
+    'VEHICLE',
+    error != null ? LogLevel.error : LogLevel.info,
+    message,
+    error: error,
+    stackTrace: stackTrace,
+    metadata: metadata,
+  );
 
   // ========== PERFORMANCE LOGGING ==========
 
@@ -391,7 +386,7 @@ class PerformanceTracker {
   final Map<String, dynamic>? metadata;
 
   PerformanceTracker._(this.operation, this.metadata)
-      : _stopwatch = Stopwatch()..start();
+    : _stopwatch = Stopwatch()..start();
 
   /// Start tracking an operation
   ///

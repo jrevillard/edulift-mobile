@@ -295,8 +295,8 @@ Email: support@edulift.app
 
 final logExportProvider =
     AsyncNotifierProvider<LogExportNotifier, LogExportState>(
-  LogExportNotifier.new,
-);
+      LogExportNotifier.new,
+    );
 
 final currentLogLevelProvider = FutureProvider<String>((ref) async {
   final level = await LogConfig.getLogLevel();
