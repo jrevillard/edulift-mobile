@@ -67,10 +67,7 @@ void main() {
       await tester.pumpAndSettle();
 
       // Assert - Validation error appears (localized)
-      expect(
-        find.textContaining('required', findRichText: true),
-        findsWidgets,
-      );
+      expect(find.textContaining('required', findRichText: true), findsWidgets);
     });
 
     testWidgets('should validate email format', (tester) async {

@@ -113,8 +113,14 @@ void main() {
       // "removeMemberConfirmation" contains member name
       // "actionCannotBeUndone" is the warning message
       // The name appears in multiple places (header and confirmation message)
-      expect(find.textContaining('John Doe'), findsWidgets); // Member name appears multiple times
-      expect(find.byIcon(Icons.warning_amber), findsOneWidget); // Warning icon present
+      expect(
+        find.textContaining('John Doe'),
+        findsWidgets,
+      ); // Member name appears multiple times
+      expect(
+        find.byIcon(Icons.warning_amber),
+        findsOneWidget,
+      ); // Warning icon present
     });
 
     testWidgets('should handle cancel button correctly', (tester) async {
@@ -272,10 +278,13 @@ void main() {
       final removeButton = tester.widget<FilledButton>(removeButtonFinder);
 
       // Either loading indicator is shown OR button is disabled (both indicate loading)
-      final hasLoadingIndicator = find.descendant(
-        of: find.byKey(const Key('confirm_delete_button')),
-        matching: find.byType(CircularProgressIndicator),
-      ).evaluate().isNotEmpty;
+      final hasLoadingIndicator = find
+          .descendant(
+            of: find.byKey(const Key('confirm_delete_button')),
+            matching: find.byType(CircularProgressIndicator),
+          )
+          .evaluate()
+          .isNotEmpty;
 
       final isButtonDisabled = removeButton.onPressed == null;
 

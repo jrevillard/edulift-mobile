@@ -53,7 +53,9 @@ void main() {
           // CRITICAL FIX: Override familyProvider to prevent auto-load network calls
           // This prevents pending timer errors by using a test FamilyNotifier that doesn't auto-load
           familyProvider.overrideWith((ref) {
-            final notifier = TestProviderOverrides.createTestFamilyNotifier(ref);
+            final notifier = TestProviderOverrides.createTestFamilyNotifier(
+              ref,
+            );
             return notifier;
           }),
         ];
@@ -119,7 +121,9 @@ void main() {
           currentUserProvider.overrideWith((ref) => mockAuthState.user),
           // CRITICAL FIX: Override familyProvider to prevent auto-load network calls
           familyProvider.overrideWith((ref) {
-            final notifier = TestProviderOverrides.createTestFamilyNotifier(ref);
+            final notifier = TestProviderOverrides.createTestFamilyNotifier(
+              ref,
+            );
             // For this test, user has NO family
             // IMPORTANT: Cannot use copyWith to set family to null (copyWith ignores null values)
             // Must create new FamilyState with family explicitly set to null
@@ -197,7 +201,9 @@ void main() {
           currentUserProvider.overrideWith((ref) => mockAuthState.user),
           // CRITICAL FIX: Override familyProvider to prevent auto-load network calls
           familyProvider.overrideWith((ref) {
-            final notifier = TestProviderOverrides.createTestFamilyNotifier(ref);
+            final notifier = TestProviderOverrides.createTestFamilyNotifier(
+              ref,
+            );
             // For this test, user has NO family
             // IMPORTANT: Cannot use copyWith to set family to null (copyWith ignores null values)
             // Must create new FamilyState with family explicitly set to null
@@ -267,7 +273,9 @@ void main() {
           currentUserProvider.overrideWith((ref) => mockAuthState.user),
           // CRITICAL FIX: Override familyProvider to prevent auto-load network calls
           familyProvider.overrideWith((ref) {
-            final notifier = TestProviderOverrides.createTestFamilyNotifier(ref);
+            final notifier = TestProviderOverrides.createTestFamilyNotifier(
+              ref,
+            );
             // For this test, user has NO family
             // IMPORTANT: Cannot use copyWith to set family to null (copyWith ignores null values)
             // Must create new FamilyState with family explicitly set to null
@@ -410,7 +418,9 @@ void main() {
           currentUserProvider.overrideWith((ref) => mockAuthState.user),
           // CRITICAL FIX: Override familyProvider to prevent auto-load network calls
           familyProvider.overrideWith((ref) {
-            final notifier = TestProviderOverrides.createTestFamilyNotifier(ref);
+            final notifier = TestProviderOverrides.createTestFamilyNotifier(
+              ref,
+            );
             return notifier;
           }),
         ];
@@ -475,7 +485,9 @@ void main() {
           currentUserProvider.overrideWith((ref) => mockAuthState.user),
           // CRITICAL FIX: Override familyProvider to prevent auto-load network calls
           familyProvider.overrideWith((ref) {
-            final notifier = TestProviderOverrides.createTestFamilyNotifier(ref);
+            final notifier = TestProviderOverrides.createTestFamilyNotifier(
+              ref,
+            );
             return notifier;
           }),
         ];
@@ -525,7 +537,9 @@ void main() {
           currentUserProvider.overrideWith((ref) => mockAuthState.user),
           // CRITICAL FIX: Override familyProvider to prevent auto-load network calls
           familyProvider.overrideWith((ref) {
-            final notifier = TestProviderOverrides.createTestFamilyNotifier(ref);
+            final notifier = TestProviderOverrides.createTestFamilyNotifier(
+              ref,
+            );
             // For this test, user has NO family
             // IMPORTANT: Cannot use copyWith to set family to null (copyWith ignores null values)
             // Must create new FamilyState with family explicitly set to null

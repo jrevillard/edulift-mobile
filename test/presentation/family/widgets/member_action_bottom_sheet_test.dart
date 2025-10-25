@@ -148,13 +148,17 @@ void main() {
         expect(find.textContaining('Admin'), findsWidgets);
         expect(find.byIcon(Icons.admin_panel_settings), findsOneWidget);
         expect(
-          find.byKey(Key('member_role_action_${testMember.role.value.toLowerCase()}')),
+          find.byKey(
+            Key('member_role_action_${testMember.role.value.toLowerCase()}'),
+          ),
           findsOneWidget,
         );
 
         // Act - Tap Change Role
         await tester.tap(
-          find.byKey(Key('member_role_action_${testMember.role.value.toLowerCase()}')),
+          find.byKey(
+            Key('member_role_action_${testMember.role.value.toLowerCase()}'),
+          ),
         );
         await tester.pumpAndSettle();
 
@@ -191,13 +195,17 @@ void main() {
       // Assert (using localized text checks)
       expect(find.textContaining('Admin'), findsWidgets);
       expect(
-        find.byKey(Key('member_role_action_${adminMember.role.value.toLowerCase()}')),
+        find.byKey(
+          Key('member_role_action_${adminMember.role.value.toLowerCase()}'),
+        ),
         findsOneWidget,
       );
 
       // Act - Tap Change Role
       await tester.tap(
-        find.byKey(Key('member_role_action_${adminMember.role.value.toLowerCase()}')),
+        find.byKey(
+          Key('member_role_action_${adminMember.role.value.toLowerCase()}'),
+        ),
       );
       await tester.pumpAndSettle();
 
@@ -230,7 +238,11 @@ void main() {
 
       // Assert - No change role option when callback not provided
       expect(
-        find.byKey(Key('member_role_action_${currentUserMember.role.value.toLowerCase()}')),
+        find.byKey(
+          Key(
+            'member_role_action_${currentUserMember.role.value.toLowerCase()}',
+          ),
+        ),
         findsNothing,
       );
     });
@@ -260,7 +272,10 @@ void main() {
       await tester.pumpAndSettle();
 
       // Assert (using key and icon checks)
-      expect(find.byKey(const Key('member_view_details_action')), findsOneWidget);
+      expect(
+        find.byKey(const Key('member_view_details_action')),
+        findsOneWidget,
+      );
       expect(find.byIcon(Icons.person), findsOneWidget);
 
       // Act - Tap View Details
@@ -332,7 +347,10 @@ void main() {
       await tester.pumpAndSettle();
 
       // Assert (using key checks)
-      expect(find.byKey(const Key('member_leave_family_action')), findsOneWidget);
+      expect(
+        find.byKey(const Key('member_leave_family_action')),
+        findsOneWidget,
+      );
       expect(find.byIcon(Icons.exit_to_app), findsOneWidget);
 
       // Act - Tap Leave Family

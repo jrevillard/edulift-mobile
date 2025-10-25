@@ -58,12 +58,15 @@ class TestRouterConfig {
           final hasFamily = familyState.family != null;
 
           // Protected routes that require family membership
-          final isProtectedRoute = state.matchedLocation.startsWith('/family') ||
+          final isProtectedRoute =
+              state.matchedLocation.startsWith('/family') ||
               state.matchedLocation.startsWith('/groups') ||
               state.matchedLocation.startsWith('/schedule');
 
           // Redirect to onboarding if accessing protected route without family
-          if (isProtectedRoute && !hasFamily && !state.matchedLocation.startsWith('/onboarding')) {
+          if (isProtectedRoute &&
+              !hasFamily &&
+              !state.matchedLocation.startsWith('/onboarding')) {
             return '/onboarding/wizard';
           }
         } catch (e) {
