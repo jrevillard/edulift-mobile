@@ -63,7 +63,10 @@ jobs:
       
       - name: Run unit tests with coverage (excluding golden tests)
         run: flutter test --coverage --test-randomize-ordering-seed random --exclude-tags golden
-      
+
+      - name: Install lcov
+        run: sudo apt-get update && sudo apt-get install -y lcov
+
       - name: Generate coverage report
         run: |
           # Remove generated files from coverage
