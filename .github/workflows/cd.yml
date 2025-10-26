@@ -162,6 +162,25 @@ jobs:
         with:
           xcode-version: '16.4'
 
+      - name: Setup iOS flavor build configurations (one-time)
+        run: |
+          gem install bundler
+          bundle install
+          bundle exec ruby scripts/setup_ios_flavors.rb
+
+      - name: Commit modified project.pbxproj if changed
+        run: |
+          if git diff --quiet ios/Runner.xcodeproj/project.pbxproj; then
+            echo "No changes to project.pbxproj - configurations already exist"
+          else
+            echo "Committing modified project.pbxproj with flavor configurations"
+            git config user.name "github-actions[bot]"
+            git config user.email "github-actions[bot]@users.noreply.github.com"
+            git add ios/Runner.xcodeproj/project.pbxproj
+            git commit -m "chore: Add iOS flavor build configurations to project.pbxproj [skip ci]"
+            git push
+          fi
+
       - name: Cache CocoaPods
         uses: actions/cache@v4
         with:
