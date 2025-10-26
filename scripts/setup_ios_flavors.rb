@@ -62,7 +62,7 @@ FLAVORS.each do |flavor|
     else
       # Duplicate the base configuration (e.g., 'Debug') for the project.
       base_config = project.build_configurations.find { |c| c.name == base_config_name }
-      new_config = project.new_configuration(new_config_name, base_config.type)
+      new_config = project.add_build_configuration(new_config_name, base_config.type)
       new_config.build_settings.merge!(base_config.build_settings)
       puts "Created project configuration: '#{new_config_name}'".green
     end
