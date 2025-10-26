@@ -10,16 +10,12 @@ import 'package:edulift/core/network/models/family/family_member_dto.dart';
 import 'package:edulift/core/network/models/child/child_dto.dart';
 import 'package:edulift/core/network/models/vehicle/vehicle_dto.dart';
 
-
 void main() {
   group('FamilyDataExtractor', () {
     group('extractChildren', () {
       test('should return empty list when family.children is null', () {
         // ARRANGE
-        const family = FamilyDto(
-          id: 'test-family-id',
-          name: 'Test Family',
-        );
+        const family = FamilyDto(id: 'test-family-id', name: 'Test Family');
 
         // ACT
         final result = FamilyDataExtractor.extractChildren(family);
@@ -100,9 +96,24 @@ void main() {
       test('should preserve original list order', () {
         // ARRANGE
         final children = [
-          const ChildDto(id: 'child-1', name: 'Alice', age: 8, familyId: 'test-family-id'),
-          const ChildDto(id: 'child-2', name: 'Bob', age: 10, familyId: 'test-family-id'),
-          const ChildDto(id: 'child-3', name: 'Charlie', age: 6, familyId: 'test-family-id'),
+          const ChildDto(
+            id: 'child-1',
+            name: 'Alice',
+            age: 8,
+            familyId: 'test-family-id',
+          ),
+          const ChildDto(
+            id: 'child-2',
+            name: 'Bob',
+            age: 10,
+            familyId: 'test-family-id',
+          ),
+          const ChildDto(
+            id: 'child-3',
+            name: 'Charlie',
+            age: 6,
+            familyId: 'test-family-id',
+          ),
         ];
         final family = FamilyDto(
           id: 'test-family-id',
@@ -124,10 +135,7 @@ void main() {
     group('extractVehicles', () {
       test('should return empty list when family.vehicles is null', () {
         // ARRANGE
-        const family = FamilyDto(
-          id: 'test-family-id',
-          name: 'Test Family',
-        );
+        const family = FamilyDto(id: 'test-family-id', name: 'Test Family');
 
         // ACT
         final result = FamilyDataExtractor.extractVehicles(family);
@@ -208,9 +216,24 @@ void main() {
       test('should preserve original list order', () {
         // ARRANGE
         final vehicles = [
-          const VehicleDto(id: 'vehicle-1', name: 'Van', capacity: 8, familyId: 'test-family-id'),
-          const VehicleDto(id: 'vehicle-2', name: 'Sedan', capacity: 5, familyId: 'test-family-id'),
-          const VehicleDto(id: 'vehicle-3', name: 'SUV', capacity: 7, familyId: 'test-family-id'),
+          const VehicleDto(
+            id: 'vehicle-1',
+            name: 'Van',
+            capacity: 8,
+            familyId: 'test-family-id',
+          ),
+          const VehicleDto(
+            id: 'vehicle-2',
+            name: 'Sedan',
+            capacity: 5,
+            familyId: 'test-family-id',
+          ),
+          const VehicleDto(
+            id: 'vehicle-3',
+            name: 'SUV',
+            capacity: 7,
+            familyId: 'test-family-id',
+          ),
         ];
         final family = FamilyDto(
           id: 'test-family-id',
@@ -232,10 +255,7 @@ void main() {
     group('extractMembers', () {
       test('should return empty list when family.members is null', () {
         // ARRANGE
-        const family = FamilyDto(
-          id: 'test-family-id',
-          name: 'Test Family',
-        );
+        const family = FamilyDto(id: 'test-family-id', name: 'Test Family');
 
         // ACT
         final result = FamilyDataExtractor.extractMembers(family);
@@ -340,7 +360,11 @@ void main() {
             familyId: 'test-family-id',
             role: 'admin',
             joinedAt: DateTime.now(),
-            user: const UserDto(id: 'user-1', name: 'Admin', email: 'admin@example.com'),
+            user: const UserDto(
+              id: 'user-1',
+              name: 'Admin',
+              email: 'admin@example.com',
+            ),
           ),
           FamilyMemberDto(
             id: 'member-2',
@@ -348,7 +372,11 @@ void main() {
             familyId: 'test-family-id',
             role: 'member',
             joinedAt: DateTime.now(),
-            user: const UserDto(id: 'user-2', name: 'Member', email: 'member@example.com'),
+            user: const UserDto(
+              id: 'user-2',
+              name: 'Member',
+              email: 'member@example.com',
+            ),
           ),
           FamilyMemberDto(
             id: 'member-3',
@@ -356,7 +384,11 @@ void main() {
             familyId: 'test-family-id',
             role: 'guest',
             joinedAt: DateTime.now(),
-            user: const UserDto(id: 'user-3', name: 'Guest', email: 'guest@example.com'),
+            user: const UserDto(
+              id: 'user-3',
+              name: 'Guest',
+              email: 'guest@example.com',
+            ),
           ),
         ];
         final family = FamilyDto(
@@ -404,19 +436,29 @@ void main() {
         expect(FamilyDataExtractor.extractMembers(family), isEmpty);
       });
 
-      test('should handle complex family DTO with mixed null and populated lists', () {
-        // ARRANGE
-        const family = FamilyDto(
-          id: 'test-family-id',
-          name: 'Mixed Family',
-          children: [ChildDto(id: 'child-1', name: 'Alice', age: 8, familyId: 'test-family-id')],
-        );
+      test(
+        'should handle complex family DTO with mixed null and populated lists',
+        () {
+          // ARRANGE
+          const family = FamilyDto(
+            id: 'test-family-id',
+            name: 'Mixed Family',
+            children: [
+              ChildDto(
+                id: 'child-1',
+                name: 'Alice',
+                age: 8,
+                familyId: 'test-family-id',
+              ),
+            ],
+          );
 
-        // ACT & ASSERT
-        expect(FamilyDataExtractor.extractChildren(family), hasLength(1));
-        expect(FamilyDataExtractor.extractVehicles(family), isEmpty);
-        expect(FamilyDataExtractor.extractMembers(family), isEmpty);
-      });
+          // ACT & ASSERT
+          expect(FamilyDataExtractor.extractChildren(family), hasLength(1));
+          expect(FamilyDataExtractor.extractVehicles(family), isEmpty);
+          expect(FamilyDataExtractor.extractMembers(family), isEmpty);
+        },
+      );
     });
 
     group('edge cases and error conditions', () {
@@ -428,11 +470,26 @@ void main() {
           createdAt: DateTime.now(),
           updatedAt: DateTime.now(),
           children: [
-            const ChildDto(id: 'child-1', name: 'Alice', age: 8, familyId: 'comprehensive-family-id'),
-            const ChildDto(id: 'child-2', name: 'Bob', age: 10, familyId: 'comprehensive-family-id'),
+            const ChildDto(
+              id: 'child-1',
+              name: 'Alice',
+              age: 8,
+              familyId: 'comprehensive-family-id',
+            ),
+            const ChildDto(
+              id: 'child-2',
+              name: 'Bob',
+              age: 10,
+              familyId: 'comprehensive-family-id',
+            ),
           ],
           vehicles: [
-            const VehicleDto(id: 'vehicle-1', name: 'Van', capacity: 8, familyId: 'comprehensive-family-id'),
+            const VehicleDto(
+              id: 'vehicle-1',
+              name: 'Van',
+              capacity: 8,
+              familyId: 'comprehensive-family-id',
+            ),
           ],
           members: [
             FamilyMemberDto(
@@ -441,7 +498,11 @@ void main() {
               familyId: 'comprehensive-family-id',
               role: 'admin',
               joinedAt: DateTime.now(),
-              user: const UserDto(id: 'user-1', name: 'Parent 1', email: 'parent1@example.com'),
+              user: const UserDto(
+                id: 'user-1',
+                name: 'Parent 1',
+                email: 'parent1@example.com',
+              ),
             ),
             FamilyMemberDto(
               id: 'member-2',
@@ -449,7 +510,11 @@ void main() {
               familyId: 'comprehensive-family-id',
               role: 'member',
               joinedAt: DateTime.now(),
-              user: const UserDto(id: 'user-2', name: 'Parent 2', email: 'parent2@example.com'),
+              user: const UserDto(
+                id: 'user-2',
+                name: 'Parent 2',
+                email: 'parent2@example.com',
+              ),
             ),
           ],
         );
@@ -475,7 +540,12 @@ void main() {
       test('should return new list instances (not references)', () {
         // ARRANGE
         final originalChildren = [
-          const ChildDto(id: 'child-1', name: 'Original', age: 8, familyId: 'test-family-id'),
+          const ChildDto(
+            id: 'child-1',
+            name: 'Original',
+            age: 8,
+            familyId: 'test-family-id',
+          ),
         ];
         final family = FamilyDto(
           id: 'test-family-id',

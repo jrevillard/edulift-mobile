@@ -74,7 +74,9 @@ class _EmailWithProgressiveNameState
                 : null,
           ),
           keyboardType: TextInputType.emailAddress,
-          textInputAction: authState.showNameField ? TextInputAction.next : TextInputAction.done,
+          textInputAction: authState.showNameField
+              ? TextInputAction.next
+              : TextInputAction.done,
           onChanged: _onEmailChanged,
           onFieldSubmitted: (_) {
             // If name field is visible, focus on it; otherwise submit form

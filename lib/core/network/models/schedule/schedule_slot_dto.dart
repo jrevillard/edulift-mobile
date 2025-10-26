@@ -49,16 +49,16 @@ abstract class ScheduleSlotDto
     final timeOfDay = TimeOfDayValue.fromDateTime(utcDatetime);
 
     // STEP 1: Convert childAssignments to domain and inject scheduleSlotId
-    final childAssignmentsDomain = childAssignments
-        ?.map((dto) {
+    final childAssignmentsDomain =
+        childAssignments?.map((dto) {
           final assignment = dto.toDomain();
           // If scheduleSlotId is empty (from nested response), inject parent's ID
           if (assignment.scheduleSlotId?.isEmpty ?? true) {
             return assignment.copyWith(scheduleSlotId: id);
           }
           return assignment;
-        })
-        .toList() ?? [];
+        }).toList() ??
+        [];
 
     // STEP 2: Group children by vehicleAssignmentId
     final childrenByVehicle = <String, List<ChildAssignment>>{};
@@ -70,8 +70,8 @@ abstract class ScheduleSlotDto
     }
 
     // STEP 3: Inject scheduleSlotId AND attach children to vehicle assignments
-    final vehicleAssignmentsWithSlotId = vehicleAssignments
-        ?.map((dto) {
+    final vehicleAssignmentsWithSlotId =
+        vehicleAssignments?.map((dto) {
           final assignment = dto.toDomain();
           // Inject scheduleSlotId if empty
           final withSlotId = assignment.scheduleSlotId.isEmpty
@@ -81,8 +81,8 @@ abstract class ScheduleSlotDto
           // Attach children for this vehicle assignment
           final children = childrenByVehicle[withSlotId.id] ?? [];
           return withSlotId.copyWith(childAssignments: children);
-        })
-        .toList() ?? [];
+        }).toList() ??
+        [];
 
     // STEP 4: Return domain entity
     return ScheduleSlot(
@@ -133,7 +133,9 @@ abstract class ScheduleSlotDto
   ) {
     // Parse week format "YYYY-WNN" to get the year and week number
     final parts = week.split('-W');
-    final year = parts.length == 2 ? int.tryParse(parts[0]) ?? DateTime.now().year : DateTime.now().year;
+    final year = parts.length == 2
+        ? int.tryParse(parts[0]) ?? DateTime.now().year
+        : DateTime.now().year;
     final weekNumber = parts.length == 2 ? int.tryParse(parts[1]) ?? 1 : 1;
 
     // Calculate the start of the week (Monday)
@@ -154,5 +156,4 @@ abstract class ScheduleSlotDto
       timeOfDay.minute,
     );
   }
-
 }

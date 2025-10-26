@@ -282,7 +282,9 @@ class _ScheduleTimePickerState extends ConsumerState<ScheduleTimePicker>
                       child: Text(
                         l10n.timePickerInstructions,
                         style: theme.textTheme.bodySmall?.copyWith(
-                          color: theme.colorScheme.onSurface.withValues(alpha: 0.8),
+                          color: theme.colorScheme.onSurface.withValues(
+                            alpha: 0.8,
+                          ),
                         ),
                       ),
                     ),
@@ -299,9 +301,13 @@ class _ScheduleTimePickerState extends ConsumerState<ScheduleTimePicker>
                     const SizedBox(width: 4),
                     Expanded(
                       child: Text(
-                        AppLocalizations.of(context).timesShownInTimezone(timezoneDisplay),
+                        AppLocalizations.of(
+                          context,
+                        ).timesShownInTimezone(timezoneDisplay),
                         style: theme.textTheme.bodySmall?.copyWith(
-                          color: theme.colorScheme.onSurface.withValues(alpha: 0.6),
+                          color: theme.colorScheme.onSurface.withValues(
+                            alpha: 0.6,
+                          ),
                           fontSize: 11,
                           fontStyle: FontStyle.italic,
                         ),
@@ -355,9 +361,14 @@ class _ScheduleTimePickerState extends ConsumerState<ScheduleTimePicker>
             if (!isVerySmallScreen) ...[
               const SizedBox(width: 8),
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 12,
+                  vertical: 4,
+                ),
                 decoration: BoxDecoration(
-                  color: theme.colorScheme.primaryContainer.withValues(alpha: 0.3),
+                  color: theme.colorScheme.primaryContainer.withValues(
+                    alpha: 0.3,
+                  ),
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: Text(
@@ -373,7 +384,9 @@ class _ScheduleTimePickerState extends ConsumerState<ScheduleTimePicker>
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
                 decoration: BoxDecoration(
-                  color: theme.colorScheme.primaryContainer.withValues(alpha: 0.3),
+                  color: theme.colorScheme.primaryContainer.withValues(
+                    alpha: 0.3,
+                  ),
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: Text(
@@ -387,7 +400,7 @@ class _ScheduleTimePickerState extends ConsumerState<ScheduleTimePicker>
             ],
           ],
         );
-      }
+      },
     );
   }
 
@@ -409,7 +422,10 @@ class _ScheduleTimePickerState extends ConsumerState<ScheduleTimePicker>
         final displayTime = time;
 
         return AnimatedContainer(
-          duration: ScheduleAnimations.getDuration(context, ScheduleAnimations.fast),
+          duration: ScheduleAnimations.getDuration(
+            context,
+            ScheduleAnimations.fast,
+          ),
           child: Material(
             color: isSelected
                 ? theme.colorScheme.primary.withValues(
@@ -484,7 +500,10 @@ class _ScheduleTimePickerState extends ConsumerState<ScheduleTimePicker>
     }
 
     return AnimatedContainer(
-      duration: ScheduleAnimations.getDuration(context, ScheduleAnimations.normal),
+      duration: ScheduleAnimations.getDuration(
+        context,
+        ScheduleAnimations.normal,
+      ),
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
         color: hasSelection
@@ -539,7 +558,6 @@ class _ScheduleTimePickerState extends ConsumerState<ScheduleTimePicker>
               ],
             ],
           ),
-
           if (hasSelection) ...[
             const SizedBox(height: 8),
             // Selected times as chips - limit height to prevent overflow
@@ -548,28 +566,27 @@ class _ScheduleTimePickerState extends ConsumerState<ScheduleTimePicker>
               child: Wrap(
                 spacing: 6,
                 runSpacing: 3,
-                children: (_selectedTimes.toList()..sort()).take(8) // Limit to 8 chips
-                    .map(
-                      (time) {
-                        // Times are already in user's timezone - display as-is
-                        final displayTime = time;
+                children: (_selectedTimes.toList()..sort())
+                    .take(8) // Limit to 8 chips
+                    .map((time) {
+                      // Times are already in user's timezone - display as-is
+                      final displayTime = time;
 
-                        return Chip(
-                          label: Text(
-                            displayTime,
-                            style: theme.textTheme.bodySmall?.copyWith(
-                              fontWeight: FontWeight.w500,
-                              fontSize: 10,
-                            ),
+                      return Chip(
+                        label: Text(
+                          displayTime,
+                          style: theme.textTheme.bodySmall?.copyWith(
+                            fontWeight: FontWeight.w500,
+                            fontSize: 10,
                           ),
-                          backgroundColor: theme.colorScheme.primaryContainer
-                              .withValues(alpha: 0.5),
-                          deleteIcon: const Icon(Icons.close, size: 14),
-                          onDeleted: () => _toggleTime(time),
-                          visualDensity: VisualDensity.compact,
-                        );
-                      },
-                    )
+                        ),
+                        backgroundColor: theme.colorScheme.primaryContainer
+                            .withValues(alpha: 0.5),
+                        deleteIcon: const Icon(Icons.close, size: 14),
+                        onDeleted: () => _toggleTime(time),
+                        visualDensity: VisualDensity.compact,
+                      );
+                    })
                     .toList(),
               ),
             ),

@@ -14,7 +14,7 @@ void main() {
           familyId: 'family1',
           userId: 'user1',
           role: FamilyRole.admin,
-      status: 'ACTIVE',
+          status: 'ACTIVE',
           joinedAt: DateTime.now(),
           userName: 'Admin User',
         );
@@ -24,7 +24,7 @@ void main() {
           familyId: 'family1',
           userId: 'user2',
           role: FamilyRole.member,
-      status: 'ACTIVE',
+          status: 'ACTIVE',
           joinedAt: DateTime.now(),
           userName: 'Regular Member',
         );
@@ -52,8 +52,8 @@ void main() {
             id: 'member$index',
             familyId: 'family1',
             userId: 'user$index',
-            role: index == 0 ? FamilyRole.admin : FamilyRole.member,            status: 'ACTIVE',
-            
+            role: index == 0 ? FamilyRole.admin : FamilyRole.member,
+            status: 'ACTIVE',
             joinedAt: DateTime.now(),
             userName: 'Member $index',
           ),
@@ -87,7 +87,7 @@ void main() {
           familyId: 'family1',
           userId: 'user1',
           role: FamilyRole.admin,
-      status: 'ACTIVE',
+          status: 'ACTIVE',
           joinedAt: DateTime.now(),
           userName: 'Only Admin',
         );
@@ -97,7 +97,7 @@ void main() {
           familyId: 'family1',
           userId: 'user2',
           role: FamilyRole.member,
-      status: 'ACTIVE',
+          status: 'ACTIVE',
           joinedAt: DateTime.now(),
           userName: 'Regular Member',
         );
@@ -131,7 +131,7 @@ void main() {
           familyId: 'family1',
           userId: 'user1',
           role: FamilyRole.admin,
-      status: 'ACTIVE',
+          status: 'ACTIVE',
           joinedAt: DateTime.now(),
           userName: 'Only Member',
         );
@@ -165,7 +165,7 @@ void main() {
           familyId: 'family1',
           userId: 'user1',
           role: FamilyRole.admin,
-      status: 'ACTIVE',
+          status: 'ACTIVE',
           joinedAt: DateTime.now(),
           userName: 'Admin User',
         );
@@ -175,7 +175,7 @@ void main() {
           familyId: 'family1',
           userId: 'user2',
           role: FamilyRole.member,
-      status: 'ACTIVE',
+          status: 'ACTIVE',
           joinedAt: DateTime.now(),
           userName: 'Regular Member',
         );
@@ -210,7 +210,7 @@ void main() {
           familyId: 'family1',
           userId: 'user1',
           role: FamilyRole.member,
-      status: 'ACTIVE',
+          status: 'ACTIVE',
           joinedAt: DateTime.now(),
           userName: 'John Doe',
         );
@@ -220,7 +220,7 @@ void main() {
           familyId: 'family1',
           userId: 'user2',
           role: FamilyRole.member,
-      status: 'ACTIVE',
+          status: 'ACTIVE',
           joinedAt: DateTime.now(),
         );
 
@@ -263,7 +263,7 @@ void main() {
           familyId: 'family1',
           userId: 'user1',
           role: FamilyRole.admin,
-      status: 'ACTIVE',
+          status: 'ACTIVE',
           joinedAt: DateTime.now(),
           userName: 'Admin 1',
         );
@@ -273,7 +273,7 @@ void main() {
           familyId: 'family1',
           userId: 'user2',
           role: FamilyRole.admin,
-      status: 'ACTIVE',
+          status: 'ACTIVE',
           joinedAt: DateTime.now(),
           userName: 'Admin 2',
         );
@@ -305,8 +305,8 @@ void main() {
             id: 'member$index',
             familyId: 'family1',
             userId: 'user$index',
-            role: index == 0 ? FamilyRole.admin : FamilyRole.member,            status: 'ACTIVE',
-            
+            role: index == 0 ? FamilyRole.admin : FamilyRole.member,
+            status: 'ACTIVE',
             joinedAt: DateTime.now(),
             userName: 'Member $index',
           ),
@@ -340,8 +340,8 @@ void main() {
             id: 'member$index',
             familyId: 'family1',
             userId: 'user$index',
-            role: index == 0 ? FamilyRole.admin : FamilyRole.member,            status: 'ACTIVE',
-            
+            role: index == 0 ? FamilyRole.admin : FamilyRole.member,
+            status: 'ACTIVE',
             joinedAt: DateTime.now(),
             userName: 'Member $index',
           ),

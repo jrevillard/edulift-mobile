@@ -232,11 +232,16 @@ void main() {
           ).thenAnswer((_) async => Result.ok(updatedGroup));
 
           // WHEN
-          final result = await notifier.updateGroup('existing-group-1', updates);
+          final result = await notifier.updateGroup(
+            'existing-group-1',
+            updates,
+          );
 
           // THEN
           expect(result, isTrue);
-          verify(mockRepository.updateGroup('existing-group-1', updates)).called(1);
+          verify(
+            mockRepository.updateGroup('existing-group-1', updates),
+          ).called(1);
           // getGroups should only be called once (during constructor)
           verify(mockRepository.getGroups()).called(1);
           // Verify the group was updated in state
@@ -263,11 +268,16 @@ void main() {
           ).thenAnswer((_) async => const Result.err(apiFailure));
 
           // WHEN
-          final result = await notifier.updateGroup('existing-group-1', updates);
+          final result = await notifier.updateGroup(
+            'existing-group-1',
+            updates,
+          );
 
           // THEN
           expect(result, isFalse);
-          verify(mockRepository.updateGroup('existing-group-1', updates)).called(1);
+          verify(
+            mockRepository.updateGroup('existing-group-1', updates),
+          ).called(1);
           verify(mockRepository.getGroups()).called(1);
           // Verify state unchanged
           final groupInState = notifier.state.groups.firstWhere(
@@ -360,12 +370,16 @@ void main() {
 
           // WHEN
           await notifier.createGroup('New Group');
-          await notifier.updateGroup('existing-group-1', {'name': 'Updated Existing Group'});
+          await notifier.updateGroup('existing-group-1', {
+            'name': 'Updated Existing Group',
+          });
 
           // THEN
           verify(mockRepository.createGroup(any)).called(1);
           verify(
-            mockRepository.updateGroup('existing-group-1', {'name': 'Updated Existing Group'}),
+            mockRepository.updateGroup('existing-group-1', {
+              'name': 'Updated Existing Group',
+            }),
           ).called(1);
           // getGroups should only be called once (during constructor)
           verify(mockRepository.getGroups()).called(1);

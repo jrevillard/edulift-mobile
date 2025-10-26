@@ -16,6 +16,7 @@ final dashboardCallbacksProvider = Provider<DashboardCallbacks?>((ref) => null);
 // Dashboard state providers
 final dashboardRefreshProvider = Provider<CallbackFunction?>((ref) => null);
 final dashboardLoadingProvider = Provider<bool>((ref) => false);
+
 /// Presentation layer class for UI callbacks - CLEAN: Separated from domain
 class DashboardCallbacks {
   final CallbackFunction onAddChild;

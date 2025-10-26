@@ -2,14 +2,7 @@ import '../../../../generated/l10n/app_localizations.dart';
 import 'package:edulift/core/domain/entities/schedule.dart';
 
 /// Period of day enum for time slot categorization
-enum PeriodOfDay {
-  morning,
-  midday,
-  afternoon,
-  evening,
-  night,
-  unknown,
-}
+enum PeriodOfDay { morning, midday, afternoon, evening, night, unknown }
 
 /// Maps time slots from ScheduleConfig to localized labels
 /// Handles extracting unique time slots and mapping them to user-friendly labels
@@ -77,13 +70,9 @@ class TimeSlotMapper {
     final timeSlots = extractTimeSlots(config);
 
     return timeSlots.map((timeSlot) {
-      return {
-        'time': timeSlot,
-        'label': mapTimeToLabel(l10n, timeSlot),
-      };
+      return {'time': timeSlot, 'label': mapTimeToLabel(l10n, timeSlot)};
     }).toList();
   }
-
 
   /// Check if time slot is configured for a specific day
   /// dayKey should be uppercase (e.g., "MONDAY", "TUESDAY")
@@ -178,10 +167,7 @@ class TimeSlotMapper {
     // Convert to list of PeriodSlotGroup maintaining chronological order
     final result = <PeriodSlotGroup>[];
     for (final entry in grouped.entries) {
-      result.add(PeriodSlotGroup(
-        label: entry.key,
-        times: entry.value,
-      ));
+      result.add(PeriodSlotGroup(label: entry.key, times: entry.value));
     }
 
     // Sort by first time slot in each group

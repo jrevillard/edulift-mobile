@@ -64,7 +64,6 @@ void main() {
             accessToken: 'jwt-token-12345',
             refreshToken: 'mock_refresh_token',
             expiresIn: 900,
-            
             user: UserCurrentFamilyDto(
               id: 'user-456',
               email: 'verified@example.com',
@@ -176,7 +175,9 @@ void main() {
           when(
             mockLocalDatasource.getPKCEVerifier(),
           ).thenAnswer((_) async => const Ok('verifier'));
-          when(mockAuthApiClient.verifyMagicLink(any, any)).thenThrow(apiException);
+          when(
+            mockAuthApiClient.verifyMagicLink(any, any),
+          ).thenThrow(apiException);
 
           // Mock error handler response
           when(
@@ -213,8 +214,10 @@ void main() {
           );
 
           // Assert: Should handle 422 error correctly through DTO pattern
+          // FIXED: 422 is a validation error, not a generic API error
+          // HTTP 422 "Unprocessable Entity" should return ValidationFailure
           expect(result.isError, isTrue);
-          expect(result.error, isA<ApiFailure>());
+          expect(result.error, isA<ValidationFailure>());
           expect(result.error!.statusCode, 422);
           expect(result.error!.message, contains('expired'));
 
@@ -239,7 +242,6 @@ void main() {
             accessToken: 'stolen-token',
             refreshToken: 'mock_refresh_token',
             expiresIn: 900,
-            
             user: UserCurrentFamilyDto(
               id: 'attacker-123',
               email: 'attacker@evil.com', // Different email
@@ -291,7 +293,6 @@ void main() {
           accessToken: 'complete-test-token',
           refreshToken: 'mock_refresh_token',
           expiresIn: 900,
-          
           user: UserCurrentFamilyDto(
             id: 'complete-user-123',
             email: 'complete@test.com',

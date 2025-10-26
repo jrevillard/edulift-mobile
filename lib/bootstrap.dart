@@ -177,7 +177,9 @@ Future<ProviderContainer> bootstrap() async {
     // Check and sync timezone if auto-sync is enabled
     // This will only sync if user is logged in and timezone is different
     final authService = container.read(authServiceProvider);
-    final timezoneSynced = await TimezoneService.checkAndSyncTimezone(authService);
+    final timezoneSynced = await TimezoneService.checkAndSyncTimezone(
+      authService,
+    );
     if (timezoneSynced) {
       AppLogger.info('✅ Timezone auto-synced on startup');
     }

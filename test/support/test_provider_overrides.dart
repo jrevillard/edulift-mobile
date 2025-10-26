@@ -11,8 +11,7 @@ import 'package:edulift/features/family/presentation/providers/family_provider.d
     hide FamilyNotifier;
 import 'package:edulift/features/family/presentation/providers/family_provider.dart'
     as family_providers;
-import 'package:edulift/core/domain/entities/family.dart'
-    as family_entity;
+import 'package:edulift/core/domain/entities/family.dart' as family_entity;
 // NOTE: Entity imports removed as they're not needed for simplified stubbing
 import '../test_mocks/test_mocks.mocks.dart' as mocks;
 import '../test_mocks/test_mocks.dart';
@@ -35,7 +34,7 @@ class TestProviderOverrides {
     appStateProvider.overrideWith((ref) => AppStateNotifier()),
     // Type-safe family provider override with validation
     familyProvider.overrideWith((ref) {
-      final notifier = _createTestFamilyNotifier(ref);
+      final notifier = createTestFamilyNotifier(ref);
       // Force immediate state initialization to prevent Riverpod assertion errors
       return notifier;
     }),
@@ -97,7 +96,7 @@ class TestProviderOverrides {
 
   /// Family-specific overrides
   static List<Override> get familyOverrides => [
-    familyProvider.overrideWith((ref) => _createTestFamilyNotifier(ref)),
+    familyProvider.overrideWith((ref) => createTestFamilyNotifier(ref)),
     // CRITICAL FIX: Use real AppStateNotifier instead of mock
     appStateProvider.overrideWith((ref) => AppStateNotifier()),
   ];
@@ -108,8 +107,10 @@ class TestProviderOverrides {
     appStateProvider.overrideWith((ref) => AppStateNotifier()),
   ];
 
-  // Private factory methods for creating test notifiers
-  static family_providers.FamilyNotifier _createTestFamilyNotifier(Ref ref) {
+  // Public factory methods for creating test notifiers
+  // Made public to allow test cases to create family notifiers
+  // CRITICAL FIX: Returns FamilyNotifier (NOT AutoLoadFamilyNotifier) to prevent auto-load network calls
+  static family_providers.FamilyNotifier createTestFamilyNotifier(Ref ref) {
     final mockFamilyRepository = mocks.MockFamilyRepository();
     // Note: Children and vehicle operations are now part of FamilyRepository
     final mockInvitationRepository = mocks.MockInvitationRepository();
@@ -178,6 +179,9 @@ class TestProviderOverrides {
     final mockChildrenService = MockChildrenService();
     // Note: MockChildrenService already has proper Result return types in its implementation
 
+    // CRITICAL FIX: Return FamilyNotifier (NOT AutoLoadFamilyNotifier) to prevent auto-load network calls
+    // This prevents the pending timer issue by avoiding HTTP requests in tests
+    // The base FamilyNotifier class does NOT trigger loadFamily() in its constructor
     final notifier = family_providers.FamilyNotifier(
       mockGetFamilyUsecase,
       mockChildrenService, // Replace the three use cases with ChildrenService

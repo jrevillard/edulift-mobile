@@ -70,10 +70,7 @@ void main() {
       final widget = AdaptiveScaffold(
         title: 'Adaptive Scaffold',
         actions: [
-          IconButton(
-            icon: const Icon(Icons.settings),
-            onPressed: () {},
-          ),
+          IconButton(icon: const Icon(Icons.settings), onPressed: () {}),
         ],
         body: const Center(
           child: Column(
@@ -81,10 +78,7 @@ void main() {
             children: [
               Icon(Icons.check_circle, size: 64, color: Colors.green),
               SizedBox(height: 16),
-              Text(
-                'Adaptive Scaffold Content',
-                style: TextStyle(fontSize: 18),
-              ),
+              Text('Adaptive Scaffold Content', style: TextStyle(fontSize: 18)),
             ],
           ),
         ),
@@ -193,11 +187,7 @@ void main() {
       final widget = Scaffold(
         body: Padding(
           padding: const EdgeInsets.all(16),
-          child: GroupCard(
-            group: group,
-            onSelect: () {},
-            onManage: () {},
-          ),
+          child: GroupCard(group: group, onSelect: () {}, onManage: () {}),
         ),
       );
 

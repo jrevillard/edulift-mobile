@@ -56,7 +56,9 @@ class _InviteMemberWidgetState extends ConsumerState<InviteMemberWidget> {
                   Container(
                     padding: const EdgeInsets.all(8),
                     decoration: BoxDecoration(
-                      color: theme.colorScheme.primaryContainer.withValues(alpha: 0.3),
+                      color: theme.colorScheme.primaryContainer.withValues(
+                        alpha: 0.3,
+                      ),
                       borderRadius: BorderRadius.circular(8),
                     ),
                     child: Icon(
@@ -70,7 +72,9 @@ class _InviteMemberWidgetState extends ConsumerState<InviteMemberWidget> {
                     child: Text(
                       localizations.inviteFamilyMember,
                       key: const Key('invite_member_title'),
-                      style: theme.textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w600),
+                      style: theme.textTheme.titleLarge?.copyWith(
+                        fontWeight: FontWeight.w600,
+                      ),
                     ),
                   ),
                 ],
@@ -121,7 +125,9 @@ class _InviteMemberWidgetState extends ConsumerState<InviteMemberWidget> {
               Text(
                 localizations.invitationType,
                 key: const Key('invitation_type_label'),
-                style: theme.textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w600),
+                style: theme.textTheme.titleSmall?.copyWith(
+                  fontWeight: FontWeight.w600,
+                ),
               ),
               const SizedBox(height: 8),
               SegmentedButton<InvitationType>(
@@ -146,7 +152,9 @@ class _InviteMemberWidgetState extends ConsumerState<InviteMemberWidget> {
               Container(
                 padding: const EdgeInsets.all(8),
                 decoration: BoxDecoration(
-                  color: theme.colorScheme.primaryContainer.withValues(alpha: 0.1),
+                  color: theme.colorScheme.primaryContainer.withValues(
+                    alpha: 0.1,
+                  ),
                   borderRadius: BorderRadius.circular(4),
                 ),
                 child: Row(
@@ -160,7 +168,9 @@ class _InviteMemberWidgetState extends ConsumerState<InviteMemberWidget> {
                     Expanded(
                       child: Text(
                         localizations.familyMemberDescription,
-                        style: theme.textTheme.bodySmall?.copyWith(color: theme.colorScheme.primary),
+                        style: theme.textTheme.bodySmall?.copyWith(
+                          color: theme.colorScheme.primary,
+                        ),
                       ),
                     ),
                   ],
@@ -256,7 +266,9 @@ class _InviteMemberWidgetState extends ConsumerState<InviteMemberWidget> {
 
       if (result.isOk) {
         // PHASE2 SUCCESS: result.isOk = true
-        AppLogger.debug('🔥 [InviteWidget] PHASE2 SUCCESS - result.isOk = true');
+        AppLogger.debug(
+          '🔥 [InviteWidget] PHASE2 SUCCESS - result.isOk = true',
+        );
         // Success
         if (mounted) {
           // Store context before async operations
@@ -288,15 +300,20 @@ class _InviteMemberWidgetState extends ConsumerState<InviteMemberWidget> {
       } else {
         // PHASE2 ERROR: result.isErr = true
         final error = result.error!;
-        AppLogger.debug('🔥 [InviteWidget] PHASE2 ERROR - result.isErr = true', {
-          'errorType': error.runtimeType.toString(),
-          'localizationKey': error.localizationKey,
-        });
+        AppLogger.debug(
+          '🔥 [InviteWidget] PHASE2 ERROR - result.isErr = true',
+          {
+            'errorType': error.runtimeType.toString(),
+            'localizationKey': error.localizationKey,
+          },
+        );
 
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
-              content: Text('${localizations.failedToSendInvitation}: ${error.localizationKey}'),
+              content: Text(
+                '${localizations.failedToSendInvitation}: ${error.localizationKey}',
+              ),
               backgroundColor: Theme.of(context).colorScheme.error,
             ),
           );
@@ -307,7 +324,9 @@ class _InviteMemberWidgetState extends ConsumerState<InviteMemberWidget> {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('${localizations.failedToSendInvitation}: ${e.toString()}'),
+            content: Text(
+              '${localizations.failedToSendInvitation}: ${e.toString()}',
+            ),
             backgroundColor: Theme.of(context).colorScheme.error,
           ),
         );

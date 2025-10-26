@@ -1,0 +1,121 @@
+name: CI Pipeline
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    # Run on all PRs regardless of target branch
+  workflow_dispatch:
+    inputs:
+      skip-build:
+        description: 'Skip Android build to save minutes'
+        required: false
+        default: false
+        type: boolean
+
+permissions:
+  contents: read
+
+env:
+  FLUTTER_VERSION: '3.35.6'
+  JAVA_VERSION: '17'
+
+jobs:
+  # Analyze and unit tests job
+  analyze-and-test:
+    name: Analyze & Unit Tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Setup Flutter Environment
+        uses: ./.github/actions/setup-flutter
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          java-version: ${{ env.JAVA_VERSION }}
+
+      - name: 🎯 Check Versions (Debug)
+        run: |
+          echo "--- Flutter Version ---"
+          flutter --version
+          echo "--- Dart Version ---"
+          dart --version
+          echo "--- Which Flutter ---"
+          which flutter
+          echo "--- Which Dart ---"
+          which dart
+          echo "-----------------------"
+      
+      - name: Run code generation
+        run: flutter packages pub run build_runner build --delete-conflicting-outputs
+      
+      - name: Run Flutter analyze
+        run: flutter analyze --fatal-infos
+      
+      - name: Check code formatting
+        run: |
+          # Format check excluding tool/ directory (has different SDK constraint: >=2.17.0)
+          dart format --output=none --set-exit-if-changed lib/ test/ integration_test/
+      
+      - name: Run unit tests with coverage (excluding golden tests)
+        run: flutter test --coverage --test-randomize-ordering-seed random --exclude-tags golden
+
+      - name: Install lcov
+        run: sudo apt-get update && sudo apt-get install -y lcov
+
+      - name: Generate coverage report
+        run: |
+          # Remove generated files from coverage
+          # --ignore-errors unused: Some patterns may not match any files
+          lcov --remove coverage/lcov.info '**/generated/**' '**/l10n/**' '**/*.g.dart' '**/*.freezed.dart' -o coverage/lcov_cleaned.info --ignore-errors unused
+          # Generate HTML coverage report
+          # Flutter only generates line coverage, not function/branch coverage
+          genhtml \
+            coverage/lcov_cleaned.info \
+            --output-directory=coverage/html \
+            --no-function-coverage \
+            --no-branch-coverage
+
+      - name: Upload coverage reports
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: coverage-reports
+          path: |
+            coverage/lcov_cleaned.info
+            coverage/html/
+
+  # Build verification job
+  build-android:
+    name: Build Android
+    runs-on: ubuntu-latest
+    needs: [analyze-and-test]
+    timeout-minutes: 25
+    # Skip build if requested to save minutes
+    if: github.event.inputs.skip-build != 'true'
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Setup Flutter Environment
+        uses: ./.github/actions/setup-flutter
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          java-version: ${{ env.JAVA_VERSION }}
+      
+      - name: Run code generation
+        run: flutter packages pub run build_runner build --delete-conflicting-outputs
+      
+      - name: Build Android APK (development flavor)
+        run: flutter build apk --debug --flavor development
+      
+      - name: Upload Android APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: android-development-debug
+          path: build/app/outputs/flutter-apk/*.apk

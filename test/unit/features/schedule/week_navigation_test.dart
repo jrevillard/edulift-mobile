@@ -1,9 +1,15 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:timezone/data/latest_all.dart' as tz;
 import 'package:edulift/core/utils/date/iso_week_utils.dart';
 
 /// Test suite for week navigation edge cases
 /// Tests the logic used in schedule_page.dart and schedule_grid.dart
 void main() {
+  // Initialize timezone database for ISO week calculations
+  setUpAll(() {
+    tz.initializeTimeZones();
+  });
+
   group('Week Navigation Logic', () {
     group('Consecutive Week Navigation', () {
       test('navigating forward one week at a time should not skip weeks', () {
@@ -217,33 +223,36 @@ void main() {
   });
 
   group('Bug Fix: Navigation from Current Week (Not Initial)', () {
-    test('CRITICAL: should calculate offset from current week, not initial week', () {
-      // This tests the fix for the bug where navigation got stuck after 2-3 clicks
-      //
-      // OLD BUG: schedule_page used fixed _initialWeek for all calculations
-      // FIX: schedule_page now calculates from _currentWeek
+    test(
+      'CRITICAL: should calculate offset from current week, not initial week',
+      () {
+        // This tests the fix for the bug where navigation got stuck after 2-3 clicks
+        //
+        // OLD BUG: schedule_page used fixed _initialWeek for all calculations
+        // FIX: schedule_page now calculates from _currentWeek
 
-      // Scenario: User on W42, clicks next 3 times
-      var currentWeek = '2025-W42';
+        // Scenario: User on W42, clicks next 3 times
+        var currentWeek = '2025-W42';
 
-      // Click 1: offset=1 from current (W42)
-      const offset1 = 1;
-      currentWeek = addWeeksToISOWeek(currentWeek, offset1);
-      expect(currentWeek, '2025-W43'); // ✓
+        // Click 1: offset=1 from current (W42)
+        const offset1 = 1;
+        currentWeek = addWeeksToISOWeek(currentWeek, offset1);
+        expect(currentWeek, '2025-W43'); // ✓
 
-      // Click 2: offset=1 from current (W43)
-      const offset2 = 1;
-      currentWeek = addWeeksToISOWeek(currentWeek, offset2);
-      expect(currentWeek, '2025-W44'); // ✓
+        // Click 2: offset=1 from current (W43)
+        const offset2 = 1;
+        currentWeek = addWeeksToISOWeek(currentWeek, offset2);
+        expect(currentWeek, '2025-W44'); // ✓
 
-      // Click 3: offset=1 from current (W44)
-      const offset3 = 1;
-      currentWeek = addWeeksToISOWeek(currentWeek, offset3);
-      expect(currentWeek, '2025-W45'); // ✓ FIXED!
+        // Click 3: offset=1 from current (W44)
+        const offset3 = 1;
+        currentWeek = addWeeksToISOWeek(currentWeek, offset3);
+        expect(currentWeek, '2025-W45'); // ✓ FIXED!
 
-      // OLD BUG would calculate: W42+3=W45 (skipping W43, W44)
-      // NEW FIX calculates: W44+1=W45 (correct!)
-    });
+        // OLD BUG would calculate: W42+3=W45 (skipping W43, W44)
+        // NEW FIX calculates: W44+1=W45 (correct!)
+      },
+    );
 
     test('should work correctly across year boundary', () {
       // Test navigation across 2025 → 2026 transition
@@ -296,34 +305,37 @@ void main() {
   });
 
   group('Date Picker Navigation (Fixed Implementation)', () {
-    test('date picker should calculate from displayed week, not initial week', () {
-      // ✅ FIXED: The new implementation tracks _currentDisplayedWeek directly
-      // and calculates offsets from widget.week (initial week)
-      //
-      // Scenario: User opens page on W10, navigates to W12, then uses date picker
+    test(
+      'date picker should calculate from displayed week, not initial week',
+      () {
+        // ✅ FIXED: The new implementation tracks _currentDisplayedWeek directly
+        // and calculates offsets from widget.week (initial week)
+        //
+        // Scenario: User opens page on W10, navigates to W12, then uses date picker
 
-      const initialWeek = '2025-W10';
+        const initialWeek = '2025-W10';
 
-      // User navigates forward 2 weeks to W12
-      final currentDisplayedWeek = addWeeksToISOWeek(initialWeek, 2);
-      expect(currentDisplayedWeek, '2025-W12');
+        // User navigates forward 2 weeks to W12
+        final currentDisplayedWeek = addWeeksToISOWeek(initialWeek, 2);
+        expect(currentDisplayedWeek, '2025-W12');
 
-      // User selects Monday of W13 (March 24) in the date picker
-      final selectedDate = DateTime(2025, 3, 24);
-      final selectedMonday = _getMondayOfWeek(selectedDate);
-      final selectedWeekString = getISOWeekString(selectedMonday);
-      expect(selectedWeekString, '2025-W13');
+        // User selects Monday of W13 (March 24) in the date picker
+        final selectedDate = DateTime.utc(2025, 3, 24);
+        final selectedMonday = _getMondayOfWeek(selectedDate);
+        final selectedWeekString = getISOWeekString(selectedMonday);
+        expect(selectedWeekString, '2025-W13');
 
-      // NEW IMPLEMENTATION: Calculate offset from initial week
-      // This is what schedule_grid.dart now does:
-      final targetPageOffset = weeksBetween(initialWeek, selectedWeekString);
-      expect(targetPageOffset, 3); // W13 is 3 weeks from W10
+        // NEW IMPLEMENTATION: Calculate offset from initial week
+        // This is what schedule_grid.dart now does:
+        final targetPageOffset = weeksBetween(initialWeek, selectedWeekString);
+        expect(targetPageOffset, 3); // W13 is 3 weeks from W10
 
-      // Jump to page 1000 + 3 = 1003
-      // onPageChanged calculates: addWeeksToISOWeek(W10, 3) = W13 ✓
-      final result = addWeeksToISOWeek(initialWeek, targetPageOffset);
-      expect(result, '2025-W13');
-    });
+        // Jump to page 1000 + 3 = 1003
+        // onPageChanged calculates: addWeeksToISOWeek(W10, 3) = W13 ✓
+        final result = addWeeksToISOWeek(initialWeek, targetPageOffset);
+        expect(result, '2025-W13');
+      },
+    );
 
     test('date picker should work correctly when far from initial week', () {
       // Test case: User navigates far from initial week, then uses date picker
@@ -335,7 +347,7 @@ void main() {
       expect(currentDisplayedWeek, '2025-W15');
 
       // User jumps to W18 using date picker (April 28 - Monday of W18)
-      final selectedDate = DateTime(2025, 4, 28);
+      final selectedDate = DateTime.utc(2025, 4, 28);
       final selectedMonday = _getMondayOfWeek(selectedDate);
       final selectedWeekString = getISOWeekString(selectedMonday);
       expect(selectedWeekString, '2025-W18');
@@ -360,7 +372,7 @@ void main() {
       expect(currentDisplayedWeek, '2025-W18');
 
       // User jumps back to W12 using date picker
-      final selectedDate = DateTime(2025, 3, 17); // Monday of W12
+      final selectedDate = DateTime.utc(2025, 3, 17); // Monday of W12
       final selectedMonday = _getMondayOfWeek(selectedDate);
       final selectedWeekString = getISOWeekString(selectedMonday);
       expect(selectedWeekString, '2025-W12');

@@ -58,12 +58,5 @@ class Child extends Equatable {
   }
 
   @override
-  List<Object?> get props => [
-    id,
-    familyId,
-    name,
-    age,
-    createdAt,
-    updatedAt,
-  ];
+  List<Object?> get props => [id, familyId, name, age, createdAt, updatedAt];
 }

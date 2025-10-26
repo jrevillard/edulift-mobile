@@ -28,11 +28,7 @@ class TokenRefreshService {
   /// Queue of pending operations waiting for refresh to complete
   final List<Completer<void>> _refreshQueue = [];
 
-  TokenRefreshService(
-    this._dio,
-    this._storage,
-    this._networkErrorHandler,
-  ) {
+  TokenRefreshService(this._dio, this._storage, this._networkErrorHandler) {
     // CRITICAL: Validate that Dio has baseUrl configured
     // This prevents "No host specified in URI /auth/refresh" errors
     if (_dio.options.baseUrl.isEmpty) {
@@ -43,7 +39,9 @@ class TokenRefreshService {
         'Use apiDioProvider instead of dioProvider in service_providers.dart',
       );
     }
-    AppLogger.info('[TokenRefresh] Service initialized with baseUrl: ${_dio.options.baseUrl}');
+    AppLogger.info(
+      '[TokenRefresh] Service initialized with baseUrl: ${_dio.options.baseUrl}',
+    );
   }
 
   /// Refresh the access token using the refresh token
@@ -60,7 +58,9 @@ class TokenRefreshService {
   Future<void> refreshToken() async {
     // If refresh is already in progress, queue this request
     if (_isRefreshing) {
-      AppLogger.info('[TokenRefresh] Refresh already in progress, queuing request');
+      AppLogger.info(
+        '[TokenRefresh] Refresh already in progress, queuing request',
+      );
       final completer = Completer<void>();
       _refreshQueue.add(completer);
       return completer.future;
@@ -87,32 +87,38 @@ class TokenRefreshService {
       // - Proper error classification
       // - Type-safe DTO parsing with compile-time guarantees
       // - Explicit unwrap() pattern (2025 best practices)
-      final result = await _networkErrorHandler.executeRepositoryOperation<ApiResponse<TokenRefreshResponseDto>>(
-        () async {
-          // CRITICAL: Use the injected Dio instance (refreshDioProvider)
-          // which does NOT have auth interceptor to prevent infinite loop
-          final response = await _dio.post(
-            '/auth/refresh',
-            data: {'refreshToken': refreshToken},
-          );
+      final result = await _networkErrorHandler
+          .executeRepositoryOperation<ApiResponse<TokenRefreshResponseDto>>(
+            () async {
+              // CRITICAL: Use the injected Dio instance (refreshDioProvider)
+              // which does NOT have auth interceptor to prevent infinite loop
+              final response = await _dio.post(
+                '/auth/refresh',
+                data: {'refreshToken': refreshToken},
+              );
 
-          if (response.statusCode != 200) {
-            throw Exception('Refresh failed with status ${response.statusCode}');
-          }
+              if (response.statusCode != 200) {
+                throw Exception(
+                  'Refresh failed with status ${response.statusCode}',
+                );
+              }
 
-          // Backend returns: { success: true, data: { accessToken, refreshToken, expiresIn, tokenType } }
-          // Use ApiResponse.fromBackendWrapper to parse and extract the DTO
-          return ApiResponse<TokenRefreshResponseDto>.fromBackendWrapper(
-            response.data as Map<String, dynamic>,
-            (json) => TokenRefreshResponseDto.fromJson(json as Map<String, dynamic>),
-            statusCode: response.statusCode,
+              // Backend returns: { success: true, data: { accessToken, refreshToken, expiresIn, tokenType } }
+              // Use ApiResponse.fromBackendWrapper to parse and extract the DTO
+              return ApiResponse<TokenRefreshResponseDto>.fromBackendWrapper(
+                response.data as Map<String, dynamic>,
+                (json) => TokenRefreshResponseDto.fromJson(
+                  json as Map<String, dynamic>,
+                ),
+                statusCode: response.statusCode,
+              );
+            },
+            operationName: 'auth.refreshToken',
+            strategy: CacheStrategy.networkOnly,
+            serviceName: 'auth',
+            config: RetryConfig
+                .critical, // 5 automatic retries with exponential backoff
           );
-        },
-        operationName: 'auth.refreshToken',
-        strategy: CacheStrategy.networkOnly,
-        serviceName: 'auth',
-        config: RetryConfig.critical,  // 5 automatic retries with exponential backoff
-      );
 
       // Handle success - use explicit unwrap() pattern
       if (result.isOk) {
@@ -144,7 +150,9 @@ class TokenRefreshService {
           throw Exception('Failed to store new tokens: ${storeResult.error}');
         }
 
-        AppLogger.info('[TokenRefresh] ✅ Token refreshed successfully with ${RetryConfig.critical.maxAttempts} retry protection');
+        AppLogger.info(
+          '[TokenRefresh] ✅ Token refreshed successfully with ${RetryConfig.critical.maxAttempts} retry protection',
+        );
         AppLogger.info('[TokenRefresh] New expiration: $expiresAt');
 
         // Complete all queued requests with success
@@ -243,7 +251,9 @@ class TokenRefreshService {
 
       return secondsLeft > 0 ? secondsLeft : 0;
     } catch (e) {
-      AppLogger.error('[TokenRefresh] Error calculating seconds until expiry: $e');
+      AppLogger.error(
+        '[TokenRefresh] Error calculating seconds until expiry: $e',
+      );
       return null;
     }
   }

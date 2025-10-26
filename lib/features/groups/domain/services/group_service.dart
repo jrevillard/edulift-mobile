@@ -17,7 +17,8 @@ abstract class GroupService {
   /// Update group with specified changes
   Future<Result<Group, ApiFailure>> update(
     String id,
-    Map<String, dynamic> updates);
+    Map<String, dynamic> updates,
+  );
 
   /// Delete a group
   Future<Result<void, ApiFailure>> delete(String id);

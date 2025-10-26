@@ -8,11 +8,13 @@ class AssignVehicleToSlot {
   final GroupScheduleRepository repository;
   final ScheduleDateTimeService dateTimeService;
 
-  AssignVehicleToSlot(this.repository, {ScheduleDateTimeService? dateTimeService})
-      : dateTimeService = dateTimeService ?? const ScheduleDateTimeService();
+  AssignVehicleToSlot(
+    this.repository, {
+    ScheduleDateTimeService? dateTimeService,
+  }) : dateTimeService = dateTimeService ?? const ScheduleDateTimeService();
 
   Future<Result<VehicleAssignment, ApiFailure>> call(
-    AssignVehicleToSlotParams params
+    AssignVehicleToSlotParams params,
   ) async {
     // Validate input parameters (business rules)
     if (params.groupId.isEmpty ||
@@ -20,9 +22,12 @@ class AssignVehicleToSlot {
         params.time.isEmpty ||
         params.week.isEmpty ||
         params.vehicleId.isEmpty) {
-      return Result.err(ApiFailure.validationError(
-        message: 'All parameters (groupId, day, time, week, vehicleId) must be non-empty',
-      ));
+      return Result.err(
+        ApiFailure.validationError(
+          message:
+              'All parameters (groupId, day, time, week, vehicleId) must be non-empty',
+        ),
+      );
     }
 
     // Validate that the datetime can be calculated from the parameters
@@ -32,9 +37,12 @@ class AssignVehicleToSlot {
       params.week,
     );
     if (datetime == null) {
-      return Result.err(ApiFailure.validationError(
-        message: 'Invalid datetime calculation: day=${params.day}, time=${params.time}, week=${params.week}',
-      ));
+      return Result.err(
+        ApiFailure.validationError(
+          message:
+              'Invalid datetime calculation: day=${params.day}, time=${params.time}, week=${params.week}',
+        ),
+      );
     }
 
     // Delegate to repository

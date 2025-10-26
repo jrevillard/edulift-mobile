@@ -9,7 +9,7 @@ class AssignChildrenToVehicle {
   AssignChildrenToVehicle(this.repository);
 
   Future<Result<VehicleAssignment, ApiFailure>> call(
-    AssignChildrenToVehicleParams params
+    AssignChildrenToVehicleParams params,
   ) {
     return repository.assignChildrenToVehicle(
       params.groupId,

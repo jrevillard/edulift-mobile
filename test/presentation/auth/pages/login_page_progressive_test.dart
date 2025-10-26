@@ -9,7 +9,6 @@ import 'package:dartz/dartz.dart';
 import 'package:edulift/features/auth/presentation/pages/login_page.dart';
 import 'package:edulift/core/errors/failures.dart';
 import 'package:edulift/core/utils/result.dart';
-import 'package:edulift/core/presentation/widgets/accessibility/accessible_button.dart';
 import '../../../support/simple_widget_test_helper.dart';
 
 /// Test fixtures for auth-related results and entities
@@ -97,7 +96,10 @@ void main() {
         // Verify initial state - using key-based finding
         expect(find.byKey(const Key('emailField')), findsOneWidget);
         expect(find.byKey(const Key('nameField')), findsNothing);
-        expect(find.byKey(const Key('login_auth_action_button')), findsOneWidget);
+        expect(
+          find.byKey(const Key('login_auth_action_button')),
+          findsOneWidget,
+        );
         expect(find.text('Create account'), findsNothing);
 
         SimpleWidgetTestHelper.verifyNoExceptions(tester);
@@ -163,7 +165,8 @@ void main() {
         expect(button, findsOneWidget);
 
         // Test that button can be found and is enabled
-        final buttonWidget = tester.widget<AccessibleButton>(
+        // The button is an ElevatedButton, not AccessibleButton
+        final buttonWidget = tester.widget<ElevatedButton>(
           find.byKey(const Key('login_auth_action_button')),
         );
         expect(buttonWidget.onPressed, isNotNull);

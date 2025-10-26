@@ -19,21 +19,27 @@ void main() {
         expect(week, 1); // It's Monday in Paris, so Week 1
       });
 
-      test('should handle timezone where week boundary differs from UTC - Asia/Tokyo', () {
-        // Sunday 2024-12-31 20:00 UTC = Monday 2025-01-01 05:00 JST
-        // In Tokyo, this is Monday of Week 1, 2025
-        final utcDate = DateTime.utc(2024, 12, 31, 20);
-        final week = getISOWeekNumber(utcDate, 'Asia/Tokyo');
-        expect(week, 1);
-      });
+      test(
+        'should handle timezone where week boundary differs from UTC - Asia/Tokyo',
+        () {
+          // Sunday 2024-12-31 20:00 UTC = Monday 2025-01-01 05:00 JST
+          // In Tokyo, this is Monday of Week 1, 2025
+          final utcDate = DateTime.utc(2024, 12, 31, 20);
+          final week = getISOWeekNumber(utcDate, 'Asia/Tokyo');
+          expect(week, 1);
+        },
+      );
 
-      test('should handle timezone where week boundary differs from UTC - America/Los_Angeles', () {
-        // Monday 2024-01-01 07:00 UTC = Sunday 2023-12-31 23:00 PST
-        // In LA, this is still Sunday of Week 52, 2023
-        final utcDate = DateTime.utc(2024, 1, 1, 7);
-        final week = getISOWeekNumber(utcDate, 'America/Los_Angeles');
-        expect(week, 52);
-      });
+      test(
+        'should handle timezone where week boundary differs from UTC - America/Los_Angeles',
+        () {
+          // Monday 2024-01-01 07:00 UTC = Sunday 2023-12-31 23:00 PST
+          // In LA, this is still Sunday of Week 52, 2023
+          final utcDate = DateTime.utc(2024, 1, 1, 7);
+          final week = getISOWeekNumber(utcDate, 'America/Los_Angeles');
+          expect(week, 52);
+        },
+      );
 
       test('should handle mid-week dates correctly', () {
         // Wednesday 2024-01-03 12:00 UTC in Europe/Paris
@@ -201,8 +207,14 @@ void main() {
           999,
         ).toUtc();
 
-        expect(boundaries.weekStart.toIso8601String(), expectedStart.toIso8601String());
-        expect(boundaries.weekEnd.toIso8601String(), expectedEnd.toIso8601String());
+        expect(
+          boundaries.weekStart.toIso8601String(),
+          expectedStart.toIso8601String(),
+        );
+        expect(
+          boundaries.weekEnd.toIso8601String(),
+          expectedEnd.toIso8601String(),
+        );
       });
 
       test('should handle week boundaries in Asia/Tokyo', () {
@@ -227,8 +239,14 @@ void main() {
           999,
         ).toUtc();
 
-        expect(boundaries.weekStart.toIso8601String(), expectedStart.toIso8601String());
-        expect(boundaries.weekEnd.toIso8601String(), expectedEnd.toIso8601String());
+        expect(
+          boundaries.weekStart.toIso8601String(),
+          expectedStart.toIso8601String(),
+        );
+        expect(
+          boundaries.weekEnd.toIso8601String(),
+          expectedEnd.toIso8601String(),
+        );
       });
 
       test('should handle week boundaries in America/Los_Angeles', () {
@@ -253,8 +271,14 @@ void main() {
           999,
         ).toUtc();
 
-        expect(boundaries.weekStart.toIso8601String(), expectedStart.toIso8601String());
-        expect(boundaries.weekEnd.toIso8601String(), expectedEnd.toIso8601String());
+        expect(
+          boundaries.weekStart.toIso8601String(),
+          expectedStart.toIso8601String(),
+        );
+        expect(
+          boundaries.weekEnd.toIso8601String(),
+          expectedEnd.toIso8601String(),
+        );
       });
     });
 
@@ -408,50 +432,65 @@ void main() {
     });
 
     group('Cross-Platform Parity - Backend Verification', () {
-      test('should match backend: Asia/Tokyo - Sunday 2024-12-31 20:00 UTC → Week 1, 2025', () {
-        final utcDate = DateTime.utc(2024, 12, 31, 20);
-        final week = getISOWeekNumber(utcDate, 'Asia/Tokyo');
-        final year = getISOWeekYear(utcDate, 'Asia/Tokyo');
+      test(
+        'should match backend: Asia/Tokyo - Sunday 2024-12-31 20:00 UTC → Week 1, 2025',
+        () {
+          final utcDate = DateTime.utc(2024, 12, 31, 20);
+          final week = getISOWeekNumber(utcDate, 'Asia/Tokyo');
+          final year = getISOWeekYear(utcDate, 'Asia/Tokyo');
 
-        // In Tokyo, this is Monday 2025-01-01 05:00 JST → Week 1, 2025
-        expect(week, 1);
-        expect(year, 2025);
-      });
+          // In Tokyo, this is Monday 2025-01-01 05:00 JST → Week 1, 2025
+          expect(week, 1);
+          expect(year, 2025);
+        },
+      );
 
-      test('should match backend: America/Los_Angeles - Monday 2024-01-01 07:00 UTC → Week 52, 2023', () {
-        final utcDate = DateTime.utc(2024, 1, 1, 7);
-        final week = getISOWeekNumber(utcDate, 'America/Los_Angeles');
-        final year = getISOWeekYear(utcDate, 'America/Los_Angeles');
+      test(
+        'should match backend: America/Los_Angeles - Monday 2024-01-01 07:00 UTC → Week 52, 2023',
+        () {
+          final utcDate = DateTime.utc(2024, 1, 1, 7);
+          final week = getISOWeekNumber(utcDate, 'America/Los_Angeles');
+          final year = getISOWeekYear(utcDate, 'America/Los_Angeles');
 
-        // In LA, this is Sunday 2023-12-31 23:00 PST → Week 52, 2023
-        expect(week, 52);
-        expect(year, 2023);
-      });
+          // In LA, this is Sunday 2023-12-31 23:00 PST → Week 52, 2023
+          expect(week, 52);
+          expect(year, 2023);
+        },
+      );
 
-      test('should match backend: week boundaries are Monday 00:00 in user timezone', () {
-        final utcDate = DateTime.utc(2024, 1, 3, 12);
-        final boundaries = getWeekBoundaries(utcDate, 'Europe/Paris');
+      test(
+        'should match backend: week boundaries are Monday 00:00 in user timezone',
+        () {
+          final utcDate = DateTime.utc(2024, 1, 3, 12);
+          final boundaries = getWeekBoundaries(utcDate, 'Europe/Paris');
 
-        // Convert back to Europe/Paris to check
-        final location = tz.getLocation('Europe/Paris');
-        final startInParis = tz.TZDateTime.from(boundaries.weekStart, location);
+          // Convert back to Europe/Paris to check
+          final location = tz.getLocation('Europe/Paris');
+          final startInParis = tz.TZDateTime.from(
+            boundaries.weekStart,
+            location,
+          );
 
-        expect(startInParis.weekday, DateTime.monday); // Monday
-        expect(startInParis.hour, 0);
-        expect(startInParis.minute, 0);
-        expect(startInParis.second, 0);
-        expect(startInParis.millisecond, 0);
-      });
+          expect(startInParis.weekday, DateTime.monday); // Monday
+          expect(startInParis.hour, 0);
+          expect(startInParis.minute, 0);
+          expect(startInParis.second, 0);
+          expect(startInParis.millisecond, 0);
+        },
+      );
 
-      test('should match backend: Europe/Paris - Monday 2024-01-01 00:00 CET → Week 1, 2024', () {
-        // Monday 2024-01-01 00:00 CET = Sunday 2023-12-31 23:00 UTC
-        final utcDate = DateTime.utc(2023, 12, 31, 23);
-        final week = getISOWeekNumber(utcDate, 'Europe/Paris');
-        final year = getISOWeekYear(utcDate, 'Europe/Paris');
+      test(
+        'should match backend: Europe/Paris - Monday 2024-01-01 00:00 CET → Week 1, 2024',
+        () {
+          // Monday 2024-01-01 00:00 CET = Sunday 2023-12-31 23:00 UTC
+          final utcDate = DateTime.utc(2023, 12, 31, 23);
+          final week = getISOWeekNumber(utcDate, 'Europe/Paris');
+          final year = getISOWeekYear(utcDate, 'Europe/Paris');
 
-        expect(week, 1);
-        expect(year, 2024);
-      });
+          expect(week, 1);
+          expect(year, 2024);
+        },
+      );
 
       test('should match backend: round-trip conversion consistency', () {
         const timezone = 'Asia/Tokyo';
@@ -474,7 +513,12 @@ void main() {
       test('should handle DST start transition correctly', () {
         // US DST starts on March 10, 2024 at 02:00 -> 03:00
         final beforeDST = DateTime.utc(2024, 3, 10, 6); // 01:00 EST
-        final afterDST = DateTime.utc(2024, 3, 10, 8); // 04:00 EDT (after spring forward)
+        final afterDST = DateTime.utc(
+          2024,
+          3,
+          10,
+          8,
+        ); // 04:00 EDT (after spring forward)
 
         final weekBefore = getISOWeekNumber(beforeDST, 'America/New_York');
         final weekAfter = getISOWeekNumber(afterDST, 'America/New_York');
@@ -487,7 +531,12 @@ void main() {
       test('should handle DST end transition correctly', () {
         // US DST ends on November 3, 2024 at 02:00 -> 01:00
         final beforeDST = DateTime.utc(2024, 11, 3, 5); // 01:00 EDT
-        final afterDST = DateTime.utc(2024, 11, 3, 7); // 02:00 EST (after fall back)
+        final afterDST = DateTime.utc(
+          2024,
+          11,
+          3,
+          7,
+        ); // 02:00 EST (after fall back)
 
         final weekBefore = getISOWeekNumber(beforeDST, 'America/New_York');
         final weekAfter = getISOWeekNumber(afterDST, 'America/New_York');

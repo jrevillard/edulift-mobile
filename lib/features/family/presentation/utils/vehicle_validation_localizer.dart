@@ -34,6 +34,7 @@ extension VehicleValidationLocalizer on VehicleValidationError {
       case VehicleValidationError.capacityTooHigh:
         return l10n.errorVehicleCapacityTooHigh;
       case VehicleValidationError.descriptionTooLong:
-        return l10n.errorVehicleDescriptionTooLong;}
+        return l10n.errorVehicleDescriptionTooLong;
+    }
   }
 }

@@ -3,19 +3,6 @@ import '../../../../core/errors/failures.dart';
 import '../../../../core/domain/usecases/usecase.dart';
 import '../../../../core/services/user_family_service.dart';
 
-/// No parameters needed - clear ALL family data
-class ClearAllFamilyDataParams {
-  const ClearAllFamilyDataParams();
-  @override
-  bool operator ==(Object other) {
-    if (identical(this, other)) return true;
-    return other is ClearAllFamilyDataParams;
-  }
-
-  @override
-  int get hashCode => 0;
-}
-
 /// Use case for clearing all cached family data from local storage
 ///
 /// Business Logic:
@@ -41,14 +28,13 @@ class ClearAllFamilyDataParams {
 /// - CacheFailure.ioError() - File system access error
 /// - CacheFailure.unknown() - Unexpected cache clearing error
 
-class ClearAllFamilyDataUsecase
-    implements UseCase<void, ClearAllFamilyDataParams> {
+class ClearAllFamilyDataUsecase implements UseCase<void, NoParams> {
   final UserFamilyService _userFamilyService;
 
   ClearAllFamilyDataUsecase(this._userFamilyService);
 
   @override
-  Future<Result<void, Failure>> call(ClearAllFamilyDataParams params) async {
+  Future<Result<void, Failure>> call(NoParams params) async {
     // Clear all family data repositories in parallel for performance
     // Use graceful error handling - continue with other repositories if some fail
 

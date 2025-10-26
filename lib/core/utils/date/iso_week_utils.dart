@@ -47,14 +47,18 @@ int getISOWeekNumber(DateTime datetime, [String timezone = 'UTC']) {
   final tzDateTime = tz.TZDateTime.from(datetime, location);
 
   // Find Thursday of current week (Thursday determines which week a date belongs to)
-  final thursday = tzDateTime.add(Duration(days: DateTime.thursday - tzDateTime.weekday));
+  final thursday = tzDateTime.add(
+    Duration(days: DateTime.thursday - tzDateTime.weekday),
+  );
 
   // Jan 4 is ALWAYS in week 1 by ISO 8601 mathematical property
   // This is a reliable anchor point that works for all years
   final jan4 = tz.TZDateTime(location, thursday.year, 1, 4);
 
   // Find Monday of week 1 (the week containing Jan 4)
-  final week1Monday = jan4.subtract(Duration(days: jan4.weekday - DateTime.monday));
+  final week1Monday = jan4.subtract(
+    Duration(days: jan4.weekday - DateTime.monday),
+  );
 
   // Calculate week number by counting days from week 1 Monday to target Thursday
   final daysSinceWeek1 = thursday.difference(week1Monday).inDays;
@@ -88,7 +92,9 @@ int getISOWeekYear(DateTime datetime, [String timezone = 'UTC']) {
   final tzDateTime = tz.TZDateTime.from(datetime, location);
 
   // Find Thursday of current week (Thursday determines the year)
-  final thursday = tzDateTime.add(Duration(days: DateTime.thursday - tzDateTime.weekday));
+  final thursday = tzDateTime.add(
+    Duration(days: DateTime.thursday - tzDateTime.weekday),
+  );
   return thursday.year;
 }
 
@@ -160,7 +166,11 @@ bool isLeapYear(int year) {
 /// // Get Week 52 of 2023 in America/Los_Angeles
 /// getMondayOfISOWeek(2023, 52, 'America/Los_Angeles')
 /// // Returns: Monday 2023-12-25 00:00 PST = Monday 2023-12-25 08:00 UTC
-DateTime getMondayOfISOWeek(int year, int weekNumber, [String timezone = 'UTC']) {
+DateTime getMondayOfISOWeek(
+  int year,
+  int weekNumber, [
+  String timezone = 'UTC',
+]) {
   final location = tz.getLocation(timezone);
 
   // Find Jan 4 of the year (always in week 1)
@@ -210,7 +220,11 @@ DateTime? parseMondayFromISOWeek(String weekString, [String timezone = 'UTC']) {
 /// @param weeksToAdd - Number of weeks to add (can be negative)
 /// @param timezone - IANA timezone string
 /// @returns New ISO week string
-String addWeeksToISOWeek(String weekString, int weeksToAdd, [String timezone = 'UTC']) {
+String addWeeksToISOWeek(
+  String weekString,
+  int weeksToAdd, [
+  String timezone = 'UTC',
+]) {
   final parts = weekString.split('-W');
   if (parts.length != 2) {
     throw ArgumentError('Invalid ISO week format: $weekString');
@@ -240,7 +254,11 @@ String addWeeksToISOWeek(String weekString, int weeksToAdd, [String timezone = '
 /// @param targetWeek - Target ISO week string
 /// @param timezone - IANA timezone string
 /// @returns Number of weeks between the two weeks
-int weeksBetween(String baseWeek, String targetWeek, [String timezone = 'UTC']) {
+int weeksBetween(
+  String baseWeek,
+  String targetWeek, [
+  String timezone = 'UTC',
+]) {
   final baseMonday = parseMondayFromISOWeek(baseWeek, timezone);
   final targetMonday = parseMondayFromISOWeek(targetWeek, timezone);
 
@@ -285,13 +303,16 @@ int weeksBetween(String baseWeek, String targetWeek, [String timezone = 'UTC']) 
 
   // Get Sunday of current week (23:59:59.999 in user's timezone)
   final weekEnd = weekStart.add(
-    const Duration(days: 6, hours: 23, minutes: 59, seconds: 59, milliseconds: 999),
+    const Duration(
+      days: 6,
+      hours: 23,
+      minutes: 59,
+      seconds: 59,
+      milliseconds: 999,
+    ),
   );
 
-  return (
-    weekStart: weekStart.toUtc(),
-    weekEnd: weekEnd.toUtc(),
-  );
+  return (weekStart: weekStart.toUtc(), weekEnd: weekEnd.toUtc());
 }
 
 /// Format ISO week for display

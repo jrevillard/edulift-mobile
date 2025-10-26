@@ -93,21 +93,22 @@ void main() {
       });
     });
 
-    group('403 Forbidden Token Expiry', () {
-      test('should clear token when receiving 403 Forbidden', () async {
+    group('403 Forbidden Authorization Error', () {
+      test('should NOT clear token when receiving 403 Forbidden', () async {
         // ARRANGE
+        // 403 = Forbidden (authorization issue, NOT authentication issue)
+        // The user is authenticated but lacks permissions for this resource
+        // DO NOT logout, DO NOT clear tokens - just show error to UI
         final dioException = DioException(
           requestOptions: RequestOptions(path: '/api/protected'),
           response: Response(
             requestOptions: RequestOptions(path: '/api/protected'),
             statusCode: 403,
             statusMessage: 'Forbidden',
-            data: {'error': 'Access token expired'},
+            data: {'error': 'Insufficient permissions'},
           ),
           type: DioExceptionType.badResponse,
         );
-
-        when(mockStorageService.clearToken()).thenAnswer((_) async {});
 
         // ACT
         interceptor.onError(dioException, mockHandler);
@@ -116,36 +117,30 @@ void main() {
         await Future.delayed(Duration.zero);
 
         // ASSERT
-        verify(mockStorageService.clearToken()).called(1);
+        verifyNever(mockStorageService.clearToken());
         verify(mockHandler.next(dioException)).called(1);
       });
 
-      test('should handle token clearing failure gracefully on 403', () async {
+      test('should propagate 403 to UI without clearing token', () async {
         // ARRANGE
         final dioException = DioException(
-          requestOptions: RequestOptions(path: '/api/protected'),
+          requestOptions: RequestOptions(path: '/api/admin/users'),
           response: Response(
-            requestOptions: RequestOptions(path: '/api/protected'),
+            requestOptions: RequestOptions(path: '/api/admin/users'),
             statusCode: 403,
             statusMessage: 'Forbidden',
           ),
           type: DioExceptionType.badResponse,
         );
 
-        when(
-          mockStorageService.clearToken(),
-        ).thenThrow(Exception('Storage failure'));
-
-        // ACT & ASSERT
-        expect(
-          () => interceptor.onError(dioException, mockHandler),
-          returnsNormally,
-        );
+        // ACT
+        interceptor.onError(dioException, mockHandler);
 
         // Allow async operation to complete
         await Future.delayed(Duration.zero);
 
-        verify(mockStorageService.clearToken()).called(1);
+        // ASSERT - 403 should NOT clear tokens (authorization != authentication)
+        verifyNever(mockStorageService.clearToken());
         verify(mockHandler.next(dioException)).called(1);
       });
     });
@@ -291,7 +286,7 @@ void main() {
     });
 
     group('Integration Scenarios', () {
-      test('should clear token for both 401 and 403 in sequence', () async {
+      test('should clear token for 401 but NOT for 403', () async {
         // ARRANGE
         final exception401 = DioException(
           requestOptions: RequestOptions(path: '/api/endpoint1'),
@@ -323,7 +318,9 @@ void main() {
         await Future.delayed(Duration.zero);
 
         // ASSERT
-        verify(mockStorageService.clearToken()).called(2);
+        // Only 401 should clear token (authentication issue)
+        // 403 should NOT clear token (authorization issue)
+        verify(mockStorageService.clearToken()).called(1);
       });
     });
   });

@@ -62,7 +62,8 @@ class VehicleFormNotifier extends ChangeNotifier {
     required VehicleFormMode mode,
     Vehicle? vehicle,
     required Ref ref,
-  }) : _familyRepository = familyRepository, _ref = ref {
+  }) : _familyRepository = familyRepository,
+       _ref = ref {
     _initializeFormState(mode, vehicle);
 
     // CRITICAL: Listen to auth changes continuously for TRUE reactive architecture
@@ -172,10 +173,7 @@ class VehicleFormNotifier extends ChangeNotifier {
       if (result.isOk) {
         final vehicle = result.value!;
         _updateState(
-          _internalState.copyWith(
-            isSubmitting: false,
-            vehicle: vehicle,
-          ),
+          _internalState.copyWith(isSubmitting: false, vehicle: vehicle),
         );
         return true;
       } else {

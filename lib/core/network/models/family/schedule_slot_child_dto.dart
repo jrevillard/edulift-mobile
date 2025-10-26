@@ -20,10 +20,9 @@ abstract class ScheduleSlotChildDto
     // Core fields from ScheduleSlotChild Prisma schema
     // Optional because simplified list responses may omit them
     String? scheduleSlotId, // Missing in list responses
-    String? childId,        // Missing in list responses (use child.id instead)
+    String? childId, // Missing in list responses (use child.id instead)
     required String vehicleAssignmentId, // Always present
-    DateTime? assignedAt,   // Missing in list responses (use current time)
-
+    DateTime? assignedAt, // Missing in list responses (use current time)
     // Nested relations from API includes (when present)
     ChildDto? child, // Full child object when included
     // Note: scheduleSlot and vehicleAssignment are also returned but not needed for domain

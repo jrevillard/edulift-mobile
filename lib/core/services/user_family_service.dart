@@ -34,10 +34,14 @@ class UserFamilyService {
 
     // ✅ FIX: Removed read(familyProvider) - causes circular dependency
     // Repository already handles caching internally (offline-first)
-    AppLogger.debug('[UserFamilyService] hasFamily: Fetching from repository (offline-first with cache)');
+    AppLogger.debug(
+      '[UserFamilyService] hasFamily: Fetching from repository (offline-first with cache)',
+    );
 
     // Delegate to FamilyRepository (offline-first pattern with built-in cache)
-    final familyResult = await _ref.read(familyRepositoryProvider).getCurrentFamily();
+    final familyResult = await _ref
+        .read(familyRepositoryProvider)
+        .getCurrentFamily();
 
     // BUGFIX: Check if this is an auth error (token expired/invalid)
     // If so, throw exception so router knows to redirect to login, not onboarding
@@ -65,9 +69,13 @@ class UserFamilyService {
 
     // ✅ FIX: Removed read(familyProvider) - causes circular dependency
     // Repository already handles caching internally (offline-first)
-    AppLogger.debug('[UserFamilyService] getUserFamilyRole: Fetching from repository (offline-first with cache)');
+    AppLogger.debug(
+      '[UserFamilyService] getUserFamilyRole: Fetching from repository (offline-first with cache)',
+    );
 
-    final familyResult = await _ref.read(familyRepositoryProvider).getCurrentFamily();
+    final familyResult = await _ref
+        .read(familyRepositoryProvider)
+        .getCurrentFamily();
     if (familyResult.isErr || familyResult.value == null) return null;
 
     final family = familyResult.value!;
@@ -88,9 +96,13 @@ class UserFamilyService {
 
     // ✅ FIX: Removed read(familyProvider) - causes circular dependency
     // Repository already handles caching internally (offline-first)
-    AppLogger.debug('[UserFamilyService] getUserFamilyMember: Fetching from repository (offline-first with cache)');
+    AppLogger.debug(
+      '[UserFamilyService] getUserFamilyMember: Fetching from repository (offline-first with cache)',
+    );
 
-    final familyResult = await _ref.read(familyRepositoryProvider).getCurrentFamily();
+    final familyResult = await _ref
+        .read(familyRepositoryProvider)
+        .getCurrentFamily();
     if (familyResult.isErr || familyResult.value == null) return null;
 
     final family = familyResult.value!;
@@ -100,7 +112,6 @@ class UserFamilyService {
       return null; // User not in family
     }
   }
-
 
   /// Clear cache to force fresh data on next request
   Future<void> clearCache([String? userId]) async {

@@ -20,7 +20,8 @@ import '../widgets/cancel_invitation_confirmation_dialog.dart';
 import 'package:intl/intl.dart';
 import '../../../../core/presentation/mixins/navigation_cleanup_mixin.dart';
 
-export 'group_members_management_page.dart' show updateFamilyRole, removeFamilyFromGroup, cancelInvitation;
+export 'group_members_management_page.dart'
+    show updateFamilyRole, removeFamilyFromGroup, cancelInvitation;
 
 /// Group Members Management Page
 ///
@@ -58,7 +59,7 @@ class _GroupMembersManagementPageState
     await ref.read(groupFamiliesProvider(widget.groupId).future);
   }
 
-void _showFamilyActions(GroupFamily family) {
+  void _showFamilyActions(GroupFamily family) {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
@@ -165,10 +166,12 @@ void _showFamilyActions(GroupFamily family) {
 
     if (invitationCode == null) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text(localizations.invitationCodeNotAvailable),
-          backgroundColor: Theme.of(context).colorScheme.error,
-        ));
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(localizations.invitationCodeNotAvailable),
+            backgroundColor: Theme.of(context).colorScheme.error,
+          ),
+        );
       }
       return;
     }
@@ -199,16 +202,14 @@ void _showFamilyActions(GroupFamily family) {
                 width: double.infinity,
                 padding: const EdgeInsets.all(16),
                 decoration: BoxDecoration(
-                  color: Theme.of(context)
-                      .colorScheme
-                      .surfaceContainerHighest
-                      .withValues(alpha: 0.3),
+                  color: Theme.of(
+                    context,
+                  ).colorScheme.surfaceContainerHighest.withValues(alpha: 0.3),
                   borderRadius: BorderRadius.circular(8),
                   border: Border.all(
-                    color: Theme.of(context)
-                        .colorScheme
-                        .outline
-                        .withValues(alpha: 0.3),
+                    color: Theme.of(
+                      context,
+                    ).colorScheme.outline.withValues(alpha: 0.3),
                   ),
                 ),
                 child: SelectableText(
@@ -245,17 +246,21 @@ void _showFamilyActions(GroupFamily family) {
     try {
       await Clipboard.setData(ClipboardData(text: code));
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text(localizations.invitationCodeCopied),
-          backgroundColor: Theme.of(context).colorScheme.primary,
-        ));
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(localizations.invitationCodeCopied),
+            backgroundColor: Theme.of(context).colorScheme.primary,
+          ),
+        );
       }
     } catch (e) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text(localizations.failedToCopyCode(e.toString())),
-          backgroundColor: Theme.of(context).colorScheme.error,
-        ));
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(localizations.failedToCopyCode(e.toString())),
+            backgroundColor: Theme.of(context).colorScheme.error,
+          ),
+        );
       }
     }
   }
@@ -272,16 +277,16 @@ void _showFamilyActions(GroupFamily family) {
   }
 
   void _navigateToInviteFamily() {
-    Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (context) => InviteFamilyPage(
-          groupId: widget.groupId,
-        ),
-      ),
-    ).then((_) {
-      // Refresh the families list after returning from invitation flow
-      ref.invalidate(groupFamiliesProvider(widget.groupId));
-    });
+    Navigator.of(context)
+        .push(
+          MaterialPageRoute(
+            builder: (context) => InviteFamilyPage(groupId: widget.groupId),
+          ),
+        )
+        .then((_) {
+          // Refresh the families list after returning from invitation flow
+          ref.invalidate(groupFamiliesProvider(widget.groupId));
+        });
   }
 
   @override
@@ -296,9 +301,12 @@ void _showFamilyActions(GroupFamily family) {
     final groupsState = ref.watch(groups_providers.groupsComposedProvider);
     final isAdmin = () {
       try {
-        final group = groupsState.groups.firstWhere((g) => g.id == widget.groupId);
+        final group = groupsState.groups.firstWhere(
+          (g) => g.id == widget.groupId,
+        );
         final userRole = group.userRole;
-        return userRole == GroupMemberRole.admin || userRole == GroupMemberRole.owner;
+        return userRole == GroupMemberRole.admin ||
+            userRole == GroupMemberRole.owner;
       } catch (e) {
         return false; // Default to non-admin if group not found
       }
@@ -323,16 +331,17 @@ void _showFamilyActions(GroupFamily family) {
                 SliverPadding(
                   padding: EdgeInsets.symmetric(
                     horizontal: context.isTablet ? 24 : 16,
-                    vertical: context.isMobile && MediaQuery.of(context).size.width < 375 ? 3 : 4,
+                    vertical:
+                        context.isMobile &&
+                            MediaQuery.of(context).size.width < 375
+                        ? 3
+                        : 4,
                   ),
                   sliver: SliverList(
-                    delegate: SliverChildBuilderDelegate(
-                      (context, index) {
-                        final family = families[index];
-                        return _buildFamilyCard(family, theme, colorScheme);
-                      },
-                      childCount: families.length,
-                    ),
+                    delegate: SliverChildBuilderDelegate((context, index) {
+                      final family = families[index];
+                      return _buildFamilyCard(family, theme, colorScheme);
+                    }, childCount: families.length),
                   ),
                 ),
               ],
@@ -499,7 +508,10 @@ void _showFamilyActions(GroupFamily family) {
                 children: [
                   // Pending status badge
                   Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 8,
+                      vertical: 2,
+                    ),
                     decoration: BoxDecoration(
                       color: Colors.orange.shade100,
                       borderRadius: BorderRadius.circular(12),
@@ -515,7 +527,10 @@ void _showFamilyActions(GroupFamily family) {
                   // Role badge (ADMIN or MEMBER)
                   if (family.role != GroupFamilyRole.pending)
                     Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 8,
+                        vertical: 2,
+                      ),
                       decoration: BoxDecoration(
                         color: badgeColor,
                         borderRadius: BorderRadius.circular(12),
@@ -695,11 +710,9 @@ Future<bool> updateFamilyRole({
   required void Function(String errorMessage) onError,
 }) async {
   final repository = ref.read(groupRepositoryProvider);
-  final result = await repository.updateFamilyRole(
-    groupId,
-    familyId,
-    {'role': newRole.toUpperCase()},
-  );
+  final result = await repository.updateFamilyRole(groupId, familyId, {
+    'role': newRole.toUpperCase(),
+  });
 
   return result.when(
     ok: (_) => true,

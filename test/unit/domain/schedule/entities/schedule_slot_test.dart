@@ -420,10 +420,10 @@ void main() {
       test('should handle various time values', () {
         // arrange
         final timeValues = [
-          const TimeOfDayValue(8, 0),   // Morning
-          const TimeOfDayValue(7, 30),  // Early morning
+          const TimeOfDayValue(8, 0), // Morning
+          const TimeOfDayValue(7, 30), // Early morning
           const TimeOfDayValue(20, 30), // Evening
-          const TimeOfDayValue(12, 0),  // Noon
+          const TimeOfDayValue(12, 0), // Noon
           const TimeOfDayValue(23, 59), // End of day
         ];
 

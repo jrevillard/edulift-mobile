@@ -91,60 +91,72 @@ class GroupCard extends StatelessWidget {
                 ],
               ),
 
-              SizedBox(height: context.getAdaptiveSpacing(
-                mobile: 12,
-                tablet: 14,
-                desktop: 16,
-              )),
+              SizedBox(
+                height: context.getAdaptiveSpacing(
+                  mobile: 12,
+                  tablet: 14,
+                  desktop: 16,
+                ),
+              ),
 
               // Group name
               Text(
                 groupName,
-                style: (isTablet
-                    ? theme.textTheme.titleLarge
-                    : theme.textTheme.titleMedium)?.copyWith(
-                  fontWeight: FontWeight.w600,
-                  fontSize: (isTablet ? 20 : 18) * context.fontScale,
-                ),
+                style:
+                    (isTablet
+                            ? theme.textTheme.titleLarge
+                            : theme.textTheme.titleMedium)
+                        ?.copyWith(
+                          fontWeight: FontWeight.w600,
+                          fontSize: (isTablet ? 20 : 18) * context.fontScale,
+                        ),
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
               ),
 
-              SizedBox(height: context.getAdaptiveSpacing(
-                mobile: 8,
-                tablet: 10,
-                desktop: 12,
-              )),
+              SizedBox(
+                height: context.getAdaptiveSpacing(
+                  mobile: 8,
+                  tablet: 10,
+                  desktop: 12,
+                ),
+              ),
 
               // Description or member count
               if (description != null && description.isNotEmpty)
                 Text(
                   description,
-                  style: (isTablet
-                      ? theme.textTheme.bodyMedium
-                      : theme.textTheme.bodySmall)?.copyWith(
-                    color: AppColors.textSecondaryThemed(context),
-                    fontSize: (isTablet ? 16 : 14) * context.fontScale,
-                  ),
+                  style:
+                      (isTablet
+                              ? theme.textTheme.bodyMedium
+                              : theme.textTheme.bodySmall)
+                          ?.copyWith(
+                            color: AppColors.textSecondaryThemed(context),
+                            fontSize: (isTablet ? 16 : 14) * context.fontScale,
+                          ),
                   maxLines: isTablet ? 3 : 2,
                   overflow: TextOverflow.ellipsis,
                 )
               else
                 Text(
                   '$familyCount ${familyCount == 1 ? 'family' : 'families'}',
-                  style: (isTablet
-                      ? theme.textTheme.bodyMedium
-                      : theme.textTheme.bodySmall)?.copyWith(
-                    color: AppColors.textSecondaryThemed(context),
-                    fontSize: (isTablet ? 16 : 14) * context.fontScale,
-                  ),
+                  style:
+                      (isTablet
+                              ? theme.textTheme.bodyMedium
+                              : theme.textTheme.bodySmall)
+                          ?.copyWith(
+                            color: AppColors.textSecondaryThemed(context),
+                            fontSize: (isTablet ? 16 : 14) * context.fontScale,
+                          ),
                 ),
 
-              SizedBox(height: context.getAdaptiveSpacing(
-                mobile: 16,
-                tablet: 20,
-                desktop: 24,
-              )),
+              SizedBox(
+                height: context.getAdaptiveSpacing(
+                  mobile: 16,
+                  tablet: 20,
+                  desktop: 24,
+                ),
+              ),
 
               // Action buttons
               Row(
@@ -221,17 +233,11 @@ class GroupCard extends StatelessWidget {
           tablet: 10,
           desktop: 12,
         ),
-        vertical: context.getAdaptiveSpacing(
-          mobile: 4,
-          tablet: 6,
-          desktop: 8,
-        ),
+        vertical: context.getAdaptiveSpacing(mobile: 4, tablet: 6, desktop: 8),
       ),
       decoration: BoxDecoration(
         color: backgroundColor,
-        borderRadius: BorderRadius.circular(
-          isTablet ? 16 : 12,
-        ),
+        borderRadius: BorderRadius.circular(isTablet ? 16 : 12),
       ),
       child: Text(
         displayRole,

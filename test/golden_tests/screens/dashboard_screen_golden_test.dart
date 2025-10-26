@@ -1,6 +1,9 @@
 // EduLift - Dashboard Screen Golden Tests
 // Comprehensive visual regression tests for dashboard and home screens
 
+@Tags(['golden'])
+library;
+
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -26,16 +29,15 @@ void main() {
   group('Dashboard Screen - Golden Tests', () {
     testWidgets('Dashboard - with groups and schedules', (tester) async {
       final groups = GroupDataFactory.createLargeGroupList(count: 5);
-      final schedules = ScheduleDataFactory.createLargeScheduleSlotList(count: 10);
+      final schedules = ScheduleDataFactory.createLargeScheduleSlotList(
+        count: 10,
+      );
 
       final screen = Scaffold(
         appBar: AppBar(
           title: const Text('Dashboard'),
           actions: [
-            IconButton(
-              icon: const Icon(Icons.notifications),
-              onPressed: () {},
-            ),
+            IconButton(icon: const Icon(Icons.notifications), onPressed: () {}),
           ],
         ),
         body: SingleChildScrollView(
@@ -148,9 +150,13 @@ void main() {
                     margin: const EdgeInsets.only(bottom: 8),
                     child: ListTile(
                       leading: const Icon(Icons.calendar_today),
-                      title: Text('${slot.dayOfWeek.fullName} - ${slot.timeOfDay.toApiFormat()}'),
+                      title: Text(
+                        '${slot.dayOfWeek.fullName} - ${slot.timeOfDay.toApiFormat()}',
+                      ),
                       subtitle: Text('Week ${slot.week}'),
-                      trailing: Text('${slot.vehicleAssignments.length} vehicles'),
+                      trailing: Text(
+                        '${slot.vehicleAssignments.length} vehicles',
+                      ),
                     ),
                   );
                 },
@@ -164,10 +170,7 @@ void main() {
               icon: Icon(Icons.dashboard),
               label: 'Dashboard',
             ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.groups),
-              label: 'Groups',
-            ),
+            BottomNavigationBarItem(icon: Icon(Icons.groups), label: 'Groups'),
             BottomNavigationBarItem(
               icon: Icon(Icons.family_restroom),
               label: 'Family',
@@ -192,7 +195,11 @@ void main() {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const Icon(Icons.dashboard_outlined, size: 80, color: Colors.grey),
+              const Icon(
+                Icons.dashboard_outlined,
+                size: 80,
+                color: Colors.grey,
+              ),
               const SizedBox(height: 24),
               const Text(
                 'Welcome to EduLift!',
@@ -245,14 +252,16 @@ void main() {
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 16),
-              ...groups.map((group) => Padding(
-                    padding: const EdgeInsets.only(bottom: 12),
-                    child: GroupCard(
-                      group: group,
-                      onSelect: () {},
-                      onManage: () {},
-                    ),
-                  )),
+              ...groups.map(
+                (group) => Padding(
+                  padding: const EdgeInsets.only(bottom: 12),
+                  child: GroupCard(
+                    group: group,
+                    onSelect: () {},
+                    onManage: () {},
+                  ),
+                ),
+              ),
             ],
           ),
         ),
@@ -284,11 +293,7 @@ void main() {
             itemCount: groups.length,
             itemBuilder: (context, index) {
               final group = groups[index];
-              return GroupCard(
-                group: group,
-                onSelect: () {},
-                onManage: () {},
-              );
+              return GroupCard(group: group, onSelect: () {}, onManage: () {});
             },
           ),
         ),
@@ -336,10 +341,7 @@ class _StatCard extends StatelessWidget {
                 color: color,
               ),
             ),
-            Text(
-              title,
-              style: const TextStyle(color: Colors.grey),
-            ),
+            Text(title, style: const TextStyle(color: Colors.grey)),
           ],
         ),
       ),

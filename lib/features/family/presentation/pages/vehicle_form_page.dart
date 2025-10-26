@@ -100,7 +100,7 @@ class _VehicleFormPageState extends ConsumerState<VehicleFormPage> {
               child: SizedBox(
                 width: 20,
                 height: 20,
-                child: CircularProgressIndicator(strokeWidth: 2)
+                child: CircularProgressIndicator(strokeWidth: 2),
               ),
             ),
         ],
@@ -138,7 +138,12 @@ class _VehicleFormPageState extends ConsumerState<VehicleFormPage> {
     );
   }
 
-  Widget _buildErrorWidget(String message, VoidCallback onDismiss, bool isTablet, bool isSmallScreen) {
+  Widget _buildErrorWidget(
+    String message,
+    VoidCallback onDismiss,
+    bool isTablet,
+    bool isSmallScreen,
+  ) {
     return Card(
       color: Theme.of(context).colorScheme.errorContainer,
       elevation: isTablet ? 4 : 2,
@@ -256,7 +261,9 @@ class _VehicleFormPageState extends ConsumerState<VehicleFormPage> {
             Container(
               padding: EdgeInsets.all(isTablet ? 16.0 : 12.0),
               decoration: BoxDecoration(
-                color: Theme.of(context).colorScheme.primaryContainer.withValues(alpha: 0.3),
+                color: Theme.of(
+                  context,
+                ).colorScheme.primaryContainer.withValues(alpha: 0.3),
                 borderRadius: BorderRadius.circular(8),
               ),
               child: Row(
@@ -311,7 +318,9 @@ class _VehicleFormPageState extends ConsumerState<VehicleFormPage> {
             Expanded(
               flex: 2,
               child: ElevatedButton(
-                key: Key('${widget.mode.isEdit ? 'update' : 'create'}_vehicle_button'),
+                key: Key(
+                  '${widget.mode.isEdit ? 'update' : 'create'}_vehicle_button',
+                ),
                 onPressed: _isSubmitting ? null : _submitForm,
                 child: _isSubmitting
                     ? Row(
@@ -325,7 +334,9 @@ class _VehicleFormPageState extends ConsumerState<VehicleFormPage> {
                           const SizedBox(width: 8),
                           Flexible(
                             child: Text(
-                              widget.mode.isEdit ? l10n.updating : l10n.creating,
+                              widget.mode.isEdit
+                                  ? l10n.updating
+                                  : l10n.creating,
                               overflow: TextOverflow.ellipsis,
                             ),
                           ),
@@ -334,11 +345,16 @@ class _VehicleFormPageState extends ConsumerState<VehicleFormPage> {
                     : Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          Icon(widget.mode.isEdit ? Icons.update : Icons.add, size: 16),
+                          Icon(
+                            widget.mode.isEdit ? Icons.update : Icons.add,
+                            size: 16,
+                          ),
                           const SizedBox(width: 8),
                           Flexible(
                             child: Text(
-                              widget.mode.isEdit ? l10n.updateVehicle : l10n.saveVehicle,
+                              widget.mode.isEdit
+                                  ? l10n.updateVehicle
+                                  : l10n.saveVehicle,
                               overflow: TextOverflow.ellipsis,
                             ),
                           ),
@@ -366,19 +382,23 @@ class _VehicleFormPageState extends ConsumerState<VehicleFormPage> {
 
       if (widget.mode.isEdit) {
         // Update existing vehicle
-        await ref.read(familyComposedProvider.notifier).updateVehicle(
-          vehicleId: widget.vehicle!.id,
-          name: _nameController.text.trim(),
-          capacity: capacity,
-          description: description.isEmpty ? null : description,
-        );
+        await ref
+            .read(familyComposedProvider.notifier)
+            .updateVehicle(
+              vehicleId: widget.vehicle!.id,
+              name: _nameController.text.trim(),
+              capacity: capacity,
+              description: description.isEmpty ? null : description,
+            );
       } else {
         // Create new vehicle
-        await ref.read(familyComposedProvider.notifier).addVehicle(
-          name: _nameController.text.trim(),
-          capacity: capacity,
-          description: description.isEmpty ? null : description,
-        );
+        await ref
+            .read(familyComposedProvider.notifier)
+            .addVehicle(
+              name: _nameController.text.trim(),
+              capacity: capacity,
+              description: description.isEmpty ? null : description,
+            );
       }
 
       // Check for errors after operation

@@ -379,10 +379,7 @@ class FamilyRemoteDataSourceImpl implements FamilyRemoteDataSource {
       'memberId': memberId,
     });
 
-    final apiResponse = await _apiClient.removeFamilyMember(
-      familyId,
-      memberId,
-    );
+    final apiResponse = await _apiClient.removeFamilyMember(familyId, memberId);
     apiResponse.unwrap();
 
     AppLogger.debug(

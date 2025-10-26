@@ -35,10 +35,12 @@ class _CreateGroupPageState extends ConsumerState<CreateGroupPage>
     ref.read(navigationStateProvider.notifier).clearNavigation();
 
     // Navigate back to groups page
-    ref.read(navigationStateProvider.notifier).navigateTo(
-      route: '/groups',
-      trigger: NavigationTrigger.userNavigation,
-    );
+    ref
+        .read(navigationStateProvider.notifier)
+        .navigateTo(
+          route: '/groups',
+          trigger: NavigationTrigger.userNavigation,
+        );
   }
 
   @override
@@ -51,10 +53,12 @@ class _CreateGroupPageState extends ConsumerState<CreateGroupPage>
       if (current.isCreateSuccess && mounted) {
         // Group creation succeeded - clear previous navigation and navigate back to groups
         ref.read(navigationStateProvider.notifier).clearNavigation();
-        ref.read(navigationStateProvider.notifier).navigateTo(
-          route: '/groups',
-          trigger: NavigationTrigger.userNavigation,
-        );
+        ref
+            .read(navigationStateProvider.notifier)
+            .navigateTo(
+              route: '/groups',
+              trigger: NavigationTrigger.userNavigation,
+            );
         // Reset success flag to prevent rebuild loops after navigation
         ref.read(groupsComposedProvider.notifier).resetCreateSuccess();
       }
@@ -63,7 +67,10 @@ class _CreateGroupPageState extends ConsumerState<CreateGroupPage>
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(
-              GroupsErrorTranslationHelper.translateError(l10n, current.createError!),
+              GroupsErrorTranslationHelper.translateError(
+                l10n,
+                current.createError!,
+              ),
             ),
             backgroundColor: Theme.of(context).colorScheme.error,
           ),
@@ -113,14 +120,26 @@ class _CreateGroupPageState extends ConsumerState<CreateGroupPage>
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           // Header Section
-                          SizedBox(height: context.getAdaptiveSpacing(mobile: 8, tablet: 16, desktop: 20)),
+                          SizedBox(
+                            height: context.getAdaptiveSpacing(
+                              mobile: 8,
+                              tablet: 16,
+                              desktop: 20,
+                            ),
+                          ),
                           Text(
                             l10n.createNewGroup,
                             key: const Key('create_new_group_header'),
                             style: Theme.of(context).textTheme.headlineSmall
                                 ?.copyWith(fontWeight: FontWeight.bold),
                           ),
-                          SizedBox(height: context.getAdaptiveSpacing(mobile: 4, tablet: 8, desktop: 12)),
+                          SizedBox(
+                            height: context.getAdaptiveSpacing(
+                              mobile: 4,
+                              tablet: 8,
+                              desktop: 12,
+                            ),
+                          ),
                           Text(
                             l10n.createTransportGroupDescription,
                             style: Theme.of(context).textTheme.bodyMedium
@@ -130,7 +149,13 @@ class _CreateGroupPageState extends ConsumerState<CreateGroupPage>
                                   ).colorScheme.onSurfaceVariant,
                                 ),
                           ),
-                          SizedBox(height: context.getAdaptiveSpacing(mobile: 16, tablet: 32, desktop: 40)),
+                          SizedBox(
+                            height: context.getAdaptiveSpacing(
+                              mobile: 16,
+                              tablet: 32,
+                              desktop: 40,
+                            ),
+                          ),
 
                           // Group Name Field
                           Text(
@@ -138,7 +163,13 @@ class _CreateGroupPageState extends ConsumerState<CreateGroupPage>
                             style: Theme.of(context).textTheme.titleMedium
                                 ?.copyWith(fontWeight: FontWeight.w500),
                           ),
-                          SizedBox(height: context.getAdaptiveSpacing(mobile: 4, tablet: 8, desktop: 12)),
+                          SizedBox(
+                            height: context.getAdaptiveSpacing(
+                              mobile: 4,
+                              tablet: 8,
+                              desktop: 12,
+                            ),
+                          ),
                           Semantics(
                             label: l10n.groupName,
                             child: TextFormField(
@@ -147,7 +178,9 @@ class _CreateGroupPageState extends ConsumerState<CreateGroupPage>
                               onChanged: (_) {
                                 // Clear error when user starts typing
                                 if (state.createError != null) {
-                                  ref.read(groupsComposedProvider.notifier).clearCreateError();
+                                  ref
+                                      .read(groupsComposedProvider.notifier)
+                                      .clearCreateError();
                                 }
                               },
                               decoration: InputDecoration(
@@ -171,13 +204,20 @@ class _CreateGroupPageState extends ConsumerState<CreateGroupPage>
                               textCapitalization: TextCapitalization.words,
                             ),
                           ),
-                          SizedBox(height: context.getAdaptiveSpacing(mobile: 12, tablet: 24, desktop: 32)),
+                          SizedBox(
+                            height: context.getAdaptiveSpacing(
+                              mobile: 12,
+                              tablet: 24,
+                              desktop: 32,
+                            ),
+                          ),
 
                           // Error Display removed - using SnackBar only for better UX
 
                           // Flexible spacer that adapts to content
                           if (!isTablet && !isDesktop) const Spacer(),
-                          if (isTablet || isDesktop) const SizedBox(height: 16.0),
+                          if (isTablet || isDesktop)
+                            const SizedBox(height: 16.0),
 
                           // Action Buttons - Responsive layout
                           if (context.isMobile)
@@ -245,7 +285,9 @@ class _CreateGroupPageState extends ConsumerState<CreateGroupPage>
                                   child: Semantics(
                                     label: l10n.cancel,
                                     child: OutlinedButton(
-                                      key: const Key('createGroup_cancel_button'),
+                                      key: const Key(
+                                        'createGroup_cancel_button',
+                                      ),
                                       onPressed: state.isLoading
                                           ? null
                                           : _navigateBackToGroups,
@@ -266,7 +308,9 @@ class _CreateGroupPageState extends ConsumerState<CreateGroupPage>
                                   child: Semantics(
                                     label: l10n.createGroup,
                                     child: ElevatedButton(
-                                      key: const Key('createGroup_submit_button'),
+                                      key: const Key(
+                                        'createGroup_submit_button',
+                                      ),
                                       onPressed: state.isLoading
                                           ? null
                                           : _handleCreateGroup,
@@ -300,7 +344,13 @@ class _CreateGroupPageState extends ConsumerState<CreateGroupPage>
                                 ),
                               ],
                             ),
-                          SizedBox(height: context.getAdaptiveSpacing(mobile: 16, tablet: 24, desktop: 32)),
+                          SizedBox(
+                            height: context.getAdaptiveSpacing(
+                              mobile: 16,
+                              tablet: 24,
+                              desktop: 32,
+                            ),
+                          ),
                         ],
                       ),
                     ),

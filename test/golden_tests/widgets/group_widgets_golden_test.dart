@@ -1,6 +1,9 @@
 // EduLift - Group Widgets Golden Tests
 // Comprehensive visual regression tests for group-related widgets
 
+@Tags(['golden'])
+library;
+
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -26,11 +29,7 @@ void main() {
 
       await GoldenTestWrapper.testWidget(
         tester: tester,
-        widget: GroupCard(
-          group: group,
-          onSelect: () {},
-          onManage: () {},
-        ),
+        widget: GroupCard(group: group, onSelect: () {}, onManage: () {}),
         testName: 'group_card_realistic',
         devices: DeviceConfigurations.defaultSet,
         themes: ThemeConfigurations.basic,
@@ -38,17 +37,13 @@ void main() {
     });
 
     testWidgets('GroupCard - owner role', (tester) async {
-      final ownerGroup = GroupDataFactory.createRealisticGroup(index: 1).copyWith(
-        userRole: GroupMemberRole.owner,
-      );
+      final ownerGroup = GroupDataFactory.createRealisticGroup(
+        index: 1,
+      ).copyWith(userRole: GroupMemberRole.owner);
 
       await GoldenTestWrapper.testWidget(
         tester: tester,
-        widget: GroupCard(
-          group: ownerGroup,
-          onSelect: () {},
-          onManage: () {},
-        ),
+        widget: GroupCard(group: ownerGroup, onSelect: () {}, onManage: () {}),
         testName: 'group_card_owner',
         devices: [DeviceConfigurations.iphone13],
         themes: [ThemeConfigurations.light],
@@ -92,11 +87,7 @@ void main() {
 
       await GoldenTestWrapper.testWidget(
         tester: tester,
-        widget: GroupCard(
-          group: fullGroup,
-          onSelect: () {},
-          onManage: () {},
-        ),
+        widget: GroupCard(group: fullGroup, onSelect: () {}, onManage: () {}),
         testName: 'group_card_at_capacity',
         devices: [DeviceConfigurations.iphone13],
         themes: [ThemeConfigurations.light],
@@ -108,11 +99,7 @@ void main() {
 
       await GoldenTestWrapper.testWidget(
         tester: tester,
-        widget: GroupCard(
-          group: pausedGroup,
-          onSelect: () {},
-          onManage: () {},
-        ),
+        widget: GroupCard(group: pausedGroup, onSelect: () {}, onManage: () {}),
         testName: 'group_card_paused',
         devices: [DeviceConfigurations.iphone13],
         themes: [ThemeConfigurations.light],
@@ -124,11 +111,7 @@ void main() {
 
       await GoldenTestWrapper.testWidget(
         tester: tester,
-        widget: GroupCard(
-          group: group,
-          onSelect: () {},
-          onManage: () {},
-        ),
+        widget: GroupCard(group: group, onSelect: () {}, onManage: () {}),
         testName: 'group_card_dark',
         devices: [DeviceConfigurations.iphone13],
         themes: [ThemeConfigurations.dark],
@@ -140,11 +123,7 @@ void main() {
 
       await GoldenTestWrapper.testWidget(
         tester: tester,
-        widget: GroupCard(
-          group: group,
-          onSelect: () {},
-          onManage: () {},
-        ),
+        widget: GroupCard(group: group, onSelect: () {}, onManage: () {}),
         testName: 'group_card_high_contrast',
         devices: [DeviceConfigurations.iphone13],
         themes: [ThemeConfigurations.highContrastLight],
@@ -156,11 +135,7 @@ void main() {
 
       await GoldenTestWrapper.testWidget(
         tester: tester,
-        widget: GroupCard(
-          group: group,
-          onSelect: () {},
-          onManage: () {},
-        ),
+        widget: GroupCard(group: group, onSelect: () {}, onManage: () {}),
         testName: 'group_card_large_font',
         devices: [DeviceConfigurations.iphone13],
         themes: [ThemeConfigurations.lightLargeFont],
@@ -172,11 +147,7 @@ void main() {
 
       await GoldenTestWrapper.testWidget(
         tester: tester,
-        widget: GroupCard(
-          group: group,
-          onSelect: () {},
-          onManage: () {},
-        ),
+        widget: GroupCard(group: group, onSelect: () {}, onManage: () {}),
         testName: 'group_card_tablet',
         devices: [DeviceConfigurations.iPadPro],
         themes: [ThemeConfigurations.light],
@@ -190,7 +161,9 @@ void main() {
         tester: tester,
         states: {
           'active': GroupCard(
-            group: GroupDataFactory.createRealisticGroup(status: GroupStatus.active),
+            group: GroupDataFactory.createRealisticGroup(
+              status: GroupStatus.active,
+            ),
             onSelect: () {},
             onManage: () {},
           ),
@@ -227,11 +200,7 @@ void main() {
           itemCount: groups.length,
           itemBuilder: (context, index) {
             final group = groups[index];
-            return GroupCard(
-              group: group,
-              onSelect: () {},
-              onManage: () {},
-            );
+            return GroupCard(group: group, onSelect: () {}, onManage: () {});
           },
         ),
         testName: 'group_list_volumetric',

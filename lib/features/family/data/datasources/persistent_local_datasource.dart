@@ -75,10 +75,7 @@ class PersistentLocalDataSource implements FamilyLocalDataSource {
       final cipher = await HiveEncryptionManager().getCipher();
 
       // Open all boxes with encryption
-      _familyBox = await Hive.openBox(
-        _familyBoxName,
-        encryptionCipher: cipher,
-      );
+      _familyBox = await Hive.openBox(_familyBoxName, encryptionCipher: cipher);
       _childrenBox = await Hive.openBox(
         _childrenBoxName,
         encryptionCipher: cipher,
@@ -115,10 +112,22 @@ class PersistentLocalDataSource implements FamilyLocalDataSource {
 
         final cipher = await HiveEncryptionManager().getCipher();
 
-        _familyBox = await Hive.openBox(_familyBoxName, encryptionCipher: cipher);
-        _childrenBox = await Hive.openBox(_childrenBoxName, encryptionCipher: cipher);
-        _vehiclesBox = await Hive.openBox(_vehiclesBoxName, encryptionCipher: cipher);
-        _invitationsBox = await Hive.openBox(_invitationsBoxName, encryptionCipher: cipher);
+        _familyBox = await Hive.openBox(
+          _familyBoxName,
+          encryptionCipher: cipher,
+        );
+        _childrenBox = await Hive.openBox(
+          _childrenBoxName,
+          encryptionCipher: cipher,
+        );
+        _vehiclesBox = await Hive.openBox(
+          _vehiclesBoxName,
+          encryptionCipher: cipher,
+        );
+        _invitationsBox = await Hive.openBox(
+          _invitationsBoxName,
+          encryptionCipher: cipher,
+        );
         _metadataBox = await Hive.openBox(_metadataBoxName);
 
         await _checkVersionAndMigrate();

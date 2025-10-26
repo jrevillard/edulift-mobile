@@ -57,27 +57,35 @@ ScheduleConfig createTestScheduleConfig(String groupId) {
 }
 
 /// Helper to create a mock schedule repository that doesn't access Hive
-MockGroupScheduleRepository createMockScheduleRepository(List<ScheduleSlot> scheduleSlots) {
+MockGroupScheduleRepository createMockScheduleRepository(
+  List<ScheduleSlot> scheduleSlots,
+) {
   final mockRepository = MockGroupScheduleRepository();
 
   // Stub the getWeeklySchedule method to return test data directly
-  when(mockRepository.getWeeklySchedule(any, any))
-      .thenAnswer((_) async => Result.ok(scheduleSlots));
+  when(
+    mockRepository.getWeeklySchedule(any, any),
+  ).thenAnswer((_) async => Result.ok(scheduleSlots));
 
   // Stub other methods that might be called during tests
-  when(mockRepository.getScheduleConfig(any))
-      .thenAnswer((_) async => Result.ok(createTestScheduleConfig('test-group')));
-  when(mockRepository.getAvailableChildren(any, any, any, any))
-      .thenAnswer((_) async => const Result.ok([]));
-  when(mockRepository.checkScheduleConflicts(any, any, any, any, any))
-      .thenAnswer((_) async => const Result.ok([]));
+  when(
+    mockRepository.getScheduleConfig(any),
+  ).thenAnswer((_) async => Result.ok(createTestScheduleConfig('test-group')));
+  when(
+    mockRepository.getAvailableChildren(any, any, any, any),
+  ).thenAnswer((_) async => const Result.ok([]));
+  when(
+    mockRepository.checkScheduleConflicts(any, any, any, any, any),
+  ).thenAnswer((_) async => const Result.ok([]));
 
   return mockRepository;
 }
 
 /// Helper to create provider override with mocked schedule repository
 /// This prevents Hive access by providing a mock repository
-Override createMockedScheduleRepositoryProvider(List<ScheduleSlot> scheduleSlots) {
+Override createMockedScheduleRepositoryProvider(
+  List<ScheduleSlot> scheduleSlots,
+) {
   return scheduleRepositoryProvider.overrideWith((ref) {
     return createMockScheduleRepository(scheduleSlots);
   });
@@ -85,7 +93,11 @@ Override createMockedScheduleRepositoryProvider(List<ScheduleSlot> scheduleSlots
 
 /// Helper to create provider override with mocked schedule data
 /// Uses the modern weeklyScheduleProvider (auto-dispose)
-Override createMockedScheduleProvider(String groupId, String week, List<ScheduleSlot> scheduleSlots) {
+Override createMockedScheduleProvider(
+  String groupId,
+  String week,
+  List<ScheduleSlot> scheduleSlots,
+) {
   return weeklyScheduleProvider(groupId, week).overrideWith((ref) async {
     // Return pre-defined schedule slots directly
     return scheduleSlots;
@@ -139,7 +151,10 @@ Override createMockedGroupsProvider(GroupsState initialState) {
 
 /// Helper to create mocked schedule config provider
 /// Prevents API calls to /groups/{groupId}/schedule-config
-Override createMockedScheduleConfigProvider(String groupId, ScheduleConfig? config) {
+Override createMockedScheduleConfigProvider(
+  String groupId,
+  ScheduleConfig? config,
+) {
   return groupScheduleConfigProvider(groupId).overrideWith((ref) {
     return _PreInitializedScheduleConfigNotifier(
       groupId: groupId,
@@ -159,24 +174,27 @@ class _StubUpdateScheduleConfig extends UpdateScheduleConfig {
   _StubUpdateScheduleConfig() : super(_StubGroupScheduleRepository());
 
   @override
-  Future<Result<ScheduleConfig, ApiFailure>> call(UpdateScheduleConfigParams params) async {
+  Future<Result<ScheduleConfig, ApiFailure>> call(
+    UpdateScheduleConfigParams params,
+  ) async {
     // Not called in golden tests
     throw UnimplementedError();
   }
 }
 
 /// Pre-initialized Schedule Config Notifier
-class _PreInitializedScheduleConfigNotifier extends GroupScheduleConfigNotifier {
+class _PreInitializedScheduleConfigNotifier
+    extends GroupScheduleConfigNotifier {
   _PreInitializedScheduleConfigNotifier({
     required String groupId,
     required ScheduleConfig? initialConfig,
   }) : super(
-          groupId,
-          null, // No use case - won't make API calls
-          _StubUpdateScheduleConfig(), // Stub for update use case
-          null, // No reset use case
-          MockErrorHandlerService(),
-        ) {
+         groupId,
+         null, // No use case - won't make API calls
+         _StubUpdateScheduleConfig(), // Stub for update use case
+         null, // No reset use case
+         MockErrorHandlerService(),
+       ) {
     // Pre-set state to avoid API calls
     state = AsyncValue.data(initialConfig);
   }
@@ -212,7 +230,9 @@ void main() {
     // Use a fixed test week string for consistency
     const testWeek = '2025-W41';
 
-    testWidgets('SchedulePage - with groups and schedules (light)', (tester) async {
+    testWidgets('SchedulePage - with groups and schedules (light)', (
+      tester,
+    ) async {
       final groups = GroupDataFactory.createLargeGroupList(count: 3);
       final vehicles = FamilyDataFactory.createLargeVehicleList(count: 5);
       final scheduleConfig = createTestScheduleConfig(groups[0].id);
@@ -237,7 +257,9 @@ void main() {
         createMockedScheduleProvider(groups[0].id, testWeek, scheduleSlots),
         createMockedGroupsProvider(groupsState),
         createMockedScheduleConfigProvider(groups[0].id, scheduleConfig),
-        nav.navigationStateProvider.overrideWith((ref) => nav.NavigationStateNotifier()),
+        nav.navigationStateProvider.overrideWith(
+          (ref) => nav.NavigationStateNotifier(),
+        ),
         // CRITICAL: Prevent all real network calls during golden tests
         ...getAllNetworkMockOverrides(),
       ];
@@ -252,7 +274,9 @@ void main() {
       );
     });
 
-    testWidgets('SchedulePage - with groups and schedules (dark)', (tester) async {
+    testWidgets('SchedulePage - with groups and schedules (dark)', (
+      tester,
+    ) async {
       final groups = GroupDataFactory.createLargeGroupList(count: 3);
       final vehicles = FamilyDataFactory.createLargeVehicleList(count: 5);
       final scheduleSlots = ScheduleDataFactory.createLargeScheduleSlotList(
@@ -276,7 +300,9 @@ void main() {
         createMockedScheduleProvider(groups[0].id, testWeek, scheduleSlots),
         createMockedGroupsProvider(groupsState),
         createMockedScheduleConfigProvider(groups[0].id, scheduleConfig),
-        nav.navigationStateProvider.overrideWith((ref) => nav.NavigationStateNotifier()),
+        nav.navigationStateProvider.overrideWith(
+          (ref) => nav.NavigationStateNotifier(),
+        ),
         // CRITICAL: Prevent all real network calls during golden tests
         ...getAllNetworkMockOverrides(),
       ];
@@ -306,7 +332,9 @@ void main() {
         familyVehiclesProvider.overrideWith((ref) => []),
         createMockedScheduleRepositoryProvider([]),
         createMockedGroupsProvider(groupsState),
-        nav.navigationStateProvider.overrideWith((ref) => nav.NavigationStateNotifier()),
+        nav.navigationStateProvider.overrideWith(
+          (ref) => nav.NavigationStateNotifier(),
+        ),
         // CRITICAL: Prevent all real network calls during golden tests
         ...getAllNetworkMockOverrides(),
       ];
@@ -342,7 +370,9 @@ void main() {
         createMockedScheduleProvider(groups[0].id, testWeek, scheduleSlots),
         createMockedGroupsProvider(groupsState),
         createMockedScheduleConfigProvider(groups[0].id, scheduleConfig),
-        nav.navigationStateProvider.overrideWith((ref) => nav.NavigationStateNotifier()),
+        nav.navigationStateProvider.overrideWith(
+          (ref) => nav.NavigationStateNotifier(),
+        ),
       ];
 
       await GoldenTestWrapper.testScreen(
@@ -377,7 +407,9 @@ void main() {
         createMockedScheduleProvider(groups[0].id, testWeek, scheduleSlots),
         createMockedGroupsProvider(groupsState),
         createMockedScheduleConfigProvider(groups[0].id, scheduleConfig),
-        nav.navigationStateProvider.overrideWith((ref) => nav.NavigationStateNotifier()),
+        nav.navigationStateProvider.overrideWith(
+          (ref) => nav.NavigationStateNotifier(),
+        ),
       ];
 
       await GoldenTestWrapper.testScreen(
@@ -414,7 +446,9 @@ void main() {
         createMockedScheduleProvider(groups[0].id, testWeek, scheduleSlots),
         createMockedGroupsProvider(groupsState),
         createMockedScheduleConfigProvider(groups[0].id, scheduleConfig),
-        nav.navigationStateProvider.overrideWith((ref) => nav.NavigationStateNotifier()),
+        nav.navigationStateProvider.overrideWith(
+          (ref) => nav.NavigationStateNotifier(),
+        ),
         // CRITICAL: Prevent all real network calls during golden tests
         ...getAllNetworkMockOverrides(),
       ];
@@ -453,7 +487,9 @@ void main() {
         createMockedScheduleProvider(groups[0].id, testWeek, scheduleSlots),
         createMockedGroupsProvider(groupsState),
         createMockedScheduleConfigProvider(groups[0].id, scheduleConfig),
-        nav.navigationStateProvider.overrideWith((ref) => nav.NavigationStateNotifier()),
+        nav.navigationStateProvider.overrideWith(
+          (ref) => nav.NavigationStateNotifier(),
+        ),
         // CRITICAL: Prevent all real network calls during golden tests
         ...getAllNetworkMockOverrides(),
       ];
@@ -468,7 +504,9 @@ void main() {
       );
     });
 
-    testWidgets('SchedulePage - responsive design (small screen)', (tester) async {
+    testWidgets('SchedulePage - responsive design (small screen)', (
+      tester,
+    ) async {
       final groups = GroupDataFactory.createLargeGroupList(count: 2);
       final vehicles = FamilyDataFactory.createLargeVehicleList(count: 3);
       final scheduleSlots = ScheduleDataFactory.createLargeScheduleSlotList(
@@ -492,7 +530,9 @@ void main() {
         createMockedScheduleProvider(groups[0].id, testWeek, scheduleSlots),
         createMockedGroupsProvider(groupsState),
         createMockedScheduleConfigProvider(groups[0].id, scheduleConfig),
-        nav.navigationStateProvider.overrideWith((ref) => nav.NavigationStateNotifier()),
+        nav.navigationStateProvider.overrideWith(
+          (ref) => nav.NavigationStateNotifier(),
+        ),
         // CRITICAL: Prevent all real network calls during golden tests
         ...getAllNetworkMockOverrides(),
       ];
@@ -531,7 +571,9 @@ void main() {
         createMockedScheduleProvider(groups[0].id, testWeek, scheduleSlots),
         createMockedGroupsProvider(groupsState),
         createMockedScheduleConfigProvider(groups[0].id, scheduleConfig),
-        nav.navigationStateProvider.overrideWith((ref) => nav.NavigationStateNotifier()),
+        nav.navigationStateProvider.overrideWith(
+          (ref) => nav.NavigationStateNotifier(),
+        ),
         // CRITICAL: Prevent all real network calls during golden tests
         ...getAllNetworkMockOverrides(),
       ];

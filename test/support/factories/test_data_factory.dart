@@ -197,7 +197,10 @@ class TestDataFactory {
   /// Generate random phone number (French format)
   static String randomPhoneNumber() {
     final prefix = _random.nextBool() ? '06' : '07'; // Mobile prefixes
-    final parts = List.generate(4, (_) => _random.nextInt(100).toString().padLeft(2, '0'));
+    final parts = List.generate(
+      4,
+      (_) => _random.nextInt(100).toString().padLeft(2, '0'),
+    );
     return '$prefix ${parts.join(' ')}';
   }
 

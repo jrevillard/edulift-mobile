@@ -67,21 +67,18 @@ class InvitationManualCodeInput extends StatelessWidget {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        Icon(
-          icon,
-          size: isTablet ? 80 : 64,
-          color: theme.colorScheme.primary,
-        ),
+        Icon(icon, size: isTablet ? 80 : 64, color: theme.colorScheme.primary),
         SizedBox(height: isTablet ? 32 : 24),
         Text(
           title, // ✅ Localized
-          style: (isTablet
-                  ? theme.textTheme.headlineMedium
-                  : theme.textTheme.headlineSmall)
-              ?.copyWith(
-            color: theme.colorScheme.primary,
-            fontWeight: FontWeight.bold,
-          ),
+          style:
+              (isTablet
+                      ? theme.textTheme.headlineMedium
+                      : theme.textTheme.headlineSmall)
+                  ?.copyWith(
+                    color: theme.colorScheme.primary,
+                    fontWeight: FontWeight.bold,
+                  ),
         ),
         SizedBox(height: isTablet ? 12 : 8),
         Text(

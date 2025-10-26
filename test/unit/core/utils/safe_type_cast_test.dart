@@ -8,10 +8,7 @@ void main() {
   group('ApiResponse Type Safety Tests', () {
     group('Constructor Tests', () {
       test('should create successful response with data', () {
-        const response = ApiResponse<String>(
-          success: true,
-          data: 'test data',
-        );
+        const response = ApiResponse<String>(success: true, data: 'test data');
 
         expect(response.success, isTrue);
         expect(response.data, equals('test data'));
@@ -32,9 +29,7 @@ void main() {
       });
 
       test('should handle null data gracefully', () {
-        const response = ApiResponse<Map<String, dynamic>>(
-          success: true,
-        );
+        const response = ApiResponse<Map<String, dynamic>>(success: true);
 
         expect(response.success, isTrue);
         expect(response.data, isNull);
@@ -108,10 +103,7 @@ void main() {
             'id': 'user-123',
             'preferences': {'theme': 'light', 'notifications': true},
           },
-          'metadata': {
-            'timestamp': '2025-01-01T00:00:00Z',
-            'version': '1.0.0',
-          },
+          'metadata': {'timestamp': '2025-01-01T00:00:00Z', 'version': '1.0.0'},
         };
 
         final response = ApiResponse<Map<String, dynamic>>(
@@ -126,10 +118,7 @@ void main() {
       });
 
       test('should handle empty metadata correctly', () {
-        const response = ApiResponse<String>(
-          success: true,
-          data: 'test',
-        );
+        const response = ApiResponse<String>(success: true, data: 'test');
 
         expect(response.success, isTrue);
         expect(response.metadata, isEmpty);
@@ -163,9 +152,7 @@ void main() {
       });
 
       test('should handle null data in successful response', () {
-        const response = ApiResponse<String?>(
-          success: true,
-        );
+        const response = ApiResponse<String?>(success: true);
 
         expect(response.success, isTrue);
         expect(response.data, isNull);
@@ -199,11 +186,7 @@ void main() {
         const response = ApiResponse<List<String>>(
           success: true,
           data: ['item1', 'item2'],
-          metadata: {
-            'page': 1,
-            'total': 2,
-            'hasNext': false,
-          },
+          metadata: {'page': 1, 'total': 2, 'hasNext': false},
         );
 
         expect(response.success, isTrue);

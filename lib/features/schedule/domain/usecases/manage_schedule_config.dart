@@ -11,7 +11,7 @@ class GetScheduleConfig {
   GetScheduleConfig(this.repository);
 
   Future<Result<ScheduleConfig, ApiFailure>> call(
-    GetScheduleConfigParams params
+    GetScheduleConfigParams params,
   ) {
     return repository.getScheduleConfig(params.groupId);
   }
@@ -23,7 +23,7 @@ class UpdateScheduleConfig {
   UpdateScheduleConfig(this.repository);
 
   Future<Result<ScheduleConfig, ApiFailure>> call(
-    UpdateScheduleConfigParams params
+    UpdateScheduleConfigParams params,
   ) async {
     // Validate the config before updating
     final validationResult = _validateScheduleConfig(params.config);
@@ -45,9 +45,11 @@ class UpdateScheduleConfig {
     }
 
     if (!hasTimeSlots) {
-      return Result.err(ApiFailure.validationError(
-        message: 'At least one time slot is required',
-      ));
+      return Result.err(
+        ApiFailure.validationError(
+          message: 'At least one time slot is required',
+        ),
+      );
     }
 
     // maxVehiclesPerSlot validation removed - not part of simplified config
@@ -62,7 +64,7 @@ class ResetScheduleConfig {
   ResetScheduleConfig(this.repository);
 
   Future<Result<ScheduleConfig, ApiFailure>> call(
-    ResetScheduleConfigParams params
+    ResetScheduleConfigParams params,
   ) {
     return repository.resetScheduleConfig(params.groupId);
   }

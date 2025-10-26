@@ -63,10 +63,7 @@ class GroupFlowHelper {
     final textFieldFinder = find.byKey(Key(fieldKey));
 
     // Wait for the field to exist
-    await tester.waitUntilVisible(
-      textFieldFinder,
-      timeout: timeout,
-    );
+    await tester.waitUntilVisible(textFieldFinder, timeout: timeout);
 
     // Step 2: Get the TextFormField widget
     final fieldWidget = tester.tester.widget(textFieldFinder);
@@ -97,7 +94,9 @@ class GroupFlowHelper {
         of: textFieldFinder,
         matching: find.byType(TextField),
       );
-      final updatedTextFieldWidget = tester.tester.widget<TextField>(updatedTextField);
+      final updatedTextFieldWidget = tester.tester.widget<TextField>(
+        updatedTextField,
+      );
       final updatedErrorText = updatedTextFieldWidget.decoration?.errorText;
 
       if (updatedErrorText == null || updatedErrorText.isEmpty) {
@@ -107,7 +106,9 @@ class GroupFlowHelper {
         );
       }
       final actualMessage = updatedErrorText.trim();
-      debugPrint('📝 Found group error message (after retry): "$actualMessage"');
+      debugPrint(
+        '📝 Found group error message (after retry): "$actualMessage"',
+      );
 
       // Step 4: Validate message is not empty
       expect(
@@ -131,7 +132,8 @@ class GroupFlowHelper {
 
     // Step 5: Validate message is localized (not a raw key)
     // Check if it looks like a camelCase key (starts with lowercase, has uppercase letters)
-    final looksLikeKey = actualMessage.isNotEmpty &&
+    final looksLikeKey =
+        actualMessage.isNotEmpty &&
         actualMessage[0] == actualMessage[0].toLowerCase() &&
         actualMessage.contains(RegExp(r'[A-Z]')) &&
         !actualMessage.contains(' ');
@@ -139,7 +141,8 @@ class GroupFlowHelper {
     expect(
       looksLikeKey,
       isFalse,
-      reason: 'Group error message should be localized, not a raw key like "$actualMessage"',
+      reason:
+          'Group error message should be localized, not a raw key like "$actualMessage"',
     );
 
     debugPrint('✅ Group error message validation passed: "$actualMessage"');
@@ -172,14 +175,13 @@ class GroupFlowHelper {
     String expectedErrorKey, {
     Duration timeout = const Duration(seconds: 5),
   }) async {
-    debugPrint('🔍 Verifying group submission error for key: $expectedErrorKey');
+    debugPrint(
+      '🔍 Verifying group submission error for key: $expectedErrorKey',
+    );
 
     // Find error widget by key (format: group_error_$errorKey)
     final errorKey = Key('group_error_$expectedErrorKey');
-    await tester.waitUntilVisible(
-      find.byKey(errorKey),
-      timeout: timeout,
-    );
+    await tester.waitUntilVisible(find.byKey(errorKey), timeout: timeout);
 
     // Extract and validate the message
     final errorWidget = find.byKey(errorKey);
@@ -187,13 +189,18 @@ class GroupFlowHelper {
 
     String actualMessage;
     if (widget is Text) {
-      actualMessage = (widget.data ?? widget.textSpan?.toPlainText() ?? '').trim();
+      actualMessage = (widget.data ?? widget.textSpan?.toPlainText() ?? '')
+          .trim();
     } else {
       throw TestFailure('Expected Text widget with key $errorKey');
     }
 
     // Validate message is not empty and is localized
-    expect(actualMessage, isNotEmpty, reason: 'Group submission error message should not be empty');
+    expect(
+      actualMessage,
+      isNotEmpty,
+      reason: 'Group submission error message should not be empty',
+    );
 
     debugPrint('✅ Group submission error validation passed: "$actualMessage"');
     return actualMessage;

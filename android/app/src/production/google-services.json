@@ -12,7 +12,20 @@
           "package_name": "com.edulift.app"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "928262951410-prodclient.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.edulift.app",
+            "certificate_hash": "prodcertificatehash"
+          }
+        },
+        {
+          "client_id": "928262951410-prodwebclient.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyAwJziPgVmwne_FzylegD5pzSQI1rbtcMI"
@@ -20,7 +33,12 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "928262951410-prodwebclient.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }

@@ -64,7 +64,8 @@ abstract class FamilyInvitationDto
       inviteCode: inviteCode,
       acceptedAt: acceptedAt,
       acceptedBy: acceptedBy,
-      respondedAt: acceptedAt, // Use acceptedAt as respondedAt (DTO doesn't have separate field)
+      respondedAt:
+          acceptedAt, // Use acceptedAt as respondedAt (DTO doesn't have separate field)
       updatedAt: updatedAt,
       // metadata defaults to null - no need to specify
     );

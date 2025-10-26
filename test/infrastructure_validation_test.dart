@@ -50,7 +50,10 @@ void main() {
         ),
       );
 
-      expect(() => verifyNever(mock.createFamily(name: anyNamed('name'))), returnsNormally);
+      expect(
+        () => verifyNever(mock.createFamily(name: anyNamed('name'))),
+        returnsNormally,
+      );
     });
 
     test('should provide dummy values for VehicleAssignment Result types', () {
@@ -59,14 +62,16 @@ void main() {
       final mock = MockFamilyRepository();
 
       // Should not throw MissingDummyValueError for VehicleAssignment
-      when(mock.getCurrentFamily()).thenAnswer((_) async => Result.ok(
-        Family(
-          id: 'test-family-id',
-          name: 'Test Family',
-          createdAt: DateTime.now(),
-          updatedAt: DateTime.now(),
+      when(mock.getCurrentFamily()).thenAnswer(
+        (_) async => Result.ok(
+          Family(
+            id: 'test-family-id',
+            name: 'Test Family',
+            createdAt: DateTime.now(),
+            updatedAt: DateTime.now(),
+          ),
         ),
-      ));
+      );
 
       expect(() => verifyNever(mock.getCurrentFamily()), returnsNormally);
     });

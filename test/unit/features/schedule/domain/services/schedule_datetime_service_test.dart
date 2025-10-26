@@ -46,11 +46,9 @@ void main() {
         expect(result.month, equals(1));
         expect(result.day, equals(6)); // Monday of week 2
 
-        // ✅ FIX: After the fix, UTC time = LOCAL time converted to UTC
-        // So we verify the round-trip: UTC → Local = original time
-        final local = result.toLocal();
-        expect(local.hour, equals(7), reason: 'Local hour should be 7');
-        expect(local.minute, equals(30), reason: 'Local minute should be 30');
+        // Input time is treated as UTC (no timezone conversion)
+        expect(result.hour, equals(7), reason: 'UTC hour should be 7');
+        expect(result.minute, equals(30), reason: 'UTC minute should be 30');
       });
 
       test('should calculate correct UTC datetime for Friday 16:00', () {
@@ -66,10 +64,9 @@ void main() {
         expect(result.month, equals(1));
         expect(result.day, equals(10)); // Friday of week 2
 
-        // ✅ FIX: Verify round-trip instead of direct UTC hour
-        final local = result.toLocal();
-        expect(local.hour, equals(16), reason: 'Local hour should be 16');
-        expect(local.minute, equals(0), reason: 'Local minute should be 0');
+        // Input time is treated as UTC (no timezone conversion)
+        expect(result.hour, equals(16), reason: 'UTC hour should be 16');
+        expect(result.minute, equals(0), reason: 'UTC minute should be 0');
       });
 
       test('should handle all weekdays correctly', () {
@@ -91,33 +88,52 @@ void main() {
           );
 
           expect(result, isNotNull, reason: 'Failed for ${entry.key}');
-          expect(result!.day, equals(entry.value), reason: 'Wrong day for ${entry.key}');
+          expect(
+            result!.day,
+            equals(entry.value),
+            reason: 'Wrong day for ${entry.key}',
+          );
 
-          // ✅ FIX: Verify local time components, not UTC
-          final local = result.toLocal();
-          expect(local.hour, equals(12), reason: 'Local hour should be 12');
-          expect(local.minute, equals(0), reason: 'Local minute should be 0');
+          // Input time is treated as UTC (no timezone conversion)
+          expect(result.hour, equals(12), reason: 'UTC hour should be 12');
+          expect(result.minute, equals(0), reason: 'UTC minute should be 0');
         }
       });
 
       test('should handle short day names', () {
-        final result = service.calculateDateTimeFromSlot('Mon', '08:00', '2025-W02');
+        final result = service.calculateDateTimeFromSlot(
+          'Mon',
+          '08:00',
+          '2025-W02',
+        );
         expect(result, isNotNull);
         expect(result!.day, equals(6)); // Monday of week 2
       });
 
       test('should return null for invalid day', () {
-        final result = service.calculateDateTimeFromSlot('InvalidDay', '08:00', '2025-W02');
+        final result = service.calculateDateTimeFromSlot(
+          'InvalidDay',
+          '08:00',
+          '2025-W02',
+        );
         expect(result, isNull);
       });
 
       test('should return null for invalid time format', () {
-        final result = service.calculateDateTimeFromSlot('Monday', 'invalid', '2025-W02');
+        final result = service.calculateDateTimeFromSlot(
+          'Monday',
+          'invalid',
+          '2025-W02',
+        );
         expect(result, isNull);
       });
 
       test('should return null for invalid week', () {
-        final result = service.calculateDateTimeFromSlot('Monday', '08:00', 'invalid');
+        final result = service.calculateDateTimeFromSlot(
+          'Monday',
+          '08:00',
+          'invalid',
+        );
         expect(result, isNull);
       });
 
@@ -130,8 +146,15 @@ void main() {
 
         expect(result, isNotNull);
         final isoString = result!.toIso8601String();
-        expect(isoString, endsWith('Z'), reason: 'ISO string should end with Z for UTC');
-        expect(isoString, matches(r'\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z'));
+        expect(
+          isoString,
+          endsWith('Z'),
+          reason: 'ISO string should end with Z for UTC',
+        );
+        expect(
+          isoString,
+          matches(r'\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z'),
+        );
       });
     });
 
@@ -153,7 +176,9 @@ void main() {
       test('should be exactly 7 days minus 1 millisecond', () {
         final weekStart = DateTime.utc(2025, 1, 6);
         final weekEnd = service.calculateWeekEndDate(weekStart);
-        final expectedEnd = weekStart.add(const Duration(days: 7)).subtract(const Duration(milliseconds: 1));
+        final expectedEnd = weekStart
+            .add(const Duration(days: 7))
+            .subtract(const Duration(milliseconds: 1));
 
         expect(weekEnd, equals(expectedEnd));
       });
@@ -161,30 +186,52 @@ void main() {
 
     group('datetime comparison scenario', () {
       test('two datetimes with same values should match', () {
-        final datetime1 = service.calculateDateTimeFromSlot('Monday', '07:30', '2025-W02');
-        final datetime2 = service.calculateDateTimeFromSlot('Monday', '07:30', '2025-W02');
+        final datetime1 = service.calculateDateTimeFromSlot(
+          'Monday',
+          '07:30',
+          '2025-W02',
+        );
+        final datetime2 = service.calculateDateTimeFromSlot(
+          'Monday',
+          '07:30',
+          '2025-W02',
+        );
 
         expect(datetime1, isNotNull);
         expect(datetime2, isNotNull);
 
         // Test exact match (what _findExistingSlot does)
-        final matches = datetime1!.year == datetime2!.year &&
+        final matches =
+            datetime1!.year == datetime2!.year &&
             datetime1.month == datetime2.month &&
             datetime1.day == datetime2.day &&
             datetime1.hour == datetime2.hour &&
             datetime1.minute == datetime2.minute;
 
-        expect(matches, isTrue, reason: 'Same slot should produce matching datetimes');
+        expect(
+          matches,
+          isTrue,
+          reason: 'Same slot should produce matching datetimes',
+        );
       });
 
       test('different times should not match', () {
-        final datetime1 = service.calculateDateTimeFromSlot('Monday', '07:30', '2025-W02');
-        final datetime2 = service.calculateDateTimeFromSlot('Monday', '08:00', '2025-W02');
+        final datetime1 = service.calculateDateTimeFromSlot(
+          'Monday',
+          '07:30',
+          '2025-W02',
+        );
+        final datetime2 = service.calculateDateTimeFromSlot(
+          'Monday',
+          '08:00',
+          '2025-W02',
+        );
 
         expect(datetime1, isNotNull);
         expect(datetime2, isNotNull);
 
-        final matches = datetime1!.year == datetime2!.year &&
+        final matches =
+            datetime1!.year == datetime2!.year &&
             datetime1.month == datetime2.month &&
             datetime1.day == datetime2.day &&
             datetime1.hour == datetime2.hour &&
@@ -195,37 +242,40 @@ void main() {
     });
 
     group('timezone conversion (bug regression test)', () {
-      test('should convert local time to UTC correctly', () {
-        // REGRESSION TEST for bug: +2h offset when adding vehicle
-        // User clicks 07:30 LOCAL → should store as LOCAL time converted to UTC
+      test('should NOT apply timezone conversion', () {
+        // REGRESSION TEST: Input time should be treated as UTC directly
+        // User clicks 07:30 → should store as 07:30 UTC (no conversion)
 
-        final utcResult = service.calculateDateTimeFromSlot('Monday', '07:30', '2025-W02');
+        final utcResult = service.calculateDateTimeFromSlot(
+          'Monday',
+          '07:30',
+          '2025-W02',
+        );
         expect(utcResult, isNotNull);
         expect(utcResult!.isUtc, isTrue);
 
-        // Convert back to local to verify round-trip
-        final localResult = utcResult.toLocal();
+        // The UTC time should be exactly what was input (no conversion)
+        expect(
+          utcResult.hour,
+          equals(7),
+          reason: 'Input time 07:30 should become 07:30 UTC (no conversion)',
+        );
+        expect(utcResult.minute, equals(30));
 
-        // The local time components should match what the user clicked
-        expect(localResult.hour, equals(7),
-          reason: 'User clicked 07:30 LOCAL, should display 07:30 LOCAL after round-trip');
-        expect(localResult.minute, equals(30));
-
-        // The UTC time should be DIFFERENT (offset by timezone)
-        // For example, in UTC+2: 07:30 LOCAL = 05:30 UTC
-        // Note: We can't test exact UTC hour without knowing test environment timezone,
-        // but we can verify it's NOT the same as local (unless timezone is UTC)
-        if (DateTime.now().timeZoneOffset.inHours != 0) {
-          expect(utcResult.hour, isNot(equals(7)),
-            reason: 'UTC hour should differ from local hour when timezone offset exists');
-        }
+        // Verify the full datetime
+        final expected = DateTime.utc(2025, 1, 6, 7, 30);
+        expect(utcResult, equals(expected));
       });
 
       test('should produce consistent datetime when stored and retrieved', () {
         // Simulate the full flow: User clicks → Store → Retrieve → Display
 
-        // 1. User clicks 07:30 LOCAL (what calculateDateTimeFromSlot simulates)
-        final userClickedUtc = service.calculateDateTimeFromSlot('Monday', '07:30', '2025-W02');
+        // 1. User clicks 07:30 (treated as UTC by calculateDateTimeFromSlot)
+        final userClickedUtc = service.calculateDateTimeFromSlot(
+          'Monday',
+          '07:30',
+          '2025-W02',
+        );
         expect(userClickedUtc, isNotNull);
 
         // 2. This gets sent to API and stored in DB as UTC (simulated)
@@ -235,13 +285,17 @@ void main() {
         final retrievedUtc = DateTime.parse(storedUtcString);
         expect(retrievedUtc.isUtc, isTrue);
 
-        // 4. DTO converts to local for display (like schedule_slot_dto.dart does)
-        final displayedLocal = retrievedUtc.toLocal();
+        // 4. Verify: The time remains 07:30 UTC (no conversion applied)
+        expect(
+          retrievedUtc.hour,
+          equals(7),
+          reason: 'Stored UTC time should remain 07:30',
+        );
+        expect(retrievedUtc.minute, equals(30));
 
-        // 5. Verify: Displayed time = User clicked time
-        expect(displayedLocal.hour, equals(7),
-          reason: 'BUG CHECK: User clicked 07:30, should display 07:30 (not 09:30!)');
-        expect(displayedLocal.minute, equals(30));
+        // The full datetime should match exactly
+        final expected = DateTime.utc(2025, 1, 6, 7, 30);
+        expect(retrievedUtc, equals(expected));
       });
     });
 
@@ -268,28 +322,34 @@ void main() {
         );
       });
 
-      test('should allow dates past in device timezone but future in user timezone', () {
-        // Create a scenario where a date is past in UTC but future in New York
-        // Current time in UTC: 2025-10-20 04:00:00 (midnight in NY)
-        // Schedule time in UTC: 2025-10-20 01:00:00 (9pm previous day in NY)
-        // This requires us to create a future time in NY timezone
+      test(
+        'should allow dates past in device timezone but future in user timezone',
+        () {
+          // Create a scenario where a date is past in UTC but future in New York
+          // Current time in UTC: 2025-10-20 04:00:00 (midnight in NY)
+          // Schedule time in UTC: 2025-10-20 01:00:00 (9pm previous day in NY)
+          // This requires us to create a future time in NY timezone
 
-        final nyLocation = tz.getLocation('America/New_York');
-        final nowInNY = tz.TZDateTime.now(nyLocation);
+          final nyLocation = tz.getLocation('America/New_York');
+          final nowInNY = tz.TZDateTime.now(nyLocation);
 
-        // Create a datetime 2 hours from now in NY time
-        final futureInNY = nowInNY.add(const Duration(hours: 2));
+          // Create a datetime 2 hours from now in NY time
+          final futureInNY = nowInNY.add(const Duration(hours: 2));
 
-        // Convert to UTC for testing
-        final futureInNYasUTC = futureInNY.toUtc();
+          // Convert to UTC for testing
+          final futureInNYasUTC = futureInNY.toUtc();
 
-        // This should NOT be past in NY timezone
-        expect(
-          service.isPastDate(futureInNYasUTC, userTimezone: 'America/New_York'),
-          isFalse,
-          reason: 'Date 2 hours in future (NY time) should not be past',
-        );
-      });
+          // This should NOT be past in NY timezone
+          expect(
+            service.isPastDate(
+              futureInNYasUTC,
+              userTimezone: 'America/New_York',
+            ),
+            isFalse,
+            reason: 'Date 2 hours in future (NY time) should not be past',
+          );
+        },
+      );
 
       test('should handle DST transitions correctly', () {
         // Test dates around DST transitions
@@ -392,7 +452,8 @@ void main() {
         expect(result.errorMessage, isNotNull);
         // Error message should include EST or EDT
         expect(
-          result.errorMessage!.contains('EST') || result.errorMessage!.contains('EDT'),
+          result.errorMessage!.contains('EST') ||
+              result.errorMessage!.contains('EDT'),
           isTrue,
           reason: 'Error message should include timezone abbreviation',
         );
@@ -477,28 +538,42 @@ void main() {
         final futureByOneSecondUTC = futureByOneSecond.toUtc();
 
         expect(
-          service.isPastDate(futureByOneSecondUTC, userTimezone: 'America/New_York'),
+          service.isPastDate(
+            futureByOneSecondUTC,
+            userTimezone: 'America/New_York',
+          ),
           isFalse,
           reason: 'Time 1 second in future should not be past',
         );
       });
 
-      test('should handle extreme timezone differences (Pacific to Eastern)', () {
-        // Create a time that's evening in LA but late night in NY
-        final laLocation = tz.getLocation('America/Los_Angeles');
-        final futureInLA = tz.TZDateTime.now(laLocation).add(const Duration(hours: 5));
-        final futureInLAasUTC = futureInLA.toUtc();
+      test(
+        'should handle extreme timezone differences (Pacific to Eastern)',
+        () {
+          // Create a time that's evening in LA but late night in NY
+          final laLocation = tz.getLocation('America/Los_Angeles');
+          final futureInLA = tz.TZDateTime.now(
+            laLocation,
+          ).add(const Duration(hours: 5));
+          final futureInLAasUTC = futureInLA.toUtc();
 
-        // Should be future in both LA and NY timezones
-        expect(
-          service.isPastDate(futureInLAasUTC, userTimezone: 'America/Los_Angeles'),
-          isFalse,
-        );
-        expect(
-          service.isPastDate(futureInLAasUTC, userTimezone: 'America/New_York'),
-          isFalse,
-        );
-      });
+          // Should be future in both LA and NY timezones
+          expect(
+            service.isPastDate(
+              futureInLAasUTC,
+              userTimezone: 'America/Los_Angeles',
+            ),
+            isFalse,
+          );
+          expect(
+            service.isPastDate(
+              futureInLAasUTC,
+              userTimezone: 'America/New_York',
+            ),
+            isFalse,
+          );
+        },
+      );
     });
   });
 }

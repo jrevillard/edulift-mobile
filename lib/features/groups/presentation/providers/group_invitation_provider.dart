@@ -20,7 +20,8 @@ class GroupInvitationState {
   final bool isLoading;
   final bool isValidating;
   final GroupInvitationValidationData? validation;
-  final String? validatedCode; // Store the validated invitation code for manual entry flow
+  final String?
+  validatedCode; // Store the validated invitation code for manual entry flow
   final String? error;
   final bool isAuthenticated;
   final bool hasFamily; // Group invitations require user to have a family
@@ -220,15 +221,11 @@ class GroupInvitationNotifier extends StateNotifier<GroupInvitationState> {
   /// Map validation response errorCode to localization key
   /// REFACTORED: Delegates to shared InvitationErrorMapper
   String _mapValidationErrorToKey(GroupInvitationValidationData validation) {
-    return InvitationErrorMapper.mapValidationErrorToKey(
-      validation.errorCode,
-    );
+    return InvitationErrorMapper.mapValidationErrorToKey(validation.errorCode);
   }
 
   /// Accept group invitation by invite code
-  Future<bool> acceptGroupInvitationByCode(
-    String inviteCode,
-  ) async {
+  Future<bool> acceptGroupInvitationByCode(String inviteCode) async {
     state = state.copyWith(isLoading: true);
     final result = await _groupRepository.joinGroup(inviteCode);
 
@@ -304,9 +301,10 @@ class GroupInvitationNotifier extends StateNotifier<GroupInvitationState> {
 
 /// Provider for the group invitation notifier
 final groupInvitationProvider =
-    StateNotifierProvider.autoDispose<GroupInvitationNotifier, GroupInvitationState>((
-      ref,
-    ) {
+    StateNotifierProvider.autoDispose<
+      GroupInvitationNotifier,
+      GroupInvitationState
+    >((ref) {
       final groupRepository = ref.watch(groupRepositoryProvider);
       final authService = ref.watch(authServiceProvider);
       final userFamilyService = ref.watch(userFamilyServiceProvider);

@@ -12,7 +12,20 @@
           "package_name": "com.edulift.app.staging"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "390712570284-stagingclient.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.edulift.app.staging",
+            "certificate_hash": "stagingcertificatehash"
+          }
+        },
+        {
+          "client_id": "390712570284-stagingwebclient.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyC2qc_U1Hz0JVt_7trVXJlJa1hbwEfzWNA"
@@ -20,7 +33,12 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "390712570284-stagingwebclient.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }

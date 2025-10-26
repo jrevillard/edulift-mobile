@@ -242,7 +242,8 @@ extension AppLoggerExtensions on AppLogger {
     String operation,
     String dataType,
     String source, // 'remote', 'cache', 'local'
-    String result, { // 'success', 'failed', 'fallback'
+    String result, {
+    // 'success', 'failed', 'fallback'
     int? recordCount,
     dynamic error,
     StackTrace? stackTrace,

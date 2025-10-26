@@ -35,9 +35,7 @@ class InvitationUseCase {
     String familyId,
   ) async {
     AppLogger.debug('[InvitationUseCase] Getting pending invitations');
-    final result = await _repository.getPendingInvitations(
-      familyId: familyId,
-    );
+    final result = await _repository.getPendingInvitations(familyId: familyId);
 
     if (result.isOk) {
       final invitations = result.value!;
@@ -57,7 +55,6 @@ class InvitationUseCase {
     );
     return Result.err(result.error!);
   }
-
 
   /// Invite a member with role specification and validation
   ///
@@ -179,9 +176,7 @@ class InvitationUseCase {
   Future<Result<FamilyInvitation, Failure>> acceptInvitation({
     required String inviteCode,
   }) async {
-    AppLogger.debug(
-      '[InvitationUseCase] Accepting invitation: $inviteCode',
-    );
+    AppLogger.debug('[InvitationUseCase] Accepting invitation: $inviteCode');
 
     // Validate inviteCode
     if (inviteCode.isEmpty) {
@@ -213,9 +208,7 @@ class InvitationUseCase {
     required String invitationId,
     required String familyId,
   }) async {
-    AppLogger.debug(
-      '[InvitationUseCase] Cancelling invitation: $invitationId',
-    );
+    AppLogger.debug('[InvitationUseCase] Cancelling invitation: $invitationId');
 
     // Validate invitationId
     if (invitationId.isEmpty) {
@@ -242,7 +235,6 @@ class InvitationUseCase {
     return Result.err(result.error!);
   }
 
-
   // ========================================
   // PRIVATE VALIDATION HELPERS
   // ========================================
@@ -260,9 +252,8 @@ class InvitationUseCase {
   /// Business rules:
   /// - Invitation code must not be empty
   /// - Returns validation details from backend
-  Future<Result<FamilyInvitationValidationDto, Failure>> validateFamilyInvitation({
-    required String inviteCode,
-  }) async {
+  Future<Result<FamilyInvitationValidationDto, Failure>>
+  validateFamilyInvitation({required String inviteCode}) async {
     AppLogger.debug(
       '[InvitationUseCase] Validating family invitation code: $inviteCode',
     );

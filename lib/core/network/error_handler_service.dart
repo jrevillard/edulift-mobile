@@ -746,11 +746,13 @@ class ErrorHandlerService {
   }
 
   String _extractErrorMessage(dynamic error) {
+    if (error is Failure) {
+      // CRITICAL FIX: For Failure types, return message directly if it exists
+      // Don't fall back to toString() which includes the full object representation
+      return error.message ?? error.toString();
+    }
     if (error is Exception) {
       return error.toString();
-    }
-    if (error is Failure) {
-      return error.message ?? error.toString();
     }
     return error?.toString() ?? 'Unknown error';
   }
@@ -888,40 +890,37 @@ class ErrorHandlerService {
   /// Check for contextual technical patterns that indicate technical jargon
   bool _hasContextualTechnicalPattern(String lowercaseMessage) {
     // Technical "failed to" patterns (more specific than user actions)
-    if (lowercaseMessage.contains('failed to') && (
-        lowercaseMessage.contains('failed to connect to server') ||
-        lowercaseMessage.contains('failed to authenticate user') ||
-        lowercaseMessage.contains('failed to initialize') ||
-        lowercaseMessage.contains('failed to parse') ||
-        lowercaseMessage.contains('failed to serialize') ||
-        lowercaseMessage.contains('failed to deserialize') ||
-        lowercaseMessage.contains('failed to establish') ||
-        lowercaseMessage.contains('failed to resolve') ||
-        lowercaseMessage.contains('failed to bind') ||
-        lowercaseMessage.contains('failed to allocate')
-    )) {
+    if (lowercaseMessage.contains('failed to') &&
+        (lowercaseMessage.contains('failed to connect to server') ||
+            lowercaseMessage.contains('failed to authenticate user') ||
+            lowercaseMessage.contains('failed to initialize') ||
+            lowercaseMessage.contains('failed to parse') ||
+            lowercaseMessage.contains('failed to serialize') ||
+            lowercaseMessage.contains('failed to deserialize') ||
+            lowercaseMessage.contains('failed to establish') ||
+            lowercaseMessage.contains('failed to resolve') ||
+            lowercaseMessage.contains('failed to bind') ||
+            lowercaseMessage.contains('failed to allocate'))) {
       return true;
     }
 
     // Technical timeout patterns
-    if (lowercaseMessage.contains('timeout') && (
-        lowercaseMessage.contains('socket timeout') ||
-        lowercaseMessage.contains('read timeout') ||
-        lowercaseMessage.contains('write timeout') ||
-        lowercaseMessage.contains('gateway timeout') ||
-        lowercaseMessage.contains('request timeout occurred') ||
-        lowercaseMessage.contains('operation timed out')
-    )) {
+    if (lowercaseMessage.contains('timeout') &&
+        (lowercaseMessage.contains('socket timeout') ||
+            lowercaseMessage.contains('read timeout') ||
+            lowercaseMessage.contains('write timeout') ||
+            lowercaseMessage.contains('gateway timeout') ||
+            lowercaseMessage.contains('request timeout occurred') ||
+            lowercaseMessage.contains('operation timed out'))) {
       return true;
     }
 
     // Technical error patterns
-    if (lowercaseMessage.contains('null') && (
-        lowercaseMessage.contains('null reference') ||
-        lowercaseMessage.contains('null pointer') ||
-        lowercaseMessage.contains('null value') ||
-        lowercaseMessage.contains('null object')
-    )) {
+    if (lowercaseMessage.contains('null') &&
+        (lowercaseMessage.contains('null reference') ||
+            lowercaseMessage.contains('null pointer') ||
+            lowercaseMessage.contains('null value') ||
+            lowercaseMessage.contains('null object'))) {
       return true;
     }
 
@@ -965,10 +964,11 @@ class ErrorHandlerService {
         !lowercaseMessage.contains('dioexception') &&
         !lowercaseMessage.contains('exception') &&
         (lowercaseMessage.contains('connection timeout') ||
-         lowercaseMessage.contains('request timeout') ||
-         lowercaseMessage.contains('operation timeout') ||
-         lowercaseMessage.length < 50 // Short timeout messages are usually user-friendly
-        )) {
+            lowercaseMessage.contains('request timeout') ||
+            lowercaseMessage.contains('operation timeout') ||
+            lowercaseMessage.length <
+                50 // Short timeout messages are usually user-friendly
+                )) {
       return true;
     }
 
@@ -1006,15 +1006,17 @@ class ErrorHandlerService {
     try {
       // Classify the error
       final classification = classifyError(error);
-      
+
       // Check if we have an extracted user-friendly message
-      final extractedMessage = classification.analysisData['extracted_message'] as String?;
+      final extractedMessage =
+          classification.analysisData['extracted_message'] as String?;
       if (extractedMessage != null && extractedMessage.isNotEmpty) {
         return extractedMessage;
       }
-      
+
       // Check if we have an original message
-      final originalMessage = classification.analysisData['original_message'] as String?;
+      final originalMessage =
+          classification.analysisData['original_message'] as String?;
       if (originalMessage != null && originalMessage.isNotEmpty) {
         // Try to extract user-friendly message from original
         final friendlyMessage = _extractUserFriendlyMessage(originalMessage);
@@ -1022,9 +1024,43 @@ class ErrorHandlerService {
           return friendlyMessage;
         }
       }
-      
+
       // Fall back to raw error message extraction
-      return _extractErrorMessage(error);
+      final extractedErrorMessage = _extractErrorMessage(error);
+
+      // CRITICAL FIX: Handle null messages by returning default error constants
+      // based on error category instead of returning toString() representations
+      if (error is Failure && error.message == null) {
+        // Return category-specific default messages when message is null
+        switch (classification.category) {
+          case ErrorCategory.server:
+            return 'SERVER_ERROR_GENERAL';
+          case ErrorCategory.validation:
+            return 'VALIDATION_ERROR_GENERAL';
+          case ErrorCategory.network:
+            return 'NETWORK_ERROR_GENERAL';
+          case ErrorCategory.authentication:
+            return 'AUTH_ERROR_GENERAL';
+          case ErrorCategory.authorization:
+            return 'AUTHORIZATION_ERROR_GENERAL';
+          case ErrorCategory.storage:
+            return 'STORAGE_ERROR_GENERAL';
+          case ErrorCategory.sync:
+            return 'SYNC_ERROR_GENERAL';
+          case ErrorCategory.offline:
+            return 'OFFLINE_ERROR_GENERAL';
+          case ErrorCategory.conflict:
+            return 'CONFLICT_ERROR_GENERAL';
+          case ErrorCategory.unexpected:
+            return 'UNEXPECTED_ERROR_GENERAL';
+          case ErrorCategory.permission:
+            return 'PERMISSION_ERROR_GENERAL';
+          case ErrorCategory.biometric:
+            return 'BIOMETRIC_ERROR_GENERAL';
+        }
+      }
+
+      return extractedErrorMessage;
     } catch (e) {
       // If anything goes wrong, fall back to basic error extraction
       return _extractErrorMessage(error);
@@ -1136,7 +1172,7 @@ class ErrorHandlerService {
         if (originalMessage != null) {
           final originalLowercase = originalMessage.toLowerCase();
           return originalLowercase.contains('name is required for new users') ||
-                 originalLowercase.contains('name required');
+              originalLowercase.contains('name required');
         }
       }
     }
@@ -1165,7 +1201,6 @@ class ErrorHandlerService {
 /// Service for generating user-friendly error messages
 
 class UserMessageService {
-
   static const Map<ErrorCategory, String> _titleKeys = {
     ErrorCategory.network: 'errorNetworkTitle',
     ErrorCategory.server: 'errorServerTitle',
@@ -1200,10 +1235,12 @@ class UserMessageService {
     ErrorClassification classification,
     ErrorContext context,
   ) {
-    final titleKey = _titleKeys[classification.category] ??
-                     _titleKeys[ErrorCategory.unexpected]!;
-    final messageKey = _messageKeys[classification.category] ??
-                       _messageKeys[ErrorCategory.unexpected]!;
+    final titleKey =
+        _titleKeys[classification.category] ??
+        _titleKeys[ErrorCategory.unexpected]!;
+    final messageKey =
+        _messageKeys[classification.category] ??
+        _messageKeys[ErrorCategory.unexpected]!;
 
     // Contextualize the message key based on operation
     final contextualMessageKey = _contextualizeMessageKey(
@@ -1223,7 +1260,8 @@ class UserMessageService {
     }
 
     // Add extracted message for raw_message key handling
-    final extractedMessage = classification.analysisData['extracted_message'] as String?;
+    final extractedMessage =
+        classification.analysisData['extracted_message'] as String?;
     if (extractedMessage != null) {
       debugInfo['raw_message'] = extractedMessage;
     }
@@ -1339,15 +1377,9 @@ class UserMessageService {
           'actionSwitchNetwork',
         ];
       case ErrorCategory.authentication:
-        return [
-          'actionSignOutSignIn',
-          'actionCheckEmail',
-        ];
+        return ['actionSignOutSignIn', 'actionCheckEmail'];
       case ErrorCategory.validation:
-        return [
-          'actionReviewInfo',
-          'actionFillRequired',
-        ];
+        return ['actionReviewInfo', 'actionFillRequired'];
       case ErrorCategory.storage:
         return ['actionTryAgain', 'actionRestartApp'];
       default:

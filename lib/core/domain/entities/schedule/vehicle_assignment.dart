@@ -68,7 +68,8 @@ class VehicleAssignment extends Equatable {
       return CapacityStatus.exceeded;
     } else if (assignedCount == effectiveCapacity) {
       return CapacityStatus.full;
-    } else if (effectiveCapacity > 0 && assignedCount / effectiveCapacity >= 0.8) {
+    } else if (effectiveCapacity > 0 &&
+        assignedCount / effectiveCapacity >= 0.8) {
       return CapacityStatus.nearFull;
     } else {
       return CapacityStatus.available;

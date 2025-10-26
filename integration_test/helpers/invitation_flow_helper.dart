@@ -126,7 +126,12 @@ class InvitationFlowHelper {
   }) async {
     await navigateToFamilyMembersTab(tester);
     await openInvitationForm(tester);
-    await fillInvitationForm(tester, email, role, personalMessage: personalMessage);
+    await fillInvitationForm(
+      tester,
+      email,
+      role,
+      personalMessage: personalMessage,
+    );
     await submitInvitationForm(tester);
   }
 
@@ -145,7 +150,12 @@ class InvitationFlowHelper {
     String? personalMessage,
   }) async {
     await openInvitationForm(tester);
-    await fillInvitationForm(tester, email, role, personalMessage: personalMessage);
+    await fillInvitationForm(
+      tester,
+      email,
+      role,
+      personalMessage: personalMessage,
+    );
     await submitInvitationForm(tester);
   }
 
@@ -201,7 +211,9 @@ class InvitationFlowHelper {
     String recipientEmail, {
     Duration timeout = const Duration(seconds: 30),
   }) async {
-    debugPrint('🔍 DEBUG: getInvitationLinkFromEmail() starting for: $recipientEmail');
+    debugPrint(
+      '🔍 DEBUG: getInvitationLinkFromEmail() starting for: $recipientEmail',
+    );
 
     final invitationEmail = await getInvitationEmail(
       recipientEmail,
@@ -209,7 +221,9 @@ class InvitationFlowHelper {
     );
 
     if (invitationEmail == null) {
-      debugPrint('🔍 DEBUG: getInvitationEmail() returned null for: $recipientEmail');
+      debugPrint(
+        '🔍 DEBUG: getInvitationEmail() returned null for: $recipientEmail',
+      );
       return null;
     }
 
@@ -217,11 +231,15 @@ class InvitationFlowHelper {
 
     final fullMessage = await MailpitHelper.getMessageById(invitationEmail.id);
     if (fullMessage == null) {
-      debugPrint('🔍 DEBUG: getMessageById() returned null for email ID: ${invitationEmail.id}');
+      debugPrint(
+        '🔍 DEBUG: getMessageById() returned null for email ID: ${invitationEmail.id}',
+      );
       return null;
     }
 
-    debugPrint('🔍 DEBUG: Retrieved full message, HTML length: ${fullMessage.html.length}');
+    debugPrint(
+      '🔍 DEBUG: Retrieved full message, HTML length: ${fullMessage.html.length}',
+    );
     final link = _extractInvitationLink(fullMessage.html);
     debugPrint('🔍 DEBUG: _extractInvitationLink() returned: $link');
 
@@ -297,7 +315,9 @@ class InvitationFlowHelper {
   /// Helper function to extract invitation link from email HTML content
   static String? _extractInvitationLink(String htmlContent) {
     // Recherche le pattern edulift://families/join?code=... OU edulift://groups/join?code=...
-    final linkPattern = RegExp(r'edulift://(families|groups)/join\?code=([A-Z0-9]+)');
+    final linkPattern = RegExp(
+      r'edulift://(families|groups)/join\?code=([A-Z0-9]+)',
+    );
     final match = linkPattern.firstMatch(htmlContent);
 
     if (match != null) {
@@ -1019,15 +1039,16 @@ class InvitationFlowHelper {
     String expectedErrorKey, {
     Duration timeout = const Duration(seconds: 5),
   }) async {
-    debugPrint('🔍 Verifying invitation error message for key: $expectedErrorKey');
+    debugPrint(
+      '🔍 Verifying invitation error message for key: $expectedErrorKey',
+    );
 
     // Step 1: Wait for invitation error widget to appear
     final errorKey = Key('invitation_error_$expectedErrorKey');
-    await tester.waitUntilVisible(
-      find.byKey(errorKey),
-      timeout: timeout,
+    await tester.waitUntilVisible(find.byKey(errorKey), timeout: timeout);
+    debugPrint(
+      '✅ Invitation error widget found: invitation_error_$expectedErrorKey',
     );
-    debugPrint('✅ Invitation error widget found: invitation_error_$expectedErrorKey');
 
     // Step 2: Get the Text widget (it has the key directly)
     final errorWidget = find.byKey(errorKey);
@@ -1036,7 +1057,8 @@ class InvitationFlowHelper {
     // Step 3: Extract the message text
     String actualMessage;
     if (widget is Text) {
-      actualMessage = (widget.data ?? widget.textSpan?.toPlainText() ?? '').trim();
+      actualMessage = (widget.data ?? widget.textSpan?.toPlainText() ?? '')
+          .trim();
       debugPrint('📝 Found invitation error message: "$actualMessage"');
     } else {
       throw TestFailure(
@@ -1053,12 +1075,16 @@ class InvitationFlowHelper {
 
     // Step 5: Verify message is not a raw localization key
     expect(
-      actualMessage.startsWith('error') && actualMessage.contains(RegExp(r'[A-Z]')),
+      actualMessage.startsWith('error') &&
+          actualMessage.contains(RegExp(r'[A-Z]')),
       isFalse,
-      reason: 'Invitation error message should be localized, not a raw key like "$actualMessage"',
+      reason:
+          'Invitation error message should be localized, not a raw key like "$actualMessage"',
     );
 
-    debugPrint('✅ Invitation error message validation passed: "$actualMessage"');
+    debugPrint(
+      '✅ Invitation error message validation passed: "$actualMessage"',
+    );
     return actualMessage;
   }
 

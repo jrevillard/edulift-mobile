@@ -14,7 +14,8 @@ import 'package:edulift/core/presentation/widgets/invitation/invitation_error_di
 import 'package:edulift/core/presentation/widgets/invitation/invitation_loading_state.dart';
 import 'package:edulift/core/presentation/widgets/invitation/invitation_manual_code_input.dart'
     show InvitationManualCodeInput;
-import 'package:edulift/core/presentation/widgets/invitation/invitation_manual_code_input.dart' as ui
+import 'package:edulift/core/presentation/widgets/invitation/invitation_manual_code_input.dart'
+    as ui
     show InvitationType;
 import 'package:edulift/core/presentation/widgets/accessibility/accessible_button.dart';
 import '../../../auth/presentation/widgets/email_with_progressive_name.dart';
@@ -38,7 +39,8 @@ class _FamilyInvitationPageState extends ConsumerState<FamilyInvitationPage>
     with NavigationCleanupMixin {
   final _manualCodeController = TextEditingController();
   final _nameController = TextEditingController();
-  final _emailController = TextEditingController(); // Added missing email controller
+  final _emailController =
+      TextEditingController(); // Added missing email controller
   final _formKey = GlobalKey<FormState>();
   bool _showSignupForm = false;
 
@@ -121,7 +123,10 @@ class _FamilyInvitationPageState extends ConsumerState<FamilyInvitationPage>
     if (widget.inviteCode != null) {
       // Get current user email - CRITICAL FIX: Use actual user email instead of hardcoded
       final currentUser = ref.read(currentUserProvider);
-      final email = currentUser?.email ?? _emailController.text.trim(); // VALIDATION: Ensure we have a valid email - handled by form validation
+      final email =
+          currentUser?.email ??
+          _emailController.text
+              .trim(); // VALIDATION: Ensure we have a valid email - handled by form validation
       if (email.isEmpty) return;
 
       await ref
@@ -137,7 +142,8 @@ class _FamilyInvitationPageState extends ConsumerState<FamilyInvitationPage>
 
     if (widget.inviteCode != null) {
       // Get email from form input - for new user signup
-      final email = _emailController.text.trim(); // VALIDATION: Ensure we have a valid email - handled by form validation
+      final email = _emailController.text
+          .trim(); // VALIDATION: Ensure we have a valid email - handled by form validation
       if (email.isEmpty) return;
 
       // Use progressive disclosure logic like Login page
@@ -173,10 +179,12 @@ class _FamilyInvitationPageState extends ConsumerState<FamilyInvitationPage>
         // NOTE: acceptInvitation already calls clearNavigation(), but we call it again
         // to ensure clean state before navigating
         ref.read(navigationStateProvider.notifier).clearNavigation();
-        ref.read(navigationStateProvider.notifier).navigateTo(
-          route: '/dashboard',
-          trigger: NavigationTrigger.userNavigation,
-        );
+        ref
+            .read(navigationStateProvider.notifier)
+            .navigateTo(
+              route: '/dashboard',
+              trigger: NavigationTrigger.userNavigation,
+            );
       }
     }
   }
@@ -200,7 +208,6 @@ class _FamilyInvitationPageState extends ConsumerState<FamilyInvitationPage>
       }
     }
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -297,7 +304,11 @@ class _FamilyInvitationPageState extends ConsumerState<FamilyInvitationPage>
     return _buildManualCodeInput(theme, isTablet, errorKey: state.error);
   }
 
-  Widget _buildManualCodeInput(ThemeData theme, bool isTablet, {String? errorKey}) {
+  Widget _buildManualCodeInput(
+    ThemeData theme,
+    bool isTablet, {
+    String? errorKey,
+  }) {
     // Get localized error message if error exists
     String? errorMessage;
     if (errorKey != null) {
@@ -334,10 +345,12 @@ class _FamilyInvitationPageState extends ConsumerState<FamilyInvitationPage>
   void _handleCancelInvitationCode() {
     // Navigate back to onboarding wizard
     ref.read(navigationStateProvider.notifier).clearNavigation();
-    ref.read(navigationStateProvider.notifier).navigateTo(
-      route: '/onboarding/wizard',
-      trigger: NavigationTrigger.userNavigation,
-    );
+    ref
+        .read(navigationStateProvider.notifier)
+        .navigateTo(
+          route: '/onboarding/wizard',
+          trigger: NavigationTrigger.userNavigation,
+        );
   }
 
   Widget _buildLoadingState(ThemeData theme, bool isTablet) {
@@ -364,10 +377,12 @@ class _FamilyInvitationPageState extends ConsumerState<FamilyInvitationPage>
         if (canGoBack) {
           Navigator.of(context).pop();
         } else {
-          ref.read(navigationStateProvider.notifier).navigateTo(
-            route: '/dashboard',
-            trigger: NavigationTrigger.userNavigation,
-          );
+          ref
+              .read(navigationStateProvider.notifier)
+              .navigateTo(
+                route: '/dashboard',
+                trigger: NavigationTrigger.userNavigation,
+              );
         }
       },
     );
@@ -380,7 +395,9 @@ class _FamilyInvitationPageState extends ConsumerState<FamilyInvitationPage>
   ) {
     final invitation = state.validation!;
     final roleDisplay = invitation.role != null
-        ? (_convertStringToFamilyRole(invitation.role) == FamilyRole.admin ? 'Administrator' : 'Member')
+        ? (_convertStringToFamilyRole(invitation.role) == FamilyRole.admin
+              ? 'Administrator'
+              : 'Member')
         : null;
 
     return Column(
@@ -394,12 +411,14 @@ class _FamilyInvitationPageState extends ConsumerState<FamilyInvitationPage>
         SizedBox(height: isTablet ? 20 : 16),
         Text(
           'Family Invitation',
-          style: (isTablet
-              ? theme.textTheme.headlineSmall
-              : theme.textTheme.titleLarge)
-              ?.copyWith(
-                  color: theme.colorScheme.primary,
-                  fontWeight: FontWeight.bold),
+          style:
+              (isTablet
+                      ? theme.textTheme.headlineSmall
+                      : theme.textTheme.titleLarge)
+                  ?.copyWith(
+                    color: theme.colorScheme.primary,
+                    fontWeight: FontWeight.bold,
+                  ),
         ),
         SizedBox(height: isTablet ? 16 : 12),
 
@@ -409,7 +428,8 @@ class _FamilyInvitationPageState extends ConsumerState<FamilyInvitationPage>
           padding: EdgeInsets.all(isTablet ? 16 : 14),
           decoration: BoxDecoration(
             color: theme.colorScheme.primaryContainer,
-            borderRadius: BorderRadius.circular(12)),
+            borderRadius: BorderRadius.circular(12),
+          ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -418,14 +438,20 @@ class _FamilyInvitationPageState extends ConsumerState<FamilyInvitationPage>
                 key: const Key('invitation_family_name'),
                 text: TextSpan(
                   style: theme.textTheme.bodyMedium?.copyWith(
-                      color: theme.colorScheme.onPrimaryContainer),
+                    color: theme.colorScheme.onPrimaryContainer,
+                  ),
                   children: [
                     TextSpan(
-                      text: '${AppLocalizations.of(context).youveBeenInvitedToJoin}\n',
+                      text:
+                          '${AppLocalizations.of(context).youveBeenInvitedToJoin}\n',
                     ),
                     TextSpan(
                       text: invitation.familyName,
-                      style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+                      style: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
+                      ),
+                    ),
                   ],
                 ),
               ),
@@ -433,7 +459,11 @@ class _FamilyInvitationPageState extends ConsumerState<FamilyInvitationPage>
               // Inviter + Role in one line if both present
               if (invitation.inviterName != null || roleDisplay != null) ...[
                 SizedBox(height: isTablet ? 12 : 10),
-                Divider(color: theme.colorScheme.onPrimaryContainer.withValues(alpha: 0.2)),
+                Divider(
+                  color: theme.colorScheme.onPrimaryContainer.withValues(
+                    alpha: 0.2,
+                  ),
+                ),
                 SizedBox(height: isTablet ? 12 : 10),
               ],
 
@@ -442,23 +472,31 @@ class _FamilyInvitationPageState extends ConsumerState<FamilyInvitationPage>
                   padding: const EdgeInsets.only(bottom: 6),
                   child: Row(
                     children: [
-                      Icon(Icons.person_outline,
+                      Icon(
+                        Icons.person_outline,
                         size: 16,
-                        color: theme.colorScheme.onPrimaryContainer.withValues(alpha: 0.7)),
+                        color: theme.colorScheme.onPrimaryContainer.withValues(
+                          alpha: 0.7,
+                        ),
+                      ),
                       const SizedBox(width: 8),
                       Expanded(
                         child: RichText(
                           text: TextSpan(
                             style: theme.textTheme.bodySmall?.copyWith(
-                              color: theme.colorScheme.onPrimaryContainer.withValues(alpha: 0.9),
+                              color: theme.colorScheme.onPrimaryContainer
+                                  .withValues(alpha: 0.9),
                             ),
                             children: [
                               TextSpan(
-                                text: '${AppLocalizations.of(context).invitedBy} ',
+                                text:
+                                    '${AppLocalizations.of(context).invitedBy} ',
                               ),
                               TextSpan(
                                 text: invitation.inviterName!,
-                                style: const TextStyle(fontWeight: FontWeight.w600),
+                                style: const TextStyle(
+                                  fontWeight: FontWeight.w600,
+                                ),
                               ),
                             ],
                           ),
@@ -471,14 +509,20 @@ class _FamilyInvitationPageState extends ConsumerState<FamilyInvitationPage>
               if (roleDisplay != null)
                 Row(
                   children: [
-                    Icon(Icons.badge_outlined,
+                    Icon(
+                      Icons.badge_outlined,
                       size: 16,
-                      color: theme.colorScheme.onPrimaryContainer.withValues(alpha: 0.7)),
+                      color: theme.colorScheme.onPrimaryContainer.withValues(
+                        alpha: 0.7,
+                      ),
+                    ),
                     const SizedBox(width: 8),
                     Text(
                       'Role: $roleDisplay',
                       style: theme.textTheme.bodySmall?.copyWith(
-                        color: theme.colorScheme.onPrimaryContainer.withValues(alpha: 0.9),
+                        color: theme.colorScheme.onPrimaryContainer.withValues(
+                          alpha: 0.9,
+                        ),
                         fontWeight: FontWeight.w600,
                       ),
                     ),
@@ -497,14 +541,16 @@ class _FamilyInvitationPageState extends ConsumerState<FamilyInvitationPage>
   }
 
   Widget _buildActionButtons(
-      FamilyInvitationState state, ThemeData theme, bool isTablet) {
+    FamilyInvitationState state,
+    ThemeData theme,
+    bool isTablet,
+  ) {
     final invitation = state.validation!;
     final l10n = AppLocalizations.of(context);
     final canGoBack = Navigator.of(context).canPop();
 
     // Not authenticated - show sign in options + cancel
     if (!state.isAuthenticated) {
-
       return Column(
         children: [
           _buildUnauthenticatedActions(invitation, theme, isTablet),
@@ -516,10 +562,12 @@ class _FamilyInvitationPageState extends ConsumerState<FamilyInvitationPage>
                 Navigator.of(context).pop();
               } else {
                 // No navigation history - go to dashboard
-                ref.read(navigationStateProvider.notifier).navigateTo(
-                  route: '/dashboard',
-                  trigger: NavigationTrigger.userNavigation,
-                );
+                ref
+                    .read(navigationStateProvider.notifier)
+                    .navigateTo(
+                      route: '/dashboard',
+                      trigger: NavigationTrigger.userNavigation,
+                    );
               }
             },
             child: Text(canGoBack ? l10n.goBack : l10n.cancel),
@@ -540,8 +588,13 @@ class _FamilyInvitationPageState extends ConsumerState<FamilyInvitationPage>
                 ? SizedBox(
                     height: isTablet ? 24 : 20,
                     width: isTablet ? 24 : 20,
-                    child: const CircularProgressIndicator(strokeWidth: 2))
-                : Text(l10n.joinFamilyName(invitation.familyName ?? l10n.unknownFamily)),
+                    child: const CircularProgressIndicator(strokeWidth: 2),
+                  )
+                : Text(
+                    l10n.joinFamilyName(
+                      invitation.familyName ?? l10n.unknownFamily,
+                    ),
+                  ),
           ),
           SizedBox(height: isTablet ? 16 : 12),
           _buildFullWidthButton(
@@ -551,10 +604,12 @@ class _FamilyInvitationPageState extends ConsumerState<FamilyInvitationPage>
                 Navigator.of(context).pop();
               } else {
                 // No navigation history - go to dashboard
-                ref.read(navigationStateProvider.notifier).navigateTo(
-                  route: '/dashboard',
-                  trigger: NavigationTrigger.userNavigation,
-                );
+                ref
+                    .read(navigationStateProvider.notifier)
+                    .navigateTo(
+                      route: '/dashboard',
+                      trigger: NavigationTrigger.userNavigation,
+                    );
               }
             },
             child: Text(canGoBack ? l10n.goBack : l10n.cancel),
@@ -569,9 +624,10 @@ class _FamilyInvitationPageState extends ConsumerState<FamilyInvitationPage>
   }
 
   Widget _buildUnauthenticatedActions(
-      FamilyInvitationValidationDto invitation,
-      ThemeData theme,
-      bool isTablet) {
+    FamilyInvitationValidationDto invitation,
+    ThemeData theme,
+    bool isTablet,
+  ) {
     // FamilyInvitationValidationDto doesn't have existingUser field
     // Using requiresAuth as alternative logic - if requires auth, show sign in
     if (invitation.requiresAuth == true) {
@@ -587,7 +643,11 @@ class _FamilyInvitationPageState extends ConsumerState<FamilyInvitationPage>
         return _buildFullWidthButton(
           key: const Key('invitation_signin_button'),
           onPressed: () => setState(() => _showSignupForm = true),
-          child: Text(AppLocalizations.of(context).signInToJoinFamilyName(invitation.familyName ?? 'Family')),
+          child: Text(
+            AppLocalizations.of(
+              context,
+            ).signInToJoinFamilyName(invitation.familyName ?? 'Family'),
+          ),
         );
       } else {
         return _buildSignupForm(theme, isTablet);
@@ -610,9 +670,10 @@ class _FamilyInvitationPageState extends ConsumerState<FamilyInvitationPage>
   }
 
   Widget _buildFamilyConflictActions(
-      FamilyInvitationValidationDto invitation,
-      ThemeData theme,
-      bool isTablet) {
+    FamilyInvitationValidationDto invitation,
+    ThemeData theme,
+    bool isTablet,
+  ) {
     // FamilyInvitationValidationDto doesn't have family conflict fields
     // Using alreadyMember as indication of conflict
     if (invitation.alreadyMember == true) {
@@ -622,7 +683,8 @@ class _FamilyInvitationPageState extends ConsumerState<FamilyInvitationPage>
             padding: EdgeInsets.all(isTablet ? 20 : 16),
             decoration: BoxDecoration(
               color: theme.colorScheme.errorContainer,
-              borderRadius: BorderRadius.circular(isTablet ? 16 : 12)),
+              borderRadius: BorderRadius.circular(isTablet ? 16 : 12),
+            ),
             child: Row(
               children: [
                 Icon(Icons.warning, color: theme.colorScheme.error),
@@ -631,7 +693,8 @@ class _FamilyInvitationPageState extends ConsumerState<FamilyInvitationPage>
                   child: Text(
                     'You are already a member of this family',
                     style: theme.textTheme.bodyMedium?.copyWith(
-                        color: theme.colorScheme.onErrorContainer),
+                      color: theme.colorScheme.onErrorContainer,
+                    ),
                   ),
                 ),
               ],
@@ -647,7 +710,8 @@ class _FamilyInvitationPageState extends ConsumerState<FamilyInvitationPage>
           padding: EdgeInsets.all(isTablet ? 20 : 16),
           decoration: BoxDecoration(
             color: theme.colorScheme.surfaceContainerHighest,
-            borderRadius: BorderRadius.circular(isTablet ? 16 : 12)),
+            borderRadius: BorderRadius.circular(isTablet ? 16 : 12),
+          ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -658,7 +722,9 @@ class _FamilyInvitationPageState extends ConsumerState<FamilyInvitationPage>
               const SizedBox(height: 8),
               Text(
                 'New invitation: ${invitation.familyName ?? 'Unknown Family'}',
-                style: theme.textTheme.labelMedium?.copyWith(fontWeight: FontWeight.bold),
+                style: theme.textTheme.labelMedium?.copyWith(
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ],
           ),
@@ -667,7 +733,11 @@ class _FamilyInvitationPageState extends ConsumerState<FamilyInvitationPage>
         _buildFullWidthButton(
           key: const Key('leave_and_join_family_button'),
           onPressed: _handleLeaveAndJoin,
-          child: Text(AppLocalizations.of(context).leaveFamilyAndJoinFamilyName(invitation.familyName ?? 'this family')),
+          child: Text(
+            AppLocalizations.of(context).leaveFamilyAndJoinFamilyName(
+              invitation.familyName ?? 'this family',
+            ),
+          ),
           isDestructive: true,
         ),
         SizedBox(height: isTablet ? 16 : 12),
@@ -676,10 +746,12 @@ class _FamilyInvitationPageState extends ConsumerState<FamilyInvitationPage>
           onPressed: () async {
             // ARCHITECTURE FIX: Direct navigation after logout since targetRoute doesn't work
             await ref.read(authStateProvider.notifier).logout();
-            ref.read(navigationStateProvider.notifier).navigateTo(
-              route: '/auth/login',
-              trigger: NavigationTrigger.userNavigation,
-            );
+            ref
+                .read(navigationStateProvider.notifier)
+                .navigateTo(
+                  route: '/auth/login',
+                  trigger: NavigationTrigger.userNavigation,
+                );
           },
           child: Text(AppLocalizations.of(context).cancel),
           isSecondary: true,

@@ -28,35 +28,42 @@ void main() {
   });
 
   group('RoleChangeConfirmationDialog - Golden Tests', () {
-    testWidgets('RoleChangeConfirmationDialog - promote to admin - light theme', (tester) async {
-      final member = FamilyDataFactory.createRealisticMember(role: FamilyRole.member);
+    testWidgets(
+      'RoleChangeConfirmationDialog - promote to admin - light theme',
+      (tester) async {
+        final member = FamilyDataFactory.createRealisticMember(
+          role: FamilyRole.member,
+        );
 
-      await GoldenTestWrapper.testWidget(
-        tester: tester,
-        widget: RoleChangeConfirmationDialog(
+        await GoldenTestWrapper.testWidget(
+          tester: tester,
+          widget: RoleChangeConfirmationDialog(
             member: member,
             onSuccess: () {},
           ),
-        testName: 'role_change_dialog_promote_light',
-        devices: DeviceConfigurations.defaultSet,
-        themes: [ThemeConfigurations.light],
-      );
-    });
+          testName: 'role_change_dialog_promote_light',
+          devices: DeviceConfigurations.defaultSet,
+          themes: [ThemeConfigurations.light],
+        );
+      },
+    );
 
-    testWidgets('RoleChangeConfirmationDialog - demote to member - dark theme', (tester) async {
-      final admin = FamilyDataFactory.createRealisticMember(role: FamilyRole.admin);
+    testWidgets(
+      'RoleChangeConfirmationDialog - demote to member - dark theme',
+      (tester) async {
+        final admin = FamilyDataFactory.createRealisticMember(
+          role: FamilyRole.admin,
+        );
 
-      await GoldenTestWrapper.testWidget(
-        tester: tester,
-        widget: RoleChangeConfirmationDialog(
-            member: admin,
-            onSuccess: () {},
-          ),
-        testName: 'role_change_dialog_demote_dark',
-        devices: DeviceConfigurations.defaultSet,
-        themes: [ThemeConfigurations.dark],
-      );
-    });
+        await GoldenTestWrapper.testWidget(
+          tester: tester,
+          widget: RoleChangeConfirmationDialog(member: admin, onSuccess: () {}),
+          testName: 'role_change_dialog_demote_dark',
+          devices: DeviceConfigurations.defaultSet,
+          themes: [ThemeConfigurations.dark],
+        );
+      },
+    );
   });
 
   group('RemoveMemberConfirmationDialog - Golden Tests', () {
@@ -66,9 +73,9 @@ void main() {
       await GoldenTestWrapper.testWidget(
         tester: tester,
         widget: RemoveMemberConfirmationDialog(
-            member: member,
-            onSuccess: () {},
-          ),
+          member: member,
+          onSuccess: () {},
+        ),
         testName: 'remove_member_dialog_light',
         devices: DeviceConfigurations.defaultSet,
         themes: [ThemeConfigurations.light],
@@ -81,9 +88,9 @@ void main() {
       await GoldenTestWrapper.testWidget(
         tester: tester,
         widget: RemoveMemberConfirmationDialog(
-            member: member,
-            onSuccess: () {},
-          ),
+          member: member,
+          onSuccess: () {},
+        ),
         testName: 'remove_member_dialog_dark',
         devices: DeviceConfigurations.defaultSet,
         themes: [ThemeConfigurations.dark],
@@ -97,10 +104,7 @@ void main() {
 
       await GoldenTestWrapper.testWidget(
         tester: tester,
-        widget: LeaveFamilyConfirmationDialog(
-            member: member,
-            onSuccess: () {},
-          ),
+        widget: LeaveFamilyConfirmationDialog(member: member, onSuccess: () {}),
         testName: 'leave_family_dialog_light',
         devices: DeviceConfigurations.defaultSet,
         themes: [ThemeConfigurations.light],
@@ -112,10 +116,7 @@ void main() {
 
       await GoldenTestWrapper.testWidget(
         tester: tester,
-        widget: LeaveFamilyConfirmationDialog(
-            member: member,
-            onSuccess: () {},
-          ),
+        widget: LeaveFamilyConfirmationDialog(member: member, onSuccess: () {}),
         testName: 'leave_family_dialog_dark',
         devices: DeviceConfigurations.defaultSet,
         themes: [ThemeConfigurations.dark],
@@ -124,39 +125,36 @@ void main() {
   });
 
   group('VehicleCapacityIndicator - Golden Tests', () {
-    testWidgets('VehicleCapacityIndicator - normal capacity - light theme', (tester) async {
+    testWidgets('VehicleCapacityIndicator - normal capacity - light theme', (
+      tester,
+    ) async {
       await GoldenTestWrapper.testWidget(
         tester: tester,
-        widget: const VehicleCapacityIndicator(
-            usedSeats: 3,
-            totalSeats: 5,
-          ),
+        widget: const VehicleCapacityIndicator(usedSeats: 3, totalSeats: 5),
         testName: 'vehicle_capacity_normal_light',
         devices: DeviceConfigurations.defaultSet,
         themes: [ThemeConfigurations.light],
       );
     });
 
-    testWidgets('VehicleCapacityIndicator - at capacity - dark theme', (tester) async {
+    testWidgets('VehicleCapacityIndicator - at capacity - dark theme', (
+      tester,
+    ) async {
       await GoldenTestWrapper.testWidget(
         tester: tester,
-        widget: const VehicleCapacityIndicator(
-            usedSeats: 7,
-            totalSeats: 7,
-          ),
+        widget: const VehicleCapacityIndicator(usedSeats: 7, totalSeats: 7),
         testName: 'vehicle_capacity_full_dark',
         devices: DeviceConfigurations.defaultSet,
         themes: [ThemeConfigurations.dark],
       );
     });
 
-    testWidgets('VehicleCapacityIndicator - nearly full - light theme', (tester) async {
+    testWidgets('VehicleCapacityIndicator - nearly full - light theme', (
+      tester,
+    ) async {
       await GoldenTestWrapper.testWidget(
         tester: tester,
-        widget: const VehicleCapacityIndicator(
-            usedSeats: 8,
-            totalSeats: 9,
-          ),
+        widget: const VehicleCapacityIndicator(usedSeats: 8, totalSeats: 9),
         testName: 'vehicle_capacity_nearly_full_light',
         devices: DeviceConfigurations.defaultSet,
         themes: [ThemeConfigurations.light],
@@ -189,9 +187,7 @@ void main() {
 
       await GoldenTestWrapper.testWidget(
         tester: tester,
-        widget: ConflictIndicator(
-            conflicts: conflicts,
-          ),
+        widget: ConflictIndicator(conflicts: conflicts),
         testName: 'conflict_indicator_light',
         devices: DeviceConfigurations.defaultSet,
         themes: [ThemeConfigurations.light],
@@ -214,9 +210,7 @@ void main() {
 
       await GoldenTestWrapper.testWidget(
         tester: tester,
-        widget: ConflictIndicator(
-            conflicts: conflicts,
-          ),
+        widget: ConflictIndicator(conflicts: conflicts),
         testName: 'conflict_indicator_dark',
         devices: DeviceConfigurations.defaultSet,
         themes: [ThemeConfigurations.dark],
@@ -225,12 +219,14 @@ void main() {
   });
 
   group('Family Widgets - Large Lists Volume Testing', () {
-    testWidgets('Children list - 10+ items for scroll validation - light theme', (tester) async {
-      final children = FamilyDataFactory.createLargeChildList(count: 12);
+    testWidgets(
+      'Children list - 10+ items for scroll validation - light theme',
+      (tester) async {
+        final children = FamilyDataFactory.createLargeChildList(count: 12);
 
-      await GoldenTestWrapper.testWidget(
-        tester: tester,
-        widget: SizedBox(
+        await GoldenTestWrapper.testWidget(
+          tester: tester,
+          widget: SizedBox(
             height: 600,
             child: ListView.builder(
               itemCount: children.length,
@@ -241,43 +237,48 @@ void main() {
                     child: Text(child.name.substring(0, 1).toUpperCase()),
                   ),
                   title: Text(child.name),
-                  subtitle: child.age != null ? Text('Age: ${child.age}') : null,
+                  subtitle: child.age != null
+                      ? Text('Age: ${child.age}')
+                      : null,
                   trailing: const Icon(Icons.edit),
                 );
               },
             ),
           ),
-        testName: 'children_list_large_light',
-        devices: DeviceConfigurations.defaultSet,
-        themes: [ThemeConfigurations.light],
-      );
-    });
+          testName: 'children_list_large_light',
+          devices: DeviceConfigurations.defaultSet,
+          themes: [ThemeConfigurations.light],
+        );
+      },
+    );
 
-    testWidgets('Vehicles list - 5+ items for scroll validation - dark theme', (tester) async {
+    testWidgets('Vehicles list - 5+ items for scroll validation - dark theme', (
+      tester,
+    ) async {
       final vehicles = FamilyDataFactory.createLargeVehicleList(count: 7);
 
       await GoldenTestWrapper.testWidget(
         tester: tester,
         widget: SizedBox(
-            height: 600,
-            child: ListView.builder(
-              itemCount: vehicles.length,
-              itemBuilder: (context, index) {
-                final vehicle = vehicles[index];
-                return Card(
-                  margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                  child: ListTile(
-                    leading: const Icon(Icons.directions_car),
-                    title: Text(vehicle.name),
-                    subtitle: vehicle.description != null
-                        ? Text(vehicle.description!)
-                        : null,
-                    trailing: Text('${vehicle.capacity} seats'),
-                  ),
-                );
-              },
-            ),
+          height: 600,
+          child: ListView.builder(
+            itemCount: vehicles.length,
+            itemBuilder: (context, index) {
+              final vehicle = vehicles[index];
+              return Card(
+                margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                child: ListTile(
+                  leading: const Icon(Icons.directions_car),
+                  title: Text(vehicle.name),
+                  subtitle: vehicle.description != null
+                      ? Text(vehicle.description!)
+                      : null,
+                  trailing: Text('${vehicle.capacity} seats'),
+                ),
+              );
+            },
           ),
+        ),
         testName: 'vehicles_list_large_dark',
         devices: DeviceConfigurations.defaultSet,
         themes: [ThemeConfigurations.dark],

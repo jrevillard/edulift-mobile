@@ -221,7 +221,6 @@ mixin WebSocketVehiclesMixin<T> on ChangeNotifier {
 
   /// Called when a vehicle list refresh is needed (fallback)
   void onVehicleListRefreshNeeded();
-
 }
 
 /// Extension for providers to add WebSocket functionality

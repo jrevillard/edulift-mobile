@@ -17,7 +17,9 @@ class EmailDebuggingHelper {
       debugPrint('🔍 EMAIL DEBUG: Starting comprehensive email inspection...');
 
       final emails = await MailpitHelper.getAllEmails();
-      debugPrint('📊 EMAIL DEBUG: Found ${emails.length} total emails in Mailpit');
+      debugPrint(
+        '📊 EMAIL DEBUG: Found ${emails.length} total emails in Mailpit',
+      );
 
       if (emails.isEmpty) {
         return {
@@ -57,7 +59,9 @@ class EmailDebuggingHelper {
           subjectPatterns.add(email.subject);
         }
 
-        debugPrint('📧 EMAIL DEBUG: [${email.id}] Subject: "${email.subject}" | To: ${email.to.join(', ')}');
+        debugPrint(
+          '📧 EMAIL DEBUG: [${email.id}] Subject: "${email.subject}" | To: ${email.to.join(', ')}',
+        );
       }
 
       debugPrint('📋 EMAIL DEBUG: Unique subject patterns found:');
@@ -91,19 +95,21 @@ class EmailDebuggingHelper {
   /// and analyzes their subjects against common filtering patterns.
   static Future<Map<String, dynamic>> analyzeInvitationEmails() async {
     try {
-      debugPrint('🎯 INVITATION DEBUG: Analyzing invitation-specific emails...');
+      debugPrint(
+        '🎯 INVITATION DEBUG: Analyzing invitation-specific emails...',
+      );
 
       final emails = await MailpitHelper.getAllEmails();
 
       // Patterns to test against email subjects
       final subjectPatterns = [
-        'Invitation',        // Current filter in getInvitationEmail
-        'invitation',        // Lowercase version
-        'invite',           // Short form
-        'Join',             // Alternative pattern
-        'Family',           // Context-specific
-        'Admin',            // Role-specific
-        'Member',           // Role-specific
+        'Invitation', // Current filter in getInvitationEmail
+        'invitation', // Lowercase version
+        'invite', // Short form
+        'Join', // Alternative pattern
+        'Family', // Context-specific
+        'Admin', // Role-specific
+        'Member', // Role-specific
       ];
 
       final invitationCandidates = <Map<String, dynamic>>[];
@@ -146,15 +152,22 @@ class EmailDebuggingHelper {
         // Analyze subject patterns
         subjectAnalysis[email.subject] = {
           'count': (subjectAnalysis[email.subject]?['count'] ?? 0) + 1,
-          'recipients': [...(subjectAnalysis[email.subject]?['recipients'] ?? []), ...email.to],
+          'recipients': [
+            ...(subjectAnalysis[email.subject]?['recipients'] ?? []),
+            ...email.to,
+          ],
           'matchedPatterns': emailData['matchedPatterns'],
           'isInvitationCandidate': emailData['isInvitationCandidate'],
         };
       }
 
-      debugPrint('🎯 INVITATION DEBUG: Found ${invitationCandidates.length} invitation candidates');
+      debugPrint(
+        '🎯 INVITATION DEBUG: Found ${invitationCandidates.length} invitation candidates',
+      );
       for (final candidate in invitationCandidates) {
-        debugPrint('  📧 Candidate: "${candidate['subject']}" | Patterns: ${candidate['matchedPatterns']}');
+        debugPrint(
+          '  📧 Candidate: "${candidate['subject']}" | Patterns: ${candidate['matchedPatterns']}',
+        );
       }
 
       return {
@@ -188,22 +201,36 @@ class EmailDebuggingHelper {
     required String adminEmail,
   }) async {
     try {
-      debugPrint('⚖️ COMPARISON DEBUG: Comparing member vs admin invitations...');
+      debugPrint(
+        '⚖️ COMPARISON DEBUG: Comparing member vs admin invitations...',
+      );
       debugPrint('   Member email: $memberEmail');
       debugPrint('   Admin email: $adminEmail');
 
       final emails = await MailpitHelper.getAllEmails();
 
-      final memberEmails = emails.where((email) =>
-        email.to.any((to) => to.toLowerCase().contains(memberEmail.toLowerCase()))
-      ).toList();
+      final memberEmails = emails
+          .where(
+            (email) => email.to.any(
+              (to) => to.toLowerCase().contains(memberEmail.toLowerCase()),
+            ),
+          )
+          .toList();
 
-      final adminEmails = emails.where((email) =>
-        email.to.any((to) => to.toLowerCase().contains(adminEmail.toLowerCase()))
-      ).toList();
+      final adminEmails = emails
+          .where(
+            (email) => email.to.any(
+              (to) => to.toLowerCase().contains(adminEmail.toLowerCase()),
+            ),
+          )
+          .toList();
 
-      debugPrint('📊 COMPARISON DEBUG: Found ${memberEmails.length} emails for member');
-      debugPrint('📊 COMPARISON DEBUG: Found ${adminEmails.length} emails for admin');
+      debugPrint(
+        '📊 COMPARISON DEBUG: Found ${memberEmails.length} emails for member',
+      );
+      debugPrint(
+        '📊 COMPARISON DEBUG: Found ${adminEmails.length} emails for admin',
+      );
 
       final memberData = <Map<String, dynamic>>[];
       final adminData = <Map<String, dynamic>>[];
@@ -217,10 +244,14 @@ class EmailDebuggingHelper {
           'created': email.created,
           'snippet': email.snippet,
           'containsInvitation': email.subject.contains('Invitation'),
-          'containsInvitationLower': email.subject.toLowerCase().contains('invitation'),
+          'containsInvitationLower': email.subject.toLowerCase().contains(
+            'invitation',
+          ),
         };
         memberData.add(data);
-        debugPrint('👤 MEMBER EMAIL: "${email.subject}" | Contains "Invitation": ${data['containsInvitation']}');
+        debugPrint(
+          '👤 MEMBER EMAIL: "${email.subject}" | Contains "Invitation": ${data['containsInvitation']}',
+        );
       }
 
       // Analyze admin emails
@@ -232,15 +263,23 @@ class EmailDebuggingHelper {
           'created': email.created,
           'snippet': email.snippet,
           'containsInvitation': email.subject.contains('Invitation'),
-          'containsInvitationLower': email.subject.toLowerCase().contains('invitation'),
+          'containsInvitationLower': email.subject.toLowerCase().contains(
+            'invitation',
+          ),
         };
         adminData.add(data);
-        debugPrint('👑 ADMIN EMAIL: "${email.subject}" | Contains "Invitation": ${data['containsInvitation']}');
+        debugPrint(
+          '👑 ADMIN EMAIL: "${email.subject}" | Contains "Invitation": ${data['containsInvitation']}',
+        );
       }
 
       // Compare patterns
-      final memberSubjects = memberData.map((e) => e['subject'] as String).toSet();
-      final adminSubjects = adminData.map((e) => e['subject'] as String).toSet();
+      final memberSubjects = memberData
+          .map((e) => e['subject'] as String)
+          .toSet();
+      final adminSubjects = adminData
+          .map((e) => e['subject'] as String)
+          .toSet();
 
       final commonSubjects = memberSubjects.intersection(adminSubjects);
       final memberOnlySubjects = memberSubjects.difference(adminSubjects);
@@ -260,8 +299,12 @@ class EmailDebuggingHelper {
         'memberOnlySubjects': memberOnlySubjects.toList(),
         'adminOnlySubjects': adminOnlySubjects.toList(),
         'currentFilterPattern': 'Invitation',
-        'memberMatchesFilter': memberData.where((e) => e['containsInvitation'] == true).length,
-        'adminMatchesFilter': adminData.where((e) => e['containsInvitation'] == true).length,
+        'memberMatchesFilter': memberData
+            .where((e) => e['containsInvitation'] == true)
+            .length,
+        'adminMatchesFilter': adminData
+            .where((e) => e['containsInvitation'] == true)
+            .length,
         'debugInfo': 'Comparison completed',
       };
     } catch (e, stackTrace) {
@@ -291,28 +334,43 @@ class EmailDebuggingHelper {
     String? specificRecipient,
   }) async {
     try {
-      debugPrint('🧪 FILTER TEST: Testing different email filtering patterns...');
+      debugPrint(
+        '🧪 FILTER TEST: Testing different email filtering patterns...',
+      );
 
       final emails = await MailpitHelper.getAllEmails();
 
       // Filter by specific recipient if provided
       final testEmails = specificRecipient != null
-        ? emails.where((email) =>
-            email.to.any((to) => to.toLowerCase().contains(specificRecipient.toLowerCase()))
-          ).toList()
-        : emails;
+          ? emails
+                .where(
+                  (email) => email.to.any(
+                    (to) => to.toLowerCase().contains(
+                      specificRecipient.toLowerCase(),
+                    ),
+                  ),
+                )
+                .toList()
+          : emails;
 
       debugPrint('📊 FILTER TEST: Testing against ${testEmails.length} emails');
 
       // Different filtering patterns to test
       final patterns = <String, bool Function(String subject)>{
         'exact_Invitation': (subject) => subject.contains('Invitation'),
-        'lowercase_invitation': (subject) => subject.toLowerCase().contains('invitation'),
+        'lowercase_invitation': (subject) =>
+            subject.toLowerCase().contains('invitation'),
         'invite_only': (subject) => subject.toLowerCase().contains('invite'),
-        'join_family': (subject) => subject.toLowerCase().contains('join') && subject.toLowerCase().contains('family'),
+        'join_family': (subject) =>
+            subject.toLowerCase().contains('join') &&
+            subject.toLowerCase().contains('family'),
         'family_only': (subject) => subject.toLowerCase().contains('family'),
-        'admin_or_member': (subject) => subject.toLowerCase().contains('admin') || subject.toLowerCase().contains('member'),
-        'edulift_family': (subject) => subject.toLowerCase().contains('edulift') && subject.toLowerCase().contains('family'),
+        'admin_or_member': (subject) =>
+            subject.toLowerCase().contains('admin') ||
+            subject.toLowerCase().contains('member'),
+        'edulift_family': (subject) =>
+            subject.toLowerCase().contains('edulift') &&
+            subject.toLowerCase().contains('family'),
       };
 
       final patternResults = <String, Map<String, dynamic>>{};
@@ -338,20 +396,28 @@ class EmailDebuggingHelper {
         patternResults[patternName] = {
           'matchCount': matchingEmails.length,
           'matchingEmails': matchingEmails,
-          'matchRate': testEmails.isNotEmpty ? (matchingEmails.length / testEmails.length) : 0.0,
+          'matchRate': testEmails.isNotEmpty
+              ? (matchingEmails.length / testEmails.length)
+              : 0.0,
         };
 
-        debugPrint('🧪 PATTERN "$patternName": ${matchingEmails.length}/${testEmails.length} matches');
+        debugPrint(
+          '🧪 PATTERN "$patternName": ${matchingEmails.length}/${testEmails.length} matches',
+        );
       }
 
       // Find the best pattern (highest match count but not 100% to avoid overly broad patterns)
       final sortedPatterns = patternResults.entries.toList()
-        ..sort((a, b) => b.value['matchCount'].compareTo(a.value['matchCount']));
+        ..sort(
+          (a, b) => b.value['matchCount'].compareTo(a.value['matchCount']),
+        );
 
       return {
         'totalEmailsTested': testEmails.length,
         'patternResults': patternResults,
-        'bestPattern': sortedPatterns.isNotEmpty ? sortedPatterns.first.key : null,
+        'bestPattern': sortedPatterns.isNotEmpty
+            ? sortedPatterns.first.key
+            : null,
         'currentPattern': 'exact_Invitation',
         'recommendedPattern': _getRecommendedPattern(patternResults),
         'debugInfo': 'Filter pattern testing completed',
@@ -371,7 +437,9 @@ class EmailDebuggingHelper {
   }
 
   /// Get recommended pattern based on results
-  static String? _getRecommendedPattern(Map<String, Map<String, dynamic>> patternResults) {
+  static String? _getRecommendedPattern(
+    Map<String, Map<String, dynamic>> patternResults,
+  ) {
     // Look for patterns that have matches but aren't overly broad
     for (final entry in patternResults.entries) {
       final matchCount = entry.value['matchCount'] as int;
@@ -418,7 +486,10 @@ class EmailDebuggingHelper {
 
       // Sort emails by creation time
       final sortedEmails = [...emails]
-        ..sort((a, b) => DateTime.parse(a.created).compareTo(DateTime.parse(b.created)));
+        ..sort(
+          (a, b) =>
+              DateTime.parse(a.created).compareTo(DateTime.parse(b.created)),
+        );
 
       final emailTimeline = <Map<String, dynamic>>[];
       final memberEmailTiming = <Map<String, dynamic>>[];
@@ -436,8 +507,16 @@ class EmailDebuggingHelper {
           'to': email.to,
           'created': email.created,
           'timeFromFirst': emailTime.difference(firstEmailTime).inSeconds,
-          'isForMember': memberEmail != null && email.to.any((to) => to.toLowerCase().contains(memberEmail.toLowerCase())),
-          'isForAdmin': adminEmail != null && email.to.any((to) => to.toLowerCase().contains(adminEmail.toLowerCase())),
+          'isForMember':
+              memberEmail != null &&
+              email.to.any(
+                (to) => to.toLowerCase().contains(memberEmail.toLowerCase()),
+              ),
+          'isForAdmin':
+              adminEmail != null &&
+              email.to.any(
+                (to) => to.toLowerCase().contains(adminEmail.toLowerCase()),
+              ),
         };
 
         emailTimeline.add(timelineEntry);
@@ -450,7 +529,9 @@ class EmailDebuggingHelper {
           adminEmailTiming.add(timelineEntry);
         }
 
-        debugPrint('⏰ EMAIL [+${timelineEntry['timeFromFirst']}s]: "${email.subject}" -> ${email.to.join(', ')}');
+        debugPrint(
+          '⏰ EMAIL [+${timelineEntry['timeFromFirst']}s]: "${email.subject}" -> ${email.to.join(', ')}',
+        );
       }
 
       return {
@@ -460,7 +541,9 @@ class EmailDebuggingHelper {
         'adminEmailTiming': adminEmailTiming,
         'firstEmailTime': firstEmailTime?.toIso8601String(),
         'lastEmailTime': sortedEmails.last.created,
-        'totalTimeSpan': DateTime.parse(sortedEmails.last.created).difference(firstEmailTime!).inSeconds,
+        'totalTimeSpan': DateTime.parse(
+          sortedEmails.last.created,
+        ).difference(firstEmailTime!).inSeconds,
         'debugInfo': 'Timing analysis completed',
       };
     } catch (e, stackTrace) {
@@ -485,7 +568,9 @@ class EmailDebuggingHelper {
     String? adminEmail,
   }) async {
     try {
-      debugPrint('🔬 FULL DIAGNOSTIC: Generating comprehensive email analysis report...');
+      debugPrint(
+        '🔬 FULL DIAGNOSTIC: Generating comprehensive email analysis report...',
+      );
 
       final results = <String, dynamic>{};
 
@@ -499,25 +584,32 @@ class EmailDebuggingHelper {
       );
 
       if (memberEmail != null && adminEmail != null) {
-        results['memberVsAdminComparison'] = await compareMemberVsAdminInvitations(
-          memberEmail: memberEmail,
-          adminEmail: adminEmail,
-        );
+        results['memberVsAdminComparison'] =
+            await compareMemberVsAdminInvitations(
+              memberEmail: memberEmail,
+              adminEmail: adminEmail,
+            );
       }
 
       // Generate summary and recommendations
       final totalEmails = results['emailInspection']['totalEmails'] as int;
-      final invitationCandidates = results['invitationAnalysis']['invitationCandidates'] as List;
-      final patternResults = results['filterPatternTesting']['patternResults'] as Map;
-      final recommendedPattern = results['filterPatternTesting']['recommendedPattern'] as String?;
+      final invitationCandidates =
+          results['invitationAnalysis']['invitationCandidates'] as List;
+      final patternResults =
+          results['filterPatternTesting']['patternResults'] as Map;
+      final recommendedPattern =
+          results['filterPatternTesting']['recommendedPattern'] as String?;
 
       final summary = {
         'totalEmailsFound': totalEmails,
         'invitationCandidatesFound': invitationCandidates.length,
         'currentFilterPattern': 'Invitation',
-        'currentFilterMatches': patternResults['exact_Invitation']?['matchCount'] ?? 0,
+        'currentFilterMatches':
+            patternResults['exact_Invitation']?['matchCount'] ?? 0,
         'recommendedFilterPattern': recommendedPattern,
-        'recommendedFilterMatches': recommendedPattern != null ? (patternResults[recommendedPattern]?['matchCount'] ?? 0) : 0,
+        'recommendedFilterMatches': recommendedPattern != null
+            ? (patternResults[recommendedPattern]?['matchCount'] ?? 0)
+            : 0,
         'issueIdentified': _identifyMainIssue(results),
         'recommendations': _generateRecommendations(results),
       };
@@ -527,10 +619,18 @@ class EmailDebuggingHelper {
 
       debugPrint('📊 DIAGNOSTIC SUMMARY:');
       debugPrint('  Total emails: ${summary['totalEmailsFound']}');
-      debugPrint('  Invitation candidates: ${summary['invitationCandidatesFound']}');
-      debugPrint('  Current filter matches: ${summary['currentFilterMatches']}');
-      debugPrint('  Recommended pattern: ${summary['recommendedFilterPattern']}');
-      debugPrint('  Recommended pattern matches: ${summary['recommendedFilterMatches']}');
+      debugPrint(
+        '  Invitation candidates: ${summary['invitationCandidatesFound']}',
+      );
+      debugPrint(
+        '  Current filter matches: ${summary['currentFilterMatches']}',
+      );
+      debugPrint(
+        '  Recommended pattern: ${summary['recommendedFilterPattern']}',
+      );
+      debugPrint(
+        '  Recommended pattern matches: ${summary['recommendedFilterMatches']}',
+      );
       debugPrint('  Main issue: ${summary['issueIdentified']}');
 
       return results;
@@ -556,8 +656,11 @@ class EmailDebuggingHelper {
   /// Identify the main issue based on analysis results
   static String _identifyMainIssue(Map<String, dynamic> results) {
     final totalEmails = results['emailInspection']['totalEmails'] as int;
-    final invitationCandidates = results['invitationAnalysis']['invitationCandidates'] as List;
-    final currentFilterMatches = results['filterPatternTesting']['patternResults']['exact_Invitation']?['matchCount'] ?? 0;
+    final invitationCandidates =
+        results['invitationAnalysis']['invitationCandidates'] as List;
+    final currentFilterMatches =
+        results['filterPatternTesting']['patternResults']['exact_Invitation']?['matchCount'] ??
+        0;
 
     if (totalEmails == 0) {
       return 'No emails found in Mailpit - emails may not be sending';
@@ -583,30 +686,48 @@ class EmailDebuggingHelper {
     final recommendations = <String>[];
 
     final totalEmails = results['emailInspection']['totalEmails'] as int;
-    final invitationCandidates = results['invitationAnalysis']['invitationCandidates'] as List;
-    final currentFilterMatches = results['filterPatternTesting']['patternResults']['exact_Invitation']?['matchCount'] ?? 0;
-    final recommendedPattern = results['filterPatternTesting']['recommendedPattern'] as String?;
-    final subjectPatterns = results['emailInspection']['subjectPatterns'] as List;
+    final invitationCandidates =
+        results['invitationAnalysis']['invitationCandidates'] as List;
+    final currentFilterMatches =
+        results['filterPatternTesting']['patternResults']['exact_Invitation']?['matchCount'] ??
+        0;
+    final recommendedPattern =
+        results['filterPatternTesting']['recommendedPattern'] as String?;
+    final subjectPatterns =
+        results['emailInspection']['subjectPatterns'] as List;
 
     if (totalEmails == 0) {
       recommendations.add('Verify email sending configuration in backend');
       recommendations.add('Check Mailpit connectivity and configuration');
       recommendations.add('Ensure test timing allows for email delivery');
     } else if (invitationCandidates.isEmpty) {
-      recommendations.add('Verify invitation email templates contain expected keywords');
-      recommendations.add('Check if invitation sending logic is working correctly');
-      recommendations.add('Review actual email subjects: ${subjectPatterns.take(5).join(', ')}');
+      recommendations.add(
+        'Verify invitation email templates contain expected keywords',
+      );
+      recommendations.add(
+        'Check if invitation sending logic is working correctly',
+      );
+      recommendations.add(
+        'Review actual email subjects: ${subjectPatterns.take(5).join(', ')}',
+      );
     } else if (currentFilterMatches == 0 && invitationCandidates.isNotEmpty) {
-      recommendations.add('Update email filter from "Invitation" to "${recommendedPattern ?? 'a more flexible pattern'}"');
+      recommendations.add(
+        'Update email filter from "Invitation" to "${recommendedPattern ?? 'a more flexible pattern'}"',
+      );
       recommendations.add('Consider case-insensitive filtering');
-      recommendations.add('Use partial matching instead of exact keyword matching');
+      recommendations.add(
+        'Use partial matching instead of exact keyword matching',
+      );
     } else {
       recommendations.add('Check email timing - add delays if needed');
       recommendations.add('Verify specific email recipient filtering logic');
-      recommendations.add('Consider using more robust email identification methods');
+      recommendations.add(
+        'Consider using more robust email identification methods',
+      );
     }
 
-    if (recommendedPattern != null && recommendedPattern != 'exact_Invitation') {
+    if (recommendedPattern != null &&
+        recommendedPattern != 'exact_Invitation') {
       recommendations.add('Implement filter pattern: $recommendedPattern');
     }
 

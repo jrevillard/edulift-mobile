@@ -20,42 +20,82 @@ abstract class Failure extends Equatable implements Exception {
 
 /// Server-related failures
 class ServerFailure extends Failure {
-  const ServerFailure({super.message, super.code, super.statusCode, super.details});
+  const ServerFailure({
+    super.message,
+    super.code,
+    super.statusCode,
+    super.details,
+  });
 }
 
 /// Network connectivity failures
 class NetworkFailure extends Failure {
-  const NetworkFailure({super.message, super.code, super.statusCode, super.details});
+  const NetworkFailure({
+    super.message,
+    super.code,
+    super.statusCode,
+    super.details,
+  });
 }
 
 /// Authentication and authorization failures
 class AuthFailure extends Failure {
-  const AuthFailure({super.message, super.code, super.statusCode, super.details});
+  const AuthFailure({
+    super.message,
+    super.code,
+    super.statusCode,
+    super.details,
+  });
 }
 
 /// Input validation failures
 class ValidationFailure extends Failure {
-  const ValidationFailure({super.message, super.code, super.statusCode, super.details});
+  const ValidationFailure({
+    super.message,
+    super.code,
+    super.statusCode,
+    super.details,
+  });
 }
 
 /// Cache-related failures
 class CacheFailure extends Failure {
-  const CacheFailure({super.message, super.code, super.statusCode, super.details});
+  const CacheFailure({
+    super.message,
+    super.code,
+    super.statusCode,
+    super.details,
+  });
 }
 
 /// Resource not found failures
 class NotFoundFailure extends Failure {
-  const NotFoundFailure({super.message, super.code, super.statusCode, super.details});
+  const NotFoundFailure({
+    super.message,
+    super.code,
+    super.statusCode,
+    super.details,
+  });
 }
 
 /// Resource conflict failures
 class ConflictFailure extends Failure {
-  const ConflictFailure({super.message, super.code, super.statusCode, super.details});
+  const ConflictFailure({
+    super.message,
+    super.code,
+    super.statusCode,
+    super.details,
+  });
 }
 
 /// Permission-related failures
 class PermissionFailure extends Failure {
-  const PermissionFailure({super.message, super.code, super.statusCode, super.details});
+  const PermissionFailure({
+    super.message,
+    super.code,
+    super.statusCode,
+    super.details,
+  });
 }
 
 /// Storage/persistence failures
@@ -80,7 +120,12 @@ class StorageFailure extends Failure {
 
 /// Unknown/unexpected failures
 class UnknownFailure extends Failure {
-  const UnknownFailure({super.message, super.code, super.statusCode, super.details});
+  const UnknownFailure({
+    super.message,
+    super.code,
+    super.statusCode,
+    super.details,
+  });
 }
 
 /// Unit type for representing no meaningful return value.

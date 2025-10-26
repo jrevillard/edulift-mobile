@@ -46,7 +46,9 @@ class GroupServiceImpl implements GroupService {
       if (e is ApiException) {
         return Result.err(ApiFailure.serverError(code: 'groups.api_error'));
       }
-      return Result.err(ApiFailure.serverError(code: 'groups.get_by_id_failed'));
+      return Result.err(
+        ApiFailure.serverError(code: 'groups.get_by_id_failed'),
+      );
     }
   }
 
@@ -135,7 +137,8 @@ class GroupServiceImpl implements GroupService {
 
     // Validate group description
     final descriptionValidation = _validateGroupDescription(
-      command.description);
+      command.description,
+    );
     if (descriptionValidation case Err(:final error)) {
       return Result.err(error);
     }
@@ -146,15 +149,21 @@ class GroupServiceImpl implements GroupService {
   /// Validates group name following exact logic from CreateGroupUsecase
   Result<void, ApiFailure> _validateGroupName(String? name) {
     if (name == null || name.trim().isEmpty) {
-      return Result.err(ApiFailure.validationError(code: 'groups.name_required'));
+      return Result.err(
+        ApiFailure.validationError(code: 'groups.name_required'),
+      );
     }
 
     if (name.trim().length < 3) {
-      return Result.err(ApiFailure.validationError(code: 'groups.name_too_short'));
+      return Result.err(
+        ApiFailure.validationError(code: 'groups.name_too_short'),
+      );
     }
 
     if (name.length > 100) {
-      return Result.err(ApiFailure.validationError(code: 'groups.name_too_long'));
+      return Result.err(
+        ApiFailure.validationError(code: 'groups.name_too_long'),
+      );
     }
 
     return const Result.ok(null);
@@ -163,7 +172,9 @@ class GroupServiceImpl implements GroupService {
   /// Validates group description following exact logic from CreateGroupUsecase
   Result<void, ApiFailure> _validateGroupDescription(String? description) {
     if (description != null && description.length > 500) {
-      return Result.err(ApiFailure.validationError(code: 'groups.description_too_long'));
+      return Result.err(
+        ApiFailure.validationError(code: 'groups.description_too_long'),
+      );
     }
 
     return const Result.ok(null);
@@ -175,7 +186,9 @@ class GroupServiceImpl implements GroupService {
   /// Join a group using invite code (preserving invitation logic)
   Future<Result<Group, ApiFailure>> joinGroup(String inviteCode) async {
     if (inviteCode.trim().isEmpty) {
-      return Result.err(ApiFailure.validationError(code: 'groups.invite_code_required'));
+      return Result.err(
+        ApiFailure.validationError(code: 'groups.invite_code_required'),
+      );
     }
 
     try {
@@ -209,7 +222,9 @@ class GroupServiceImpl implements GroupService {
     String code,
   ) async {
     if (code.trim().isEmpty) {
-      return Result.err(ApiFailure.validationError(code: 'groups.invitation_code_required'));
+      return Result.err(
+        ApiFailure.validationError(code: 'groups.invitation_code_required'),
+      );
     }
 
     try {
@@ -218,7 +233,9 @@ class GroupServiceImpl implements GroupService {
       if (e is ApiException) {
         return Result.err(ApiFailure.serverError(code: 'groups.api_error'));
       }
-      return Result.err(ApiFailure.serverError(code: 'groups.invitation_validation_failed'));
+      return Result.err(
+        ApiFailure.serverError(code: 'groups.invitation_validation_failed'),
+      );
     }
   }
 }

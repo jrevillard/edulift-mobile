@@ -133,27 +133,28 @@ class FamilyRepositoryImpl implements FamilyRepository {
     }
 
     // Use NetworkErrorHandler for automatic retry, circuit breaker, and proper error handling
-    final result = await _networkErrorHandler.executeRepositoryOperation<FamilyDto>(
-      () => _remoteDataSource.createFamily(name: trimmedName),
-      operationName: 'family.createFamily',
-      strategy: CacheStrategy.networkOnly, // Write operation = network-only
-      serviceName: 'family',
-      config: RetryConfig.quick,
-      onSuccess: (familyDto) async {
-        // CACHE AUTO-UPDATE: Update cache automatically on network success
-        final family = familyDto.toDomain();
-        await _localDataSource.cacheCurrentFamily(family);
-        AppLogger.info('Family created and cached successfully', {
-          'familyId': family.id,
-          'name': trimmedName,
-        });
-      },
-      context: {
-        'feature': 'family_management',
-        'operation_type': 'create',
-        'name': trimmedName,
-      },
-    );
+    final result = await _networkErrorHandler
+        .executeRepositoryOperation<FamilyDto>(
+          () => _remoteDataSource.createFamily(name: trimmedName),
+          operationName: 'family.createFamily',
+          strategy: CacheStrategy.networkOnly, // Write operation = network-only
+          serviceName: 'family',
+          config: RetryConfig.quick,
+          onSuccess: (familyDto) async {
+            // CACHE AUTO-UPDATE: Update cache automatically on network success
+            final family = familyDto.toDomain();
+            await _localDataSource.cacheCurrentFamily(family);
+            AppLogger.info('Family created and cached successfully', {
+              'familyId': family.id,
+              'name': trimmedName,
+            });
+          },
+          context: {
+            'feature': 'family_management',
+            'operation_type': 'create',
+            'name': trimmedName,
+          },
+        );
 
     return result.when(
       ok: (familyDto) => Result.ok(familyDto.toDomain()),
@@ -175,28 +176,29 @@ class FamilyRepositoryImpl implements FamilyRepository {
     }
 
     // Use NetworkErrorHandler for automatic retry, circuit breaker, and proper error handling
-    final result = await _networkErrorHandler.executeRepositoryOperation<FamilyDto>(
-      () => _remoteDataSource.updateFamilyName(name: trimmedName),
-      operationName: 'family.updateFamilyName',
-      strategy: CacheStrategy.networkOnly, // Write operation = network-only
-      serviceName: 'family',
-      config: RetryConfig.quick,
-      onSuccess: (familyDto) async {
-        // CACHE AUTO-UPDATE: Update cache automatically on network success
-        final family = familyDto.toDomain();
-        await _localDataSource.cacheCurrentFamily(family);
-        AppLogger.info('Family name updated and cached successfully', {
-          'familyId': familyId,
-          'newName': trimmedName,
-        });
-      },
-      context: {
-        'feature': 'family_management',
-        'operation_type': 'update',
-        'familyId': familyId,
-        'newName': trimmedName,
-      },
-    );
+    final result = await _networkErrorHandler
+        .executeRepositoryOperation<FamilyDto>(
+          () => _remoteDataSource.updateFamilyName(name: trimmedName),
+          operationName: 'family.updateFamilyName',
+          strategy: CacheStrategy.networkOnly, // Write operation = network-only
+          serviceName: 'family',
+          config: RetryConfig.quick,
+          onSuccess: (familyDto) async {
+            // CACHE AUTO-UPDATE: Update cache automatically on network success
+            final family = familyDto.toDomain();
+            await _localDataSource.cacheCurrentFamily(family);
+            AppLogger.info('Family name updated and cached successfully', {
+              'familyId': familyId,
+              'newName': trimmedName,
+            });
+          },
+          context: {
+            'feature': 'family_management',
+            'operation_type': 'update',
+            'familyId': familyId,
+            'newName': trimmedName,
+          },
+        );
 
     return result.when(
       ok: (familyDto) => Result.ok(familyDto.toDomain()),
@@ -243,24 +245,25 @@ class FamilyRepositoryImpl implements FamilyRepository {
     required String role,
   }) async {
     // Use NetworkErrorHandler for the update operation
-    final updateResult = await _networkErrorHandler.executeRepositoryOperation<void>(
-      () => _remoteDataSource.updateMemberRole(
-        familyId: familyId,
-        memberId: memberId,
-        role: role,
-      ),
-      operationName: 'family.updateMemberRole',
-      strategy: CacheStrategy.networkOnly, // Write operation = network-only
-      serviceName: 'family',
-      config: RetryConfig.quick,
-      context: {
-        'feature': 'family_management',
-        'operation_type': 'update',
-        'familyId': familyId,
-        'memberId': memberId,
-        'newRole': role,
-      },
-    );
+    final updateResult = await _networkErrorHandler
+        .executeRepositoryOperation<void>(
+          () => _remoteDataSource.updateMemberRole(
+            familyId: familyId,
+            memberId: memberId,
+            role: role,
+          ),
+          operationName: 'family.updateMemberRole',
+          strategy: CacheStrategy.networkOnly, // Write operation = network-only
+          serviceName: 'family',
+          config: RetryConfig.quick,
+          context: {
+            'feature': 'family_management',
+            'operation_type': 'update',
+            'familyId': familyId,
+            'memberId': memberId,
+            'newRole': role,
+          },
+        );
 
     // If update failed, return error
     if (updateResult.isErr) {
@@ -365,7 +368,8 @@ class FamilyRepositoryImpl implements FamilyRepository {
     final result = await _networkErrorHandler.executeRepositoryOperation(
       () => _remoteDataSource.validateInvitation(inviteCode: inviteCode),
       operationName: 'family.validateInvitation',
-      strategy: CacheStrategy.networkOnly, // Validation must be fresh from server
+      strategy:
+          CacheStrategy.networkOnly, // Validation must be fresh from server
       serviceName: 'family',
       config: RetryConfig.quick,
       context: {
@@ -398,27 +402,28 @@ class FamilyRepositoryImpl implements FamilyRepository {
     required String inviteCode,
   }) async {
     // Use NetworkErrorHandler for automatic retry, circuit breaker, and proper error handling
-    final result = await _networkErrorHandler.executeRepositoryOperation<FamilyDto>(
-      () => _remoteDataSource.joinFamily(inviteCode: inviteCode),
-      operationName: 'family.joinFamily',
-      strategy: CacheStrategy.networkOnly, // Write operation = network-only
-      serviceName: 'family',
-      config: RetryConfig.quick,
-      onSuccess: (familyDto) async {
-        // CACHE AUTO-UPDATE: Mirror API operation in cache
-        final family = familyDto.toDomain();
-        await _localDataSource.cacheCurrentFamily(family);
-        AppLogger.info('Family joined and cached successfully', {
-          'familyId': family.id,
-          'inviteCode': inviteCode,
-        });
-      },
-      context: {
-        'feature': 'family_management',
-        'operation_type': 'create',
-        'inviteCode': inviteCode,
-      },
-    );
+    final result = await _networkErrorHandler
+        .executeRepositoryOperation<FamilyDto>(
+          () => _remoteDataSource.joinFamily(inviteCode: inviteCode),
+          operationName: 'family.joinFamily',
+          strategy: CacheStrategy.networkOnly, // Write operation = network-only
+          serviceName: 'family',
+          config: RetryConfig.quick,
+          onSuccess: (familyDto) async {
+            // CACHE AUTO-UPDATE: Mirror API operation in cache
+            final family = familyDto.toDomain();
+            await _localDataSource.cacheCurrentFamily(family);
+            AppLogger.info('Family joined and cached successfully', {
+              'familyId': family.id,
+              'inviteCode': inviteCode,
+            });
+          },
+          context: {
+            'feature': 'family_management',
+            'operation_type': 'create',
+            'inviteCode': inviteCode,
+          },
+        );
 
     return result.when(
       ok: (familyDto) => Result.ok(familyDto.toDomain()),
@@ -603,36 +608,37 @@ class FamilyRepositoryImpl implements FamilyRepository {
     required String childId,
   }) async {
     // Use NetworkErrorHandler for automatic retry, circuit breaker, and proper error handling
-    final result = await _networkErrorHandler.executeRepositoryOperation<DeleteResponseDto>(
-      () => _remoteDataSource.deleteChild(childId: childId),
-      operationName: 'family.deleteChild',
-      strategy: CacheStrategy.networkOnly, // Write operation = network-only
-      serviceName: 'family',
-      config: RetryConfig.quick,
-      onSuccess: (deleteResult) async {
-        // Validate deletion success
-        if (!deleteResult.success) {
-          AppLogger.warning('Delete operation returned success=false', {
-            'childId': childId,
-            'message': deleteResult.message,
-          });
-          return;
-        }
+    final result = await _networkErrorHandler
+        .executeRepositoryOperation<DeleteResponseDto>(
+          () => _remoteDataSource.deleteChild(childId: childId),
+          operationName: 'family.deleteChild',
+          strategy: CacheStrategy.networkOnly, // Write operation = network-only
+          serviceName: 'family',
+          config: RetryConfig.quick,
+          onSuccess: (deleteResult) async {
+            // Validate deletion success
+            if (!deleteResult.success) {
+              AppLogger.warning('Delete operation returned success=false', {
+                'childId': childId,
+                'message': deleteResult.message,
+              });
+              return;
+            }
 
-        // CACHE AUTO-UPDATE: Remove from cache on successful delete
-        await _localDataSource.removeChild(childId);
-        AppLogger.info('Child deleted and cache updated successfully', {
-          'familyId': familyId,
-          'childId': childId,
-        });
-      },
-      context: {
-        'feature': 'family_management',
-        'operation_type': 'delete',
-        'familyId': familyId,
-        'childId': childId,
-      },
-    );
+            // CACHE AUTO-UPDATE: Remove from cache on successful delete
+            await _localDataSource.removeChild(childId);
+            AppLogger.info('Child deleted and cache updated successfully', {
+              'familyId': familyId,
+              'childId': childId,
+            });
+          },
+          context: {
+            'feature': 'family_management',
+            'operation_type': 'delete',
+            'familyId': familyId,
+            'childId': childId,
+          },
+        );
 
     // Transform the result from DeleteResponseDto to void
     return result.when(
@@ -746,34 +752,35 @@ class FamilyRepositoryImpl implements FamilyRepository {
     required String vehicleId,
   }) async {
     // Use NetworkErrorHandler for automatic retry, circuit breaker, and proper error handling
-    final result = await _networkErrorHandler.executeRepositoryOperation<DeleteResponseDto>(
-      () => _remoteDataSource.deleteVehicle(vehicleId: vehicleId),
-      operationName: 'family.deleteVehicle',
-      strategy: CacheStrategy.networkOnly, // Write operation = network-only
-      serviceName: 'family',
-      config: RetryConfig.quick,
-      onSuccess: (deleteResult) async {
-        // Validate deletion success
-        if (!deleteResult.success) {
-          AppLogger.warning('Delete operation returned success=false', {
-            'vehicleId': vehicleId,
-            'message': deleteResult.message,
-          });
-          return;
-        }
+    final result = await _networkErrorHandler
+        .executeRepositoryOperation<DeleteResponseDto>(
+          () => _remoteDataSource.deleteVehicle(vehicleId: vehicleId),
+          operationName: 'family.deleteVehicle',
+          strategy: CacheStrategy.networkOnly, // Write operation = network-only
+          serviceName: 'family',
+          config: RetryConfig.quick,
+          onSuccess: (deleteResult) async {
+            // Validate deletion success
+            if (!deleteResult.success) {
+              AppLogger.warning('Delete operation returned success=false', {
+                'vehicleId': vehicleId,
+                'message': deleteResult.message,
+              });
+              return;
+            }
 
-        // CACHE AUTO-UPDATE: Remove from cache on successful delete
-        await _localDataSource.removeVehicle(vehicleId);
-        AppLogger.info('Vehicle deleted and cache updated successfully', {
-          'vehicleId': vehicleId,
-        });
-      },
-      context: {
-        'feature': 'family_management',
-        'operation_type': 'delete',
-        'vehicleId': vehicleId,
-      },
-    );
+            // CACHE AUTO-UPDATE: Remove from cache on successful delete
+            await _localDataSource.removeVehicle(vehicleId);
+            AppLogger.info('Vehicle deleted and cache updated successfully', {
+              'vehicleId': vehicleId,
+            });
+          },
+          context: {
+            'feature': 'family_management',
+            'operation_type': 'delete',
+            'vehicleId': vehicleId,
+          },
+        );
 
     // Transform the result from DeleteResponseDto to void
     return result.when(

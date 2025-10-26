@@ -102,9 +102,13 @@ class ScheduleUpdateEvent extends Equatable {
       'updatedByName': updatedByName,
       'changeType': changeType.name,
       'changeDescription': changeDescription,
-      'vehicleAssignments': vehicleAssignments.map((e) => e.toWebSocketEventData()).toList(),
+      'vehicleAssignments': vehicleAssignments
+          .map((e) => e.toWebSocketEventData())
+          .toList(),
       'vehicleAssignmentId': vehicleAssignmentId,
-      'childAssignments': childAssignments?.map((e) => e.toWebSocketEventData()).toList(),
+      'childAssignments': childAssignments
+          ?.map((e) => e.toWebSocketEventData())
+          .toList(),
       'conflictDetails': conflictDetails,
       'timestamp': timestamp.toIso8601String(),
       'metadata': metadata,

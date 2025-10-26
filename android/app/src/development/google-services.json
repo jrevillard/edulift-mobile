@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "390712570284",
+    "project_id": "edulift-staging",
+    "storage_bucket": "edulift-staging.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:390712570284:android:343eb2935d6000fe054a09",
+        "android_client_info": {
+          "package_name": "com.edulift.app.dev"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "390712570284-devclient.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.edulift.app.dev",
+            "certificate_hash": "devcertificatehash"
+          }
+        },
+        {
+          "client_id": "390712570284-devwebclient.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC2qc_U1Hz0JVt_7trVXJlJa1hbwEfzWNA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "390712570284-devwebclient.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

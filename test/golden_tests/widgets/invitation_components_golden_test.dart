@@ -32,116 +32,123 @@ void main() {
 
     return [
       currentUserProvider.overrideWith((ref) => testUser),
-      nav.navigationStateProvider.overrideWith((ref) => nav.NavigationStateNotifier()),
+      nav.navigationStateProvider.overrideWith(
+        (ref) => nav.NavigationStateNotifier(),
+      ),
       // CRITICAL: Prevent all real network calls during golden tests
       ...getAllNetworkMockOverrides(),
     ];
   }
+
   group('Phase 4: Invitation Components Golden Tests', () {
     group('InvitationErrorDisplay', () {
-      testWidgets('InvitationErrorDisplay - Expired Error - Light',
-          (tester) async {
+      testWidgets('InvitationErrorDisplay - Expired Error - Light', (
+        tester,
+      ) async {
         await GoldenTestWrapper.testWidget(
-        tester: tester,
-        widget: const Center(
-              child: Padding(
-                padding: EdgeInsets.all(16.0),
-                child: InvitationErrorDisplay(
-                  errorKey: 'errorInvitationExpired',
-                  contextTitle: 'Family Management',
-                ),
+          tester: tester,
+          widget: const Center(
+            child: Padding(
+              padding: EdgeInsets.all(16.0),
+              child: InvitationErrorDisplay(
+                errorKey: 'errorInvitationExpired',
+                contextTitle: 'Family Management',
               ),
             ),
-        testName: 'invitation_error_expired_light',
-        devices: DeviceConfigurations.defaultSet,
-        themes: [ThemeConfigurations.light],
-        providerOverrides: createProviderOverrides(),
-      );
+          ),
+          testName: 'invitation_error_expired_light',
+          devices: DeviceConfigurations.defaultSet,
+          themes: [ThemeConfigurations.light],
+          providerOverrides: createProviderOverrides(),
+        );
       });
 
-      testWidgets('InvitationErrorDisplay - Invalid Code - Dark',
-          (tester) async {
+      testWidgets('InvitationErrorDisplay - Invalid Code - Dark', (
+        tester,
+      ) async {
         await GoldenTestWrapper.testWidget(
-        tester: tester,
-        widget: const Center(
-              child: Padding(
-                padding: EdgeInsets.all(16.0),
-                child: InvitationErrorDisplay(
-                  errorKey: 'errorInvitationCodeInvalid',
-                  contextTitle: 'Group Management',
-                ),
+          tester: tester,
+          widget: const Center(
+            child: Padding(
+              padding: EdgeInsets.all(16.0),
+              child: InvitationErrorDisplay(
+                errorKey: 'errorInvitationCodeInvalid',
+                contextTitle: 'Group Management',
               ),
             ),
-        testName: 'invitation_error_invalid_code_dark',
-        devices: DeviceConfigurations.defaultSet,
-        themes: [ThemeConfigurations.dark],
-        providerOverrides: createProviderOverrides(),
-      );
+          ),
+          testName: 'invitation_error_invalid_code_dark',
+          devices: DeviceConfigurations.defaultSet,
+          themes: [ThemeConfigurations.dark],
+          providerOverrides: createProviderOverrides(),
+        );
       });
 
       testWidgets('InvitationErrorDisplay - Email Mismatch', (tester) async {
         await GoldenTestWrapper.testWidget(
-        tester: tester,
-        widget: const Center(
-              child: Padding(
-                padding: EdgeInsets.all(16.0),
-                child: InvitationErrorDisplay(
-                  errorKey: 'errorInvitationEmailMismatch',
-                  contextTitle: 'Family Management',
-                ),
+          tester: tester,
+          widget: const Center(
+            child: Padding(
+              padding: EdgeInsets.all(16.0),
+              child: InvitationErrorDisplay(
+                errorKey: 'errorInvitationEmailMismatch',
+                contextTitle: 'Family Management',
               ),
             ),
-        testName: 'invitation_error_email_mismatch',
-        devices: DeviceConfigurations.defaultSet,
-        themes: [ThemeConfigurations.light],
-        providerOverrides: createProviderOverrides(),
-      );
+          ),
+          testName: 'invitation_error_email_mismatch',
+          devices: DeviceConfigurations.defaultSet,
+          themes: [ThemeConfigurations.light],
+          providerOverrides: createProviderOverrides(),
+        );
       });
 
-      testWidgets('InvitationErrorDisplay - Not Found - Tablet Layout',
-          (tester) async {
+      testWidgets('InvitationErrorDisplay - Not Found - Tablet Layout', (
+        tester,
+      ) async {
         await GoldenTestWrapper.testWidget(
-        tester: tester,
-        widget: const Center(
-              child: Padding(
-                padding: EdgeInsets.all(24.0),
-                child: InvitationErrorDisplay(
-                  errorKey: 'errorInvitationNotFound',
-                  contextTitle: 'Group Management',
-                  isTablet: true,
-                ),
+          tester: tester,
+          widget: const Center(
+            child: Padding(
+              padding: EdgeInsets.all(24.0),
+              child: InvitationErrorDisplay(
+                errorKey: 'errorInvitationNotFound',
+                contextTitle: 'Group Management',
+                isTablet: true,
               ),
             ),
-        testName: 'invitation_error_not_found_tablet',
-        devices: DeviceConfigurations.defaultSet,
-        themes: [ThemeConfigurations.light],
-        providerOverrides: createProviderOverrides(),
-      );
+          ),
+          testName: 'invitation_error_not_found_tablet',
+          devices: DeviceConfigurations.defaultSet,
+          themes: [ThemeConfigurations.light],
+          providerOverrides: createProviderOverrides(),
+        );
       });
 
       testWidgets('InvitationErrorDisplay - Network Error', (tester) async {
         await GoldenTestWrapper.testWidget(
-        tester: tester,
-        widget: const Center(
-              child: Padding(
-                padding: EdgeInsets.all(16.0),
-                child: InvitationErrorDisplay(
-                  errorKey: 'errorNetworkGeneral',
-                  contextTitle: 'Family Management',
-                ),
+          tester: tester,
+          widget: const Center(
+            child: Padding(
+              padding: EdgeInsets.all(16.0),
+              child: InvitationErrorDisplay(
+                errorKey: 'errorNetworkGeneral',
+                contextTitle: 'Family Management',
               ),
             ),
-        testName: 'invitation_error_network_dark',
-        devices: DeviceConfigurations.defaultSet,
-        themes: [ThemeConfigurations.dark],
-        providerOverrides: createProviderOverrides(),
-      );
+          ),
+          testName: 'invitation_error_network_dark',
+          devices: DeviceConfigurations.defaultSet,
+          themes: [ThemeConfigurations.dark],
+          providerOverrides: createProviderOverrides(),
+        );
       });
     });
 
     group('InvitationLoadingState', () {
-      testWidgets('InvitationLoadingState - Family Type - Light',
-          (tester) async {
+      testWidgets('InvitationLoadingState - Family Type - Light', (
+        tester,
+      ) async {
         await GoldenTestWrapper.testLoadingState(
           tester: tester,
           widget: const Center(
@@ -156,14 +163,11 @@ void main() {
         );
       });
 
-      testWidgets('InvitationLoadingState - Group Type - Dark',
-          (tester) async {
+      testWidgets('InvitationLoadingState - Group Type - Dark', (tester) async {
         await GoldenTestWrapper.testLoadingState(
           tester: tester,
           widget: const Center(
-            child: InvitationLoadingState(
-              invitationType: InvitationType.group,
-            ),
+            child: InvitationLoadingState(invitationType: InvitationType.group),
           ),
           testName: 'invitation_loading_group_dark',
           devices: DeviceConfigurations.defaultSet,
@@ -190,8 +194,9 @@ void main() {
     });
 
     group('InvitationManualCodeInput', () {
-      testWidgets('InvitationManualCodeInput - Family Type - Empty',
-          (tester) async {
+      testWidgets('InvitationManualCodeInput - Family Type - Empty', (
+        tester,
+      ) async {
         final controller = TextEditingController();
 
         await GoldenTestWrapper.testWidget(
@@ -216,111 +221,113 @@ void main() {
         );
       });
 
-      testWidgets('InvitationManualCodeInput - Group Type - With Code',
-          (tester) async {
+      testWidgets('InvitationManualCodeInput - Group Type - With Code', (
+        tester,
+      ) async {
         final controller = TextEditingController(text: 'ABC123XYZ');
 
         await GoldenTestWrapper.testWidget(
-        tester: tester,
-        widget: Scaffold(
-              body: SingleChildScrollView(
-                child: Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: InvitationManualCodeInput(
-                    invitationType: InvitationType.group,
-                    icon: Icons.group,
-                    controller: controller,
-                    onValidate: () {},
-                  ),
+          tester: tester,
+          widget: Scaffold(
+            body: SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: InvitationManualCodeInput(
+                  invitationType: InvitationType.group,
+                  icon: Icons.group,
+                  controller: controller,
+                  onValidate: () {},
                 ),
               ),
             ),
-        testName: 'invitation_manual_input_group_with_code_dark',
-        devices: DeviceConfigurations.defaultSet,
-        themes: [ThemeConfigurations.dark],
-        providerOverrides: createProviderOverrides(),
-      );
+          ),
+          testName: 'invitation_manual_input_group_with_code_dark',
+          devices: DeviceConfigurations.defaultSet,
+          themes: [ThemeConfigurations.dark],
+          providerOverrides: createProviderOverrides(),
+        );
       });
 
-      testWidgets('InvitationManualCodeInput - With Error Message',
-          (tester) async {
+      testWidgets('InvitationManualCodeInput - With Error Message', (
+        tester,
+      ) async {
         final controller = TextEditingController(text: 'INVALID');
 
         await GoldenTestWrapper.testWidget(
-        tester: tester,
-        widget: Scaffold(
-              body: SingleChildScrollView(
-                child: Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: InvitationManualCodeInput(
-                    invitationType: InvitationType.family,
-                    icon: Icons.people,
-                    controller: controller,
-                    onValidate: () {},
-                    errorMessage: 'Code d\'invitation invalide ou expiré',
-                  ),
+          tester: tester,
+          widget: Scaffold(
+            body: SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: InvitationManualCodeInput(
+                  invitationType: InvitationType.family,
+                  icon: Icons.people,
+                  controller: controller,
+                  onValidate: () {},
+                  errorMessage: 'Code d\'invitation invalide ou expiré',
                 ),
               ),
             ),
-        testName: 'invitation_manual_input_with_error',
-        devices: DeviceConfigurations.defaultSet,
-        themes: [ThemeConfigurations.light],
-        providerOverrides: createProviderOverrides(),
-      );
+          ),
+          testName: 'invitation_manual_input_with_error',
+          devices: DeviceConfigurations.defaultSet,
+          themes: [ThemeConfigurations.light],
+          providerOverrides: createProviderOverrides(),
+        );
       });
 
-      testWidgets('InvitationManualCodeInput - With Cancel Button',
-          (tester) async {
+      testWidgets('InvitationManualCodeInput - With Cancel Button', (
+        tester,
+      ) async {
         final controller = TextEditingController();
 
         await GoldenTestWrapper.testWidget(
-        tester: tester,
-        widget: Scaffold(
-              body: SingleChildScrollView(
-                child: Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: InvitationManualCodeInput(
-                    invitationType: InvitationType.group,
-                    icon: Icons.group,
-                    controller: controller,
-                    onValidate: () {},
-                    onCancel: () {},
-                  ),
+          tester: tester,
+          widget: Scaffold(
+            body: SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: InvitationManualCodeInput(
+                  invitationType: InvitationType.group,
+                  icon: Icons.group,
+                  controller: controller,
+                  onValidate: () {},
+                  onCancel: () {},
                 ),
               ),
             ),
-        testName: 'invitation_manual_input_with_cancel',
-        devices: DeviceConfigurations.defaultSet,
-        themes: [ThemeConfigurations.light],
-        providerOverrides: createProviderOverrides(),
-      );
+          ),
+          testName: 'invitation_manual_input_with_cancel',
+          devices: DeviceConfigurations.defaultSet,
+          themes: [ThemeConfigurations.light],
+          providerOverrides: createProviderOverrides(),
+        );
       });
 
-      testWidgets('InvitationManualCodeInput - Tablet Layout',
-          (tester) async {
+      testWidgets('InvitationManualCodeInput - Tablet Layout', (tester) async {
         final controller = TextEditingController();
 
         await GoldenTestWrapper.testWidget(
-        tester: tester,
-        widget: Scaffold(
-              body: SingleChildScrollView(
-                child: Padding(
-                  padding: const EdgeInsets.all(24.0),
-                  child: InvitationManualCodeInput(
-                    invitationType: InvitationType.family,
-                    icon: Icons.people,
-                    controller: controller,
-                    onValidate: () {},
-                    isTablet: true,
-                  ),
+          tester: tester,
+          widget: Scaffold(
+            body: SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.all(24.0),
+                child: InvitationManualCodeInput(
+                  invitationType: InvitationType.family,
+                  icon: Icons.people,
+                  controller: controller,
+                  onValidate: () {},
+                  isTablet: true,
                 ),
               ),
             ),
-        testName: 'invitation_manual_input_tablet_dark',
-        devices: DeviceConfigurations.defaultSet,
-        themes: [ThemeConfigurations.dark],
-        providerOverrides: createProviderOverrides(),
-      );
+          ),
+          testName: 'invitation_manual_input_tablet_dark',
+          devices: DeviceConfigurations.defaultSet,
+          themes: [ThemeConfigurations.dark],
+          providerOverrides: createProviderOverrides(),
+        );
       });
     });
   });

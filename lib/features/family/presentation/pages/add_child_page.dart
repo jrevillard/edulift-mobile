@@ -98,14 +98,23 @@ class _AddChildPageState extends ConsumerState<AddChildPage> {
     );
   }
 
-  Widget _buildHeaderCard(BuildContext context, ThemeData theme, bool isTablet, bool isSmallScreen) {
+  Widget _buildHeaderCard(
+    BuildContext context,
+    ThemeData theme,
+    bool isTablet,
+    bool isSmallScreen,
+  ) {
     return Card(
       elevation: isTablet ? 4 : 2,
       child: Padding(
         padding: EdgeInsets.all(isTablet ? 20.0 : 16.0),
         child: Column(
           children: [
-            Icon(Icons.person_add, size: isTablet ? 56 : 48, color: theme.colorScheme.primary),
+            Icon(
+              Icons.person_add,
+              size: isTablet ? 56 : 48,
+              color: theme.colorScheme.primary,
+            ),
             SizedBox(height: isSmallScreen ? 8 : 12),
             Text(
               AppLocalizations.of(context).newChild,
@@ -128,7 +137,12 @@ class _AddChildPageState extends ConsumerState<AddChildPage> {
     );
   }
 
-  Widget _buildChildInfoSection(BuildContext context, ThemeData theme, bool isTablet, bool isSmallScreen) {
+  Widget _buildChildInfoSection(
+    BuildContext context,
+    ThemeData theme,
+    bool isTablet,
+    bool isSmallScreen,
+  ) {
     return Card(
       elevation: isTablet ? 4 : 2,
       child: Padding(
@@ -201,7 +215,12 @@ class _AddChildPageState extends ConsumerState<AddChildPage> {
     );
   }
 
-  Widget _buildActionButtons(BuildContext context, ThemeData theme, bool isTablet, bool isSmallScreen) {
+  Widget _buildActionButtons(
+    BuildContext context,
+    ThemeData theme,
+    bool isTablet,
+    bool isSmallScreen,
+  ) {
     return Column(
       children: [
         SizedBox(
@@ -285,25 +304,23 @@ class _AddChildPageState extends ConsumerState<AddChildPage> {
         // Show error message from API
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text(
-              () {
-                final errorKey = currentState.error ?? 'errorGeneral';
-                switch (errorKey) {
-                  case 'errorNetwork':
-                  case 'errorNetworkGeneral':
-                    return AppLocalizations.of(context).errorNetworkMessage;
-                  case 'errorServer':
-                  case 'errorServerGeneral':
-                    return AppLocalizations.of(context).errorServerMessage;
-                  case 'errorAuth':
-                    return AppLocalizations.of(context).errorAuthMessage;
-                  case 'errorValidation':
-                    return AppLocalizations.of(context).errorValidationMessage;
-                  default:
-                    return AppLocalizations.of(context).errorUnexpectedMessage;
-                }
-              }(),
-            ),
+            content: Text(() {
+              final errorKey = currentState.error ?? 'errorGeneral';
+              switch (errorKey) {
+                case 'errorNetwork':
+                case 'errorNetworkGeneral':
+                  return AppLocalizations.of(context).errorNetworkMessage;
+                case 'errorServer':
+                case 'errorServerGeneral':
+                  return AppLocalizations.of(context).errorServerMessage;
+                case 'errorAuth':
+                  return AppLocalizations.of(context).errorAuthMessage;
+                case 'errorValidation':
+                  return AppLocalizations.of(context).errorValidationMessage;
+                default:
+                  return AppLocalizations.of(context).errorUnexpectedMessage;
+              }
+            }()),
             backgroundColor: Theme.of(context).colorScheme.error,
           ),
         );

@@ -55,19 +55,13 @@ class ScheduleAnimations {
   // ============================================================================
 
   /// Get duration respecting reduced motion preference
-  static Duration getDuration(
-    BuildContext context,
-    Duration normalDuration,
-  ) {
+  static Duration getDuration(BuildContext context, Duration normalDuration) {
     final disableAnimations = MediaQuery.of(context).disableAnimations;
     return disableAnimations ? Duration.zero : normalDuration;
   }
 
   /// Get curve respecting reduced motion preference
-  static Curve getCurve(
-    BuildContext context,
-    Curve normalCurve,
-  ) {
+  static Curve getCurve(BuildContext context, Curve normalCurve) {
     final disableAnimations = MediaQuery.of(context).disableAnimations;
     return disableAnimations ? Curves.linear : normalCurve;
   }

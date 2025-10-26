@@ -34,10 +34,7 @@ class FamilyDataFactory {
   }
 
   /// Create a realistic child with international name
-  static Child createRealisticChild({
-    int? index,
-    String? familyId,
-  }) {
+  static Child createRealisticChild({int? index, String? familyId}) {
     final i = index ?? _childCounter++;
     final now = DateTime.now();
 
@@ -52,10 +49,7 @@ class FamilyDataFactory {
   }
 
   /// Create a realistic vehicle
-  static Vehicle createRealisticVehicle({
-    int? index,
-    String? familyId,
-  }) {
+  static Vehicle createRealisticVehicle({int? index, String? familyId}) {
     final i = index ?? _vehicleCounter++;
     final brand = TestDataFactory.randomVehicleBrand();
     final model = TestDataFactory.randomVehicleModel();
@@ -115,10 +109,7 @@ class FamilyDataFactory {
   }
 
   /// Create a large list of children for scroll testing
-  static List<Child> createLargeChildList({
-    int count = 15,
-    String? familyId,
-  }) {
+  static List<Child> createLargeChildList({int count = 15, String? familyId}) {
     return List.generate(
       count,
       (i) => createRealisticChild(index: i, familyId: familyId),
@@ -149,8 +140,8 @@ class FamilyDataFactory {
         status: i % 3 == 0
             ? InvitationStatus.pending
             : i % 3 == 1
-                ? InvitationStatus.accepted
-                : InvitationStatus.declined,
+            ? InvitationStatus.accepted
+            : InvitationStatus.declined,
       ),
     );
   }

@@ -61,7 +61,8 @@ class AppNavigationRail extends StatelessWidget {
     // Ensure selectedIndex is valid (in range of destinations)
     // If we're on a page like Profile that's not in the rail, set to null
     final currentIndex = navigationShell.currentIndex;
-    final selectedIndex = (currentIndex >= 0 && currentIndex < destinations.length)
+    final selectedIndex =
+        (currentIndex >= 0 && currentIndex < destinations.length)
         ? currentIndex
         : null;
 
@@ -98,10 +99,12 @@ class AppNavigationRail extends StatelessWidget {
                     color: Theme.of(context).colorScheme.onSurfaceVariant,
                   ),
                   onPressed: () {
-                    ref.read(navigationStateProvider.notifier).navigateTo(
-                      route: '/profile',
-                      trigger: NavigationTrigger.userNavigation,
-                    );
+                    ref
+                        .read(navigationStateProvider.notifier)
+                        .navigateTo(
+                          route: '/profile',
+                          trigger: NavigationTrigger.userNavigation,
+                        );
                   },
                   tooltip: AppLocalizations.of(context).profile,
                 ),
@@ -170,10 +173,7 @@ class AppNavigationRail extends StatelessWidget {
 class ExtendedAppBottomNavigation extends StatelessWidget {
   final StatefulNavigationShell navigationShell;
 
-  const ExtendedAppBottomNavigation({
-    super.key,
-    required this.navigationShell,
-  });
+  const ExtendedAppBottomNavigation({super.key, required this.navigationShell});
 
   @override
   Widget build(BuildContext context) {

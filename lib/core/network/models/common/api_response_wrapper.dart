@@ -34,14 +34,9 @@ abstract class ApiResponse<T> with _$ApiResponse<T> {
     @Default({}) Map<String, dynamic> metadata,
   }) = _ApiResponse<T>;
 
-
   /// Factory constructor for successful responses with data
   factory ApiResponse.success(T data, {Map<String, dynamic>? metadata}) {
-    return ApiResponse<T>(
-      success: true,
-      data: data,
-      metadata: metadata ?? {},
-    );
+    return ApiResponse<T>(success: true, data: data, metadata: metadata ?? {});
   }
 
   /// Factory constructor for error responses
@@ -81,7 +76,11 @@ abstract class ApiResponse<T> with _$ApiResponse<T> {
     T Function(dynamic json) fromJsonT, {
     int? statusCode,
   }) {
-    return ApiResponseUtils.fromBackendWrapper(wrapperData, fromJsonT, statusCode: statusCode);
+    return ApiResponseUtils.fromBackendWrapper(
+      wrapperData,
+      fromJsonT,
+      statusCode: statusCode,
+    );
   }
 }
 
@@ -159,22 +158,22 @@ extension ApiResponseUnwrapper<T> on ApiResponse<T> {
   /// Checks if this is a validation error (422 or validation-related code)
   bool get isValidationError {
     return statusCode == 422 ||
-           errorCode?.toUpperCase().contains('VALIDATION') == true ||
-           errorCode?.toUpperCase().contains('INVALID') == true;
+        errorCode?.toUpperCase().contains('VALIDATION') == true ||
+        errorCode?.toUpperCase().contains('INVALID') == true;
   }
 
   /// Checks if this is an authentication error (401)
   bool get isAuthenticationError {
     return statusCode == 401 ||
-           errorCode?.toUpperCase().contains('UNAUTHORIZED') == true ||
-           errorCode?.toUpperCase().contains('AUTH') == true;
+        errorCode?.toUpperCase().contains('UNAUTHORIZED') == true ||
+        errorCode?.toUpperCase().contains('AUTH') == true;
   }
 
   /// Checks if this is an authorization error (403)
   bool get isAuthorizationError {
     return statusCode == 403 ||
-           errorCode?.toUpperCase().contains('FORBIDDEN') == true ||
-           errorCode?.toUpperCase().contains('PERMISSION') == true;
+        errorCode?.toUpperCase().contains('FORBIDDEN') == true ||
+        errorCode?.toUpperCase().contains('PERMISSION') == true;
   }
 
   /// Checks if this error is retryable (5xx errors)
@@ -202,9 +201,16 @@ class ApiResponseUtils {
         errorMessage: json['error']?.toString(),
         errorCode: json['code']?.toString(),
         statusCode: json['statusCode'] as int?,
-        metadata: Map<String, dynamic>.from(json)..removeWhere(
-          (key, value) => ['success', 'data', 'error', 'code', 'statusCode'].contains(key),
-        ),
+        metadata: Map<String, dynamic>.from(json)
+          ..removeWhere(
+            (key, value) => [
+              'success',
+              'data',
+              'error',
+              'code',
+              'statusCode',
+            ].contains(key),
+          ),
       );
     }
 
@@ -213,9 +219,11 @@ class ApiResponseUtils {
       errorMessage: json['error']?.toString() ?? 'Unknown API error',
       errorCode: json['code']?.toString(),
       statusCode: json['statusCode'] as int?,
-      metadata: Map<String, dynamic>.from(json)..removeWhere(
-        (key, value) => ['success', 'data', 'error', 'code', 'statusCode'].contains(key),
-      ),
+      metadata: Map<String, dynamic>.from(json)
+        ..removeWhere(
+          (key, value) =>
+              ['success', 'data', 'error', 'code', 'statusCode'].contains(key),
+        ),
     );
   }
 
@@ -225,6 +233,5 @@ class ApiResponseUtils {
     Map<String, dynamic> wrapperData,
     T Function(dynamic json) fromJsonT, {
     int? statusCode,
-  }) =>
-      fromApiJson(wrapperData, fromJsonT);
+  }) => fromApiJson(wrapperData, fromJsonT);
 }

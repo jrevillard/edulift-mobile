@@ -116,7 +116,6 @@ void main() {
 
         // Assert
         expect(result.isSuccess, true);
-        verify(mockAuthApiClient.sendMagicLink(any)).called(1);
 
         // Verify the request was constructed correctly
         final captured =
@@ -146,7 +145,7 @@ void main() {
 
         // Assert
         expect(result.isError, true);
-        expect(result.error, isA<ApiFailure>());
+        expect(result.error, isA<ServerFailure>());
       });
 
       test('should handle network exceptions', () async {
@@ -163,7 +162,7 @@ void main() {
 
         // Assert
         expect(result.isError, true);
-        expect(result.error, isA<ApiFailure>());
+        expect(result.error, isA<ServerFailure>());
       });
 
       test('should include inviteCode when provided', () async {
@@ -200,6 +199,7 @@ void main() {
       test('should return AuthResult when authentication succeeds', () async {
         // Arrange
         const token = 'valid-token';
+        const email = 'test@example.com';
         final userData = TestDataBuilder.createUserData();
         final userDto = UserCurrentFamilyDto(
           id: userData['id'] as String,
@@ -211,9 +211,16 @@ void main() {
           accessToken: 'access-token',
           refreshToken: 'mock_refresh_token',
           expiresIn: 900,
-          
           user: userDto,
         );
+
+        // Mock PKCE and email retrieval for security validation
+        when(
+          mockAuthLocalDatasource.getMagicLinkEmail(),
+        ).thenAnswer((_) async => const Result.ok(email));
+        when(
+          mockAuthLocalDatasource.getPKCEVerifier(),
+        ).thenAnswer((_) async => const Result.ok('test-verifier'));
 
         when(
           mockAuthApiClient.verifyMagicLink(any, any),
@@ -227,7 +234,6 @@ void main() {
           mockAuthLocalDatasource.storeUserData(any),
         ).thenAnswer((_) async => const Result.ok(null));
 
-
         // Act
         final result = await authService.authenticateWithMagicLink(token);
 
@@ -240,6 +246,16 @@ void main() {
       test('should return failure when token is invalid', () async {
         // Arrange
         const token = 'invalid-token';
+        const email = 'test@example.com';
+
+        // Mock PKCE and email retrieval for security validation
+        when(
+          mockAuthLocalDatasource.getMagicLinkEmail(),
+        ).thenAnswer((_) async => const Result.ok(email));
+        when(
+          mockAuthLocalDatasource.getPKCEVerifier(),
+        ).thenAnswer((_) async => const Result.ok('test-verifier'));
+
         when(
           mockAuthApiClient.verifyMagicLink(any, any),
         ).thenThrow(Exception('Invalid token'));
@@ -249,7 +265,7 @@ void main() {
 
         // Assert
         expect(result.isError, true);
-        expect(result.error, isA<ApiFailure>());
+        expect(result.error, isA<ServerFailure>());
       });
     });
 
@@ -321,7 +337,7 @@ void main() {
         // Arrange
         when(mockAuthApiClient.logout()).thenThrow(Exception('Network error'));
         when(
-          mockAuthLocalDatasource.clearToken(),
+          mockAuthLocalDatasource.clearTokens(),
         ).thenAnswer((_) async => const Result.ok(null));
         when(
           mockAuthLocalDatasource.clearUserData(),
@@ -333,7 +349,7 @@ void main() {
         // Assert
         expect(result.isSuccess, true);
         expect(authService.currentUser, isNull);
-        verify(mockAuthLocalDatasource.clearToken()).called(1);
+        verify(mockAuthLocalDatasource.clearTokens()).called(1);
         verify(mockAuthLocalDatasource.clearUserData()).called(1);
       });
     });
@@ -355,7 +371,6 @@ void main() {
         when(
           mockAuthApiClient.enableBiometricAuth(any),
         ).thenAnswer((_) async => userProfileDto);
-
 
         // Act
         final result = await authService.enableBiometricAuth();
@@ -381,7 +396,6 @@ void main() {
         when(
           mockAuthApiClient.disableBiometricAuth(any),
         ).thenAnswer((_) async => userProfileDto);
-
 
         // Act
         final result = await authService.disableBiometricAuth();

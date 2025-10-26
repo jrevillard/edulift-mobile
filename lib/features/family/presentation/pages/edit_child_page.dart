@@ -334,25 +334,23 @@ class _EditChildPageState extends ConsumerState<EditChildPage> {
         // Show error message from API
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text(
-              () {
-                final errorKey = currentState.error ?? 'errorGeneral';
-                switch (errorKey) {
-                  case 'errorNetwork':
-                  case 'errorNetworkGeneral':
-                    return AppLocalizations.of(context).errorNetworkMessage;
-                  case 'errorServer':
-                  case 'errorServerGeneral':
-                    return AppLocalizations.of(context).errorServerMessage;
-                  case 'errorAuth':
-                    return AppLocalizations.of(context).errorAuthMessage;
-                  case 'errorValidation':
-                    return AppLocalizations.of(context).errorValidationMessage;
-                  default:
-                    return AppLocalizations.of(context).errorUnexpectedMessage;
-                }
-              }(),
-            ),
+            content: Text(() {
+              final errorKey = currentState.error ?? 'errorGeneral';
+              switch (errorKey) {
+                case 'errorNetwork':
+                case 'errorNetworkGeneral':
+                  return AppLocalizations.of(context).errorNetworkMessage;
+                case 'errorServer':
+                case 'errorServerGeneral':
+                  return AppLocalizations.of(context).errorServerMessage;
+                case 'errorAuth':
+                  return AppLocalizations.of(context).errorAuthMessage;
+                case 'errorValidation':
+                  return AppLocalizations.of(context).errorValidationMessage;
+                default:
+                  return AppLocalizations.of(context).errorUnexpectedMessage;
+              }
+            }()),
             backgroundColor: Theme.of(context).colorScheme.error,
           ),
         );

@@ -319,11 +319,8 @@ void main() {
         // ASSERT - Should return fallback error handling result
         expect(result.classification.category, ErrorCategory.unexpected);
         expect(result.classification.severity, ErrorSeverity.critical);
-        expect(result.userMessage.titleKey, 'System Error');
-        expect(
-          result.userMessage.messageKey,
-          'A system error occurred. Please contact support if this continues.',
-        );
+        expect(result.userMessage.titleKey, 'errorSystemTitle');
+        expect(result.userMessage.messageKey, 'errorSystemMessage');
         expect(result.wasLogged, true);
         expect(result.wasReported, false);
       });
@@ -469,31 +466,41 @@ void main() {
       errorHandlerService = ErrorHandlerService(mockUserMessageService);
     });
 
-    test('DioException connectionError should be classified as network failure', () {
-      // ARRANGE
-      final dioException = DioException(
-        requestOptions: RequestOptions(path: '/test'),
-        error: const NetworkException('Unable to connect. Please check your internet connection.'),
-        type: DioExceptionType.connectionError,
-      );
+    test(
+      'DioException connectionError should be classified as network failure',
+      () {
+        // ARRANGE
+        final dioException = DioException(
+          requestOptions: RequestOptions(path: '/test'),
+          error: const NetworkException(
+            'Unable to connect. Please check your internet connection.',
+          ),
+          type: DioExceptionType.connectionError,
+        );
 
-      // ACT
-      final result = errorHandlerService.classifyError(dioException);
+        // ACT
+        final result = errorHandlerService.classifyError(dioException);
 
-      // ASSERT
-      expect(result.category, ErrorCategory.network);
-      expect(result.severity, ErrorSeverity.major);
-      expect(result.isRetryable, true);
-      expect(result.requiresUserAction, false);
-      expect(result.analysisData['type'], 'dio_network_error');
-      expect(result.analysisData['dio_type'], 'DioExceptionType.connectionError');
-    });
+        // ASSERT
+        expect(result.category, ErrorCategory.network);
+        expect(result.severity, ErrorSeverity.major);
+        expect(result.isRetryable, true);
+        expect(result.requiresUserAction, false);
+        expect(result.analysisData['type'], 'dio_network_error');
+        expect(
+          result.analysisData['dio_type'],
+          'DioExceptionType.connectionError',
+        );
+      },
+    );
 
     test('DioException timeout should be classified as network failure', () {
       // ARRANGE
       final dioException = DioException(
         requestOptions: RequestOptions(path: '/test'),
-        error: const NetworkException('Connection timeout. Please check your internet connection.'),
+        error: const NetworkException(
+          'Connection timeout. Please check your internet connection.',
+        ),
         type: DioExceptionType.connectionTimeout,
       );
 
@@ -506,14 +513,19 @@ void main() {
       expect(result.isRetryable, true);
       expect(result.requiresUserAction, false);
       expect(result.analysisData['type'], 'dio_network_error');
-      expect(result.analysisData['dio_type'], 'DioExceptionType.connectionTimeout');
+      expect(
+        result.analysisData['dio_type'],
+        'DioExceptionType.connectionTimeout',
+      );
     });
 
     test('DioException unknown should be classified as network failure', () {
       // ARRANGE
       final dioException = DioException(
         requestOptions: RequestOptions(path: '/test'),
-        error: const NetworkException('Network error occurred. Please check your connection and try again.'),
+        error: const NetworkException(
+          'Network error occurred. Please check your connection and try again.',
+        ),
       );
 
       // ACT
@@ -528,19 +540,24 @@ void main() {
       expect(result.analysisData['dio_type'], 'DioExceptionType.unknown');
     });
 
-    test('NetworkException directly should be classified as network failure', () {
-      // ARRANGE
-      const networkException = NetworkException('Unable to connect. Please check your internet connection.');
+    test(
+      'NetworkException directly should be classified as network failure',
+      () {
+        // ARRANGE
+        const networkException = NetworkException(
+          'Unable to connect. Please check your internet connection.',
+        );
 
-      // ACT
-      final result = errorHandlerService.classifyError(networkException);
+        // ACT
+        final result = errorHandlerService.classifyError(networkException);
 
-      // ASSERT
-      expect(result.category, ErrorCategory.network);
-      expect(result.severity, ErrorSeverity.major);
-      expect(result.isRetryable, true);
-      expect(result.requiresUserAction, false);
-      expect(result.analysisData['type'], 'network');
-    });
+        // ASSERT
+        expect(result.category, ErrorCategory.network);
+        expect(result.severity, ErrorSeverity.major);
+        expect(result.isRetryable, true);
+        expect(result.requiresUserAction, false);
+        expect(result.analysisData['type'], 'network');
+      },
+    );
   });
 }

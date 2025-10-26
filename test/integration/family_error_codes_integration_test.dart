@@ -38,7 +38,10 @@ void main() {
         () async {
           // Setup mock to simulate LAST_ADMIN error
           when(
-            mockFamilyRepository.removeMember(familyId: anyNamed('familyId'), memberId: 'member-456'),
+            mockFamilyRepository.removeMember(
+              familyId: anyNamed('familyId'),
+              memberId: 'member-456',
+            ),
           ).thenAnswer(
             (_) async => const Result.err(
               ApiFailure(
@@ -70,7 +73,10 @@ void main() {
 
           // VERIFY - Mock repository was called
           verify(
-            mockFamilyRepository.removeMember(familyId: anyNamed('familyId'), memberId: 'member-456'),
+            mockFamilyRepository.removeMember(
+              familyId: anyNamed('familyId'),
+              memberId: 'member-456',
+            ),
           ).called(1);
         },
       );
@@ -154,7 +160,10 @@ void main() {
             switch (testCase['code']) {
               case 'LAST_ADMIN':
                 when(
-                  mockFamilyRepository.removeMember(familyId: anyNamed('familyId'), memberId: 'member-123'),
+                  mockFamilyRepository.removeMember(
+                    familyId: anyNamed('familyId'),
+                    memberId: 'member-123',
+                  ),
                 ).thenAnswer(
                   (_) async => const Result.err(
                     ApiFailure(
@@ -172,7 +181,10 @@ void main() {
                 break;
               case 'MEMBER_NOT_FOUND':
                 when(
-                  mockFamilyRepository.removeMember(familyId: anyNamed('familyId'), memberId: 'member-404'),
+                  mockFamilyRepository.removeMember(
+                    familyId: anyNamed('familyId'),
+                    memberId: 'member-404',
+                  ),
                 ).thenAnswer(
                   (_) async => const Result.err(
                     ApiFailure(

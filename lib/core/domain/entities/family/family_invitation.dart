@@ -4,7 +4,8 @@
 import 'package:equatable/equatable.dart';
 
 // Import the shared InvitationStatus enum from invitation.dart
-import '../../../../core/domain/entities/invitations/invitation.dart' show InvitationStatus;
+import '../../../../core/domain/entities/invitations/invitation.dart'
+    show InvitationStatus;
 
 /// Family invitation entity representing an invitation to join a family
 class FamilyInvitation extends Equatable {
@@ -75,7 +76,7 @@ class FamilyInvitation extends Equatable {
     this.acceptedAt,
     this.acceptedBy,
     this.respondedAt,
-    required this.updatedAt, 
+    required this.updatedAt,
     this.metadata,
   });
 
@@ -174,7 +175,7 @@ class FamilyInvitation extends Equatable {
     acceptedAt,
     acceptedBy,
     respondedAt,
-    updatedAt, 
+    updatedAt,
     metadata,
   ];
 

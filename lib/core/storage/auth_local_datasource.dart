@@ -240,7 +240,9 @@ class AuthLocalDatasource implements IAuthLocalDatasource {
         expiresAt.toIso8601String(),
       );
 
-      AppLogger.info('✅ Successfully stored access token, refresh token, and expiration');
+      AppLogger.info(
+        '✅ Successfully stored access token, refresh token, and expiration',
+      );
       return const Result.ok(null);
     } catch (e) {
       AppLogger.error('❌ Failed to store tokens: $e');
@@ -262,13 +264,17 @@ class AuthLocalDatasource implements IAuthLocalDatasource {
         // Production: read encrypted refresh token
         refreshToken = await _secureStorage.read(_refreshTokenKey);
         if (refreshToken != null) {
-          AppLogger.info('🔒 Retrieved encrypted refresh token from production storage');
+          AppLogger.info(
+            '🔒 Retrieved encrypted refresh token from production storage',
+          );
         }
       } else {
         // Development: read plain refresh token
         refreshToken = await _secureStorage.read(_refreshTokenKeyDev);
         if (refreshToken != null) {
-          AppLogger.info('🔓 Retrieved plain refresh token from development storage');
+          AppLogger.info(
+            '🔓 Retrieved plain refresh token from development storage',
+          );
         }
       }
 
@@ -276,9 +282,7 @@ class AuthLocalDatasource implements IAuthLocalDatasource {
     } catch (e) {
       AppLogger.error('❌ Failed to retrieve refresh token: $e');
       return Result.err(
-        ApiFailure.cacheError(
-          message: 'Failed to retrieve refresh token: $e',
-        ),
+        ApiFailure.cacheError(message: 'Failed to retrieve refresh token: $e'),
       );
     }
   }
@@ -298,9 +302,7 @@ class AuthLocalDatasource implements IAuthLocalDatasource {
     } catch (e) {
       AppLogger.error('❌ Failed to parse token expiry: $e');
       return Result.err(
-        ApiFailure.parseError(
-          details: 'Failed to parse token expiry: $e',
-        ),
+        ApiFailure.parseError(details: 'Failed to parse token expiry: $e'),
       );
     }
   }
@@ -496,7 +498,9 @@ class AuthLocalDatasource implements IAuthLocalDatasource {
         // This is a simplified implementation for compatibility
         final profile = AuthUserProfile(
           id: user.id ?? 'unknown',
-          email: user.email ?? '', // CRITICAL FIX: Use empty string instead of hardcoded email
+          email:
+              user.email ??
+              '', // CRITICAL FIX: Use empty string instead of hardcoded email
           name: user.name ?? 'Unknown User',
           role: 'user',
           lastUpdated: DateTime.now(),
@@ -514,20 +518,24 @@ class AuthLocalDatasource implements IAuthLocalDatasource {
   // Removed clearTokens - replaced with clearToken
 
   // ========== PKCE Support for Magic Link Security ==========
-  
+
   @override
-  Future<Result<void, ApiFailure>> storePKCEVerifier(String codeVerifier) async {
+  Future<Result<void, ApiFailure>> storePKCEVerifier(
+    String codeVerifier,
+  ) async {
     try {
       AppLogger.info('🔐 PKCE: Storing code_verifier securely');
       await _secureStorage.write(_pkceVerifierKey, codeVerifier);
       return const Result.ok(null);
     } catch (error) {
       AppLogger.error('❌ PKCE: Failed to store code_verifier: $error');
-      return Result.err(ApiFailure(
-        message: 'Failed to store PKCE verifier',
-        statusCode: 500,
-        details: {'error': error.toString()},
-      ));
+      return Result.err(
+        ApiFailure(
+          message: 'Failed to store PKCE verifier',
+          statusCode: 500,
+          details: {'error': error.toString()},
+        ),
+      );
     }
   }
 
@@ -541,11 +549,13 @@ class AuthLocalDatasource implements IAuthLocalDatasource {
       return Result.ok(codeVerifier);
     } catch (error) {
       AppLogger.error('❌ PKCE: Failed to retrieve code_verifier: $error');
-      return Result.err(ApiFailure(
-        message: 'Failed to retrieve PKCE verifier',
-        statusCode: 500,
-        details: {'error': error.toString()},
-      ));
+      return Result.err(
+        ApiFailure(
+          message: 'Failed to retrieve PKCE verifier',
+          statusCode: 500,
+          details: {'error': error.toString()},
+        ),
+      );
     }
   }
 
@@ -557,11 +567,13 @@ class AuthLocalDatasource implements IAuthLocalDatasource {
       return const Result.ok(null);
     } catch (error) {
       AppLogger.error('❌ PKCE: Failed to clear code_verifier: $error');
-      return Result.err(ApiFailure(
-        message: 'Failed to clear PKCE verifier',
-        statusCode: 500,
-        details: {'error': error.toString()},
-      ));
+      return Result.err(
+        ApiFailure(
+          message: 'Failed to clear PKCE verifier',
+          statusCode: 500,
+          details: {'error': error.toString()},
+        ),
+      );
     }
   }
 
@@ -575,11 +587,13 @@ class AuthLocalDatasource implements IAuthLocalDatasource {
       return const Result.ok(null);
     } catch (error) {
       AppLogger.error('❌ SECURITY: Failed to store magic link email: $error');
-      return Result.err(ApiFailure(
-        message: 'Failed to store magic link email',
-        statusCode: 500,
-        details: {'error': error.toString()},
-      ));
+      return Result.err(
+        ApiFailure(
+          message: 'Failed to store magic link email',
+          statusCode: 500,
+          details: {'error': error.toString()},
+        ),
+      );
     }
   }
 
@@ -588,32 +602,42 @@ class AuthLocalDatasource implements IAuthLocalDatasource {
     try {
       final email = await _secureStorage.read(_magicLinkEmailKey);
       if (email != null) {
-        AppLogger.info('🔐 SECURITY: Retrieved magic link original email from secure storage');
+        AppLogger.info(
+          '🔐 SECURITY: Retrieved magic link original email from secure storage',
+        );
       }
       return Result.ok(email);
     } catch (error) {
-      AppLogger.error('❌ SECURITY: Failed to retrieve magic link email: $error');
-      return Result.err(ApiFailure(
-        message: 'Failed to retrieve magic link email',
-        statusCode: 500,
-        details: {'error': error.toString()},
-      ));
+      AppLogger.error(
+        '❌ SECURITY: Failed to retrieve magic link email: $error',
+      );
+      return Result.err(
+        ApiFailure(
+          message: 'Failed to retrieve magic link email',
+          statusCode: 500,
+          details: {'error': error.toString()},
+        ),
+      );
     }
   }
 
   @override
   Future<Result<void, ApiFailure>> clearMagicLinkEmail() async {
     try {
-      AppLogger.info('🔐 SECURITY: Clearing magic link email from secure storage');
+      AppLogger.info(
+        '🔐 SECURITY: Clearing magic link email from secure storage',
+      );
       await _secureStorage.delete(_magicLinkEmailKey);
       return const Result.ok(null);
     } catch (error) {
       AppLogger.error('❌ SECURITY: Failed to clear magic link email: $error');
-      return Result.err(ApiFailure(
-        message: 'Failed to clear magic link email',
-        statusCode: 500,
-        details: {'error': error.toString()},
-      ));
+      return Result.err(
+        ApiFailure(
+          message: 'Failed to clear magic link email',
+          statusCode: 500,
+          details: {'error': error.toString()},
+        ),
+      );
     }
   }
 

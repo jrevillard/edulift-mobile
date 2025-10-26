@@ -9,7 +9,7 @@ class GetWeeklySchedule {
   GetWeeklySchedule(this.repository);
 
   Future<Result<List<ScheduleSlot>, ApiFailure>> call(
-    GetWeeklyScheduleParams params
+    GetWeeklyScheduleParams params,
   ) {
     return repository.getWeeklySchedule(params.groupId, params.week);
   }

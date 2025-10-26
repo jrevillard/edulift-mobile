@@ -23,17 +23,13 @@ class ScheduleDateTimeService {
 
   /// Calculate full DateTime from day string, time string, and week
   ///
-  /// Example: ("Monday", "07:30", "2025-W02") → "2025-01-13T07:30:00.000Z"
+  /// Example: ("Monday", "07:30", "2025-W02") → UTC datetime 2025-01-06 07:30:00.000Z
   /// Returns DateTime in UTC timezone for API compatibility
   ///
-  /// IMPORTANT: This method does NOT perform timezone conversion.
-  /// It builds the DateTime object as-is. Timezone conversion should
-  /// be handled in the presentation layer if needed.
-  DateTime? calculateDateTimeFromSlot(
-    String day,
-    String time,
-    String week,
-  ) {
+  /// IMPORTANT: This method treats input time as UTC time (no timezone conversion).
+  /// The input time (e.g., "07:30") is interpreted as 07:30 UTC directly,
+  /// ensuring consistent behavior regardless of device timezone.
+  DateTime? calculateDateTimeFromSlot(String day, String time, String week) {
     try {
       final weekStart = calculateWeekStartDate(week);
       if (weekStart == null) return null;
@@ -59,11 +55,17 @@ class ScheduleDateTimeService {
       final hour = int.parse(timeParts[0]);
       final minute = int.parse(timeParts[1]);
 
+      // Validate time values
+      if (hour < 0 || hour > 23 || minute < 0 || minute > 59) {
+        throw ArgumentError('Invalid time values: hour=$hour, minute=$minute');
+      }
+
       // Build the date component
       final date = weekStart.add(Duration(days: dayOffset));
 
-      // Create DateTime object directly in UTC (NO timezone conversion)
-      // The presentation layer should handle timezone conversion if needed
+      // Create DateTime directly in UTC (no timezone conversion)
+      // The input time (e.g., "07:30") is treated as UTC time, not local time
+      // This ensures consistent behavior regardless of device timezone
       final utcDateTime = DateTime.utc(
         date.year,
         date.month,
@@ -72,10 +74,14 @@ class ScheduleDateTimeService {
         minute,
       );
 
-      _logger.fine('Calculated datetime: day=$day, time=$time, week=$week → UTC: ${utcDateTime.toIso8601String()}');
+      _logger.fine(
+        'Calculated datetime: day=$day, time=$time, week=$week → UTC: ${utcDateTime.toIso8601String()}',
+      );
       return utcDateTime;
     } catch (e) {
-      _logger.warning('Failed to calculate datetime: day=$day, time=$time, week=$week, error: $e');
+      _logger.warning(
+        'Failed to calculate datetime: day=$day, time=$time, week=$week, error: $e',
+      );
       return null;
     }
   }
@@ -85,7 +91,9 @@ class ScheduleDateTimeService {
   DateTime calculateWeekEndDate(DateTime weekStart) {
     // Week ends on Sunday at 23:59:59.999
     // Add 7 days to get to next Monday, then subtract 1 millisecond
-    return weekStart.add(const Duration(days: 7)).subtract(const Duration(milliseconds: 1));
+    return weekStart
+        .add(const Duration(days: 7))
+        .subtract(const Duration(milliseconds: 1));
   }
 
   /// Check if a date is in the past based on user's timezone
@@ -109,7 +117,9 @@ class ScheduleDateTimeService {
   bool isPastDate(DateTime dateTime, {String? userTimezone}) {
     try {
       final timezone = userTimezone ?? 'UTC';
-      _logger.fine('Checking if date is past: $dateTime in timezone: $timezone');
+      _logger.fine(
+        'Checking if date is past: $dateTime in timezone: $timezone',
+      );
 
       // Get the timezone location
       final location = tz.getLocation(timezone);
@@ -124,7 +134,7 @@ class ScheduleDateTimeService {
       final isPast = dateTimeInUserTz.isBefore(nowInUserTz);
 
       _logger.fine(
-        'Date comparison: $dateTimeInUserTz (slot) vs $nowInUserTz (now) in $timezone → isPast: $isPast'
+        'Date comparison: $dateTimeInUserTz (slot) vs $nowInUserTz (now) in $timezone → isPast: $isPast',
       );
 
       return isPast;
@@ -161,12 +171,13 @@ class ScheduleDateTimeService {
         final tzAbbr = dateTimeInUserTz.timeZoneName;
 
         _logger.warning(
-          'Schedule datetime validation failed: datetime is in the past ($dateTimeInUserTz $tzAbbr)'
+          'Schedule datetime validation failed: datetime is in the past ($dateTimeInUserTz $tzAbbr)',
         );
 
         return ScheduleDateTimeValidationResult(
           isValid: false,
-          errorMessage: 'Cannot create schedule for past time. '
+          errorMessage:
+              'Cannot create schedule for past time. '
               'Selected time has already passed in your timezone ($tzAbbr).',
         );
       }

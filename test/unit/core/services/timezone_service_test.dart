@@ -82,7 +82,10 @@ void main() {
         const timezone = 'Europe/Paris';
 
         // Act
-        final localTime = TimezoneService.convertUtcTimeToLocal(utcTime, timezone);
+        final localTime = TimezoneService.convertUtcTimeToLocal(
+          utcTime,
+          timezone,
+        );
 
         // Assert
         expect(localTime, isNotNull);
@@ -96,7 +99,10 @@ void main() {
         const timezone = 'Europe/Paris';
 
         // Act
-        final localTime = TimezoneService.convertUtcTimeToLocal(utcTime, timezone);
+        final localTime = TimezoneService.convertUtcTimeToLocal(
+          utcTime,
+          timezone,
+        );
 
         // Assert
         expect(localTime, isNotNull);
@@ -110,7 +116,10 @@ void main() {
         const timezone = 'America/New_York';
 
         // Act
-        final localTime = TimezoneService.convertUtcTimeToLocal(utcTime, timezone);
+        final localTime = TimezoneService.convertUtcTimeToLocal(
+          utcTime,
+          timezone,
+        );
 
         // Assert
         expect(localTime, isNotNull);
@@ -124,7 +133,10 @@ void main() {
         const timezone = 'UTC';
 
         // Act
-        final localTime = TimezoneService.convertUtcTimeToLocal(utcTime, timezone);
+        final localTime = TimezoneService.convertUtcTimeToLocal(
+          utcTime,
+          timezone,
+        );
 
         // Assert
         expect(localTime, isNotNull);
@@ -138,7 +150,10 @@ void main() {
         const timezone = 'Europe/Paris';
 
         // Act
-        final result = TimezoneService.convertUtcTimeToLocal(invalidTime, timezone);
+        final result = TimezoneService.convertUtcTimeToLocal(
+          invalidTime,
+          timezone,
+        );
 
         // Assert - should return original string as fallback
         expect(result, equals(invalidTime));
@@ -156,7 +171,10 @@ void main() {
         const timezone = 'Europe/Paris';
 
         // Act
-        final utcTime = TimezoneService.convertLocalTimeToUtc(localTime, timezone);
+        final utcTime = TimezoneService.convertLocalTimeToUtc(
+          localTime,
+          timezone,
+        );
 
         // Assert
         expect(utcTime, isNotNull);
@@ -170,7 +188,10 @@ void main() {
         const timezone = 'Europe/Paris';
 
         // Act
-        final utcTime = TimezoneService.convertLocalTimeToUtc(localTime, timezone);
+        final utcTime = TimezoneService.convertLocalTimeToUtc(
+          localTime,
+          timezone,
+        );
 
         // Assert
         expect(utcTime, isNotNull);
@@ -184,7 +205,10 @@ void main() {
         const timezone = 'America/New_York';
 
         // Act
-        final utcTime = TimezoneService.convertLocalTimeToUtc(localTime, timezone);
+        final utcTime = TimezoneService.convertLocalTimeToUtc(
+          localTime,
+          timezone,
+        );
 
         // Assert
         expect(utcTime, isNotNull);
@@ -198,7 +222,10 @@ void main() {
         const timezone = 'Europe/Paris';
 
         // Act
-        final utcTime = TimezoneService.convertLocalTimeToUtc(localTime, timezone);
+        final utcTime = TimezoneService.convertLocalTimeToUtc(
+          localTime,
+          timezone,
+        );
 
         // Assert
         expect(utcTime, isNotNull);
@@ -212,7 +239,10 @@ void main() {
         const timezone = 'UTC';
 
         // Act
-        final utcTime = TimezoneService.convertLocalTimeToUtc(localTime, timezone);
+        final utcTime = TimezoneService.convertLocalTimeToUtc(
+          localTime,
+          timezone,
+        );
 
         // Assert
         expect(utcTime, isNotNull);
@@ -226,7 +256,10 @@ void main() {
         const timezone = 'Europe/Paris';
 
         // Act
-        final result = TimezoneService.convertLocalTimeToUtc(invalidTime, timezone);
+        final result = TimezoneService.convertLocalTimeToUtc(
+          invalidTime,
+          timezone,
+        );
 
         // Assert - should return original string as fallback
         expect(result, equals(invalidTime));
@@ -275,8 +308,14 @@ void main() {
         const timezone = 'Europe/Paris';
 
         // Act - Convert UTC → Local → UTC
-        final local = TimezoneService.convertUtcTimeToLocal(originalUtc, timezone);
-        final backToUtc = TimezoneService.convertLocalTimeToUtc(local, timezone);
+        final local = TimezoneService.convertUtcTimeToLocal(
+          originalUtc,
+          timezone,
+        );
+        final backToUtc = TimezoneService.convertLocalTimeToUtc(
+          local,
+          timezone,
+        );
 
         // Assert - Should get back to original UTC time (accounting for milliseconds)
         expect(backToUtc, contains('2025-10-19'));
@@ -295,8 +334,14 @@ void main() {
 
         // Act & Assert
         for (final timezone in timezones) {
-          final local = TimezoneService.convertUtcTimeToLocal(utcTime, timezone);
-          final backToUtc = TimezoneService.convertLocalTimeToUtc(local, timezone);
+          final local = TimezoneService.convertUtcTimeToLocal(
+            utcTime,
+            timezone,
+          );
+          final backToUtc = TimezoneService.convertLocalTimeToUtc(
+            local,
+            timezone,
+          );
 
           // The round-trip conversion should preserve the original UTC time
           // Parse and compare the datetime objects

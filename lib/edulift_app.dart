@@ -27,7 +27,8 @@ class EduLiftApp extends ConsumerStatefulWidget {
   ConsumerState<EduLiftApp> createState() => _EduLiftAppState();
 }
 
-class _EduLiftAppState extends ConsumerState<EduLiftApp> with WidgetsBindingObserver {
+class _EduLiftAppState extends ConsumerState<EduLiftApp>
+    with WidgetsBindingObserver {
   late final DeepLinkService _deepLinkService;
   bool _isSyncingTimezone = false;
   DateTime? _lastTimezoneSync;
@@ -72,7 +73,7 @@ class _EduLiftAppState extends ConsumerState<EduLiftApp> with WidgetsBindingObse
   }
 
   Future<void> _checkAndSyncTimezoneOnResume() async {
-    if (_isSyncingTimezone) return;  // Prevent concurrent calls
+    if (_isSyncingTimezone) return; // Prevent concurrent calls
 
     _isSyncingTimezone = true;
     try {
@@ -80,13 +81,16 @@ class _EduLiftAppState extends ConsumerState<EduLiftApp> with WidgetsBindingObse
       TimezoneService.clearCache();
 
       final authService = ref.read(authServiceProvider);
-      final timezoneSynced = await TimezoneService.checkAndSyncTimezone(authService);
+      final timezoneSynced = await TimezoneService.checkAndSyncTimezone(
+        authService,
+      );
 
       if (timezoneSynced && mounted) {
         // Only show snackbar if it's been at least 5 minutes since last sync
         final now = DateTime.now();
-        final shouldShowSnackbar = _lastTimezoneSync == null ||
-          now.difference(_lastTimezoneSync!).inMinutes >= 5;
+        final shouldShowSnackbar =
+            _lastTimezoneSync == null ||
+            now.difference(_lastTimezoneSync!).inMinutes >= 5;
 
         // Update auth state to reflect the new timezone
         await ref.read(authStateProvider.notifier).refreshCurrentUser();
@@ -107,7 +111,11 @@ class _EduLiftAppState extends ConsumerState<EduLiftApp> with WidgetsBindingObse
         }
       }
     } catch (e, stackTrace) {
-      AppLogger.error('[EduLiftApp] Error checking timezone on resume', e, stackTrace);
+      AppLogger.error(
+        '[EduLiftApp] Error checking timezone on resume',
+        e,
+        stackTrace,
+      );
     } finally {
       _isSyncingTimezone = false;
     }
@@ -324,54 +332,54 @@ class _ConnectionSnackbarListener extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     // Listen for connectivity status changes and show contextual snackbars
-    ref.listen<ConnectionStatus>(
-      unifiedConnectionStatusProvider,
-      (previous, next) {
-        if (previous == null || previous == next) return;
+    ref.listen<ConnectionStatus>(unifiedConnectionStatusProvider, (
+      previous,
+      next,
+    ) {
+      if (previous == null || previous == next) return;
 
-        // Only show snackbars for actual state changes
-        final l10n = AppLocalizations.of(context);
+      // Only show snackbars for actual state changes
+      final l10n = AppLocalizations.of(context);
 
-        switch (next) {
-          case ConnectionStatus.fullyConnected:
-            // Transitioning to fully connected
-            if (previous != ConnectionStatus.fullyConnected) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: Text(l10n.snackbarBackOnline),
-                  duration: const Duration(seconds: 2),
-                  backgroundColor: Colors.green[700],
-                  behavior: SnackBarBehavior.floating,
-                ),
-              );
-            }
-            break;
-
-          case ConnectionStatus.limitedConnectivity:
-            // Real-time features may be affected
+      switch (next) {
+        case ConnectionStatus.fullyConnected:
+          // Transitioning to fully connected
+          if (previous != ConnectionStatus.fullyConnected) {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
-                content: Text(l10n.snackbarLimitedConnectivity),
-                duration: const Duration(seconds: 3),
-                backgroundColor: Colors.orange[700],
+                content: Text(l10n.snackbarBackOnline),
+                duration: const Duration(seconds: 2),
+                backgroundColor: Colors.green[700],
                 behavior: SnackBarBehavior.floating,
               ),
             );
-            break;
+          }
+          break;
 
-          case ConnectionStatus.offline:
-            // Fully offline
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text(l10n.snackbarOffline),
-                duration: const Duration(seconds: 3),
-                behavior: SnackBarBehavior.floating,
-              ),
-            );
-            break;
-        }
-      },
-    );
+        case ConnectionStatus.limitedConnectivity:
+          // Real-time features may be affected
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(l10n.snackbarLimitedConnectivity),
+              duration: const Duration(seconds: 3),
+              backgroundColor: Colors.orange[700],
+              behavior: SnackBarBehavior.floating,
+            ),
+          );
+          break;
+
+        case ConnectionStatus.offline:
+          // Fully offline
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(l10n.snackbarOffline),
+              duration: const Duration(seconds: 3),
+              behavior: SnackBarBehavior.floating,
+            ),
+          );
+          break;
+      }
+    });
 
     return child;
   }

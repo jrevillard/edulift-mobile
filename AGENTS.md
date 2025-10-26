@@ -42,12 +42,28 @@ test/
 integration_test/       - Patrol E2E tests
 ```
 
+## ⚙️ Initial Setup
+
+### Install Git Hooks (Recommended)
+
+Install pre-commit hooks to ensure code quality:
+
+```bash
+bash scripts/install-hooks.sh
+```
+
+This will automatically run before each commit:
+- `dart format` - Auto-formats code
+- `flutter analyze` - Checks for issues
+
 ## ▶️ Development Commands
 
 - **Run Development App**: `flutter run`
 - **Run on Specific Device**: `flutter run -d <device_name>`
 - **Hot Reload**: `r` (in flutter run terminal)
 - **Hot Restart**: `R` (in flutter run terminal)
+- **Format Code**: `dart format .`
+- **Analyze Code**: `flutter analyze`
 
 ## 🧪 Testing Commands
 

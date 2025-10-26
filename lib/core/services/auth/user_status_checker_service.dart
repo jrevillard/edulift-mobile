@@ -57,6 +57,7 @@ class UserStatusCheckerService extends StateNotifier<UserStatusCheckState> {
 
   UserStatusCheckerService(this._userStatusService, this._errorHandlerService)
     : super(const UserStatusCheckState());
+
   /// Check user status to determine if name field should be shown
   Future<void> checkUserStatus(String email) async {
     try {
@@ -65,14 +66,18 @@ class UserStatusCheckerService extends StateNotifier<UserStatusCheckState> {
       final result = await _userStatusService.checkUserStatus(email);
       result.fold(
         (failure) {
-          AppLogger.warning('❌ UserStatusChecker: Status check failed - ${failure.message}');
+          AppLogger.warning(
+            '❌ UserStatusChecker: Status check failed - ${failure.message}',
+          );
           state = state.copyWith(
             isCheckingUserStatus: false,
             error: _getErrorMessage(failure),
           );
         },
         (userStatus) {
-          AppLogger.info('✅ UserStatusChecker: Status checked - requiresName: ${userStatus.requiresName}');
+          AppLogger.info(
+            '✅ UserStatusChecker: Status checked - requiresName: ${userStatus.requiresName}',
+          );
           state = state.copyWith(
             isCheckingUserStatus: false,
             userStatus: userStatus,
@@ -87,7 +92,10 @@ class UserStatusCheckerService extends StateNotifier<UserStatusCheckState> {
         e,
         ErrorContext.authOperation('check_user_status'),
       );
-      state = state.copyWith(isCheckingUserStatus: false, error: errorResult.userMessage.messageKey);
+      state = state.copyWith(
+        isCheckingUserStatus: false,
+        error: errorResult.userMessage.messageKey,
+      );
     }
   }
 

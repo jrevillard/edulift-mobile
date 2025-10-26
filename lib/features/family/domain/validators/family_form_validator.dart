@@ -54,7 +54,6 @@ class FamilyFormValidator {
     return null;
   }
 
-
   /// Validate email address
   static FamilyValidationError? validateEmail(String? value) {
     if (value == null || value.trim().isEmpty) {
@@ -62,7 +61,9 @@ class FamilyFormValidator {
     }
 
     final trimmed = value.trim();
-    final emailPattern = RegExp(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$');
+    final emailPattern = RegExp(
+      r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$',
+    );
     if (!emailPattern.hasMatch(trimmed)) {
       return FamilyValidationError.emailInvalid;
     }
@@ -114,12 +115,9 @@ class FamilyFormValidator {
   }
 
   /// Validate entire family creation form
-  static bool isFamilyFormValid({
-    required String? name,
-  }) {
+  static bool isFamilyFormValid({required String? name}) {
     return validateFamilyName(name) == null;
   }
-
 
   /// Validate entire invitation form
   static bool isInvitationFormValid({

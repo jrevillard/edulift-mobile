@@ -26,7 +26,8 @@ enum ChildError {
   networkError,
   serverError,
   databaseError,
-  unexpectedError}
+  unexpectedError,
+}
 
 /// Extension to map ChildError to localization keys
 extension ChildErrorMapper on ChildError {
@@ -71,6 +72,7 @@ extension ChildErrorMapper on ChildError {
       case ChildError.databaseError:
         return 'errorDatabaseGeneral';
       case ChildError.unexpectedError:
-        return 'errorUnexpectedMessage';}
+        return 'errorUnexpectedMessage';
+    }
   }
 }

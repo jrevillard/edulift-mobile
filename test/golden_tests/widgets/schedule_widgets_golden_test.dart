@@ -1,3 +1,6 @@
+@Tags(['golden'])
+library;
+
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mockito/mockito.dart';
@@ -10,7 +13,8 @@ import 'package:edulift/features/schedule/presentation/widgets/child_assignment_
 import 'package:edulift/features/schedule/presentation/widgets/time_picker.dart';
 import 'package:edulift/features/schedule/presentation/widgets/per_day_time_slot_config.dart';
 import 'package:edulift/features/schedule/presentation/pages/create_schedule_page.dart';
-import 'package:edulift/features/family/presentation/providers/family_provider.dart' as family_provider;
+import 'package:edulift/features/family/presentation/providers/family_provider.dart'
+    as family_provider;
 import 'package:edulift/features/family/domain/usecases/get_family_usecase.dart';
 import 'package:edulift/features/family/domain/usecases/leave_family_usecase.dart';
 import 'package:edulift/features/family/domain/services/children_service.dart';
@@ -64,27 +68,35 @@ ScheduleConfig createTestScheduleConfig(String groupId) {
 }
 
 /// Helper to create a mock schedule repository that doesn't access Hive
-MockGroupScheduleRepository createMockScheduleRepository(List<ScheduleSlot> scheduleSlots) {
+MockGroupScheduleRepository createMockScheduleRepository(
+  List<ScheduleSlot> scheduleSlots,
+) {
   final mockRepository = MockGroupScheduleRepository();
 
   // Stub the getWeeklySchedule method to return test data directly
-  when(mockRepository.getWeeklySchedule(any, any))
-      .thenAnswer((_) async => Result.ok(scheduleSlots));
+  when(
+    mockRepository.getWeeklySchedule(any, any),
+  ).thenAnswer((_) async => Result.ok(scheduleSlots));
 
   // Stub other methods that might be called during tests
-  when(mockRepository.getScheduleConfig(any))
-      .thenAnswer((_) async => Result.ok(createTestScheduleConfig('test-group')));
-  when(mockRepository.getAvailableChildren(any, any, any, any))
-      .thenAnswer((_) async => const Result.ok([]));
-  when(mockRepository.checkScheduleConflicts(any, any, any, any, any))
-      .thenAnswer((_) async => const Result.ok([]));
+  when(
+    mockRepository.getScheduleConfig(any),
+  ).thenAnswer((_) async => Result.ok(createTestScheduleConfig('test-group')));
+  when(
+    mockRepository.getAvailableChildren(any, any, any, any),
+  ).thenAnswer((_) async => const Result.ok([]));
+  when(
+    mockRepository.checkScheduleConflicts(any, any, any, any, any),
+  ).thenAnswer((_) async => const Result.ok([]));
 
   return mockRepository;
 }
 
 /// Helper to create provider override with mocked schedule repository
 /// This prevents Hive access by providing a mock repository
-Override createMockedScheduleRepositoryProvider(List<ScheduleSlot> scheduleSlots) {
+Override createMockedScheduleRepositoryProvider(
+  List<ScheduleSlot> scheduleSlots,
+) {
   return scheduleRepositoryProvider.overrideWith((ref) {
     return createMockScheduleRepository(scheduleSlots);
   });
@@ -92,7 +104,11 @@ Override createMockedScheduleRepositoryProvider(List<ScheduleSlot> scheduleSlots
 
 /// Helper to create provider override with mocked schedule data
 /// Uses the modern weeklyScheduleProvider (auto-dispose)
-Override createMockedScheduleProvider(String groupId, String week, List<ScheduleSlot> scheduleSlots) {
+Override createMockedScheduleProvider(
+  String groupId,
+  String week,
+  List<ScheduleSlot> scheduleSlots,
+) {
   return weeklyScheduleProvider(groupId, week).overrideWith((ref) async {
     // Return pre-defined schedule slots directly
     return scheduleSlots;
@@ -144,10 +160,9 @@ Override createMockedGroupsProvider(GroupsState initialState) {
   });
 }
 
-
-
 /// Pre-initialized FamilyNotifier that doesn't call repository during tests
-class _PreInitializedScheduleFamilyNotifier extends family_provider.FamilyNotifier {
+class _PreInitializedScheduleFamilyNotifier
+    extends family_provider.FamilyNotifier {
   _PreInitializedScheduleFamilyNotifier(
     GetFamilyUsecase getFamilyUsecase,
     ChildrenService childrenService,
@@ -157,13 +172,13 @@ class _PreInitializedScheduleFamilyNotifier extends family_provider.FamilyNotifi
     Ref ref, {
     required entities.Family? initialFamily,
   }) : super(
-          getFamilyUsecase,
-          childrenService,
-          leaveFamilyUsecase,
-          familyRepository,
-          invitationRepository,
-          ref,
-        ) {
+         getFamilyUsecase,
+         childrenService,
+         leaveFamilyUsecase,
+         familyRepository,
+         invitationRepository,
+         ref,
+       ) {
     // Pre-set the state with test data to avoid async initialization issues
     if (initialFamily != null) {
       state = family_provider.FamilyState(
@@ -212,8 +227,11 @@ Override createMockedFamilyProvider(List<entities.Vehicle> vehicles) {
       return Result.ok(testFamily);
     });
 
-    when(mockInvitationRepository.getPendingInvitations(familyId: anyNamed('familyId')))
-        .thenAnswer((_) async => const Result.ok([]));
+    when(
+      mockInvitationRepository.getPendingInvitations(
+        familyId: anyNamed('familyId'),
+      ),
+    ).thenAnswer((_) async => const Result.ok([]));
 
     // Create a custom notifier that pre-sets the state
     final notifier = _PreInitializedScheduleFamilyNotifier(
@@ -246,7 +264,9 @@ List<Override> createGoldenTestOverrides({
     currentUserProvider.overrideWith((ref) => testUser),
 
     // Always include navigation provider
-    nav.navigationStateProvider.overrideWith((ref) => nav.NavigationStateNotifier()),
+    nav.navigationStateProvider.overrideWith(
+      (ref) => nav.NavigationStateNotifier(),
+    ),
 
     // CRITICAL: Prevent all real network calls during golden tests
     ...getAllNetworkMockOverrides(),
@@ -269,14 +289,17 @@ List<Override> createGoldenTestOverrides({
   }
 
   if (scheduleConfig != null && groupId != null) {
-    overrides.add(createMockedGroupScheduleConfigProvider(groupId, scheduleConfig));
+    overrides.add(
+      createMockedGroupScheduleConfigProvider(groupId, scheduleConfig),
+    );
   }
 
   return overrides;
 }
 
 /// Pre-initialized GroupScheduleConfigNotifier that doesn't call use cases during tests
-class _PreInitializedGroupScheduleConfigNotifier extends GroupScheduleConfigNotifier {
+class _PreInitializedGroupScheduleConfigNotifier
+    extends GroupScheduleConfigNotifier {
   _PreInitializedGroupScheduleConfigNotifier(
     String groupId,
     GetScheduleConfig getConfigUseCase,
@@ -310,7 +333,10 @@ class _PreInitializedGroupScheduleConfigNotifier extends GroupScheduleConfigNoti
 /// Helper function to create a properly mocked GroupScheduleConfigProvider
 /// This prevents use case initialization errors by mocking all dependencies
 /// The notifier is pre-initialized with test data to avoid async loadConfig() issues
-Override createMockedGroupScheduleConfigProvider(String groupId, ScheduleConfig? config) {
+Override createMockedGroupScheduleConfigProvider(
+  String groupId,
+  ScheduleConfig? config,
+) {
   return groupScheduleConfigProvider.overrideWith((
     ref,
     String providedGroupId,
@@ -355,7 +381,10 @@ Override createMockedGroupScheduleConfigLoadingProvider(String groupId) {
 }
 
 /// Helper function to create a mocked GroupScheduleConfigProvider in error state
-Override createMockedGroupScheduleConfigErrorProvider(String groupId, String errorMessage) {
+Override createMockedGroupScheduleConfigErrorProvider(
+  String groupId,
+  String errorMessage,
+) {
   return groupScheduleConfigProvider.overrideWith((
     ref,
     String providedGroupId,
@@ -502,7 +531,9 @@ void main() {
           createMockedScheduleRepositoryProvider(scheduleSlots),
           createMockedScheduleProvider(groups[0].id, testWeek, scheduleSlots),
           createMockedGroupsProvider(GroupsState(groups: groups)),
-            nav.navigationStateProvider.overrideWith((ref) => nav.NavigationStateNotifier()),
+          nav.navigationStateProvider.overrideWith(
+            (ref) => nav.NavigationStateNotifier(),
+          ),
         ];
 
         await GoldenTestWrapper.testWidget(
@@ -525,7 +556,9 @@ void main() {
         );
       });
 
-      testWidgets('ScheduleGrid - responsive design (small screen)', (tester) async {
+      testWidgets('ScheduleGrid - responsive design (small screen)', (
+        tester,
+      ) async {
         final groups = GroupDataFactory.createLargeGroupList(count: 2);
         final scheduleConfig = createTestScheduleConfig(groups[0].id);
         final scheduleSlots = ScheduleDataFactory.createLargeScheduleSlotList(
@@ -545,7 +578,9 @@ void main() {
           createMockedScheduleRepositoryProvider(scheduleSlots),
           createMockedScheduleProvider(groups[0].id, testWeek, scheduleSlots),
           createMockedGroupsProvider(GroupsState(groups: groups)),
-            nav.navigationStateProvider.overrideWith((ref) => nav.NavigationStateNotifier()),
+          nav.navigationStateProvider.overrideWith(
+            (ref) => nav.NavigationStateNotifier(),
+          ),
         ];
 
         await GoldenTestWrapper.testWidget(
@@ -570,7 +605,9 @@ void main() {
     });
 
     group('VehicleSelectionModal Widget Tests', () {
-      testWidgets('VehicleSelectionModal - with available vehicles (light)', (tester) async {
+      testWidgets('VehicleSelectionModal - with available vehicles (light)', (
+        tester,
+      ) async {
         final groups = GroupDataFactory.createLargeGroupList(count: 1);
         final vehicles = FamilyDataFactory.createLargeVehicleList(count: 5);
         final scheduleSlot = ScheduleDataFactory.createRealisticScheduleSlot(
@@ -580,7 +617,10 @@ void main() {
         // Create PeriodSlotData for VehicleSelectionModal
         final periodSlotData = PeriodSlotData(
           dayOfWeek: scheduleSlot.dayOfWeek,
-          period: AggregatePeriod(type: PeriodType.morning, timeSlots: [scheduleSlot.timeOfDay]),
+          period: AggregatePeriod(
+            type: PeriodType.morning,
+            timeSlots: [scheduleSlot.timeOfDay],
+          ),
           times: [scheduleSlot.timeOfDay],
           slots: [scheduleSlot],
           week: testWeek,
@@ -600,7 +640,9 @@ void main() {
           createMockedScheduleRepositoryProvider([scheduleSlot]),
           createMockedGroupsProvider(GroupsState(groups: groups)),
           createMockedScheduleProvider(groups[0].id, testWeek, [scheduleSlot]),
-          nav.navigationStateProvider.overrideWith((ref) => nav.NavigationStateNotifier()),
+          nav.navigationStateProvider.overrideWith(
+            (ref) => nav.NavigationStateNotifier(),
+          ),
         ];
 
         await GoldenTestWrapper.testWidget(
@@ -618,7 +660,9 @@ void main() {
         );
       });
 
-      testWidgets('VehicleSelectionModal - with assigned vehicles (dark)', (tester) async {
+      testWidgets('VehicleSelectionModal - with assigned vehicles (dark)', (
+        tester,
+      ) async {
         final groups = GroupDataFactory.createLargeGroupList(count: 1);
         final vehicles = FamilyDataFactory.createLargeVehicleList(count: 4);
         final scheduleSlot = ScheduleDataFactory.createRealisticScheduleSlot(
@@ -628,7 +672,10 @@ void main() {
         // Create PeriodSlotData with vehicle assignment
         final periodSlotData = PeriodSlotData(
           dayOfWeek: scheduleSlot.dayOfWeek,
-          period: AggregatePeriod(type: PeriodType.morning, timeSlots: [scheduleSlot.timeOfDay]),
+          period: AggregatePeriod(
+            type: PeriodType.morning,
+            timeSlots: [scheduleSlot.timeOfDay],
+          ),
           times: [scheduleSlot.timeOfDay],
           slots: [scheduleSlot],
           week: testWeek,
@@ -648,7 +695,9 @@ void main() {
           createMockedScheduleRepositoryProvider([scheduleSlot]),
           createMockedGroupsProvider(GroupsState(groups: groups)),
           createMockedScheduleProvider(groups[0].id, testWeek, [scheduleSlot]),
-          nav.navigationStateProvider.overrideWith((ref) => nav.NavigationStateNotifier()),
+          nav.navigationStateProvider.overrideWith(
+            (ref) => nav.NavigationStateNotifier(),
+          ),
         ];
 
         await GoldenTestWrapper.testWidget(
@@ -666,7 +715,9 @@ void main() {
         );
       });
 
-      testWidgets('VehicleSelectionModal - responsive design (tablet)', (tester) async {
+      testWidgets('VehicleSelectionModal - responsive design (tablet)', (
+        tester,
+      ) async {
         final groups = GroupDataFactory.createLargeGroupList(count: 1);
         final vehicles = FamilyDataFactory.createLargeVehicleList(count: 8);
         final scheduleSlot = ScheduleDataFactory.createRealisticScheduleSlot(
@@ -676,7 +727,10 @@ void main() {
         // Create PeriodSlotData
         final periodSlotData = PeriodSlotData(
           dayOfWeek: scheduleSlot.dayOfWeek,
-          period: AggregatePeriod(type: PeriodType.morning, timeSlots: [scheduleSlot.timeOfDay]),
+          period: AggregatePeriod(
+            type: PeriodType.morning,
+            timeSlots: [scheduleSlot.timeOfDay],
+          ),
           times: [scheduleSlot.timeOfDay],
           slots: [scheduleSlot],
           week: testWeek,
@@ -696,7 +750,9 @@ void main() {
           createMockedScheduleRepositoryProvider([scheduleSlot]),
           createMockedGroupsProvider(GroupsState(groups: groups)),
           createMockedScheduleProvider(groups[0].id, testWeek, [scheduleSlot]),
-          nav.navigationStateProvider.overrideWith((ref) => nav.NavigationStateNotifier()),
+          nav.navigationStateProvider.overrideWith(
+            (ref) => nav.NavigationStateNotifier(),
+          ),
         ];
 
         await GoldenTestWrapper.testWidget(
@@ -736,7 +792,9 @@ void main() {
           createMockedScheduleRepositoryProvider(scheduleSlots),
           createMockedScheduleProvider(groups[0].id, testWeek, scheduleSlots),
           createMockedGroupsProvider(GroupsState(groups: groups)),
-            nav.navigationStateProvider.overrideWith((ref) => nav.NavigationStateNotifier()),
+          nav.navigationStateProvider.overrideWith(
+            (ref) => nav.NavigationStateNotifier(),
+          ),
         ];
 
         await GoldenTestWrapper.testWidget(
@@ -759,7 +817,9 @@ void main() {
         );
       });
 
-      testWidgets('VehicleSelectionModal - complex assignment scenario', (tester) async {
+      testWidgets('VehicleSelectionModal - complex assignment scenario', (
+        tester,
+      ) async {
         final groups = GroupDataFactory.createLargeGroupList(count: 1);
         final vehicles = FamilyDataFactory.createLargeVehicleList(count: 6);
 
@@ -771,7 +831,10 @@ void main() {
         // Create PeriodSlotData
         final periodSlotData = PeriodSlotData(
           dayOfWeek: scheduleSlot.dayOfWeek,
-          period: AggregatePeriod(type: PeriodType.morning, timeSlots: [scheduleSlot.timeOfDay]),
+          period: AggregatePeriod(
+            type: PeriodType.morning,
+            timeSlots: [scheduleSlot.timeOfDay],
+          ),
           times: [scheduleSlot.timeOfDay],
           slots: [scheduleSlot],
           week: testWeek,
@@ -791,7 +854,9 @@ void main() {
           createMockedScheduleRepositoryProvider([scheduleSlot]),
           createMockedGroupsProvider(GroupsState(groups: groups)),
           createMockedScheduleProvider(groups[0].id, testWeek, [scheduleSlot]),
-          nav.navigationStateProvider.overrideWith((ref) => nav.NavigationStateNotifier()),
+          nav.navigationStateProvider.overrideWith(
+            (ref) => nav.NavigationStateNotifier(),
+          ),
         ];
 
         await GoldenTestWrapper.testWidget(
@@ -811,151 +876,160 @@ void main() {
     });
 
     group('ScheduleConfigWidget Tests', () {
-      testWidgets('ScheduleConfigWidget - with existing configuration (light theme)', (tester) async {
-        final groups = GroupDataFactory.createLargeGroupList(count: 1);
-        final groupId = groups[0].id;
+      testWidgets(
+        'ScheduleConfigWidget - with existing configuration (light theme)',
+        (tester) async {
+          final groups = GroupDataFactory.createLargeGroupList(count: 1);
+          final groupId = groups[0].id;
 
-        // Create a comprehensive schedule config with time slots for multiple days
-        final scheduleConfig = ScheduleConfig(
-          groupId: groupId,
-          scheduleHours: const {
-            'monday': ['08:00', '15:30'],
-            'tuesday': ['08:00', '15:30'],
-            'wednesday': ['08:00'],
-            'thursday': ['08:00', '12:30', '15:30'],
-            'friday': ['08:00', '15:30'],
-            'saturday': [],
-            'sunday': [],
-          },
-          createdAt: DateTime.now().subtract(const Duration(days: 30)),
-          updatedAt: DateTime.now().subtract(const Duration(days: 1)),
-        );
+          // Create a comprehensive schedule config with time slots for multiple days
+          final scheduleConfig = ScheduleConfig(
+            groupId: groupId,
+            scheduleHours: const {
+              'monday': ['08:00', '15:30'],
+              'tuesday': ['08:00', '15:30'],
+              'wednesday': ['08:00'],
+              'thursday': ['08:00', '12:30', '15:30'],
+              'friday': ['08:00', '15:30'],
+              'saturday': [],
+              'sunday': [],
+            },
+            createdAt: DateTime.now().subtract(const Duration(days: 30)),
+            updatedAt: DateTime.now().subtract(const Duration(days: 1)),
+          );
 
-        final testUser = User(
-          id: 'config-user-1',
-          email: 'config1@example.com',
-          name: 'Config Test User 1',
-          createdAt: DateTime.now(),
-          updatedAt: DateTime.now(),
-        );
+          final testUser = User(
+            id: 'config-user-1',
+            email: 'config1@example.com',
+            name: 'Config Test User 1',
+            createdAt: DateTime.now(),
+            updatedAt: DateTime.now(),
+          );
 
-        final overrides = [
-          currentUserProvider.overrideWith((ref) => testUser),
-          createMockedGroupScheduleConfigProvider(groupId, scheduleConfig),
-          createMockedGroupsProvider(GroupsState(groups: groups)),
-          nav.navigationStateProvider.overrideWith(
-            (ref) => nav.NavigationStateNotifier(),
-          ),
-        ];
-
-        await GoldenTestWrapper.testWidget(
-          tester: tester,
-          widget: ProviderScope(
-            overrides: overrides,
-            child: ScheduleConfigWidget(
-              groupId: groupId,
-              onConfigUpdated: () {},
-              onActionsChanged: (saveCallback, cancelCallback, hasChanges) {},
+          final overrides = [
+            currentUserProvider.overrideWith((ref) => testUser),
+            createMockedGroupScheduleConfigProvider(groupId, scheduleConfig),
+            createMockedGroupsProvider(GroupsState(groups: groups)),
+            nav.navigationStateProvider.overrideWith(
+              (ref) => nav.NavigationStateNotifier(),
             ),
-          ),
-          testName: 'schedule_config_widget_light_existing',
-          devices: DeviceConfigurations.crossPlatformSet,
-          themes: [ThemeConfigurations.light],
-        );
-      });
+          ];
 
-      testWidgets('ScheduleConfigWidget - with existing configuration (dark theme)', (tester) async {
-        final groups = GroupDataFactory.createLargeGroupList(count: 1);
-        final groupId = groups[0].id;
-
-        // Create schedule config with complex time slots
-        final scheduleConfig = ScheduleConfig(
-          groupId: groupId,
-          scheduleHours: const {
-            'monday': ['07:30', '08:45', '15:15', '16:30'],
-            'tuesday': ['07:30', '15:15'],
-            'wednesday': ['07:30', '08:45', '15:15'],
-            'thursday': ['07:30', '15:15', '16:30'],
-            'friday': ['07:30', '08:45', '15:15'],
-            'saturday': ['10:00'],
-            'sunday': [],
-          },
-          createdAt: DateTime.now().subtract(const Duration(days: 60)),
-          updatedAt: DateTime.now().subtract(const Duration(hours: 2)),
-        );
-
-        final testUser = User(
-          id: 'config-user-2',
-          email: 'config2@example.com',
-          name: 'Config Test User 2',
-          createdAt: DateTime.now(),
-          updatedAt: DateTime.now(),
-        );
-
-        final overrides = [
-          currentUserProvider.overrideWith((ref) => testUser),
-          createMockedGroupScheduleConfigProvider(groupId, scheduleConfig),
-          createMockedGroupsProvider(GroupsState(groups: groups)),
-          nav.navigationStateProvider.overrideWith(
-            (ref) => nav.NavigationStateNotifier(),
-          ),
-        ];
-
-        await GoldenTestWrapper.testWidget(
-          tester: tester,
-          widget: ProviderScope(
-            overrides: overrides,
-            child: ScheduleConfigWidget(
-              groupId: groupId,
-              onConfigUpdated: () {},
-              onActionsChanged: (saveCallback, cancelCallback, hasChanges) {},
+          await GoldenTestWrapper.testWidget(
+            tester: tester,
+            widget: ProviderScope(
+              overrides: overrides,
+              child: ScheduleConfigWidget(
+                groupId: groupId,
+                onConfigUpdated: () {},
+                onActionsChanged: (saveCallback, cancelCallback, hasChanges) {},
+              ),
             ),
-          ),
-          testName: 'schedule_config_widget_dark_existing',
-          devices: DeviceConfigurations.crossPlatformSet,
-          themes: [ThemeConfigurations.dark],
-        );
-      });
+            testName: 'schedule_config_widget_light_existing',
+            devices: DeviceConfigurations.crossPlatformSet,
+            themes: [ThemeConfigurations.light],
+          );
+        },
+      );
 
-      testWidgets('ScheduleConfigWidget - default configuration (no existing config)', (tester) async {
-        final groups = GroupDataFactory.createLargeGroupList(count: 1);
-        final groupId = groups[0].id;
+      testWidgets(
+        'ScheduleConfigWidget - with existing configuration (dark theme)',
+        (tester) async {
+          final groups = GroupDataFactory.createLargeGroupList(count: 1);
+          final groupId = groups[0].id;
 
-        final testUser = User(
-          id: 'config-user-3',
-          email: 'config3@example.com',
-          name: 'Config Test User 3',
-          createdAt: DateTime.now(),
-          updatedAt: DateTime.now(),
-        );
+          // Create schedule config with complex time slots
+          final scheduleConfig = ScheduleConfig(
+            groupId: groupId,
+            scheduleHours: const {
+              'monday': ['07:30', '08:45', '15:15', '16:30'],
+              'tuesday': ['07:30', '15:15'],
+              'wednesday': ['07:30', '08:45', '15:15'],
+              'thursday': ['07:30', '15:15', '16:30'],
+              'friday': ['07:30', '08:45', '15:15'],
+              'saturday': ['10:00'],
+              'sunday': [],
+            },
+            createdAt: DateTime.now().subtract(const Duration(days: 60)),
+            updatedAt: DateTime.now().subtract(const Duration(hours: 2)),
+          );
 
-        final overrides = [
-          currentUserProvider.overrideWith((ref) => testUser),
-          createMockedGroupScheduleConfigProvider(
-            groupId,
-            null,
-          ), // No existing config
-          createMockedGroupsProvider(GroupsState(groups: groups)),
-          nav.navigationStateProvider.overrideWith(
-            (ref) => nav.NavigationStateNotifier(),
-          ),
-        ];
+          final testUser = User(
+            id: 'config-user-2',
+            email: 'config2@example.com',
+            name: 'Config Test User 2',
+            createdAt: DateTime.now(),
+            updatedAt: DateTime.now(),
+          );
 
-        await GoldenTestWrapper.testWidget(
-          tester: tester,
-          widget: ProviderScope(
-            overrides: overrides,
-            child: ScheduleConfigWidget(
-              groupId: groupId,
-              onConfigUpdated: () {},
-              onActionsChanged: (saveCallback, cancelCallback, hasChanges) {},
+          final overrides = [
+            currentUserProvider.overrideWith((ref) => testUser),
+            createMockedGroupScheduleConfigProvider(groupId, scheduleConfig),
+            createMockedGroupsProvider(GroupsState(groups: groups)),
+            nav.navigationStateProvider.overrideWith(
+              (ref) => nav.NavigationStateNotifier(),
             ),
-          ),
-          testName: 'schedule_config_widget_default',
-          devices: DeviceConfigurations.crossPlatformSet,
-          themes: [ThemeConfigurations.light],
-        );
-      });
+          ];
+
+          await GoldenTestWrapper.testWidget(
+            tester: tester,
+            widget: ProviderScope(
+              overrides: overrides,
+              child: ScheduleConfigWidget(
+                groupId: groupId,
+                onConfigUpdated: () {},
+                onActionsChanged: (saveCallback, cancelCallback, hasChanges) {},
+              ),
+            ),
+            testName: 'schedule_config_widget_dark_existing',
+            devices: DeviceConfigurations.crossPlatformSet,
+            themes: [ThemeConfigurations.dark],
+          );
+        },
+      );
+
+      testWidgets(
+        'ScheduleConfigWidget - default configuration (no existing config)',
+        (tester) async {
+          final groups = GroupDataFactory.createLargeGroupList(count: 1);
+          final groupId = groups[0].id;
+
+          final testUser = User(
+            id: 'config-user-3',
+            email: 'config3@example.com',
+            name: 'Config Test User 3',
+            createdAt: DateTime.now(),
+            updatedAt: DateTime.now(),
+          );
+
+          final overrides = [
+            currentUserProvider.overrideWith((ref) => testUser),
+            createMockedGroupScheduleConfigProvider(
+              groupId,
+              null,
+            ), // No existing config
+            createMockedGroupsProvider(GroupsState(groups: groups)),
+            nav.navigationStateProvider.overrideWith(
+              (ref) => nav.NavigationStateNotifier(),
+            ),
+          ];
+
+          await GoldenTestWrapper.testWidget(
+            tester: tester,
+            widget: ProviderScope(
+              overrides: overrides,
+              child: ScheduleConfigWidget(
+                groupId: groupId,
+                onConfigUpdated: () {},
+                onActionsChanged: (saveCallback, cancelCallback, hasChanges) {},
+              ),
+            ),
+            testName: 'schedule_config_widget_default',
+            devices: DeviceConfigurations.crossPlatformSet,
+            themes: [ThemeConfigurations.light],
+          );
+        },
+      );
 
       testWidgets('ScheduleConfigWidget - loading state', (tester) async {
         final groups = GroupDataFactory.createLargeGroupList(count: 1);
@@ -1036,7 +1110,9 @@ void main() {
         );
       });
 
-      testWidgets('ScheduleConfigWidget - responsive design (small screen)', (tester) async {
+      testWidgets('ScheduleConfigWidget - responsive design (small screen)', (
+        tester,
+      ) async {
         final groups = GroupDataFactory.createLargeGroupList(count: 1);
         final groupId = groups[0].id;
 
@@ -1100,7 +1176,9 @@ void main() {
         );
       });
 
-      testWidgets('ScheduleConfigWidget - responsive design (tablet)', (tester) async {
+      testWidgets('ScheduleConfigWidget - responsive design (tablet)', (
+        tester,
+      ) async {
         final groups = GroupDataFactory.createLargeGroupList(count: 1);
         final groupId = groups[0].id;
 
@@ -1193,7 +1271,9 @@ void main() {
         );
       });
 
-      testWidgets('ScheduleConfigWidget - high contrast theme accessibility', (tester) async {
+      testWidgets('ScheduleConfigWidget - high contrast theme accessibility', (
+        tester,
+      ) async {
         final groups = GroupDataFactory.createLargeGroupList(count: 1);
         final groupId = groups[0].id;
 
@@ -1245,7 +1325,9 @@ void main() {
         );
       });
 
-      testWidgets('ScheduleConfigWidget - edge case (weekend-only schedule)', (tester) async {
+      testWidgets('ScheduleConfigWidget - edge case (weekend-only schedule)', (
+        tester,
+      ) async {
         final groups = GroupDataFactory.createLargeGroupList(count: 1);
         final groupId = groups[0].id;
 
@@ -1298,7 +1380,9 @@ void main() {
         );
       });
 
-      testWidgets('ScheduleConfigWidget - edge case (max time slots per day)', (tester) async {
+      testWidgets('ScheduleConfigWidget - edge case (max time slots per day)', (
+        tester,
+      ) async {
         final groups = GroupDataFactory.createLargeGroupList(count: 1);
         final groupId = groups[0].id;
 
@@ -1369,7 +1453,9 @@ void main() {
     });
 
     group('ScheduleSlotWidget Tests', () {
-      testWidgets('ScheduleSlotWidget - empty slot (light theme)', (tester) async {
+      testWidgets('ScheduleSlotWidget - empty slot (light theme)', (
+        tester,
+      ) async {
         final groups = GroupDataFactory.createLargeGroupList(count: 1);
         final testUser = User(
           id: 'slot-user-1',
@@ -1398,7 +1484,10 @@ void main() {
               week: testWeek,
               scheduleSlot: const PeriodSlotData(
                 dayOfWeek: DayOfWeek.monday,
-                period: AggregatePeriod(type: PeriodType.morning, timeSlots: [TimeOfDayValue(8, 0)]),
+                period: AggregatePeriod(
+                  type: PeriodType.morning,
+                  timeSlots: [TimeOfDayValue(8, 0)],
+                ),
                 times: [TimeOfDayValue(8, 0)],
                 slots: [],
                 week: '2025-W41',
@@ -1413,7 +1502,9 @@ void main() {
         );
       });
 
-      testWidgets('ScheduleSlotWidget - empty slot (dark theme)', (tester) async {
+      testWidgets('ScheduleSlotWidget - empty slot (dark theme)', (
+        tester,
+      ) async {
         final groups = GroupDataFactory.createLargeGroupList(count: 1);
         final testUser = User(
           id: 'slot-user-2',
@@ -1442,7 +1533,10 @@ void main() {
               week: testWeek,
               scheduleSlot: const PeriodSlotData(
                 dayOfWeek: DayOfWeek.tuesday,
-                period: AggregatePeriod(type: PeriodType.afternoon, timeSlots: [TimeOfDayValue(15, 0)]),
+                period: AggregatePeriod(
+                  type: PeriodType.afternoon,
+                  timeSlots: [TimeOfDayValue(15, 0)],
+                ),
                 times: [TimeOfDayValue(15, 0)],
                 slots: [],
                 week: '2025-W41',
@@ -1457,7 +1551,9 @@ void main() {
         );
       });
 
-      testWidgets('ScheduleSlotWidget - single vehicle with children', (tester) async {
+      testWidgets('ScheduleSlotWidget - single vehicle with children', (
+        tester,
+      ) async {
         final groups = GroupDataFactory.createLargeGroupList(count: 1);
         final scheduleSlot = ScheduleDataFactory.createRealisticScheduleSlot(
           groupId: groups[0].id,
@@ -1466,7 +1562,10 @@ void main() {
         // Create PeriodSlotData for ScheduleSlotWidget
         final periodSlotData = PeriodSlotData(
           dayOfWeek: scheduleSlot.dayOfWeek,
-          period: AggregatePeriod(type: PeriodType.morning, timeSlots: [scheduleSlot.timeOfDay]),
+          period: AggregatePeriod(
+            type: PeriodType.morning,
+            timeSlots: [scheduleSlot.timeOfDay],
+          ),
           times: [scheduleSlot.timeOfDay],
           slots: [scheduleSlot],
           week: testWeek,
@@ -1570,7 +1669,9 @@ void main() {
         );
       });
 
-      testWidgets('ScheduleSlotWidget - vehicles without children', (tester) async {
+      testWidgets('ScheduleSlotWidget - vehicles without children', (
+        tester,
+      ) async {
         final groups = GroupDataFactory.createLargeGroupList(count: 1);
         final scheduleSlot = ScheduleDataFactory.createRealisticScheduleSlot(
           groupId: groups[0].id,
@@ -1630,7 +1731,9 @@ void main() {
         );
       });
 
-      testWidgets('ScheduleSlotWidget - responsive design (small screen)', (tester) async {
+      testWidgets('ScheduleSlotWidget - responsive design (small screen)', (
+        tester,
+      ) async {
         final groups = GroupDataFactory.createLargeGroupList(count: 1);
         final scheduleSlots =
             ScheduleDataFactory.createLargeScheduleSlotList(
@@ -1690,7 +1793,9 @@ void main() {
         );
       });
 
-      testWidgets('ScheduleSlotWidget - responsive design (tablet)', (tester) async {
+      testWidgets('ScheduleSlotWidget - responsive design (tablet)', (
+        tester,
+      ) async {
         final groups = GroupDataFactory.createLargeGroupList(count: 1);
         final scheduleSlots =
             ScheduleDataFactory.createLargeScheduleSlotList(
@@ -1750,7 +1855,9 @@ void main() {
         );
       });
 
-      testWidgets('ScheduleSlotWidget - high contrast theme accessibility', (tester) async {
+      testWidgets('ScheduleSlotWidget - high contrast theme accessibility', (
+        tester,
+      ) async {
         final groups = GroupDataFactory.createLargeGroupList(count: 1);
         final scheduleSlot = ScheduleDataFactory.createRealisticScheduleSlot(
           groupId: groups[0].id,
@@ -1758,7 +1865,10 @@ void main() {
 
         final periodSlotData = PeriodSlotData(
           dayOfWeek: scheduleSlot.dayOfWeek,
-          period: AggregatePeriod(type: PeriodType.morning, timeSlots: [scheduleSlot.timeOfDay]),
+          period: AggregatePeriod(
+            type: PeriodType.morning,
+            timeSlots: [scheduleSlot.timeOfDay],
+          ),
           times: [scheduleSlot.timeOfDay],
           slots: [scheduleSlot],
           week: testWeek,
@@ -1800,7 +1910,9 @@ void main() {
         );
       });
 
-      testWidgets('ScheduleSlotWidget - edge case (many vehicles overflow)', (tester) async {
+      testWidgets('ScheduleSlotWidget - edge case (many vehicles overflow)', (
+        tester,
+      ) async {
         final groups = GroupDataFactory.createLargeGroupList(count: 1);
         final scheduleSlots =
             ScheduleDataFactory.createLargeScheduleSlotList(
@@ -1862,7 +1974,9 @@ void main() {
     });
 
     group('CreateSchedulePage Tests', () {
-      testWidgets('CreateSchedulePage - basic layout (light theme)', (tester) async {
+      testWidgets('CreateSchedulePage - basic layout (light theme)', (
+        tester,
+      ) async {
         await GoldenTestWrapper.testScreen(
           tester: tester,
           screen: const CreateSchedulePage(),
@@ -1872,7 +1986,9 @@ void main() {
         );
       });
 
-      testWidgets('CreateSchedulePage - basic layout (dark theme)', (tester) async {
+      testWidgets('CreateSchedulePage - basic layout (dark theme)', (
+        tester,
+      ) async {
         await GoldenTestWrapper.testScreen(
           tester: tester,
           screen: const CreateSchedulePage(),
@@ -1882,7 +1998,9 @@ void main() {
         );
       });
 
-      testWidgets('CreateSchedulePage - responsive design (small screen)', (tester) async {
+      testWidgets('CreateSchedulePage - responsive design (small screen)', (
+        tester,
+      ) async {
         await GoldenTestWrapper.testScreen(
           tester: tester,
           screen: const CreateSchedulePage(),
@@ -1892,7 +2010,9 @@ void main() {
         );
       });
 
-      testWidgets('CreateSchedulePage - responsive design (tablet)', (tester) async {
+      testWidgets('CreateSchedulePage - responsive design (tablet)', (
+        tester,
+      ) async {
         await GoldenTestWrapper.testScreen(
           tester: tester,
           screen: const CreateSchedulePage(),
@@ -1902,7 +2022,9 @@ void main() {
         );
       });
 
-      testWidgets('CreateSchedulePage - high contrast theme accessibility', (tester) async {
+      testWidgets('CreateSchedulePage - high contrast theme accessibility', (
+        tester,
+      ) async {
         await GoldenTestWrapper.testScreen(
           tester: tester,
           screen: const CreateSchedulePage(),
@@ -1912,7 +2034,9 @@ void main() {
         );
       });
 
-      testWidgets('CreateSchedulePage - edge case (minimal content)', (tester) async {
+      testWidgets('CreateSchedulePage - edge case (minimal content)', (
+        tester,
+      ) async {
         await GoldenTestWrapper.testScreen(
           tester: tester,
           screen: const CreateSchedulePage(),
@@ -1924,71 +2048,90 @@ void main() {
     });
 
     group('ChildAssignmentSheet Tests', () {
-      testWidgets('ChildAssignmentSheet - with available children (light theme)', (tester) async {
-        final groups = GroupDataFactory.createLargeGroupList(count: 1);
-        final vehicleAssignment = ScheduleDataFactory.createRealisticVehicleAssignment(
-          index: 1,
-          childCount: 2,
-        );
-        final availableChildren = FamilyDataFactory.createLargeChildList(count: 5);
-        final assignedChildIds = ['child-1', 'child-2'];
+      testWidgets(
+        'ChildAssignmentSheet - with available children (light theme)',
+        (tester) async {
+          final groups = GroupDataFactory.createLargeGroupList(count: 1);
+          final vehicleAssignment =
+              ScheduleDataFactory.createRealisticVehicleAssignment(
+                index: 1,
+                childCount: 2,
+              );
+          final availableChildren = FamilyDataFactory.createLargeChildList(
+            count: 5,
+          );
+          final assignedChildIds = ['child-1', 'child-2'];
 
-        await GoldenTestWrapper.testWidget(
-          tester: tester,
-          widget: ProviderScope(
-            overrides: [
-              createMockedGroupsProvider(GroupsState(groups: groups)),
-              nav.navigationStateProvider.overrideWith((ref) => nav.NavigationStateNotifier()),
-            ],
-            child: ChildAssignmentSheet(
-              groupId: groups[0].id,
-              week: testWeek,
-              slotId: 'slot-1',
-              vehicleAssignment: vehicleAssignment,
-              availableChildren: availableChildren,
-              currentlyAssignedChildIds: assignedChildIds,
+          await GoldenTestWrapper.testWidget(
+            tester: tester,
+            widget: ProviderScope(
+              overrides: [
+                createMockedGroupsProvider(GroupsState(groups: groups)),
+                nav.navigationStateProvider.overrideWith(
+                  (ref) => nav.NavigationStateNotifier(),
+                ),
+              ],
+              child: ChildAssignmentSheet(
+                groupId: groups[0].id,
+                week: testWeek,
+                slotId: 'slot-1',
+                vehicleAssignment: vehicleAssignment,
+                availableChildren: availableChildren,
+                currentlyAssignedChildIds: assignedChildIds,
+              ),
             ),
-          ),
-          testName: 'child_assignment_sheet_light_children',
-          devices: DeviceConfigurations.crossPlatformSet,
-          themes: [ThemeConfigurations.light],
-        );
-      });
+            testName: 'child_assignment_sheet_light_children',
+            devices: DeviceConfigurations.crossPlatformSet,
+            themes: [ThemeConfigurations.light],
+          );
+        },
+      );
 
-      testWidgets('ChildAssignmentSheet - capacity full scenario (dark theme)', (tester) async {
-        final groups = GroupDataFactory.createLargeGroupList(count: 1);
-        final vehicleAssignment = ScheduleDataFactory.createFullVehicleAssignment();
-        final availableChildren = FamilyDataFactory.createLargeChildList(count: 8);
-        final assignedChildIds = ['child-1', 'child-2'];
+      testWidgets(
+        'ChildAssignmentSheet - capacity full scenario (dark theme)',
+        (tester) async {
+          final groups = GroupDataFactory.createLargeGroupList(count: 1);
+          final vehicleAssignment =
+              ScheduleDataFactory.createFullVehicleAssignment();
+          final availableChildren = FamilyDataFactory.createLargeChildList(
+            count: 8,
+          );
+          final assignedChildIds = ['child-1', 'child-2'];
 
-        await GoldenTestWrapper.testWidget(
-          tester: tester,
-          widget: ProviderScope(
-            overrides: [
-              createMockedGroupsProvider(GroupsState(groups: groups)),
-              nav.navigationStateProvider.overrideWith((ref) => nav.NavigationStateNotifier()),
-            ],
-            child: ChildAssignmentSheet(
-              groupId: groups[0].id,
-              week: testWeek,
-              slotId: 'slot-2',
-              vehicleAssignment: vehicleAssignment,
-              availableChildren: availableChildren,
-              currentlyAssignedChildIds: assignedChildIds,
+          await GoldenTestWrapper.testWidget(
+            tester: tester,
+            widget: ProviderScope(
+              overrides: [
+                createMockedGroupsProvider(GroupsState(groups: groups)),
+                nav.navigationStateProvider.overrideWith(
+                  (ref) => nav.NavigationStateNotifier(),
+                ),
+              ],
+              child: ChildAssignmentSheet(
+                groupId: groups[0].id,
+                week: testWeek,
+                slotId: 'slot-2',
+                vehicleAssignment: vehicleAssignment,
+                availableChildren: availableChildren,
+                currentlyAssignedChildIds: assignedChildIds,
+              ),
             ),
-          ),
-          testName: 'child_assignment_sheet_dark_capacity_full',
-          devices: DeviceConfigurations.crossPlatformSet,
-          themes: [ThemeConfigurations.dark],
-        );
-      });
+            testName: 'child_assignment_sheet_dark_capacity_full',
+            devices: DeviceConfigurations.crossPlatformSet,
+            themes: [ThemeConfigurations.dark],
+          );
+        },
+      );
 
-      testWidgets('ChildAssignmentSheet - many children selection (tablet)', (tester) async {
+      testWidgets('ChildAssignmentSheet - many children selection (tablet)', (
+        tester,
+      ) async {
         final groups = GroupDataFactory.createLargeGroupList(count: 1);
-        final vehicleAssignment = ScheduleDataFactory.createRealisticVehicleAssignment(
-          index: 3,
-          childCount: 0,
-        );
+        final vehicleAssignment =
+            ScheduleDataFactory.createRealisticVehicleAssignment(
+              index: 3,
+              childCount: 0,
+            );
         final availableChildren = FamilyDataFactory.createLargeChildList();
         final assignedChildIds = <String>[];
 
@@ -1997,7 +2140,9 @@ void main() {
           widget: ProviderScope(
             overrides: [
               createMockedGroupsProvider(GroupsState(groups: groups)),
-              nav.navigationStateProvider.overrideWith((ref) => nav.NavigationStateNotifier()),
+              nav.navigationStateProvider.overrideWith(
+                (ref) => nav.NavigationStateNotifier(),
+              ),
             ],
             child: ChildAssignmentSheet(
               groupId: groups[0].id,
@@ -2014,13 +2159,18 @@ void main() {
         );
       });
 
-      testWidgets('ChildAssignmentSheet - responsive design (small screen)', (tester) async {
+      testWidgets('ChildAssignmentSheet - responsive design (small screen)', (
+        tester,
+      ) async {
         final groups = GroupDataFactory.createLargeGroupList(count: 1);
-        final vehicleAssignment = ScheduleDataFactory.createRealisticVehicleAssignment(
-          index: 4,
-          childCount: 1,
+        final vehicleAssignment =
+            ScheduleDataFactory.createRealisticVehicleAssignment(
+              index: 4,
+              childCount: 1,
+            );
+        final availableChildren = FamilyDataFactory.createLargeChildList(
+          count: 6,
         );
-        final availableChildren = FamilyDataFactory.createLargeChildList(count: 6);
         final assignedChildIds = ['child-1'];
 
         await GoldenTestWrapper.testWidget(
@@ -2028,7 +2178,9 @@ void main() {
           widget: ProviderScope(
             overrides: [
               createMockedGroupsProvider(GroupsState(groups: groups)),
-              nav.navigationStateProvider.overrideWith((ref) => nav.NavigationStateNotifier()),
+              nav.navigationStateProvider.overrideWith(
+                (ref) => nav.NavigationStateNotifier(),
+              ),
             ],
             child: ChildAssignmentSheet(
               groupId: groups[0].id,
@@ -2047,7 +2199,9 @@ void main() {
     });
 
     group('ScheduleTimePicker Tests', () {
-      testWidgets('ScheduleTimePicker - empty selection (light theme)', (tester) async {
+      testWidgets('ScheduleTimePicker - empty selection (light theme)', (
+        tester,
+      ) async {
         await GoldenTestWrapper.testWidget(
           tester: tester,
           widget: ScheduleTimePicker(
@@ -2063,7 +2217,9 @@ void main() {
         );
       });
 
-      testWidgets('ScheduleTimePicker - with selected times (dark theme)', (tester) async {
+      testWidgets('ScheduleTimePicker - with selected times (dark theme)', (
+        tester,
+      ) async {
         await GoldenTestWrapper.testWidget(
           tester: tester,
           widget: ScheduleTimePicker(
@@ -2083,8 +2239,16 @@ void main() {
           tester: tester,
           widget: ScheduleTimePicker(
             selectedTimeSlots: const [
-              '06:00', '06:30', '07:00', '07:30', '08:00', '08:30',
-              '09:00', '09:30', '10:00', '10:30'
+              '06:00',
+              '06:30',
+              '07:00',
+              '07:30',
+              '08:00',
+              '08:30',
+              '09:00',
+              '09:30',
+              '10:00',
+              '10:30',
             ],
             onTimeSlotsChanged: (timeSlots) {},
             maxSlots: 10,
@@ -2096,7 +2260,9 @@ void main() {
         );
       });
 
-      testWidgets('ScheduleTimePicker - responsive design (tablet)', (tester) async {
+      testWidgets('ScheduleTimePicker - responsive design (tablet)', (
+        tester,
+      ) async {
         await GoldenTestWrapper.testWidget(
           tester: tester,
           widget: ScheduleTimePicker(
@@ -2128,7 +2294,9 @@ void main() {
     });
 
     group('PerDayTimeSlotConfig Tests', () {
-      testWidgets('PerDayTimeSlotConfig - empty state (light theme)', (tester) async {
+      testWidgets('PerDayTimeSlotConfig - empty state (light theme)', (
+        tester,
+      ) async {
         await GoldenTestWrapper.testWidget(
           tester: tester,
           widget: PerDayTimeSlotConfig(
@@ -2144,7 +2312,9 @@ void main() {
         );
       });
 
-      testWidgets('PerDayTimeSlotConfig - with time slots (dark theme)', (tester) async {
+      testWidgets('PerDayTimeSlotConfig - with time slots (dark theme)', (
+        tester,
+      ) async {
         await GoldenTestWrapper.testWidget(
           tester: tester,
           widget: PerDayTimeSlotConfig(
@@ -2167,8 +2337,18 @@ void main() {
             weekday: 'wednesday',
             weekdayLabel: 'Wednesday',
             timeSlots: const [
-              '06:00', '06:30', '07:00', '08:00', '09:00', '10:00',
-              '11:00', '12:00', '13:00', '14:00', '15:00', '16:00'
+              '06:00',
+              '06:30',
+              '07:00',
+              '08:00',
+              '09:00',
+              '10:00',
+              '11:00',
+              '12:00',
+              '13:00',
+              '14:00',
+              '15:00',
+              '16:00',
             ],
             onTimeSlotsChanged: (timeSlots) {},
             maxSlots: 15,
@@ -2179,7 +2359,9 @@ void main() {
         );
       });
 
-      testWidgets('PerDayTimeSlotConfig - responsive design (small screen)', (tester) async {
+      testWidgets('PerDayTimeSlotConfig - responsive design (small screen)', (
+        tester,
+      ) async {
         await GoldenTestWrapper.testWidget(
           tester: tester,
           widget: PerDayTimeSlotConfig(
@@ -2195,7 +2377,9 @@ void main() {
         );
       });
 
-      testWidgets('PerDayTimeSlotConfig - responsive design (tablet)', (tester) async {
+      testWidgets('PerDayTimeSlotConfig - responsive design (tablet)', (
+        tester,
+      ) async {
         await GoldenTestWrapper.testWidget(
           tester: tester,
           widget: PerDayTimeSlotConfig(

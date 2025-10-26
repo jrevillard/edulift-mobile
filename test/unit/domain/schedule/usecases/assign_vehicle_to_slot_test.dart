@@ -1,5 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
+import 'package:timezone/data/latest_all.dart' as tz;
 
 import 'package:edulift/core/utils/result.dart';
 import 'package:edulift/core/errors/failures.dart';
@@ -11,6 +12,8 @@ import '../../../../test_mocks/test_mocks.dart';
 void main() {
   // Setup Mockito dummy values for Result types
   setUpAll(() {
+    // Initialize timezone database for datetime calculations
+    tz.initializeTimeZones();
     setupMockFallbacks();
     _provideScheduleDummyValues();
   });
@@ -120,20 +123,19 @@ void main() {
           vehicleId: 'vehicle-456',
         );
 
-        final failure = ApiFailure.validationError(
-          message: 'Invalid time format',
-        );
-
-        when(
-          mockRepository.assignVehicleToSlot(any, any, any, any, any),
-        ).thenAnswer((_) async => Result.err(failure));
-
         // Act
         final result = await usecase.call(params);
 
         // Assert
+        // The usecase validates datetime BEFORE calling repository
+        // Invalid time (25:00) is caught by ScheduleDateTimeService
         expect(result.isError, isTrue);
-        expect(result.error, equals(failure));
+        expect(result.error!.statusCode, equals(422));
+        expect(result.error!.message, contains('Invalid datetime calculation'));
+        // Verify repository was NOT called due to validation failure
+        verifyNever(
+          mockRepository.assignVehicleToSlot(any, any, any, any, any),
+        );
       });
     });
 

@@ -55,7 +55,6 @@ Future<List<ScheduleSlot>> weeklySchedule(
   String groupId,
   String week,
 ) async {
-
   // Auto-dispose when auth changes
   ref.watch(currentUserProvider);
 
@@ -73,7 +72,6 @@ Future<List<ScheduleSlot>> weeklySchedule(
     },
   );
 }
-
 
 // =============================================================================
 // PART 2: ASSIGNMENT STATE PROVIDERS
@@ -182,9 +180,8 @@ Future<List<ChildAssignment>> childAssignments(
   // Find the specific vehicle assignment
   final vehicleAssignment = vehicleAssignments.firstWhere(
     (va) => va.id == vehicleAssignmentId,
-    orElse: () => throw Exception(
-      'Vehicle assignment not found: $vehicleAssignmentId',
-    ),
+    orElse: () =>
+        throw Exception('Vehicle assignment not found: $vehicleAssignmentId'),
   );
 
   // Return child assignments from the vehicle assignment
@@ -268,7 +265,8 @@ class AssignmentStateNotifier extends _$AssignmentStateNotifier {
       // 🛡️ GUARD CLAUSE: Prevent API call with empty slotId
       if (slotId.isEmpty) {
         final failure = ScheduleFailure.validationError(
-          message: 'Cannot complete operation: Schedule Slot ID is missing. The data may be out of date. Please refresh the schedule and try again.',
+          message:
+              'Cannot complete operation: Schedule Slot ID is missing. The data may be out of date. Please refresh the schedule and try again.',
         );
         state = AsyncValue.error(failure, StackTrace.current);
         return Result.err(failure);
@@ -309,11 +307,7 @@ class AssignmentStateNotifier extends _$AssignmentStateNotifier {
       );
     } catch (e, stackTrace) {
       state = AsyncValue.error(e, stackTrace);
-      return Result.err(
-        ScheduleFailure.serverError(
-          message: e.toString(),
-        ),
-      );
+      return Result.err(ScheduleFailure.serverError(message: e.toString()));
     }
   }
 
@@ -377,11 +371,7 @@ class AssignmentStateNotifier extends _$AssignmentStateNotifier {
       );
     } catch (e, stackTrace) {
       state = AsyncValue.error(e, stackTrace);
-      return Result.err(
-        ScheduleFailure.serverError(
-          message: e.toString(),
-        ),
-      );
+      return Result.err(ScheduleFailure.serverError(message: e.toString()));
     }
   }
 
@@ -407,12 +397,13 @@ class AssignmentStateNotifier extends _$AssignmentStateNotifier {
 
     try {
       final repository = ref.read(scheduleRepositoryProvider);
-      final result = await (repository as ScheduleRepositoryImpl).updateSeatOverrideWithWeek(
-        groupId,  // Pass groupId for cache invalidation
-        assignmentId,
-        seatOverride,
-        week,     // Pass week for reliable cache updates
-      );
+      final result = await (repository as ScheduleRepositoryImpl)
+          .updateSeatOverrideWithWeek(
+            groupId, // Pass groupId for cache invalidation
+            assignmentId,
+            seatOverride,
+            week, // Pass week for reliable cache updates
+          );
 
       // Single result.when() to handle both state update and return value
       return result.when(
@@ -445,11 +436,7 @@ class AssignmentStateNotifier extends _$AssignmentStateNotifier {
       );
     } catch (e, stackTrace) {
       state = AsyncValue.error(e, stackTrace);
-      return Result.err(
-        ScheduleFailure.serverError(
-          message: e.toString(),
-        ),
-      );
+      return Result.err(ScheduleFailure.serverError(message: e.toString()));
     }
   }
 }
@@ -538,11 +525,7 @@ class SlotStateNotifier extends _$SlotStateNotifier {
       );
     } catch (e, stackTrace) {
       state = AsyncValue.error(e, stackTrace);
-      return Result.err(
-        ScheduleFailure.serverError(
-          message: e.toString(),
-        ),
-      );
+      return Result.err(ScheduleFailure.serverError(message: e.toString()));
     }
   }
 

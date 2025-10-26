@@ -11,8 +11,10 @@ class GroupsState {
   final List<Group> groups;
   final bool isLoading;
   final String? error; // Error when loading groups list
-  final String? joinError; // Error when joining a group (separate from list loading error)
-  final String? createError; // Error when creating a group (separate from list loading error)
+  final String?
+  joinError; // Error when joining a group (separate from list loading error)
+  final String?
+  createError; // Error when creating a group (separate from list loading error)
   final bool isCreateSuccess; // Flag to indicate successful group creation
 
   const GroupsState({
@@ -56,7 +58,14 @@ class GroupsState {
 
   @override
   int get hashCode {
-    return Object.hash(groups, isLoading, error, joinError, createError, isCreateSuccess);
+    return Object.hash(
+      groups,
+      isLoading,
+      error,
+      joinError,
+      createError,
+      isCreateSuccess,
+    );
   }
 }
 
@@ -66,17 +75,9 @@ class GroupDetailState {
   final bool isLoading;
   final String? error;
 
-  const GroupDetailState({
-    this.group,
-    this.isLoading = false,
-    this.error,
-  });
+  const GroupDetailState({this.group, this.isLoading = false, this.error});
 
-  GroupDetailState copyWith({
-    dynamic group,
-    bool? isLoading,
-    String? error,
-  }) {
+  GroupDetailState copyWith({dynamic group, bool? isLoading, String? error}) {
     return GroupDetailState(
       group: group ?? this.group,
       isLoading: isLoading ?? this.isLoading,
@@ -100,18 +101,21 @@ class GroupDetailState {
 }
 
 // Provider for groups state
-final groupsProvider =
-    StateNotifierProvider<GroupsNotifier, GroupsState>((ref) {
-      final repository = ref.watch(groupRepositoryProvider);
-      return GroupsNotifier(repository);
-    });
+final groupsProvider = StateNotifierProvider<GroupsNotifier, GroupsState>((
+  ref,
+) {
+  final repository = ref.watch(groupRepositoryProvider);
+  return GroupsNotifier(repository);
+});
 
 // Provider for individual group details - compliant with Family pattern
 final groupDetailProvider =
-    StateNotifierProvider.family<GroupDetailNotifier, GroupDetailState, String>((ref, groupId) {
-      final repository = ref.watch(groupRepositoryProvider);
-      return GroupDetailNotifier(repository, groupId);
-    });
+    StateNotifierProvider.family<GroupDetailNotifier, GroupDetailState, String>(
+      (ref, groupId) {
+        final repository = ref.watch(groupRepositoryProvider);
+        return GroupDetailNotifier(repository, groupId);
+      },
+    );
 // Provider for group families/members
 final groupFamiliesProvider = FutureProvider.family<List<dynamic>, String>((
   ref,
@@ -122,6 +126,7 @@ final groupFamiliesProvider = FutureProvider.family<List<dynamic>, String>((
   // For now, return empty list
   return <dynamic>[];
 });
+
 class GroupsNotifier extends StateNotifier<GroupsState> {
   final GroupRepository _repository;
 
@@ -143,6 +148,7 @@ class GroupsNotifier extends StateNotifier<GroupsState> {
       state = state.copyWith(isLoading: false, error: errorKey);
     }
   }
+
   /// Get appropriate error message key based on API failure
   /// Returns localization keys that will be translated by the UI using l10n.translateError()
   String _getErrorMessage(dynamic apiFailure) {
@@ -155,11 +161,13 @@ class GroupsNotifier extends StateNotifier<GroupsState> {
 
       // Check for invitation-specific errors (these can be 400 or 404)
       if (lowerMessage.contains('invalid') &&
-          (lowerMessage.contains('invitation') || lowerMessage.contains('code'))) {
+          (lowerMessage.contains('invitation') ||
+              lowerMessage.contains('code'))) {
         return 'errorInvalidInvitationCode';
       }
       if (lowerMessage.contains('expired') &&
-          (lowerMessage.contains('invitation') || lowerMessage.contains('code'))) {
+          (lowerMessage.contains('invitation') ||
+              lowerMessage.contains('code'))) {
         return 'errorInvalidInvitationCode';
       }
 
@@ -219,7 +227,11 @@ class GroupsNotifier extends StateNotifier<GroupsState> {
     } else {
       final apiFailure = result.error!;
       final errorKey = _getErrorMessage(apiFailure);
-      state = state.copyWith(isLoading: false, createError: errorKey, isCreateSuccess: false);
+      state = state.copyWith(
+        isLoading: false,
+        createError: errorKey,
+        isCreateSuccess: false,
+      );
       return false;
     }
   }
@@ -237,10 +249,7 @@ class GroupsNotifier extends StateNotifier<GroupsState> {
       // Add the joined group to the state instead of reloading everything
       final updatedGroups = [...state.groups, joinedGroup];
 
-      state = state.copyWith(
-        groups: updatedGroups,
-        isLoading: false,
-      );
+      state = state.copyWith(groups: updatedGroups, isLoading: false);
       return true;
     } else {
       final apiFailure = result.error!;
@@ -262,10 +271,7 @@ class GroupsNotifier extends StateNotifier<GroupsState> {
           .where((group) => group.id != groupId)
           .toList();
 
-      state = state.copyWith(
-        groups: updatedGroups,
-        isLoading: false,
-      );
+      state = state.copyWith(groups: updatedGroups, isLoading: false);
       return true;
     } else {
       final apiFailure = result.error!;
@@ -290,10 +296,7 @@ class GroupsNotifier extends StateNotifier<GroupsState> {
         return group.id == groupId ? updatedGroup : group;
       }).toList();
 
-      state = state.copyWith(
-        groups: updatedGroups,
-        isLoading: false,
-      );
+      state = state.copyWith(groups: updatedGroups, isLoading: false);
       return true;
     } else {
       final apiFailure = result.error!;
@@ -315,10 +318,7 @@ class GroupsNotifier extends StateNotifier<GroupsState> {
           .where((group) => group.id != groupId)
           .toList();
 
-      state = state.copyWith(
-        groups: updatedGroups,
-        isLoading: false,
-      );
+      state = state.copyWith(groups: updatedGroups, isLoading: false);
       return true;
     } else {
       final apiFailure = result.error!;
@@ -335,9 +335,7 @@ class GroupsNotifier extends StateNotifier<GroupsState> {
 
   /// Clear error state (both list loading error and join error)
   void clearError() {
-    state = GroupsState(
-      groups: state.groups,
-    );
+    state = GroupsState(groups: state.groups);
   }
 
   /// Clear only join error (keep list loading error and create error if any)
@@ -376,7 +374,7 @@ class GroupDetailNotifier extends StateNotifier<GroupDetailState> {
   final String _groupId;
 
   GroupDetailNotifier(this._repository, this._groupId)
-      : super(const GroupDetailState(isLoading: true)) {
+    : super(const GroupDetailState(isLoading: true)) {
     loadGroup(_groupId);
   }
 
@@ -388,17 +386,12 @@ class GroupDetailNotifier extends StateNotifier<GroupDetailState> {
 
     if (result.isOk) {
       final group = result.value!;
-      state = GroupDetailState(
-        group: group,
-      );
+      state = GroupDetailState(group: group);
       return group;
     } else {
       final apiFailure = result.error!;
       final errorKey = _getErrorMessage(apiFailure);
-      state = GroupDetailState(
-        group: state.group,
-        error: errorKey,
-      );
+      state = GroupDetailState(group: state.group, error: errorKey);
       return null;
     }
   }
@@ -410,11 +403,13 @@ class GroupDetailNotifier extends StateNotifier<GroupDetailState> {
       final lowerMessage = message.toLowerCase();
 
       if (lowerMessage.contains('invalid') &&
-          (lowerMessage.contains('invitation') || lowerMessage.contains('code'))) {
+          (lowerMessage.contains('invitation') ||
+              lowerMessage.contains('code'))) {
         return 'errorInvalidInvitationCode';
       }
       if (lowerMessage.contains('expired') &&
-          (lowerMessage.contains('invitation') || lowerMessage.contains('code'))) {
+          (lowerMessage.contains('invitation') ||
+              lowerMessage.contains('code'))) {
         return 'errorInvalidInvitationCode';
       }
       if (lowerMessage.contains('already has a pending invitation')) {
@@ -448,8 +443,6 @@ class GroupDetailNotifier extends StateNotifier<GroupDetailState> {
 
   /// Clear error state
   void clearError() {
-    state = GroupDetailState(
-      group: state.group,
-    );
+    state = GroupDetailState(group: state.group);
   }
 }

@@ -253,7 +253,6 @@ class TestDIConfig {
   }
 }
 
-
 void main() {
   // Test DI configuration is a support utility - no direct tests needed
   // This file provides dependency injection setup for other test files

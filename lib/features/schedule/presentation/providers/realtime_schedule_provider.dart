@@ -236,17 +236,25 @@ class RealtimeScheduleNotifier extends StateNotifier<RealtimeScheduleState> {
     }
 
     // Basic batch processing - simplified for syntax correctness
-    final updatedScheduleUpdates = List<ScheduleUpdateEvent>.from(state.scheduleUpdates)
-      ..addAll(_pendingUpdates);
-    final updatedNotifications = List<ScheduleNotificationEvent>.from(state.notifications)
-      ..addAll(_pendingNotifications);
+    final updatedScheduleUpdates = List<ScheduleUpdateEvent>.from(
+      state.scheduleUpdates,
+    )..addAll(_pendingUpdates);
+    final updatedNotifications = List<ScheduleNotificationEvent>.from(
+      state.notifications,
+    )..addAll(_pendingNotifications);
 
     // Limit sizes
     if (updatedScheduleUpdates.length > _maxEventHistory) {
-      updatedScheduleUpdates.removeRange(0, updatedScheduleUpdates.length - _maxEventHistory);
+      updatedScheduleUpdates.removeRange(
+        0,
+        updatedScheduleUpdates.length - _maxEventHistory,
+      );
     }
     if (updatedNotifications.length > _maxNotificationHistory) {
-      updatedNotifications.removeRange(0, updatedNotifications.length - _maxNotificationHistory);
+      updatedNotifications.removeRange(
+        0,
+        updatedNotifications.length - _maxNotificationHistory,
+      );
     }
 
     // Update state atomically
@@ -255,7 +263,10 @@ class RealtimeScheduleNotifier extends StateNotifier<RealtimeScheduleState> {
       notifications: updatedNotifications,
       hasUnreadNotifications: updatedNotifications.isNotEmpty,
       metrics: state.metrics.copyWith(
-        totalEvents: state.metrics.totalEvents + _pendingUpdates.length + _pendingNotifications.length,
+        totalEvents:
+            state.metrics.totalEvents +
+            _pendingUpdates.length +
+            _pendingNotifications.length,
         lastEventTime: DateTime.now(),
       ),
     );
@@ -370,21 +381,29 @@ class RealtimeScheduleNotifier extends StateNotifier<RealtimeScheduleState> {
 
 // Simple providers to avoid code generation issues
 final webSocketServiceProvider = Provider<WebSocketService>((ref) {
-  throw UnimplementedError('WebSocketService not implemented - requires build_runner');
+  throw UnimplementedError(
+    'WebSocketService not implemented - requires build_runner',
+  );
 });
 
 final authServiceProvider = Provider<AuthService>((ref) {
-  throw UnimplementedError('AuthService not implemented - requires build_runner');
+  throw UnimplementedError(
+    'AuthService not implemented - requires build_runner',
+  );
 });
 
 /// Provider for real-time schedule coordination
 final realtimeScheduleProvider =
-    StateNotifierProvider<RealtimeScheduleNotifier, RealtimeScheduleState>(
-  (ref) {
-    final webSocketService = ref.watch(webSocketServiceProvider);
-    final authService = ref.watch(authServiceProvider);
-    // Simple error handler service to avoid code generation issues
-    final errorHandlerService = ErrorHandlerService(UserMessageService());
-    return RealtimeScheduleNotifier(webSocketService, authService, errorHandlerService);
-  },
-);
+    StateNotifierProvider<RealtimeScheduleNotifier, RealtimeScheduleState>((
+      ref,
+    ) {
+      final webSocketService = ref.watch(webSocketServiceProvider);
+      final authService = ref.watch(authServiceProvider);
+      // Simple error handler service to avoid code generation issues
+      final errorHandlerService = ErrorHandlerService(UserMessageService());
+      return RealtimeScheduleNotifier(
+        webSocketService,
+        authService,
+        errorHandlerService,
+      );
+    });

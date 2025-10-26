@@ -153,7 +153,9 @@ class ChildFormValidator {
     final trimmed = value.trim();
     // Basic phone number or email validation
     final phonePattern = RegExp(r'^\+?[\d\s\-\(\)]+$');
-    final emailPattern = RegExp(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$');
+    final emailPattern = RegExp(
+      r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$',
+    );
     if (!phonePattern.hasMatch(trimmed) && !emailPattern.hasMatch(trimmed)) {
       return ChildValidationError.emergencyContactInvalid;
     }

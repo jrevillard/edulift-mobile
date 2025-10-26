@@ -19,10 +19,7 @@ import 'configure_family_invitation_page.dart';
 class InviteFamilyPage extends ConsumerStatefulWidget {
   final String groupId;
 
-  const InviteFamilyPage({
-    super.key,
-    required this.groupId,
-  });
+  const InviteFamilyPage({super.key, required this.groupId});
 
   @override
   ConsumerState<InviteFamilyPage> createState() => _InviteFamilyPageState();
@@ -191,11 +188,13 @@ class _InviteFamilyPageState extends ConsumerState<InviteFamilyPage> {
                       color: AppColors.textSecondaryThemed(context),
                     ),
                   ),
-                  SizedBox(height: context.getAdaptiveSpacing(
-                    mobile: 12,
-                    tablet: 16,
-                    desktop: 20,
-                  )),
+                  SizedBox(
+                    height: context.getAdaptiveSpacing(
+                      mobile: 12,
+                      tablet: 16,
+                      desktop: 20,
+                    ),
+                  ),
 
                   // Search Field
                   TextField(
@@ -249,20 +248,28 @@ class _InviteFamilyPageState extends ConsumerState<InviteFamilyPage> {
     if (_searchController.text.trim().length < 2) {
       return Center(
         child: Padding(
-          padding: context.getAdaptivePadding(mobileAll: 32, tabletAll: 48, desktopAll: 64),
+          padding: context.getAdaptivePadding(
+            mobileAll: 32,
+            tabletAll: 48,
+            desktopAll: 64,
+          ),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Icon(
                 Icons.search,
                 size: isTablet ? 64 : 56,
-                color: AppColors.textSecondaryThemed(context).withValues(alpha: 0.5),
+                color: AppColors.textSecondaryThemed(
+                  context,
+                ).withValues(alpha: 0.5),
               ),
-              SizedBox(height: context.getAdaptiveSpacing(
-                mobile: 16,
-                tablet: 20,
-                desktop: 24,
-              )),
+              SizedBox(
+                height: context.getAdaptiveSpacing(
+                  mobile: 16,
+                  tablet: 20,
+                  desktop: 24,
+                ),
+              ),
               Text(
                 l10n.enterAtLeast2Characters,
                 style: theme.textTheme.bodyLarge?.copyWith(
@@ -278,29 +285,35 @@ class _InviteFamilyPageState extends ConsumerState<InviteFamilyPage> {
 
     // Loading state
     if (_isSearching) {
-      return const Center(
-        child: CircularProgressIndicator(),
-      );
+      return const Center(child: CircularProgressIndicator());
     }
 
     // No results state
     if (_searchResults.isEmpty) {
       return Center(
         child: Padding(
-          padding: context.getAdaptivePadding(mobileAll: 32, tabletAll: 48, desktopAll: 64),
+          padding: context.getAdaptivePadding(
+            mobileAll: 32,
+            tabletAll: 48,
+            desktopAll: 64,
+          ),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Icon(
                 Icons.search_off,
                 size: isTablet ? 64 : 56,
-                color: AppColors.textSecondaryThemed(context).withValues(alpha: 0.5),
+                color: AppColors.textSecondaryThemed(
+                  context,
+                ).withValues(alpha: 0.5),
               ),
-              SizedBox(height: context.getAdaptiveSpacing(
-                mobile: 16,
-                tablet: 20,
-                desktop: 24,
-              )),
+              SizedBox(
+                height: context.getAdaptiveSpacing(
+                  mobile: 16,
+                  tablet: 20,
+                  desktop: 24,
+                ),
+              ),
               Text(
                 l10n.noFamiliesFound,
                 style: theme.textTheme.bodyLarge?.copyWith(
@@ -338,10 +351,7 @@ class _InviteFamilyPageState extends ConsumerState<InviteFamilyPage> {
               ),
               const SizedBox(width: 8),
               Container(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 8,
-                  vertical: 2,
-                ),
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
                 decoration: BoxDecoration(
                   color: theme.colorScheme.primaryContainer,
                   borderRadius: BorderRadius.circular(12),
@@ -424,9 +434,7 @@ class _FamilySearchResultCard extends StatelessWidget {
     return Card(
       key: Key('family_card_${family.id}'),
       elevation: 2,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12),
-      ),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       child: InkWell(
         onTap: family.canInvite ? onTap : null,
         borderRadius: BorderRadius.circular(12),
@@ -561,13 +569,17 @@ class _AdminContactsDisplay extends StatelessWidget {
             spacing: 6,
             runSpacing: 4,
             children: [
-              ...adminContacts.take(displayCount).map((admin) => Text(
-                    _getCompactContact(admin),
-                    style: theme.textTheme.bodySmall?.copyWith(
-                      color: AppColors.textSecondaryThemed(context),
+              ...adminContacts
+                  .take(displayCount)
+                  .map(
+                    (admin) => Text(
+                      _getCompactContact(admin),
+                      style: theme.textTheme.bodySmall?.copyWith(
+                        color: AppColors.textSecondaryThemed(context),
+                      ),
+                      overflow: TextOverflow.ellipsis,
                     ),
-                    overflow: TextOverflow.ellipsis,
-                  )),
+                  ),
               if (hasMore)
                 Text(
                   l10n.andXMore(moreCount),

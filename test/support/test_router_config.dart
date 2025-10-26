@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:edulift/core/router/app_routes.dart';
-import 'package:edulift/core/services/providers/auth_provider.dart';
+import 'package:edulift/features/family/presentation/providers/family_provider.dart';
 import 'package:edulift/generated/l10n/app_localizations.dart';
 
 /// Creates a test-specific GoRouter for widget testing
@@ -48,6 +48,31 @@ class TestRouterConfig {
     return GoRouter(
       navigatorKey: _rootNavigatorKey,
       initialLocation: initialLocation,
+      // Add redirect logic to guard protected routes (matching production router behavior)
+      redirect: (context, state) {
+        try {
+          // Access familyProvider through ProviderScope to check family status
+          final container = ProviderScope.containerOf(context);
+          final familyState = container.read(familyProvider);
+          final hasFamily = familyState.family != null;
+
+          // Protected routes that require family membership
+          final isProtectedRoute =
+              state.matchedLocation.startsWith('/family') ||
+              state.matchedLocation.startsWith('/groups') ||
+              state.matchedLocation.startsWith('/schedule');
+
+          // Redirect to onboarding if accessing protected route without family
+          if (isProtectedRoute &&
+              !hasFamily &&
+              !state.matchedLocation.startsWith('/onboarding')) {
+            return '/onboarding/wizard';
+          }
+        } catch (e) {
+          // If ProviderScope is not available (e.g., in unit tests), skip guard logic
+        }
+        return null; // No redirect needed
+      },
       routes: [
         // Main app shell with bottom navigation
         ShellRoute(
@@ -195,9 +220,11 @@ class TestAppBottomNavigation extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final currentLocation = GoRouterState.of(context).matchedLocation;
-    ref.watch(currentUserProvider);
-    // TODO: Adapt to use familyRepositoryProvider to check family membership
-    const hasFamily = false; // Temporarily disabled
+
+    // CRITICAL FIX: Check familyProvider for family membership
+    // This fixes navigation tests that expect users with families to access protected routes
+    final familyState = ref.watch(familyProvider);
+    final hasFamily = familyState.family != null;
 
     var selectedIndex = 0;
     switch (currentLocation) {

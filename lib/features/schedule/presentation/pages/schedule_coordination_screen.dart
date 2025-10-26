@@ -15,7 +15,8 @@ class ScheduleCoordinationScreen extends ConsumerStatefulWidget {
       _ScheduleCoordinationScreenState();
 }
 
-class _ScheduleCoordinationScreenState extends ConsumerState<ScheduleCoordinationScreen>
+class _ScheduleCoordinationScreenState
+    extends ConsumerState<ScheduleCoordinationScreen>
     with TickerProviderStateMixin {
   late AnimationController _refreshController;
   late Animation<double> _refreshAnimation;

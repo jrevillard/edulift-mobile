@@ -13,22 +13,22 @@ abstract class FamilyInvitationsDataSource {
 
   /// Get pending invitations from local storage
   Future<List<FamilyInvitation>> getPendingInvitations();
-  
+
   /// Cache single invitation locally
   Future<void> cacheInvitation(FamilyInvitation invitation);
-  
+
   /// Cache multiple invitations locally
   Future<void> cacheInvitations(List<FamilyInvitation> invitations);
-  
+
   /// Remove invitation from local storage
   Future<void> removeInvitation(String invitationId);
-  
+
   /// Get cached invitations
   Future<List<FamilyInvitation>> getCachedInvitations();
-  
+
   /// Clear all cached invitations
   Future<void> clearCachedInvitations();
-  
+
   // ========================================
   // INVITATION OFFLINE SYNC OPERATIONS
   // ========================================
@@ -39,19 +39,19 @@ abstract class FamilyInvitationsDataSource {
     String role,
     String? personalMessage,
   );
-  
+
   /// Store pending invitation acceptance for sync
   Future<void> storePendingInvitationAcceptance(String invitationId);
-  
+
   /// Store pending invitation decline for sync
   Future<void> storePendingInvitationDecline(
     String invitationId,
     String? reason,
   );
-  
+
   /// Store pending invitation cancellation for sync
   Future<void> storePendingInvitationCancellation(String invitationId);
-  
+
   /// Get pending invitation changes count
   Future<int> getPendingInvitationChangesCount();
 

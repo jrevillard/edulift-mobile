@@ -33,7 +33,6 @@ abstract class _ScheduleApiClientBase {
   @GET('/groups/schedule-config/default')
   Future<ScheduleConfigDto> getDefaultScheduleConfig();
 
-
   @GET('/groups/{groupId}/schedule-config')
   Future<ScheduleConfigDto> getGroupScheduleConfig(
     @Path('groupId') String groupId,
@@ -77,8 +76,9 @@ abstract class _ScheduleApiClientBase {
   Future<ScheduleSlotDto> getScheduleSlot(@Path('slotId') String slotId);
 
   @GET('/schedule-slots/{slotId}/details')
-  Future<ScheduleSlotWithDetailsDto> getScheduleSlotDetails(@Path('slotId') String slotId);
-
+  Future<ScheduleSlotWithDetailsDto> getScheduleSlotDetails(
+    @Path('slotId') String slotId,
+  );
 
   @POST('/schedule-slots/{slotId}/vehicles')
   Future<VehicleAssignmentDto> assignVehicleToSlotTyped(
@@ -148,7 +148,6 @@ class ScheduleApiClient {
   Future<ScheduleConfigDto> getDefaultScheduleConfig() =>
       _client.getDefaultScheduleConfig();
 
-
   /// Get group schedule configuration
   /// GET /api/v1/groups/{groupId}/schedule-config
   Future<ScheduleConfigDto> getGroupScheduleConfig(String groupId) =>
@@ -199,7 +198,6 @@ class ScheduleApiClient {
   /// GET /api/v1/schedule-slots/{slotId}/details
   Future<ScheduleSlotWithDetailsDto> getScheduleSlotDetails(String slotId) =>
       _client.getScheduleSlotDetails(slotId);
-
 
   /// Assign vehicle to slot (typed)
   /// POST /api/v1/schedule-slots/{slotId}/vehicles

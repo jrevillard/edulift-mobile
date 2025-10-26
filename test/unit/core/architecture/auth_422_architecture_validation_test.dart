@@ -23,7 +23,6 @@ import 'package:edulift/core/errors/api_exception.dart';
 /// - Consistent error handling across entire application
 void main() {
   group('422 Architecture Validation - Post-Migration 2025', () {
-
     // =================================================================
     // TEST 1: Validate ApiResponseHelper properly handles 422 errors
     // =================================================================
@@ -39,7 +38,7 @@ void main() {
           'success': false,
           'error': 'name is required for new users',
           'code': 'VALIDATION_ERROR',
-          'details': {'field': 'name', 'reason': 'required_for_new_users'}
+          'details': {'field': 'name', 'reason': 'required_for_new_users'},
         },
       );
 
@@ -55,7 +54,9 @@ void main() {
       }
 
       // Test ApiResponseHelper.execute() (used in AuthService)
-      final apiResponse = await ApiResponseHelper.execute<String>(simulateMagicLinkCall);
+      final apiResponse = await ApiResponseHelper.execute<String>(
+        simulateMagicLinkCall,
+      );
 
       // Validate ApiResponse properties
       expect(apiResponse.success, false);
@@ -153,7 +154,10 @@ void main() {
 
       expect(authPattern.contains('ApiResponseHelper.execute'), isTrue);
       expect(authPattern.contains('response.unwrap()'), isTrue);
-      expect(groupPattern.contains('ApiResponseHelper.executeAndUnwrap'), isTrue);
+      expect(
+        groupPattern.contains('ApiResponseHelper.executeAndUnwrap'),
+        isTrue,
+      );
 
       // Both patterns throw ApiException with same structure
       expect(true, isTrue, reason: 'Architecture patterns validated');
@@ -165,14 +169,17 @@ void main() {
     test('Original 422 magic link issue is architecturally resolved', () async {
       // Simulate the exact scenario that caused the original issue
       final originalScenario422 = DioException(
-        requestOptions: RequestOptions(path: '/auth/magic-link', method: 'POST'),
+        requestOptions: RequestOptions(
+          path: '/auth/magic-link',
+          method: 'POST',
+        ),
         response: Response(
           requestOptions: RequestOptions(path: '/auth/magic-link'),
           statusCode: 422,
           data: {
             'success': false,
             'error': 'name is required for new users',
-            'code': 'VALIDATION_ERROR'
+            'code': 'VALIDATION_ERROR',
           },
         ),
         type: DioExceptionType.badResponse,
@@ -184,7 +191,9 @@ void main() {
       }
 
       // Process through ApiResponseHelper (as AuthService now does)
-      final response = await ApiResponseHelper.execute<String>(newArchitectureApiCall);
+      final response = await ApiResponseHelper.execute<String>(
+        newArchitectureApiCall,
+      );
 
       // Validate the issue is properly detected
       expect(response.success, false);

@@ -94,23 +94,23 @@ class ApiException implements Exception {
   /// Check if this is a validation error (400, 422 or validation-related code)
   bool get isValidationError {
     return statusCode == 400 ||
-           statusCode == 422 ||
-           errorCode?.toUpperCase().contains('VALIDATION') == true ||
-           errorCode?.toUpperCase().contains('INVALID') == true;
+        statusCode == 422 ||
+        errorCode?.toUpperCase().contains('VALIDATION') == true ||
+        errorCode?.toUpperCase().contains('INVALID') == true;
   }
 
   /// Check if this is an authentication error (401)
   bool get isAuthenticationError {
     return statusCode == 401 ||
-           errorCode?.toUpperCase().contains('UNAUTHORIZED') == true ||
-           errorCode?.toUpperCase().contains('AUTH') == true;
+        errorCode?.toUpperCase().contains('UNAUTHORIZED') == true ||
+        errorCode?.toUpperCase().contains('AUTH') == true;
   }
 
   /// Check if this is an authorization error (403)
   bool get isAuthorizationError {
     return statusCode == 403 ||
-           errorCode?.toUpperCase().contains('FORBIDDEN') == true ||
-           errorCode?.toUpperCase().contains('PERMISSION') == true;
+        errorCode?.toUpperCase().contains('FORBIDDEN') == true ||
+        errorCode?.toUpperCase().contains('PERMISSION') == true;
   }
 
   /// Check if this error is retryable (5xx errors)

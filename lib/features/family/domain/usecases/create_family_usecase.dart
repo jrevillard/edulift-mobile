@@ -18,10 +18,13 @@ class CreateFamilyUsecase {
   final FamilyRepository repository;
 
   CreateFamilyUsecase(this.repository);
+
   /// Create a family with proper validation and error handling
   ///
   /// Validates the family name according to business rules:
   /// - Cannot be empty or whitespace only
+  /// - Cannot contain special characters: @, #, <, >, &, ", \, null bytes
+  /// - Cannot contain script injection patterns
   ///
   /// Returns Result<Family, ApiFailure> following the established pattern
   /// CLEAN ARCHITECTURE: Validation is handled by repository layer
@@ -29,7 +32,15 @@ class CreateFamilyUsecase {
     // Basic input sanitization
     final trimmedName = params.name.trim();
     if (trimmedName.isEmpty) {
-      return Result.err(ApiFailure.validationError(code: 'validation.field_required'));
+      return Result.err(ApiFailure.validationError(message: 'fieldRequired'));
+    }
+
+    // Validate family name - reject special characters that could be security risks
+    final invalidChars = RegExp(r'[@#<>&"\\]|\x00|<script>|&amp;');
+    if (invalidChars.hasMatch(trimmedName)) {
+      return Result.err(
+        ApiFailure.validationError(message: 'invalidFamilyName'),
+      );
     }
 
     // Delegate to repository for persistence and validation

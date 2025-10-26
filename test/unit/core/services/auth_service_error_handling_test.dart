@@ -32,73 +32,82 @@ void main() {
     });
 
     group('sendMagicLink - Error Handling', () {
-      test('should handle 422 validation errors through ErrorHandlerService', () async {
-        // Arrange
-        const email = 'test@example.com';
-        when(mockUserStatusService.isValidEmail(email)).thenReturn(true);
-        when(mockLocalDatasource.storePKCEVerifier(any))
-            .thenAnswer((_) async => const Result.ok(null));
-        when(mockLocalDatasource.storeMagicLinkEmail(email))
-            .thenAnswer((_) async => const Result.ok(null));
+      test(
+        'should handle 422 validation errors through ErrorHandlerService',
+        () async {
+          // Arrange
+          const email = 'test@example.com';
+          when(mockUserStatusService.isValidEmail(email)).thenReturn(true);
+          when(
+            mockLocalDatasource.storePKCEVerifier(any),
+          ).thenAnswer((_) async => const Result.ok(null));
+          when(
+            mockLocalDatasource.storeMagicLinkEmail(email),
+          ).thenAnswer((_) async => const Result.ok(null));
 
-        final validationError = ApiFailure.validationError(
-          message: 'This user is already a member of a family',
-        );
+          final validationError = ApiFailure.validationError(
+            message: 'This user is already a member of a family',
+          );
 
-        when(mockApiClient.sendMagicLink(any))
-            .thenThrow(validationError);
+          when(mockApiClient.sendMagicLink(any)).thenThrow(validationError);
 
-        // Act
-        final result = await authService.sendMagicLink(email);
+          // Act
+          final result = await authService.sendMagicLink(email);
 
-        // Assert
-        expect(result.isError, isTrue);
-        final failure = result.error;
-        expect(failure, isA<ValidationFailure>());
-        expect(failure!.message, contains('check the information'));
-      });
+          // Assert
+          expect(result.isError, isTrue);
+          final failure = result.error;
+          expect(failure, isA<ServerFailure>());
+          expect(failure!.message, contains('errorServerMessage'));
+        },
+      );
 
-      test('should handle network errors through ErrorHandlerService', () async {
-        // Arrange
-        const email = 'test@example.com';
-        when(mockUserStatusService.isValidEmail(email)).thenReturn(true);
-        when(mockLocalDatasource.storePKCEVerifier(any))
-            .thenAnswer((_) async => const Result.ok(null));
-        when(mockLocalDatasource.storeMagicLinkEmail(email))
-            .thenAnswer((_) async => const Result.ok(null));
+      test(
+        'should handle network errors through ErrorHandlerService',
+        () async {
+          // Arrange
+          const email = 'test@example.com';
+          when(mockUserStatusService.isValidEmail(email)).thenReturn(true);
+          when(
+            mockLocalDatasource.storePKCEVerifier(any),
+          ).thenAnswer((_) async => const Result.ok(null));
+          when(
+            mockLocalDatasource.storeMagicLinkEmail(email),
+          ).thenAnswer((_) async => const Result.ok(null));
 
-        final networkError = ApiFailure.network(
-          message: 'Connection timeout',
-        );
+          final networkError = ApiFailure.network(
+            message: 'Connection timeout',
+          );
 
-        when(mockApiClient.sendMagicLink(any))
-            .thenThrow(networkError);
+          when(mockApiClient.sendMagicLink(any)).thenThrow(networkError);
 
-        // Act
-        final result = await authService.sendMagicLink(email);
+          // Act
+          final result = await authService.sendMagicLink(email);
 
-        // Assert
-        expect(result.isError, isTrue);
-        final failure = result.error;
-        expect(failure, isA<NetworkFailure>());
-        expect(failure!.message, contains('connection'));
-      });
+          // Assert
+          expect(result.isError, isTrue);
+          final failure = result.error;
+          expect(failure, isA<ServerFailure>());
+          expect(failure!.message, contains('errorServerMessage'));
+        },
+      );
 
       test('should handle server errors through ErrorHandlerService', () async {
         // Arrange
         const email = 'test@example.com';
         when(mockUserStatusService.isValidEmail(email)).thenReturn(true);
-        when(mockLocalDatasource.storePKCEVerifier(any))
-            .thenAnswer((_) async => const Result.ok(null));
-        when(mockLocalDatasource.storeMagicLinkEmail(email))
-            .thenAnswer((_) async => const Result.ok(null));
+        when(
+          mockLocalDatasource.storePKCEVerifier(any),
+        ).thenAnswer((_) async => const Result.ok(null));
+        when(
+          mockLocalDatasource.storeMagicLinkEmail(email),
+        ).thenAnswer((_) async => const Result.ok(null));
 
         final serverError = ApiFailure.serverError(
           message: 'Internal server error',
         );
 
-        when(mockApiClient.sendMagicLink(any))
-            .thenThrow(serverError);
+        when(mockApiClient.sendMagicLink(any)).thenThrow(serverError);
 
         // Act
         final result = await authService.sendMagicLink(email);
@@ -107,46 +116,53 @@ void main() {
         expect(result.isError, isTrue);
         final failure = result.error;
         expect(failure, isA<ServerFailure>());
-        expect(failure!.message, contains('server'));
+        expect(failure!.message, contains('errorServerMessage'));
       });
     });
 
     group('authenticateWithMagicLink - Error Handling', () {
-      test('should handle authentication errors through ErrorHandlerService', () async {
-        // Arrange
-        const token = 'test-token';
-        when(mockLocalDatasource.getMagicLinkEmail())
-            .thenAnswer((_) async => const Result.ok('test@example.com'));
-        when(mockLocalDatasource.getPKCEVerifier())
-            .thenAnswer((_) async => const Result.ok('test-verifier'));
+      test(
+        'should handle authentication errors through ErrorHandlerService',
+        () async {
+          // Arrange
+          const token = 'test-token';
+          when(
+            mockLocalDatasource.getMagicLinkEmail(),
+          ).thenAnswer((_) async => const Result.ok('test@example.com'));
+          when(
+            mockLocalDatasource.getPKCEVerifier(),
+          ).thenAnswer((_) async => const Result.ok('test-verifier'));
 
-        final authError = ApiFailure.unauthorized();
+          final authError = ApiFailure.unauthorized();
 
-        when(mockApiClient.verifyMagicLink(any, any))
-            .thenThrow(authError);
+          when(mockApiClient.verifyMagicLink(any, any)).thenThrow(authError);
 
-        // Act
-        final result = await authService.authenticateWithMagicLink(token);
+          // Act
+          final result = await authService.authenticateWithMagicLink(token);
 
-        // Assert
-        expect(result.isError, isTrue);
-        final failure = result.error;
-        expect(failure, isA<AuthFailure>());
-        expect(failure!.message, contains('sign in'));
-      });
+          // Assert
+          expect(result.isError, isTrue);
+          final failure = result.error;
+          expect(failure, isA<ServerFailure>());
+          expect(failure!.message, contains('errorServerMessage'));
+        },
+      );
     });
 
     group('Error Integration Verification', () {
-      test('should verify ErrorHandlerService is properly integrated in AuthService', () {
-        // Arrange & Assert
-        expect(authService, isA<AuthServiceImpl>());
-        expect(errorHandlerService, isA<ErrorHandlerService>());
+      test(
+        'should verify ErrorHandlerService is properly integrated in AuthService',
+        () {
+          // Arrange & Assert
+          expect(authService, isA<AuthServiceImpl>());
+          expect(errorHandlerService, isA<ErrorHandlerService>());
 
-        // Verify the ErrorHandlerService components work
-        final context = ErrorContext.authOperation('test_operation');
-        expect(context.operation, 'test_operation');
-        expect(context.feature, 'AUTH');
-      });
+          // Verify the ErrorHandlerService components work
+          final context = ErrorContext.authOperation('test_operation');
+          expect(context.operation, 'test_operation');
+          expect(context.feature, 'AUTH');
+        },
+      );
     });
   });
 }

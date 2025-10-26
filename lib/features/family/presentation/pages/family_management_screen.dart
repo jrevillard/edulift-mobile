@@ -1290,8 +1290,13 @@ class _FamilyManagementScreenState extends ConsumerState<FamilyManagementScreen>
 
     // CRITICAL: Last admin protection - cannot change role of last admin
     // This prevents families from being left without any administrator
-    final adminCount = family?.members.where((m) => m.role == entities.FamilyRole.admin).length ?? 0;
-    final isLastAdmin = member.role == entities.FamilyRole.admin && adminCount == 1;
+    final adminCount =
+        family?.members
+            .where((m) => m.role == entities.FamilyRole.admin)
+            .length ??
+        0;
+    final isLastAdmin =
+        member.role == entities.FamilyRole.admin && adminCount == 1;
 
     // Only admins can manage roles, current user cannot change own role,
     // and last admin cannot have role changed (family must have at least 1 admin)
@@ -1309,7 +1314,9 @@ class _FamilyManagementScreenState extends ConsumerState<FamilyManagementScreen>
       '   permissionProvider.canManageMembers=${permissionProvider.canManageMembers}',
     );
     debugPrint('   adminCount=$adminCount, isLastAdmin=$isLastAdmin');
-    debugPrint('   canManageRoles=$canManageRoles (last admin protection applied)');
+    debugPrint(
+      '   canManageRoles=$canManageRoles (last admin protection applied)',
+    );
 
     showModalBottomSheet(
       context: context,

@@ -55,10 +55,7 @@ class _EditGroupPageState extends ConsumerState<EditGroupPage> {
       final description = _descriptionController.text.trim();
       await ref.read(groupsComposedProvider.notifier).updateGroup(
         widget.groupId,
-        {
-          'name': name,
-          'description': description.isEmpty ? null : description,
-        },
+        {'name': name, 'description': description.isEmpty ? null : description},
       );
       // updateGroup() already calls loadUserGroups() internally
       if (mounted) {
@@ -132,9 +129,7 @@ class _EditGroupPageState extends ConsumerState<EditGroupPage> {
                       ),
                     ),
                     border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(
-                        isTablet ? 12 : 8,
-                      ),
+                      borderRadius: BorderRadius.circular(isTablet ? 12 : 8),
                     ),
                     contentPadding: context.getAdaptivePadding(
                       mobileHorizontal: 16,
@@ -180,9 +175,7 @@ class _EditGroupPageState extends ConsumerState<EditGroupPage> {
                       ),
                     ),
                     border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(
-                        isTablet ? 12 : 8,
-                      ),
+                      borderRadius: BorderRadius.circular(isTablet ? 12 : 8),
                     ),
                     contentPadding: context.getAdaptivePadding(
                       mobileHorizontal: 16,
@@ -207,10 +200,9 @@ class _EditGroupPageState extends ConsumerState<EditGroupPage> {
                   Container(
                     padding: const EdgeInsets.all(12),
                     decoration: BoxDecoration(
-                      color: Theme.of(context)
-                          .colorScheme
-                          .error
-                          .withValues(alpha: 0.1),
+                      color: Theme.of(
+                        context,
+                      ).colorScheme.error.withValues(alpha: 0.1),
                       borderRadius: BorderRadius.circular(8),
                       border: Border.all(
                         color: Theme.of(context).colorScheme.error,
@@ -227,9 +219,7 @@ class _EditGroupPageState extends ConsumerState<EditGroupPage> {
                         Expanded(
                           child: Text(
                             _error!,
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodySmall
+                            style: Theme.of(context).textTheme.bodySmall
                                 ?.copyWith(
                                   color: Theme.of(context).colorScheme.error,
                                 ),
@@ -276,7 +266,8 @@ class _EditGroupPageState extends ConsumerState<EditGroupPage> {
                                 child: CircularProgressIndicator(
                                   strokeWidth: 2,
                                   valueColor: AlwaysStoppedAnimation<Color>(
-                                      Theme.of(context).colorScheme.onPrimary),
+                                    Theme.of(context).colorScheme.onPrimary,
+                                  ),
                                 ),
                               )
                             : Text(l10n.save),

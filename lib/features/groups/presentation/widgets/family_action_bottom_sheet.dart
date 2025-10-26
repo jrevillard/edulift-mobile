@@ -80,11 +80,7 @@ class FamilyActionBottomSheet extends ConsumerWidget {
                     children: [
                       CircleAvatar(
                         backgroundColor: bgColor,
-                        child: Icon(
-                          roleIcon,
-                          color: iconColor,
-                          size: 20,
-                        ),
+                        child: Icon(roleIcon, color: iconColor, size: 20),
                       ),
                       const SizedBox(width: 16),
                       Expanded(
@@ -132,10 +128,7 @@ class FamilyActionBottomSheet extends ConsumerWidget {
               if (onCancelInvitation != null)
                 ListTile(
                   key: Key('cancel_invitation_action_${family.name}'),
-                  leading: Icon(
-                    Icons.cancel,
-                    color: theme.colorScheme.error,
-                  ),
+                  leading: Icon(Icons.cancel, color: theme.colorScheme.error),
                   title: Text(
                     localizations.cancelInvitation,
                     style: TextStyle(color: theme.colorScheme.error),
@@ -188,7 +181,9 @@ class FamilyActionBottomSheet extends ConsumerWidget {
                     localizations.removeFromGroup,
                     style: TextStyle(color: theme.colorScheme.error),
                   ),
-                  subtitle: Text(localizations.removeFamilyFromGroupDescription),
+                  subtitle: Text(
+                    localizations.removeFamilyFromGroupDescription,
+                  ),
                   trailing: const Icon(Icons.arrow_forward_ios, size: 16),
                   onTap: () {
                     Navigator.of(context).pop();

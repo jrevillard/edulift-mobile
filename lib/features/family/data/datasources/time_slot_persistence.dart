@@ -23,7 +23,7 @@ class TimeSlotPersistence {
       'recurrencePattern': timeSlot.recurrencePattern,
       'isActive': timeSlot.isActive,
       'createdAt': timeSlot.createdAt.toIso8601String(),
-      'updatedAt': timeSlot.updatedAt.toIso8601String()
+      'updatedAt': timeSlot.updatedAt.toIso8601String(),
     };
   }
 
@@ -44,7 +44,7 @@ class TimeSlotPersistence {
       recurrencePattern: json['recurrencePattern'] as String?,
       isActive: json['isActive'] as bool? ?? true,
       createdAt: DateTime.parse(json['createdAt'] as String),
-      updatedAt: DateTime.parse(json['updatedAt'] as String)
+      updatedAt: DateTime.parse(json['updatedAt'] as String),
     );
   }
 }

@@ -35,7 +35,7 @@ class _GroupsPageState extends ConsumerState<GroupsPage>
         .navigateTo(
           route: '/groups/$groupId',
           trigger: NavigationTrigger.userNavigation,
-          context: {'groupId': groupId, 'action': 'view_details'}
+          context: {'groupId': groupId, 'action': 'view_details'},
         );
   }
 
@@ -46,7 +46,7 @@ class _GroupsPageState extends ConsumerState<GroupsPage>
         .navigateTo(
           route: '/groups/$groupId/manage',
           trigger: NavigationTrigger.userNavigation,
-          context: {'groupId': groupId, 'action': 'manage_schedule'}
+          context: {'groupId': groupId, 'action': 'manage_schedule'},
         );
   }
 
@@ -60,7 +60,7 @@ class _GroupsPageState extends ConsumerState<GroupsPage>
       appBar: AppBar(
         title: Text(
           l10n.transportGroups,
-          key: const Key('transportation_groups_title')
+          key: const Key('transportation_groups_title'),
         ),
         backgroundColor: theme.colorScheme.surface,
         elevation: 0,
@@ -78,12 +78,14 @@ class _GroupsPageState extends ConsumerState<GroupsPage>
             ),
             onPressed: () {
               ref.read(groupsComposedProvider.notifier).clearJoinError();
-              ref.read(navigationStateProvider.notifier).navigateTo(
-                route: '/group-invitation',
-                trigger: NavigationTrigger.userNavigation,
-              );
+              ref
+                  .read(navigationStateProvider.notifier)
+                  .navigateTo(
+                    route: '/group-invitation',
+                    trigger: NavigationTrigger.userNavigation,
+                  );
             },
-            tooltip: l10n.joinGroup
+            tooltip: l10n.joinGroup,
           ),
           // Create Group Button
           IconButton(
@@ -98,21 +100,28 @@ class _GroupsPageState extends ConsumerState<GroupsPage>
             ),
             onPressed: () {
               ref.read(groupsComposedProvider.notifier).clearCreateError();
-              ref.read(navigationStateProvider.notifier).navigateTo(
-                route: '/groups/create',
-                trigger: NavigationTrigger.userNavigation,
-              );
+              ref
+                  .read(navigationStateProvider.notifier)
+                  .navigateTo(
+                    route: '/groups/create',
+                    trigger: NavigationTrigger.userNavigation,
+                  );
             },
-            tooltip: l10n.createGroup
-          )
+            tooltip: l10n.createGroup,
+          ),
         ],
       ),
       body: // Build UI based on GroupsState
-          groupsState.isLoading && groupsState.groups.isEmpty
-            ? const Center(child: CircularProgressIndicator())
-            : groupsState.error != null && groupsState.groups.isEmpty
-            ? _buildErrorState(GroupsErrorTranslationHelper.translateError(l10n, groupsState.error!))
-            : _buildGroupsList(groupsState.groups)
+      groupsState.isLoading && groupsState.groups.isEmpty
+          ? const Center(child: CircularProgressIndicator())
+          : groupsState.error != null && groupsState.groups.isEmpty
+          ? _buildErrorState(
+              GroupsErrorTranslationHelper.translateError(
+                l10n,
+                groupsState.error!,
+              ),
+            )
+          : _buildGroupsList(groupsState.groups),
     );
   }
 
@@ -121,9 +130,7 @@ class _GroupsPageState extends ConsumerState<GroupsPage>
       key: const Key('groupsList_refreshIndicator'),
       onRefresh: () =>
           ref.read(groupsComposedProvider.notifier).loadUserGroups(),
-      child: groups.isEmpty
-          ? _buildEmptyState()
-          : _buildGroupsGrid(groups)
+      child: groups.isEmpty ? _buildEmptyState() : _buildGroupsGrid(groups),
     );
   }
 
@@ -161,172 +168,207 @@ class _GroupsPageState extends ConsumerState<GroupsPage>
                       ),
                       color: AppColors.borderThemed(context),
                     ),
-                    SizedBox(height: context.getAdaptiveSpacing(
-                      mobile: 24,
-                      tablet: 28,
-                      desktop: 32,
-                    )),
+                    SizedBox(
+                      height: context.getAdaptiveSpacing(
+                        mobile: 24,
+                        tablet: 28,
+                        desktop: 32,
+                      ),
+                    ),
                     Text(
                       l10n.noTransportGroups,
-                      style: (isTablet
-                          ? Theme.of(context).textTheme.headlineMedium
-                          : Theme.of(context).textTheme.headlineSmall)?.copyWith(
-                        color: AppColors.textSecondaryThemed(context),
-                        fontWeight: FontWeight.w600,
-                        fontSize: (isTablet ? 28 : 24) * context.fontScale,
-                      ),
+                      style:
+                          (isTablet
+                                  ? Theme.of(context).textTheme.headlineMedium
+                                  : Theme.of(context).textTheme.headlineSmall)
+                              ?.copyWith(
+                                color: AppColors.textSecondaryThemed(context),
+                                fontWeight: FontWeight.w600,
+                                fontSize:
+                                    (isTablet ? 28 : 24) * context.fontScale,
+                              ),
                       textAlign: TextAlign.center,
                     ),
-                    SizedBox(height: context.getAdaptiveSpacing(
-                      mobile: 12,
-                      tablet: 16,
-                      desktop: 20,
-                    )),
+                    SizedBox(
+                      height: context.getAdaptiveSpacing(
+                        mobile: 12,
+                        tablet: 16,
+                        desktop: 20,
+                      ),
+                    ),
                     Text(
                       l10n.noTransportGroupsDescription,
                       textAlign: TextAlign.center,
-                      style: (isTablet
-                          ? Theme.of(context).textTheme.titleMedium
-                          : Theme.of(context).textTheme.bodyMedium)?.copyWith(
-                        color: AppColors.textSecondaryThemed(context),
-                        fontSize: (isTablet ? 18 : 16) * context.fontScale,
-                      ),
+                      style:
+                          (isTablet
+                                  ? Theme.of(context).textTheme.titleMedium
+                                  : Theme.of(context).textTheme.bodyMedium)
+                              ?.copyWith(
+                                color: AppColors.textSecondaryThemed(context),
+                                fontSize:
+                                    (isTablet ? 18 : 16) * context.fontScale,
+                              ),
                       maxLines: 4,
                       overflow: TextOverflow.ellipsis,
                     ),
-                    SizedBox(height: context.getAdaptiveSpacing(
-                      mobile: 32,
-                      tablet: 40,
-                      desktop: 48,
-                    )),
+                    SizedBox(
+                      height: context.getAdaptiveSpacing(
+                        mobile: 32,
+                        tablet: 40,
+                        desktop: 48,
+                      ),
+                    ),
                     // Responsive button layout
-                    if (isTablet) Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              SizedBox(
-                                height: context.getAdaptiveButtonHeight(
-                                  tablet: 52,
-                                  desktop: 56,
-                                ),
-                                child: ElevatedButton.icon(
-                                  key: const Key('join_group_empty_state_button'),
-                                  onPressed: () {
-                                    ref.read(groupsComposedProvider.notifier).clearJoinError();
-                                    ref.read(navigationStateProvider.notifier).navigateTo(
+                    if (isTablet)
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          SizedBox(
+                            height: context.getAdaptiveButtonHeight(
+                              tablet: 52,
+                              desktop: 56,
+                            ),
+                            child: ElevatedButton.icon(
+                              key: const Key('join_group_empty_state_button'),
+                              onPressed: () {
+                                ref
+                                    .read(groupsComposedProvider.notifier)
+                                    .clearJoinError();
+                                ref
+                                    .read(navigationStateProvider.notifier)
+                                    .navigateTo(
                                       route: '/group-invitation',
                                       trigger: NavigationTrigger.userNavigation,
                                     );
-                                  },
-                                  icon: Icon(
-                                    Icons.person_add,
-                                    size: context.getAdaptiveIconSize(
-                                      tablet: 22,
-                                      desktop: 24,
-                                    ),
-                                  ),
-                                  label: Text(
-                                    l10n.joinGroup,
-                                    style: TextStyle(
-                                      fontSize: (isTablet ? 18 : 16) * context.fontScale,
-                                      fontWeight: FontWeight.w600,
-                                    ),
-                                  ),
-                                  style: ElevatedButton.styleFrom(
-                                    backgroundColor: Theme.of(context).colorScheme.secondary,
-                                    padding: context.getAdaptivePadding(
-                                      tabletHorizontal: 24,
-                                      desktopHorizontal: 32,
-                                    ),
-                                  ),
+                              },
+                              icon: Icon(
+                                Icons.person_add,
+                                size: context.getAdaptiveIconSize(
+                                  tablet: 22,
+                                  desktop: 24,
                                 ),
                               ),
-                              SizedBox(width: context.getAdaptiveSpacing(
-                                tablet: 20,
-                                desktop: 24,
-                              )),
-                              SizedBox(
-                                height: context.getAdaptiveButtonHeight(
-                                  tablet: 52,
-                                  desktop: 56,
-                                ),
-                                child: ElevatedButton.icon(
-                                  key: const Key('create_group_empty_state_button'),
-                                  onPressed: () {
-                                    ref.read(groupsComposedProvider.notifier).clearCreateError();
-                                    ref.read(navigationStateProvider.notifier).navigateTo(
-                                      route: '/groups/create',
-                                      trigger: NavigationTrigger.userNavigation,
-                                    );
-                                  },
-                                  icon: Icon(
-                                    Icons.add,
-                                    size: context.getAdaptiveIconSize(
-                                      tablet: 22,
-                                      desktop: 24,
-                                    ),
-                                  ),
-                                  label: Text(
-                                    l10n.createGroup,
-                                    style: TextStyle(
-                                      fontSize: (isTablet ? 18 : 16) * context.fontScale,
-                                      fontWeight: FontWeight.w600,
-                                    ),
-                                  ),
-                                  style: ElevatedButton.styleFrom(
-                                    padding: context.getAdaptivePadding(
-                                      tabletHorizontal: 24,
-                                      desktopHorizontal: 32,
-                                    ),
-                                  ),
+                              label: Text(
+                                l10n.joinGroup,
+                                style: TextStyle(
+                                  fontSize:
+                                      (isTablet ? 18 : 16) * context.fontScale,
+                                  fontWeight: FontWeight.w600,
                                 ),
                               ),
-                            ],
-                          ) else Column(
-                            children: [
-                              SizedBox(
-                                width: double.infinity,
-                                height: context.getAdaptiveButtonHeight(
-                                  mobile: 48,
-                                ),
-                                child: ElevatedButton.icon(
-                                  key: const Key('join_group_empty_state_button'),
-                                  onPressed: () {
-                                    ref.read(groupsComposedProvider.notifier).clearJoinError();
-                                    ref.read(navigationStateProvider.notifier).navigateTo(
-                                      route: '/group-invitation',
-                                      trigger: NavigationTrigger.userNavigation,
-                                    );
-                                  },
-                                  icon: const Icon(Icons.person_add),
-                                  label: Text(l10n.joinGroup),
-                                  style: ElevatedButton.styleFrom(
-                                    backgroundColor: Theme.of(context).colorScheme.secondary
-                                  ),
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Theme.of(
+                                  context,
+                                ).colorScheme.secondary,
+                                padding: context.getAdaptivePadding(
+                                  tabletHorizontal: 24,
+                                  desktopHorizontal: 32,
                                 ),
                               ),
-                              SizedBox(height: context.getAdaptiveSpacing(
-                                mobile: 16,
-                              )),
-                              SizedBox(
-                                width: double.infinity,
-                                height: context.getAdaptiveButtonHeight(
-                                  mobile: 48,
-                                ),
-                                child: ElevatedButton.icon(
-                                  key: const Key('create_group_empty_state_button'),
-                                  onPressed: () {
-                                    ref.read(groupsComposedProvider.notifier).clearCreateError();
-                                    ref.read(navigationStateProvider.notifier).navigateTo(
-                                      route: '/groups/create',
-                                      trigger: NavigationTrigger.userNavigation,
-                                    );
-                                  },
-                                  icon: const Icon(Icons.add),
-                                  label: Text(l10n.createGroup),
-                                ),
-                              ),
-                            ],
+                            ),
                           ),
+                          SizedBox(
+                            width: context.getAdaptiveSpacing(
+                              tablet: 20,
+                              desktop: 24,
+                            ),
+                          ),
+                          SizedBox(
+                            height: context.getAdaptiveButtonHeight(
+                              tablet: 52,
+                              desktop: 56,
+                            ),
+                            child: ElevatedButton.icon(
+                              key: const Key('create_group_empty_state_button'),
+                              onPressed: () {
+                                ref
+                                    .read(groupsComposedProvider.notifier)
+                                    .clearCreateError();
+                                ref
+                                    .read(navigationStateProvider.notifier)
+                                    .navigateTo(
+                                      route: '/groups/create',
+                                      trigger: NavigationTrigger.userNavigation,
+                                    );
+                              },
+                              icon: Icon(
+                                Icons.add,
+                                size: context.getAdaptiveIconSize(
+                                  tablet: 22,
+                                  desktop: 24,
+                                ),
+                              ),
+                              label: Text(
+                                l10n.createGroup,
+                                style: TextStyle(
+                                  fontSize:
+                                      (isTablet ? 18 : 16) * context.fontScale,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                              style: ElevatedButton.styleFrom(
+                                padding: context.getAdaptivePadding(
+                                  tabletHorizontal: 24,
+                                  desktopHorizontal: 32,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      )
+                    else
+                      Column(
+                        children: [
+                          SizedBox(
+                            width: double.infinity,
+                            height: context.getAdaptiveButtonHeight(mobile: 48),
+                            child: ElevatedButton.icon(
+                              key: const Key('join_group_empty_state_button'),
+                              onPressed: () {
+                                ref
+                                    .read(groupsComposedProvider.notifier)
+                                    .clearJoinError();
+                                ref
+                                    .read(navigationStateProvider.notifier)
+                                    .navigateTo(
+                                      route: '/group-invitation',
+                                      trigger: NavigationTrigger.userNavigation,
+                                    );
+                              },
+                              icon: const Icon(Icons.person_add),
+                              label: Text(l10n.joinGroup),
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Theme.of(
+                                  context,
+                                ).colorScheme.secondary,
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            height: context.getAdaptiveSpacing(mobile: 16),
+                          ),
+                          SizedBox(
+                            width: double.infinity,
+                            height: context.getAdaptiveButtonHeight(mobile: 48),
+                            child: ElevatedButton.icon(
+                              key: const Key('create_group_empty_state_button'),
+                              onPressed: () {
+                                ref
+                                    .read(groupsComposedProvider.notifier)
+                                    .clearCreateError();
+                                ref
+                                    .read(navigationStateProvider.notifier)
+                                    .navigateTo(
+                                      route: '/groups/create',
+                                      trigger: NavigationTrigger.userNavigation,
+                                    );
+                              },
+                              icon: const Icon(Icons.add),
+                              label: Text(l10n.createGroup),
+                            ),
+                          ),
+                        ],
+                      ),
                   ],
                 ),
               ),
@@ -346,7 +388,9 @@ class _GroupsPageState extends ConsumerState<GroupsPage>
       wide: 4,
     );
 
-    final childAspectRatio = context.isDesktop ? 1.0 : (context.isTablet ? 0.9 : 0.8);
+    final childAspectRatio = context.isDesktop
+        ? 1.0
+        : (context.isTablet ? 0.9 : 0.8);
 
     return Padding(
       padding: context.getAdaptivePadding(
@@ -360,9 +404,7 @@ class _GroupsPageState extends ConsumerState<GroupsPage>
       child: LayoutBuilder(
         builder: (context, constraints) {
           return ConstrainedBox(
-            constraints: BoxConstraints(
-              maxWidth: context.maxContentWidth,
-            ),
+            constraints: BoxConstraints(maxWidth: context.maxContentWidth),
             child: GridView.builder(
               key: const Key('groupsList_grid'),
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -386,9 +428,9 @@ class _GroupsPageState extends ConsumerState<GroupsPage>
                   key: Key('groupCard_${group.id}'),
                   group: group,
                   onSelect: () => _handleSelectGroup(group.id),
-                  onManage: () => _handleManageGroup(group.id)
+                  onManage: () => _handleManageGroup(group.id),
                 );
-              }
+              },
             ),
           );
         },
@@ -430,44 +472,56 @@ class _GroupsPageState extends ConsumerState<GroupsPage>
                       ),
                       color: AppColors.errorThemed(context),
                     ),
-                    SizedBox(height: context.getAdaptiveSpacing(
-                      mobile: 16,
-                      tablet: 20,
-                      desktop: 24,
-                    )),
+                    SizedBox(
+                      height: context.getAdaptiveSpacing(
+                        mobile: 16,
+                        tablet: 20,
+                        desktop: 24,
+                      ),
+                    ),
                     Text(
                       l10n.failedToLoadGroups,
-                      style: (isTablet
-                          ? Theme.of(context).textTheme.headlineMedium
-                          : Theme.of(context).textTheme.headlineSmall)?.copyWith(
-                        color: AppColors.errorThemed(context),
-                        fontSize: (isTablet ? 28 : 24) * context.fontScale,
-                        fontWeight: FontWeight.w600,
-                      ),
+                      style:
+                          (isTablet
+                                  ? Theme.of(context).textTheme.headlineMedium
+                                  : Theme.of(context).textTheme.headlineSmall)
+                              ?.copyWith(
+                                color: AppColors.errorThemed(context),
+                                fontSize:
+                                    (isTablet ? 28 : 24) * context.fontScale,
+                                fontWeight: FontWeight.w600,
+                              ),
                       textAlign: TextAlign.center,
                     ),
-                    SizedBox(height: context.getAdaptiveSpacing(
-                      mobile: 8,
-                      tablet: 12,
-                      desktop: 16,
-                    )),
+                    SizedBox(
+                      height: context.getAdaptiveSpacing(
+                        mobile: 8,
+                        tablet: 12,
+                        desktop: 16,
+                      ),
+                    ),
                     Text(
                       error,
                       textAlign: TextAlign.center,
-                      style: (isTablet
-                          ? Theme.of(context).textTheme.titleMedium
-                          : Theme.of(context).textTheme.bodyMedium)?.copyWith(
-                        color: AppColors.textSecondaryThemed(context),
-                        fontSize: (isTablet ? 18 : 16) * context.fontScale,
-                      ),
+                      style:
+                          (isTablet
+                                  ? Theme.of(context).textTheme.titleMedium
+                                  : Theme.of(context).textTheme.bodyMedium)
+                              ?.copyWith(
+                                color: AppColors.textSecondaryThemed(context),
+                                fontSize:
+                                    (isTablet ? 18 : 16) * context.fontScale,
+                              ),
                       maxLines: 4,
                       overflow: TextOverflow.ellipsis,
                     ),
-                    SizedBox(height: context.getAdaptiveSpacing(
-                      mobile: 24,
-                      tablet: 32,
-                      desktop: 40,
-                    )),
+                    SizedBox(
+                      height: context.getAdaptiveSpacing(
+                        mobile: 24,
+                        tablet: 32,
+                        desktop: 40,
+                      ),
+                    ),
                     SizedBox(
                       height: context.getAdaptiveButtonHeight(
                         mobile: 48,
@@ -477,7 +531,9 @@ class _GroupsPageState extends ConsumerState<GroupsPage>
                       child: ElevatedButton.icon(
                         key: const Key('groupsList_tryAgain_button'),
                         onPressed: () {
-                          final notifier = ref.read(groupsComposedProvider.notifier);
+                          final notifier = ref.read(
+                            groupsComposedProvider.notifier,
+                          );
                           notifier.clearError();
                           notifier.loadUserGroups();
                         },

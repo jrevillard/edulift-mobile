@@ -7,11 +7,13 @@ enum SchedulePriority {
   medium(2, 'Medium', 'Medium priority schedule'),
   high(3, 'High', 'High priority schedule'),
   critical(4, 'Critical', 'Critical priority schedule');
+
   const SchedulePriority(this.level, this.label, this.description);
 
   final int level;
   final String label;
   final String description;
+
   /// Get priority from string
   static SchedulePriority fromString(String priority) {
     switch (priority.toLowerCase()) {

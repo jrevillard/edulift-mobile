@@ -14,8 +14,8 @@ class CrossLanguageConsistencyChecker {
   CrossLanguageConsistencyChecker({
     bool verbose = false,
     String outputFormat = 'console',
-  }) : _verbose = verbose,
-       _outputFormat = outputFormat;
+  })  : _verbose = verbose,
+        _outputFormat = outputFormat;
 
   /// Run the consistency checker
   Future<void> run(List<String> files) async {

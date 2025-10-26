@@ -13,9 +13,7 @@ void main() {
     test('familyProvider returns empty state when user is null', () async {
       // Create a provider container with no user (null)
       final container = ProviderContainer(
-        overrides: [
-          currentUserProvider.overrideWith((ref) => null),
-        ],
+        overrides: [currentUserProvider.overrideWith((ref) => null)],
       );
 
       // Read the family provider state
@@ -31,32 +29,31 @@ void main() {
       container.dispose();
     });
 
-    test('createFamilyProvider returns empty state when user is null', () async {
-      // Create a provider container with no user (null)
-      final container = ProviderContainer(
-        overrides: [
-          currentUserProvider.overrideWith((ref) => null),
-        ],
-      );
+    test(
+      'createFamilyProvider returns empty state when user is null',
+      () async {
+        // Create a provider container with no user (null)
+        final container = ProviderContainer(
+          overrides: [currentUserProvider.overrideWith((ref) => null)],
+        );
 
-      // Read the create family provider state
-      final createFamilyState = container.read(createFamilyProvider);
+        // Read the create family provider state
+        final createFamilyState = container.read(createFamilyProvider);
 
-      // Verify it returns empty state, not cached data from previous user
-      expect(createFamilyState.family, isNull);
-      expect(createFamilyState.error, isNull);
-      expect(createFamilyState.isLoading, isFalse);
-      expect(createFamilyState.isSuccess, isFalse);
+        // Verify it returns empty state, not cached data from previous user
+        expect(createFamilyState.family, isNull);
+        expect(createFamilyState.error, isNull);
+        expect(createFamilyState.isLoading, isFalse);
+        expect(createFamilyState.isSuccess, isFalse);
 
-      container.dispose();
-    });
+        container.dispose();
+      },
+    );
 
     test('convenience providers return empty data when user is null', () async {
       // Create a provider container with no user (null)
       final container = ProviderContainer(
-        overrides: [
-          currentUserProvider.overrideWith((ref) => null),
-        ],
+        overrides: [currentUserProvider.overrideWith((ref) => null)],
       );
 
       // Test family convenience providers
@@ -70,43 +67,44 @@ void main() {
       container.dispose();
     });
 
-    test('providers auto-dispose when user changes from authenticated to null', () async {
-      // Create a mock user
-      final mockUser = User(
-        id: 'test-user-id',
-        email: 'test@example.com',
-        name: 'Test User',
-        createdAt: DateTime.now(),
-        updatedAt: DateTime.now(),
-      );
+    test(
+      'providers auto-dispose when user changes from authenticated to null',
+      () async {
+        // Create a mock user
+        final mockUser = User(
+          id: 'test-user-id',
+          email: 'test@example.com',
+          name: 'Test User',
+          createdAt: DateTime.now(),
+          updatedAt: DateTime.now(),
+        );
 
-      // Start with authenticated user
-      final container = ProviderContainer(
-        overrides: [
-          currentUserProvider.overrideWith((ref) => mockUser),
-        ],
-      );
+        // Start with authenticated user
+        final container = ProviderContainer(
+          overrides: [currentUserProvider.overrideWith((ref) => mockUser)],
+        );
 
-      // Read providers to ensure they're initialized
-      container.read(familyProvider);
-      container.read(createFamilyProvider);
-      // DISABLED: invitationProvider removed;
+        // Read providers to ensure they're initialized
+        container.read(familyProvider);
+        container.read(createFamilyProvider);
+        // DISABLED: invitationProvider removed;
 
-      // Now override to null user (simulating logout)
-      container.updateOverrides([
-        currentUserProvider.overrideWith((ref) => null),
-      ]);
+        // Now override to null user (simulating logout)
+        container.updateOverrides([
+          currentUserProvider.overrideWith((ref) => null),
+        ]);
 
-      // Verify providers return empty state after user becomes null
-      final familyState = container.read(familyProvider);
-      final createFamilyState = container.read(createFamilyProvider);
+        // Verify providers return empty state after user becomes null
+        final familyState = container.read(familyProvider);
+        final createFamilyState = container.read(createFamilyProvider);
 
-      expect(familyState.family, isNull);
-      expect(familyState.children, isEmpty);
-      expect(createFamilyState.family, isNull);
+        expect(familyState.family, isNull);
+        expect(familyState.children, isEmpty);
+        expect(createFamilyState.family, isNull);
 
-      container.dispose();
-    });
+        container.dispose();
+      },
+    );
 
     // DISABLED: EmptyFamilyNotifier replaced with SafeFamilyNotifier pattern
     // test('EmptyFamilyNotifier prevents state mutations', () {

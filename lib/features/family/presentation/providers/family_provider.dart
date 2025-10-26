@@ -23,7 +23,7 @@ import 'package:edulift/core/services/providers/base_provider_state.dart';
 import 'package:edulift/core/state/reactive_state_coordinator.dart';
 import '../../../../core/services/providers/auth_provider.dart';
 import '../../../../core/domain/entities/user.dart';
-import '../../domain/usecases/clear_all_family_data_usecase.dart';
+import '../../../../core/domain/usecases/usecase.dart' as core_usecase;
 
 /// Family state that manages family data and children
 /// Uses CRTP pattern for type-safe copyWith operations
@@ -32,7 +32,8 @@ class FamilyState implements BaseState<FamilyState> {
   final entities.Family? family;
   final List<entities.Child> children;
   final List<entities.Vehicle> vehicles; // Added vehicles list
-  final List<entities.FamilyInvitation> pendingInvitations; // Added pending invitations
+  final List<entities.FamilyInvitation>
+  pendingInvitations; // Added pending invitations
   @override
   final bool isLoading;
   @override
@@ -59,7 +60,8 @@ class FamilyState implements BaseState<FamilyState> {
     entities.Family? family,
     List<entities.Child>? children,
     List<entities.Vehicle>? vehicles, // Added vehicles parameter
-    List<entities.FamilyInvitation>? pendingInvitations, // Added pending invitations parameter
+    List<entities.FamilyInvitation>?
+    pendingInvitations, // Added pending invitations parameter
     bool? isLoading,
     String? error,
     String? errorInfo,
@@ -73,7 +75,9 @@ class FamilyState implements BaseState<FamilyState> {
       family: family ?? this.family,
       children: children ?? this.children,
       vehicles: vehicles ?? this.vehicles, // Copy vehicles
-      pendingInvitations: pendingInvitations ?? this.pendingInvitations, // Copy pending invitations
+      pendingInvitations:
+          pendingInvitations ??
+          this.pendingInvitations, // Copy pending invitations
       isLoading: isLoading ?? this.isLoading,
       error: clearError ? null : (error ?? this.error),
       errorInfo: clearError ? null : (errorInfo ?? this.errorInfo),
@@ -104,7 +108,8 @@ class FamilyState implements BaseState<FamilyState> {
       .toList();
 
   List<entities.Vehicle> get sortedVehicles =>
-      List<entities.Vehicle>.from(vehicles)..sort((a, b) => a.name.compareTo(b.name));
+      List<entities.Vehicle>.from(vehicles)
+        ..sort((a, b) => a.name.compareTo(b.name));
 
   int get totalCapacity =>
       vehicles.fold(0, (sum, vehicle) => sum + vehicle.capacity);
@@ -149,7 +154,9 @@ class FamilyNotifier extends StateNotifier<FamilyState>
       return failure.localizationKey; // Use localization key directly
     } else {
       final errorMessage = failure.message ?? 'Unknown error occurred';
-      AppLogger.debug('🔥 [FamilyNotifier] Using fallback error message: $errorMessage');
+      AppLogger.debug(
+        '🔥 [FamilyNotifier] Using fallback error message: $errorMessage',
+      );
       return errorMessage;
     }
   }
@@ -187,14 +194,22 @@ class FamilyNotifier extends StateNotifier<FamilyState>
 
     // CRITICAL: Also clear persistent cache (database, local storage)
     try {
-      final clearAllFamilyDataUsecase = _ref.read(clearAllFamilyDataUsecaseProvider);
-      await clearAllFamilyDataUsecase.call(const ClearAllFamilyDataParams());
-      AppLogger.info('🔄 [FamilyNotifier] Family persistent cache cleared on logout');
+      final clearAllFamilyDataUsecase = _ref.read(
+        clearAllFamilyDataUsecaseProvider,
+      );
+      await clearAllFamilyDataUsecase.call(core_usecase.NoParams());
+      AppLogger.info(
+        '🔄 [FamilyNotifier] Family persistent cache cleared on logout',
+      );
     } catch (e) {
-      AppLogger.warning('⚠️ [FamilyNotifier] Failed to clear family cache on logout: $e');
+      AppLogger.warning(
+        '⚠️ [FamilyNotifier] Failed to clear family cache on logout: $e',
+      );
     }
 
-    AppLogger.info('🔄 [FamilyNotifier] Family state + cache cleared due to user logout');
+    AppLogger.info(
+      '🔄 [FamilyNotifier] Family state + cache cleared due to user logout',
+    );
   }
 
   /// Handle user login - optional data reloading
@@ -240,9 +255,8 @@ class FamilyNotifier extends StateNotifier<FamilyState>
         final vehiclesData = family.vehicles;
 
         // Load pending invitations
-        final invitationsResult = await _invitationRepository.getPendingInvitations(
-          familyId: family.id,
-        );
+        final invitationsResult = await _invitationRepository
+            .getPendingInvitations(familyId: family.id);
         final pendingInvitationsData = invitationsResult.isOk
             ? invitationsResult.value!
             : <entities.FamilyInvitation>[];
@@ -1012,7 +1026,10 @@ class FamilyNotifier extends StateNotifier<FamilyState>
 
   /// Demote member from admin to regular member
   Future<void> demoteMemberToMember(String memberId) async {
-    await updateMemberRole(memberId: memberId, role: entities.FamilyRole.member);
+    await updateMemberRole(
+      memberId: memberId,
+      role: entities.FamilyRole.member,
+    );
   }
 
   /// Transfer ownership to another member (Admin only)
@@ -1045,7 +1062,11 @@ class FamilyNotifier extends StateNotifier<FamilyState>
   // Use local filtering on the children list in state instead
 
   /// Get filtered children from current state (local filtering only - REAL implementation)
-  List<entities.Child> getFilteredChildren({String? query, int? minAge, int? maxAge}) {
+  List<entities.Child> getFilteredChildren({
+    String? query,
+    int? minAge,
+    int? maxAge,
+  }) {
     var filteredChildren = state.children;
 
     if (query != null && query.trim().isNotEmpty) {
@@ -1072,7 +1093,8 @@ class FamilyNotifier extends StateNotifier<FamilyState>
 
   /// Send family invitation to a member (Admin only) - ReactiveStateCoordinator pattern
   /// Returns Result<entities.FamilyInvitation, InvitationFailure> following PHASE2 pattern
-  Future<Result<entities.FamilyInvitation, InvitationFailure>> sendFamilyInvitationToMember({
+  Future<Result<entities.FamilyInvitation, InvitationFailure>>
+  sendFamilyInvitationToMember({
     required String familyId,
     required String email,
     required String role,
@@ -1299,31 +1321,48 @@ class AutoLoadFamilyNotifier extends FamilyNotifier {
       return false;
     }
 
-    final authState = _ref.read(currentUserProvider);
-    final shouldLoad = authState != null;
+    // CRITICAL FIX: Check if ref is still mounted before reading
+    // This prevents "Tried to read a provider from a ProviderContainer that was already disposed" errors
+    try {
+      final authState = _ref.read(currentUserProvider);
+      final shouldLoad = authState != null;
 
-    AppLogger.debug('[AutoLoadFamilyNotifier] _shouldAutoLoad check: '
-        'authState=${authState != null}, _hasLoaded=$_hasLoaded, shouldLoad=$shouldLoad');
+      AppLogger.debug(
+        '[AutoLoadFamilyNotifier] _shouldAutoLoad check: '
+        'authState=${authState != null}, _hasLoaded=$_hasLoaded, shouldLoad=$shouldLoad',
+      );
 
-    if (shouldLoad) {
-      _hasLoaded = true;
-      AppLogger.debug('[AutoLoadFamilyNotifier] Auto-loading family for authenticated user: ${authState.id}');
+      if (shouldLoad) {
+        _hasLoaded = true;
+        AppLogger.debug(
+          '[AutoLoadFamilyNotifier] Auto-loading family for authenticated user: ${authState.id}',
+        );
+      }
+
+      return shouldLoad;
+    } catch (e) {
+      // Container was disposed - return false to prevent load
+      AppLogger.debug(
+        '[AutoLoadFamilyNotifier] _shouldAutoLoad: Container disposed, skipping load: $e',
+      );
+      return false;
     }
-
-    return shouldLoad;
   }
 }
 
-final familyProvider = StateNotifierProvider.autoDispose<FamilyNotifier, FamilyState>((ref) {
-  // SECURITY FIX: Watch currentUser and auto-dispose when user becomes null
-  ref.watch(currentUserProvider);
+final familyProvider =
+    StateNotifierProvider.autoDispose<FamilyNotifier, FamilyState>((ref) {
+      // SECURITY FIX: Watch currentUser and auto-dispose when user becomes null
+      ref.watch(currentUserProvider);
 
-  // Always create normal provider - reactive auth listening will handle cleanup
-  return FamilyNotifierFactory.create(ref);
-});
+      // Always create normal provider - reactive auth listening will handle cleanup
+      return FamilyNotifierFactory.create(ref);
+    });
 
 // Convenience providers - SECURITY FIX: Made auth-reactive with autoDispose
-final familyChildrenProvider = Provider.autoDispose<List<entities.Child>>((ref) {
+final familyChildrenProvider = Provider.autoDispose<List<entities.Child>>((
+  ref,
+) {
   final currentUser = ref.watch(currentUserProvider);
   if (currentUser == null) return <entities.Child>[];
 
@@ -1337,7 +1376,10 @@ final familyDataProvider = Provider.autoDispose<entities.Family?>((ref) {
   return ref.watch(familyProvider.select((state) => state.family));
 });
 
-final childProvider = Provider.autoDispose.family<entities.Child?, String>((ref, childId) {
+final childProvider = Provider.autoDispose.family<entities.Child?, String>((
+  ref,
+  childId,
+) {
   final currentUser = ref.watch(currentUserProvider);
   if (currentUser == null) return null;
 
@@ -1349,32 +1391,36 @@ final childProvider = Provider.autoDispose.family<entities.Child?, String>((ref,
   }
 });
 
-final familyChildrenByGroupProvider = Provider.autoDispose.family<List<entities.Child>, String>((
-  ref,
-  groupId,
-) {
-  final currentUser = ref.watch(currentUserProvider);
-  if (currentUser == null) return <entities.Child>[];
+final familyChildrenByGroupProvider = Provider.autoDispose
+    .family<List<entities.Child>, String>((ref, groupId) {
+      final currentUser = ref.watch(currentUserProvider);
+      if (currentUser == null) return <entities.Child>[];
 
-  // Group functionality not implemented in backend - return empty list
-  return <entities.Child>[];
-});
+      // Group functionality not implemented in backend - return empty list
+      return <entities.Child>[];
+    });
 // Vehicle convenience providers - SECURITY FIX: Made auth-reactive with autoDispose
-final familyVehiclesProvider = Provider.autoDispose<List<entities.Vehicle>>((ref) {
+final familyVehiclesProvider = Provider.autoDispose<List<entities.Vehicle>>((
+  ref,
+) {
   final currentUser = ref.watch(currentUserProvider);
   if (currentUser == null) return <entities.Vehicle>[];
 
   return ref.watch(familyProvider.select((state) => state.vehicles));
 });
 
-final sortedVehiclesProvider = Provider.autoDispose<List<entities.Vehicle>>((ref) {
+final sortedVehiclesProvider = Provider.autoDispose<List<entities.Vehicle>>((
+  ref,
+) {
   final currentUser = ref.watch(currentUserProvider);
   if (currentUser == null) return <entities.Vehicle>[];
 
   return ref.watch(familyProvider.select((state) => state.sortedVehicles));
 });
 
-final availableVehiclesProvider = Provider.autoDispose<List<entities.Vehicle>>((ref) {
+final availableVehiclesProvider = Provider.autoDispose<List<entities.Vehicle>>((
+  ref,
+) {
   final currentUser = ref.watch(currentUserProvider);
   if (currentUser == null) return <entities.Vehicle>[];
 
@@ -1388,7 +1434,10 @@ final selectedVehicleProvider = Provider.autoDispose<entities.Vehicle?>((ref) {
   return ref.watch(familyProvider.select((state) => state.selectedVehicle));
 });
 
-final vehicleProvider = Provider.autoDispose.family<entities.Vehicle?, String>((ref, vehicleId) {
+final vehicleProvider = Provider.autoDispose.family<entities.Vehicle?, String>((
+  ref,
+  vehicleId,
+) {
   final currentUser = ref.watch(currentUserProvider);
   if (currentUser == null) return null;
 

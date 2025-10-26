@@ -8,6 +8,9 @@
 // - Test accessibility compliance (WCAG 2.1 AA)
 // - Test error handling
 
+@Tags(['golden'])
+library;
+
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
@@ -77,7 +80,8 @@ void main() {
 
         // Assert - Confirmation screen elements (based on actual implementation)
         expect(find.byIcon(Icons.mark_email_read), findsOneWidget);
-        expect(find.text('test@example.com'), findsOneWidget);
+        // Email is part of larger description text
+        expect(find.textContaining('test@example.com'), findsOneWidget);
         expect(
           find.byKey(const Key('resend_magic_link_button')),
           findsOneWidget,
@@ -189,6 +193,11 @@ void main() {
     });
 
     testWidgets('should match golden file for initial state', (tester) async {
+      // Set consistent screen size for golden tests
+      tester.view.physicalSize = const Size(800, 600);
+      tester.view.devicePixelRatio = 1.0;
+      addTearDown(() => tester.view.resetPhysicalSize());
+
       // Arrange
       await tester.pumpWidget(createMagicLinkWidget());
       await tester.pumpAndSettle();
@@ -205,6 +214,11 @@ void main() {
     });
 
     testWidgets('should match golden file for success state', (tester) async {
+      // Set consistent screen size for golden tests
+      tester.view.physicalSize = const Size(800, 600);
+      tester.view.devicePixelRatio = 1.0;
+      addTearDown(() => tester.view.resetPhysicalSize());
+
       // Arrange
       when(
         mockAuthService.sendMagicLink(any, name: anyNamed('name')),
@@ -230,6 +244,11 @@ void main() {
     });
 
     testWidgets('should match golden file for error state', (tester) async {
+      // Set consistent screen size for golden tests
+      tester.view.physicalSize = const Size(800, 600);
+      tester.view.devicePixelRatio = 1.0;
+      addTearDown(() => tester.view.resetPhysicalSize());
+
       // Arrange
       when(
         mockAuthService.sendMagicLink(any, name: anyNamed('name')),

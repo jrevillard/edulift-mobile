@@ -35,7 +35,8 @@ class AuthState {
   pendingInviteCode; // INVITATION FIX: Store invite code for resends
   final bool showNameField;
   final String? welcomeMessage;
-  final InvitationResult? invitationResult; // PHASE 1: Store invitation result from magic link
+  final InvitationResult?
+  invitationResult; // PHASE 1: Store invitation result from magic link
 
   const AuthState({
     this.user,
@@ -64,7 +65,8 @@ class AuthState {
     String? pendingInviteCode, // INVITATION FIX: Store invite code for resends
     bool? showNameField,
     String? welcomeMessage,
-    InvitationResult? invitationResult, // PHASE 1: Add invitationResult parameter
+    InvitationResult?
+    invitationResult, // PHASE 1: Add invitationResult parameter
     bool clearUser = false,
     bool clearError = false,
     bool clearUserStatus = false,
@@ -73,7 +75,8 @@ class AuthState {
     bool clearPendingInviteCode =
         false, // INVITATION FIX: Clear invite code parameter
     bool clearWelcomeMessage = false,
-    bool clearInvitationResult = false, // PHASE 1: Clear invitation result parameter
+    bool clearInvitationResult =
+        false, // PHASE 1: Clear invitation result parameter
   }) {
     return AuthState(
       user: clearUser ? null : (user ?? this.user),
@@ -97,7 +100,8 @@ class AuthState {
       welcomeMessage: clearWelcomeMessage
           ? null
           : (welcomeMessage ?? this.welcomeMessage),
-      invitationResult: clearInvitationResult // PHASE 1: Handle invitation result
+      invitationResult:
+          clearInvitationResult // PHASE 1: Handle invitation result
           ? null
           : (invitationResult ?? this.invitationResult),
     );
@@ -525,7 +529,9 @@ class AuthNotifier extends StateNotifier<AuthState> {
         } else {
           // Logout API failed, but continue with local cleanup
           state = state.copyWith(error: 'errorLogoutFailed');
-          AppLogger.warning('⚠️ [Auth] API logout failed, continuing with local cleanup');
+          AppLogger.warning(
+            '⚠️ [Auth] API logout failed, continuing with local cleanup',
+          );
         }
       }
 
@@ -542,11 +548,13 @@ class AuthNotifier extends StateNotifier<AuthState> {
         clearPendingInviteCode: true,
         showNameField: false,
         clearWelcomeMessage: true,
-        clearInvitationResult: true, // PHASE 1: Clear invitation result on logout
+        clearInvitationResult:
+            true, // PHASE 1: Clear invitation result on logout
       );
 
-      AppLogger.info('🔄 [Auth] Logout completed - All providers should auto-cleanup via reactive listening');
-
+      AppLogger.info(
+        '🔄 [Auth] Logout completed - All providers should auto-cleanup via reactive listening',
+      );
     } catch (e, stackTrace) {
       AppLogger.error('❌ [Auth] Logout failed', e, stackTrace);
       state = state.copyWith(isLoading: false, error: 'errorLogoutFailed');
@@ -621,7 +629,9 @@ class AuthNotifier extends StateNotifier<AuthState> {
   /// PHASE 1: Set invitation result in auth state
   /// Will be used in Phase 2 to store result from magic link verification
   void setInvitationResult(InvitationResult result) {
-    AppLogger.info('🎫 AuthProvider: Setting invitation result - processed: ${result.processed}, type: ${result.invitationType}');
+    AppLogger.info(
+      '🎫 AuthProvider: Setting invitation result - processed: ${result.processed}, type: ${result.invitationType}',
+    );
     state = state.copyWith(invitationResult: result);
   }
 

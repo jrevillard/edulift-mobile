@@ -286,7 +286,9 @@ void main() {
         const failure = NetworkFailure(message: 'No internet');
 
         // Act
-        final result = errorHandlerService.classifyError(failure).category == ErrorCategory.network;
+        final result =
+            errorHandlerService.classifyError(failure).category ==
+            ErrorCategory.network;
 
         // Assert
         expect(result, isTrue);
@@ -297,7 +299,9 @@ void main() {
         const failure = ValidationFailure(message: 'Name required');
 
         // Act
-        final result = errorHandlerService.classifyError(failure).category == ErrorCategory.network;
+        final result =
+            errorHandlerService.classifyError(failure).category ==
+            ErrorCategory.network;
 
         // Assert
         expect(result, isFalse);
@@ -308,7 +312,9 @@ void main() {
         const failure = AuthFailure(message: 'Unauthorized');
 
         // Act
-        final result = errorHandlerService.classifyError(failure).category == ErrorCategory.authentication;
+        final result =
+            errorHandlerService.classifyError(failure).category ==
+            ErrorCategory.authentication;
 
         // Assert
         expect(result, isTrue);
@@ -319,7 +325,9 @@ void main() {
         const failure = ValidationFailure(message: 'Name required');
 
         // Act
-        final result = errorHandlerService.classifyError(failure).category == ErrorCategory.authentication;
+        final result =
+            errorHandlerService.classifyError(failure).category ==
+            ErrorCategory.authentication;
 
         // Assert
         expect(result, isFalse);
@@ -330,7 +338,9 @@ void main() {
         const failure = ValidationFailure(message: 'Name required');
 
         // Act
-        final result = errorHandlerService.classifyError(failure).category == ErrorCategory.validation;
+        final result =
+            errorHandlerService.classifyError(failure).category ==
+            ErrorCategory.validation;
 
         // Assert
         expect(result, isTrue);
@@ -343,7 +353,9 @@ void main() {
           const failure = NetworkFailure(message: 'No connection');
 
           // Act
-          final result = errorHandlerService.classifyError(failure).category == ErrorCategory.validation;
+          final result =
+              errorHandlerService.classifyError(failure).category ==
+              ErrorCategory.validation;
 
           // Assert
           expect(result, isFalse);

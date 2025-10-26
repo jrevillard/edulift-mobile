@@ -12,7 +12,12 @@ export 'presentation/providers/group_invitation_provider.dart'
 
 // Re-export groups provider and state
 export 'data/providers/groups_provider.dart'
-    show GroupsState, groupsProvider, GroupDetailState, groupDetailProvider, groupFamiliesProvider;
+    show
+        GroupsState,
+        groupsProvider,
+        GroupDetailState,
+        groupDetailProvider,
+        groupFamiliesProvider;
 
 // === PROVIDER ALIASES ===
 // Alias for backward compatibility with existing pages

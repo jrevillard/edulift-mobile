@@ -37,10 +37,7 @@ part 'group_families_provider.g.dart';
 /// **Returns:**
 /// A Future that resolves to a list of [GroupFamily] entities
 @riverpod
-Future<List<GroupFamily>> groupFamilies(
-  Ref ref,
-  String groupId,
-) async {
+Future<List<GroupFamily>> groupFamilies(Ref ref, String groupId) async {
   // Get repository from dependency injection
   final repository = ref.watch(groupRepositoryProvider);
 

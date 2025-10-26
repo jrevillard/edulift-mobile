@@ -26,7 +26,8 @@ class MagicLinkState {
   final MagicLinkVerificationResult? result;
   final bool canRetry;
   final String? email; // Store email for retry attempts
-  final Failure? failure; // Store the actual failure type for proper error display
+  final Failure?
+  failure; // Store the actual failure type for proper error display
 
   const MagicLinkState({
     required this.status,
@@ -84,7 +85,8 @@ class MagicLinkState {
 enum MagicLinkVerificationStatus { initial, verifying, success, error }
 
 /// Notifier for magic link verification state
-class MagicLinkNotifier extends StateNotifier<MagicLinkState> with ReactiveStateCoordinator {
+class MagicLinkNotifier extends StateNotifier<MagicLinkState>
+    with ReactiveStateCoordinator {
   final IMagicLinkService _magicLinkService;
   final Ref _ref;
 
@@ -96,7 +98,11 @@ class MagicLinkNotifier extends StateNotifier<MagicLinkState> with ReactiveState
     state = state.copyWith(email: email);
   }
 
-  Future<void> verifyMagicLink(String token, {String? inviteCode, String? email}) async {
+  Future<void> verifyMagicLink(
+    String token, {
+    String? inviteCode,
+    String? email,
+  }) async {
     AppLogger.info(
       '🔗 DEBUG: Magic link verification started - token: ${token.substring(0, 10)}..., inviteCode: ${inviteCode ?? "NULL"}, email: ${email ?? "NULL"}',
     );
@@ -104,7 +110,9 @@ class MagicLinkNotifier extends StateNotifier<MagicLinkState> with ReactiveState
     // PHASE 5: Clear old invitation result when starting new verification
     final authState = _ref.read(authStateProvider);
     if (authState.invitationResult != null) {
-      AppLogger.info('🧹 Clearing stale invitation result before new verification');
+      AppLogger.info(
+        '🧹 Clearing stale invitation result before new verification',
+      );
       _ref.read(authStateProvider.notifier).clearInvitationResult();
     }
 
@@ -115,11 +123,18 @@ class MagicLinkNotifier extends StateNotifier<MagicLinkState> with ReactiveState
       email: email ?? state.email, // Store email for retry attempts
     );
 
-    AppLogger.info('🔗 DEBUG: State after setting VERIFYING - status: ${state.status}');
+    AppLogger.info(
+      '🔗 DEBUG: State after setting VERIFYING - status: ${state.status}',
+    );
 
     try {
-      AppLogger.info('🔗 DEBUG: About to call _magicLinkService.verifyMagicLink()');
-      final result = await _magicLinkService.verifyMagicLink(token, inviteCode: inviteCode);
+      AppLogger.info(
+        '🔗 DEBUG: About to call _magicLinkService.verifyMagicLink()',
+      );
+      final result = await _magicLinkService.verifyMagicLink(
+        token,
+        inviteCode: inviteCode,
+      );
 
       AppLogger.info(
         '🔗 DEBUG: _magicLinkService.verifyMagicLink() completed - result type: ${result.runtimeType}',
@@ -127,14 +142,17 @@ class MagicLinkNotifier extends StateNotifier<MagicLinkState> with ReactiveState
 
       await result.fold(
         (failure) async {
-          AppLogger.error('❌ Magic link verification failed: ${failure.message}');
+          AppLogger.error(
+            '❌ Magic link verification failed: ${failure.message}',
+          );
 
           // STATE-OF-THE-ART: Use reactive state coordinator for critical state updates
           // Store BOTH the failure type and message for proper UI error display
           state = state.copyWith(
             status: MagicLinkVerificationStatus.error,
             errorMessage: failure.message,
-            failure: failure, // Store failure type for UI to determine correct localized message
+            failure:
+                failure, // Store failure type for UI to determine correct localized message
             canRetry: _canRetryFromFailure(failure),
           );
         },
@@ -147,14 +165,16 @@ class MagicLinkNotifier extends StateNotifier<MagicLinkState> with ReactiveState
           // CRITICAL FIX: Check invitation status BEFORE declaring success
           // The MagicLinkProvider success state should represent "entire process succeeded"
           // not just "token is technically valid"
-          if (verificationResult.hasInvitation && !verificationResult.invitationProcessed) {
+          if (verificationResult.hasInvitation &&
+              !verificationResult.invitationProcessed) {
             // BUSINESS LOGIC FAILURE: Token valid but invitation failed
             // Handle ALL types of invitation errors consistently
 
             // Create appropriate failure type for invitation error
             // Use domain-specific AuthFailure with proper error enum
             final Failure invitationFailure;
-            if (verificationResult.hasCurrentFamily && !verificationResult.canLeaveCurrentFamily) {
+            if (verificationResult.hasCurrentFamily &&
+                !verificationResult.canLeaveCurrentFamily) {
               // Family conflict case - use domain error enum
               invitationFailure = AuthFailure(
                 error: AuthError.userAlreadyInFamily,
@@ -169,7 +189,8 @@ class MagicLinkNotifier extends StateNotifier<MagicLinkState> with ReactiveState
               // Regular invitation error - use generic server error
               invitationFailure = ServerFailure(
                 message:
-                    verificationResult.invitationError ?? 'This invitation could not be processed',
+                    verificationResult.invitationError ??
+                    'This invitation could not be processed',
               );
             }
 
@@ -190,7 +211,9 @@ class MagicLinkNotifier extends StateNotifier<MagicLinkState> with ReactiveState
           }
 
           // GLOBAL SUCCESS: Token valid AND (no invitation OR invitation processed successfully)
-          AppLogger.info('✅ Magic link verification - entire process successful');
+          AppLogger.info(
+            '✅ Magic link verification - entire process successful',
+          );
 
           // Set success state
           state = state.copyWith(
@@ -201,7 +224,9 @@ class MagicLinkNotifier extends StateNotifier<MagicLinkState> with ReactiveState
 
           // CRITICAL FIX: Directly update auth state immediately after successful verification
           try {
-            AppLogger.info('🔐 Updating auth state immediately after magic link success');
+            AppLogger.info(
+              '🔐 Updating auth state immediately after magic link success',
+            );
 
             // Get the auth notifier to update state directly
             final authNotifier = _ref.read(authStateProvider.notifier);
@@ -215,26 +240,35 @@ class MagicLinkNotifier extends StateNotifier<MagicLinkState> with ReactiveState
             final expiresIn = verificationResult.expiresIn;
 
             AppLogger.info('🔍 DEBUG: Using verification result user data:');
-            AppLogger.info('   - User ID from verification: ${userData['id'] ?? 'null'}');
-            AppLogger.info('   - User email from verification: ${userData['email'] ?? 'null'}');
+            AppLogger.info(
+              '   - User ID from verification: ${userData['id'] ?? 'null'}',
+            );
+            AppLogger.info(
+              '   - User email from verification: ${userData['email'] ?? 'null'}',
+            );
 
             AppLogger.info('🔐 Storing tokens - access token + refresh token');
             AppLogger.debug('   - Access token length: ${token.length}');
-            AppLogger.debug('   - Refresh token length: ${refreshToken.length}');
+            AppLogger.debug(
+              '   - Refresh token length: ${refreshToken.length}',
+            );
             AppLogger.debug('   - Expires in: ${expiresIn}s');
 
             // Call the auth service to properly process the verified data and set up user session
             try {
-              final authResult = await authNotifier.authService.authenticateWithVerifiedData(
-                token: token,
-                refreshToken: refreshToken,
-                expiresIn: expiresIn,
-                userData: userData,
-              );
+              final authResult = await authNotifier.authService
+                  .authenticateWithVerifiedData(
+                    token: token,
+                    refreshToken: refreshToken,
+                    expiresIn: expiresIn,
+                    userData: userData,
+                  );
 
               await authResult.when(
                 ok: (result) {
-                  AppLogger.info('✅ Auth service processed verified data successfully');
+                  AppLogger.info(
+                    '✅ Auth service processed verified data successfully',
+                  );
                   AppLogger.info('   - Final user ID: ${result.user.id}');
                   AppLogger.info(
                     '   - CLEAN ARCHITECTURE: Family data will be fetched by router after auth',
@@ -243,9 +277,15 @@ class MagicLinkNotifier extends StateNotifier<MagicLinkState> with ReactiveState
                   // PHASE 2: Store invitation result if present
                   if (result.invitationResult != null) {
                     AppLogger.info('📨 Magic link contains invitation result');
-                    AppLogger.info('   - Processed: ${result.invitationResult!.processed}');
-                    AppLogger.info('   - Type: ${result.invitationResult!.invitationType}');
-                    AppLogger.info('   - Redirect: ${result.invitationResult!.redirectUrl}');
+                    AppLogger.info(
+                      '   - Processed: ${result.invitationResult!.processed}',
+                    );
+                    AppLogger.info(
+                      '   - Type: ${result.invitationResult!.invitationType}',
+                    );
+                    AppLogger.info(
+                      '   - Redirect: ${result.invitationResult!.redirectUrl}',
+                    );
 
                     _ref
                         .read(authStateProvider.notifier)
@@ -256,10 +296,14 @@ class MagicLinkNotifier extends StateNotifier<MagicLinkState> with ReactiveState
                   // Now update the auth provider state with the fully processed user
                   _ref.read(authStateProvider.notifier).login(result.user);
 
-                  AppLogger.info('🔍 DEBUG: Auth state updated after magic link verification');
+                  AppLogger.info(
+                    '🔍 DEBUG: Auth state updated after magic link verification',
+                  );
                 },
                 err: (error) {
-                  AppLogger.error('❌ Failed to process verified data: ${error.message}');
+                  AppLogger.error(
+                    '❌ Failed to process verified data: ${error.message}',
+                  );
                   throw error;
                 },
               );
@@ -270,11 +314,16 @@ class MagicLinkNotifier extends StateNotifier<MagicLinkState> with ReactiveState
 
             // Small delay for invitation scenarios to allow page processing
             if (inviteCode != null) {
-              AppLogger.info('🎫 Invitation detected - adding small delay for page processing');
+              AppLogger.info(
+                '🎫 Invitation detected - adding small delay for page processing',
+              );
               await Future.delayed(const Duration(milliseconds: 100));
             }
           } catch (e) {
-            AppLogger.error('❌ Failed to update auth state after magic link verification', e);
+            AppLogger.error(
+              '❌ Failed to update auth state after magic link verification',
+              e,
+            );
             // CRITICAL: Don't fail the entire authentication if we can't get fresh user data
             // Instead, try one more time to get cached user data from auth service
             // Fallback error state - create a ServerFailure for consistent error handling
@@ -390,14 +439,18 @@ class MagicLinkNotifier extends StateNotifier<MagicLinkState> with ReactiveState
 }
 
 /// Provider for magic link state management
-final magicLinkProvider = StateNotifierProvider<MagicLinkNotifier, MagicLinkState>((ref) {
+final magicLinkProvider = StateNotifierProvider<MagicLinkNotifier, MagicLinkState>((
+  ref,
+) {
   // Get the magic link service from dependency injection
   try {
     AppLogger.info(
       '🔗 DEBUG: Creating MagicLinkProvider - about to read magicLinkServiceDIProvider',
     );
     final magicLinkService = ref.read(magicLinkServiceDIProvider);
-    AppLogger.info('🔗 DEBUG: MagicLinkService created - type: ${magicLinkService.runtimeType}');
+    AppLogger.info(
+      '🔗 DEBUG: MagicLinkService created - type: ${magicLinkService.runtimeType}',
+    );
     return MagicLinkNotifier(magicLinkService, ref);
   } catch (e, stack) {
     AppLogger.error('💥 DEBUG: Failed to create MagicLinkProvider', e, stack);
@@ -413,7 +466,9 @@ final magicLinkServiceDIProvider = Provider<IMagicLinkService>((ref) {
       '🔗 DEBUG: Creating MagicLinkServiceDI - about to read magicLinkServiceProvider',
     );
     final service = ref.watch(magicLinkServiceProvider);
-    AppLogger.info('🔗 DEBUG: MagicLinkServiceProvider resolved - type: ${service.runtimeType}');
+    AppLogger.info(
+      '🔗 DEBUG: MagicLinkServiceProvider resolved - type: ${service.runtimeType}',
+    );
     return service;
   } catch (e, stack) {
     AppLogger.error('💥 DEBUG: Failed to create MagicLinkServiceDI', e, stack);

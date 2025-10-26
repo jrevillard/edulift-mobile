@@ -31,9 +31,7 @@ abstract class CreateUserProfileDto with _$CreateUserProfileDto {
 
 @freezed
 abstract class UpdateUserProfileDto with _$UpdateUserProfileDto {
-  const factory UpdateUserProfileDto({
-    String? name,
-  }) = _UpdateUserProfileDto;
+  const factory UpdateUserProfileDto({String? name}) = _UpdateUserProfileDto;
 
   factory UpdateUserProfileDto.fromJson(Map<String, dynamic> json) =>
       _$UpdateUserProfileDtoFromJson(json);

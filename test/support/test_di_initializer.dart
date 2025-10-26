@@ -7,8 +7,7 @@ import 'package:mockito/mockito.dart';
 import 'package:edulift/core/utils/result.dart';
 import 'package:edulift/core/errors/failures.dart';
 import 'package:edulift/core/domain/entities/user.dart';
-import 'package:edulift/core/domain/entities/family.dart'
-    as family_entities;
+import 'package:edulift/core/domain/entities/family.dart' as family_entities;
 import 'package:edulift/core/domain/entities/family.dart';
 import 'package:edulift/features/auth/domain/repositories/auth_repository.dart';
 

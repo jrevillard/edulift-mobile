@@ -121,7 +121,8 @@ void main() {
           final content = file.readAsStringSync();
           if (content.contains('AppLocalizations') ||
               content.contains('l10n') ||
-              file.path.contains('time_slot_mapper.dart')) { // UI helper, not DTO mapper
+              file.path.contains('time_slot_mapper.dart')) {
+            // UI helper, not DTO mapper
             continue;
           }
 
@@ -250,7 +251,8 @@ void main() {
           for (final className in classes) {
             // Skip enum converters - enums use fromJson(String), not Map
             // Common enum naming patterns: Status, Level, Role, Permission, Type
-            final isEnumConverter = className.contains('Status') ||
+            final isEnumConverter =
+                className.contains('Status') ||
                 className.contains('Level') ||
                 className.contains('Role') ||
                 className.contains('Permission') ||
@@ -267,7 +269,8 @@ void main() {
             } else {
               // It's a valid enum converter or Command DTO
               cleanEntities.add(
-                  '${file.path}: $className (${isEnumConverter ? "enum converter" : "command DTO"})');
+                '${file.path}: $className (${isEnumConverter ? "enum converter" : "command DTO"})',
+              );
             }
           }
         } else if (classes.isNotEmpty) {

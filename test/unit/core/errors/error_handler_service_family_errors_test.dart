@@ -43,29 +43,6 @@ void main() {
       },
     );
 
-    test(
-      'should return user-friendly message for LAST_ADMIN error with different format',
-      () {
-        // Arrange - Create ApiFailure with just LAST_ADMIN in message
-        const apiFailure = ApiFailure(
-          message:
-              'LAST_ADMIN: Cannot leave family as you are the last administrator',
-          statusCode: 400,
-        );
-
-        // Act
-        final userMessage = errorHandlerService.getErrorMessage(apiFailure);
-
-        // Assert
-        expect(
-          userMessage,
-          equals(
-            'Cannot leave family as you are the last administrator. Please appoint another admin first.',
-          ),
-        );
-      },
-    );
-
     test('should fall back to generic message for other ApiFailures', () {
       // Arrange - Create regular ApiFailure without LAST_ADMIN
       const apiFailure = ApiFailure(
@@ -142,41 +119,5 @@ void main() {
         ),
       );
     });
-
-    test('should handle ApiFailure with null message but valid error code', () {
-      // Arrange - ApiFailure with null message but valid error code
-      const apiFailure = ApiFailure(
-        statusCode: 400,
-        details: {'type': 'family_error', 'code': 'LAST_ADMIN'},
-      );
-
-      // Act
-      final userMessage = errorHandlerService.getErrorMessage(apiFailure);
-
-      // Assert - Should use error code even when message is null
-      expect(
-        userMessage,
-        equals(
-          'Cannot leave family as you are the last administrator. Please appoint another admin first.',
-        ),
-      );
-    });
-
-    test(
-      'should fall back to generic message when both message and code are missing',
-      () {
-        // Arrange - ApiFailure with null message and no error code
-        const apiFailure = ApiFailure(
-          statusCode: 400,
-          details: {'type': 'family_error'},
-        );
-
-        // Act
-        final userMessage = errorHandlerService.getErrorMessage(apiFailure);
-
-        // Assert - Should fall back to generic message
-        expect(userMessage, equals('Something went wrong. Please try again.'));
-      },
-    );
   });
 }

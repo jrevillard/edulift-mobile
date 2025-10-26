@@ -65,10 +65,13 @@ class LeaveFamilyUsecase
 
   @override
   Future<Result<LeaveFamilyResult, Failure>> call(
-      LeaveFamilyParams params) async {
+    LeaveFamilyParams params,
+  ) async {
     // OPTIMIZATION FIX: Use provided familyId
     // Step 1: Call leave family API
-    final leaveResult = await _familyRepository.leaveFamily(familyId: params.familyId);
+    final leaveResult = await _familyRepository.leaveFamily(
+      familyId: params.familyId,
+    );
 
     if (leaveResult.isOk) {
       // Step 2: Clear all cached family data locally

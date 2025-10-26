@@ -34,9 +34,13 @@ class MemberActionBottomSheet extends ConsumerWidget {
     final isCurrentUser = currentUser?.id == member.userId;
 
     // Debug logging
-    debugPrint('🔍 MemberActionBottomSheet: ${member.displayNameOrLoading} (${member.role.value})');
+    debugPrint(
+      '🔍 MemberActionBottomSheet: ${member.displayNameOrLoading} (${member.role.value})',
+    );
     debugPrint('   canManageRoles=$canManageRoles (passed as parameter)');
-    debugPrint('   onChangeRole=${onChangeRole != null}, willShow=${canManageRoles && onChangeRole != null}');
+    debugPrint(
+      '   onChangeRole=${onChangeRole != null}, willShow=${canManageRoles && onChangeRole != null}',
+    );
 
     return Container(
       constraints: BoxConstraints(
@@ -66,7 +70,7 @@ class MemberActionBottomSheet extends ConsumerWidget {
                             : Text(
                                 member.displayNameOrLoading.isNotEmpty
                                     ? member.displayNameOrLoading[0]
-                                        .toUpperCase()
+                                          .toUpperCase()
                                     : '?',
                                 style: TextStyle(
                                   color: theme.colorScheme.onSecondaryContainer,
@@ -103,7 +107,9 @@ class MemberActionBottomSheet extends ConsumerWidget {
             // Actions List
             if (canManageRoles && onChangeRole != null) ...[
               ListTile(
-                key: Key('member_role_action_${member.role.value.toLowerCase()}'),
+                key: Key(
+                  'member_role_action_${member.role.value.toLowerCase()}',
+                ),
                 leading: const Icon(Icons.admin_panel_settings),
                 title: Text(
                   member.role == FamilyRole.admin

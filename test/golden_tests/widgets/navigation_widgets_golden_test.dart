@@ -15,56 +15,44 @@ import '../../support/golden/theme_configurations.dart';
 void main() {
   group('Phase 4: Navigation Widgets Golden Tests', () {
     group('AppNavigation - Mobile (NavigationBar)', () {
-      testWidgets('AppNavigation - First Tab Selected - Light',
-          (tester) async {
+      testWidgets('AppNavigation - First Tab Selected - Light', (tester) async {
         await GoldenTestWrapper.testWidget(
           tester: tester,
-          widget: AppNavigation(
-            currentIndex: 0,
-            onDestinationSelected: (_) {},
-          ),
+          widget: AppNavigation(currentIndex: 0, onDestinationSelected: (_) {}),
           testName: 'app_navigation_first_tab_light',
           devices: DeviceConfigurations.defaultSet,
           themes: [ThemeConfigurations.light],
         );
       });
 
-      testWidgets('AppNavigation - Family Tab Selected - Light',
-          (tester) async {
+      testWidgets('AppNavigation - Family Tab Selected - Light', (
+        tester,
+      ) async {
         await GoldenTestWrapper.testWidget(
           tester: tester,
-          widget: AppNavigation(
-            currentIndex: 1,
-            onDestinationSelected: (_) {},
-          ),
+          widget: AppNavigation(currentIndex: 1, onDestinationSelected: (_) {}),
           testName: 'app_navigation_family_tab_light',
           devices: DeviceConfigurations.defaultSet,
           themes: [ThemeConfigurations.light],
         );
       });
 
-      testWidgets('AppNavigation - Groups Tab Selected - Dark',
-          (tester) async {
+      testWidgets('AppNavigation - Groups Tab Selected - Dark', (tester) async {
         await GoldenTestWrapper.testWidget(
           tester: tester,
-          widget: AppNavigation(
-            currentIndex: 3,
-            onDestinationSelected: (_) {},
-          ),
+          widget: AppNavigation(currentIndex: 3, onDestinationSelected: (_) {}),
           testName: 'app_navigation_groups_tab_dark',
           devices: DeviceConfigurations.defaultSet,
           themes: [ThemeConfigurations.dark],
         );
       });
 
-      testWidgets('AppNavigation - Settings Tab Selected - Dark',
-          (tester) async {
+      testWidgets('AppNavigation - Settings Tab Selected - Dark', (
+        tester,
+      ) async {
         await GoldenTestWrapper.testWidget(
           tester: tester,
-          widget: AppNavigation(
-            currentIndex: 4,
-            onDestinationSelected: (_) {},
-          ),
+          widget: AppNavigation(currentIndex: 4, onDestinationSelected: (_) {}),
           testName: 'app_navigation_settings_tab_dark',
           devices: DeviceConfigurations.defaultSet,
           themes: [ThemeConfigurations.dark],
@@ -75,10 +63,7 @@ void main() {
     group('AdaptiveNavigation', () {
       testWidgets('AdaptiveNavigation - Mobile Layout', (tester) async {
         const destinations = [
-          AdaptiveNavigationDestination(
-            icon: Icon(Icons.home),
-            label: 'Home',
-          ),
+          AdaptiveNavigationDestination(icon: Icon(Icons.home), label: 'Home'),
           AdaptiveNavigationDestination(
             icon: Icon(Icons.search),
             label: 'Search',
@@ -155,17 +140,14 @@ void main() {
 
         await GoldenTestWrapper.testWidget(
           tester: tester,
-          widget: QuickNavigation(
-            actions: actions,
-          ),
+          widget: QuickNavigation(actions: actions),
           testName: 'quick_navigation_horizontal',
           devices: DeviceConfigurations.defaultSet,
           themes: [ThemeConfigurations.light],
         );
       });
 
-      testWidgets('QuickNavigation - Vertical Layout - Dark',
-          (tester) async {
+      testWidgets('QuickNavigation - Vertical Layout - Dark', (tester) async {
         final actions = [
           QuickNavigationAction(
             icon: Icons.people,
@@ -183,10 +165,7 @@ void main() {
 
         await GoldenTestWrapper.testWidget(
           tester: tester,
-          widget: QuickNavigation(
-            actions: actions,
-            direction: Axis.vertical,
-          ),
+          widget: QuickNavigation(actions: actions, direction: Axis.vertical),
           testName: 'quick_navigation_vertical_dark',
           devices: DeviceConfigurations.defaultSet,
           themes: [ThemeConfigurations.dark],

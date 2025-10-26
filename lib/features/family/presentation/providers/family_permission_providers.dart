@@ -39,7 +39,6 @@ export 'family_permission_provider.dart';
 // Member actions (promote, demote, remove)
 export 'family_member_actions_provider.dart';
 
-
 // Orchestrated integration
 export 'family_permission_orchestrator_provider.dart';
 

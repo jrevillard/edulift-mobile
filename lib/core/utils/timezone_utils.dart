@@ -21,9 +21,8 @@ const List<String> _weekdayNames = [
   'THURSDAY',
   'FRIDAY',
   'SATURDAY',
-  'SUNDAY'
+  'SUNDAY',
 ];
-
 
 /// Convert single time string from user timezone to UTC
 ///
@@ -55,7 +54,14 @@ String convertLocalToUtcTimeString(String localTime, String userTimezone) {
   // Create a datetime in the user's timezone using current date
   // This ensures correct DST offset for the current season
   final now = DateTime.now();
-  final localDateTime = tz.TZDateTime(location, now.year, now.month, now.day, hours, minutes);
+  final localDateTime = tz.TZDateTime(
+    location,
+    now.year,
+    now.month,
+    now.day,
+    hours,
+    minutes,
+  );
 
   // Convert to UTC
   final utcDateTime = localDateTime.toUtc();
@@ -97,7 +103,13 @@ String convertUtcToLocalTimeString(String utcTime, String userTimezone) {
   // Create a UTC datetime with the specified time using current date
   // This ensures correct DST offset for the current season
   final now = DateTime.now();
-  final utcDateTime = DateTime.utc(now.year, now.month, now.day, hours, minutes);
+  final utcDateTime = DateTime.utc(
+    now.year,
+    now.month,
+    now.day,
+    hours,
+    minutes,
+  );
 
   // Convert to user's timezone
   final localDateTime = tz.TZDateTime.from(utcDateTime, location);
@@ -142,7 +154,7 @@ Map<String, List<String>> convertScheduleHoursToUtc(
     'THURSDAY': 3,
     'FRIDAY': 4,
     'SATURDAY': 5,
-    'SUNDAY': 6
+    'SUNDAY': 6,
   };
 
   // Process each weekday and its time slots
@@ -177,7 +189,9 @@ Map<String, List<String>> convertScheduleHoursToUtc(
 
       // Get the weekday in UTC (might be different due to timezone shift!)
       // DateTime.weekday: 1 = Monday, 7 = Sunday
-      final utcWeekdayIndex = utcDateTime.weekday == 7 ? 6 : utcDateTime.weekday - 1;
+      final utcWeekdayIndex = utcDateTime.weekday == 7
+          ? 6
+          : utcDateTime.weekday - 1;
       final utcWeekday = _weekdayNames[utcWeekdayIndex];
 
       // Get the time in UTC
@@ -234,7 +248,7 @@ Map<String, List<String>> convertScheduleHoursToLocal(
     'THURSDAY': 3,
     'FRIDAY': 4,
     'SATURDAY': 5,
-    'SUNDAY': 6
+    'SUNDAY': 6,
   };
 
   // Process each weekday and its time slots
@@ -268,7 +282,9 @@ Map<String, List<String>> convertScheduleHoursToLocal(
 
       // Get the weekday in user's timezone (might be different!)
       // DateTime.weekday: 1 = Monday, 7 = Sunday
-      final localWeekdayIndex = localDateTime.weekday == 7 ? 6 : localDateTime.weekday - 1;
+      final localWeekdayIndex = localDateTime.weekday == 7
+          ? 6
+          : localDateTime.weekday - 1;
       final localWeekday = _weekdayNames[localWeekdayIndex];
 
       // Get the time in user's timezone
@@ -331,7 +347,9 @@ String getLocalWeekday(DateTime utcDate, String userTimezone) {
   final localDateTime = tz.TZDateTime.from(utcDate, location);
 
   // Get local weekday index (1 = Monday, 7 = Sunday)
-  final weekdayIndex = localDateTime.weekday == 7 ? 6 : localDateTime.weekday - 1;
+  final weekdayIndex = localDateTime.weekday == 7
+      ? 6
+      : localDateTime.weekday - 1;
 
   return _weekdayNames[weekdayIndex];
 }

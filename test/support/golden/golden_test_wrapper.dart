@@ -4,7 +4,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart' show ProviderScope, Override;
+import 'package:flutter_riverpod/flutter_riverpod.dart'
+    show ProviderScope, Override;
 
 import 'package:edulift/generated/l10n/app_localizations.dart';
 
@@ -206,7 +207,10 @@ class GoldenTestWrapper {
         : Scaffold(body: widget);
 
     Widget testWidget = MaterialApp(
-      theme: theme.themeData,
+      theme: theme.themeData.copyWith(
+        // Disable shadows for deterministic golden tests across environments
+        shadowColor: Colors.transparent,
+      ),
       locale: locale,
       localizationsDelegates: const [
         AppLocalizations.delegate,
@@ -250,10 +254,7 @@ class GoldenTestWrapper {
     );
 
     // Compare with golden file
-    await expectLater(
-      find.byType(Scaffold),
-      matchesGoldenFile(goldenPath),
-    );
+    await expectLater(find.byType(Scaffold), matchesGoldenFile(goldenPath));
 
     // Reset to default size
     await tester.binding.setSurfaceSize(null);
@@ -324,8 +325,8 @@ class GoldenTestWrapper {
       final positionName = position == 0.0
           ? 'top'
           : position == 1.0
-              ? 'bottom'
-              : 'scroll_${(position * 100).toInt()}';
+          ? 'bottom'
+          : 'scroll_${(position * 100).toInt()}';
 
       await testAllVariants(
         tester: tester,

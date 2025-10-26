@@ -186,11 +186,17 @@ class MailpitHelper {
     if (subjectFilter != null) {
       debugPrint('🔍 Applying subject filter: "$subjectFilter"');
       filteredEmails = filteredEmails.where((email) {
-        final subjectMatches = email.subject.toLowerCase().contains(subjectFilter.toLowerCase());
-        debugPrint('🔍 Subject "${email.subject}" contains "$subjectFilter"? $subjectMatches');
+        final subjectMatches = email.subject.toLowerCase().contains(
+          subjectFilter.toLowerCase(),
+        );
+        debugPrint(
+          '🔍 Subject "${email.subject}" contains "$subjectFilter"? $subjectMatches',
+        );
         return subjectMatches;
       }).toList();
-      debugPrint('🔍 After subject filter: ${filteredEmails.length} emails remain');
+      debugPrint(
+        '🔍 After subject filter: ${filteredEmails.length} emails remain',
+      );
     }
 
     if (filteredEmails.isEmpty) {
@@ -204,7 +210,9 @@ class MailpitHelper {
 
     // Sort by creation date (newest first), with ID as tiebreaker for stability
     filteredEmails.sort((a, b) {
-      final dateComparison = DateTime.parse(b.created).compareTo(DateTime.parse(a.created));
+      final dateComparison = DateTime.parse(
+        b.created,
+      ).compareTo(DateTime.parse(a.created));
       if (dateComparison != 0) {
         return dateComparison;
       }
@@ -550,10 +558,15 @@ class MailpitHelper {
   }) async {
     final startTime = DateTime.now();
 
-    debugPrint('⏳ Waiting for email for: $recipientEmail${subjectFilter != null ? ' with subject containing "$subjectFilter"' : ''}');
+    debugPrint(
+      '⏳ Waiting for email for: $recipientEmail${subjectFilter != null ? ' with subject containing "$subjectFilter"' : ''}',
+    );
 
     while (DateTime.now().difference(startTime) < timeout) {
-      final email = await findLatestEmailForRecipient(recipientEmail, subjectFilter: subjectFilter);
+      final email = await findLatestEmailForRecipient(
+        recipientEmail,
+        subjectFilter: subjectFilter,
+      );
       if (email != null) {
         debugPrint('✅ Email received for $recipientEmail: ${email.subject}');
         return email;

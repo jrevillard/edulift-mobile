@@ -81,10 +81,12 @@ class _VehicleDetailsPageState extends ConsumerState<VehicleDetailsPage> {
           IconButton(
             key: const Key('vehicleDetails_edit_button'),
             icon: const Icon(Icons.edit),
-            onPressed: () => ref.read(navigationStateProvider.notifier).navigateTo(
-              route: '/family/vehicles/${_vehicle!.id}/edit',
-              trigger: NavigationTrigger.userNavigation,
-            ),
+            onPressed: () => ref
+                .read(navigationStateProvider.notifier)
+                .navigateTo(
+                  route: '/family/vehicles/${_vehicle!.id}/edit',
+                  trigger: NavigationTrigger.userNavigation,
+                ),
             tooltip: l10n.editVehicleTooltip,
           ),
         ],
@@ -100,14 +102,17 @@ class _VehicleDetailsPageState extends ConsumerState<VehicleDetailsPage> {
               child: CustomScrollView(
                 slivers: [
                   SliverPadding(
-                    padding: EdgeInsets.all(isSmallScreen || isShortScreen ? 12.0 : 16.0),
+                    padding: EdgeInsets.all(
+                      isSmallScreen || isShortScreen ? 12.0 : 16.0,
+                    ),
                     sliver: SliverToBoxAdapter(
                       child: ConstrainedBox(
                         constraints: BoxConstraints(
-                          maxWidth: constraints.maxWidth, // Ensure bounded height for mobile screens
+                          maxWidth: constraints
+                              .maxWidth, // Ensure bounded height for mobile screens
                           maxHeight:
                               constraints.maxHeight -
-                                  120, // Account for app bar
+                              120, // Account for app bar
                         ),
                         child: SingleChildScrollView(
                           child: Column(
@@ -123,13 +128,13 @@ class _VehicleDetailsPageState extends ConsumerState<VehicleDetailsPage> {
                               _buildBasicInfoCard(
                                 context,
                                 isTablet,
-                                isSmallScreen
+                                isSmallScreen,
                               ),
                               SizedBox(height: isSmallScreen ? 12 : 16),
                               _buildCapacityCard(
                                 context,
                                 isTablet,
-                                isSmallScreen
+                                isSmallScreen,
                               ),
                               // Add bottom padding for safe area
                               SizedBox(height: isSmallScreen ? 16 : 24),
@@ -167,12 +172,12 @@ class _VehicleDetailsPageState extends ConsumerState<VehicleDetailsPage> {
               height: iconSize,
               decoration: BoxDecoration(
                 color: Theme.of(context).colorScheme.primaryContainer,
-                borderRadius: BorderRadius.circular(isSmallScreen ? 8 : 12)
+                borderRadius: BorderRadius.circular(isSmallScreen ? 8 : 12),
               ),
               child: Icon(
                 Icons.directions_car,
                 color: Theme.of(context).colorScheme.onPrimaryContainer,
-                size: iconSize * 0.5
+                size: iconSize * 0.5,
               ),
             ),
             SizedBox(width: isSmallScreen ? 12 : 16),
@@ -189,16 +194,16 @@ class _VehicleDetailsPageState extends ConsumerState<VehicleDetailsPage> {
                                 : Theme.of(context).textTheme.titleLarge)
                             ?.copyWith(fontWeight: FontWeight.bold),
                     maxLines: 1,
-                    overflow: TextOverflow.ellipsis
+                    overflow: TextOverflow.ellipsis,
                   ),
                   const SizedBox(height: 4),
                   Text(
                     _vehicle!.displayNameWithCapacity,
                     style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                      color: Theme.of(context).colorScheme.onSurfaceVariant
+                      color: Theme.of(context).colorScheme.onSurfaceVariant,
                     ),
                     maxLines: 2,
-                    overflow: TextOverflow.ellipsis
+                    overflow: TextOverflow.ellipsis,
                   ),
                 ],
               ),
@@ -236,25 +241,32 @@ class _VehicleDetailsPageState extends ConsumerState<VehicleDetailsPage> {
               children: [
                 Text(
                   l10n.vehicleInformation,
-                  style: Theme.of(context).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
+                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                    fontWeight: FontWeight.bold,
+                  ),
                   maxLines: 1,
-                  overflow: TextOverflow.ellipsis
+                  overflow: TextOverflow.ellipsis,
                 ),
                 SizedBox(height: sectionSpacing),
                 _buildInfoRow(
                   context,
                   l10n.vehicleId,
                   _vehicle!.id,
-                  isSmallScreen
+                  isSmallScreen,
                 ),
                 SizedBox(height: rowSpacing),
-                _buildInfoRow(context, l10n.name, _vehicle!.name, isSmallScreen),
+                _buildInfoRow(
+                  context,
+                  l10n.name,
+                  _vehicle!.name,
+                  isSmallScreen,
+                ),
                 SizedBox(height: rowSpacing),
                 _buildInfoRow(
                   context,
                   l10n.capacity,
                   '${_vehicle!.capacity} ${l10n.seats}',
-                  isSmallScreen
+                  isSmallScreen,
                 ),
                 if (_vehicle!.description != null) ...[
                   SizedBox(height: rowSpacing),
@@ -262,7 +274,7 @@ class _VehicleDetailsPageState extends ConsumerState<VehicleDetailsPage> {
                     context,
                     l10n.description,
                     _vehicle!.description!,
-                    isSmallScreen
+                    isSmallScreen,
                   ),
                 ],
                 SizedBox(height: rowSpacing),
@@ -270,14 +282,14 @@ class _VehicleDetailsPageState extends ConsumerState<VehicleDetailsPage> {
                   context,
                   l10n.created,
                   _formatDate(_vehicle!.createdAt, ref),
-                  isSmallScreen
+                  isSmallScreen,
                 ),
                 SizedBox(height: rowSpacing),
                 _buildInfoRow(
                   context,
                   l10n.lastUpdated,
                   _formatDate(_vehicle!.updatedAt, ref),
-                  isSmallScreen
+                  isSmallScreen,
                 ),
               ],
             ),
@@ -305,18 +317,20 @@ class _VehicleDetailsPageState extends ConsumerState<VehicleDetailsPage> {
             style: Theme.of(context).textTheme.bodyMedium?.copyWith(
               fontWeight: FontWeight.w500,
               color: Theme.of(context).colorScheme.onSurfaceVariant,
-              fontSize: isSmallScreen ? 13 : null
+              fontSize: isSmallScreen ? 13 : null,
             ),
             maxLines: 2,
-            overflow: TextOverflow.ellipsis
+            overflow: TextOverflow.ellipsis,
           ),
         ),
         Expanded(
           child: Text(
             value,
-            style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontSize: isSmallScreen ? 13 : null),
+            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+              fontSize: isSmallScreen ? 13 : null,
+            ),
             maxLines: 3,
-            overflow: TextOverflow.ellipsis
+            overflow: TextOverflow.ellipsis,
           ),
         ),
       ],
@@ -349,10 +363,11 @@ class _VehicleDetailsPageState extends ConsumerState<VehicleDetailsPage> {
             children: [
               Text(
                 l10n.seatingConfiguration,
-                style: Theme.of(context)
-                  .textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
+                style: Theme.of(
+                  context,
+                ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
                 maxLines: 1,
-                overflow: TextOverflow.ellipsis
+                overflow: TextOverflow.ellipsis,
               ),
               SizedBox(height: sectionSpacing),
               // Center the capacity indicator
@@ -371,28 +386,32 @@ class _VehicleDetailsPageState extends ConsumerState<VehicleDetailsPage> {
                   padding: EdgeInsets.all(isSmallScreen ? 8 : 12),
                   decoration: BoxDecoration(
                     color: Theme.of(context).colorScheme.secondaryContainer,
-                    borderRadius: BorderRadius.circular(8)
+                    borderRadius: BorderRadius.circular(8),
                   ),
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Icon(
                         Icons.info_outline,
-                        color: Theme.of(context)
-                          .colorScheme.onSecondaryContainer,
-                        size: isSmallScreen ? 16 : 20
+                        color: Theme.of(
+                          context,
+                        ).colorScheme.onSecondaryContainer,
+                        size: isSmallScreen ? 16 : 20,
                       ),
                       SizedBox(width: isSmallScreen ? 6 : 8),
                       Expanded(
                         child: Text(
-                          l10n.childTransportCapacity(_vehicle!.availablePassengerSeats),
+                          l10n.childTransportCapacity(
+                            _vehicle!.availablePassengerSeats,
+                          ),
                           style: TextStyle(
-                            color: Theme.of(context)
-                              .colorScheme.onSecondaryContainer,
-                            fontSize: isSmallScreen ? 12 : 14
+                            color: Theme.of(
+                              context,
+                            ).colorScheme.onSecondaryContainer,
+                            fontSize: isSmallScreen ? 12 : 14,
                           ),
                           maxLines: 3,
-                          overflow: TextOverflow.ellipsis
+                          overflow: TextOverflow.ellipsis,
                         ),
                       ),
                     ],

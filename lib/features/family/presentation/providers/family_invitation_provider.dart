@@ -199,9 +199,7 @@ class FamilyInvitationNotifier extends StateNotifier<FamilyInvitationState> {
   /// Map validation response errorCode to localization key
   /// REFACTORED: Delegates to shared InvitationErrorMapper
   String _mapValidationErrorToKey(FamilyInvitationValidationDto validation) {
-    return InvitationErrorMapper.mapValidationErrorToKey(
-      validation.errorCode,
-    );
+    return InvitationErrorMapper.mapValidationErrorToKey(validation.errorCode);
   }
 
   /// Accept family invitation
@@ -309,9 +307,10 @@ class FamilyInvitationNotifier extends StateNotifier<FamilyInvitationState> {
 
 /// Provider for the family invitation notifier
 final familyInvitationProvider =
-    StateNotifierProvider.autoDispose<FamilyInvitationNotifier, FamilyInvitationState>((
-      ref,
-    ) {
+    StateNotifierProvider.autoDispose<
+      FamilyInvitationNotifier,
+      FamilyInvitationState
+    >((ref) {
       final invitationUseCase = ref.watch(invitationUsecaseProvider);
       final authService = ref.watch(authServiceProvider);
       final userFamilyService = ref.watch(userFamilyServiceProvider);

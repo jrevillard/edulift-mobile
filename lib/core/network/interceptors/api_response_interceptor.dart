@@ -13,13 +13,13 @@ class ApiResponseInterceptor extends Interceptor {
     if (response.statusCode != null &&
         response.statusCode! >= 200 &&
         response.statusCode! < 300) {
-
       // Check if response has the backend wrapper structure
       if (response.data is Map<String, dynamic>) {
         final Map<String, dynamic> responseData = response.data;
 
         // Extract 'data' field if it exists and success is true
-        if (responseData['success'] == true && responseData.containsKey('data')) {
+        if (responseData['success'] == true &&
+            responseData.containsKey('data')) {
           response.data = responseData['data'];
         }
       }

@@ -41,10 +41,13 @@ class AuthServiceImpl implements AuthService {
     try {
       // Use UserStatusService to validate email format
       if (!_userStatusService.isValidEmail(email)) {
-        return const Result.err(ValidationFailure(
+        return const Result.err(
+          ValidationFailure(
             message: 'auth.errors.invalid_email',
             statusCode: 400,
-            details: {'field': 'email'}));
+            details: {'field': 'email'},
+          ),
+        );
       }
 
       // Generate PKCE pair for security
@@ -65,7 +68,9 @@ class AuthServiceImpl implements AuthService {
         '🔐 PKCE: Generated code_challenge: $challengePreview (${codeChallenge.length} chars)',
       );
       // Store code_verifier locally for later verification
-      AppLogger.info('🔐 PKCE: Storing code_verifier securely for later magic link verification');
+      AppLogger.info(
+        '🔐 PKCE: Storing code_verifier securely for later magic link verification',
+      );
       await _authLocalDatasource.storePKCEVerifier(codeVerifier);
 
       // CRITICAL SECURITY FIX: Store the email for magic link verification
@@ -97,7 +102,9 @@ class AuthServiceImpl implements AuthService {
       if (error is ApiException && error.statusCode == 422) {
         // Extract backend message directly to preserve "name is required for new users"
         final backendMessage = _extractBackendMessage(error);
-        AppLogger.info('🔧 AUTH SPECIFIC: 422 error detected - message: $backendMessage');
+        AppLogger.info(
+          '🔧 AUTH SPECIFIC: 422 error detected - message: $backendMessage',
+        );
         // Create ValidationFailure with preserved original message
         final validationFailure = ValidationFailure(
           message: backendMessage,
@@ -105,7 +112,7 @@ class AuthServiceImpl implements AuthService {
           details: {
             'original_message': backendMessage,
             'error_source': 'auth_magic_link',
-            'preserve_backend_message': true
+            'preserve_backend_message': true,
           },
         );
         return Result.err(validationFailure);
@@ -117,7 +124,7 @@ class AuthServiceImpl implements AuthService {
         metadata: {
           'email': email,
           'has_name': name != null,
-          'has_invite': inviteCode != null
+          'has_invite': inviteCode != null,
         },
       );
       final errorResult = await _errorHandlerService.handleError(
@@ -129,6 +136,7 @@ class AuthServiceImpl implements AuthService {
       return Result.err(failure);
     }
   }
+
   /// Extract original backend message for 422 magic link errors
   String _extractBackendMessage(ApiException apiException) {
     // Priority 1: Direct message from exception
@@ -146,6 +154,7 @@ class AuthServiceImpl implements AuthService {
     // Fallback
     return 'Validation error occurred';
   }
+
   /// Create User object from guaranteed backend data (fail-fast approach)
   /// CLEAN ARCHITECTURE: Auth domain only - no family data
   User _createUserFromBackendData(
@@ -158,10 +167,10 @@ class AuthServiceImpl implements AuthService {
       email: userData['email'] as String,
       name: userData['name'] as String? ?? 'auth.errors.unknown_user',
       createdAt: SecureDateParser.safeParseWithFallback(
-        userData['createdAt'] as String?
+        userData['createdAt'] as String?,
       ),
       updatedAt: SecureDateParser.safeParseWithFallback(
-        userData['updatedAt'] as String?
+        userData['updatedAt'] as String?,
       ),
       timezone: userData['timezone'] as String?,
       isBiometricEnabled:
@@ -262,9 +271,13 @@ class AuthServiceImpl implements AuthService {
         expiresAt: expiresAt,
       );
       if (storeTokensResult.isErr) {
-        AppLogger.warning('⚠️ Warning: Failed to store authentication tokens locally: ${storeTokensResult.error}');
+        AppLogger.warning(
+          '⚠️ Warning: Failed to store authentication tokens locally: ${storeTokensResult.error}',
+        );
       } else {
-        AppLogger.info('✅ Stored access token, refresh token (expires at: $expiresAt)');
+        AppLogger.info(
+          '✅ Stored access token, refresh token (expires at: $expiresAt)',
+        );
       }
 
       // CLEAN ARCHITECTURE: Auth domain only handles authentication
@@ -274,7 +287,9 @@ class AuthServiceImpl implements AuthService {
       // Store user data
       final storeUserResult = await _authLocalDatasource.storeUserData(user);
       if (storeUserResult.isError) {
-        AppLogger.warning('Warning: Failed to store user data locally: ${storeUserResult.error}');
+        AppLogger.warning(
+          'Warning: Failed to store user data locally: ${storeUserResult.error}',
+        );
       }
 
       _currentUser = user;
@@ -308,14 +323,20 @@ class AuthServiceImpl implements AuthService {
     try {
       // CRITICAL SECURITY FIX: Retrieve the email that was used for magic link request
       // This prevents cross-user token usage vulnerability
-      AppLogger.info('🔐 SECURITY: Starting magic link verification with cross-user protection');
+      AppLogger.info(
+        '🔐 SECURITY: Starting magic link verification with cross-user protection',
+      );
       final storedEmailResult = await _authLocalDatasource.getMagicLinkEmail();
       String? originalEmail;
       if (storedEmailResult.isOk) {
         originalEmail = storedEmailResult.value;
-        AppLogger.info('🔐 SECURITY: Retrieved original email: ${originalEmail?.substring(0, 3)}***');
+        AppLogger.info(
+          '🔐 SECURITY: Retrieved original email: ${originalEmail?.substring(0, 3)}***',
+        );
       } else {
-        AppLogger.warning('⚠️ SECURITY: No original email found - this could indicate token reuse or storage failure');
+        AppLogger.warning(
+          '⚠️ SECURITY: No original email found - this could indicate token reuse or storage failure',
+        );
       }
       AppLogger.error(
         '❌ SECURITY: This will cause magic link verification to fail for security',
@@ -336,7 +357,9 @@ class AuthServiceImpl implements AuthService {
             '🔐 PKCE: Successfully retrieved code_verifier: $preview (${codeVerifier.length} chars)',
           );
         } else {
-          AppLogger.warning('⚠️ PKCE: Retrieved code_verifier is NULL - this will cause backend validation failure');
+          AppLogger.warning(
+            '⚠️ PKCE: Retrieved code_verifier is NULL - this will cause backend validation failure',
+          );
         }
       }
       final request = VerifyTokenRequest(
@@ -346,7 +369,9 @@ class AuthServiceImpl implements AuthService {
       );
 
       if (codeVerifier != null) {
-        AppLogger.info('🔐 PKCE: Sending magic link verification WITH code_verifier');
+        AppLogger.info(
+          '🔐 PKCE: Sending magic link verification WITH code_verifier',
+        );
       } else {
         AppLogger.warning(
           '⚠️ PKCE: Sending magic link verification WITHOUT code_verifier',
@@ -361,12 +386,16 @@ class AuthServiceImpl implements AuthService {
         AppLogger.warning(
           '⚠️ PKCE:   3. Magic link is being reused (security violation)',
         );
-        AppLogger.warning('⚠️ PKCE:   4. Storage error occurred during retrieval');
+        AppLogger.warning(
+          '⚠️ PKCE:   4. Storage error occurred during retrieval',
+        );
         AppLogger.warning('⚠️ PKCE: Backend will likely reject this request');
       }
 
       if (originalEmail == null) {
-        AppLogger.error('❌ SECURITY: Magic link verification blocked - no original email for validation');
+        AppLogger.error(
+          '❌ SECURITY: Magic link verification blocked - no original email for validation',
+        );
         return Result.err(
           ApiFailure.badRequest(
             message:
@@ -415,14 +444,18 @@ class AuthServiceImpl implements AuthService {
       // CRITICAL SECURITY VALIDATION: Ensure the authenticated user email matches the original request
       final authenticatedEmail = userMap.email;
       if (authenticatedEmail.toLowerCase() != originalEmail.toLowerCase()) {
-        AppLogger.error('❌ SECURITY VIOLATION: Cross-user magic link attack detected!');
+        AppLogger.error(
+          '❌ SECURITY VIOLATION: Cross-user magic link attack detected!',
+        );
         AppLogger.error(
           '❌ SECURITY: Original email: ${originalEmail.substring(0, 3)}***',
         );
         AppLogger.error(
           '❌ SECURITY: Authenticated email: ${authenticatedEmail.substring(0, 3)}***',
         );
-        AppLogger.error('❌ SECURITY: Blocking authentication to prevent account takeover');
+        AppLogger.error(
+          '❌ SECURITY: Blocking authentication to prevent account takeover',
+        );
         // Clear all auth data and block the authentication
         await _authLocalDatasource.clearMagicLinkEmail();
         await _authLocalDatasource.clearPKCEVerifier();
@@ -434,10 +467,16 @@ class AuthServiceImpl implements AuthService {
         );
       }
 
-      AppLogger.info('✅ SECURITY: Magic link email validation passed - original and authenticated emails match');
-      AppLogger.info('✅ SECURITY: User authenticated successfully: ${authenticatedEmail.substring(0, 3)}***');
+      AppLogger.info(
+        '✅ SECURITY: Magic link email validation passed - original and authenticated emails match',
+      );
+      AppLogger.info(
+        '✅ SECURITY: User authenticated successfully: ${authenticatedEmail.substring(0, 3)}***',
+      );
       // Clear the used PKCE verifier and magic link email for security
-      AppLogger.info('🔐 SECURITY: Magic link verification successful - clearing used security data from storage');
+      AppLogger.info(
+        '🔐 SECURITY: Magic link verification successful - clearing used security data from storage',
+      );
       await _authLocalDatasource.clearPKCEVerifier();
       await _authLocalDatasource.clearMagicLinkEmail();
       AppLogger.info(
@@ -445,16 +484,22 @@ class AuthServiceImpl implements AuthService {
       );
 
       // PHASE 2: Store access token, refresh token, and expiration together
-      final expiresAt = DateTime.now().add(Duration(seconds: authDto.expiresIn));
+      final expiresAt = DateTime.now().add(
+        Duration(seconds: authDto.expiresIn),
+      );
       final storeTokensResult = await _authLocalDatasource.storeTokens(
         accessToken: authToken,
         refreshToken: authDto.refreshToken,
         expiresAt: expiresAt,
       );
       if (storeTokensResult.isErr) {
-        AppLogger.warning('⚠️ Warning: Failed to store authentication tokens locally: ${storeTokensResult.error}');
+        AppLogger.warning(
+          '⚠️ Warning: Failed to store authentication tokens locally: ${storeTokensResult.error}',
+        );
       } else {
-        AppLogger.info('✅ Stored access token, refresh token (expires at: $expiresAt)');
+        AppLogger.info(
+          '✅ Stored access token, refresh token (expires at: $expiresAt)',
+        );
       }
 
       // CLEAN ARCHITECTURE: Auth domain only handles authentication
@@ -469,11 +514,13 @@ class AuthServiceImpl implements AuthService {
 
       _currentUser = user;
       AppLogger.info('🔐 Magic link auth success - User: ${user.email}');
-      return Result.ok(AuthResult(
-        user: user,
-        token: authToken,
-        invitationResult: invitationResult,
-      ));
+      return Result.ok(
+        AuthResult(
+          user: user,
+          token: authToken,
+          invitationResult: invitationResult,
+        ),
+      );
     } catch (error, stackTrace) {
       // PROPER ERROR HANDLING: Use ErrorHandlerService with auth context
       final context = ErrorContext.authOperation(
@@ -509,7 +556,9 @@ class AuthServiceImpl implements AuthService {
       // CLEAN ARCHITECTURE: Use provided userData if available (from magic link verification)
       if (userData != null) {
         userDataToUse = userData;
-        AppLogger.debug('✅ Using provided user data from magic link verification');
+        AppLogger.debug(
+          '✅ Using provided user data from magic link verification',
+        );
       } else {
         // Fallback: Try to get user from cached data
         final cachedUserResult = await _authLocalDatasource.getUserProfile();
@@ -528,7 +577,9 @@ class AuthServiceImpl implements AuthService {
           AppLogger.debug('✅ Using cached user data');
         } else {
           // No cached user and no provided userData - this shouldn't happen in normal flow
-          AppLogger.warning('❌ Missing user data: no cached user and no provided userData.');
+          AppLogger.warning(
+            '❌ Missing user data: no cached user and no provided userData.',
+          );
           return Result.err(
             ApiFailure.badRequest(
               message: 'Missing user data for authentication',
@@ -543,21 +594,28 @@ class AuthServiceImpl implements AuthService {
         id: userDataToUse['id'] as String,
         email: userDataToUse['email'] as String,
         name: userDataToUse['name'] as String? ?? 'auth.errors.unknown_user',
-        createdAt: SecureDateParser.safeParseWithFallback(userDataToUse['createdAt'] as String?),
-        updatedAt: SecureDateParser.safeParseWithFallback(userDataToUse['updatedAt'] as String?),
+        createdAt: SecureDateParser.safeParseWithFallback(
+          userDataToUse['createdAt'] as String?,
+        ),
+        updatedAt: SecureDateParser.safeParseWithFallback(
+          userDataToUse['updatedAt'] as String?,
+        ),
         timezone: userDataToUse['timezone'] as String?,
         isBiometricEnabled:
             userDataToUse['isBiometricEnabled'] as bool? ?? false,
       );
       _currentUser = user;
-      AppLogger.info('🔍 DEBUG: getCurrentUser() completed - User: ${user.email}');
+      AppLogger.info(
+        '🔍 DEBUG: getCurrentUser() completed - User: ${user.email}',
+      );
       return Result.ok(user);
     } catch (error, stackTrace) {
       // PROPER ERROR HANDLING: Use ErrorHandlerService with auth context
-      final context = ErrorContext.authOperation('get_current_user',
+      final context = ErrorContext.authOperation(
+        'get_current_user',
         metadata: {
           'force_refresh': forceRefresh,
-          'has_provided_data': userData != null
+          'has_provided_data': userData != null,
         },
       );
       final errorResult = await _errorHandlerService.handleError(
@@ -582,7 +640,9 @@ class AuthServiceImpl implements AuthService {
         return Result.err(failure);
       }
     } catch (e) {
-      return Result.err(ApiFailure.cacheError(message: 'Failed to save access token'));
+      return Result.err(
+        ApiFailure.cacheError(message: 'Failed to save access token'),
+      );
     }
   }
 
@@ -599,7 +659,9 @@ class AuthServiceImpl implements AuthService {
         return Result.err(failure);
       }
     } catch (e) {
-      return Result.err(ApiFailure.cacheError(message: 'auth.errors.failed_update_user'));
+      return Result.err(
+        ApiFailure.cacheError(message: 'auth.errors.failed_update_user'),
+      );
     }
   }
 
@@ -634,7 +696,8 @@ class AuthServiceImpl implements AuthService {
       return Result.ok(updatedUser);
     } catch (error, stackTrace) {
       // PROPER ERROR HANDLING: Use ErrorHandlerService with auth context
-      final context = ErrorContext.authOperation('enable_biometric_auth',
+      final context = ErrorContext.authOperation(
+        'enable_biometric_auth',
         metadata: {'user_id': _currentUser?.id},
       );
       final errorResult = await _errorHandlerService.handleError(
@@ -676,7 +739,8 @@ class AuthServiceImpl implements AuthService {
       return Result.ok(updatedUser);
     } catch (error, stackTrace) {
       // PROPER ERROR HANDLING: Use ErrorHandlerService with auth context
-      final context = ErrorContext.authOperation('disable_biometric_auth',
+      final context = ErrorContext.authOperation(
+        'disable_biometric_auth',
         metadata: {'user_id': _currentUser?.id},
       );
       final errorResult = await _errorHandlerService.handleError(
@@ -718,7 +782,8 @@ class AuthServiceImpl implements AuthService {
       // Update cached profile with new timezone
       try {
         final cachedProfileResult = await _authLocalDatasource.getUserProfile();
-        if (cachedProfileResult.isSuccess && cachedProfileResult.value != null) {
+        if (cachedProfileResult.isSuccess &&
+            cachedProfileResult.value != null) {
           final cachedProfile = cachedProfileResult.value!;
           final updatedProfile = AuthUserProfile(
             id: cachedProfile.id,
@@ -730,7 +795,9 @@ class AuthServiceImpl implements AuthService {
             timezone: timezone, // Persist new timezone to cache
           );
           await _authLocalDatasource.saveUserProfile(updatedProfile);
-          AppLogger.info('[AUTH] Updated cached profile with new timezone: $timezone');
+          AppLogger.info(
+            '[AUTH] Updated cached profile with new timezone: $timezone',
+          );
         }
       } catch (e) {
         AppLogger.warning('[AUTH] Failed to update cached profile timezone', e);
@@ -740,7 +807,8 @@ class AuthServiceImpl implements AuthService {
       return Result.ok(updatedUser);
     } catch (error, stackTrace) {
       // PROPER ERROR HANDLING: Use ErrorHandlerService with auth context
-      final context = ErrorContext.authOperation('update_user_timezone',
+      final context = ErrorContext.authOperation(
+        'update_user_timezone',
         metadata: {'user_id': _currentUser?.id, 'timezone': timezone},
       );
       final errorResult = await _errorHandlerService.handleError(
@@ -757,7 +825,9 @@ class AuthServiceImpl implements AuthService {
   /// Public method to handle token expiration - called by network interceptors
   /// This centralizes the token expiry logic and eliminates code duplication
   Future<void> handleTokenExpiry({String? reason}) async {
-    AppLogger.warning('🚨 Token expired/invalid: ${reason ?? 'Unknown reason'}');
+    AppLogger.warning(
+      '🚨 Token expired/invalid: ${reason ?? 'Unknown reason'}',
+    );
     AppLogger.info('Clearing all authentication data and triggering logout');
     // Use the existing centralized session clearing method
     await _clearLocalSession();
@@ -789,15 +859,18 @@ class AuthServiceImpl implements AuthService {
       // PHASE 2: Try to revoke tokens on backend first (with timeout)
       // This ensures refresh tokens are properly invalidated server-side
       try {
-        final response = await ApiResponseHelper.execute<void>(
-          () => _apiClient.logout(),
-        ).timeout(
-          const Duration(seconds: 5),
-          onTimeout: () {
-            AppLogger.warning('⚠️ [Auth] Backend logout timed out after 5s');
-            throw TimeoutException('Backend logout timeout');
-          },
-        );
+        final response =
+            await ApiResponseHelper.execute<void>(
+              () => _apiClient.logout(),
+            ).timeout(
+              const Duration(seconds: 5),
+              onTimeout: () {
+                AppLogger.warning(
+                  '⚠️ [Auth] Backend logout timed out after 5s',
+                );
+                throw TimeoutException('Backend logout timeout');
+              },
+            );
         response.unwrap();
         AppLogger.info('✅ [Auth] Backend tokens revoked successfully');
       } catch (e) {
@@ -828,12 +901,16 @@ class AuthServiceImpl implements AuthService {
   ) async {
     try {
       // Biometric authentication temporarily disabled during DI migration
-      return const Result.err(AuthFailure(
+      return const Result.err(
+        AuthFailure(
           message: 'Biometric auth temporarily disabled during DI migration',
-        ));
+        ),
+      );
     } catch (e) {
       AppLogger.error('Biometric authentication failed: $e');
-      return const Result.err(AuthFailure(message: 'auth.errors.biometric_auth_failed'));
+      return const Result.err(
+        AuthFailure(message: 'auth.errors.biometric_auth_failed'),
+      );
     }
   }
 
@@ -884,7 +961,9 @@ class AuthServiceImpl implements AuthService {
         return Result.err(failure);
       }
     } catch (e) {
-      return Result.err(ApiFailure.cacheError(message: 'Failed to check authentication status'));
+      return Result.err(
+        ApiFailure.cacheError(message: 'Failed to check authentication status'),
+      );
     }
   }
 
@@ -894,7 +973,9 @@ class AuthServiceImpl implements AuthService {
       await _clearLocalSession();
       return const Result.ok(null);
     } catch (e) {
-      return Result.err(ApiFailure.cacheError(message: 'Failed to clear session'));
+      return Result.err(
+        ApiFailure.cacheError(message: 'Failed to clear session'),
+      );
     }
   }
 
@@ -909,7 +990,9 @@ class AuthServiceImpl implements AuthService {
         return Result.err(failure);
       }
     } catch (e) {
-      return Result.err(ApiFailure.cacheError(message: 'Failed to cleanup expired tokens'));
+      return Result.err(
+        ApiFailure.cacheError(message: 'Failed to cleanup expired tokens'),
+      );
     }
   }
 
@@ -925,7 +1008,9 @@ class AuthServiceImpl implements AuthService {
         return Result.err(failure);
       }
     } catch (e) {
-      return Result.err(ApiFailure.cacheError(message: 'Failed to check storage health'));
+      return Result.err(
+        ApiFailure.cacheError(message: 'Failed to check storage health'),
+      );
     }
   }
 
@@ -935,7 +1020,9 @@ class AuthServiceImpl implements AuthService {
       await _clearLocalSession(clearToken: false);
       return const Result.ok(null);
     } catch (e) {
-      return Result.err(ApiFailure.cacheError(message: 'Failed to clear user data'));
+      return Result.err(
+        ApiFailure.cacheError(message: 'Failed to clear user data'),
+      );
     }
   }
 }

@@ -1,0 +1,129 @@
+name: Patrol E2E Tests
+
+on:
+  workflow_dispatch:
+    inputs:
+      test_target:
+        description: 'Test file to run'
+        required: true
+        default: 'integration_test/profile_e2e_test.dart'
+        type: choice
+        options:
+          - integration_test/profile_e2e_test.dart
+          - integration_test/profile_timezone_checkbox_test.dart
+          - all
+      flavor:
+        description: 'App flavor to test'
+        required: true
+        default: 'e2e'
+        type: choice
+        options:
+          - development
+          - e2e
+          - staging
+
+permissions:
+  contents: read
+
+env:
+  FLUTTER_VERSION: '3.35.6'
+  JAVA_VERSION: '17'
+
+jobs:
+  patrol-e2e-android:
+    name: Patrol E2E Android
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    
+    steps:
+      - name: Checkout mobile code
+        uses: actions/checkout@v4
+      
+      - name: Checkout backend code
+        uses: actions/checkout@v4
+        with:
+          repository: jrevillard/edulift
+          path: backend
+      
+      - name: Setup Flutter Environment
+        uses: ./.github/actions/setup-flutter
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          java-version: ${{ env.JAVA_VERSION }}
+
+      - name: Run code generation
+        shell: bash
+        run: flutter packages pub run build_runner build --delete-conflicting-outputs
+      
+      - name: Create dev-network
+        run: docker network create dev-network || true
+      
+      - name: Start E2E backend services
+        run: |
+          cd integration_test
+          docker compose up -d
+      
+      - name: Wait for backend readiness with retry logic
+        run: |
+          echo "⏳ Waiting for backend to be ready..."
+          max_attempts=24
+          attempt=1
+          while [ $attempt -le $max_attempts ]; do
+            if curl -f --max-time 10 --retry 2 --retry-delay 2 http://localhost:8030/health; then
+              echo "✅ Backend is ready! (Attempt $attempt/$max_attempts)"
+              break
+            else
+              echo "❌ Backend not ready (Attempt $attempt/$max_attempts), retrying in 5 seconds..."
+              sleep 5
+              ((attempt++))
+            fi
+          done
+
+          if [ $attempt -gt $max_attempts ]; then
+            echo "❌ Backend failed to become ready after $max_attempts attempts"
+            echo "🔍 Checking Docker services status..."
+            docker compose ps
+            exit 1
+          fi
+      
+      - name: Setup Android Emulator
+        uses: ./.github/actions/setup-android-emulator
+      
+      - name: Run Patrol E2E tests with emulator
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 33
+          target: google_apis
+          arch: x86_64
+          profile: Pixel_6_API_33
+          script: |
+            cd integration_test
+            chmod +x run_patrol_tests.sh
+            if [ "${{ github.event.inputs.test_target }}" = "all" ]; then
+              ./run_patrol_tests.sh --flavor ${{ github.event.inputs.flavor }}
+            else
+              ./run_patrol_tests.sh --flavor ${{ github.event.inputs.flavor }} --target ${{ github.event.inputs.test_target }}
+            fi
+      
+      - name: Collect logs
+        if: always()
+        run: |
+          cd integration_test
+          docker compose logs --no-color > ../patrol_docker_logs.txt
+      
+      - name: Stop services
+        if: always()
+        run: |
+          cd integration_test
+          docker compose down -v
+      
+      - name: Upload test results
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: patrol-e2e-results-${{ github.run_number }}
+          path: |
+            integration_test/build/
+            integration_test/screenshots/
+            patrol_docker_logs.txt
+          retention-days: 7

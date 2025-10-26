@@ -57,17 +57,11 @@ class FamilyAdmin extends Equatable {
   /// Admin user email
   final String email;
 
-  const FamilyAdmin({
-    required this.name,
-    required this.email,
-  });
+  const FamilyAdmin({required this.name, required this.email});
 
   /// Create FamilyAdmin from DTO
   factory FamilyAdmin.fromDto(FamilyAdminData dto) {
-    return FamilyAdmin(
-      name: dto.name,
-      email: dto.email,
-    );
+    return FamilyAdmin(name: dto.name, email: dto.email);
   }
 
   @override
@@ -195,18 +189,18 @@ class GroupFamily extends Equatable {
 
   @override
   List<Object?> get props => [
-        id,
-        name,
-        role,
-        isMyFamily,
-        canManage,
-        admins,
-        status,
-        inviteCode,
-        invitationId,
-        invitedAt,
-        expiresAt,
-      ];
+    id,
+    name,
+    role,
+    isMyFamily,
+    canManage,
+    admins,
+    status,
+    inviteCode,
+    invitationId,
+    invitedAt,
+    expiresAt,
+  ];
 
   @override
   String toString() {

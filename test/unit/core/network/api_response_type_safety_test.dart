@@ -66,10 +66,7 @@ void main() {
 
     group('Backend Wrapper Type Safety', () {
       test('should handle wrapper with string data safely', () {
-        final wrapperData = {
-          'success': true,
-          'data': 'test string data',
-        };
+        final wrapperData = {'success': true, 'data': 'test string data'};
 
         final response = ApiResponse.fromBackendWrapper(
           wrapperData,
@@ -175,10 +172,7 @@ void main() {
       });
 
       test('should handle empty metadata safely', () {
-        const response = ApiResponse<String>(
-          success: true,
-          data: 'test',
-        );
+        const response = ApiResponse<String>(success: true, data: 'test');
 
         expect(response.metadata, isEmpty);
       });

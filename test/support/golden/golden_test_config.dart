@@ -43,22 +43,22 @@ class GoldenTestConfig {
 
   // Device configuration presets
   static Map<String, List<DeviceConfig>> get devicePresets => {
-        'quick': DeviceConfigurations.defaultSet,
-        'mobile': DeviceConfigurations.mobilePhones,
-        'full': DeviceConfigurations.all,
-        'small': DeviceConfigurations.smallPhones,
-        'regular': DeviceConfigurations.regularPhones,
-        'large': DeviceConfigurations.largePhones,
-        'tablet': DeviceConfigurations.tablets,
-      };
+    'quick': DeviceConfigurations.defaultSet,
+    'mobile': DeviceConfigurations.mobilePhones,
+    'full': DeviceConfigurations.all,
+    'small': DeviceConfigurations.smallPhones,
+    'regular': DeviceConfigurations.regularPhones,
+    'large': DeviceConfigurations.largePhones,
+    'tablet': DeviceConfigurations.tablets,
+  };
 
   // Theme configuration presets
   static Map<String, List<ThemeConfig>> get themePresets => {
-        'quick': ThemeConfigurations.basic,
-        'accessibility': ThemeConfigurations.accessibility,
-        'high_contrast': ThemeConfigurations.highContrast,
-        'full': ThemeConfigurations.all,
-      };
+    'quick': ThemeConfigurations.basic,
+    'accessibility': ThemeConfigurations.accessibility,
+    'high_contrast': ThemeConfigurations.highContrast,
+    'full': ThemeConfigurations.all,
+  };
 
   // Test variants configuration
   static const Map<String, dynamic> testVariants = {
@@ -122,11 +122,9 @@ class GoldenTestConfig {
     for (final device in testDevices) {
       for (final theme in testThemes) {
         for (final locale in testLocales) {
-          variants.add(TestVariant(
-            device: device,
-            theme: theme,
-            locale: locale,
-          ));
+          variants.add(
+            TestVariant(device: device, theme: theme, locale: locale),
+          );
         }
       }
     }

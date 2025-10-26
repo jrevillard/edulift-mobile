@@ -75,7 +75,9 @@ Dio refreshDio(Ref ref) {
     );
   }
 
-  AppLogger.info('🔄 [RefreshDio] Created dedicated Dio instance for token refresh');
+  AppLogger.info(
+    '🔄 [RefreshDio] Created dedicated Dio instance for token refresh',
+  );
   return dio;
 }
 
@@ -122,11 +124,7 @@ Dio apiDio(Ref ref) {
   // Import tokenRefreshService from service_providers
   final tokenRefreshService = ref.watch(tokenRefreshServiceProvider);
   dio.interceptors.add(
-    NetworkAuthInterceptor(
-      adaptiveStorageService,
-      tokenRefreshService,
-      ref,
-    ),
+    NetworkAuthInterceptor(adaptiveStorageService, tokenRefreshService, ref),
   );
   // Add logging interceptor (debug only)
   if (kDebugMode) {
@@ -265,10 +263,7 @@ NetworkErrorHandler networkErrorHandler(Ref ref) {
   final networkInfo = ref.watch(networkInfoProvider);
   final dio = ref.watch(apiDioProvider);
 
-  return NetworkErrorHandler(
-    networkInfo: networkInfo,
-    dio: dio,
-  );
+  return NetworkErrorHandler(networkInfo: networkInfo, dio: dio);
 }
 
 /// Provider for isolated NetworkErrorHandler used exclusively by TokenRefreshService

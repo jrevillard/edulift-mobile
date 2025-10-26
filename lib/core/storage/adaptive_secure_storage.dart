@@ -309,7 +309,9 @@ class AdaptiveSecureStorage implements SecureStorage {
           const warning =
               'WARNING: Token write verification failed in test environment: no value stored after write operation';
           AppLogger.warning('[AdaptiveSecureStorage] $warning');
-          AppLogger.warning('[AdaptiveSecureStorage] Continuing authentication flow despite verification failure - test environment may have race conditions');
+          AppLogger.warning(
+            '[AdaptiveSecureStorage] Continuing authentication flow despite verification failure - test environment may have race conditions',
+          );
           // Don't throw exception - continue with authentication flow
           // This prevents integration tests from failing due to storage verification issues
         } else {
@@ -367,7 +369,9 @@ class AdaptiveSecureStorage implements SecureStorage {
         final warning =
             'WARNING: Failed to write token key "$actualKey" after $maxRetries attempts - verification failed';
         AppLogger.warning('[AdaptiveSecureStorage] $warning');
-        AppLogger.warning('[AdaptiveSecureStorage] Continuing authentication flow despite verification failure - may indicate storage issues but allowing graceful degradation');
+        AppLogger.warning(
+          '[AdaptiveSecureStorage] Continuing authentication flow despite verification failure - may indicate storage issues but allowing graceful degradation',
+        );
         // Don't throw exception - log warning and continue
         // This prevents authentication flow from breaking due to storage verification issues
         // The token was likely written successfully, but verification failed

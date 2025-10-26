@@ -117,12 +117,15 @@ void main() {
         await $.pump(const Duration(seconds: 3)); // Allow processing time
 
         // STEP 6: ENHANCED - Verify security error message content
-        final errorMessage = await AuthFlowHelper.verifyVerificationFailedMessage(
-          $,
-          'errorAuthMagicLinkAlreadyUsed',
-          timeout: const Duration(seconds: 8),
+        final errorMessage =
+            await AuthFlowHelper.verifyVerificationFailedMessage(
+              $,
+              'errorAuthMagicLinkAlreadyUsed',
+              timeout: const Duration(seconds: 8),
+            );
+        debugPrint(
+          '✅ Magic link reuse properly blocked with deterministic error',
         );
-        debugPrint('✅ Magic link reuse properly blocked with deterministic error');
         debugPrint('📝 Error message: "$errorMessage"');
 
         // STEP 7: Test error recovery button functionality
@@ -166,11 +169,12 @@ void main() {
         await $.native.openUrl(invalidTokenLink);
         await $.pump(const Duration(seconds: 2));
 
-        final errorMessage = await AuthFlowHelper.verifyVerificationFailedMessage(
-          $,
-          'errorAuthInvalidToken',
-          timeout: const Duration(seconds: 8),
-        );
+        final errorMessage =
+            await AuthFlowHelper.verifyVerificationFailedMessage(
+              $,
+              'errorAuthInvalidToken',
+              timeout: const Duration(seconds: 8),
+            );
         debugPrint('✅ Invalid token properly rejected');
         debugPrint('📝 Error message: "$errorMessage"');
 
@@ -249,11 +253,12 @@ void main() {
         await $.native.openUrl(tamperedLink);
         await $.pump(const Duration(seconds: 2));
 
-        final errorMessage = await AuthFlowHelper.verifyVerificationFailedMessage(
-          $,
-          'errorAuthInvalidToken',
-          timeout: const Duration(seconds: 8),
-        );
+        final errorMessage =
+            await AuthFlowHelper.verifyVerificationFailedMessage(
+              $,
+              'errorAuthInvalidToken',
+              timeout: const Duration(seconds: 8),
+            );
         debugPrint('✅ Tampered token properly rejected');
         debugPrint('📝 Error message: "$errorMessage"');
 
@@ -287,13 +292,14 @@ void main() {
 
         // STEP 2: Clear any existing PKCE data to ensure clean test
         // Verify no existing PKCE data persists from previous tests
-        await TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger.handlePlatformMessage(
-          'flutter/dart-services',
-          const StandardMethodCodec().encodeMethodCall(
-            const MethodCall('SharedPreferences.clear'),
-          ),
-          (data) => null,
-        );
+        await TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
+            .handlePlatformMessage(
+              'flutter/dart-services',
+              const StandardMethodCodec().encodeMethodCall(
+                const MethodCall('SharedPreferences.clear'),
+              ),
+              (data) => null,
+            );
         await $.pumpAndSettle();
 
         debugPrint('🧹 Cleared existing PKCE data for clean test');
@@ -303,7 +309,7 @@ void main() {
           $,
           userProfile['email']!,
         );
-        
+
         // CRITICAL FIX: Use complete auth flow which includes clicking auth button
         await AuthFlowHelper.handleNewUserAuthFlow($, userProfile);
 
@@ -342,7 +348,7 @@ void main() {
     patrolTest(
       'PKCE code_challenge parameter is properly validated in magic link flow when authentication occurs then expects PKCE security validation',
       ($) async {
-        // STEP 1: Generate test data for PKCE challenge validation  
+        // STEP 1: Generate test data for PKCE challenge validation
         final userProfile = TestDataGenerator.generateUniqueUserProfile(
           prefix: 'pkce_challenge',
         );
@@ -378,7 +384,9 @@ void main() {
         );
 
         debugPrint('✅ PKCE code_challenge validation successful');
-        debugPrint('🎉 Magic link authentication with PKCE validation completed!');
+        debugPrint(
+          '🎉 Magic link authentication with PKCE validation completed!',
+        );
         debugPrint('   Server properly validated code_challenge parameter');
       },
     );
@@ -426,10 +434,7 @@ void main() {
         await AuthFlowHelper.completeOnboardingFlow($);
         await $.waitUntilVisible(find.byKey(const Key('dashboard_title')));
 
-        await AuthFlowHelper.performLogout(
-          $,
-          from: LogoutLocation.profile,
-        );
+        await AuthFlowHelper.performLogout($, from: LogoutLocation.profile);
         await $.waitUntilVisible(find.byKey(const Key('welcomeToEduLift')));
         debugPrint('✅ User logged out - ready for PKCE tampering test');
 
@@ -443,11 +448,14 @@ void main() {
         await AuthFlowHelper.safeTap(
           $,
           find.byKey(const Key('login_auth_action_button')),
-          description: 'auth button to request new magic link for existing user',
+          description:
+              'auth button to request new magic link for existing user',
         );
 
         // Wait for magic link sent confirmation
-        await $.waitUntilVisible(find.byKey(const Key('magic_link_sent_message')));
+        await $.waitUntilVisible(
+          find.byKey(const Key('magic_link_sent_message')),
+        );
         await $.pump(const Duration(seconds: 2));
 
         debugPrint('🔧 New PKCE pair generated - creating mismatch scenario');
@@ -457,11 +465,12 @@ void main() {
         await $.pump(const Duration(seconds: 3));
 
         // STEP 7: ENHANCED - Verify PKCE validation error message content
-        final errorMessage = await AuthFlowHelper.verifyVerificationFailedMessage(
-          $,
-          'errorAuthPKCEValidationFailed',
-          timeout: const Duration(seconds: 8),
-        );
+        final errorMessage =
+            await AuthFlowHelper.verifyVerificationFailedMessage(
+              $,
+              'errorAuthPKCEValidationFailed',
+              timeout: const Duration(seconds: 8),
+            );
         debugPrint('✅ PKCE tampering properly detected and blocked');
         debugPrint('📝 Error message: "$errorMessage"');
 
@@ -471,10 +480,14 @@ void main() {
         await $.pumpAndSettle();
 
         await $.waitUntilVisible(find.byKey(const Key('welcomeToEduLift')));
-        debugPrint('✅ Recovery navigation working after PKCE validation failure');
+        debugPrint(
+          '✅ Recovery navigation working after PKCE validation failure',
+        );
 
         debugPrint('🎉 PKCE tampering validation test completed!');
-        debugPrint('   PKCE security properly enforced against tampering attacks');
+        debugPrint(
+          '   PKCE security properly enforced against tampering attacks',
+        );
       },
     );
 
@@ -523,10 +536,7 @@ void main() {
         debugPrint('✅ Full authentication flow completed');
 
         // STEP 5: Logout to test PKCE cleanup
-        await AuthFlowHelper.performLogout(
-          $,
-          from: LogoutLocation.profile,
-        );
+        await AuthFlowHelper.performLogout($, from: LogoutLocation.profile);
         await $.waitUntilVisible(find.byKey(const Key('welcomeToEduLift')));
 
         debugPrint('✅ Logout completed - PKCE data should be cleaned');
@@ -597,10 +607,7 @@ void main() {
         await AuthFlowHelper.completeOnboardingFlow($);
         await $.waitUntilVisible(find.byKey(const Key('dashboard_title')));
 
-        await AuthFlowHelper.performLogout(
-          $,
-          from: LogoutLocation.profile,
-        );
+        await AuthFlowHelper.performLogout($, from: LogoutLocation.profile);
         await $.waitUntilVisible(find.byKey(const Key('welcomeToEduLift')));
 
         debugPrint('✅ Logout completed - preparing replay attack test');
@@ -611,11 +618,12 @@ void main() {
         await $.pump(const Duration(seconds: 3));
 
         // STEP 6: ENHANCED - Verify PKCE replay prevention error message
-        final errorMessage = await AuthFlowHelper.verifyVerificationFailedMessage(
-          $,
-          'errorAuthMagicLinkAlreadyUsed',
-          timeout: const Duration(seconds: 8),
-        );
+        final errorMessage =
+            await AuthFlowHelper.verifyVerificationFailedMessage(
+              $,
+              'errorAuthMagicLinkAlreadyUsed',
+              timeout: const Duration(seconds: 8),
+            );
         debugPrint('✅ PKCE replay attack properly prevented');
         debugPrint('📝 Error message: "$errorMessage"');
 
@@ -676,10 +684,7 @@ void main() {
         await AuthFlowHelper.completeOnboardingFlow($);
         await $.waitUntilVisible(find.byKey(const Key('dashboard_title')));
 
-        await AuthFlowHelper.performLogout(
-          $,
-          from: LogoutLocation.profile,
-        );
+        await AuthFlowHelper.performLogout($, from: LogoutLocation.profile);
         await $.waitUntilVisible(find.byKey(const Key('welcomeToEduLift')));
         debugPrint('✅ User A logged out - ready for cross-user attack test');
 
@@ -715,12 +720,15 @@ void main() {
         await $.pump(const Duration(seconds: 3));
 
         // STEP 6: ENHANCED - Verify cross-user security error message
-        final errorMessage = await AuthFlowHelper.verifyVerificationFailedMessage(
-          $,
-          'errorAuthPKCEValidationFailed',
-          timeout: const Duration(seconds: 8),
+        final errorMessage =
+            await AuthFlowHelper.verifyVerificationFailedMessage(
+              $,
+              'errorAuthPKCEValidationFailed',
+              timeout: const Duration(seconds: 8),
+            );
+        debugPrint(
+          '✅ Cross-user magic link properly rejected by PKCE security',
         );
-        debugPrint('✅ Cross-user magic link properly rejected by PKCE security');
         debugPrint('📝 Error message: "$errorMessage"');
 
         // STEP 7: Test proper recovery navigation after security rejection
@@ -729,15 +737,21 @@ void main() {
         await $.pumpAndSettle();
 
         await $.waitUntilVisible(find.byKey(const Key('welcomeToEduLift')));
-        debugPrint('✅ Recovery navigation working after cross-user security rejection');
+        debugPrint(
+          '✅ Recovery navigation working after cross-user security rejection',
+        );
 
         // STEP 8: Clean up User B email for proper teardown
         await MailpitHelper.clearEmailsForRecipient(userB['email']!);
         debugPrint('🧹 Cleaned up User B emails');
 
         debugPrint('🎉 Cross-user PKCE security test completed!');
-        debugPrint('   User A magic link → User B PKCE context: PROPERLY BLOCKED');
-        debugPrint('   PKCE prevents cross-user magic link attacks effectively');
+        debugPrint(
+          '   User A magic link → User B PKCE context: PROPERLY BLOCKED',
+        );
+        debugPrint(
+          '   PKCE prevents cross-user magic link attacks effectively',
+        );
       },
     );
   });
