@@ -70,7 +70,8 @@ jobs:
       - name: Generate coverage report
         run: |
           # Remove generated files from coverage
-          lcov --remove coverage/lcov.info '**/generated/**' '**/l10n/**' '**/*.g.dart' '**/*.freezed.dart' -o coverage/lcov_cleaned.info
+          # --ignore-errors unused: Some patterns may not match any files
+          lcov --remove coverage/lcov.info '**/generated/**' '**/l10n/**' '**/*.g.dart' '**/*.freezed.dart' -o coverage/lcov_cleaned.info --ignore-errors unused
           # Generate HTML coverage report
           # Flutter only generates line coverage, not function/branch coverage
           genhtml \
