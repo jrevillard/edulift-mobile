@@ -33,7 +33,7 @@ concurrency:
   cancel-in-progress: ${{ !startsWith(github.ref, 'refs/tags/') }}
 
 permissions:
-  contents: read
+  contents: write  # Changed from 'read' to allow git push
   deployments: write
   packages: write
 
