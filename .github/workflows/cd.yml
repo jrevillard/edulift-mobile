@@ -290,7 +290,6 @@ jobs:
         if: steps.verify-apk.outputs.apk_found == 'true'
         uses: w9jds/setup-firebase@main
         with:
-          tools: appdistribution
           firebase_token: ${{ secrets.FIREBASE_TOKEN }}
 
       - name: Distribute Android to Firebase
