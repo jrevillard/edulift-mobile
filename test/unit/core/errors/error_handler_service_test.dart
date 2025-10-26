@@ -319,11 +319,8 @@ void main() {
         // ASSERT - Should return fallback error handling result
         expect(result.classification.category, ErrorCategory.unexpected);
         expect(result.classification.severity, ErrorSeverity.critical);
-        expect(result.userMessage.titleKey, 'System Error');
-        expect(
-          result.userMessage.messageKey,
-          'A system error occurred. Please contact support if this continues.',
-        );
+        expect(result.userMessage.titleKey, 'errorSystemTitle');
+        expect(result.userMessage.messageKey, 'errorSystemMessage');
         expect(result.wasLogged, true);
         expect(result.wasReported, false);
       });

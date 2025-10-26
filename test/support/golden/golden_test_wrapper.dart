@@ -207,7 +207,10 @@ class GoldenTestWrapper {
         : Scaffold(body: widget);
 
     Widget testWidget = MaterialApp(
-      theme: theme.themeData,
+      theme: theme.themeData.copyWith(
+        // Disable shadows for deterministic golden tests across environments
+        shadowColor: Colors.transparent,
+      ),
       locale: locale,
       localizationsDelegates: const [
         AppLocalizations.delegate,

@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:go_router/go_router.dart';
 
-import 'package:edulift/core/services/providers/auth_provider.dart';
 import 'package:edulift/core/domain/entities/user.dart';
-import 'package:edulift/core/router/app_router.dart';
-import 'package:edulift/generated/l10n/app_localizations.dart';
+import 'package:edulift/core/services/providers/auth_provider.dart';
 
 import '../support/test_di_config.dart';
 
@@ -33,79 +30,6 @@ void main() {
         // Without mocked family data, user gets redirected to onboarding
         // TODO: Add proper family service mocks to enable this test
         return;
-        // FIXED: This test verifies router refresh behavior, not magic link verification flow
-        // Magic link verification requires mocking the backend API service
-
-        // Arrange: Set up authenticated user who has completed onboarding
-        final testUser = User(
-          id: 'test-user-id',
-          email: 'test@example.com',
-          /* familyId removed - use FamilyMember entity */
-          name: 'Test User',
-          hasCompletedOnboarding: true, // FIXED: User must have completed onboarding
-          createdAt: DateTime.now(),
-          updatedAt: DateTime.now(),
-        );
-
-        // Create a container to control the auth state
-        final container = ProviderContainer();
-        late final GoRouter testRouter;
-
-        await tester.pumpWidget(
-          UncontrolledProviderScope(
-            container: container,
-            child: Consumer(
-              builder: (context, ref, child) {
-                // Create router with the same method as main app
-                testRouter = AppRouter.createRouter(ref);
-
-                return MaterialApp.router(
-                  localizationsDelegates: const [
-                    AppLocalizations.delegate,
-                    GlobalMaterialLocalizations.delegate,
-                    GlobalWidgetsLocalizations.delegate,
-                  ],
-                  supportedLocales: AppLocalizations.supportedLocales,
-                  routerConfig: testRouter,
-                );
-              },
-            ),
-          ),
-        );
-
-        // Navigate to login page (simpler than verification page which requires mocking)
-        testRouter.go('/auth/login');
-        await tester.pumpAndSettle();
-
-        // Verify we're on login page
-        expect(
-          find.byKey(const Key('login_auth_action_button')),
-          findsOneWidget,
-          reason: 'Should be on login page',
-        );
-
-        // Act: Simulate successful authentication
-        // Use proper login method to ensure router refresh is triggered
-        container.read(authStateProvider.notifier).login(testUser);
-
-        // Wait for router to process the auth state change and redirect
-        await tester.pumpAndSettle();
-
-        // Assert: Verify we're redirected away from auth pages to dashboard
-        expect(
-          find.byKey(const Key('login_auth_action_button')),
-          findsNothing,
-          reason:
-              'Should not be on login page after successful authentication',
-        );
-
-        // Verify the router has redirected to dashboard
-        expect(
-          testRouter.routerDelegate.currentConfiguration.uri.toString(),
-          '/dashboard',
-          reason:
-              'Router should automatically redirect authenticated users from /auth/login to /dashboard',
-        );
       },
     );
 
@@ -168,93 +92,93 @@ void main() {
       },
     );
 
-    testWidgets(
-      'CRITICAL: Router refresh should trigger on auth state changes',
-      (tester) async {
-        final testUser = User(
-          id: 'test-user-id',
-          email: 'test@example.com',
-          /* familyId removed - use FamilyMember entity */
-          name: 'Test User',
-          createdAt: DateTime.now(),
-          updatedAt: DateTime.now(),
-        );
+    testWidgets('CRITICAL: Router refresh should trigger on auth state changes', (
+      tester,
+    ) async {
+      final testUser = User(
+        id: 'test-user-id',
+        email: 'test@example.com',
+        /* familyId removed - use FamilyMember entity */
+        name: 'Test User',
+        createdAt: DateTime.now(),
+        updatedAt: DateTime.now(),
+      );
 
-        var routerRedirectCalled = false;
-        final container = ProviderContainer();
+      var routerRedirectCalled = false;
+      final container = ProviderContainer();
 
-        // FIXED: Create a ValueNotifier to trigger router refresh on auth changes
-        // This simulates the _RouterRefreshNotifier behavior from app_router.dart
-        final refreshNotifier = ValueNotifier<int>(0);
+      // FIXED: Create a ValueNotifier to trigger router refresh on auth changes
+      // This simulates the _RouterRefreshNotifier behavior from app_router.dart
+      final refreshNotifier = ValueNotifier<int>(0);
 
-        // Listen to auth state changes and trigger router refresh
-        container.listen(authStateProvider, (previous, next) {
-          if (previous?.isAuthenticated != next.isAuthenticated) {
-            refreshNotifier.value++;
-          }
-        });
+      // Listen to auth state changes and trigger router refresh
+      container.listen(authStateProvider, (previous, next) {
+        if (previous?.isAuthenticated != next.isAuthenticated) {
+          refreshNotifier.value++;
+        }
+      });
 
-        await tester.pumpWidget(
-          UncontrolledProviderScope(
-            container: container,
-            child: MaterialApp.router(
-              routerConfig: GoRouter(
-                initialLocation: '/auth/login',
-                refreshListenable: refreshNotifier, // FIXED: Add refresh mechanism
-                redirect: (context, state) {
-                  routerRedirectCalled = true;
+      await tester.pumpWidget(
+        UncontrolledProviderScope(
+          container: container,
+          child: MaterialApp.router(
+            routerConfig: GoRouter(
+              initialLocation: '/auth/login',
+              refreshListenable:
+                  refreshNotifier, // FIXED: Add refresh mechanism
+              redirect: (context, state) {
+                routerRedirectCalled = true;
 
-                  // Read auth state (this is what the real router does)
-                  final authState = container.read(authStateProvider);
+                // Read auth state (this is what the real router does)
+                final authState = container.read(authStateProvider);
 
-                  if (!authState.isAuthenticated) {
-                    return '/auth/login';
-                  }
+                if (!authState.isAuthenticated) {
+                  return '/auth/login';
+                }
 
-                  if (authState.isAuthenticated &&
-                      state.matchedLocation.startsWith('/auth')) {
-                    return '/dashboard';
-                  }
+                if (authState.isAuthenticated &&
+                    state.matchedLocation.startsWith('/auth')) {
+                  return '/dashboard';
+                }
 
-                  return null;
-                },
-                routes: [
-                  GoRoute(
-                    path: '/auth/login',
-                    builder: (context, state) =>
-                        const Scaffold(body: Text('Login')),
-                  ),
-                  GoRoute(
-                    path: '/dashboard',
-                    builder: (context, state) =>
-                        const Scaffold(body: Text('Dashboard')),
-                  ),
-                ],
-              ),
+                return null;
+              },
+              routes: [
+                GoRoute(
+                  path: '/auth/login',
+                  builder: (context, state) =>
+                      const Scaffold(body: Text('Login')),
+                ),
+                GoRoute(
+                  path: '/dashboard',
+                  builder: (context, state) =>
+                      const Scaffold(body: Text('Dashboard')),
+                ),
+              ],
             ),
           ),
-        );
+        ),
+      );
 
-        await tester.pump();
+      await tester.pump();
 
-        // Reset redirect tracking
-        routerRedirectCalled = false;
+      // Reset redirect tracking
+      routerRedirectCalled = false;
 
-        // Act: Change auth state using proper login method
-        // FIXED: Use AuthNotifier.login() instead of direct state mutation
-        // This ensures all state fields (including isLoading) are properly updated
-        container.read(authStateProvider.notifier).login(testUser);
+      // Act: Change auth state using proper login method
+      // FIXED: Use AuthNotifier.login() instead of direct state mutation
+      // This ensures all state fields (including isLoading) are properly updated
+      container.read(authStateProvider.notifier).login(testUser);
 
-        await tester.pump();
+      await tester.pump();
 
-        // Assert: Router redirect should have been called with updated state
-        expect(
-          routerRedirectCalled,
-          isTrue,
-          reason: 'Router redirect should be called when auth state changes',
-        );
-      },
-    );
+      // Assert: Router redirect should have been called with updated state
+      expect(
+        routerRedirectCalled,
+        isTrue,
+        reason: 'Router redirect should be called when auth state changes',
+      );
+    });
 
     testWidgets(
       'REGRESSION: Magic link should not cause infinite redirect loop',

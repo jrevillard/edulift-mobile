@@ -190,6 +190,11 @@ void main() {
     });
 
     testWidgets('should match golden file for initial state', (tester) async {
+      // Set consistent screen size for golden tests
+      tester.view.physicalSize = const Size(800, 600);
+      tester.view.devicePixelRatio = 1.0;
+      addTearDown(() => tester.view.resetPhysicalSize());
+
       // Arrange
       await tester.pumpWidget(createMagicLinkWidget());
       await tester.pumpAndSettle();
@@ -206,6 +211,11 @@ void main() {
     });
 
     testWidgets('should match golden file for success state', (tester) async {
+      // Set consistent screen size for golden tests
+      tester.view.physicalSize = const Size(800, 600);
+      tester.view.devicePixelRatio = 1.0;
+      addTearDown(() => tester.view.resetPhysicalSize());
+
       // Arrange
       when(
         mockAuthService.sendMagicLink(any, name: anyNamed('name')),
@@ -231,6 +241,11 @@ void main() {
     });
 
     testWidgets('should match golden file for error state', (tester) async {
+      // Set consistent screen size for golden tests
+      tester.view.physicalSize = const Size(800, 600);
+      tester.view.devicePixelRatio = 1.0;
+      addTearDown(() => tester.view.resetPhysicalSize());
+
       // Arrange
       when(
         mockAuthService.sendMagicLink(any, name: anyNamed('name')),

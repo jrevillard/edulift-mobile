@@ -9,7 +9,6 @@ import 'package:dartz/dartz.dart';
 import 'package:edulift/features/auth/presentation/pages/login_page.dart';
 import 'package:edulift/core/errors/failures.dart';
 import 'package:edulift/core/utils/result.dart';
-import 'package:edulift/core/presentation/widgets/accessibility/accessible_button.dart';
 import '../../../support/simple_widget_test_helper.dart';
 
 /// Test fixtures for auth-related results and entities

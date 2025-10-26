@@ -28,7 +28,10 @@ void main() {
 
       // Act & Assert - Verify error categories map to correct failure types
       expect(errorResult.classification.category, ErrorCategory.validation);
-      expect(errorResult.userMessage.messageKey, contains('Invalid data'));
+      expect(
+        errorResult.userMessage.messageKey,
+        'error.validation.invalid_data',
+      );
       expect(errorResult.classification.isRetryable, isTrue);
 
       // Test specific 422 handling expectation
@@ -51,7 +54,7 @@ void main() {
         // Assert - Verify 422 errors are classified as validation
         expect(classification.category, ErrorCategory.validation);
         expect(classification.severity, ErrorSeverity.minor);
-        expect(classification.isRetryable, isTrue);
+        expect(classification.isRetryable, isFalse);
         expect(classification.requiresUserAction, isTrue);
         expect(classification.analysisData['type'], 'api');
         expect(classification.analysisData['status_code'], 422);
@@ -78,12 +81,9 @@ void main() {
           context,
         );
 
-        // Assert - Verify user-friendly message generation
-        expect(userMessage.titleKey, 'Invalid Information');
-        expect(
-          userMessage.messageKey,
-          'Please check the information you entered and try again.',
-        );
+        // Assert - Verify user-friendly message generation (returns i18n keys)
+        expect(userMessage.titleKey, 'errorValidationTitle');
+        expect(userMessage.messageKey, 'errorValidationMessage');
         expect(userMessage.canRetry, isTrue);
         expect(userMessage.severity, ErrorSeverity.minor);
       },

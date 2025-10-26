@@ -16,7 +16,6 @@ import '../navigation/navigation_state.dart' as nav;
 import '../navigation/deep_link_transformer.dart';
 // REMOVED: realtime_notification_badge.dart - feature simplified (no invitation lists)
 import '../../features/auth/presentation/providers/magic_link_provider.dart';
-import '../state/reactive_state_coordinator.dart';
 import 'app_routes.dart';
 import 'route_factory.dart';
 import 'route_registration.dart';

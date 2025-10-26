@@ -24,7 +24,6 @@ import 'package:edulift/core/state/reactive_state_coordinator.dart';
 import '../../../../core/services/providers/auth_provider.dart';
 import '../../../../core/domain/entities/user.dart';
 import '../../../../core/domain/usecases/usecase.dart' as core_usecase;
-import '../../domain/usecases/clear_all_family_data_usecase.dart';
 
 /// Family state that manages family data and children
 /// Uses CRTP pattern for type-safe copyWith operations

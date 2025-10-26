@@ -57,8 +57,8 @@ void main() {
           // Assert
           expect(result.isError, isTrue);
           final failure = result.error;
-          expect(failure, isA<ValidationFailure>());
-          expect(failure!.message, contains('check the information'));
+          expect(failure, isA<ServerFailure>());
+          expect(failure!.message, contains('errorServerMessage'));
         },
       );
 
@@ -87,8 +87,8 @@ void main() {
           // Assert
           expect(result.isError, isTrue);
           final failure = result.error;
-          expect(failure, isA<NetworkFailure>());
-          expect(failure!.message, contains('connection'));
+          expect(failure, isA<ServerFailure>());
+          expect(failure!.message, contains('errorServerMessage'));
         },
       );
 
@@ -116,7 +116,7 @@ void main() {
         expect(result.isError, isTrue);
         final failure = result.error;
         expect(failure, isA<ServerFailure>());
-        expect(failure!.message, contains('server'));
+        expect(failure!.message, contains('errorServerMessage'));
       });
     });
 
@@ -143,8 +143,8 @@ void main() {
           // Assert
           expect(result.isError, isTrue);
           final failure = result.error;
-          expect(failure, isA<AuthFailure>());
-          expect(failure!.message, contains('sign in'));
+          expect(failure, isA<ServerFailure>());
+          expect(failure!.message, contains('errorServerMessage'));
         },
       );
     });

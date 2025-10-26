@@ -62,7 +62,7 @@ jobs:
           dart format --output=none --set-exit-if-changed lib/ test/ integration_test/
       
       - name: Run unit tests with coverage
-        run: flutter test --coverage --test-randomize-ordering-seed random
+        run: flutter test --coverage --test-randomize-ordering-seed random --dart-define=FLUTTER_TEST_FONT_CONFIG=fonts-material-design
       
       - name: Generate coverage report
         run: |
