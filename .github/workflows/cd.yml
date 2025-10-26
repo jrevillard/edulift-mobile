@@ -47,7 +47,7 @@ jobs:
     name: Build Android
     runs-on: ubuntu-latest
     timeout-minutes: 25
-    if: github.event.inputs.platform == 'android' || github.event.inputs.platform == 'both' || github.event.inputs.platform == null
+    if: github.event.inputs.platform == 'android' || github.event.inputs.platform == 'both' || github.event.inputs.platform == 'android-fast' || github.event.inputs.platform == null || github.event_name == 'push' || startsWith(github.ref, 'refs/tags/')
 
     strategy:
       matrix:
@@ -275,15 +275,30 @@ jobs:
           name: android-apk-development-debug
           path: ./apk
 
+      - name: Verify APK exists
+        id: verify-apk
+        run: |
+          if ls apk/*.apk 1> /dev/null 2>&1; then
+            echo "apk_found=true" >> $GITHUB_OUTPUT
+            echo "✅ APK found: $(ls apk/*.apk)"
+          else
+            echo "apk_found=false" >> $GITHUB_OUTPUT
+            echo "⚠️ No APK found in artifacts"
+          fi
+
       - name: Setup Firebase CLI
+        if: steps.verify-apk.outputs.apk_found == 'true'
         uses: w9jds/setup-firebase@main
         with:
           tools: appdistribution
           firebase_token: ${{ secrets.FIREBASE_TOKEN }}
 
       - name: Distribute Android to Firebase
+        if: steps.verify-apk.outputs.apk_found == 'true'
         run: |
-          firebase appdistribution:distribute apk/*.apk \
+          APK_FILE=$(ls apk/*.apk | head -n 1)
+          echo "Distributing: $APK_FILE"
+          firebase appdistribution:distribute "$APK_FILE" \
             --app 1:390712570284:android:343eb2935d6000fe054a09 \
             --groups "${{ secrets.FIREBASE_GROUPS_STAGING || 'internal-testers' }}" \
             --release-notes "Automated Android development build from commit ${{ github.sha }}"
