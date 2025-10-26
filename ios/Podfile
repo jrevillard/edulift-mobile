@@ -1,14 +1,28 @@
 # Uncomment this line to define a global platform for your project
-platform :ios, '12.0'
+platform :ios, '13.0'
 
 # CocoaPods analytics sends network stats synchronously affecting flutter build latency.
 ENV['COCOAPODS_DISABLE_STATS'] = 'true'
 
+# BEGIN: FLAVOR CONFIGURATION MAPPING
 project 'Runner', {
   'Debug' => :debug,
   'Profile' => :release,
   'Release' => :release,
+  'Debug-development' => :debug,
+  'Debug-staging' => :debug,
+  'Debug-e2e' => :debug,
+  'Debug-production' => :debug,
+  'Profile-development' => :release,
+  'Profile-staging' => :release,
+  'Profile-e2e' => :release,
+  'Profile-production' => :release,
+  'Release-development' => :release,
+  'Release-staging' => :release,
+  'Release-e2e' => :release,
+  'Release-production' => :release,
 }
+# END: FLAVOR CONFIGURATION MAPPING
 
 def flutter_root
   generated_xcode_build_settings_path = File.expand_path(File.join('..', 'Flutter', 'Generated.xcconfig'), __FILE__)
@@ -45,7 +59,7 @@ post_install do |installer|
     
     # Ensure minimum deployment target for Firebase compatibility
     target.build_configurations.each do |config|
-      config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '12.0'
+      config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '13.0'
     end
   end
 end

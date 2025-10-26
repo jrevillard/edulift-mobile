@@ -1,0 +1,3 @@
+// Release-development build configuration
+#include "Release.xcconfig"
+#include "development.xcconfig"

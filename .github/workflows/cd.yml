@@ -3,7 +3,8 @@ name: CD Pipeline
 on:
   push:
     branches: [ main ]
-    tags: [ 'v*' ]
+    tags:
+      - 'v*'  # All version tags trigger builds
   workflow_dispatch:
     inputs:
       build_type:
@@ -17,13 +18,19 @@ on:
       platform:
         description: 'Platform to build'
         required: true
-        default: 'both'  # Default to both platforms (dev flavors only)
+        default: 'both'
         type: choice
         options:
           - android
           - ios
           - both
           - android-fast  # Android dev flavor only
+
+# Cancel in-progress runs when a new commit is pushed
+# Note: Tags are not cancelled to ensure release builds complete
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ !startsWith(github.ref, 'refs/tags/') }}
 
 permissions:
   contents: read
@@ -44,8 +51,12 @@ jobs:
 
     strategy:
       matrix:
-        # Smart flavor selection based on trigger and input
-        flavor: ${{ github.event.inputs.platform == 'android-fast' && fromJson('["dev"]') || (github.ref == 'refs/heads/main' && github.event_name == 'push' && fromJson('["dev"]')) || fromJson('["dev", "staging", "prod"]') }}
+        # Smart flavor selection based on trigger:
+        # - main branch push → development only
+        # - pre-release tags (v*-rc.*, v*-beta.*) → staging only
+        # - production tags (v*.*.*) → production only
+        # - manual/other → development
+        flavor: ${{ github.event.inputs.platform == 'android-fast' && fromJson('["development"]') || (github.ref == 'refs/heads/main' && github.event_name == 'push' && fromJson('["development"]')) || (startsWith(github.ref, 'refs/tags/v') && (contains(github.ref, '-rc.') || contains(github.ref, '-beta.') || contains(github.ref, '-alpha.')) && fromJson('["staging"]')) || (startsWith(github.ref, 'refs/tags/v') && !(contains(github.ref, '-rc.') || contains(github.ref, '-beta.') || contains(github.ref, '-alpha.')) && fromJson('["production"]')) || fromJson('["development"]') }}
     
     steps:
       - name: Checkout code
@@ -113,18 +124,21 @@ jobs:
           draft: false
           prerelease: contains(github.ref_name, '-')
 
-  # iOS build job - Build dev flavor on main pushes, all flavors on tags
+  # iOS build job
   build-ios:
     name: Build iOS
     runs-on: macos-latest
     timeout-minutes: 40
-    # Build on main pushes (dev only), tags (all), and manual runs
     if: (github.event.inputs.platform == 'ios' || github.event.inputs.platform == 'both' || github.event.inputs.platform == null) && (github.event_name == 'push' || github.event_name == 'workflow_dispatch' || startsWith(github.ref, 'refs/tags/'))
 
     strategy:
       matrix:
-        # Smart flavor selection: dev on main pushes, all on tags
-        flavor: ${{ github.ref == 'refs/heads/main' && github.event_name == 'push' && fromJson('["dev"]') || (startsWith(github.ref, 'refs/tags/') && fromJson('["dev", "staging", "prod"]') || fromJson('["dev"]')) }}
+        # Smart flavor selection based on trigger:
+        # - main branch push → development only
+        # - pre-release tags (v*-rc.*, v*-beta.*) → staging only
+        # - production tags (v*.*.*) → production only
+        # - manual/other → development
+        flavor: ${{ github.ref == 'refs/heads/main' && github.event_name == 'push' && fromJson('["development"]') || (startsWith(github.ref, 'refs/tags/v') && (contains(github.ref, '-rc.') || contains(github.ref, '-beta.') || contains(github.ref, '-alpha.')) && fromJson('["staging"]')) || (startsWith(github.ref, 'refs/tags/v') && !(contains(github.ref, '-rc.') || contains(github.ref, '-beta.') || contains(github.ref, '-alpha.')) && fromJson('["production"]')) || fromJson('["development"]') }}
     
     steps:
       - name: Checkout code
@@ -146,8 +160,8 @@ jobs:
       - name: Setup Xcode
         uses: maxim-lobanov/setup-xcode@v1
         with:
-          xcode-version: '15.0'
-      
+          xcode-version: '16.4'
+
       - name: Cache CocoaPods
         uses: actions/cache@v4
         with:
@@ -236,7 +250,7 @@ jobs:
       - name: Download Android APK
         uses: actions/download-artifact@v4
         with:
-          name: android-apk-dev-debug
+          name: android-apk-development-debug
           path: ./apk
 
       - name: Setup Firebase CLI
@@ -257,7 +271,7 @@ jobs:
         if: github.event.inputs.platform == 'ios' || github.event.inputs.platform == 'both' || github.event.inputs.platform == null
         uses: actions/download-artifact@v4
         with:
-          name: ios-app-dev-debug
+          name: ios-app-development-debug
           path: ./ipa
 
       - name: Distribute iOS to Firebase

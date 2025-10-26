@@ -1,0 +1,14 @@
+{
+  "APP_NAME": "EduLift",
+  "APP_VERSION": "1.0.0",
+  "API_BASE_URL": "https://api.edulift.app",
+  "ENVIRONMENT": "production",
+  "DEBUG": false,
+  "LOG_LEVEL": "error",
+  "ANALYTICS_ENABLED": true,
+  "CRASHLYTICS_ENABLED": true,
+  "FEATURE_FLAGS": {
+    "NEW_FEATURES": false,
+    "BETA_FEATURES": false
+  }
+}

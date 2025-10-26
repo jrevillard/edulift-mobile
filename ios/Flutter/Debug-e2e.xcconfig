@@ -1,0 +1,3 @@
+// Debug-e2e build configuration
+#include "Debug.xcconfig"
+#include "e2e.xcconfig"
