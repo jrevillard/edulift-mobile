@@ -1,6 +1,9 @@
 // EduLift - Group Widgets Golden Tests
 // Comprehensive visual regression tests for group-related widgets
 
+@Tags(['golden'])
+library;
+
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 

@@ -1,6 +1,9 @@
 // EduLift - Dashboard Screen Golden Tests
 // Comprehensive visual regression tests for dashboard and home screens
 
+@Tags(['golden'])
+library;
+
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 

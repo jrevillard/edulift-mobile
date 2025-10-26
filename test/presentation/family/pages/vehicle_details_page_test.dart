@@ -7,6 +7,9 @@
 // - Test navigation functionality
 // - Test accessibility compliance (WCAG 2.1 AA)
 
+@Tags(['golden'])
+library;
+
 import 'package:flutter_test/flutter_test.dart';
 
 // TODO: Implement VehicleDetailsPage tests after API client refactoring is complete
