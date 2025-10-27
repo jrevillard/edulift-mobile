@@ -25,6 +25,14 @@
 
 ---
 
+## 📚 Documentation
+
+- **CI/CD Setup**: [.github/docs](.github/docs/README.md) - Complete guide for Android and iOS deployment pipelines
+- **Testing Guide**: [test/AGENTS.md](test/AGENTS.md) - Testing strategies and patterns
+- **Architecture**: See [CLAUDE.md](CLAUDE.md) for project structure and conventions
+
+---
+
 ## 🚀 Quick Start
 
 ### Prerequisites
