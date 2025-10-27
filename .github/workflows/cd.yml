@@ -33,9 +33,8 @@ concurrency:
   cancel-in-progress: ${{ !startsWith(github.ref, 'refs/tags/') }}
 
 permissions:
-  contents: write  # Changed from 'read' to allow git push
-  deployments: write
-  packages: write
+  contents: write  # Required for GitHub Release creation
+  deployments: write  # Required for deployment tracking
 
 env:
   FLUTTER_VERSION: '3.35.6'
@@ -47,17 +46,15 @@ jobs:
     name: Build Android
     runs-on: ubuntu-latest
     timeout-minutes: 25
-    if: github.event.inputs.platform == 'android' || github.event.inputs.platform == 'both' || github.event.inputs.platform == 'android-fast' || github.event.inputs.platform == null || github.event_name == 'push' || startsWith(github.ref, 'refs/tags/')
+    # Run on all non-dispatch events OR on dispatch if platform is not exclusively 'ios'
+    if: github.event_name != 'workflow_dispatch' || github.event.inputs.platform != 'ios'
 
-    strategy:
-      matrix:
-        # Smart flavor selection based on trigger:
-        # - main branch push → development only
-        # - pre-release tags (v*-rc.*, v*-beta.*) → staging only
-        # - production tags (v*.*.*) → production only
-        # - manual/other → development
-        flavor: ${{ github.event.inputs.platform == 'android-fast' && fromJson('["development"]') || (github.ref == 'refs/heads/main' && github.event_name == 'push' && fromJson('["development"]')) || (startsWith(github.ref, 'refs/tags/v') && (contains(github.ref, '-rc.') || contains(github.ref, '-beta.') || contains(github.ref, '-alpha.')) && fromJson('["staging"]')) || (startsWith(github.ref, 'refs/tags/v') && !(contains(github.ref, '-rc.') || contains(github.ref, '-beta.') || contains(github.ref, '-alpha.')) && fromJson('["production"]')) || fromJson('["development"]') }}
-    
+    env:
+      # Centralized build type logic - tags always build release, manual dispatch uses input, push defaults to debug
+      BUILD_TYPE: ${{ (startsWith(github.ref, 'refs/tags/') && 'release') || github.event.inputs.build_type || 'debug' }}
+      # Centralized flavor logic - simplified and maintainable
+      FLAVOR: ${{ (github.event.inputs.platform == 'android-fast' && 'development') || (github.ref == 'refs/heads/main' && github.event_name == 'push' && 'development') || (startsWith(github.ref, 'refs/tags/v') && (contains(github.ref, '-rc.') || contains(github.ref, '-beta.') || contains(github.ref, '-alpha.')) && 'staging') || (startsWith(github.ref, 'refs/tags/v') && 'production') || 'development' }}
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -72,13 +69,13 @@ jobs:
         run: flutter packages pub run build_runner build --delete-conflicting-outputs
       
       - name: Create Android keystore (debug)
-        if: github.event.inputs.build_type == 'debug' || github.event.inputs.build_type == null
+        if: env.BUILD_TYPE == 'debug'
         run: |
           # Create debug keystore for CI builds
           keytool -genkey -v -keystore android/app/debug.keystore -alias androiddebugkey -keyalg RSA -keysize 2048 -validity 10000 -storepass android -keypass android -dname "CN=Debug,O=Debug,C=US"
-      
+
       - name: Setup Android keystore (release)
-        if: github.event.inputs.build_type == 'release' || startsWith(github.ref, 'refs/tags/')
+        if: env.BUILD_TYPE == 'release'
         env:
           ANDROID_KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE }}
           KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
@@ -93,36 +90,30 @@ jobs:
           echo "storeFile=release.keystore" >> android/key.properties
       
       - name: Build Android APK (debug)
-        if: github.event.inputs.build_type == 'debug' || github.event.inputs.build_type == null
-        run: flutter build apk --debug --flavor ${{ matrix.flavor }} --dart-define-from-file=config/${{ matrix.flavor }}.json
-      
+        if: env.BUILD_TYPE == 'debug'
+        run: flutter build apk --debug --flavor ${{ env.FLAVOR }} --dart-define-from-file=config/${{ env.FLAVOR }}.json
+
       - name: Build Android APK (release)
-        if: github.event.inputs.build_type == 'release' || startsWith(github.ref, 'refs/tags/')
-        run: flutter build apk --release --flavor ${{ matrix.flavor }} --dart-define-from-file=config/${{ matrix.flavor }}.json
-      
+        if: env.BUILD_TYPE == 'release'
+        run: flutter build apk --release --flavor ${{ env.FLAVOR }} --dart-define-from-file=config/${{ env.FLAVOR }}.json
+
       - name: Build Android App Bundle (release only)
-        if: github.event.inputs.build_type == 'release' || startsWith(github.ref, 'refs/tags/')
-        run: flutter build appbundle --release --flavor ${{ matrix.flavor }} --dart-define-from-file=config/${{ matrix.flavor }}.json
-      
+        if: env.BUILD_TYPE == 'release'
+        run: flutter build appbundle --release --flavor ${{ env.FLAVOR }} --dart-define-from-file=config/${{ env.FLAVOR }}.json
+
       - name: Upload Android APK
         uses: actions/upload-artifact@v4
         with:
-          name: android-apk-${{ matrix.flavor }}-${{ github.event.inputs.build_type || 'debug' }}
+          name: android-apk-${{ env.FLAVOR }}-${{ env.BUILD_TYPE }}
           path: |
             build/app/outputs/flutter-apk/*.apk
             build/app/outputs/bundle/**/*.aab
-      
-      - name: Create GitHub Release (for tags)
-        if: startsWith(github.ref, 'refs/tags/')
-        uses: softprops/action-gh-release@v1
-        with:
-          files: |
-            build/app/outputs/flutter-apk/*.apk
-            build/app/outputs/bundle/**/*.aab
-          tag_name: ${{ github.ref_name }}
-          name: EduLift Mobile ${{ github.ref_name }}
-          draft: false
-          prerelease: contains(github.ref_name, '-')
+
+      - name: Clean up Android keystore files
+        if: always() && env.BUILD_TYPE == 'release'
+        run: |
+          rm -f android/key.properties
+          rm -f android/app/release.keystore
 
   # iOS build job - DISABLED (requires Apple Developer Program for distribution)
   # Re-enable when Apple Developer Program account is available
@@ -133,14 +124,11 @@ jobs:
     if: false  # Disabled - free Apple account cannot distribute to Firebase/TestFlight
     # Original condition: (github.event.inputs.platform == 'ios' || github.event.inputs.platform == 'both' || github.event.inputs.platform == null) && (github.event_name == 'push' || github.event_name == 'workflow_dispatch' || startsWith(github.ref, 'refs/tags/'))
 
-    strategy:
-      matrix:
-        # Smart flavor selection based on trigger:
-        # - main branch push → development only
-        # - pre-release tags (v*-rc.*, v*-beta.*) → staging only
-        # - production tags (v*.*.*) → production only
-        # - manual/other → development
-        flavor: ${{ github.ref == 'refs/heads/main' && github.event_name == 'push' && fromJson('["development"]') || (startsWith(github.ref, 'refs/tags/v') && (contains(github.ref, '-rc.') || contains(github.ref, '-beta.') || contains(github.ref, '-alpha.')) && fromJson('["staging"]')) || (startsWith(github.ref, 'refs/tags/v') && !(contains(github.ref, '-rc.') || contains(github.ref, '-beta.') || contains(github.ref, '-alpha.')) && fromJson('["production"]')) || fromJson('["development"]') }}
+    env:
+      # Centralized build type logic - same as Android job
+      BUILD_TYPE: ${{ (startsWith(github.ref, 'refs/tags/') && 'release') || github.event.inputs.build_type || 'debug' }}
+      # Centralized flavor logic - platform-agnostic (no android-fast for iOS)
+      FLAVOR: ${{ (github.ref == 'refs/heads/main' && github.event_name == 'push' && 'development') || (startsWith(github.ref, 'refs/tags/v') && (contains(github.ref, '-rc.') || contains(github.ref, '-beta.') || contains(github.ref, '-alpha.')) && 'staging') || (startsWith(github.ref, 'refs/tags/v') && 'production') || 'development' }}
     
     steps:
       - name: Checkout code
@@ -200,7 +188,7 @@ jobs:
           pod install
       
       - name: Setup iOS certificates and provisioning profiles
-        if: github.event.inputs.build_type == 'release' || startsWith(github.ref, 'refs/tags/')
+        if: env.BUILD_TYPE == 'release'
         env:
           IOS_CERTIFICATE_BASE64: ${{ secrets.IOS_CERTIFICATE }}
           IOS_CERTIFICATE_PASSWORD: ${{ secrets.IOS_CERTIFICATE_PASSWORD }}
@@ -222,44 +210,57 @@ jobs:
           chmod 600 ~/Library/MobileDevice/Provisioning\ Profiles/profile.mobileprovision
       
       - name: Build iOS (debug)
-        if: github.event.inputs.build_type == 'debug' || github.event.inputs.build_type == null
+        if: env.BUILD_TYPE == 'debug'
         run: |
-          flutter build ios --debug --flavor ${{ matrix.flavor }} --dart-define-from-file=config/${{ matrix.flavor }}.json --no-codesign
-      
+          flutter build ios --debug --flavor ${{ env.FLAVOR }} --dart-define-from-file=config/${{ env.FLAVOR }}.json --no-codesign
+
       - name: Build iOS IPA (release)
-        if: github.event.inputs.build_type == 'release' || startsWith(github.ref, 'refs/tags/')
+        if: env.BUILD_TYPE == 'release'
         run: |
-          flutter build ipa --release --flavor ${{ matrix.flavor }} --dart-define-from-file=config/${{ matrix.flavor }}.json
-      
+          flutter build ipa --release --flavor ${{ env.FLAVOR }} --dart-define-from-file=config/${{ env.FLAVOR }}.json
+
       - name: Upload iOS App
         uses: actions/upload-artifact@v4
         with:
-          name: ios-app-${{ matrix.flavor }}-${{ github.event.inputs.build_type || 'debug' }}
+          name: ios-app-${{ env.FLAVOR }}-${{ env.BUILD_TYPE }}
           path: |
             build/ios/ipa/*.ipa
             build/ios/iphoneos/*.app
-      
-      - name: Create GitHub Release (for tags)
-        if: startsWith(github.ref, 'refs/tags/')
-        uses: softprops/action-gh-release@v1
-        with:
-          files: |
-            build/ios/ipa/*.ipa
-          tag_name: ${{ github.ref_name }}
-          name: EduLift Mobile ${{ github.ref_name }}
-          draft: false
-          prerelease: contains(github.ref_name, '-')
-      
+
       - name: Clean up keychain and provisioning profile
-        if: always() && (github.event.inputs.build_type == 'release' || startsWith(github.ref, 'refs/tags/'))
+        if: always() && env.BUILD_TYPE == 'release'
         run: |
           security delete-keychain build.keychain
           rm -f ~/Library/MobileDevice/Provisioning\ Profiles/profile.mobileprovision
           rm -f certificate.p12
 
-  # Firebase App Distribution (Android only - iOS disabled)
+  # GitHub Release - Centralized release creation for tags
+  create-github-release:
+    name: Create GitHub Release
+    runs-on: ubuntu-latest
+    needs: [build-android, build-ios]
+    # TODO: When iOS is enabled, add: && needs.build-ios.result == 'success'
+    if: startsWith(github.ref, 'refs/tags/') && needs.build-android.result == 'success'
+    timeout-minutes: 10
+
+    steps:
+      - name: Download all build artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: artifacts/
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: artifacts/**/*
+          tag_name: ${{ github.ref_name }}
+          name: EduLift Mobile ${{ github.ref_name }}
+          draft: false
+          prerelease: contains(github.ref_name, '-')
+
+  # Firebase App Distribution - Development/Staging (Android only - iOS disabled)
   firebase-distribution:
-    name: Firebase App Distribution
+    name: Firebase App Distribution (Staging)
     runs-on: ubuntu-latest
     needs: [build-android]
     if: github.ref == 'refs/heads/main' && github.event_name == 'push'
@@ -321,11 +322,103 @@ jobs:
       #       --release-notes "Automated iOS development build from commit ${{ github.sha }}"
       #   continue-on-error: true
 
+  # Firebase App Distribution - Staging Release (Android only - iOS disabled)
+  # For pre-release tags: v1.0.0-rc.1, v1.0.0-beta.1, v1.0.0-alpha.1
+  firebase-distribution-staging:
+    name: Firebase App Distribution (Staging Release)
+    runs-on: ubuntu-latest
+    needs: [build-android]
+    if: startsWith(github.ref, 'refs/tags/v') && (contains(github.ref, '-rc.') || contains(github.ref, '-beta.') || contains(github.ref, '-alpha.'))
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Download Android Build Artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: android-apk-staging-release
+          path: ./build_artifacts
+
+      - name: Verify AAB exists
+        id: verify-aab
+        run: |
+          if ls build_artifacts/**/*.aab 1> /dev/null 2>&1; then
+            echo "aab_found=true" >> $GITHUB_OUTPUT
+            echo "✅ AAB found: $(ls build_artifacts/**/*.aab)"
+          else
+            echo "aab_found=false" >> $GITHUB_OUTPUT
+            echo "⚠️ No AAB found in artifacts"
+          fi
+
+      - name: Setup Firebase CLI
+        if: steps.verify-aab.outputs.aab_found == 'true'
+        uses: w9jds/setup-firebase@main
+        with:
+          gcp_sa_key: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_STAGING }}
+
+      - name: Distribute Android AAB to Firebase
+        if: steps.verify-aab.outputs.aab_found == 'true'
+        run: |
+          AAB_FILE=$(ls build_artifacts/**/*.aab | head -n 1)
+          echo "Distributing STAGING AAB: $AAB_FILE"
+          firebase appdistribution:distribute "$AAB_FILE" \
+            --app 1:390712570284:android:343eb2935d6000fe054a09 \
+            --groups "${{ secrets.FIREBASE_GROUPS_STAGING || 'internal-testers' }}" \
+            --release-notes "Pre-release ${{ github.ref_name }} from commit ${{ github.sha }}"
+        continue-on-error: true
+
+  # Firebase App Distribution - Production (Android only - iOS disabled)
+  firebase-distribution-production:
+    name: Firebase App Distribution (Production)
+    runs-on: ubuntu-latest
+    needs: [build-android]
+    if: startsWith(github.ref, 'refs/tags/v') && !(contains(github.ref, '-rc.') || contains(github.ref, '-beta.') || contains(github.ref, '-alpha.'))
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Download Android Build Artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: android-apk-production-release
+          path: ./build_artifacts
+
+      - name: Verify AAB exists
+        id: verify-aab
+        run: |
+          if ls build_artifacts/**/*.aab 1> /dev/null 2>&1; then
+            echo "aab_found=true" >> $GITHUB_OUTPUT
+            echo "✅ AAB found: $(ls build_artifacts/**/*.aab)"
+          else
+            echo "aab_found=false" >> $GITHUB_OUTPUT
+            echo "⚠️ No AAB found in artifacts"
+          fi
+
+      - name: Setup Firebase CLI
+        if: steps.verify-aab.outputs.aab_found == 'true'
+        uses: w9jds/setup-firebase@main
+        with:
+          gcp_sa_key: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_PROD }}
+
+      - name: Distribute Android AAB to Firebase
+        if: steps.verify-aab.outputs.aab_found == 'true'
+        run: |
+          AAB_FILE=$(ls build_artifacts/**/*.aab | head -n 1)
+          echo "Distributing PRODUCTION AAB: $AAB_FILE"
+          firebase appdistribution:distribute "$AAB_FILE" \
+            --app 1:928262951410:android:18b5cc75d10217bf779b6b \
+            --groups "${{ secrets.FIREBASE_GROUPS_PROD || 'production-testers' }}" \
+            --release-notes "Production release ${{ github.ref_name }} from commit ${{ github.sha }}"
+
   # Deployment summary
   deployment-summary:
     name: Deployment Summary
     runs-on: ubuntu-latest
-    needs: [build-android, firebase-distribution]
+    needs: [build-android, create-github-release, firebase-distribution, firebase-distribution-staging, firebase-distribution-production]
     if: always()
     timeout-minutes: 5
 
@@ -335,11 +428,22 @@ jobs:
           echo "## 🚀 Build Summary" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "**Platform**: Android only (iOS disabled - requires Apple Developer Program)" >> $GITHUB_STEP_SUMMARY
-          echo "**Build Type**: ${{ github.event.inputs.build_type || 'debug' }}" >> $GITHUB_STEP_SUMMARY
+          echo "**Build Type**: ${{ (startsWith(github.ref, 'refs/tags/') && 'release') || github.event.inputs.build_type || 'debug' }}" >> $GITHUB_STEP_SUMMARY
           echo "**Commit**: \`${{ github.sha }}\`" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "**Android Build**: ${{ needs.build-android.result }}" >> $GITHUB_STEP_SUMMARY
-          echo "**Firebase Distribution**: ${{ needs.firebase-distribution.result }}" >> $GITHUB_STEP_SUMMARY
+
+          # Only show Firebase distribution results that actually ran (not skipped)
+          if [[ "${{ needs.firebase-distribution.result }}" != "skipped" ]]; then
+            echo "**Firebase Distribution (Development)**: ${{ needs.firebase-distribution.result }}" >> $GITHUB_STEP_SUMMARY
+          fi
+          if [[ "${{ needs.firebase-distribution-staging.result }}" != "skipped" ]]; then
+            echo "**Firebase Distribution (Staging Release)**: ${{ needs.firebase-distribution-staging.result }}" >> $GITHUB_STEP_SUMMARY
+          fi
+          if [[ "${{ needs.firebase-distribution-production.result }}" != "skipped" ]]; then
+            echo "**Firebase Distribution (Production)**: ${{ needs.firebase-distribution-production.result }}" >> $GITHUB_STEP_SUMMARY
+          fi
+
           echo "" >> $GITHUB_STEP_SUMMARY
           if [[ "${{ startsWith(github.ref, 'refs/tags/') }}" == "true" ]]; then
             echo "**🎉 Release build completed for tag**: ${{ github.ref_name }}" >> $GITHUB_STEP_SUMMARY
