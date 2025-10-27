@@ -279,30 +279,28 @@ jobs:
       - name: Verify APK exists
         id: verify-apk
         run: |
-          if ls apk/*.apk 1> /dev/null 2>&1; then
+          if ls apk/build/app/outputs/flutter-apk/*.apk 1> /dev/null 2>&1; then
             echo "apk_found=true" >> $GITHUB_OUTPUT
-            echo "✅ APK found: $(ls apk/*.apk)"
+            echo "✅ APK found: $(ls apk/build/app/outputs/flutter-apk/*.apk)"
           else
             echo "apk_found=false" >> $GITHUB_OUTPUT
-            echo "⚠️ No APK found in artifacts"
+            echo "❌ No APK found in artifacts"
+            exit 1
           fi
 
       - name: Setup Firebase CLI
-        if: steps.verify-apk.outputs.apk_found == 'true'
         uses: w9jds/setup-firebase@main
         with:
           gcp_sa_key: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_STAGING }}
 
       - name: Distribute Android to Firebase
-        if: steps.verify-apk.outputs.apk_found == 'true'
         run: |
-          APK_FILE=$(ls apk/*.apk | head -n 1)
+          APK_FILE=$(ls apk/build/app/outputs/flutter-apk/*.apk | head -n 1)
           echo "Distributing: $APK_FILE"
           firebase appdistribution:distribute "$APK_FILE" \
             --app 1:390712570284:android:343eb2935d6000fe054a09 \
             --groups "${{ secrets.FIREBASE_GROUPS_STAGING || 'internal-testers' }}" \
             --release-notes "Automated Android development build from commit ${{ github.sha }}"
-        continue-on-error: true
 
       # iOS distribution disabled - requires Apple Developer Program
       # - name: Download iOS IPA
@@ -344,30 +342,28 @@ jobs:
       - name: Verify AAB exists
         id: verify-aab
         run: |
-          if ls build_artifacts/**/*.aab 1> /dev/null 2>&1; then
+          if ls build_artifacts/build/app/outputs/bundle/**/*.aab 1> /dev/null 2>&1; then
             echo "aab_found=true" >> $GITHUB_OUTPUT
-            echo "✅ AAB found: $(ls build_artifacts/**/*.aab)"
+            echo "✅ AAB found: $(ls build_artifacts/build/app/outputs/bundle/**/*.aab)"
           else
             echo "aab_found=false" >> $GITHUB_OUTPUT
-            echo "⚠️ No AAB found in artifacts"
+            echo "❌ No AAB found in artifacts"
+            exit 1
           fi
 
       - name: Setup Firebase CLI
-        if: steps.verify-aab.outputs.aab_found == 'true'
         uses: w9jds/setup-firebase@main
         with:
           gcp_sa_key: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_STAGING }}
 
       - name: Distribute Android AAB to Firebase
-        if: steps.verify-aab.outputs.aab_found == 'true'
         run: |
-          AAB_FILE=$(ls build_artifacts/**/*.aab | head -n 1)
+          AAB_FILE=$(ls build_artifacts/build/app/outputs/bundle/**/*.aab | head -n 1)
           echo "Distributing STAGING AAB: $AAB_FILE"
           firebase appdistribution:distribute "$AAB_FILE" \
             --app 1:390712570284:android:343eb2935d6000fe054a09 \
             --groups "${{ secrets.FIREBASE_GROUPS_STAGING || 'internal-testers' }}" \
             --release-notes "Pre-release ${{ github.ref_name }} from commit ${{ github.sha }}"
-        continue-on-error: true
 
   # Firebase App Distribution - Production (Android only - iOS disabled)
   firebase-distribution-production:
@@ -390,24 +386,23 @@ jobs:
       - name: Verify AAB exists
         id: verify-aab
         run: |
-          if ls build_artifacts/**/*.aab 1> /dev/null 2>&1; then
+          if ls build_artifacts/build/app/outputs/bundle/**/*.aab 1> /dev/null 2>&1; then
             echo "aab_found=true" >> $GITHUB_OUTPUT
-            echo "✅ AAB found: $(ls build_artifacts/**/*.aab)"
+            echo "✅ AAB found: $(ls build_artifacts/build/app/outputs/bundle/**/*.aab)"
           else
             echo "aab_found=false" >> $GITHUB_OUTPUT
-            echo "⚠️ No AAB found in artifacts"
+            echo "❌ No AAB found in artifacts"
+            exit 1
           fi
 
       - name: Setup Firebase CLI
-        if: steps.verify-aab.outputs.aab_found == 'true'
         uses: w9jds/setup-firebase@main
         with:
           gcp_sa_key: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_PROD }}
 
       - name: Distribute Android AAB to Firebase
-        if: steps.verify-aab.outputs.aab_found == 'true'
         run: |
-          AAB_FILE=$(ls build_artifacts/**/*.aab | head -n 1)
+          AAB_FILE=$(ls build_artifacts/build/app/outputs/bundle/**/*.aab | head -n 1)
           echo "Distributing PRODUCTION AAB: $AAB_FILE"
           firebase appdistribution:distribute "$AAB_FILE" \
             --app 1:928262951410:android:18b5cc75d10217bf779b6b \
