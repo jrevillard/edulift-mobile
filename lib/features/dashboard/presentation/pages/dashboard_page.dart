@@ -49,12 +49,23 @@ class _DashboardPageState extends ConsumerState<DashboardPage>
                   expandedHeight: isTablet ? 120 : 80,
                   floating: true,
                   pinned: true,
-                  title: Semantics(
-                    header: true,
-                    child: Text(
-                      AppLocalizations.of(context).dashboard,
-                      key: const Key('dashboard_title'),
-                    ),
+                  title: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Image.asset(
+                        'assets/images/logos/edulift_logo_64.png',
+                        width: 32,
+                        height: 32,
+                      ),
+                      const SizedBox(width: 8),
+                      Semantics(
+                        header: true,
+                        child: Text(
+                          AppLocalizations.of(context).dashboard,
+                          key: const Key('dashboard_title'),
+                        ),
+                      ),
+                    ],
                   ),
                   actions: [
                     const Padding(

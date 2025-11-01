@@ -1,44 +1,73 @@
 // EduLift Mobile - Environment-Specific Configurations
 // Concrete implementations of BaseConfig for each environment
 // These define the exact settings for development, staging, E2E, and production
+//
+// Configuration values are loaded from --dart-define-from-file at build time
+// Fallback defaults are provided for development convenience
 
 import 'base_config.dart';
 
 /// Development environment configuration
 /// Used for local development with localhost services
+///
+/// Load from JSON: flutter run --dart-define-from-file=config/development.json
+/// Or use defaults: flutter run
 class DevelopmentConfig implements BaseConfig {
   @override
-  String get apiBaseUrl => 'http://localhost:3001/api/v1';
+  String get apiBaseUrl => const String.fromEnvironment(
+    'API_BASE_URL',
+    defaultValue: 'http://localhost:3001/api/v1',
+  );
 
   @override
-  String get websocketUrl => 'ws://localhost:3001';
+  String get websocketUrl => const String.fromEnvironment(
+    'WEBSOCKET_URL',
+    defaultValue: 'ws://localhost:3001',
+  );
 
   @override
-  String get mailpitWebUrl => 'http://localhost:8025';
+  String get mailpitWebUrl => const String.fromEnvironment(
+    'MAILPIT_WEB_URL',
+    defaultValue: 'http://localhost:8025',
+  );
 
   @override
-  String get mailpitApiUrl => '$mailpitWebUrl/api/v1';
+  String get mailpitApiUrl => const String.fromEnvironment(
+    'MAILPIT_API_URL',
+    defaultValue: 'http://localhost:8025/api/v1',
+  );
 
   @override
-  Duration get connectTimeout => const Duration(seconds: 10);
+  Duration get connectTimeout => const Duration(
+    seconds: int.fromEnvironment('CONNECT_TIMEOUT_SECONDS', defaultValue: 10),
+  );
 
   @override
-  Duration get receiveTimeout => const Duration(seconds: 15);
+  Duration get receiveTimeout => const Duration(
+    seconds: int.fromEnvironment('RECEIVE_TIMEOUT_SECONDS', defaultValue: 15),
+  );
 
   @override
-  Duration get sendTimeout => const Duration(seconds: 10);
+  Duration get sendTimeout => const Duration(
+    seconds: int.fromEnvironment('SEND_TIMEOUT_SECONDS', defaultValue: 10),
+  );
 
   @override
-  bool get debugEnabled => true;
+  bool get debugEnabled =>
+      const bool.fromEnvironment('DEBUG_ENABLED', defaultValue: true);
 
   @override
-  String get appName => 'EduLift Dev';
+  String get appName =>
+      const String.fromEnvironment('APP_NAME', defaultValue: 'EduLift Dev');
 
   @override
-  String get environmentName => 'development';
+  String get environmentName => const String.fromEnvironment(
+    'ENVIRONMENT_NAME',
+    defaultValue: 'development',
+  );
 
   @override
-  bool get firebaseEnabled => false;
+  bool get firebaseEnabled => const bool.fromEnvironment('FIREBASE_ENABLED');
 
   @override
   Map<String, String> get defaultHeaders => {
@@ -72,48 +101,74 @@ class DevelopmentConfig implements BaseConfig {
     'apiBaseUrl': apiBaseUrl,
     'websocketUrl': websocketUrl,
     'mailpitWebUrl': mailpitWebUrl,
+    'mailpitApiUrl': mailpitApiUrl,
     'debugEnabled': debugEnabled,
     'firebaseEnabled': firebaseEnabled,
     'connectTimeout': connectTimeout.inSeconds,
     'receiveTimeout': receiveTimeout.inSeconds,
+    'sendTimeout': sendTimeout.inSeconds,
   };
 }
 
 /// Staging environment configuration
-/// Used for pre-production testing with staging services
+/// Used for pre-production testing (currently points to production backend)
+///
+/// Load from JSON: flutter build apk --dart-define-from-file=config/staging.json
 class StagingConfig implements BaseConfig {
   @override
-  String get apiBaseUrl => 'https://staging-api.edulift.com/api/v1';
+  String get apiBaseUrl => const String.fromEnvironment(
+    'API_BASE_URL',
+    defaultValue: 'https://transport.tanjama.fr/api',
+  );
 
   @override
-  String get websocketUrl => 'wss://staging-api.edulift.com';
+  String get websocketUrl => const String.fromEnvironment(
+    'WEBSOCKET_URL',
+    defaultValue: 'wss://transport.tanjama.fr/api',
+  );
 
   @override
-  String get mailpitWebUrl => 'http://localhost:8025'; // Not used in staging
+  String get mailpitWebUrl => const String.fromEnvironment(
+    'MAILPIT_WEB_URL',
+    defaultValue: 'http://localhost:8025',
+  );
 
   @override
-  String get mailpitApiUrl => '$mailpitWebUrl/api/v1';
+  String get mailpitApiUrl => const String.fromEnvironment(
+    'MAILPIT_API_URL',
+    defaultValue: 'http://localhost:8025/api/v1',
+  );
 
   @override
-  Duration get connectTimeout => const Duration(seconds: 10);
+  Duration get connectTimeout => const Duration(
+    seconds: int.fromEnvironment('CONNECT_TIMEOUT_SECONDS', defaultValue: 5),
+  );
 
   @override
-  Duration get receiveTimeout => const Duration(seconds: 15);
+  Duration get receiveTimeout => const Duration(
+    seconds: int.fromEnvironment('RECEIVE_TIMEOUT_SECONDS', defaultValue: 10),
+  );
 
   @override
-  Duration get sendTimeout => const Duration(seconds: 10);
+  Duration get sendTimeout => const Duration(
+    seconds: int.fromEnvironment('SEND_TIMEOUT_SECONDS', defaultValue: 10),
+  );
 
   @override
-  bool get debugEnabled => true;
+  bool get debugEnabled =>
+      const bool.fromEnvironment('DEBUG_ENABLED', defaultValue: true);
 
   @override
-  String get appName => 'EduLift Staging';
+  String get appName =>
+      const String.fromEnvironment('APP_NAME', defaultValue: 'EduLift Staging');
 
   @override
-  String get environmentName => 'staging';
+  String get environmentName =>
+      const String.fromEnvironment('ENVIRONMENT_NAME', defaultValue: 'staging');
 
   @override
-  bool get firebaseEnabled => true;
+  bool get firebaseEnabled =>
+      const bool.fromEnvironment('FIREBASE_ENABLED', defaultValue: true);
 
   @override
   Map<String, String> get defaultHeaders => {
@@ -147,43 +202,69 @@ class StagingConfig implements BaseConfig {
     'firebaseEnabled': firebaseEnabled,
     'connectTimeout': connectTimeout.inSeconds,
     'receiveTimeout': receiveTimeout.inSeconds,
+    'sendTimeout': sendTimeout.inSeconds,
   };
 }
 
 /// E2E testing environment configuration
 /// Used for automated integration testing with Docker services on Android emulator
+///
+/// Load from JSON: flutter build apk --dart-define-from-file=config/e2e.json
+/// Android emulator uses 10.0.2.2 to access host machine's localhost
 class E2EConfig implements BaseConfig {
   @override
-  String get apiBaseUrl => 'http://10.0.2.2:8030/api/v1'; // Android emulator special IP to host
+  String get apiBaseUrl => const String.fromEnvironment(
+    'API_BASE_URL',
+    defaultValue: 'http://10.0.2.2:8030/api/v1',
+  );
 
   @override
-  String get websocketUrl => 'ws://10.0.2.2:8030'; // Android emulator special IP to host
+  String get websocketUrl => const String.fromEnvironment(
+    'WEBSOCKET_URL',
+    defaultValue: 'ws://10.0.2.2:8030',
+  );
 
   @override
-  String get mailpitWebUrl => 'http://10.0.2.2:8031'; // Android emulator special IP to host
+  String get mailpitWebUrl => const String.fromEnvironment(
+    'MAILPIT_WEB_URL',
+    defaultValue: 'http://10.0.2.2:8031',
+  );
 
   @override
-  String get mailpitApiUrl => '$mailpitWebUrl/api/v1';
+  String get mailpitApiUrl => const String.fromEnvironment(
+    'MAILPIT_API_URL',
+    defaultValue: 'http://10.0.2.2:8031/api/v1',
+  );
 
   @override
-  Duration get connectTimeout => const Duration(seconds: 5);
-  @override
-  Duration get receiveTimeout => const Duration(seconds: 8);
+  Duration get connectTimeout => const Duration(
+    seconds: int.fromEnvironment('CONNECT_TIMEOUT_SECONDS', defaultValue: 5),
+  );
 
   @override
-  Duration get sendTimeout => const Duration(seconds: 5);
+  Duration get receiveTimeout => const Duration(
+    seconds: int.fromEnvironment('RECEIVE_TIMEOUT_SECONDS', defaultValue: 8),
+  );
 
   @override
-  bool get debugEnabled => true;
+  Duration get sendTimeout => const Duration(
+    seconds: int.fromEnvironment('SEND_TIMEOUT_SECONDS', defaultValue: 5),
+  );
 
   @override
-  String get appName => 'EduLift E2E';
+  bool get debugEnabled =>
+      const bool.fromEnvironment('DEBUG_ENABLED', defaultValue: true);
 
   @override
-  String get environmentName => 'e2e';
+  String get appName =>
+      const String.fromEnvironment('APP_NAME', defaultValue: 'EduLift E2E');
 
   @override
-  bool get firebaseEnabled => false; // Skip Firebase in E2E tests
+  String get environmentName =>
+      const String.fromEnvironment('ENVIRONMENT_NAME', defaultValue: 'e2e');
+
+  @override
+  bool get firebaseEnabled => const bool.fromEnvironment('FIREBASE_ENABLED');
 
   @override
   Map<String, String> get defaultHeaders => {
@@ -217,48 +298,76 @@ class E2EConfig implements BaseConfig {
     'apiBaseUrl': apiBaseUrl,
     'websocketUrl': websocketUrl,
     'mailpitWebUrl': mailpitWebUrl,
+    'mailpitApiUrl': mailpitApiUrl,
     'debugEnabled': debugEnabled,
     'firebaseEnabled': firebaseEnabled,
     'connectTimeout': connectTimeout.inSeconds,
     'receiveTimeout': receiveTimeout.inSeconds,
+    'sendTimeout': sendTimeout.inSeconds,
   };
 }
 
 /// Production environment configuration
 /// Used for the live application with production services
+///
+/// Load from JSON: flutter build apk --dart-define-from-file=config/production.json
+/// Production values: API at https://transport.tanjama.fr/api
 class ProductionConfig implements BaseConfig {
   @override
-  String get apiBaseUrl => 'https://api.edulift.com/api/v1';
+  String get apiBaseUrl => const String.fromEnvironment(
+    'API_BASE_URL',
+    defaultValue: 'https://transport.tanjama.fr/api',
+  );
 
   @override
-  String get websocketUrl => 'wss://api.edulift.com';
+  String get websocketUrl => const String.fromEnvironment(
+    'WEBSOCKET_URL',
+    defaultValue: 'wss://transport.tanjama.fr/api',
+  );
 
   @override
-  String get mailpitWebUrl => 'http://localhost:8025'; // Not used in production
+  String get mailpitWebUrl => const String.fromEnvironment(
+    'MAILPIT_WEB_URL',
+    defaultValue: 'http://localhost:8025',
+  );
 
   @override
-  String get mailpitApiUrl => '$mailpitWebUrl/api/v1';
+  String get mailpitApiUrl => const String.fromEnvironment(
+    'MAILPIT_API_URL',
+    defaultValue: 'http://localhost:8025/api/v1',
+  );
 
   @override
-  Duration get connectTimeout => const Duration(seconds: 10);
+  Duration get connectTimeout => const Duration(
+    seconds: int.fromEnvironment('CONNECT_TIMEOUT_SECONDS', defaultValue: 5),
+  );
 
   @override
-  Duration get receiveTimeout => const Duration(seconds: 15);
+  Duration get receiveTimeout => const Duration(
+    seconds: int.fromEnvironment('RECEIVE_TIMEOUT_SECONDS', defaultValue: 10),
+  );
 
   @override
-  Duration get sendTimeout => const Duration(seconds: 10);
+  Duration get sendTimeout => const Duration(
+    seconds: int.fromEnvironment('SEND_TIMEOUT_SECONDS', defaultValue: 10),
+  );
 
   @override
-  bool get debugEnabled => false; // No debug in production
+  bool get debugEnabled => const bool.fromEnvironment('DEBUG_ENABLED');
 
   @override
-  String get appName => 'EduLift';
+  String get appName =>
+      const String.fromEnvironment('APP_NAME', defaultValue: 'EduLift');
 
   @override
-  String get environmentName => 'production';
+  String get environmentName => const String.fromEnvironment(
+    'ENVIRONMENT_NAME',
+    defaultValue: 'production',
+  );
 
   @override
-  bool get firebaseEnabled => true;
+  bool get firebaseEnabled =>
+      const bool.fromEnvironment('FIREBASE_ENABLED', defaultValue: true);
 
   @override
   Map<String, String> get defaultHeaders => {
@@ -292,5 +401,6 @@ class ProductionConfig implements BaseConfig {
     'firebaseEnabled': firebaseEnabled,
     'connectTimeout': connectTimeout.inSeconds,
     'receiveTimeout': receiveTimeout.inSeconds,
+    'sendTimeout': sendTimeout.inSeconds,
   };
 }

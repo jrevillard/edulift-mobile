@@ -94,10 +94,10 @@ class _LoginPageState extends ConsumerState<LoginPage>
                                 isTablet ? 24 : 16,
                               ),
                             ),
-                            child: Icon(
-                              Icons.school_rounded,
-                              size: isTablet ? 80 : 48,
-                              color: Theme.of(context).colorScheme.primary,
+                            child: Image.asset(
+                              'assets/images/logos/edulift_logo_192.png',
+                              width: isTablet ? 120 : 80,
+                              height: isTablet ? 120 : 80,
                             ),
                           ),
                           SizedBox(height: isTablet ? 32 : 20),

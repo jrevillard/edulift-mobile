@@ -1,12 +1,13 @@
 {
   "APP_NAME": "EduLift Dev",
-  "API_BASE_URL": "http://localhost:3001",
-  "WS_URL": "ws://localhost:3001",
-  "ENVIRONMENT": "development",
-  "DEBUG_MODE": "true",
-  "LOG_LEVEL": "debug",
-  "SENTRY_DSN": "",
-  "FIREBASE_OPTIONS": {
-    "enabled": false
-  }
+  "ENVIRONMENT_NAME": "development",
+  "API_BASE_URL": "http://localhost:3001/api/v1",
+  "WEBSOCKET_URL": "ws://localhost:3001",
+  "MAILPIT_WEB_URL": "http://localhost:8025",
+  "MAILPIT_API_URL": "http://localhost:8025/api/v1",
+  "CONNECT_TIMEOUT_SECONDS": 10,
+  "RECEIVE_TIMEOUT_SECONDS": 15,
+  "SEND_TIMEOUT_SECONDS": 10,
+  "DEBUG_ENABLED": true,
+  "FIREBASE_ENABLED": false
 }

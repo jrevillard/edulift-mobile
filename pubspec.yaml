@@ -155,3 +155,6 @@ patrol:
 flutter:
   uses-material-design: true
   generate: true
+
+  assets:
+    - assets/images/logos/

@@ -1,14 +1,11 @@
 {
   "APP_NAME": "EduLift Staging",
-  "APP_VERSION": "1.0.0",
-  "API_BASE_URL": "https://api-staging.edulift.app",
-  "ENVIRONMENT": "staging",
-  "DEBUG": false,
-  "LOG_LEVEL": "info",
-  "ANALYTICS_ENABLED": false,
-  "CRASHLYTICS_ENABLED": false,
-  "FEATURE_FLAGS": {
-    "NEW_FEATURES": true,
-    "BETA_FEATURES": true
-  }
+  "ENVIRONMENT_NAME": "staging",
+  "API_BASE_URL": "https://transport.tanjama.fr:50443/api/v1",
+  "WEBSOCKET_URL": "wss://transport.tanjama.fr:50443/api/v1",
+  "CONNECT_TIMEOUT_SECONDS": 5,
+  "RECEIVE_TIMEOUT_SECONDS": 10,
+  "SEND_TIMEOUT_SECONDS": 10,
+  "DEBUG_ENABLED": true,
+  "FIREBASE_ENABLED": true
 }

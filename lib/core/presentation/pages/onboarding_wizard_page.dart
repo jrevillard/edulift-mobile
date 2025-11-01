@@ -293,6 +293,29 @@ class _OnboardingWizardPageState extends ConsumerState<OnboardingWizardPage> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           // EduLift Branding
+                          Container(
+                            padding: EdgeInsets.all(isTablet ? 24 : 16),
+                            decoration: BoxDecoration(
+                              color: Theme.of(
+                                context,
+                              ).colorScheme.primaryContainer,
+                              borderRadius: BorderRadius.circular(
+                                isTablet ? 28 : 20,
+                              ),
+                            ),
+                            child: Image.asset(
+                              'assets/images/logos/edulift_logo_192.png',
+                              width: isTablet ? 160 : 120,
+                              height: isTablet ? 160 : 120,
+                            ),
+                          ),
+                          SizedBox(
+                            height: context.getAdaptiveSpacing(
+                              mobile: isCompactHeight ? 20 : 28,
+                              tablet: isCompactHeight ? 24 : 36,
+                              desktop: isCompactHeight ? 28 : 44,
+                            ),
+                          ),
                           Text(
                             'EduLift',
                             style: TextStyle(
