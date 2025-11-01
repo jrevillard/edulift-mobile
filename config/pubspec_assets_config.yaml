@@ -1,0 +1,8 @@
+
+# Configuration assets à ajouter à pubspec.yaml
+
+flutter:
+  assets:
+    - assets/icons/
+    - assets/icons/edulift-logo.svg
+    - assets/icons/edulift-logo-1024.png
