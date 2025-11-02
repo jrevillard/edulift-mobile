@@ -45,7 +45,7 @@ jobs:
   build-android:
     name: Build Android
     runs-on: ubuntu-latest
-    timeout-minutes: 25
+    timeout-minutes: 40
     # Run on all non-dispatch events OR on dispatch if platform is not exclusively 'ios'
     if: github.event_name != 'workflow_dispatch' || github.event.inputs.platform != 'ios'
 
@@ -64,7 +64,18 @@ jobs:
         with:
           flutter-version: ${{ env.FLUTTER_VERSION }}
           java-version: ${{ env.JAVA_VERSION }}
-      
+
+      - name: Cache Gradle dependencies
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+            android/.gradle
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+
       - name: Run code generation
         run: flutter packages pub run build_runner build --delete-conflicting-outputs
       
