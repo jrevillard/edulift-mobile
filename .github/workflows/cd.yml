@@ -308,19 +308,19 @@ jobs:
           name: android-apk-staging-release
           path: ./build_artifacts
 
-      - name: Verify AAB exists
-        id: verify-aab
+      - name: Verify APK exists
+        id: verify-apk
         run: |
           echo "📂 Listing downloaded artifacts structure:"
-          find build_artifacts -type f -name "*.aab" || echo "No AAB files found"
+          find build_artifacts -type f -name "*.apk" || echo "No APK files found"
           echo ""
-          if find build_artifacts -type f -name "*.aab" | grep -q .; then
-            AAB_PATH=$(find build_artifacts -type f -name "*.aab" | head -n 1)
-            echo "aab_found=true" >> $GITHUB_OUTPUT
-            echo "✅ AAB found: $AAB_PATH"
+          if find build_artifacts -type f -name "*.apk" | grep -q .; then
+            APK_PATH=$(find build_artifacts -type f -name "*.apk" | head -n 1)
+            echo "apk_found=true" >> $GITHUB_OUTPUT
+            echo "✅ APK found: $APK_PATH"
           else
-            echo "aab_found=false" >> $GITHUB_OUTPUT
-            echo "❌ No AAB found in artifacts"
+            echo "apk_found=false" >> $GITHUB_OUTPUT
+            echo "❌ No APK found in artifacts"
             exit 1
           fi
 
@@ -329,11 +329,12 @@ jobs:
         with:
           gcp_sa_key: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_STAGING }}
 
-      - name: Distribute Android AAB to Firebase
+      - name: Distribute Android APK to Firebase
         run: |
-          AAB_FILE=$(find build_artifacts -type f -name "*.aab" | head -n 1)
-          echo "Distributing STAGING AAB: $AAB_FILE"
-          firebase appdistribution:distribute "$AAB_FILE" \
+          APK_FILE=$(find build_artifacts -type f -name "*.apk" | head -n 1)
+          echo "Distributing STAGING APK: $APK_FILE"
+          echo "ℹ️  Note: Using APK instead of AAB (AAB requires Google Play Developer account)"
+          firebase appdistribution:distribute "$APK_FILE" \
             --app 1:390712570284:android:343eb2935d6000fe054a09 \
             --groups "${{ secrets.FIREBASE_GROUPS_STAGING || 'internal-testers' }}" \
             --release-notes "Pre-release ${{ github.ref_name }} from commit ${{ github.sha }}"
@@ -356,19 +357,19 @@ jobs:
           name: android-apk-production-release
           path: ./build_artifacts
 
-      - name: Verify AAB exists
-        id: verify-aab
+      - name: Verify APK exists
+        id: verify-apk
         run: |
           echo "📂 Listing downloaded artifacts structure:"
-          find build_artifacts -type f -name "*.aab" || echo "No AAB files found"
+          find build_artifacts -type f -name "*.apk" || echo "No APK files found"
           echo ""
-          if find build_artifacts -type f -name "*.aab" | grep -q .; then
-            AAB_PATH=$(find build_artifacts -type f -name "*.aab" | head -n 1)
-            echo "aab_found=true" >> $GITHUB_OUTPUT
-            echo "✅ AAB found: $AAB_PATH"
+          if find build_artifacts -type f -name "*.apk" | grep -q .; then
+            APK_PATH=$(find build_artifacts -type f -name "*.apk" | head -n 1)
+            echo "apk_found=true" >> $GITHUB_OUTPUT
+            echo "✅ APK found: $APK_PATH"
           else
-            echo "aab_found=false" >> $GITHUB_OUTPUT
-            echo "❌ No AAB found in artifacts"
+            echo "apk_found=false" >> $GITHUB_OUTPUT
+            echo "❌ No APK found in artifacts"
             exit 1
           fi
 
@@ -377,11 +378,12 @@ jobs:
         with:
           gcp_sa_key: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_PROD }}
 
-      - name: Distribute Android AAB to Firebase
+      - name: Distribute Android APK to Firebase
         run: |
-          AAB_FILE=$(ls build_artifacts/build/app/outputs/bundle/**/*.aab | head -n 1)
-          echo "Distributing PRODUCTION AAB: $AAB_FILE"
-          firebase appdistribution:distribute "$AAB_FILE" \
+          APK_FILE=$(find build_artifacts -type f -name "*.apk" | head -n 1)
+          echo "Distributing PRODUCTION APK: $APK_FILE"
+          echo "ℹ️  Note: Using APK instead of AAB (AAB requires Google Play Developer account)"
+          firebase appdistribution:distribute "$APK_FILE" \
             --app 1:928262951410:android:18b5cc75d10217bf779b6b \
             --groups "${{ secrets.FIREBASE_GROUPS_PROD || 'production-testers' }}" \
             --release-notes "Production release ${{ github.ref_name }} from commit ${{ github.sha }}"
