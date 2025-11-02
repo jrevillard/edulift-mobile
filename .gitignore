@@ -98,3 +98,12 @@ integration_test/test_bundle.dart
 sonar-project.properties
 sonar.sh
 
+# Android keystore secrets - NEVER commit these!
+*.keystore
+*.jks
+key.properties
+android/.env.keystore
+android/key.properties
+android/app/release.keystore
+android/app/debug.keystore
+

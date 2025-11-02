@@ -84,10 +84,12 @@ jobs:
         run: |
           echo "$ANDROID_KEYSTORE_BASE64" | base64 -d > android/app/release.keystore
           chmod 600 android/app/release.keystore
-          echo "storePassword=$KEYSTORE_PASSWORD" > android/key.properties
-          echo "keyPassword=$KEY_PASSWORD" >> android/key.properties
-          echo "keyAlias=$KEY_ALIAS" >> android/key.properties
-          echo "storeFile=release.keystore" >> android/key.properties
+          cat > android/key.properties << 'EOF'
+storePassword=${{ env.KEYSTORE_PASSWORD }}
+keyPassword=${{ env.KEY_PASSWORD }}
+keyAlias=${{ env.KEY_ALIAS }}
+storeFile=release.keystore
+EOF
       
       - name: Build Android APK (debug)
         if: env.BUILD_TYPE == 'debug'
