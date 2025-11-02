@@ -72,9 +72,9 @@ workflows:
         script: |
           cd ios && pod install
 
-      - name: Set up automatic code signing
+      - name: Set up code signing settings for iOS
         script: |
-          xcode-project use-profiles
+          xcode-project use-profiles --bundle-id="$BUNDLE_ID" --profile-type="APP_STORE"
 
       - name: Build iOS IPA (staging)
         script: |
@@ -168,9 +168,9 @@ workflows:
         script: |
           cd ios && pod install
 
-      - name: Set up automatic code signing
+      - name: Set up code signing settings for iOS
         script: |
-          xcode-project use-profiles
+          xcode-project use-profiles --bundle-id="$BUNDLE_ID" --profile-type="APP_STORE"
 
       - name: Build iOS IPA (production)
         script: |
