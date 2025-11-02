@@ -80,7 +80,32 @@ jobs:
 
       - name: Run code generation
         run: flutter packages pub run build_runner build --delete-conflicting-outputs
-      
+
+      - name: Extract version from tag and update pubspec.yaml
+        run: |
+          # Extract version from tag (e.g., v0.1.0-alpha1 -> 0.1.0)
+          TAG_NAME="${{ github.ref_name }}"
+
+          # Remove 'v' prefix if present
+          VERSION="${TAG_NAME#v}"
+
+          # Extract base version (remove pre-release suffix like -alpha1, -rc1, etc.)
+          BASE_VERSION=$(echo "$VERSION" | sed -E 's/(-alpha|-beta|-rc).*//')
+
+          # Use GitHub run number as versionCode for uniqueness
+          VERSION_CODE="${{ github.run_number }}"
+
+          echo "📌 Tag: $TAG_NAME"
+          echo "📌 Extracted version: $BASE_VERSION"
+          echo "📌 Version code: $VERSION_CODE"
+
+          # Update pubspec.yaml with new version
+          sed -i "s/^version: .*/version: $BASE_VERSION+$VERSION_CODE/" pubspec.yaml
+
+          # Verify the change
+          echo "✅ Updated pubspec.yaml:"
+          grep "^version:" pubspec.yaml
+
       - name: Create Android keystore (debug)
         if: env.BUILD_TYPE == 'debug'
         run: |
