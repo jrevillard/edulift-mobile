@@ -106,13 +106,18 @@ jobs:
         if: env.BUILD_TYPE == 'debug'
         run: flutter build apk --debug --flavor ${{ env.FLAVOR }} --dart-define-from-file=config/${{ env.FLAVOR }}.json
 
+      # APK: Built for all release flavors (Firebase App Distribution)
       - name: Build Android APK (release)
         if: env.BUILD_TYPE == 'release'
         run: flutter build apk --release --flavor ${{ env.FLAVOR }} --dart-define-from-file=config/${{ env.FLAVOR }}.json
 
-      - name: Build Android App Bundle (release only)
-        if: env.BUILD_TYPE == 'release'
-        run: flutter build appbundle --release --flavor ${{ env.FLAVOR }} --dart-define-from-file=config/${{ env.FLAVOR }}.json
+      # AAB: Built ONLY for production (Google Play Store)
+      # Staging uses APK only to save ~5-10 minutes build time
+      - name: Build Android App Bundle (production only)
+        if: env.BUILD_TYPE == 'release' && env.FLAVOR == 'production'
+        run: |
+          echo "📦 Building AAB for Play Store distribution"
+          flutter build appbundle --release --flavor ${{ env.FLAVOR }} --dart-define-from-file=config/${{ env.FLAVOR }}.json
 
       - name: Upload Android APK
         uses: actions/upload-artifact@v4
