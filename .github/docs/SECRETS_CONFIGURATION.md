@@ -39,8 +39,9 @@ Different secrets require different formats. Understanding this is critical for 
 |--------|--------|----------|---------|
 | `ANDROID_KEYSTORE` | Binary file → **Base64** | Required | `MIIKXAIBAz...` |
 | `KEYSTORE_PASSWORD` | **Plain text** | None | `MySecurePassword123!` |
-| `KEY_PASSWORD` | **Plain text** | None | `MyKeyPassword456!` |
 | `KEY_ALIAS` | **Plain text** | None | `edulift-release` |
+
+**Note**: Modern PKCS12 keystores (default format since Java 9+) use the same password for both the store and the key. The `KEY_PASSWORD` secret is **not required** - the workflow automatically uses `KEYSTORE_PASSWORD` for both.
 | `FIREBASE_SERVICE_ACCOUNT_STAGING` | **Raw JSON** | None | `{"type":"service_account",...}` |
 | `FIREBASE_SERVICE_ACCOUNT_PROD` | **Raw JSON** | None | `{"type":"service_account",...}` |
 
@@ -91,11 +92,11 @@ cat ~/keystore.base64
 - **Used by**: GitHub Actions (Android release builds)
 - **Security**: Use strong password (12+ characters, mixed case, numbers, symbols)
 
-#### `KEY_PASSWORD`
-- **Description**: Password for the key within the keystore
-- **Format**: Plain text
-- **Used by**: GitHub Actions (Android release builds)
-- **Note**: Can be the same as `KEYSTORE_PASSWORD`
+#### `KEY_PASSWORD` (Deprecated - Not Required)
+- **Description**: ⚠️ **Not needed for PKCS12 keystores** (default format)
+- **Reason**: PKCS12 keystores use the same password for both store and key
+- **Alternative**: The workflow automatically uses `KEYSTORE_PASSWORD` for both
+- **Legacy**: Only required if you're using an old JKS keystore format
 
 #### `KEY_ALIAS`
 - **Description**: Alias of the key in the keystore

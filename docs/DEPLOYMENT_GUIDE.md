@@ -224,7 +224,7 @@ jobs:
           signingKeyBase64: ${{ secrets.ANDROID_SIGNING_KEY }}
           alias: ${{ secrets.ANDROID_KEY_ALIAS }}
           keyStorePassword: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
-          keyPassword: ${{ secrets.ANDROID_KEY_PASSWORD }}
+          keyPassword: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}  # Same as keyStorePassword for PKCS12
           
       - name: Upload APK to Firebase App Distribution
         uses: wzieba/Firebase-Distribution-Github-Action@v1
@@ -313,23 +313,26 @@ jobs:
 
 ### Keystore Setup
 ```bash
-# Generate release keystore
-keytool -genkey -v -keystore release-keystore.jks \
-        -keyalg RSA -keysize 2048 -validity 10000 \
+# Generate release keystore (PKCS12 format - modern default)
+keytool -genkey -v -keystore release-keystore.keystore \
+        -keyalg RSA -keysize 4096 -validity 10000 \
         -alias edulift-mobile
 
 # Store keystore securely (not in repository)
 # Add to CI/CD secrets as base64 encoded string
 ```
 
+> **Note**: Modern keystores use PKCS12 format (Java 9+ default) with a single password for both keystore and key entry. When prompted for the key password, press Enter to use the same as the keystore password.
+
 ### Android Configuration
 ```properties
 # android/key.properties (add to .gitignore)
 storePassword=your_store_password
-keyPassword=your_key_password
 keyAlias=edulift-mobile
-storeFile=release-keystore.jks
+storeFile=release-keystore.keystore
 ```
+
+> **Note**: For PKCS12 keystores, `keyPassword` is not required as it matches `storePassword`. Legacy JKS keystores may require a separate `keyPassword` if different from `storePassword`.
 
 ```gradle
 // android/app/build.gradle

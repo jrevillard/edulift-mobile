@@ -4,6 +4,7 @@
 
 ### 1. Production Keystore Generated
 - **Location**: `/workspace/mobile_app/android/release.keystore`
+- **Format**: PKCS12 (modern default since Java 9)
 - **Algorithm**: RSA 2048-bit
 - **Validity**: 10,000 days (until 2053)
 - **Certificate Details**:
@@ -13,8 +14,9 @@
 
 ### 2. Key Properties File Created
 - **Location**: `/workspace/mobile_app/android/key.properties`
-- **Contains**: Store password, key password, alias, and keystore path
+- **Contains**: Store password, alias, and keystore path
 - **Security**: Contains production credentials - keep secure!
+- **Note**: PKCS12 keystores use the same password for both keystore and key entry
 
 ### 3. Build Configuration Updated
 - **File**: `/workspace/mobile_app/android/app/build.gradle`
@@ -78,15 +80,19 @@ flutter build appbundle --release
 1. **Environment Variables**: For CI/CD, use environment variables for credentials:
    ```bash
    export EDULIFT_STORE_PASSWORD="your_store_password"
-   export EDULIFT_KEY_PASSWORD="your_key_password"
+   # KEY_PASSWORD not required for PKCS12 keystores (uses same as STORE_PASSWORD)
    ```
 
 2. **key.properties for CI/CD**:
    ```properties
    storePassword=${EDULIFT_STORE_PASSWORD}
-   keyPassword=${EDULIFT_KEY_PASSWORD}
    keyAlias=release
    storeFile=../release.keystore
+   ```
+
+> **Note**: For PKCS12 keystores (Java 9+ default), `keyPassword` is not required. If you have a legacy JKS keystore with a different key password, add:
+   ```properties
+   keyPassword=${EDULIFT_KEY_PASSWORD}
    ```
 
 ### Certificate Fingerprints
@@ -122,6 +128,7 @@ If Gradle issues persist, consider:
 3. **Use environment variables or secure secret management for production**
 4. **Backup the keystore file securely - losing it means you cannot update your app**
 5. **The certificate is valid until 2053 - ensure proper key management**
+6. **PKCS12 keystores (default) use a single password - simplifies security management**
 
 ---
 

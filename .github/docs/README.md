@@ -51,18 +51,19 @@ Complete documentation for Android and iOS continuous integration and deployment
 
 ## 🔐 Secrets Summary
 
-### Required Secrets (8 total)
+### Required Secrets
 
-| Secret | Location | Format | Document |
-|--------|----------|--------|----------|
-| `ANDROID_KEYSTORE` | GitHub | Base64 | [Guide](ANDROID_KEYSTORE_GUIDE.md) |
-| `KEYSTORE_PASSWORD` | GitHub | Plain text | [Guide](ANDROID_KEYSTORE_GUIDE.md) |
-| `KEY_PASSWORD` | GitHub | Plain text | [Guide](ANDROID_KEYSTORE_GUIDE.md) |
-| `KEY_ALIAS` | GitHub | Plain text | [Guide](ANDROID_KEYSTORE_GUIDE.md) |
-| `FIREBASE_SERVICE_ACCOUNT_STAGING` | GitHub + Codemagic | Raw JSON | [Config](SECRETS_CONFIGURATION.md) |
-| `FIREBASE_SERVICE_ACCOUNT_PROD` | GitHub + Codemagic | Raw JSON | [Config](SECRETS_CONFIGURATION.md) |
-| `FIREBASE_GROUPS_STAGING` | GitHub (optional) | Plain text | [Config](SECRETS_CONFIGURATION.md) |
-| `FIREBASE_GROUPS_PROD` | GitHub (optional) | Plain text | [Config](SECRETS_CONFIGURATION.md) |
+| Secret | Location | Format | Document | Required |
+|--------|----------|--------|----------|----------|
+| `ANDROID_KEYSTORE` | GitHub | Base64 | [Guide](ANDROID_KEYSTORE_GUIDE.md) | ✅ Yes |
+| `KEYSTORE_PASSWORD` | GitHub | Plain text | [Guide](ANDROID_KEYSTORE_GUIDE.md) | ✅ Yes |
+| `KEY_ALIAS` | GitHub | Plain text | [Guide](ANDROID_KEYSTORE_GUIDE.md) | ✅ Yes |
+| `FIREBASE_SERVICE_ACCOUNT_STAGING` | GitHub + Codemagic | Raw JSON | [Config](SECRETS_CONFIGURATION.md) | ✅ Yes |
+| `FIREBASE_SERVICE_ACCOUNT_PROD` | GitHub + Codemagic | Raw JSON | [Config](SECRETS_CONFIGURATION.md) | ✅ Yes |
+| `FIREBASE_GROUPS_STAGING` | GitHub | Plain text | [Config](SECRETS_CONFIGURATION.md) | ⚪ Optional |
+| `FIREBASE_GROUPS_PROD` | GitHub | Plain text | [Config](SECRETS_CONFIGURATION.md) | ⚪ Optional |
+
+> **Note**: `KEY_PASSWORD` is **deprecated** for modern PKCS12 keystores (Java 9+ default). The CI/CD workflow automatically uses `KEYSTORE_PASSWORD` for both the keystore and key entry. Only needed for legacy JKS keystores with different key passwords.
 
 ---
 

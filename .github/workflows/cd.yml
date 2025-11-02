@@ -79,17 +79,15 @@ jobs:
         env:
           ANDROID_KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE }}
           KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
-          KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
           KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
         run: |
           echo "$ANDROID_KEYSTORE_BASE64" | base64 -d > android/app/release.keystore
           chmod 600 android/app/release.keystore
-          cat > android/key.properties << 'EOF'
-storePassword=${{ env.KEYSTORE_PASSWORD }}
-keyPassword=${{ env.KEY_PASSWORD }}
-keyAlias=${{ env.KEY_ALIAS }}
-storeFile=release.keystore
-EOF
+          # PKCS12 keystores use the same password for store and key
+          printf "storePassword=%s\n" "$KEYSTORE_PASSWORD" > android/key.properties
+          printf "keyPassword=%s\n" "$KEYSTORE_PASSWORD" >> android/key.properties
+          printf "keyAlias=%s\n" "$KEY_ALIAS" >> android/key.properties
+          printf "storeFile=%s\n" "release.keystore" >> android/key.properties
       
       - name: Build Android APK (debug)
         if: env.BUILD_TYPE == 'debug'

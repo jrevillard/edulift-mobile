@@ -65,13 +65,15 @@ keytool -genkey -v -keystore ~/edulift-release.keystore \
 
 The command will prompt you for:
 1. **Keystore password** (choose a strong password, min 12 characters)
-2. **Key password** (can be the same as keystore password)
+2. **Key password** (press Enter to use the same as keystore password - recommended for PKCS12)
 3. **Your name**: `EduLift Development Team`
 4. **Organizational unit**: `Mobile Development`
 5. **Organization**: `EduLift`
 6. **City**: `Your City`
 7. **State/Province**: `Your State`
 8. **Country code**: `US` (or your country code)
+
+> **Note**: Since Java 9+, keystores are created in PKCS12 format by default, which uses the same password for both the keystore and the key entry. When prompted for the key password, simply press Enter to use the same password as the keystore.
 
 #### Option 2: Non-Interactive Mode (Automated)
 
@@ -82,14 +84,15 @@ keytool -genkey -v -keystore ~/edulift-release.keystore \
   -keysize 4096 \
   -validity 10000 \
   -storepass YOUR_KEYSTORE_PASSWORD \
-  -keypass YOUR_KEY_PASSWORD \
+  -keypass YOUR_KEYSTORE_PASSWORD \
   -dname "CN=EduLift Development Team, OU=Mobile Development, O=EduLift, L=Your City, ST=Your State, C=US"
 ```
 
 **Replace**:
-- `YOUR_KEYSTORE_PASSWORD`: Your chosen keystore password
-- `YOUR_KEY_PASSWORD`: Your chosen key password (can match keystore password)
+- `YOUR_KEYSTORE_PASSWORD`: Your chosen keystore password (used for both keystore and key)
 - Location details as appropriate
+
+> **Note**: For PKCS12 keystores (default since Java 9), `-keypass` should match `-storepass`. The example above uses the same password for both parameters.
 
 ### Parameters Explained
 
@@ -101,15 +104,16 @@ keytool -genkey -v -keystore ~/edulift-release.keystore \
 | `-keysize` | Key length | `4096` (recommended) |
 | `-validity` | Valid days | `10000` (~27 years) |
 | `-storepass` | Keystore password | Strong password |
-| `-keypass` | Key password | Strong password (can match storepass) |
+| `-keypass` | Key password | Same as storepass for PKCS12 (default) |
 
 ### ✅ Success
 
 After execution, you should have:
-- File: `~/edulift-release.keystore`
+- File: `~/edulift-release.keystore` (PKCS12 format)
 - Keystore password (recorded securely)
-- Key password (recorded securely)
 - Key alias: `edulift-release`
+
+> **Note**: Modern PKCS12 keystores (Java 9+ default) use a single password for both the keystore and key entry, simplifying password management.
 
 ---
 
@@ -190,8 +194,9 @@ From the output above, note:
 |---------------|-------|---------------|
 | `ANDROID_KEYSTORE` | Base64 content | `cat ~/keystore.base64` |
 | `KEYSTORE_PASSWORD` | Your password | What you entered during creation |
-| `KEY_PASSWORD` | Your password | What you entered during creation |
 | `KEY_ALIAS` | `edulift-release` | "Alias name" in keystore listing |
+
+> **Note**: `KEY_PASSWORD` is **not required** for PKCS12 keystores. The CI/CD workflow automatically uses `KEYSTORE_PASSWORD` for both keystore and key access.
 
 ---
 
@@ -219,13 +224,7 @@ Name: KEYSTORE_PASSWORD
 Value: [Your keystore password]
 ```
 
-#### Secret 3: KEY_PASSWORD
-```
-Name: KEY_PASSWORD
-Value: [Your key password]
-```
-
-#### Secret 4: KEY_ALIAS
+#### Secret 3: KEY_ALIAS
 ```
 Name: KEY_ALIAS
 Value: edulift-release
@@ -233,7 +232,9 @@ Value: edulift-release
 
 ### ✅ Verification
 
-After adding all secrets, you should have 4 new repository secrets configured.
+After adding all secrets, you should have 3 new repository secrets configured.
+
+> **Note**: `KEY_PASSWORD` is **deprecated** for PKCS12 keystores (Java 9+ default). The CI/CD workflow automatically uses `KEYSTORE_PASSWORD` for both the keystore and key entry. Legacy JKS keystores may require a separate `KEY_PASSWORD` secret if different from `KEYSTORE_PASSWORD`.
 
 ---
 
@@ -258,13 +259,12 @@ flutter build apk --release \
   --flavor production \
   --dart-define-from-file=config/production.json
 
-# Sign the APK
+# Sign the APK (PKCS12 keystore)
 jarsigner -verbose \
   -sigalg SHA256withRSA \
   -digestalg SHA-256 \
   -keystore ~/edulift-release.keystore \
   -storepass YOUR_KEYSTORE_PASSWORD \
-  -keypass YOUR_KEY_PASSWORD \
   build/app/outputs/flutter-apk/app-production-release.apk \
   edulift-release
 
@@ -274,6 +274,8 @@ jarsigner -verify -verbose -certs \
 ```
 
 **Expected output**: `jar verified.`
+
+> **Note**: For PKCS12 keystores, the `-keypass` parameter is not needed. If you have a legacy JKS keystore with a different key password, add `-keypass YOUR_KEY_PASSWORD` to the jarsigner command.
 
 ### Test 3: CI/CD Build
 
@@ -294,12 +296,13 @@ Check GitHub Actions to ensure Android build succeeds.
 ✅ **DO**:
 - Use strong passwords (12+ characters, mixed case, numbers, symbols)
 - Store passwords in a team password manager (1Password, Bitwarden, etc.)
-- Use different passwords for keystore and key (optional but recommended)
+- Use the same password for keystore and key with PKCS12 (modern default)
 
 ❌ **DON'T**:
 - Use simple passwords (`password123`, `edulift`, etc.)
 - Share passwords via email or chat
 - Commit passwords to repository
+- Use different passwords for keystore and key with PKCS12 (not supported)
 
 ### Keystore Backup Strategy
 
@@ -329,9 +332,9 @@ Upload the encrypted archive to:
 
 Store in a team password manager entry:
 - Keystore file location
-- Keystore password
-- Key password
+- Keystore password (also used as key password for PKCS12)
 - Key alias
+- Keystore format (PKCS12 or JKS)
 - Creation date
 - Expiration date (27 years from creation)
 
@@ -415,8 +418,9 @@ keytool -genkey -v -keystore ~/edulift-release.keystore ...
 
 **Possible causes**:
 1. `KEY_ALIAS` doesn't match keystore
-2. Passwords are incorrect
+2. `KEYSTORE_PASSWORD` is incorrect
 3. Keystore file corrupted
+4. Legacy JKS keystore with different key password (add `KEY_PASSWORD` secret if needed)
 
 **Solutions**:
 ```bash
@@ -426,7 +430,11 @@ keytool -list -keystore ~/edulift-release.keystore
 # Check if alias matches
 # Should see: "Alias name: edulift-release"
 
-# If different, update KEY_ALIAS secret in GitHub
+# Check keystore type
+# Should see: "Keystore type: PKCS12" (modern) or "JKS" (legacy)
+
+# If alias is different, update KEY_ALIAS secret in GitHub
+# If JKS format with different key password, add KEY_PASSWORD secret
 ```
 
 ---
@@ -463,12 +471,12 @@ If you *must* change it (e.g., compromised):
 
 Before moving to production:
 
-- [ ] Keystore created with 4096-bit key
+- [ ] Keystore created with 4096-bit key in PKCS12 format
 - [ ] Keystore validity: 10000 days (~27 years)
-- [ ] Passwords are strong (12+ characters)
-- [ ] Passwords stored in team password manager
+- [ ] Password is strong (12+ characters)
+- [ ] Password stored in team password manager
 - [ ] Keystore encoded to base64
-- [ ] All 4 GitHub Secrets configured
+- [ ] All 3 required GitHub Secrets configured (ANDROID_KEYSTORE, KEYSTORE_PASSWORD, KEY_ALIAS)
 - [ ] Keystore backed up (encrypted, multiple locations)
 - [ ] Test build succeeded in CI/CD
 - [ ] Team knows where backups are stored
@@ -479,11 +487,13 @@ Before moving to production:
 | Item | Value | Location |
 |------|-------|----------|
 | Keystore file | `edulift-release.keystore` | Backed up securely |
+| Keystore format | `PKCS12` | Default since Java 9 |
 | Keystore password | `***************` | Team password manager |
-| Key password | `***************` | Team password manager |
 | Key alias | `edulift-release` | GitHub Secret + docs |
 | Base64 encoding | `MIIKXAIBAz...` | GitHub Secret |
 | Validity | 27 years | Created 2025, expires ~2052 |
+
+> **Note**: PKCS12 keystores use the same password for both keystore and key entry, so only one password needs to be managed.
 
 ---
 
