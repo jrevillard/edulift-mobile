@@ -53,7 +53,7 @@ jobs:
       # Centralized build type logic - tags always build release, manual dispatch uses input, push defaults to debug
       BUILD_TYPE: ${{ (startsWith(github.ref, 'refs/tags/') && 'release') || github.event.inputs.build_type || 'debug' }}
       # Centralized flavor logic - simplified and maintainable
-      FLAVOR: ${{ (github.event.inputs.platform == 'android-fast' && 'development') || (github.ref == 'refs/heads/main' && github.event_name == 'push' && 'development') || (startsWith(github.ref, 'refs/tags/v') && (contains(github.ref, '-rc.') || contains(github.ref, '-beta.') || contains(github.ref, '-alpha.')) && 'staging') || (startsWith(github.ref, 'refs/tags/v') && 'production') || 'development' }}
+      FLAVOR: ${{ (github.event.inputs.platform == 'android-fast' && 'development') || (github.ref == 'refs/heads/main' && github.event_name == 'push' && 'development') || (startsWith(github.ref, 'refs/tags/v') && (contains(github.ref, '-rc') || contains(github.ref, '-beta') || contains(github.ref, '-alpha')) && 'staging') || (startsWith(github.ref, 'refs/tags/v') && 'production') || 'development' }}
 
     steps:
       - name: Checkout code
@@ -128,7 +128,7 @@ jobs:
       # Centralized build type logic - same as Android job
       BUILD_TYPE: ${{ (startsWith(github.ref, 'refs/tags/') && 'release') || github.event.inputs.build_type || 'debug' }}
       # Centralized flavor logic - platform-agnostic (no android-fast for iOS)
-      FLAVOR: ${{ (github.ref == 'refs/heads/main' && github.event_name == 'push' && 'development') || (startsWith(github.ref, 'refs/tags/v') && (contains(github.ref, '-rc.') || contains(github.ref, '-beta.') || contains(github.ref, '-alpha.')) && 'staging') || (startsWith(github.ref, 'refs/tags/v') && 'production') || 'development' }}
+      FLAVOR: ${{ (github.ref == 'refs/heads/main' && github.event_name == 'push' && 'development') || (startsWith(github.ref, 'refs/tags/v') && (contains(github.ref, '-rc') || contains(github.ref, '-beta') || contains(github.ref, '-alpha')) && 'staging') || (startsWith(github.ref, 'refs/tags/v') && 'production') || 'development' }}
     
     steps:
       - name: Checkout code
@@ -282,7 +282,7 @@ jobs:
     name: Firebase App Distribution (Staging Release)
     runs-on: ubuntu-latest
     needs: [build-android]
-    if: startsWith(github.ref, 'refs/tags/v') && (contains(github.ref, '-rc.') || contains(github.ref, '-beta.') || contains(github.ref, '-alpha.'))
+    if: startsWith(github.ref, 'refs/tags/v') && (contains(github.ref, '-rc') || contains(github.ref, '-beta') || contains(github.ref, '-alpha'))
     timeout-minutes: 15
 
     steps:
@@ -330,7 +330,7 @@ jobs:
     name: Firebase App Distribution (Production)
     runs-on: ubuntu-latest
     needs: [build-android]
-    if: startsWith(github.ref, 'refs/tags/v') && !(contains(github.ref, '-rc.') || contains(github.ref, '-beta.') || contains(github.ref, '-alpha.'))
+    if: startsWith(github.ref, 'refs/tags/v') && !(contains(github.ref, '-rc') || contains(github.ref, '-beta') || contains(github.ref, '-alpha'))
     timeout-minutes: 15
 
     steps:
