@@ -298,9 +298,13 @@ jobs:
       - name: Verify AAB exists
         id: verify-aab
         run: |
-          if ls build_artifacts/build/app/outputs/bundle/**/*.aab 1> /dev/null 2>&1; then
+          echo "📂 Listing downloaded artifacts structure:"
+          find build_artifacts -type f -name "*.aab" || echo "No AAB files found"
+          echo ""
+          if find build_artifacts -type f -name "*.aab" | grep -q .; then
+            AAB_PATH=$(find build_artifacts -type f -name "*.aab" | head -n 1)
             echo "aab_found=true" >> $GITHUB_OUTPUT
-            echo "✅ AAB found: $(ls build_artifacts/build/app/outputs/bundle/**/*.aab)"
+            echo "✅ AAB found: $AAB_PATH"
           else
             echo "aab_found=false" >> $GITHUB_OUTPUT
             echo "❌ No AAB found in artifacts"
@@ -314,7 +318,7 @@ jobs:
 
       - name: Distribute Android AAB to Firebase
         run: |
-          AAB_FILE=$(ls build_artifacts/build/app/outputs/bundle/**/*.aab | head -n 1)
+          AAB_FILE=$(find build_artifacts -type f -name "*.aab" | head -n 1)
           echo "Distributing STAGING AAB: $AAB_FILE"
           firebase appdistribution:distribute "$AAB_FILE" \
             --app 1:390712570284:android:343eb2935d6000fe054a09 \
@@ -342,9 +346,13 @@ jobs:
       - name: Verify AAB exists
         id: verify-aab
         run: |
-          if ls build_artifacts/build/app/outputs/bundle/**/*.aab 1> /dev/null 2>&1; then
+          echo "📂 Listing downloaded artifacts structure:"
+          find build_artifacts -type f -name "*.aab" || echo "No AAB files found"
+          echo ""
+          if find build_artifacts -type f -name "*.aab" | grep -q .; then
+            AAB_PATH=$(find build_artifacts -type f -name "*.aab" | head -n 1)
             echo "aab_found=true" >> $GITHUB_OUTPUT
-            echo "✅ AAB found: $(ls build_artifacts/build/app/outputs/bundle/**/*.aab)"
+            echo "✅ AAB found: $AAB_PATH"
           else
             echo "aab_found=false" >> $GITHUB_OUTPUT
             echo "❌ No AAB found in artifacts"
