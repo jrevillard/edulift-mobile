@@ -43,6 +43,17 @@ jobs:
           flutter-version: ${{ env.FLUTTER_VERSION }}
           java-version: ${{ env.JAVA_VERSION }}
 
+      - name: Cache Gradle dependencies
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+            android/.gradle
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+
       - name: 🎯 Check Versions (Debug)
         run: |
           echo "--- Flutter Version ---"
@@ -113,6 +124,17 @@ jobs:
         with:
           flutter-version: ${{ env.FLUTTER_VERSION }}
           java-version: ${{ env.JAVA_VERSION }}
+
+      - name: Cache Gradle dependencies
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+            android/.gradle
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
 
       - name: Run code generation
         run: flutter packages pub run build_runner build --delete-conflicting-outputs
