@@ -12,6 +12,7 @@ import '../errors/failures.dart';
 import '../network/api_response_helper.dart';
 import '../network/network_info.dart';
 import '../network/models/common/api_response_wrapper.dart';
+import '../config/feature_flags.dart';
 
 /// Cache strategy patterns for repository operations
 ///
@@ -642,8 +643,8 @@ class NetworkErrorHandler {
     Map<String, dynamic>? context,
   ) async {
     try {
-      // Only report in release mode
-      if (!const bool.fromEnvironment('dart.vm.product')) {
+      // Only report when crash reporting is enabled
+      if (!FeatureFlags.crashReporting) {
         return;
       }
 

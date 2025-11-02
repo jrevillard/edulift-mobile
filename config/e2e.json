@@ -9,5 +9,6 @@
   "RECEIVE_TIMEOUT_SECONDS": 8,
   "SEND_TIMEOUT_SECONDS": 5,
   "DEBUG_ENABLED": true,
+  "LOG_LEVEL": "debug",
   "FIREBASE_ENABLED": false
 }

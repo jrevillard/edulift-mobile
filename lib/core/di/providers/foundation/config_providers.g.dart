@@ -135,23 +135,6 @@ final sendTimeoutProvider = Provider<Duration>.internal(
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
 typedef SendTimeoutRef = ProviderRef<Duration>;
-String _$debugEnabledHash() => r'67e1757adaff436d4faaf3453be092f05d0c54b6';
-
-/// See also [debugEnabled].
-@ProviderFor(debugEnabled)
-final debugEnabledProvider = Provider<bool>.internal(
-  debugEnabled,
-  name: r'debugEnabledProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$debugEnabledHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
-
-@Deprecated('Will be removed in 3.0. Use Ref instead')
-// ignore: unused_element
-typedef DebugEnabledRef = ProviderRef<bool>;
 String _$firebaseEnabledHash() => r'9cef6884d108a281d513591b4ae87f56353cd135';
 
 /// See also [firebaseEnabled].

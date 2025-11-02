@@ -63,12 +63,6 @@ Duration sendTimeout(Ref ref) {
 }
 
 @Riverpod(keepAlive: true)
-bool debugEnabled(Ref ref) {
-  final config = ref.watch(appConfigProvider);
-  return config.debugEnabled;
-}
-
-@Riverpod(keepAlive: true)
 bool firebaseEnabled(Ref ref) {
   final config = ref.watch(appConfigProvider);
   return config.firebaseEnabled;

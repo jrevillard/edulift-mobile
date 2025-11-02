@@ -333,6 +333,14 @@ class AuthNotifier extends StateNotifier<AuthState> {
     String? name,
     String? inviteCode,
   }) async {
+    // ANTI-RECURSION: Prevent infinite recursion
+    if (state.isLoading) {
+      AppLogger.warning(
+        '🚨 sendMagicLink called while already loading - ignoring to prevent recursion',
+      );
+      return;
+    }
+
     // CRITICAL: Cancel any pending operation before starting new one
     await _pendingSendMagicLinkOperation?.cancel();
     try {

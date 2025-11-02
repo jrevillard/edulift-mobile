@@ -3,16 +3,10 @@ import java.util.Properties
 plugins {
     id("com.android.application")
     id("kotlin-android")
+    id("com.google.gms.google-services")
+    id("com.google.firebase.crashlytics")
     // The Flutter Gradle Plugin must be applied after the Android and Kotlin Gradle plugins.
     id("dev.flutter.flutter-gradle-plugin")
-}
-
-// Apply Google Services only for staging and production flavors
-val taskName = gradle.startParameter.taskNames.joinToString()
-val needsFirebase = taskName.contains("Staging") || taskName.contains("Production")
-if (needsFirebase) {
-    apply(plugin = "com.google.gms.google-services")
-    apply(plugin = "com.google.firebase.crashlytics")
 }
 
 val keystoreProperties = Properties()
@@ -126,18 +120,11 @@ dependencies {
     // Core library desugaring for modern Java features
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.0.4")
     
-    // Firebase dependencies - only for staging and production
-    if (needsFirebase) {
-        // Firebase BoM - manages all Firebase library versions
-        implementation(platform("com.google.firebase:firebase-bom:33.5.1"))
-        
-        // Firebase Crashlytics and Analytics
-        implementation("com.google.firebase:firebase-crashlytics-ktx")
-        implementation("com.google.firebase:firebase-analytics-ktx")
-        
-        // Core Google Services
-        implementation("com.google.android.gms:play-services-base:18.5.0")
-    }
+    // Firebase dependencies - available for all flavors (controlled by FeatureFlags)
+    implementation(platform("com.google.firebase:firebase-bom:33.5.1"))
+    implementation("com.google.firebase:firebase-crashlytics-ktx")
+    implementation("com.google.firebase:firebase-analytics-ktx")
+    implementation("com.google.android.gms:play-services-base:18.5.0")
     
     // AndroidTest dependencies - Required for test orchestrator
     androidTestImplementation("androidx.test:core:1.5.0")

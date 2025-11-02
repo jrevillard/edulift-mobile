@@ -2,6 +2,7 @@
 // Provides network override functions for golden tests to prevent real network calls
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:logger/logger.dart';
 import 'package:edulift/core/di/providers/foundation/config_providers.dart';
 import 'package:edulift/core/config/base_config.dart';
 
@@ -31,7 +32,10 @@ class _MockGoldenTestConfig implements BaseConfig {
   Duration get sendTimeout => const Duration(seconds: 30);
 
   @override
-  bool get debugEnabled => false; // Disable debug logging in tests
+  String get logLevel => 'error'; // Minimal logging in tests
+
+  @override
+  Level get loggerLogLevel => Level.error; // Only errors in tests
 
   @override
   String get appName => 'EduLift Test';
@@ -57,7 +61,7 @@ class _MockGoldenTestConfig implements BaseConfig {
     'appName': appName,
     'apiBaseUrl': apiBaseUrl,
     'websocketUrl': websocketUrl,
-    'debugEnabled': debugEnabled,
+    'logLevel': logLevel,
     'firebaseEnabled': firebaseEnabled,
   };
 }

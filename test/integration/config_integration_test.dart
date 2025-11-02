@@ -23,7 +23,7 @@ void main() {
       print('🔗 API Base URL: ${config.apiBaseUrl}');
       print('🌐 WebSocket URL: ${config.websocketUrl}');
       print('🔥 Firebase Enabled: ${config.firebaseEnabled}');
-      print('🐛 Debug Enabled: ${config.debugEnabled}');
+      print('📊 Log Level: ${config.logLevel}');
 
       if (config is E2EConfig) {
         print('📧 Mailpit Web: ${config.mailpitWebUrl}');
@@ -37,17 +37,19 @@ void main() {
 
       print('🚀 Feature Flags for ${config.environmentName}:');
       print('   🔥 Firebase: ${FeatureFlags.firebaseEnabled}');
-      print('   📝 Verbose Logging: ${FeatureFlags.verboseLogging}');
       print('   🐛 Debug Mode: ${FeatureFlags.debugMode}');
       print('   🌐 Network Logging: ${FeatureFlags.networkLogging}');
       print('   ⏱️  Extended Timeouts: ${FeatureFlags.useExtendedTimeouts}');
+      print(
+        '   📊 Log Level: ${config.logLevel} (${config.loggerLogLevel.name})',
+      );
 
       // Verify feature flags make sense for the environment
       expect(FeatureFlags.firebaseEnabled, equals(config.firebaseEnabled));
 
       if (config.environmentName == 'e2e') {
         expect(FeatureFlags.useExtendedTimeouts, isTrue);
-        expect(FeatureFlags.verboseLogging, isTrue);
+        expect(config.logLevel, equals('debug'));
         expect(FeatureFlags.firebaseEnabled, isFalse);
       }
 

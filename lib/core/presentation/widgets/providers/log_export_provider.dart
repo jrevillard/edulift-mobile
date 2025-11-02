@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:flutter/services.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart' as p;
@@ -154,6 +155,10 @@ class LogExportNotifier extends AsyncNotifier<LogExportState> {
         (l) => l.name.toLowerCase() == levelName.toLowerCase(),
       );
       await LogConfig.setLogLevel(level);
+
+      // CRITICAL FIX: Update AppLogger immediately to apply user preference
+      AppLogger.updateLogLevel(level);
+
       AppLogger.info('Log level changed to: ${level.name}');
     } catch (e) {
       AppLogger.error('Failed to set log level: $levelName', e);
@@ -299,6 +304,15 @@ final logExportProvider =
     );
 
 final currentLogLevelProvider = FutureProvider<String>((ref) async {
-  final level = await LogConfig.getLogLevel();
-  return level.name.toUpperCase();
+  // PRIORITÉ 1: Configuration utilisateur (SharedPreferences)
+  // PRIORITÉ 2: Configuration JSON (EnvironmentConfig)
+  // PRIORITÉ 3: Variables d'environnement directes
+  // PRIORITÉ 4: Fallback kDebugMode
+  try {
+    final currentLevel = await AppLogger.currentLogLevel;
+    return currentLevel.name.toUpperCase();
+  } catch (e) {
+    // Fallback direct en cas d'erreur
+    return kDebugMode ? 'DEBUG' : 'WARNING';
+  }
 });

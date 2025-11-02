@@ -5,6 +5,7 @@
 // Configuration values are loaded from --dart-define-from-file at build time
 // Fallback defaults are provided for development convenience
 
+import 'package:logger/logger.dart';
 import 'base_config.dart';
 
 /// Development environment configuration
@@ -53,8 +54,28 @@ class DevelopmentConfig implements BaseConfig {
   );
 
   @override
-  bool get debugEnabled =>
-      const bool.fromEnvironment('DEBUG_ENABLED', defaultValue: true);
+  String get logLevel =>
+      const String.fromEnvironment('LOG_LEVEL', defaultValue: 'debug');
+
+  @override
+  Level get loggerLogLevel {
+    switch (logLevel.toLowerCase()) {
+      case 'trace':
+        return Level.trace;
+      case 'debug':
+        return Level.debug;
+      case 'info':
+        return Level.info;
+      case 'warning':
+        return Level.warning;
+      case 'error':
+        return Level.error;
+      case 'fatal':
+        return Level.fatal;
+      default:
+        return Level.debug; // Default to debug for development
+    }
+  }
 
   @override
   String get appName =>
@@ -102,7 +123,7 @@ class DevelopmentConfig implements BaseConfig {
     'websocketUrl': websocketUrl,
     'mailpitWebUrl': mailpitWebUrl,
     'mailpitApiUrl': mailpitApiUrl,
-    'debugEnabled': debugEnabled,
+    'logLevel': logLevel,
     'firebaseEnabled': firebaseEnabled,
     'connectTimeout': connectTimeout.inSeconds,
     'receiveTimeout': receiveTimeout.inSeconds,
@@ -155,8 +176,28 @@ class StagingConfig implements BaseConfig {
   );
 
   @override
-  bool get debugEnabled =>
-      const bool.fromEnvironment('DEBUG_ENABLED', defaultValue: true);
+  String get logLevel =>
+      const String.fromEnvironment('LOG_LEVEL', defaultValue: 'info');
+
+  @override
+  Level get loggerLogLevel {
+    switch (logLevel.toLowerCase()) {
+      case 'trace':
+        return Level.trace;
+      case 'debug':
+        return Level.debug;
+      case 'info':
+        return Level.info;
+      case 'warning':
+        return Level.warning;
+      case 'error':
+        return Level.error;
+      case 'fatal':
+        return Level.fatal;
+      default:
+        return Level.info; // Default to info for staging
+    }
+  }
 
   @override
   String get appName =>
@@ -198,7 +239,7 @@ class StagingConfig implements BaseConfig {
     'appName': appName,
     'apiBaseUrl': apiBaseUrl,
     'websocketUrl': websocketUrl,
-    'debugEnabled': debugEnabled,
+    'logLevel': logLevel,
     'firebaseEnabled': firebaseEnabled,
     'connectTimeout': connectTimeout.inSeconds,
     'receiveTimeout': receiveTimeout.inSeconds,
@@ -252,8 +293,28 @@ class E2EConfig implements BaseConfig {
   );
 
   @override
-  bool get debugEnabled =>
-      const bool.fromEnvironment('DEBUG_ENABLED', defaultValue: true);
+  String get logLevel =>
+      const String.fromEnvironment('LOG_LEVEL', defaultValue: 'debug');
+
+  @override
+  Level get loggerLogLevel {
+    switch (logLevel.toLowerCase()) {
+      case 'trace':
+        return Level.trace;
+      case 'debug':
+        return Level.debug;
+      case 'info':
+        return Level.info;
+      case 'warning':
+        return Level.warning;
+      case 'error':
+        return Level.error;
+      case 'fatal':
+        return Level.fatal;
+      default:
+        return Level.debug; // Default to debug for E2E testing
+    }
+  }
 
   @override
   String get appName =>
@@ -299,7 +360,7 @@ class E2EConfig implements BaseConfig {
     'websocketUrl': websocketUrl,
     'mailpitWebUrl': mailpitWebUrl,
     'mailpitApiUrl': mailpitApiUrl,
-    'debugEnabled': debugEnabled,
+    'logLevel': logLevel,
     'firebaseEnabled': firebaseEnabled,
     'connectTimeout': connectTimeout.inSeconds,
     'receiveTimeout': receiveTimeout.inSeconds,
@@ -353,7 +414,28 @@ class ProductionConfig implements BaseConfig {
   );
 
   @override
-  bool get debugEnabled => const bool.fromEnvironment('DEBUG_ENABLED');
+  String get logLevel =>
+      const String.fromEnvironment('LOG_LEVEL', defaultValue: 'warning');
+
+  @override
+  Level get loggerLogLevel {
+    switch (logLevel.toLowerCase()) {
+      case 'trace':
+        return Level.trace;
+      case 'debug':
+        return Level.debug;
+      case 'info':
+        return Level.info;
+      case 'warning':
+        return Level.warning;
+      case 'error':
+        return Level.error;
+      case 'fatal':
+        return Level.fatal;
+      default:
+        return Level.warning; // Default to warning for production
+    }
+  }
 
   @override
   String get appName =>
@@ -397,7 +479,7 @@ class ProductionConfig implements BaseConfig {
     'appName': appName,
     'apiBaseUrl': apiBaseUrl,
     'websocketUrl': websocketUrl,
-    'debugEnabled': debugEnabled,
+    'logLevel': logLevel,
     'firebaseEnabled': firebaseEnabled,
     'connectTimeout': connectTimeout.inSeconds,
     'receiveTimeout': receiveTimeout.inSeconds,

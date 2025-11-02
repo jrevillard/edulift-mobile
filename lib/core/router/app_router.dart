@@ -131,11 +131,11 @@ class AppRouter {
       // ARCHITECTURE FIX: Only refresh router on STRUCTURAL changes (auth, user, family, magic link)
       // REMOVED: postLogoutTargetRouteProvider check - using direct navigation now
       // CLEAN ARCHITECTURE: Remove familyId comparison - family changes handled via FamilyProvider
+      // CRITICAL FIX: Don't refresh on loading state changes to prevent infinite recursion
       if (previous?.isAuthenticated != next.isAuthenticated ||
           previous?.isInitialized != next.isInitialized ||
           previous?.user?.id != next.user?.id ||
-          previous?.pendingEmail != next.pendingEmail ||
-          previous?.isLoading != next.isLoading) {
+          previous?.pendingEmail != next.pendingEmail) {
         core_logger.AppLogger.info(
           '🔄 [Router Refresh] ✅ TRIGGERING ROUTER REFRESH ✅\n'
           '   - Was authenticated: ${previous?.isAuthenticated} -> Now authenticated: ${next.isAuthenticated}\n'
@@ -143,8 +143,8 @@ class AppRouter {
           '   - User ID: ${previous?.user?.id} -> ${next.user?.id}\n'
           '   - Family: [tracked via FamilyProvider, not User entity]\n'
           '   - Pending Email: ${previous?.pendingEmail} -> ${next.pendingEmail}\n'
-          '   - Loading state: ${previous?.isLoading} -> ${next.isLoading}\n'
-          '   - Hash Code: ${previous?.hashCode} -> ${next.hashCode}',
+          '   - Hash Code: ${previous?.hashCode} -> ${next.hashCode}\n'
+          '   - ⚠️ Loading state changes ignored to prevent recursion',
         );
         // Increment to notify GoRouter to refresh routes
         _refreshListenable.value++;

@@ -284,13 +284,46 @@ class _LoginPageState extends ConsumerState<LoginPage>
     final email = _emailController.text.trim();
     final name = _nameController.text.trim();
     final authState = ref.read(authStateProvider);
+
+    AppLogger.info('🔍 LOGIN_DEBUG: Starting magic link send process');
+    AppLogger.info('🔍 LOGIN_DEBUG: Email: $email');
+    AppLogger.info(
+      '🔍 LOGIN_DEBUG: Name field visible: ${authState.showNameField}',
+    );
+    if (authState.showNameField) {
+      AppLogger.info('🔍 LOGIN_DEBUG: Name: $name');
+    }
+
     // Use error-based approach like frontend:
     // Try to send magic link, if error says "Name is required", show name field
     final nameToSend = authState.showNameField ? name : null;
 
-    await ref
-        .read(authStateProvider.notifier)
-        .sendMagicLink(email, name: nameToSend);
+    try {
+      final startTime = DateTime.now();
+      AppLogger.info(
+        '🔍 LOGIN_DEBUG: Calling sendMagicLink at ${startTime.millisecondsSinceEpoch}ms',
+      );
+
+      await ref
+          .read(authStateProvider.notifier)
+          .sendMagicLink(email, name: nameToSend);
+
+      final endTime = DateTime.now();
+      final duration = endTime.difference(startTime);
+      AppLogger.info(
+        '🔍 LOGIN_DEBUG: sendMagicLink completed successfully in ${duration.inMilliseconds}ms',
+      );
+
+      // Warn if operation is taking too long (potential ANR risk)
+      if (duration.inMilliseconds > 3000) {
+        AppLogger.warning(
+          '⚠️ LOGIN_DEBUG: sendMagicLink took ${duration.inMilliseconds}ms - potential ANR risk on Oppo devices',
+        );
+      }
+    } catch (e, stackTrace) {
+      AppLogger.error('🔍 LOGIN_DEBUG: sendMagicLink failed', e, stackTrace);
+      rethrow;
+    }
 
     if (mounted && !ref.read(authStateProvider).isLoading) {
       AppLogger.info(

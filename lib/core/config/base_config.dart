@@ -2,6 +2,8 @@
 // Defines the contract that all environment configurations must implement
 // This ensures type safety and consistency across all environments
 
+import 'package:logger/logger.dart';
+
 /// Abstract base configuration interface
 ///
 /// All environment-specific configurations (Development, Staging, E2E, Production)
@@ -28,8 +30,13 @@ abstract class BaseConfig {
   /// HTTP send timeout duration
   Duration get sendTimeout;
 
-  /// Whether debug mode is enabled (logging, dev tools, etc.)
-  bool get debugEnabled;
+  /// Log level for controlling logging verbosity
+  /// Values: 'debug', 'info', 'warning', 'error', 'fatal'
+  String get logLevel;
+
+  /// Get the Logger Level enum from the string logLevel
+  /// Provides conversion from string configuration to Logger enum
+  Level get loggerLogLevel;
 
   /// Application display name
   String get appName;

@@ -37,9 +37,11 @@ class FeatureFlags {
   /// Crash reporting enabled
   ///
   /// Controls Firebase Crashlytics and other crash reporting services.
-  /// Only enabled in production where crash data is most valuable.
-  static bool get crashReporting =>
-      EnvironmentConfig.getConfig().environmentName == 'production';
+  /// Enabled in production and staging for debugging purposes.
+  static bool get crashReporting {
+    final env = EnvironmentConfig.getConfig().environmentName;
+    return env == 'production' || env == 'staging';
+  }
 
   /// Firebase services enabled
   ///
@@ -48,14 +50,9 @@ class FeatureFlags {
   static bool get firebaseEnabled =>
       EnvironmentConfig.getConfig().firebaseEnabled;
 
-  /// Verbose logging enabled
-  ///
-  /// Enables detailed logging for debugging and E2E test verification.
-  /// Only enabled in development and E2E environments.
-  static bool get verboseLogging {
-    final env = EnvironmentConfig.getConfig().environmentName;
-    return env == 'development' || env == 'e2e';
-  }
+  // REMOVED: verboseLogging - Use standard log levels instead (debug, info, warning, error)
+  // Logging is now managed by AppLogger which respects environment-based log levels
+  // This eliminates the architectural inconsistency between feature flags and log levels
 
   /// Performance profiling enabled
   ///
@@ -110,7 +107,6 @@ class FeatureFlags {
     'analyticsEnabled': analyticsEnabled,
     'crashReporting': crashReporting,
     'firebaseEnabled': firebaseEnabled,
-    'verboseLogging': verboseLogging,
     'performanceProfiling': performanceProfiling,
     'mockServicesEnabled': mockServicesEnabled,
     'networkLogging': networkLogging,

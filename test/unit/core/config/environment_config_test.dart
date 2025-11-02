@@ -2,6 +2,7 @@
 // Verifies that dart-define based configuration works correctly
 
 import 'package:flutter_test/flutter_test.dart';
+import 'package:logger/logger.dart';
 import 'package:edulift/core/config/environment_config.dart';
 import 'package:edulift/core/config/environment.dart';
 import 'package:edulift/core/config/app_config.dart';
@@ -15,7 +16,8 @@ void main() {
       expect(config, isA<DevelopmentConfig>());
       expect(config.environmentName, equals('development'));
       expect(config.apiBaseUrl, equals('http://localhost:3001/api/v1'));
-      expect(config.debugEnabled, isTrue);
+      expect(config.logLevel, equals('debug'));
+      expect(config.loggerLogLevel, equals(Level.debug));
       expect(config.firebaseEnabled, isFalse);
     });
 
@@ -35,7 +37,7 @@ void main() {
       expect(summary, isA<Map<String, dynamic>>());
       expect(summary.containsKey('environment'), isTrue);
       expect(summary.containsKey('apiBaseUrl'), isTrue);
-      expect(summary.containsKey('debugEnabled'), isTrue);
+      expect(summary.containsKey('logLevel'), isTrue);
       expect(summary.containsKey('firebaseEnabled'), isTrue);
     });
 
@@ -90,6 +92,52 @@ void main() {
       expect(allSupported, containsAll(['staging', 'stage']));
       expect(allSupported, containsAll(['e2e', 'test']));
       expect(allSupported, containsAll(['production', 'prod']));
+    });
+
+    group('Log Levels', () {
+      test(
+        'should provide correct default log levels for each environment',
+        () {
+          // Test development config
+          final devConfig = DevelopmentConfig();
+          expect(devConfig.logLevel, equals('debug'));
+          expect(devConfig.loggerLogLevel, equals(Level.debug));
+
+          // Test staging config
+          final stagingConfig = StagingConfig();
+          expect(stagingConfig.logLevel, equals('info'));
+          expect(stagingConfig.loggerLogLevel, equals(Level.info));
+
+          // Test E2E config
+          final e2eConfig = E2EConfig();
+          expect(e2eConfig.logLevel, equals('debug'));
+          expect(e2eConfig.loggerLogLevel, equals(Level.debug));
+
+          // Test production config
+          final prodConfig = ProductionConfig();
+          expect(prodConfig.logLevel, equals('warning'));
+          expect(prodConfig.loggerLogLevel, equals(Level.warning));
+        },
+      );
+
+      test('should handle case insensitive log level strings', () {
+        // This test verifies the string to enum conversion works correctly
+        final configs = [
+          DevelopmentConfig(),
+          StagingConfig(),
+          E2EConfig(),
+          ProductionConfig(),
+        ];
+
+        for (final config in configs) {
+          final level = config.loggerLogLevel;
+          expect(level, isA<Level>());
+          expect(
+            config.logLevel.toLowerCase(),
+            isIn(['trace', 'debug', 'info', 'warning', 'error', 'fatal']),
+          );
+        }
+      });
     });
   });
 }

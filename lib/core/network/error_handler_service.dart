@@ -8,6 +8,7 @@ import '../utils/app_logger.dart';
 import '../errors/failures.dart';
 import '../errors/exceptions.dart';
 import '../errors/api_exception.dart';
+import '../config/feature_flags.dart';
 
 /// Error categories for classification and user messaging
 enum ErrorCategory {
@@ -1077,8 +1078,8 @@ class ErrorHandlerService {
     if (classification.severity == ErrorSeverity.fatal ||
         classification.severity == ErrorSeverity.critical) {
       try {
-        // Only report to Firebase in release mode for production monitoring
-        if (kReleaseMode) {
+        // Only report to Firebase when crash reporting is enabled
+        if (FeatureFlags.crashReporting) {
           // Set user context for better error tracking
           if (context.userId != null) {
             await FirebaseCrashlytics.instance.setUserIdentifier(
@@ -1146,7 +1147,8 @@ class ErrorHandlerService {
           );
         }
 
-        return kReleaseMode; // Only report as "reported" if actually sent to Firebase
+        return FeatureFlags
+            .crashReporting; // Only report as "reported" if actually sent to Firebase
       } catch (e) {
         AppLogger.warning('Failed to report error to Firebase Crashlytics', e);
         return false;

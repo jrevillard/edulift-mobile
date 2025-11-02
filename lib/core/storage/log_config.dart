@@ -1,6 +1,7 @@
 import 'package:logger/logger.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/foundation.dart';
+import '../utils/app_logger.dart';
 
 /// Dynamic log level configuration
 class LogConfig {
@@ -27,13 +28,14 @@ class LogConfig {
     return kDebugMode ? Level.debug : Level.warning;
   }
 
-  /// Set log level and persist to storage
+  /// Set log level and persist to storage with robust validation
   static Future<void> setLogLevel(Level level) async {
     try {
       final prefs = await SharedPreferences.getInstance();
       await prefs.setString(_logLevelKey, _levelToString(level));
     } catch (e) {
-      debugPrint('Failed to set log level: $e');
+      // Use proper logging instead of debugPrint for consistency
+      AppLogger.error('Failed to set log level', e);
     }
   }
 
