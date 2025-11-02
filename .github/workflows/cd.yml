@@ -347,7 +347,7 @@ jobs:
           echo "Distributing STAGING APK: $APK_FILE"
           echo "ℹ️  Note: Using APK instead of AAB (AAB requires Google Play Developer account)"
           firebase appdistribution:distribute "$APK_FILE" \
-            --app 1:390712570284:android:343eb2935d6000fe054a09 \
+            --app 1:390712570284:android:c6b38aa4cf23bacd054a09 \
             --groups "${{ secrets.FIREBASE_GROUPS_STAGING || 'internal-testers' }}" \
             --release-notes "Pre-release ${{ github.ref_name }} from commit ${{ github.sha }}"
 
