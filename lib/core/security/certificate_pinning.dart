@@ -190,7 +190,8 @@ class CertificatePinningConfig {
   CertificatePinningConfig._();
 
   /// Enable certificate pinning in production
-  static bool get isCertificatePinningEnabled => !kDebugMode;
+  /// ⚠️ TEMPORARILY DISABLED due to self-signed certificate causing ANR
+  static bool get isCertificatePinningEnabled => false; // kDebugMode;
 
   /// Certificate validation timeout
   static const Duration certificateValidationTimeout = Duration(seconds: 5);
