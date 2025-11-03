@@ -18,17 +18,40 @@ class TLSErrorDetector {
       return false;
     }
 
-    // Check for specific certificate validation error indicators
+    // Use regex patterns for more robust certificate error detection
     final message = innerError.message.toLowerCase();
     final osError = innerError.osError?.toString().toLowerCase() ?? '';
 
-    return message.contains('certificate_verify_failed') ||
-        message.contains('certificate verification failed') ||
-        message.contains('certificate_expired') ||
-        message.contains('certificate not yet valid') ||
-        message.contains('self signed certificate') ||
-        osError.contains('certificate_verify_failed') ||
-        osError.contains('unable to get local issuer certificate');
+    // Certificate validation error patterns (more comprehensive than string contains)
+    final certificateErrorPatterns = [
+      RegExp(r'certificate_verify_failed'),
+      RegExp(r'certificate verification failed'),
+      RegExp(r'certificate expired'),
+      RegExp(r'certificate not yet valid'),
+      RegExp(r'self signed certificate'),
+      RegExp(r'certificate chain error'),
+      RegExp(r'certificate unknown authority'),
+      RegExp(r'certificate revoked'),
+      RegExp(r'unable to get local issuer certificate'),
+      RegExp(r'hostname mismatch'),
+      RegExp(r'ssl/tls handshake failed'),
+    ];
+
+    // Check message against all patterns
+    for (final pattern in certificateErrorPatterns) {
+      if (pattern.hasMatch(message)) {
+        return true;
+      }
+    }
+
+    // Also check OS error against patterns
+    for (final pattern in certificateErrorPatterns) {
+      if (pattern.hasMatch(osError)) {
+        return true;
+      }
+    }
+
+    return false;
   }
 
   /// Detect if an error should NOT be retried (certificate errors are deterministic)

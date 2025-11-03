@@ -184,6 +184,9 @@ class ApiResponseHelper {
       final result = await apiCall();
       return wrapSuccess(result);
     } catch (error) {
+      // Certificate errors are now handled by NetworkErrorHandler before reaching API calls
+      // No duplicate detection needed here
+
       return handleError<T>(error);
     }
   }

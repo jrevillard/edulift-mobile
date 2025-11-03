@@ -6,7 +6,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:logger/logger.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
-import 'firebase_options.dart';
 import 'core/utils/app_logger.dart';
 import 'core/services/timezone_service.dart';
 import 'core/di/providers/providers.dart';
@@ -45,9 +44,9 @@ Future<ProviderContainer> bootstrap() async {
   var firebaseInitialized = false;
   if (config.firebaseEnabled) {
     try {
-      await Firebase.initializeApp(
-        options: DefaultFirebaseOptions.currentPlatform,
-      );
+      // Firebase.initializeApp() automatically uses the correct google-services.json
+      // file based on the build flavor without needing hardcoded options
+      await Firebase.initializeApp();
       firebaseInitialized = true;
 
       // Initialize persistent logging system AFTER Firebase

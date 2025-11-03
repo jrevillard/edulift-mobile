@@ -5,7 +5,7 @@ import 'package:dio/dio.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 
 import '../utils/app_logger.dart';
-import '../utils/result.dart';
+import '../utils/result.dart' as app_result;
 import '../errors/exceptions.dart';
 import '../errors/api_exception.dart';
 import '../errors/failures.dart';
@@ -507,16 +507,19 @@ class NetworkErrorHandler {
           error,
         );
 
-        // Log to monitoring for tracking
+        // Log to monitoring asynchronously to avoid blocking hot path
         final innerError = error.error;
-        CertificateErrorMonitor.recordError(
-          operation: 'network_retry_check',
-          url: error.requestOptions.uri,
-          errorMessage: innerError?.toString() ?? 'Certificate error',
-          osError: innerError is HandshakeException
-              ? innerError.osError?.toString()
-              : null,
-        );
+        // Fire-and-forget async call to avoid blocking
+        Future.microtask(() {
+          CertificateErrorMonitor.recordError(
+            operation: 'network_retry_check',
+            url: error.requestOptions.uri,
+            errorMessage: innerError?.toString() ?? 'Certificate error',
+            osError: innerError is HandshakeException
+                ? innerError.osError?.toString()
+                : null,
+          );
+        });
 
         return false; // NEVER retry certificate errors - they will always fail
       }
@@ -828,7 +831,7 @@ extension NetworkErrorHandlerExtension on NetworkErrorHandler {
   ///   },
   /// );
   /// ```
-  Future<Result<T, ApiFailure>> executeRepositoryOperation<T>(
+  Future<app_result.Result<T, ApiFailure>> executeRepositoryOperation<T>(
     Future<T> Function() operation, {
     required String operationName,
     required CacheStrategy strategy,
@@ -992,7 +995,7 @@ extension NetworkErrorHandlerExtension on NetworkErrorHandler {
   }
 
   /// Execute network-only strategy: No cache involved
-  Future<Result<T, ApiFailure>> _executeNetworkOnly<T>(
+  Future<app_result.Result<T, ApiFailure>> _executeNetworkOnly<T>(
     Future<T> Function() operation, {
     required String operationName,
     String? serviceName,
@@ -1029,18 +1032,18 @@ extension NetworkErrorHandlerExtension on NetworkErrorHandler {
         }
       }
 
-      return Result.ok(result);
+      return app_result.Result.ok(result);
     } catch (error) {
       AppLogger.warning(
         '[NETWORK] Network-only failed for $operationName',
         error,
       );
-      return Result.err(_transformExceptionToApiFailure(error));
+      return app_result.Result.err(_transformExceptionToApiFailure(error));
     }
   }
 
   /// Execute cache-only strategy: No network involved
-  Future<Result<T, ApiFailure>> _executeCacheOnly<T>(
+  Future<app_result.Result<T, ApiFailure>> _executeCacheOnly<T>(
     Future<T> Function()? cacheOperation, {
     required String operationName,
     Future<void> Function(T data)? onSuccess,
@@ -1049,7 +1052,7 @@ extension NetworkErrorHandlerExtension on NetworkErrorHandler {
       AppLogger.error(
         '[NETWORK] Cache-only strategy requires cacheOperation for $operationName',
       );
-      return Result.err(
+      return app_result.Result.err(
         const ApiFailure(
           code: 'cache.not_configured',
           message: 'Cache operation not provided for cache-only strategy',
@@ -1079,18 +1082,18 @@ extension NetworkErrorHandlerExtension on NetworkErrorHandler {
         }
       }
 
-      return Result.ok(result);
+      return app_result.Result.ok(result);
     } catch (error) {
       AppLogger.warning(
         '[NETWORK] Cache-only failed for $operationName',
         error,
       );
-      return Result.err(_transformExceptionToApiFailure(error));
+      return app_result.Result.err(_transformExceptionToApiFailure(error));
     }
   }
 
   /// Execute network-first strategy: Try network, fallback to cache on network error
-  Future<Result<T, ApiFailure>> _executeNetworkFirst<T>(
+  Future<app_result.Result<T, ApiFailure>> _executeNetworkFirst<T>(
     Future<T> Function() operation, {
     Future<T> Function()? cacheOperation,
     required String operationName,
@@ -1133,7 +1136,7 @@ extension NetworkErrorHandlerExtension on NetworkErrorHandler {
         }
       }
 
-      return Result.ok(result);
+      return app_result.Result.ok(result);
     } catch (networkError) {
       // Check if this is a network connectivity error (should use cache)
       // or a server error (should NOT use cache)
@@ -1151,7 +1154,7 @@ extension NetworkErrorHandlerExtension on NetworkErrorHandler {
           // NOTE: We do NOT call onSuccess for cache fallback
           // because it's already cached data, not new data to cache
 
-          return Result.ok(cachedResult);
+          return app_result.Result.ok(cachedResult);
         } catch (cacheError) {
           AppLogger.warning(
             '[NETWORK] Network-first: cache also failed for $operationName',
@@ -1165,12 +1168,14 @@ extension NetworkErrorHandlerExtension on NetworkErrorHandler {
         );
       }
 
-      return Result.err(_transformExceptionToApiFailure(networkError));
+      return app_result.Result.err(
+        _transformExceptionToApiFailure(networkError),
+      );
     }
   }
 
   /// Execute stale-while-revalidate strategy: Return cache, then fetch fresh data
-  Future<Result<T, ApiFailure>> _executeStaleWhileRevalidate<T>(
+  Future<app_result.Result<T, ApiFailure>> _executeStaleWhileRevalidate<T>(
     Future<T> Function() operation, {
     Future<T> Function()? cacheOperation,
     required String operationName,
@@ -1235,7 +1240,7 @@ extension NetworkErrorHandlerExtension on NetworkErrorHandler {
           }
         }
 
-        return Result.ok(freshResult); // Fresh data wins
+        return app_result.Result.ok(freshResult); // Fresh data wins
       } catch (networkError) {
         // Check if this is a network error (use cache) or server error (don't use cache)
         if (_isNetworkErrorForCacheFallback(networkError)) {
@@ -1246,7 +1251,7 @@ extension NetworkErrorHandlerExtension on NetworkErrorHandler {
           // NOTE: We do NOT call onSuccess for stale cache
           // because it's already cached data, not new data to cache
 
-          return Result.ok(cachedResult); // Fallback to stale cache
+          return app_result.Result.ok(cachedResult); // Fallback to stale cache
         } else {
           // Server error - do NOT use cache fallback
           AppLogger.warning(

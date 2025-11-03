@@ -63,6 +63,10 @@ class SocketEvents {
 
   // Error Events
   static const String ERROR = 'error';
+  static const String CERTIFICATE_ERROR = 'certificate_error';
+  static const String TLS_HANDSHAKE_FAILED = 'tls_handshake_failed';
+  static const String SSL_VERIFICATION_FAILED = 'ssl_verification_failed';
+  static const String CONNECTION_ERROR = 'connection_error';
 
   // Heartbeat Events
   static const String HEARTBEAT = 'heartbeat';
@@ -178,6 +182,10 @@ class SocketEventCategories {
     SocketEvents.VEHICLE_DOUBLE_BOOKING,
     SocketEvents.CAPACITY_EXCEEDED,
     SocketEvents.ERROR,
+    SocketEvents.CERTIFICATE_ERROR,
+    SocketEvents.TLS_HANDSHAKE_FAILED,
+    SocketEvents.SSL_VERIFICATION_FAILED,
+    SocketEvents.CONNECTION_ERROR,
     SocketEvents.HEARTBEAT,
     SocketEvents.HEARTBEAT_ACK,
   ];

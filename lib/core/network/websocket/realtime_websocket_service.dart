@@ -454,11 +454,11 @@ class RealtimeWebSocketService {
         error,
       );
 
-      // Log to monitoring
+      // Log to monitoring using proper constants
       CertificateErrorMonitor.recordError(
-        operation: 'WebSocket Connection',
+        operation: SocketEvents.CERTIFICATE_ERROR,
         url: Uri.parse('${_config.websocketUrl}/realtime'),
-        errorMessage: error.message ?? 'WebSocket certificate error',
+        errorMessage: error.message ?? SocketEvents.SSL_VERIFICATION_FAILED,
         osError: error.toString(),
       );
 
