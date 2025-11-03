@@ -12,6 +12,8 @@ import '../errors/failures.dart';
 import '../network/api_response_helper.dart';
 import '../network/network_info.dart';
 import '../network/models/common/api_response_wrapper.dart';
+import '../network/tls_error_detector.dart';
+import '../network/certificate_error_monitor.dart';
 import '../config/feature_flags.dart';
 
 /// Cache strategy patterns for repository operations
@@ -498,7 +500,28 @@ class NetworkErrorHandler {
     if (error is DioException) {
       final statusCode = error.response?.statusCode;
 
-      // Network errors are always retryable
+      // 🚨 CRITICAL FIX: Check for certificate errors FIRST
+      if (TLSErrorDetector.isCertificateError(error)) {
+        AppLogger.error(
+          'Certificate validation error detected - NOT retrying to prevent ANR',
+          error,
+        );
+
+        // Log to monitoring for tracking
+        final innerError = error.error;
+        CertificateErrorMonitor.recordError(
+          operation: 'network_retry_check',
+          url: error.requestOptions.uri,
+          errorMessage: innerError?.toString() ?? 'Certificate error',
+          osError: innerError is HandshakeException
+              ? innerError.osError?.toString()
+              : null,
+        );
+
+        return false; // NEVER retry certificate errors - they will always fail
+      }
+
+      // Network errors are always retryable (except certificate errors handled above)
       if (error.type == DioExceptionType.connectionTimeout ||
           error.type == DioExceptionType.receiveTimeout ||
           error.type == DioExceptionType.sendTimeout ||

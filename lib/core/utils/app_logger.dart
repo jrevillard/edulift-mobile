@@ -3,7 +3,9 @@ import 'package:edulift/core/config/base_config.dart';
 import 'package:flutter/foundation.dart';
 import 'package:logger/logger.dart';
 import 'package:flutter_logs/flutter_logs.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import '../storage/log_config.dart';
+import '../config/feature_flags.dart';
 
 Logger? _appLogger;
 BaseConfig? _cachedConfig;
@@ -173,6 +175,14 @@ class AppLogger {
     final logger = await appLogger;
     logger.e(message, error: error, stackTrace: stackTrace);
     _persistLog(message, 'general', LogLevel.ERROR, error, stackTrace);
+
+    // Send ERROR level logs to Crashlytics (non-fatal)
+    await _sendToCrashlytics(
+      message,
+      error: error,
+      stackTrace: stackTrace,
+      fatal: false,
+    );
   }
 
   static void trace(
@@ -193,6 +203,14 @@ class AppLogger {
     final logger = await appLogger;
     logger.f(message, error: error, stackTrace: stackTrace);
     _persistLog(message, 'general', LogLevel.SEVERE, error, stackTrace);
+
+    // Send FATAL level logs to Crashlytics (marked as fatal)
+    await _sendToCrashlytics(
+      message,
+      error: error,
+      stackTrace: stackTrace,
+      fatal: true,
+    );
   }
 
   static void _persistLog(
@@ -219,7 +237,7 @@ class AppLogger {
       }
       if (stackTrace != null) {
         fullMessage +=
-            ' | StackTrace: ${stackTrace.toString().split('\n').take(5).join('\\n')}';
+            ' | StackTrace: ${stackTrace.toString().split('\n').take(10).join('\\n')}';
       }
 
       // Use correct flutter_logs method based on severity level
@@ -299,5 +317,44 @@ class AppLogger {
     }
 
     debug('$prefix: $safeData');
+  }
+
+  /// Send logs to Firebase Crashlytics based on severity level
+  /// Only sends ERROR and FATAL level logs to avoid noise
+  static Future<void> _sendToCrashlytics(
+    String message, {
+    dynamic error,
+    StackTrace? stackTrace,
+    required bool fatal,
+  }) async {
+    // Only send to Crashlytics if crash reporting is enabled
+    if (!FeatureFlags.crashReporting) {
+      return;
+    }
+
+    try {
+      // Capture stack trace if not provided
+      final effectiveStackTrace = stackTrace ?? StackTrace.current;
+
+      // Create error object if not provided
+      final effectiveError = error ?? Exception(message);
+
+      // Send to Crashlytics with fatal flag
+      await FirebaseCrashlytics.instance.recordError(
+        effectiveError,
+        effectiveStackTrace,
+        fatal: fatal,
+        information: [
+          'Message: $message',
+          'Level: ${fatal ? "FATAL" : "ERROR"}',
+          'Timestamp: ${DateTime.now().toIso8601String()}',
+        ],
+      );
+    } catch (e) {
+      // Failsafe: prevent recursive errors in Crashlytics reporting
+      if (kDebugMode) {
+        print('❌ Failed to send to Crashlytics: $e');
+      }
+    }
   }
 }

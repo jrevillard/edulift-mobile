@@ -6,6 +6,8 @@ import 'package:web_socket_channel/web_socket_channel.dart';
 import 'package:web_socket_channel/io.dart';
 import '../../../core/config/base_config.dart';
 import '../../../infrastructure/network/websocket/socket_events.dart';
+import '../../utils/app_logger.dart';
+import '../certificate_error_monitor.dart';
 
 /// Enhanced real-time WebSocket service for collaborative scheduling
 /// Implements SPARC Phase 3 real-time features with presence and conflict detection
@@ -443,8 +445,25 @@ class RealtimeWebSocketService {
 
   /// Handle connection errors with exponential backoff
   void _handleConnectionError(dynamic error) {
-    if (kDebugMode) {
-      print('❌ WebSocket error: $error');
+    AppLogger.error('WebSocket connection error', error);
+
+    // 🚨 CHECK FOR CERTIFICATE ERRORS
+    if (error is WebSocketChannelException && _isCertificateError(error)) {
+      AppLogger.error(
+        'WebSocket certificate validation failed - NOT retrying to prevent ANR',
+        error,
+      );
+
+      // Log to monitoring
+      CertificateErrorMonitor.recordError(
+        operation: 'WebSocket Connection',
+        url: Uri.parse('${_config.websocketUrl}/realtime'),
+        errorMessage: error.message ?? 'WebSocket certificate error',
+        osError: error.toString(),
+      );
+
+      // Don't retry certificate errors - they will always fail
+      return;
     }
 
     _isConnected = false;
@@ -456,6 +475,15 @@ class RealtimeWebSocketService {
     );
 
     _scheduleReconnection();
+  }
+
+  /// Check if WebSocket error is certificate-related
+  bool _isCertificateError(WebSocketChannelException error) {
+    final message = error.message?.toLowerCase() ?? '';
+    return message.contains('certificate') ||
+        message.contains('handshake') ||
+        message.contains('ssl') ||
+        message.contains('tls');
   }
 
   /// Handle disconnection
