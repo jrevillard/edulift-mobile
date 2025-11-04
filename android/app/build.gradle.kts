@@ -28,23 +28,29 @@ fun getDeepLinkBaseUrl(flavor: String): String {
     return json["DEEP_LINK_BASE_URL"] as String
 }
 
-// Function to parse deep link URL and extract scheme and host
-data class DeepLinkConfig(val scheme: String, val host: String?)
+// Function to parse deep link URL and extract scheme, host, and port separately
+data class DeepLinkConfig(val scheme: String, val host: String?, val port: String?)
 
 fun parseDeepLinkUrl(url: String): DeepLinkConfig {
     return when {
         // Custom scheme (e.g., "edulift://")
         url.startsWith("edulift://") -> {
-            DeepLinkConfig(scheme = "edulift", host = null)
+            DeepLinkConfig(scheme = "edulift", host = null, port = null)
         }
         // HTTPS URL (e.g., "https://transport.tanjama.fr:50443/")
         url.startsWith("https://") -> {
             val urlWithoutScheme = url.removePrefix("https://")
-            val host = urlWithoutScheme.trimEnd('/').let {
-                // Extract host (with port if present), removing any path
-                it.split("/").first()
+            val hostAndPort = urlWithoutScheme.trimEnd('/').split("/").first()
+
+            // Check if port is specified
+            val (host, port) = if (hostAndPort.contains(":")) {
+                val parts = hostAndPort.split(":")
+                Pair(parts[0], parts[1])
+            } else {
+                Pair(hostAndPort, "")
             }
-            DeepLinkConfig(scheme = "https", host = host)
+
+            DeepLinkConfig(scheme = "https", host = host, port = port)
         }
         else -> throw IllegalArgumentException("Unsupported deep link URL format: $url")
     }
@@ -117,6 +123,8 @@ android {
             manifestPlaceholders.apply {
                 put("deepLinkScheme", config.scheme)
                 put("deepLinkHost", config.host ?: "")
+                put("deepLinkPort", config.port ?: "")
+                put("deepLinkAutoVerify", config.scheme == "https")
             }
         }
 
@@ -133,6 +141,8 @@ android {
             manifestPlaceholders.apply {
                 put("deepLinkScheme", config.scheme)
                 put("deepLinkHost", config.host ?: "")
+                put("deepLinkPort", config.port ?: "")
+                put("deepLinkAutoVerify", config.scheme == "https")
             }
         }
 
@@ -149,6 +159,8 @@ android {
             manifestPlaceholders.apply {
                 put("deepLinkScheme", config.scheme)
                 put("deepLinkHost", config.host ?: "")
+                put("deepLinkPort", config.port ?: "")
+                put("deepLinkAutoVerify", config.scheme == "https")
             }
         }
 
@@ -164,6 +176,8 @@ android {
             manifestPlaceholders.apply {
                 put("deepLinkScheme", config.scheme)
                 put("deepLinkHost", config.host ?: "")
+                put("deepLinkPort", config.port ?: "")
+                put("deepLinkAutoVerify", config.scheme == "https")
             }
         }
     }
