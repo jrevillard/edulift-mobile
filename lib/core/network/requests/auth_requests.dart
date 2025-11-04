@@ -29,7 +29,6 @@ class MagicLinkRequest extends Equatable {
   final String email;
   final String? name;
   final String? inviteCode;
-  final String platform;
 
   @JsonKey(name: 'code_challenge')
   final String codeChallenge; // PKCE: SHA256 hash of code_verifier
@@ -38,7 +37,6 @@ class MagicLinkRequest extends Equatable {
     required this.email,
     this.name,
     this.inviteCode,
-    this.platform = 'native', // Default to 'native' for Flutter apps
     required this.codeChallenge,
   });
 
@@ -48,7 +46,7 @@ class MagicLinkRequest extends Equatable {
   Map<String, dynamic> toJson() => _$MagicLinkRequestToJson(this);
 
   @override
-  List<Object?> get props => [email, name, inviteCode, platform, codeChallenge];
+  List<Object?> get props => [email, name, inviteCode, codeChallenge];
 }
 
 /// Verify magic link request model

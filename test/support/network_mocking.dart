@@ -32,6 +32,9 @@ class _MockGoldenTestConfig implements BaseConfig {
   Duration get sendTimeout => const Duration(seconds: 30);
 
   @override
+  String get deepLinkBaseUrl => 'https://mock-api.test/api/v1';
+
+  @override
   String get logLevel => 'error'; // Minimal logging in tests
 
   @override
@@ -50,6 +53,7 @@ class _MockGoldenTestConfig implements BaseConfig {
   Map<String, String> get defaultHeaders => {
     'Content-Type': 'application/json',
     'Accept': 'application/json',
+    'User-Agent': 'Flutter Test Framework',
   };
 
   @override

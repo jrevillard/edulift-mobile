@@ -1089,57 +1089,24 @@ class ErrorHandlerService {
             );
           }
 
-          // Set custom keys for better error classification in Crashlytics dashboard
-          // These keys allow filtering and grouping errors by business context
-          await FirebaseCrashlytics.instance.setCustomKey(
-            'error_category',
-            classification.category.name,
-          );
-          await FirebaseCrashlytics.instance.setCustomKey(
-            'error_severity',
-            classification.severity.name,
-          );
-          await FirebaseCrashlytics.instance.setCustomKey(
-            'feature',
-            context.feature,
-          );
-          await FirebaseCrashlytics.instance.setCustomKey(
-            'operation',
-            context.operation,
-          );
-          await FirebaseCrashlytics.instance.setCustomKey(
-            'session_id',
-            context.sessionId,
-          );
-          await FirebaseCrashlytics.instance.setCustomKey(
-            'is_retryable',
-            classification.isRetryable,
+          // BREADCRUMBS: Log error classification context for Crashlytics
+          AppLogger.info(
+            'Error classified: ${classification.category.name} - ${classification.severity.name} - Feature: ${context.feature} - Operation: ${context.operation}',
           );
 
-          // Add metadata as custom keys (with sanitization)
-          for (final entry in context.metadata.entries) {
-            final key = 'ctx_${entry.key}';
-            final value = entry.value;
+          // BREADCRUMBS: Log API details for network errors
+          if (error is ApiException) {
+            final endpoint = error.endpoint ?? 'unknown';
+            final method = error.method ?? 'unknown';
+            final statusCode = error.statusCode ?? 'null';
 
-            // Sanitize value to prevent PII leaks
-            String sanitizedValue;
-            if (value is String || value is num || value is bool) {
-              sanitizedValue = value.toString();
-            } else {
-              // For complex objects, only log the type
-              sanitizedValue = value.runtimeType.toString();
-            }
-
-            // Truncate long values
-            if (sanitizedValue.length > 100) {
-              sanitizedValue = '${sanitizedValue.substring(0, 97)}...';
-            }
-
-            await FirebaseCrashlytics.instance.setCustomKey(
-              key,
-              sanitizedValue,
+            AppLogger.info(
+              'API Error: $method $endpoint - Status: $statusCode${error.errorCode != null ? ' - Code: ${error.errorCode}' : ''}',
             );
           }
+
+          // BREADCRUMBS: Metadata is now handled automatically through AppLogger breadcrumbs
+          // No need for manual custom keys - breadcrumbs provide better context
 
           // NOTE: We DO NOT call recordError() here anymore!
           // AppLogger.error/fatal() already sends to Crashlytics automatically.

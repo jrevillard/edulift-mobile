@@ -152,19 +152,13 @@ class UpdateVehicleRequest extends Equatable {
 class CreateFamilyInvitationRequest extends Equatable {
   final String email;
   final String? message;
-  final String platform;
 
-  const CreateFamilyInvitationRequest({
-    required this.email,
-    this.message,
-    this.platform = 'native', // Default to 'native' for Flutter apps
-  });
+  const CreateFamilyInvitationRequest({required this.email, this.message});
 
   factory CreateFamilyInvitationRequest.fromJson(Map<String, dynamic> json) {
     return CreateFamilyInvitationRequest(
       email: json['email'],
       message: json['message'],
-      platform: json['platform'] ?? 'native',
     );
   }
 
@@ -173,23 +167,20 @@ class CreateFamilyInvitationRequest extends Equatable {
   factory CreateFamilyInvitationRequest.simple({
     required String email,
     String? message,
-    String platform = 'native',
   }) {
     return CreateFamilyInvitationRequest(
       email: email.toLowerCase().trim(),
       message: message?.trim(),
-      platform: platform,
     );
   }
 
   Map<String, dynamic> toJson() => {
     'email': email,
     if (message != null) 'message': message,
-    'platform': platform,
   };
 
   @override
-  List<Object?> get props => [email, message, platform];
+  List<Object?> get props => [email, message];
 }
 
 /// Update family name request model
@@ -233,13 +224,10 @@ class InviteFamilyMemberRequest extends Equatable {
   @JsonKey(name: 'personalMessage')
   final String? message;
 
-  final String platform;
-
   const InviteFamilyMemberRequest({
     required this.email,
     required this.role,
     this.message,
-    this.platform = 'native', // Default to 'native' for Flutter apps
   });
 
   factory InviteFamilyMemberRequest.fromJson(Map<String, dynamic> json) =>
@@ -248,7 +236,7 @@ class InviteFamilyMemberRequest extends Equatable {
   Map<String, dynamic> toJson() => _$InviteFamilyMemberRequestToJson(this);
 
   @override
-  List<Object?> get props => [email, role, message, platform];
+  List<Object?> get props => [email, role, message];
 }
 
 /// Invite member request model (legacy compatibility)

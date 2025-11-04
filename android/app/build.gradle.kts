@@ -1,4 +1,5 @@
 import java.util.Properties
+import groovy.json.JsonSlurper
 
 plugins {
     id("com.android.application")
@@ -13,6 +14,40 @@ val keystoreProperties = Properties()
 val keystorePropertiesFile = rootProject.file("key.properties")
 if (keystorePropertiesFile.exists()) {
     keystoreProperties.load(keystorePropertiesFile.inputStream())
+}
+
+// Function to parse config JSON and extract DEEP_LINK_BASE_URL
+fun getDeepLinkBaseUrl(flavor: String): String {
+    val configFile = rootProject.file("../config/$flavor.json")
+    if (!configFile.exists()) {
+        throw IllegalStateException("Config file not found: ${configFile.absolutePath}")
+    }
+    val jsonSlurper = JsonSlurper()
+    @Suppress("UNCHECKED_CAST")
+    val json = jsonSlurper.parse(configFile) as Map<String, Any>
+    return json["DEEP_LINK_BASE_URL"] as String
+}
+
+// Function to parse deep link URL and extract scheme and host
+data class DeepLinkConfig(val scheme: String, val host: String?)
+
+fun parseDeepLinkUrl(url: String): DeepLinkConfig {
+    return when {
+        // Custom scheme (e.g., "edulift://")
+        url.startsWith("edulift://") -> {
+            DeepLinkConfig(scheme = "edulift", host = null)
+        }
+        // HTTPS URL (e.g., "https://transport.tanjama.fr:50443/")
+        url.startsWith("https://") -> {
+            val urlWithoutScheme = url.removePrefix("https://")
+            val host = urlWithoutScheme.trimEnd('/').let {
+                // Extract host (with port if present), removing any path
+                it.split("/").first()
+            }
+            DeepLinkConfig(scheme = "https", host = host)
+        }
+        else -> throw IllegalArgumentException("Unsupported deep link URL format: $url")
+    }
 }
 
 android {
@@ -75,29 +110,61 @@ android {
             versionNameSuffix = "-dev"
             resValue("string", "app_name", "EduLift Dev")
             resValue("string", "FLAVOR", "development")
+
+            // Deep link configuration from config/development.json
+            val deepLinkUrl = getDeepLinkBaseUrl("development")
+            val config = parseDeepLinkUrl(deepLinkUrl)
+            manifestPlaceholders.apply {
+                put("deepLinkScheme", config.scheme)
+                put("deepLinkHost", config.host ?: "")
+            }
         }
-        
+
         create("staging") {
             dimension = "environment"
             applicationIdSuffix = ".staging"
             versionNameSuffix = "-staging"
             resValue("string", "app_name", "EduLift Staging")
             resValue("string", "FLAVOR", "staging")
+
+            // Deep link configuration from config/staging.json
+            val deepLinkUrl = getDeepLinkBaseUrl("staging")
+            val config = parseDeepLinkUrl(deepLinkUrl)
+            manifestPlaceholders.apply {
+                put("deepLinkScheme", config.scheme)
+                put("deepLinkHost", config.host ?: "")
+            }
         }
-        
+
         create("e2e") {
             dimension = "environment"
             applicationIdSuffix = ".e2e"
             versionNameSuffix = "-e2e"
             resValue("string", "app_name", "EduLift E2E")
             resValue("string", "FLAVOR", "e2e")
+
+            // Deep link configuration from config/e2e.json
+            val deepLinkUrl = getDeepLinkBaseUrl("e2e")
+            val config = parseDeepLinkUrl(deepLinkUrl)
+            manifestPlaceholders.apply {
+                put("deepLinkScheme", config.scheme)
+                put("deepLinkHost", config.host ?: "")
+            }
         }
-        
+
         create("production") {
             dimension = "environment"
             // No suffix for production - clean package name
             resValue("string", "app_name", "EduLift")
             resValue("string", "FLAVOR", "production")
+
+            // Deep link configuration from config/production.json
+            val deepLinkUrl = getDeepLinkBaseUrl("production")
+            val config = parseDeepLinkUrl(deepLinkUrl)
+            manifestPlaceholders.apply {
+                put("deepLinkScheme", config.scheme)
+                put("deepLinkHost", config.host ?: "")
+            }
         }
     }
     

@@ -33,7 +33,7 @@ All configuration files include these core settings:
   "CONNECT_TIMEOUT_SECONDS": "integer",
   "RECEIVE_TIMEOUT_SECONDS": "integer",
   "SEND_TIMEOUT_SECONDS": "integer",
-  "DEBUG_ENABLED": "boolean",
+  "LOG_LEVEL": "string",
   "FIREBASE_ENABLED": "boolean"
 }
 ```

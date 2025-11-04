@@ -233,11 +233,40 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-pods-
 
+      - name: Install jq for JSON parsing
+        run: |
+          # Install jq for parsing DEEP_LINK_BASE_URL from config files
+          brew install jq
+
+      - name: Configure iOS Deep Links
+        run: |
+          # Configure iOS deep links from config/DEEP_LINK_BASE_URL
+          # This script automatically:
+          # - Reads DEEP_LINK_BASE_URL from config/${{ env.FLAVOR }}.json
+          # - Updates Info.plist with URL schemes
+          # - Creates/updates Runner.entitlements with Associated Domains
+          echo "🔧 Configuring iOS deep links for ${{ env.FLAVOR }} environment"
+          ./scripts/configure_ios.sh ${{ env.FLAVOR }}
+
+          # Verify configuration
+          echo "📱 iOS Configuration Summary:"
+          echo "✅ Info.plist updated with URL schemes"
+          if [[ -f "ios/Runner/Runner.entitlements" ]]; then
+            echo "✅ Entitlements file created/updated"
+            if grep -q "com.apple.developer.associated-domains" ios/Runner/Runner.entitlements; then
+              echo "🌐 Universal Links configured"
+            else
+              echo "📱 Custom URL scheme only (no Universal Links)"
+            fi
+          else
+            echo "📱 Custom URL scheme only (no entitlements needed)"
+          fi
+
       - name: Install CocoaPods
         run: |
           cd ios
           pod install
-      
+
       - name: Setup iOS certificates and provisioning profiles
         if: env.BUILD_TYPE == 'release'
         env:
@@ -259,7 +288,7 @@ jobs:
           mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
           echo "$IOS_PROVISIONING_PROFILE_BASE64" | base64 -d > ~/Library/MobileDevice/Provisioning\ Profiles/profile.mobileprovision
           chmod 600 ~/Library/MobileDevice/Provisioning\ Profiles/profile.mobileprovision
-      
+
       - name: Build iOS (debug)
         if: env.BUILD_TYPE == 'debug'
         run: |

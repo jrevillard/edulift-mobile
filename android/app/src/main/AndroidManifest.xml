@@ -23,18 +23,50 @@
         <action android:name="android.intent.action.MAIN"/>
         <category android:name="android.intent.category.LAUNCHER"/>
       </intent-filter>
-      <!-- Deep Link Intent Filter -->
-      <intent-filter android:autoVerify="true">
+      <!-- Deep Link Intent Filter (configurable from DEEP_LINK_BASE_URL) -->
+      <intent-filter>
         <action android:name="android.intent.action.VIEW"/>
         <category android:name="android.intent.category.DEFAULT"/>
         <category android:name="android.intent.category.BROWSABLE"/>
-        <data android:scheme="edulift"/>
+        <data android:scheme="${deepLinkScheme}" android:pathPrefix="/auth"/>
       </intent-filter>
+      <intent-filter>
+        <action android:name="android.intent.action.VIEW"/>
+        <category android:name="android.intent.category.DEFAULT"/>
+        <category android:name="android.intent.category.BROWSABLE"/>
+        <data android:scheme="${deepLinkScheme}" android:pathPrefix="/groups"/>
+      </intent-filter>
+      <intent-filter>
+        <action android:name="android.intent.action.VIEW"/>
+        <category android:name="android.intent.category.DEFAULT"/>
+        <category android:name="android.intent.category.BROWSABLE"/>
+        <data android:scheme="${deepLinkScheme}" android:pathPrefix="/families"/>
+      </intent-filter>
+      <intent-filter>
+        <action android:name="android.intent.action.VIEW"/>
+        <category android:name="android.intent.category.DEFAULT"/>
+        <category android:name="android.intent.category.BROWSABLE"/>
+        <data android:scheme="${deepLinkScheme}" android:pathPrefix="/dashboard"/>
+      </intent-filter>
+      <intent-filter>
+        <action android:name="android.intent.action.VIEW"/>
+        <category android:name="android.intent.category.DEFAULT"/>
+        <category android:name="android.intent.category.BROWSABLE"/>
+        <data android:scheme="${deepLinkScheme}" android:pathPrefix="/invite"/>
+      </intent-filter>
+      <!-- Catch-all for configurable scheme -->
+      <intent-filter>
+        <action android:name="android.intent.action.VIEW"/>
+        <category android:name="android.intent.category.DEFAULT"/>
+        <category android:name="android.intent.category.BROWSABLE"/>
+        <data android:scheme="${deepLinkScheme}"/>
+      </intent-filter>
+      <!-- HTTPS App Links (only used when deepLinkScheme is https) -->
       <intent-filter android:autoVerify="true">
         <action android:name="android.intent.action.VIEW"/>
         <category android:name="android.intent.category.DEFAULT"/>
         <category android:name="android.intent.category.BROWSABLE"/>
-        <data android:scheme="https" android:host="edulift.app"/>
+        <data android:scheme="${deepLinkScheme}" android:host="${deepLinkHost}"/>
       </intent-filter>
     </activity>
     <!-- Don't delete the meta-data below.

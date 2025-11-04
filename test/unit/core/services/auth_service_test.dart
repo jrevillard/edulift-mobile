@@ -123,7 +123,6 @@ void main() {
                 as MagicLinkRequest;
         expect(captured.email, equals(email));
         expect(captured.name, equals(name));
-        expect(captured.platform, equals('native')); // Default platform
         expect(captured.codeChallenge, isNotNull); // PKCE challenge generated
         expect(
           captured.codeChallenge.length,

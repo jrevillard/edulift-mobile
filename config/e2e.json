@@ -5,10 +5,10 @@
   "WEBSOCKET_URL": "ws://10.0.2.2:8030",
   "MAILPIT_WEB_URL": "http://10.0.2.2:8031",
   "MAILPIT_API_URL": "http://10.0.2.2:8031/api/v1",
+  "DEEP_LINK_BASE_URL": "edulift://",
   "CONNECT_TIMEOUT_SECONDS": 5,
   "RECEIVE_TIMEOUT_SECONDS": 8,
   "SEND_TIMEOUT_SECONDS": 5,
-  "DEBUG_ENABLED": true,
   "LOG_LEVEL": "debug",
   "FIREBASE_ENABLED": false
 }

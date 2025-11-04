@@ -220,6 +220,32 @@ class NetworkErrorInterceptor extends Interceptor {
   @override
   void onError(DioException err, ErrorInterceptorHandler handler) {
     AppLogger.debug('[NetworkErrorInterceptor] ${err.type} - ${err.message}');
+
+    // BREADCRUMBS: Capture network error details + SSL/Certificate info
+    final errorMessage = err.message ?? '';
+    final fullErrorContext =
+        'Network error: ${err.type.name} - ${err.requestOptions.method} ${err.requestOptions.uri}';
+
+    // CRITICAL: Extract SSL/Certificate details from error message before they're lost
+    var enrichedErrorMessage = fullErrorContext;
+    if (errorMessage.contains('CERTIFICATE_VERIFY_FAILED')) {
+      enrichedErrorMessage +=
+          ' [SSL_CERTIFICATE_ERROR: CERTIFICATE_VERIFY_FAILED]';
+    } else if (errorMessage.contains('certificate') ||
+        errorMessage.contains('handshake')) {
+      enrichedErrorMessage += ' [SSL_HANDSHAKE_ERROR]';
+    } else if (errorMessage.contains('timeout')) {
+      enrichedErrorMessage += ' [TIMEOUT_ERROR]';
+    } else if (errorMessage.contains('dns') || errorMessage.contains('host')) {
+      enrichedErrorMessage += ' [DNS_RESOLUTION_ERROR]';
+    }
+
+    // Log with enriched context for Crashlytics breadcrumbs
+    AppLogger.error(enrichedErrorMessage, err.error, err.stackTrace);
+
+    // BREADCRUMBS: Log the raw error message separately for complete context
+    AppLogger.debug('Raw network error details: ${errorMessage}');
+
     if (err.response != null) {
       AppLogger.debug(
         '[NetworkErrorInterceptor] Response status: ${err.response?.statusCode}',

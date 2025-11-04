@@ -1,0 +1,4 @@
+// Config.xcconfig
+// This file includes the auto-generated configuration from the Run Script phase.
+
+#include "${TARGET_TEMP_DIR}/generated_config.xcconfig"

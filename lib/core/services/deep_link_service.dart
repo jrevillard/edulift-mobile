@@ -9,6 +9,7 @@ import '../utils/app_logger.dart';
 import '../errors/failures.dart';
 import '../utils/result.dart';
 import '../domain/entities/auth_entities.dart';
+import '../config/environment_config.dart';
 
 import '../domain/services/deep_link_service.dart';
 
@@ -148,14 +149,27 @@ class DeepLinkServiceImpl implements DeepLinkService {
       AppLogger.debug('🔍 Parsing deep link: $url');
       final uri = Uri.parse(url);
 
-      // Only process our custom scheme
-      if (uri.scheme != _customScheme) {
-        AppLogger.debug('⏭️ Ignoring non-edulift scheme: ${uri.scheme}');
+      // Get allowed domains from config
+      final config = EnvironmentConfig.getConfig();
+      final baseUrl = config.deepLinkBaseUrl;
+
+      // For HTTPS links, validate domain from config
+      if (uri.scheme == 'https') {
+        final configUri = Uri.parse(baseUrl);
+        if (uri.host != configUri.host) {
+          AppLogger.debug(
+            '⏭️ Ignoring HTTPS link from unauthorized domain: ${uri.host} (expected: ${configUri.host})',
+          );
+          return null;
+        }
+      } else if (uri.scheme != 'edulift') {
+        // Only support edulift:// custom scheme (legacy support)
+        AppLogger.debug('⏭️ Ignoring unsupported scheme: ${uri.scheme}');
         return null;
       }
 
       AppLogger.debug(
-        '✅ Valid edulift scheme detected\n'
+        '✅ Valid deep link scheme detected (${uri.scheme})\n'
         '📍 Host: ${uri.host}, Path: ${uri.path}\n'
         '🔗 Query parameters: ${uri.queryParameters}',
       );
@@ -168,9 +182,13 @@ class DeepLinkServiceImpl implements DeepLinkService {
       // Only allow known valid deep link paths
       final validPaths = {
         'auth/verify', // Magic link verification
+        'auth', // Legacy auth paths
         'groups/join', // Group invitations
+        'groups', // Legacy group paths
         'families/join', // Family invitations
+        'families', // Legacy family paths
         'dashboard', // Dashboard shortcuts
+        'invite', // Legacy invitation paths
         '', // Empty path (defaults to dashboard)
       };
 
@@ -256,6 +274,9 @@ class DeepLinkServiceImpl implements DeepLinkService {
 
   @override
   String generateNativeDeepLink(String token, {String? inviteCode}) {
+    final config = EnvironmentConfig.getConfig();
+    final baseUrl = config.deepLinkBaseUrl;
+
     final params = {'token': token};
     if (inviteCode != null) {
       params['inviteCode'] = inviteCode;
@@ -268,7 +289,14 @@ class DeepLinkServiceImpl implements DeepLinkService {
         )
         .join('&');
 
-    return '$_customScheme://auth/verify?$query';
+    // Build URL based on config base URL
+    if (baseUrl.startsWith('https://')) {
+      // HTTPS App Link
+      return '${baseUrl}auth/verify?$query';
+    } else {
+      // Custom scheme (edulift://)
+      return '${baseUrl}auth/verify?$query';
+    }
   }
 
   void _handleIncomingDeepLink(Uri uri) {

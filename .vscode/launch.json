@@ -1,0 +1,49 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "EduLift (Development)",
+      "request": "launch",
+      "type": "dart",
+      "program": "lib/main.dart",
+      "args": [
+        "--flavor",
+        "development",
+        "--dart-define-from-file=config/development.json"
+      ]
+    },
+    {
+      "name": "EduLift (Staging)",
+      "request": "launch",
+      "type": "dart",
+      "program": "lib/main.dart",
+      "args": [
+        "--flavor",
+        "staging",
+        "--dart-define-from-file=config/staging.json"
+      ]
+    },
+    {
+      "name": "EduLift (Production)",
+      "request": "launch",
+      "type": "dart",
+      "program": "lib/main.dart",
+      "args": [
+        "--flavor",
+        "production",
+        "--dart-define-from-file=config/production.json"
+      ]
+    },
+    {
+      "name": "EduLift (E2E)",
+      "request": "launch",
+      "type": "dart",
+      "program": "lib/main.dart",
+      "args": [
+        "--flavor",
+        "e2e",
+        "--dart-define-from-file=config/e2e.json"
+      ]
+    }
+  ]
+}

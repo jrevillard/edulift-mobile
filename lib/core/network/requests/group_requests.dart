@@ -162,30 +162,23 @@ class SearchFamiliesRequest extends Equatable {
 class InviteGroupFamilyRequest extends Equatable {
   final String familyId;
   final String? message;
-  final String platform;
 
-  const InviteGroupFamilyRequest({
-    required this.familyId,
-    this.message,
-    this.platform = 'native', // Default to 'native' for Flutter apps
-  });
+  const InviteGroupFamilyRequest({required this.familyId, this.message});
 
   factory InviteGroupFamilyRequest.fromJson(Map<String, dynamic> json) {
     return InviteGroupFamilyRequest(
       familyId: json['familyId'],
       message: json['message'],
-      platform: json['platform'] ?? 'native',
     );
   }
 
   Map<String, dynamic> toJson() => {
     'familyId': familyId,
     if (message != null) 'message': message,
-    'platform': platform,
   };
 
   @override
-  List<Object?> get props => [familyId, message, platform];
+  List<Object?> get props => [familyId, message];
 }
 
 /// Update family role in group request model (used by group_api_client.dart)
@@ -229,7 +222,6 @@ class InviteFamilyToGroupRequest extends Equatable {
     if (role != null) 'role': role,
     if (message != null)
       'personalMessage': message, // Backend expects 'personalMessage'
-    'platform': 'native', // Backend requires platform field
   };
 
   @override

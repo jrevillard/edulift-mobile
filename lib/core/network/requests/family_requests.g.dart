@@ -12,7 +12,6 @@ InviteFamilyMemberRequest _$InviteFamilyMemberRequestFromJson(
   email: json['email'] as String,
   role: json['role'] as String,
   message: json['personalMessage'] as String?,
-  platform: json['platform'] as String? ?? 'native',
 );
 
 Map<String, dynamic> _$InviteFamilyMemberRequestToJson(
@@ -21,7 +20,6 @@ Map<String, dynamic> _$InviteFamilyMemberRequestToJson(
   'email': instance.email,
   'role': instance.role,
   'personalMessage': instance.message,
-  'platform': instance.platform,
 };
 
 InviteMemberRequest _$InviteMemberRequestFromJson(Map<String, dynamic> json) =>

@@ -145,6 +145,9 @@ class AppLogger {
     final logger = await appLogger;
     logger.d(message, error: error, stackTrace: stackTrace);
     _persistLog(message, 'general', LogLevel.INFO, error, stackTrace);
+
+    // BREADCRUMBS: Add to Crashlytics timeline (with intelligent filtering)
+    _addBreadcrumbIfRelevant('DEBUG', message);
   }
 
   static void info(
@@ -155,6 +158,9 @@ class AppLogger {
     final logger = await appLogger;
     logger.i(message, error: error, stackTrace: stackTrace);
     _persistLog(message, 'general', LogLevel.INFO, error, stackTrace);
+
+    // BREADCRUMBS: Add to Crashlytics timeline (with intelligent filtering)
+    _addBreadcrumbIfRelevant('INFO', message);
   }
 
   static void warning(
@@ -165,6 +171,9 @@ class AppLogger {
     final logger = await appLogger;
     logger.w(message, error: error, stackTrace: stackTrace);
     _persistLog(message, 'general', LogLevel.WARNING, error, stackTrace);
+
+    // BREADCRUMBS: Add to Crashlytics timeline (with intelligent filtering)
+    _addBreadcrumbIfRelevant('WARNING', message);
   }
 
   static void error(
@@ -175,6 +184,9 @@ class AppLogger {
     final logger = await appLogger;
     logger.e(message, error: error, stackTrace: stackTrace);
     _persistLog(message, 'general', LogLevel.ERROR, error, stackTrace);
+
+    // BREADCRUMBS: Add to Crashlytics timeline BEFORE reporting error
+    _addBreadcrumbIfRelevant('ERROR', message);
 
     // Send ERROR level logs to Crashlytics (non-fatal)
     await _sendToCrashlytics(
@@ -203,6 +215,9 @@ class AppLogger {
     final logger = await appLogger;
     logger.f(message, error: error, stackTrace: stackTrace);
     _persistLog(message, 'general', LogLevel.SEVERE, error, stackTrace);
+
+    // BREADCRUMBS: Add to Crashlytics timeline BEFORE reporting error
+    _addBreadcrumbIfRelevant('FATAL', message);
 
     // Send FATAL level logs to Crashlytics (marked as fatal)
     await _sendToCrashlytics(
@@ -317,6 +332,59 @@ class AppLogger {
     }
 
     debug('$prefix: $safeData');
+  }
+
+  /// Add breadcrumbs to Crashlytics with intelligent filtering to respect quotas
+  /// Only relevant logs (WARNING, ERROR, FATAL + selective INFO/DEBUG)
+  static void _addBreadcrumbIfRelevant(String level, String message) {
+    // Only if crash reporting is enabled
+    if (!FeatureFlags.crashReporting) return;
+
+    try {
+      // Get current config
+      final config = EnvironmentConfig.getConfig();
+
+      // Intelligent filtering by environment and level
+      var shouldLog = false;
+
+      switch (level) {
+        case 'DEBUG':
+          // DEBUG logs only in development and staging (not in production)
+          shouldLog =
+              config.environmentName == 'development' ||
+              config.environmentName == 'staging';
+          break;
+        case 'INFO':
+          // INFO logs always, but limit verbosity
+          shouldLog =
+              !message.contains('⚡') && // Avoid frequent logs
+              !message.contains('Timer:') &&
+              !message.contains('Frame:') &&
+              message.length < 200; // Avoid long logs
+          break;
+        case 'WARNING':
+        case 'ERROR':
+        case 'FATAL':
+          // ALWAYS log errors and warnings
+          shouldLog = true;
+          break;
+      }
+
+      if (shouldLog) {
+        // Format for Crashlytics: level + message (truncated if too long)
+        const maxLength = 800; // Stay under 1024 chars with margin
+        final truncatedMessage = message.length > maxLength
+            ? '${message.substring(0, maxLength - 3)}...'
+            : message;
+
+        FirebaseCrashlytics.instance.log('[$level] $truncatedMessage');
+      }
+    } catch (e) {
+      // Failsafe to avoid recursive errors
+      if (kDebugMode) {
+        print('❌ Failed to add breadcrumb: $e');
+      }
+    }
   }
 
   /// Send logs to Firebase Crashlytics based on severity level

@@ -11,7 +11,6 @@ MagicLinkRequest _$MagicLinkRequestFromJson(Map<String, dynamic> json) =>
       email: json['email'] as String,
       name: json['name'] as String?,
       inviteCode: json['inviteCode'] as String?,
-      platform: json['platform'] as String? ?? 'native',
       codeChallenge: json['code_challenge'] as String,
     );
 
@@ -20,7 +19,6 @@ Map<String, dynamic> _$MagicLinkRequestToJson(MagicLinkRequest instance) =>
       'email': instance.email,
       if (instance.name case final value?) 'name': value,
       if (instance.inviteCode case final value?) 'inviteCode': value,
-      'platform': instance.platform,
       'code_challenge': instance.codeChallenge,
     };
 

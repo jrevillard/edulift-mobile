@@ -165,7 +165,6 @@ class FamilyRemoteDataSourceImpl implements FamilyRemoteDataSource {
         'role': role,
         'hasPersonalMessage':
             personalMessage != null && personalMessage.isNotEmpty,
-        'platform': 'native',
       });
 
       final request = InviteFamilyMemberRequest(

@@ -88,6 +88,12 @@ class DevelopmentConfig implements BaseConfig {
   );
 
   @override
+  String get deepLinkBaseUrl => const String.fromEnvironment(
+    'DEEP_LINK_BASE_URL',
+    defaultValue: 'edulift://',
+  );
+
+  @override
   bool get firebaseEnabled => const bool.fromEnvironment('FIREBASE_ENABLED');
 
   @override
@@ -132,20 +138,20 @@ class DevelopmentConfig implements BaseConfig {
 }
 
 /// Staging environment configuration
-/// Used for pre-production testing (currently points to production backend)
+/// Used for pre-production testing
 ///
 /// Load from JSON: flutter build apk --dart-define-from-file=config/staging.json
 class StagingConfig implements BaseConfig {
   @override
   String get apiBaseUrl => const String.fromEnvironment(
     'API_BASE_URL',
-    defaultValue: 'https://transport.tanjama.fr/api',
+    defaultValue: 'https://transport.tanjama.fr:50443/api/v1',
   );
 
   @override
   String get websocketUrl => const String.fromEnvironment(
     'WEBSOCKET_URL',
-    defaultValue: 'wss://transport.tanjama.fr/api',
+    defaultValue: 'wss://transport.tanjama.fr:50443',
   );
 
   @override
@@ -206,6 +212,12 @@ class StagingConfig implements BaseConfig {
   @override
   String get environmentName =>
       const String.fromEnvironment('ENVIRONMENT_NAME', defaultValue: 'staging');
+
+  @override
+  String get deepLinkBaseUrl => const String.fromEnvironment(
+    'DEEP_LINK_BASE_URL',
+    defaultValue: 'https://transport.tanjama.fr:50443/',
+  );
 
   @override
   bool get firebaseEnabled =>
@@ -325,6 +337,12 @@ class E2EConfig implements BaseConfig {
       const String.fromEnvironment('ENVIRONMENT_NAME', defaultValue: 'e2e');
 
   @override
+  String get deepLinkBaseUrl => const String.fromEnvironment(
+    'DEEP_LINK_BASE_URL',
+    defaultValue: 'edulift://',
+  );
+
+  @override
   bool get firebaseEnabled => const bool.fromEnvironment('FIREBASE_ENABLED');
 
   @override
@@ -377,13 +395,13 @@ class ProductionConfig implements BaseConfig {
   @override
   String get apiBaseUrl => const String.fromEnvironment(
     'API_BASE_URL',
-    defaultValue: 'https://transport.tanjama.fr/api',
+    defaultValue: 'https://transport.tanjama.fr/api/v1',
   );
 
   @override
   String get websocketUrl => const String.fromEnvironment(
     'WEBSOCKET_URL',
-    defaultValue: 'wss://transport.tanjama.fr/api',
+    defaultValue: 'wss://transport.tanjama.fr',
   );
 
   @override
@@ -445,6 +463,12 @@ class ProductionConfig implements BaseConfig {
   String get environmentName => const String.fromEnvironment(
     'ENVIRONMENT_NAME',
     defaultValue: 'production',
+  );
+
+  @override
+  String get deepLinkBaseUrl => const String.fromEnvironment(
+    'DEEP_LINK_BASE_URL',
+    defaultValue: 'https://transport.tanjama.fr/',
   );
 
   @override

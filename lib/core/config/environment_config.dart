@@ -19,7 +19,10 @@ import 'environment.dart';
 /// - Production: flutter build apk --dart-define=FLAVOR=production
 class EnvironmentConfig {
   /// The dart-define key used to specify the environment
+  /// Note: When using --flavor, Flutter automatically passes FLUTTER_APP_FLAVOR
+  /// We check both for compatibility with manual --dart-define=FLAVOR=<value>
   static const String _flavorKey = 'FLAVOR';
+  static const String _flutterFlavorKey = 'FLUTTER_APP_FLAVOR';
 
   // CACHE: Prevent infinite provider rebuilds during E2E tests
   static BaseConfig? _cachedConfig;
@@ -49,9 +52,19 @@ class EnvironmentConfig {
     }
 
     // Detect flavor: Patrol context overrides explicit FLAVOR
-    final flavor = _isPatrolContext()
-        ? 'e2e'
-        : const String.fromEnvironment(_flavorKey, defaultValue: 'development');
+    // Check FLUTTER_APP_FLAVOR first (set by --flavor), then FLAVOR (manual --dart-define)
+    String flavor;
+    if (_isPatrolContext()) {
+      flavor = 'e2e';
+    } else {
+      // Try FLUTTER_APP_FLAVOR first (from --flavor), fallback to FLAVOR (from --dart-define)
+      const flutterFlavor = String.fromEnvironment(_flutterFlavorKey);
+      const manualFlavor = String.fromEnvironment(
+        _flavorKey,
+        defaultValue: 'development',
+      );
+      flavor = flutterFlavor.isNotEmpty ? flutterFlavor : manualFlavor;
+    }
 
     if (kDebugMode) {
       debugPrint('🎯 EnvironmentConfig: Detected flavor: $flavor');

@@ -58,12 +58,53 @@ This will automatically run before each commit:
 
 ## ▶️ Development Commands
 
-- **Run Development App**: `flutter run`
-- **Run on Specific Device**: `flutter run -d <device_name>`
+### Running the App with Flavors
+
+**IMPORTANT**: You MUST specify both `--flavor` AND `--dart-define-from-file` to load the correct environment configuration:
+
+```bash
+# Development (localhost API)
+flutter run --flavor development --dart-define-from-file=config/development.json
+
+# Staging (pre-production API)
+flutter run --flavor staging --dart-define-from-file=config/staging.json -d <device_id>
+
+# Production
+flutter run --flavor production --dart-define-from-file=config/production.json --release
+
+# E2E Testing
+flutter run --flavor e2e --dart-define-from-file=config/e2e.json
+```
+
+### Building for Release
+
+```bash
+# Staging APK
+flutter build apk --flavor staging --dart-define-from-file=config/staging.json --release
+
+# Production App Bundle (for Play Store)
+flutter build appbundle --flavor production --dart-define-from-file=config/production.json --release
+
+# Production APK
+flutter build apk --flavor production --dart-define-from-file=config/production.json --release
+```
+
+### Other Commands
+
 - **Hot Reload**: `r` (in flutter run terminal)
 - **Hot Restart**: `R` (in flutter run terminal)
 - **Format Code**: `dart format .`
 - **Analyze Code**: `flutter analyze`
+
+### Configuration Files
+
+Each flavor has its own configuration file in `config/`:
+- `config/development.json` - Local development (localhost:3001)
+- `config/staging.json` - Pre-production (https://transport.tanjama.fr:50443)
+- `config/e2e.json` - E2E testing (Android emulator loopback)
+- `config/production.json` - Production environment
+
+**Never commit secrets or API keys to these files!**
 
 ## 🧪 Testing Commands
 

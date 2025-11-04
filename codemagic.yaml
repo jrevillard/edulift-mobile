@@ -50,9 +50,35 @@ workflows:
   #       script: |
   #         flutter pub run build_runner build --delete-conflicting-outputs
   #
-  #     - name: Install CocoaPods dependencies
+  #     - name: Install dependencies and tools
   #       script: |
   #         cd ios && pod install
+  #         # Install jq for JSON parsing
+  #         brew install jq
+  #
+  #     - name: Configure iOS Deep Links
+  #       script: |
+  #         # Configure iOS deep links from config/DEEP_LINK_BASE_URL
+  #         # This script automatically:
+  #         # - Reads DEEP_LINK_BASE_URL from config/staging.json
+  #         # - Updates Info.plist with URL schemes
+  #         # - Creates/updates Runner.entitlements with Associated Domains
+  #         echo "🔧 Configuring iOS deep links for staging environment"
+  #         ./scripts/configure_ios.sh staging
+  #
+  #         # Verify configuration
+  #         echo "📱 iOS Configuration Summary:"
+  #         echo "✅ Info.plist updated with URL schemes"
+  #         if [[ -f "ios/Runner/Runner.entitlements" ]]; then
+  #           echo "✅ Entitlements file created/updated"
+  #           if grep -q "com.apple.developer.associated-domains" ios/Runner/Runner.entitlements; then
+  #             echo "🌐 Universal Links configured"
+  #           else
+  #             echo "📱 Custom URL scheme only (no Universal Links)"
+  #           fi
+  #         else
+  #           echo "📱 Custom URL scheme only (no entitlements needed)"
+  #         fi
   #
   #     - name: Set up code signing settings for iOS
   #       script: |
@@ -119,9 +145,35 @@ workflows:
   #       script: |
   #         flutter pub run build_runner build --delete-conflicting-outputs
   #
-  #     - name: Install CocoaPods dependencies
+  #     - name: Install dependencies and tools
   #       script: |
   #         cd ios && pod install
+  #         # Install jq for JSON parsing
+  #         brew install jq
+  #
+  #     - name: Configure iOS Deep Links
+  #       script: |
+  #         # Configure iOS deep links from config/DEEP_LINK_BASE_URL
+  #         # This script automatically:
+  #         # - Reads DEEP_LINK_BASE_URL from config/production.json
+  #         # - Updates Info.plist with URL schemes
+  #         # - Creates/updates Runner.entitlements with Associated Domains
+  #         echo "🔧 Configuring iOS deep links for production environment"
+  #         ./scripts/configure_ios.sh production
+  #
+  #         # Verify configuration
+  #         echo "📱 iOS Configuration Summary:"
+  #         echo "✅ Info.plist updated with URL schemes"
+  #         if [[ -f "ios/Runner/Runner.entitlements" ]]; then
+  #           echo "✅ Entitlements file created/updated"
+  #           if grep -q "com.apple.developer.associated-domains" ios/Runner/Runner.entitlements; then
+  #             echo "🌐 Universal Links configured"
+  #           else
+  #             echo "📱 Custom URL scheme only (no Universal Links)"
+  #           fi
+  #         else
+  #           echo "📱 Custom URL scheme only (no entitlements needed)"
+  #         fi
   #
   #     - name: Set up code signing settings for iOS
   #       script: |

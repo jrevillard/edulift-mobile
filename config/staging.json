@@ -2,11 +2,11 @@
   "APP_NAME": "EduLift Staging",
   "ENVIRONMENT_NAME": "staging",
   "API_BASE_URL": "https://transport.tanjama.fr:50443/api/v1",
-  "WEBSOCKET_URL": "wss://transport.tanjama.fr:50443/api/v1",
+  "WEBSOCKET_URL": "wss://transport.tanjama.fr:50443",
+  "DEEP_LINK_BASE_URL": "https://transport.tanjama.fr:50443/",
   "CONNECT_TIMEOUT_SECONDS": 5,
   "RECEIVE_TIMEOUT_SECONDS": 10,
   "SEND_TIMEOUT_SECONDS": 10,
-  "DEBUG_ENABLED": true,
-  "LOG_LEVEL": "info",
+  "LOG_LEVEL": "debug",
   "FIREBASE_ENABLED": true
 }

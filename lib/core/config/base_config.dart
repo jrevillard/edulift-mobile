@@ -44,6 +44,9 @@ abstract class BaseConfig {
   /// Environment name (development, staging, e2e, production)
   String get environmentName;
 
+  /// Deep link base URL for generating deep links
+  String get deepLinkBaseUrl;
+
   /// Firebase project configuration enabled
   bool get firebaseEnabled;
 
