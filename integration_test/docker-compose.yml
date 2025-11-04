@@ -70,6 +70,7 @@ services:
       EMAIL_USER: mobile-e2e-test@edulift.com
       EMAIL_PASSWORD: test-password
       FRONTEND_URL: http://localhost:8030
+      DEEP_LINK_BASE_URL: edulift://
       CORS_ORIGIN: "http://localhost:8030,http://10.0.2.2:8030"
       PORT: 3001
     depends_on:

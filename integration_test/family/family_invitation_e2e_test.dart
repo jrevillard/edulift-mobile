@@ -978,11 +978,15 @@ void main() {
           );
 
           // User should be on onboarding page - tap "Join Family" to navigate to invitation page
-          await $.waitUntilVisible(
-            find.byKey(const Key('join_existing_family_button')),
-            timeout: const Duration(seconds: 5),
+          // NOTE: Since Edulift logo was made larger, the button is now below viewport and needs scrolling
+          final joinFamilyButtonFinder = find.byKey(
+            const Key('join_existing_family_button'),
           );
-          await $.tap(find.byKey(const Key('join_existing_family_button')));
+
+          // Scroll to make the button visible if needed
+          await $.scrollUntilVisible(finder: joinFamilyButtonFinder);
+
+          await $.tap(joinFamilyButtonFinder);
           await $.pumpAndSettle();
 
           // Wait for the invitation page with manual code input to appear
