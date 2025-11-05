@@ -1342,7 +1342,7 @@ class _VehicleSelectionModalState extends ConsumerState<VehicleSelectionModal> {
         RemoveVehicleFromSlotParams(
           groupId: widget.groupId,
           slotId: slotId,
-          vehicleAssignmentId: vehicle.id,
+          vehicleId: vehicle.vehicleId,
         ),
       );
 

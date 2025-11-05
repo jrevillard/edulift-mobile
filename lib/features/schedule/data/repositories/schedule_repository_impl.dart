@@ -358,14 +358,14 @@ class ScheduleRepositoryImpl implements GroupScheduleRepository {
   Future<Result<void, ApiFailure>> removeVehicleFromSlot(
     String groupId,
     String slotId,
-    String vehicleAssignmentId,
+    String vehicleId,
   ) async {
     // Use NetworkErrorHandler for automatic retry, circuit breaker, and proper error handling
     final result = await _networkErrorHandler.executeRepositoryOperation<void>(
       () => _remoteDataSource.removeVehicleFromSlot(
         groupId: groupId,
         slotId: slotId,
-        vehicleAssignmentId: vehicleAssignmentId,
+        vehicleId: vehicleId,
       ),
       operationName: 'schedule.removeVehicleFromSlot',
       strategy: CacheStrategy.networkOnly, // Write operation = network-only
@@ -376,12 +376,12 @@ class ScheduleRepositoryImpl implements GroupScheduleRepository {
         try {
           await _localDataSource.removeCachedVehicleAssignment(
             slotId,
-            vehicleAssignmentId,
+            vehicleId,
           );
           AppLogger.info('[SCHEDULE] Vehicle removal cached successfully', {
             'groupId': groupId,
             'slotId': slotId,
-            'vehicleAssignmentId': vehicleAssignmentId,
+            'vehicleId': vehicleId,
           });
         } catch (cacheError) {
           AppLogger.warning(
@@ -395,7 +395,7 @@ class ScheduleRepositoryImpl implements GroupScheduleRepository {
         'operation_type': 'delete',
         'groupId': groupId,
         'slotId': slotId,
-        'vehicleAssignmentId': vehicleAssignmentId,
+        'vehicleId': vehicleId,
       },
     );
 
@@ -408,7 +408,7 @@ class ScheduleRepositoryImpl implements GroupScheduleRepository {
   Future<Result<void, ApiFailure>> removeVehicleFromSlotWithWeek(
     String groupId,
     String slotId,
-    String vehicleAssignmentId,
+    String vehicleId,
     String week,
   ) async {
     // Use NetworkErrorHandler for automatic retry, circuit breaker, and proper error handling
@@ -416,7 +416,7 @@ class ScheduleRepositoryImpl implements GroupScheduleRepository {
       () => _remoteDataSource.removeVehicleFromSlot(
         groupId: groupId,
         slotId: slotId,
-        vehicleAssignmentId: vehicleAssignmentId,
+        vehicleId: vehicleId,
       ),
       operationName: 'schedule.removeVehicleFromSlotWithWeek',
       strategy: CacheStrategy.networkOnly, // Write operation = network-only
@@ -427,20 +427,20 @@ class ScheduleRepositoryImpl implements GroupScheduleRepository {
         try {
           await _localDataSource.removeCachedVehicleAssignment(
             slotId,
-            vehicleAssignmentId,
+            vehicleId,
           );
           await _updateWeeklyScheduleCacheAfterRemoval(
             groupId,
             week,
             slotId,
-            vehicleAssignmentId,
+            vehicleId,
           );
           AppLogger.info(
             '[SCHEDULE] Vehicle removal with week cached successfully',
             {
               'groupId': groupId,
               'slotId': slotId,
-              'vehicleAssignmentId': vehicleAssignmentId,
+              'vehicleId': vehicleId,
               'week': week,
             },
           );
@@ -456,7 +456,7 @@ class ScheduleRepositoryImpl implements GroupScheduleRepository {
         'operation_type': 'delete',
         'groupId': groupId,
         'slotId': slotId,
-        'vehicleAssignmentId': vehicleAssignmentId,
+        'vehicleId': vehicleId,
         'week': week,
       },
     );

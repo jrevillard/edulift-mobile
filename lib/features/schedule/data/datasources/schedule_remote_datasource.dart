@@ -36,7 +36,7 @@ abstract class ScheduleRemoteDataSource {
   Future<void> removeVehicleFromSlot({
     required String groupId,
     required String slotId,
-    required String vehicleAssignmentId,
+    required String vehicleId,
   });
 
   /// Update seat override for vehicle assignment on server

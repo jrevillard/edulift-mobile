@@ -37,7 +37,7 @@ abstract class GroupScheduleRepository {
   Future<Result<void, ApiFailure>> removeVehicleFromSlot(
     String groupId,
     String slotId,
-    String vehicleAssignmentId,
+    String vehicleId,
   );
 
   /// Remove a vehicle from a schedule slot with explicit week parameter
@@ -45,7 +45,7 @@ abstract class GroupScheduleRepository {
   Future<Result<void, ApiFailure>> removeVehicleFromSlotWithWeek(
     String groupId,
     String slotId,
-    String vehicleAssignmentId,
+    String vehicleId,
     String week,
   );
 

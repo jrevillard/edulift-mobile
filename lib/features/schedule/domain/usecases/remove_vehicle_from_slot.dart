@@ -13,11 +13,10 @@ class RemoveVehicleFromSlot {
     // Validate input parameters (business rules)
     if (params.groupId.isEmpty ||
         params.slotId.isEmpty ||
-        params.vehicleAssignmentId.isEmpty) {
+        params.vehicleId.isEmpty) {
       return Result.err(
         ApiFailure.validationError(
-          message:
-              'Group ID, slot ID, and vehicle assignment ID cannot be empty',
+          message: 'Group ID, slot ID, and vehicle ID cannot be empty',
         ),
       );
     }
@@ -26,7 +25,7 @@ class RemoveVehicleFromSlot {
     return repository.removeVehicleFromSlot(
       params.groupId,
       params.slotId,
-      params.vehicleAssignmentId,
+      params.vehicleId,
     );
   }
 }
@@ -34,11 +33,11 @@ class RemoveVehicleFromSlot {
 class RemoveVehicleFromSlotParams {
   final String groupId;
   final String slotId;
-  final String vehicleAssignmentId;
+  final String vehicleId;
 
   RemoveVehicleFromSlotParams({
     required this.groupId,
     required this.slotId,
-    required this.vehicleAssignmentId,
+    required this.vehicleId,
   });
 }

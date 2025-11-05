@@ -188,21 +188,17 @@ class ScheduleRemoteDataSourceImpl implements ScheduleRemoteDataSource {
   Future<void> removeVehicleFromSlot({
     required String groupId,
     required String slotId,
-    required String vehicleAssignmentId,
+    required String vehicleId,
   }) async {
     AppLogger.debug(
       '[ScheduleRemoteDataSource] removeVehicleFromSlot() called',
-      {
-        'groupId': groupId,
-        'slotId': slotId,
-        'vehicleAssignmentId': vehicleAssignmentId,
-      },
+      {'groupId': groupId, 'slotId': slotId, 'vehicleId': vehicleId},
     );
 
     await ApiResponseHelper.executeAndUnwrap<void>(
       () => _apiClient.removeVehicleFromSlotTyped(
         slotId,
-        RemoveVehicleRequest(vehicleId: vehicleAssignmentId),
+        RemoveVehicleRequest(vehicleId: vehicleId),
       ),
     );
 
