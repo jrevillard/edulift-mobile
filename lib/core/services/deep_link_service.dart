@@ -5,6 +5,7 @@ import 'dart:io';
 import 'dart:async';
 import 'package:app_links/app_links.dart';
 import 'package:protocol_handler/protocol_handler.dart';
+import 'package:meta/meta.dart';
 import '../utils/app_logger.dart';
 import '../errors/failures.dart';
 import '../utils/result.dart';
@@ -23,6 +24,7 @@ class DeepLinkServiceImpl implements DeepLinkService {
   final AppLinks _appLinks = AppLinks();
   Function(DeepLinkResult)? _deepLinkHandler;
   Timer? _fileWatcher;
+  late final List<String> _authorizedDomains;
 
   static const String _customScheme = 'edulift';
   static const String _devLinkFile = '/tmp/edulift-deeplink';
@@ -33,7 +35,30 @@ class DeepLinkServiceImpl implements DeepLinkService {
   /// Private constructor - prevents direct instantiation
   /// CRITICAL: This prevents multiple DeepLinkServiceImpl instances
   /// that cause conflicting protocol handlers and file watchers.
-  DeepLinkServiceImpl._();
+  DeepLinkServiceImpl._() {
+    _authorizedDomains = _loadAuthorizedDomains();
+  }
+
+  /// Test constructor - allows injection of authorized domains for testing
+  @visibleForTesting
+  DeepLinkServiceImpl.testable({required List<String> authorizedDomains})
+    : _authorizedDomains = authorizedDomains;
+
+  /// Load authorized domains from environment configuration
+  List<String> _loadAuthorizedDomains() {
+    try {
+      final config = EnvironmentConfig.getConfig();
+      final baseUrl = config.deepLinkBaseUrl;
+      if (baseUrl.startsWith('https://') || baseUrl.startsWith('http://')) {
+        final uri = Uri.parse(baseUrl);
+        return [uri.host];
+      }
+      return [];
+    } catch (e) {
+      AppLogger.warning('Failed to load authorized domains: $e');
+      return [];
+    }
+  }
 
   /// Singleton instance getter - ONLY way to get DeepLinkServiceImpl
   ///
@@ -149,16 +174,11 @@ class DeepLinkServiceImpl implements DeepLinkService {
       AppLogger.debug('🔍 Parsing deep link: $url');
       final uri = Uri.parse(url);
 
-      // Get allowed domains from config
-      final config = EnvironmentConfig.getConfig();
-      final baseUrl = config.deepLinkBaseUrl;
-
-      // For HTTPS links, validate domain from config
-      if (uri.scheme == 'https') {
-        final configUri = Uri.parse(baseUrl);
-        if (uri.host != configUri.host) {
+      // For HTTP/HTTPS links, validate domain from authorized domains
+      if (uri.scheme == 'https' || uri.scheme == 'http') {
+        if (!_authorizedDomains.contains(uri.host)) {
           AppLogger.debug(
-            '⏭️ Ignoring HTTPS link from unauthorized domain: ${uri.host} (expected: ${configUri.host})',
+            '⏭️ Ignoring HTTP/HTTPS link from unauthorized domain: ${uri.host} (authorized: ${_authorizedDomains.join(', ')})',
           );
           return null;
         }
@@ -174,29 +194,10 @@ class DeepLinkServiceImpl implements DeepLinkService {
         '🔗 Query parameters: ${uri.queryParameters}',
       );
 
-      // Extract path information from URI
+      // Extract and validate path information from URI
       final path = _extractPath(uri);
-      AppLogger.debug('📂 Extracted path: "$path"');
-
-      // SECURITY: Validate paths to prevent malformed URIs from getting stuck
-      // Only allow known valid deep link paths
-      final validPaths = {
-        'auth/verify', // Magic link verification
-        'auth', // Legacy auth paths
-        'groups/join', // Group invitations
-        'groups', // Legacy group paths
-        'families/join', // Family invitations
-        'families', // Legacy family paths
-        'dashboard', // Dashboard shortcuts
-        'invite', // Legacy invitation paths
-        '', // Empty path (defaults to dashboard)
-      };
-
-      if (path.isNotEmpty && !validPaths.contains(path)) {
-        AppLogger.warning(
-          '❌ SECURITY: Invalid deep link path detected: "$path" - rejecting deep link',
-        );
-        return null;
+      if (path == null) {
+        return null; // Invalid path, already logged
       }
 
       final rawParameters = Map<String, String>.from(uri.queryParameters);
@@ -243,33 +244,59 @@ class DeepLinkServiceImpl implements DeepLinkService {
     }
   }
 
-  /// Extract path from URI host and path components
-  /// Maps edulift:// URLs to router paths based on frontend patterns
-  String _extractPath(Uri uri) {
+  /// Extract and validate path from URI components
+  /// Maps URLs to router paths and validates them
+  String? _extractPath(Uri uri) {
     // Handle the path based on URI structure
     var path = '';
 
-    // Check if host contains the main path component
-    if (uri.host.isNotEmpty) {
-      path = uri.host;
-
-      // Append additional path segments if they exist
+    // For HTTP/HTTPS URLs, only use the path component (ignore host)
+    if (uri.scheme == 'https' || uri.scheme == 'http') {
       if (uri.path.isNotEmpty && uri.path != '/') {
-        // Remove leading slash and append
-        final pathSegment = uri.path.startsWith('/')
-            ? uri.path.substring(1)
-            : uri.path;
-        if (pathSegment.isNotEmpty) {
-          path = '$path/$pathSegment';
-        }
+        path = uri.path.startsWith('/') ? uri.path.substring(1) : uri.path;
       }
-    } else if (uri.path.isNotEmpty && uri.path != '/') {
-      // Use path component if no host
-      path = uri.path.startsWith('/') ? uri.path.substring(1) : uri.path;
+    } else {
+      // For custom scheme URLs (edulift://), use host + path
+      if (uri.host.isNotEmpty) {
+        path = uri.host;
+
+        // Append additional path segments if they exist
+        if (uri.path.isNotEmpty && uri.path != '/') {
+          // Remove leading slash and append
+          final pathSegment = uri.path.startsWith('/')
+              ? uri.path.substring(1)
+              : uri.path;
+          if (pathSegment.isNotEmpty) {
+            path = '$path/$pathSegment';
+          }
+        }
+      } else if (uri.path.isNotEmpty && uri.path != '/') {
+        // Use path component if no host
+        path = uri.path.startsWith('/') ? uri.path.substring(1) : uri.path;
+      }
     }
 
     AppLogger.debug('🗺️ Path mapping: "${uri.host}${uri.path}" -> "$path"');
-    return path;
+    AppLogger.info(
+      '🔗 DEEP_LINK_DEBUG: Scheme="${uri.scheme}" path="$path", full="${uri.toString()}"',
+    );
+
+    // SECURITY: Validate paths to prevent malformed URIs from getting stuck
+    // Only allow known valid deep link paths
+    final validPaths = {
+      'auth/verify', // Magic link verification
+      'groups/join', // Group invitations
+      'families/join', // Family invitations
+    };
+
+    if (path.isNotEmpty && !validPaths.contains(path)) {
+      AppLogger.warning(
+        '❌ SECURITY: Invalid deep link path detected: "$path" - rejecting deep link',
+      );
+      return null;
+    }
+
+    return path.isEmpty ? null : path;
   }
 
   @override

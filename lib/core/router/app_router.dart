@@ -379,7 +379,12 @@ class AppRouter {
         }
 
         // If user has sent magic link, navigate to waiting page (HIGHEST PRIORITY - overrides pending navigation)
-        if (!isAuthenticated && authState.pendingEmail != null) {
+        // CRITICAL FIX: Don't override navigation if we're currently on magic link page
+        // and a pending navigation exists (likely a deeplink that just arrived)
+        if (!isAuthenticated &&
+            authState.pendingEmail != null &&
+            !(state.matchedLocation.startsWith(AppRoutes.magicLink) &&
+                navigationState.hasPendingNavigation)) {
           final magicLinkWaitingUrl =
               '${AppRoutes.magicLink}?email=${Uri.encodeComponent(authState.pendingEmail!)}';
           if (state.matchedLocation != magicLinkWaitingUrl) {
