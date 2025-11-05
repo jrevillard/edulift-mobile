@@ -381,16 +381,27 @@ class AppRouter {
         // If user has sent magic link, navigate to waiting page (HIGHEST PRIORITY - overrides pending navigation)
         // CRITICAL FIX: Don't override navigation if we're currently on magic link page
         // and a pending navigation exists (likely a deeplink that just arrived)
-        if (!isAuthenticated &&
-            authState.pendingEmail != null &&
-            !(state.matchedLocation.startsWith(AppRoutes.magicLink) &&
-                navigationState.hasPendingNavigation)) {
+        if (!isAuthenticated && authState.pendingEmail != null) {
           final magicLinkWaitingUrl =
               '${AppRoutes.magicLink}?email=${Uri.encodeComponent(authState.pendingEmail!)}';
           if (state.matchedLocation != magicLinkWaitingUrl) {
             core_logger.AppLogger.info(
-              '🪄 [GoRouter Redirect] PRIORITY DECISION: Magic link sent to ${authState.pendingEmail} - navigating to waiting page (overriding pending navigation)',
+              '🪄 [GoRouter Redirect] PRIORITY DECISION: Magic link sent to ${authState.pendingEmail} - navigating to waiting page (overriding ALL pending navigation)',
             );
+
+            // CRITICAL FIX: Clear any pending navigation (e.g. from logout) because magic link has HIGHEST priority
+            // This prevents /auth/login navigation from overriding /auth/login/magic-link
+            if (navigationState.hasPendingNavigation) {
+              core_logger.AppLogger.info(
+                '🪄 [GoRouter Redirect] CLEARING pending navigation (${navigationState.pendingRoute}) - magic link takes priority',
+              );
+              WidgetsBinding.instance.addPostFrameCallback((_) {
+                ref
+                    .read(nav.navigationStateProvider.notifier)
+                    .clearNavigation();
+              });
+            }
+
             return magicLinkWaitingUrl;
           }
         }
