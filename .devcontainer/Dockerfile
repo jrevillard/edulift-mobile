@@ -103,16 +103,14 @@ RUN sh -c "$(wget -O- https://github.com/deluan/zsh-in-docker/releases/download/
 
 # Install Claude and associated tools
 RUN npm install -g @anthropic-ai/claude-code \
-  && npm install -g claude-flow@alpha \
   && npm install -g ccusage \
   && npm install -g happy-coder \
   && npm install -g @musistudio/claude-code-router \
   && npm install -g @qwen-code/qwen-code@latest \
-  && npm install -g firebase-tool \
-  # Load helper functions in shell profile
-  && if ! grep -q "Z.ai GLM" ~/.zshrc; then \
-    echo "# Z.ai GLM" >> ~/.zshrc && \
-    echo "alias claude-glm=\"source ~/.claude/glm-env && claude\"" >> ~/.zshrc \
+  && npm install -g firebase-tools \
+  && if ! grep -q "Z.ai GLM" /home/node/.zshrc; then \
+    echo "# Z.ai GLM" >> /home/node/.zshrc && \
+    echo "alias claude-glm=\"source /home/node/.claude/glm-env && claude\"" >> /home/node/.zshrc ; \
   fi
 
 # Copy and set up firewall script
