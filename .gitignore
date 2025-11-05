@@ -106,4 +106,4 @@ android/.env.keystore
 android/key.properties
 android/app/release.keystore
 android/app/debug.keystore
-
+android/build/

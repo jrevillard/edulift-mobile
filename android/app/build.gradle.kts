@@ -10,6 +10,28 @@ plugins {
     id("dev.flutter.flutter-gradle-plugin")
 }
 
+// Function to check if Firebase is enabled for a flavor
+fun isFirebaseEnabled(flavor: String): Boolean {
+    val configFile = rootProject.file("../config/$flavor.json")
+    if (!configFile.exists()) {
+        return true // Default to enabled if config doesn't exist
+    }
+    val jsonSlurper = JsonSlurper()
+    @Suppress("UNCHECKED_CAST")
+    val json = jsonSlurper.parse(configFile) as Map<String, Any>
+    return json["FIREBASE_ENABLED"] as? Boolean ?: true
+}
+
+// Firebase plugins will be applied conditionally per flavor
+// We'll disable them for flavors where FIREBASE_ENABLED is false
+
+// Apply Firebase plugins globally, but we'll disable their processing for flavors where needed
+// This is a workaround since Gradle plugins can't be easily applied conditionally per variant
+if (isFirebaseEnabled("staging") || isFirebaseEnabled("production")) {
+    apply(plugin = "com.google.gms.google-services")
+    apply(plugin = "com.google.firebase.crashlytics")
+}
+
 val keystoreProperties = Properties()
 val keystorePropertiesFile = rootProject.file("key.properties")
 if (keystorePropertiesFile.exists()) {
@@ -47,7 +69,7 @@ fun parseDeepLinkUrl(url: String): DeepLinkConfig {
                 val parts = hostAndPort.split(":")
                 Pair(parts[0], parts[1])
             } else {
-                Pair(hostAndPort, "")
+                Pair(hostAndPort, null) // Use null instead of empty string to avoid XML parsing errors
             }
 
             DeepLinkConfig(scheme = "https", host = host, port = port)
@@ -56,10 +78,69 @@ fun parseDeepLinkUrl(url: String): DeepLinkConfig {
     }
 }
 
+// Function to generate intent filters as XML (single section with conditional host and port)
+fun generateAllIntentFilters(config: DeepLinkConfig): String {
+    val autoVerify = config.scheme == "https"
+    val hostAttribute = if (config.host.isNullOrEmpty()) "" else " android:host=\"${config.host}\""
+    val portAttribute = if (config.port.isNullOrEmpty()) "" else " android:port=\"${config.port}\""
+
+    return """
+      <!-- Intent filters generated from config (host and port included if present) -->
+      <intent-filter android:autoVerify="$autoVerify">
+        <action android:name="android.intent.action.VIEW"/>
+        <category android:name="android.intent.category.DEFAULT"/>
+        <category android:name="android.intent.category.BROWSABLE"/>
+        <data android:scheme="${config.scheme}"$hostAttribute$portAttribute android:pathPrefix="/auth"/>
+      </intent-filter>
+      <intent-filter android:autoVerify="$autoVerify">
+        <action android:name="android.intent.action.VIEW"/>
+        <category android:name="android.intent.category.DEFAULT"/>
+        <category android:name="android.intent.category.BROWSABLE"/>
+        <data android:scheme="${config.scheme}"$hostAttribute$portAttribute android:pathPrefix="/groups"/>
+      </intent-filter>
+      <intent-filter android:autoVerify="$autoVerify">
+        <action android:name="android.intent.action.VIEW"/>
+        <category android:name="android.intent.category.DEFAULT"/>
+        <category android:name="android.intent.category.BROWSABLE"/>
+        <data android:scheme="${config.scheme}"$hostAttribute$portAttribute android:pathPrefix="/families"/>
+      </intent-filter>
+      <intent-filter android:autoVerify="$autoVerify">
+        <action android:name="android.intent.action.VIEW"/>
+        <category android:name="android.intent.category.DEFAULT"/>
+        <category android:name="android.intent.category.BROWSABLE"/>
+        <data android:scheme="${config.scheme}"$hostAttribute$portAttribute android:pathPrefix="/dashboard"/>
+      </intent-filter>
+      <intent-filter android:autoVerify="$autoVerify">
+        <action android:name="android.intent.action.VIEW"/>
+        <category android:name="android.intent.category.DEFAULT"/>
+        <category android:name="android.intent.category.BROWSABLE"/>
+        <data android:scheme="${config.scheme}"$hostAttribute$portAttribute android:pathPrefix="/invite"/>
+      </intent-filter>
+      <!-- Catch-all for root path -->
+      <intent-filter android:autoVerify="$autoVerify">
+        <action android:name="android.intent.action.VIEW"/>
+        <category android:name="android.intent.category.DEFAULT"/>
+        <category android:name="android.intent.category.BROWSABLE"/>
+        <data android:scheme="${config.scheme}"$hostAttribute$portAttribute/>
+      </intent-filter>
+    """.trimIndent()
+}
+
 android {
     namespace = "com.edulift.app"
     compileSdk = flutter.compileSdkVersion
     ndkVersion = flutter.ndkVersion
+
+    // Disable Google Services processing for flavors where Firebase is disabled
+    gradle.taskGraph.whenReady {
+        tasks.all {
+            if (name.contains("GoogleServices") &&
+                ((name.contains("E2e") && !isFirebaseEnabled("e2e")) ||
+                 (name.contains("Development") && !isFirebaseEnabled("development")))) {
+                enabled = false
+            }
+        }
+    }
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
@@ -120,11 +201,9 @@ android {
             // Deep link configuration from config/development.json
             val deepLinkUrl = getDeepLinkBaseUrl("development")
             val config = parseDeepLinkUrl(deepLinkUrl)
+
             manifestPlaceholders.apply {
-                put("deepLinkScheme", config.scheme)
-                put("deepLinkHost", config.host ?: "")
-                put("deepLinkPort", config.port ?: "")
-                put("deepLinkAutoVerify", config.scheme == "https")
+                put("allIntentFilters", generateAllIntentFilters(config))
             }
         }
 
@@ -138,11 +217,9 @@ android {
             // Deep link configuration from config/staging.json
             val deepLinkUrl = getDeepLinkBaseUrl("staging")
             val config = parseDeepLinkUrl(deepLinkUrl)
+
             manifestPlaceholders.apply {
-                put("deepLinkScheme", config.scheme)
-                put("deepLinkHost", config.host ?: "")
-                put("deepLinkPort", config.port ?: "")
-                put("deepLinkAutoVerify", config.scheme == "https")
+                put("allIntentFilters", generateAllIntentFilters(config))
             }
         }
 
@@ -156,11 +233,9 @@ android {
             // Deep link configuration from config/e2e.json
             val deepLinkUrl = getDeepLinkBaseUrl("e2e")
             val config = parseDeepLinkUrl(deepLinkUrl)
+
             manifestPlaceholders.apply {
-                put("deepLinkScheme", config.scheme)
-                put("deepLinkHost", config.host ?: "")
-                put("deepLinkPort", config.port ?: "")
-                put("deepLinkAutoVerify", config.scheme == "https")
+                put("allIntentFilters", generateAllIntentFilters(config))
             }
         }
 
@@ -173,11 +248,9 @@ android {
             // Deep link configuration from config/production.json
             val deepLinkUrl = getDeepLinkBaseUrl("production")
             val config = parseDeepLinkUrl(deepLinkUrl)
+
             manifestPlaceholders.apply {
-                put("deepLinkScheme", config.scheme)
-                put("deepLinkHost", config.host ?: "")
-                put("deepLinkPort", config.port ?: "")
-                put("deepLinkAutoVerify", config.scheme == "https")
+                put("allIntentFilters", generateAllIntentFilters(config))
             }
         }
     }
@@ -189,9 +262,9 @@ android {
             outputImpl.outputFileName = "edulift-${variant.flavorName}-${variant.buildType.name}.apk"
             return@all true
         }
-        return@all true
     }
 }
+
 
 flutter {
     source = "../.."
