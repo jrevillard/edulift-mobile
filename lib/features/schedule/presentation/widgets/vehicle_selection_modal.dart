@@ -18,6 +18,7 @@ import 'package:edulift/core/domain/entities/family.dart' as features_vehicle;
 import '../../../../core/presentation/extensions/time_of_day_timezone_extension.dart';
 import '../../../../core/services/providers/auth_provider.dart';
 import '../../../../core/utils/weekday_localization.dart';
+import '../../../../core/utils/app_logger.dart';
 
 /// Simple, mobile-friendly vehicle selection modal
 /// Easy-to-use interface for managing vehicles in time slots
@@ -514,7 +515,22 @@ class _VehicleSelectionModalState extends ConsumerState<VehicleSelectionModal> {
   ) {
     final timeSlots = slotData.times;
 
+    // Debug logging for better error tracking
+    AppLogger.debug(
+      'VehicleSelectionModal: Building content with ${vehicles.length} vehicles and ${timeSlots.length} time slots',
+    );
+
+    if (vehicles.isEmpty) {
+      AppLogger.info(
+        'VehicleSelectionModal: No vehicles available for group ${widget.groupId}',
+      );
+      return _buildEmptyState(context);
+    }
+
     if (timeSlots.isEmpty) {
+      AppLogger.info(
+        'VehicleSelectionModal: No time slots available for group ${widget.groupId}',
+      );
       return _buildEmptyState(context);
     }
 
@@ -1113,34 +1129,93 @@ class _VehicleSelectionModalState extends ConsumerState<VehicleSelectionModal> {
   }
 
   Widget _buildErrorState(BuildContext context, String error) {
+    // Log the error using AppLogger
+    AppLogger.error('VehicleSelectionModal: Building error state', error);
+
+    // Categorize error severity for better UI
+    var iconColor = AppColors.error;
+    var title = AppLocalizations.of(context).errorLoadingVehicles;
+    var errorIcon = Icons.error_outline;
+
+    // Customize error display based on error content
+    if (error.contains('network') || error.contains('connection')) {
+      iconColor = AppColors.warning;
+      title = 'Network Error';
+      errorIcon = Icons.wifi_off;
+    } else if (error.contains('timeout')) {
+      iconColor = AppColors.warning;
+      title = 'Timeout Error';
+      errorIcon = Icons.timer_off;
+    } else if (error.contains('unauthorized') || error.contains('401')) {
+      iconColor = AppColors.error;
+      title = 'Authentication Error';
+      errorIcon = Icons.lock_outline;
+    } else if (error.contains('forbidden') || error.contains('403')) {
+      iconColor = AppColors.error;
+      title = 'Permission Error';
+      errorIcon = Icons.block;
+    } else if (error.contains('not found') || error.contains('404')) {
+      iconColor = AppColors.info;
+      title = 'Data Not Found';
+      errorIcon = Icons.search_off;
+    }
+
     return Padding(
       padding: const EdgeInsets.all(40),
       child: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Icon(Icons.error_outline, size: 64, color: AppColors.error),
+            Icon(errorIcon, size: 64, color: iconColor),
             const SizedBox(height: 16),
             Text(
-              AppLocalizations.of(context).errorLoadingVehicles,
+              title,
               style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                color: AppColors.error,
+                color: iconColor,
                 fontWeight: FontWeight.w600,
               ),
+              textAlign: TextAlign.center,
             ),
             const SizedBox(height: 8),
             Text(
-              error,
+              error.length > 100 ? '${error.substring(0, 100)}...' : error,
               textAlign: TextAlign.center,
               style: TextStyle(
                 color: AppColors.textSecondaryThemed(context),
                 fontSize: 12,
+                height: 1.4,
               ),
             ),
-            const SizedBox(height: 16),
-            ElevatedButton(
-              onPressed: () => Navigator.pop(context),
-              child: Text(AppLocalizations.of(context).close),
+            const SizedBox(height: 24),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                TextButton.icon(
+                  onPressed: () {
+                    AppLogger.info(
+                      'VehicleSelectionModal: User requested retry',
+                    );
+                    Navigator.pop(context);
+                    // Consider adding a retry callback if needed in the future
+                  },
+                  icon: const Icon(Icons.refresh),
+                  label: const Text('Retry'),
+                  style: TextButton.styleFrom(foregroundColor: iconColor),
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    AppLogger.info(
+                      'VehicleSelectionModal: User closed error dialog',
+                    );
+                    Navigator.pop(context);
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: iconColor,
+                    foregroundColor: Colors.white,
+                  ),
+                  child: Text(AppLocalizations.of(context).close),
+                ),
+              ],
             ),
           ],
         ),
@@ -1230,32 +1305,44 @@ class _VehicleSelectionModalState extends ConsumerState<VehicleSelectionModal> {
     }
   }
 
+  /// Gets the slot ID for a vehicle using the authoritative source (fresh provider data)
+  String _getSlotIdForVehicle(core_va.VehicleAssignment vehicle) {
+    final slotId = vehicle.scheduleSlotId;
+
+    // Validate that the slot exists in fresh data
+    final week = widget.scheduleSlot.week;
+    final scheduleAsync = ref.watch(
+      weeklyScheduleProvider(widget.groupId, week),
+    );
+
+    scheduleAsync.when(
+      data: (slots) => slots.firstWhere(
+        (slot) => slot.id == slotId,
+        orElse: () => throw StateError('Slot $slotId not found'),
+      ),
+      loading: () => throw StateError('Schedule data still loading'),
+      error: (_, error) =>
+          throw StateError('Failed to load schedule data: $error'),
+    );
+
+    return slotId;
+  }
+
   Future<void> _removeVehicle(core_va.VehicleAssignment vehicle) async {
     setState(() {
       _isLoading = true;
     });
 
     try {
-      // Use vehicleId (the vehicle's ID) not id (the assignment's ID)
+      final slotId = _getSlotIdForVehicle(vehicle);
       final vehicleId = vehicle.vehicleId;
-
-      // Find the correct slot that contains this vehicle
-      final slotContainingVehicle = widget.scheduleSlot.slots.firstWhere(
-        (slot) =>
-            slot.vehicleAssignments.any((va) => va.vehicleId == vehicleId),
-        orElse: () => throw Exception(
-          'Vehicle $vehicleId not found in any slot. This should never happen.',
-        ),
-      );
-
-      final slotId = slotContainingVehicle.id;
 
       final useCase = ref.read(removeVehicleFromSlotUsecaseProvider);
       final result = await useCase.call(
         RemoveVehicleFromSlotParams(
           groupId: widget.groupId,
           slotId: slotId,
-          vehicleAssignmentId: vehicleId,
+          vehicleAssignmentId: vehicle.id,
         ),
       );
 
@@ -1342,15 +1429,20 @@ class _VehicleSelectionModalState extends ConsumerState<VehicleSelectionModal> {
     // Get available children from family provider
     final allFamilyChildren = ref.read(familyChildrenProvider);
 
-    // Find the correct slotId using the new helper method.
-    final slotId = _findSlotIdForVehicle(vehicle);
+    // Use the helper method to get validated slot ID and slot data
+    final slotId = _getSlotIdForVehicle(vehicle);
+    final scheduleAsync = ref.watch(
+      weeklyScheduleProvider(widget.groupId, week),
+    );
 
-    // BUSINESS RULE: A child cannot be in 2 vehicles at the same time for the same slot
-    // Filter out children who are already assigned to ANY vehicle in this slot
-    final currentSlot = widget.scheduleSlot.slots.firstWhere(
-      (slot) => slot.id == slotId,
-      orElse: () =>
-          throw StateError('Slot $slotId not found. This should never happen.'),
+    final currentSlot = scheduleAsync.when(
+      data: (slots) => slots.firstWhere(
+        (slot) => slot.id == slotId,
+        orElse: () => throw StateError('Slot $slotId not found'),
+      ),
+      loading: () => throw StateError('Schedule data still loading'),
+      error: (_, error) =>
+          throw StateError('Failed to load schedule data: $error'),
     );
 
     // Get all child IDs already assigned in this slot (across all vehicles)
@@ -1388,27 +1480,6 @@ class _VehicleSelectionModalState extends ConsumerState<VehicleSelectionModal> {
 
   // Helper methods
 
-  /// Finds the schedule slot ID associated with a given vehicle in the current context.
-  /// Throws a StateError if not found, as this indicates a logic error.
-  String _findSlotIdForVehicle(core_va.VehicleAssignment vehicle) {
-    try {
-      final slotContainingVehicle = widget.scheduleSlot.slots.firstWhere(
-        (slot) => slot.vehicleAssignments.any(
-          (va) => va.vehicleId == vehicle.vehicleId,
-        ),
-        orElse: () => throw StateError(
-          'Vehicle ${vehicle.vehicleId} not found in any slot. This should never happen.',
-        ),
-      );
-      return slotContainingVehicle.id;
-    } catch (e) {
-      // This should never happen in this flow. If it does, it's a critical state error.
-      throw StateError(
-        'Could not find a slot for vehicle ${vehicle.vehicleId} in scheduleSlot ${widget.scheduleSlot.week}',
-      );
-    }
-  }
-
   List<core_va.VehicleAssignment> _getAssignedVehicles(
     PeriodSlotData slotData,
   ) {
@@ -1424,24 +1495,61 @@ class _VehicleSelectionModalState extends ConsumerState<VehicleSelectionModal> {
     TimeOfDayValue timeSlot,
     PeriodSlotData slotData,
   ) {
+    // Validate input parameters
+    if (slotData.slots.isEmpty) {
+      AppLogger.debug(
+        'VehicleSelectionModal: No slots available in period data for time ${timeSlot.toString()}',
+      );
+      return [];
+    }
+
     // Find the slot that matches this specific time using typed comparison
     final matchingSlot = slotData.slots
         .where((slot) => slot.timeOfDay.isSameAs(timeSlot))
         .firstOrNull;
 
     if (matchingSlot == null) {
-      // No slot found for this time - time slot has no vehicles assigned yet
+      // No slot found for this time - this is normal for empty time slots
+      AppLogger.debug(
+        'VehicleSelectionModal: No matching slot found for time ${timeSlot.toString()} among ${slotData.slots.length} available slots',
+      );
+
+      // Log available time slots for debugging
+      final availableTimes = slotData.slots
+          .map((s) => s.timeOfDay.toString())
+          .join(', ');
+      AppLogger.debug(
+        'VehicleSelectionModal: Available time slots: $availableTimes',
+      );
+
+      return [];
+    }
+
+    // Validate the matching slot structure
+    if (matchingSlot.vehicleAssignments.isEmpty) {
+      AppLogger.debug(
+        'VehicleSelectionModal: Slot found for ${timeSlot.toString()} but has no vehicle assignments',
+      );
       return [];
     }
 
     // Return vehicles for this specific time slot - SORTED for stable order!
     final vehicles = matchingSlot.vehicleAssignments.toList();
+
+    // Log vehicle assignments for debugging
+    for (final vehicle in vehicles) {
+      AppLogger.debug(
+        'VehicleSelectionModal: Vehicle ${vehicle.vehicleId} (${vehicle.vehicleName}) with ${vehicle.childAssignments.length} children',
+      );
+    }
+
     // Sort by vehicle name first, then by vehicle ID as tie-breaker for guaranteed stability
     vehicles.sort((a, b) {
       final nameComparison = a.vehicleName.compareTo(b.vehicleName);
       if (nameComparison != 0) return nameComparison;
       return a.vehicleId.compareTo(b.vehicleId);
     });
+
     return vehicles;
   }
 
