@@ -52,31 +52,16 @@ Future<ProviderContainer> bootstrap() async {
       // Initialize persistent logging system AFTER Firebase
       await AppLogger.initialize();
 
+      // Initialize enhanced Flutter error handling with context tracking
+      AppLogger.initializeFlutterErrorHandling();
+
       AppLogger.info('✅ Firebase initialized successfully');
       AppLogger.info('🔥 Crashlytics enabled: ${FeatureFlags.crashReporting}');
+      AppLogger.info('📊 Enhanced Flutter error handling activated');
     } catch (e) {
       AppLogger.warning('⚠️ Firebase initialization failed: $e');
       firebaseInitialized = false;
     }
-
-    // CRITICAL FIX: Global error handlers MUST be active regardless of Firebase status
-    // This ensures all errors are always logged locally, preventing silent failures
-    // Firebase reporting is conditional inside the handlers based on initialization status
-
-    // UNIFIED FLUTTER ERROR HANDLER - Always active for maximum robustness
-    FlutterError.onError = (FlutterErrorDetails details) {
-      // Always log to local logger first (critical for observability)
-      AppLogger.error(
-        'Flutter Error: ${details.summary}',
-        details.exception,
-        details.stack,
-      );
-
-      // Report to Firebase only if initialized and enabled
-      if (firebaseInitialized && FeatureFlags.crashReporting) {
-        FirebaseCrashlytics.instance.recordFlutterFatalError(details);
-      }
-    };
 
     // UNIFIED ASYNC ERROR HANDLER - Always active for maximum robustness
     PlatformDispatcher.instance.onError = (error, stack) {
@@ -93,10 +78,14 @@ Future<ProviderContainer> bootstrap() async {
     // Initialize AppLogger for non-Firebase environments (tests, development, e2e)
     await AppLogger.initialize();
 
+    // Initialize enhanced Flutter error handling even without Firebase
+    AppLogger.initializeFlutterErrorHandling();
+
     // Log environment-specific Firebase skip message
     AppLogger.info(
       '🔧 ${config.environmentName} mode: Skipping Firebase initialization',
     );
+    AppLogger.info('📊 Enhanced Flutter error handling activated (local only)');
   }
 
   AppLogger.info(
