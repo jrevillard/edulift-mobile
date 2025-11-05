@@ -16,8 +16,6 @@ import 'package:edulift/core/domain/entities/family.dart';
 import 'package:edulift/core/domain/entities/schedule.dart';
 
 import '../../support/golden/golden_test_wrapper.dart';
-import '../../support/golden/device_configurations.dart';
-import '../../support/golden/theme_configurations.dart';
 import '../../support/factories/family_data_factory.dart';
 import '../../support/factories/test_data_factory.dart';
 
@@ -42,8 +40,6 @@ void main() {
             onSuccess: () {},
           ),
           testName: 'role_change_dialog_promote_light',
-          devices: DeviceConfigurations.defaultSet,
-          themes: [ThemeConfigurations.light],
         );
       },
     );
@@ -59,8 +55,6 @@ void main() {
           tester: tester,
           widget: RoleChangeConfirmationDialog(member: admin, onSuccess: () {}),
           testName: 'role_change_dialog_demote_dark',
-          devices: DeviceConfigurations.defaultSet,
-          themes: [ThemeConfigurations.dark],
         );
       },
     );
@@ -77,8 +71,6 @@ void main() {
           onSuccess: () {},
         ),
         testName: 'remove_member_dialog_light',
-        devices: DeviceConfigurations.defaultSet,
-        themes: [ThemeConfigurations.light],
       );
     });
 
@@ -92,8 +84,6 @@ void main() {
           onSuccess: () {},
         ),
         testName: 'remove_member_dialog_dark',
-        devices: DeviceConfigurations.defaultSet,
-        themes: [ThemeConfigurations.dark],
       );
     });
   });
@@ -106,8 +96,6 @@ void main() {
         tester: tester,
         widget: LeaveFamilyConfirmationDialog(member: member, onSuccess: () {}),
         testName: 'leave_family_dialog_light',
-        devices: DeviceConfigurations.defaultSet,
-        themes: [ThemeConfigurations.light],
       );
     });
 
@@ -118,8 +106,6 @@ void main() {
         tester: tester,
         widget: LeaveFamilyConfirmationDialog(member: member, onSuccess: () {}),
         testName: 'leave_family_dialog_dark',
-        devices: DeviceConfigurations.defaultSet,
-        themes: [ThemeConfigurations.dark],
       );
     });
   });
@@ -132,8 +118,6 @@ void main() {
         tester: tester,
         widget: const VehicleCapacityIndicator(usedSeats: 3, totalSeats: 5),
         testName: 'vehicle_capacity_normal_light',
-        devices: DeviceConfigurations.defaultSet,
-        themes: [ThemeConfigurations.light],
       );
     });
 
@@ -144,8 +128,6 @@ void main() {
         tester: tester,
         widget: const VehicleCapacityIndicator(usedSeats: 7, totalSeats: 7),
         testName: 'vehicle_capacity_full_dark',
-        devices: DeviceConfigurations.defaultSet,
-        themes: [ThemeConfigurations.dark],
       );
     });
 
@@ -156,8 +138,6 @@ void main() {
         tester: tester,
         widget: const VehicleCapacityIndicator(usedSeats: 8, totalSeats: 9),
         testName: 'vehicle_capacity_nearly_full_light',
-        devices: DeviceConfigurations.defaultSet,
-        themes: [ThemeConfigurations.light],
       );
     });
   });
@@ -189,8 +169,6 @@ void main() {
         tester: tester,
         widget: ConflictIndicator(conflicts: conflicts),
         testName: 'conflict_indicator_light',
-        devices: DeviceConfigurations.defaultSet,
-        themes: [ThemeConfigurations.light],
       );
     });
 
@@ -212,8 +190,6 @@ void main() {
         tester: tester,
         widget: ConflictIndicator(conflicts: conflicts),
         testName: 'conflict_indicator_dark',
-        devices: DeviceConfigurations.defaultSet,
-        themes: [ThemeConfigurations.dark],
       );
     });
   });
@@ -246,8 +222,6 @@ void main() {
             ),
           ),
           testName: 'children_list_large_light',
-          devices: DeviceConfigurations.defaultSet,
-          themes: [ThemeConfigurations.light],
         );
       },
     );
@@ -280,8 +254,6 @@ void main() {
           ),
         ),
         testName: 'vehicles_list_large_dark',
-        devices: DeviceConfigurations.defaultSet,
-        themes: [ThemeConfigurations.dark],
       );
     });
   });

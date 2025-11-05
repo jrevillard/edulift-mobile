@@ -15,8 +15,6 @@ import 'package:edulift/core/navigation/navigation_state.dart' as nav;
 import 'package:edulift/core/services/providers/auth_provider.dart';
 import 'package:edulift/core/domain/entities/user.dart';
 import '../../support/golden/golden_test_wrapper.dart';
-import '../../support/golden/device_configurations.dart';
-import '../../support/golden/theme_configurations.dart';
 import '../../support/network_mocking.dart';
 
 void main() {
@@ -57,8 +55,6 @@ void main() {
             ),
           ),
           testName: 'invitation_error_expired_light',
-          devices: DeviceConfigurations.defaultSet,
-          themes: [ThemeConfigurations.light],
           providerOverrides: createProviderOverrides(),
         );
       });
@@ -78,8 +74,6 @@ void main() {
             ),
           ),
           testName: 'invitation_error_invalid_code_dark',
-          devices: DeviceConfigurations.defaultSet,
-          themes: [ThemeConfigurations.dark],
           providerOverrides: createProviderOverrides(),
         );
       });
@@ -97,8 +91,6 @@ void main() {
             ),
           ),
           testName: 'invitation_error_email_mismatch',
-          devices: DeviceConfigurations.defaultSet,
-          themes: [ThemeConfigurations.light],
           providerOverrides: createProviderOverrides(),
         );
       });
@@ -119,8 +111,6 @@ void main() {
             ),
           ),
           testName: 'invitation_error_not_found_tablet',
-          devices: DeviceConfigurations.defaultSet,
-          themes: [ThemeConfigurations.light],
           providerOverrides: createProviderOverrides(),
         );
       });
@@ -138,8 +128,6 @@ void main() {
             ),
           ),
           testName: 'invitation_error_network_dark',
-          devices: DeviceConfigurations.defaultSet,
-          themes: [ThemeConfigurations.dark],
           providerOverrides: createProviderOverrides(),
         );
       });
@@ -157,8 +145,6 @@ void main() {
             ),
           ),
           testName: 'invitation_loading_family_light',
-          devices: DeviceConfigurations.defaultSet,
-          themes: [ThemeConfigurations.light],
           providerOverrides: createProviderOverrides(),
         );
       });
@@ -170,8 +156,6 @@ void main() {
             child: InvitationLoadingState(invitationType: InvitationType.group),
           ),
           testName: 'invitation_loading_group_dark',
-          devices: DeviceConfigurations.defaultSet,
-          themes: [ThemeConfigurations.dark],
           providerOverrides: createProviderOverrides(),
         );
       });
@@ -186,8 +170,6 @@ void main() {
             ),
           ),
           testName: 'invitation_loading_tablet',
-          devices: DeviceConfigurations.defaultSet,
-          themes: [ThemeConfigurations.light],
           providerOverrides: createProviderOverrides(),
         );
       });
@@ -215,8 +197,6 @@ void main() {
             ),
           ),
           testName: 'invitation_manual_input_family_empty',
-          devices: DeviceConfigurations.defaultSet,
-          themes: [ThemeConfigurations.light],
           providerOverrides: createProviderOverrides(),
         );
       });
@@ -242,8 +222,6 @@ void main() {
             ),
           ),
           testName: 'invitation_manual_input_group_with_code_dark',
-          devices: DeviceConfigurations.defaultSet,
-          themes: [ThemeConfigurations.dark],
           providerOverrides: createProviderOverrides(),
         );
       });
@@ -270,8 +248,6 @@ void main() {
             ),
           ),
           testName: 'invitation_manual_input_with_error',
-          devices: DeviceConfigurations.defaultSet,
-          themes: [ThemeConfigurations.light],
           providerOverrides: createProviderOverrides(),
         );
       });
@@ -298,8 +274,6 @@ void main() {
             ),
           ),
           testName: 'invitation_manual_input_with_cancel',
-          devices: DeviceConfigurations.defaultSet,
-          themes: [ThemeConfigurations.light],
           providerOverrides: createProviderOverrides(),
         );
       });
@@ -324,8 +298,6 @@ void main() {
             ),
           ),
           testName: 'invitation_manual_input_tablet_dark',
-          devices: DeviceConfigurations.defaultSet,
-          themes: [ThemeConfigurations.dark],
           providerOverrides: createProviderOverrides(),
         );
       });

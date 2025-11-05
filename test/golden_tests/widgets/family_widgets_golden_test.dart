@@ -11,8 +11,6 @@ import 'package:edulift/core/domain/entities/family.dart';
 import 'package:edulift/features/family/presentation/widgets/member_action_bottom_sheet.dart';
 
 import '../../support/golden/golden_test_wrapper.dart';
-import '../../support/golden/device_configurations.dart';
-import '../../support/golden/theme_configurations.dart';
 import '../../support/factories/family_data_factory.dart';
 import '../../support/factories/test_data_factory.dart';
 
@@ -37,8 +35,6 @@ void main() {
           onRemoveMember: () {},
         ),
         testName: 'member_action_bottom_sheet_realistic',
-        devices: DeviceConfigurations.defaultSet,
-        themes: ThemeConfigurations.basic,
       );
     });
 
@@ -58,8 +54,6 @@ void main() {
           onRemoveMember: () {},
         ),
         testName: 'member_action_bottom_sheet_admin',
-        devices: [DeviceConfigurations.iphone13],
-        themes: [ThemeConfigurations.light],
       );
     });
 
@@ -78,8 +72,6 @@ void main() {
           onRemoveMember: () {},
         ),
         testName: 'member_action_bottom_sheet_long_name',
-        devices: [DeviceConfigurations.iphoneSE],
-        themes: [ThemeConfigurations.light],
       );
     });
 
@@ -97,8 +89,6 @@ void main() {
           onRemoveMember: () {},
         ),
         testName: 'member_action_bottom_sheet_special_chars',
-        devices: [DeviceConfigurations.iphone13],
-        themes: [ThemeConfigurations.light],
       );
     });
 
@@ -115,8 +105,6 @@ void main() {
           onRemoveMember: () {},
         ),
         testName: 'member_action_bottom_sheet_dark',
-        devices: [DeviceConfigurations.iphone13],
-        themes: [ThemeConfigurations.dark],
       );
     });
 
@@ -135,8 +123,6 @@ void main() {
           onRemoveMember: () {},
         ),
         testName: 'member_action_bottom_sheet_high_contrast',
-        devices: [DeviceConfigurations.iphone13],
-        themes: [ThemeConfigurations.highContrastLight],
       );
     });
 
@@ -155,8 +141,6 @@ void main() {
           onRemoveMember: () {},
         ),
         testName: 'member_action_bottom_sheet_large_font',
-        devices: [DeviceConfigurations.iphone13],
-        themes: [ThemeConfigurations.lightLargeFont],
       );
     });
 
@@ -173,8 +157,6 @@ void main() {
           onRemoveMember: () {},
         ),
         testName: 'member_action_bottom_sheet_tablet',
-        devices: [DeviceConfigurations.iPadPro],
-        themes: [ThemeConfigurations.light],
       );
     });
   });
@@ -209,8 +191,6 @@ void main() {
           ),
         },
         baseTestName: 'member_action_states',
-        devices: [DeviceConfigurations.iphone13],
-        themes: [ThemeConfigurations.light],
       );
     });
   });
@@ -233,8 +213,6 @@ void main() {
           },
         ),
         testName: 'member_list_volumetric',
-        devices: [DeviceConfigurations.iphone13],
-        themes: [ThemeConfigurations.light],
       );
     });
   });

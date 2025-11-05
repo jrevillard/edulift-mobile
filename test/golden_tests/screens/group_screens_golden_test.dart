@@ -18,8 +18,6 @@ import 'package:edulift/core/domain/entities/user.dart';
 import 'package:edulift/core/utils/result.dart';
 
 import '../../support/golden/golden_test_wrapper.dart';
-import '../../support/golden/device_configurations.dart';
-import '../../support/golden/theme_configurations.dart';
 import '../../support/factories/group_data_factory.dart';
 import '../../support/factories/test_data_factory.dart';
 import '../../test_mocks/generated_mocks.mocks.dart';
@@ -107,8 +105,6 @@ void main() {
         tester: tester,
         screen: const GroupsPage(),
         testName: 'groups_list_realistic',
-        devices: DeviceConfigurations.defaultSet,
-        themes: ThemeConfigurations.basic,
         providerOverrides: overrides,
       );
     });
@@ -146,8 +142,6 @@ void main() {
         tester: tester,
         screen: const GroupsPage(),
         testName: 'groups_list_different_statuses',
-        devices: [DeviceConfigurations.iphone13],
-        themes: [ThemeConfigurations.light],
         providerOverrides: overrides,
       );
     });
@@ -178,8 +172,6 @@ void main() {
         tester: tester,
         widget: const GroupsPage(),
         testName: 'groups_list',
-        devices: [DeviceConfigurations.iphone13],
-        themes: [ThemeConfigurations.light],
         category: 'screen',
         providerOverrides: overrides,
       );
@@ -211,8 +203,6 @@ void main() {
         tester: tester,
         widget: const GroupsPage(),
         testName: 'groups_list',
-        devices: [DeviceConfigurations.iphone13],
-        themes: [ThemeConfigurations.light],
         category: 'screen',
         providerOverrides: overrides,
       );
@@ -244,8 +234,6 @@ void main() {
         tester: tester,
         widget: const GroupsPage(),
         testName: 'groups_list',
-        devices: [DeviceConfigurations.iphone13],
-        themes: [ThemeConfigurations.light],
         category: 'screen',
         providerOverrides: overrides,
       );
@@ -279,12 +267,6 @@ void main() {
         tester: tester,
         screen: const CreateGroupPage(),
         testName: 'create_group_page',
-        devices: DeviceConfigurations.defaultSet,
-        themes: [
-          ThemeConfigurations.light,
-          ThemeConfigurations.dark,
-          ThemeConfigurations.highContrastLight,
-        ],
         providerOverrides: overrides,
       );
     });

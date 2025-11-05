@@ -11,8 +11,6 @@ import 'package:edulift/features/auth/presentation/pages/magic_link_page.dart';
 import 'package:edulift/core/navigation/navigation_state.dart' as nav;
 
 import '../../support/golden/golden_test_wrapper.dart';
-import '../../support/golden/device_configurations.dart';
-import '../../support/golden/theme_configurations.dart';
 import '../../support/network_mocking.dart';
 
 void main() {
@@ -32,8 +30,6 @@ void main() {
         tester: tester,
         screen: const LoginPage(),
         testName: 'login_page_light',
-        devices: DeviceConfigurations.defaultSet,
-        themes: [ThemeConfigurations.light],
         providerOverrides: overrides,
       );
     });
@@ -52,8 +48,6 @@ void main() {
         tester: tester,
         screen: const LoginPage(),
         testName: 'login_page_dark',
-        devices: DeviceConfigurations.defaultSet,
-        themes: [ThemeConfigurations.dark],
         providerOverrides: overrides,
       );
     });
@@ -72,8 +66,6 @@ void main() {
         tester: tester,
         screen: const MagicLinkPage(email: 'jean-pierre.müller@example.com'),
         testName: 'magic_link_page_light',
-        devices: DeviceConfigurations.defaultSet,
-        themes: [ThemeConfigurations.light],
         providerOverrides: overrides,
       );
     });
@@ -92,8 +84,6 @@ void main() {
         tester: tester,
         screen: const MagicLinkPage(email: 'josé.garcía@example.com'),
         testName: 'magic_link_page_dark',
-        devices: DeviceConfigurations.defaultSet,
-        themes: [ThemeConfigurations.dark],
         providerOverrides: overrides,
       );
     });

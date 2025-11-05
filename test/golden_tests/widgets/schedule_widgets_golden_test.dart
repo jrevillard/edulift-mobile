@@ -38,8 +38,6 @@ import 'package:edulift/core/services/providers/auth_provider.dart';
 import 'package:edulift/core/domain/entities/user.dart';
 
 import '../../support/golden/golden_test_wrapper.dart';
-import '../../support/golden/device_configurations.dart';
-import '../../support/golden/theme_configurations.dart';
 import '../../support/factories/schedule_data_factory.dart';
 import '../../support/factories/group_data_factory.dart';
 import '../../support/factories/family_data_factory.dart';
@@ -466,8 +464,6 @@ void main() {
             ),
           ),
           testName: 'schedule_grid_light_data',
-          devices: DeviceConfigurations.crossPlatformSet,
-          themes: [ThemeConfigurations.light],
         );
       });
 
@@ -509,8 +505,6 @@ void main() {
             ),
           ),
           testName: 'schedule_grid_dark_data',
-          devices: DeviceConfigurations.crossPlatformSet,
-          themes: [ThemeConfigurations.dark],
         );
       });
 
@@ -551,8 +545,6 @@ void main() {
             ),
           ),
           testName: 'schedule_grid_empty',
-          devices: [DeviceConfigurations.iphone13],
-          themes: [ThemeConfigurations.light],
         );
       });
 
@@ -598,8 +590,6 @@ void main() {
             ),
           ),
           testName: 'schedule_grid_responsive_small',
-          devices: [DeviceConfigurations.iphoneSE],
-          themes: [ThemeConfigurations.light],
         );
       });
     });
@@ -655,8 +645,6 @@ void main() {
             ),
           ),
           testName: 'vehicle_selection_modal_light_available',
-          devices: DeviceConfigurations.crossPlatformSet,
-          themes: [ThemeConfigurations.light],
         );
       });
 
@@ -710,8 +698,6 @@ void main() {
             ),
           ),
           testName: 'vehicle_selection_modal_dark_assigned',
-          devices: DeviceConfigurations.crossPlatformSet,
-          themes: [ThemeConfigurations.dark],
         );
       });
 
@@ -765,8 +751,6 @@ void main() {
             ),
           ),
           testName: 'vehicle_selection_modal_tablet',
-          devices: DeviceConfigurations.crossPlatformSet,
-          themes: [ThemeConfigurations.light],
         );
       });
     });
@@ -812,8 +796,6 @@ void main() {
             ),
           ),
           testName: 'schedule_grid_high_contrast',
-          devices: [DeviceConfigurations.iphone13],
-          themes: [ThemeConfigurations.highContrastLight],
         );
       });
 
@@ -869,8 +851,6 @@ void main() {
             ),
           ),
           testName: 'vehicle_selection_modal_complex',
-          devices: DeviceConfigurations.crossPlatformSet,
-          themes: [ThemeConfigurations.light],
         );
       });
     });
@@ -926,8 +906,6 @@ void main() {
               ),
             ),
             testName: 'schedule_config_widget_light_existing',
-            devices: DeviceConfigurations.crossPlatformSet,
-            themes: [ThemeConfigurations.light],
           );
         },
       );
@@ -982,8 +960,6 @@ void main() {
               ),
             ),
             testName: 'schedule_config_widget_dark_existing',
-            devices: DeviceConfigurations.crossPlatformSet,
-            themes: [ThemeConfigurations.dark],
           );
         },
       );
@@ -1025,8 +1001,6 @@ void main() {
               ),
             ),
             testName: 'schedule_config_widget_default',
-            devices: DeviceConfigurations.crossPlatformSet,
-            themes: [ThemeConfigurations.light],
           );
         },
       );
@@ -1063,8 +1037,6 @@ void main() {
             ),
           ),
           testName: 'schedule_config_widget_loading',
-          devices: [DeviceConfigurations.iphone13],
-          themes: [ThemeConfigurations.light],
           skipSettle:
               true, // Loading state has infinite animations that cause pumpAndSettle to timeout
         );
@@ -1105,8 +1077,6 @@ void main() {
             ),
           ),
           testName: 'schedule_config_widget_error',
-          devices: [DeviceConfigurations.iphone13],
-          themes: [ThemeConfigurations.light],
         );
       });
 
@@ -1171,8 +1141,6 @@ void main() {
             ),
           ),
           testName: 'schedule_config_widget_responsive_small',
-          devices: [DeviceConfigurations.iphoneSE],
-          themes: [ThemeConfigurations.light],
         );
       });
 
@@ -1266,8 +1234,6 @@ void main() {
             ),
           ),
           testName: 'schedule_config_widget_responsive_tablet',
-          devices: [DeviceConfigurations.iPadPro],
-          themes: [ThemeConfigurations.light],
         );
       });
 
@@ -1320,8 +1286,6 @@ void main() {
             ),
           ),
           testName: 'schedule_config_widget_high_contrast',
-          devices: [DeviceConfigurations.iphone13],
-          themes: [ThemeConfigurations.highContrastLight],
         );
       });
 
@@ -1375,8 +1339,6 @@ void main() {
             ),
           ),
           testName: 'schedule_config_widget_weekend_only',
-          devices: [DeviceConfigurations.iphone13],
-          themes: [ThemeConfigurations.light],
         );
       });
 
@@ -1446,8 +1408,6 @@ void main() {
             ),
           ),
           testName: 'schedule_config_widget_max_slots',
-          devices: [DeviceConfigurations.iphone13],
-          themes: [ThemeConfigurations.light],
         );
       });
     });
@@ -1497,8 +1457,6 @@ void main() {
             ),
           ),
           testName: 'schedule_slot_widget_empty_light',
-          devices: DeviceConfigurations.crossPlatformSet,
-          themes: [ThemeConfigurations.light],
         );
       });
 
@@ -1546,8 +1504,6 @@ void main() {
             ),
           ),
           testName: 'schedule_slot_widget_empty_dark',
-          devices: DeviceConfigurations.crossPlatformSet,
-          themes: [ThemeConfigurations.dark],
         );
       });
 
@@ -1602,8 +1558,6 @@ void main() {
             ),
           ),
           testName: 'schedule_slot_widget_single_vehicle',
-          devices: DeviceConfigurations.crossPlatformSet,
-          themes: [ThemeConfigurations.light],
         );
       });
 
@@ -1664,8 +1618,6 @@ void main() {
             ),
           ),
           testName: 'schedule_slot_widget_multiple_vehicles',
-          devices: DeviceConfigurations.crossPlatformSet,
-          themes: [ThemeConfigurations.light],
         );
       });
 
@@ -1726,8 +1678,6 @@ void main() {
             ),
           ),
           testName: 'schedule_slot_widget_no_children',
-          devices: [DeviceConfigurations.iphone13],
-          themes: [ThemeConfigurations.light],
         );
       });
 
@@ -1788,8 +1738,6 @@ void main() {
             ),
           ),
           testName: 'schedule_slot_widget_responsive_small',
-          devices: [DeviceConfigurations.iphoneSE],
-          themes: [ThemeConfigurations.light],
         );
       });
 
@@ -1850,8 +1798,6 @@ void main() {
             ),
           ),
           testName: 'schedule_slot_widget_responsive_tablet',
-          devices: [DeviceConfigurations.iPadPro],
-          themes: [ThemeConfigurations.light],
         );
       });
 
@@ -1905,8 +1851,6 @@ void main() {
             ),
           ),
           testName: 'schedule_slot_widget_high_contrast',
-          devices: [DeviceConfigurations.iphone13],
-          themes: [ThemeConfigurations.highContrastLight],
         );
       });
 
@@ -1967,8 +1911,6 @@ void main() {
             ),
           ),
           testName: 'schedule_slot_widget_many_vehicles',
-          devices: [DeviceConfigurations.iphone13],
-          themes: [ThemeConfigurations.light],
         );
       });
     });
@@ -1981,8 +1923,6 @@ void main() {
           tester: tester,
           screen: const CreateSchedulePage(),
           testName: 'create_schedule_page_light_basic',
-          devices: DeviceConfigurations.crossPlatformSet,
-          themes: [ThemeConfigurations.light],
         );
       });
 
@@ -1993,8 +1933,6 @@ void main() {
           tester: tester,
           screen: const CreateSchedulePage(),
           testName: 'create_schedule_page_dark_basic',
-          devices: DeviceConfigurations.crossPlatformSet,
-          themes: [ThemeConfigurations.dark],
         );
       });
 
@@ -2005,8 +1943,6 @@ void main() {
           tester: tester,
           screen: const CreateSchedulePage(),
           testName: 'create_schedule_page_responsive_small',
-          devices: [DeviceConfigurations.iphoneSE],
-          themes: [ThemeConfigurations.light],
         );
       });
 
@@ -2017,8 +1953,6 @@ void main() {
           tester: tester,
           screen: const CreateSchedulePage(),
           testName: 'create_schedule_page_responsive_tablet',
-          devices: [DeviceConfigurations.iPadPro],
-          themes: [ThemeConfigurations.light],
         );
       });
 
@@ -2029,8 +1963,6 @@ void main() {
           tester: tester,
           screen: const CreateSchedulePage(),
           testName: 'create_schedule_page_high_contrast',
-          devices: [DeviceConfigurations.iphone13],
-          themes: [ThemeConfigurations.highContrastLight],
         );
       });
 
@@ -2041,8 +1973,6 @@ void main() {
           tester: tester,
           screen: const CreateSchedulePage(),
           testName: 'create_schedule_page_minimal',
-          devices: [DeviceConfigurations.pixel4a],
-          themes: [ThemeConfigurations.light],
         );
       });
     });
@@ -2081,8 +2011,6 @@ void main() {
               ),
             ),
             testName: 'child_assignment_sheet_light_children',
-            devices: DeviceConfigurations.crossPlatformSet,
-            themes: [ThemeConfigurations.light],
           );
         },
       );
@@ -2117,8 +2045,6 @@ void main() {
               ),
             ),
             testName: 'child_assignment_sheet_dark_capacity_full',
-            devices: DeviceConfigurations.crossPlatformSet,
-            themes: [ThemeConfigurations.dark],
           );
         },
       );
@@ -2154,8 +2080,6 @@ void main() {
             ),
           ),
           testName: 'child_assignment_sheet_tablet_many_children',
-          devices: [DeviceConfigurations.iPadPro],
-          themes: [ThemeConfigurations.light],
         );
       });
 
@@ -2192,8 +2116,6 @@ void main() {
             ),
           ),
           testName: 'child_assignment_sheet_responsive_small',
-          devices: [DeviceConfigurations.iphoneSE],
-          themes: [ThemeConfigurations.light],
         );
       });
     });
@@ -2211,8 +2133,6 @@ void main() {
             weekdayLabel: 'Monday',
           ),
           testName: 'schedule_time_picker_empty_light',
-          devices: DeviceConfigurations.crossPlatformSet,
-          themes: [ThemeConfigurations.light],
           constrainedSize: const Size(400, 600),
         );
       });
@@ -2229,8 +2149,6 @@ void main() {
             weekdayLabel: 'Tuesday',
           ),
           testName: 'schedule_time_picker_selected_dark',
-          devices: DeviceConfigurations.crossPlatformSet,
-          themes: [ThemeConfigurations.dark],
         );
       });
 
@@ -2255,8 +2173,6 @@ void main() {
             weekdayLabel: 'Wednesday',
           ),
           testName: 'schedule_time_picker_max_slots',
-          devices: DeviceConfigurations.crossPlatformSet,
-          themes: [ThemeConfigurations.light],
         );
       });
 
@@ -2272,8 +2188,6 @@ void main() {
             weekdayLabel: 'Thursday',
           ),
           testName: 'schedule_time_picker_tablet',
-          devices: [DeviceConfigurations.iPadPro],
-          themes: [ThemeConfigurations.light],
         );
       });
 
@@ -2287,8 +2201,6 @@ void main() {
             weekdayLabel: 'Friday',
           ),
           testName: 'schedule_time_picker_high_contrast',
-          devices: [DeviceConfigurations.iphone13],
-          themes: [ThemeConfigurations.highContrastLight],
         );
       });
     });
@@ -2307,8 +2219,6 @@ void main() {
             maxSlots: 10,
           ),
           testName: 'per_day_time_slot_config_empty_light',
-          devices: DeviceConfigurations.crossPlatformSet,
-          themes: [ThemeConfigurations.light],
         );
       });
 
@@ -2325,8 +2235,6 @@ void main() {
             maxSlots: 8,
           ),
           testName: 'per_day_time_slot_config_with_slots_dark',
-          devices: DeviceConfigurations.crossPlatformSet,
-          themes: [ThemeConfigurations.dark],
         );
       });
 
@@ -2354,8 +2262,6 @@ void main() {
             maxSlots: 15,
           ),
           testName: 'per_day_time_slot_config_many_slots',
-          devices: DeviceConfigurations.crossPlatformSet,
-          themes: [ThemeConfigurations.light],
         );
       });
 
@@ -2372,8 +2278,6 @@ void main() {
             maxSlots: 6,
           ),
           testName: 'per_day_time_slot_config_responsive_small',
-          devices: [DeviceConfigurations.iphoneSE],
-          themes: [ThemeConfigurations.light],
         );
       });
 
@@ -2390,8 +2294,6 @@ void main() {
             maxSlots: 12,
           ),
           testName: 'per_day_time_slot_config_responsive_tablet',
-          devices: [DeviceConfigurations.iPadPro],
-          themes: [ThemeConfigurations.light],
         );
       });
     });

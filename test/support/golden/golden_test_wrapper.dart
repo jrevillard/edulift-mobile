@@ -30,7 +30,7 @@ class GoldenTestWrapper {
   }) async {
     final testDevices = devices ?? GoldenTestConfig.defaultDevices;
     final testThemes = themes ?? GoldenTestConfig.defaultThemes;
-    final testLocales = locales ?? [const Locale('en', 'US')];
+    final testLocales = locales ?? GoldenTestConfig.defaultLocales;
 
     for (final device in testDevices) {
       for (final theme in testThemes) {

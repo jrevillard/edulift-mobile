@@ -25,8 +25,6 @@ import 'package:edulift/core/utils/result.dart';
 import 'package:edulift/core/errors/failures.dart';
 
 import '../../support/golden/golden_test_wrapper.dart';
-import '../../support/golden/device_configurations.dart';
-import '../../support/golden/theme_configurations.dart';
 import '../../support/factories/family_data_factory.dart';
 import '../../support/factories/test_data_factory.dart';
 import '../../test_mocks/generated_mocks.mocks.dart';
@@ -168,8 +166,6 @@ void main() {
         tester: tester,
         screen: const FamilyManagementScreen(initialTabIndex: 0),
         testName: 'family_members_list_realistic',
-        devices: DeviceConfigurations.defaultSet,
-        themes: ThemeConfigurations.basic,
         providerOverrides: overrides,
       );
     });
@@ -214,8 +210,6 @@ void main() {
         tester: tester,
         screen: const FamilyManagementScreen(initialTabIndex: 0),
         testName: 'family_members_list_edge_cases',
-        devices: [DeviceConfigurations.iphone13],
-        themes: [ThemeConfigurations.light],
         providerOverrides: overrides,
       );
     });
@@ -246,8 +240,6 @@ void main() {
         tester: tester,
         widget: const FamilyManagementScreen(initialTabIndex: 0),
         testName: 'family_members_list',
-        devices: [DeviceConfigurations.iphone13],
-        themes: [ThemeConfigurations.light],
         category: 'screen',
         providerOverrides: overrides,
       );
@@ -287,8 +279,6 @@ void main() {
         tester: tester,
         screen: const FamilyManagementScreen(initialTabIndex: 1),
         testName: 'children_list_realistic',
-        devices: DeviceConfigurations.defaultSet,
-        themes: ThemeConfigurations.basic,
         providerOverrides: overrides,
       );
     });
@@ -333,8 +323,6 @@ void main() {
         tester: tester,
         screen: const FamilyManagementScreen(initialTabIndex: 1),
         testName: 'children_list_edge_cases',
-        devices: [DeviceConfigurations.iphone13],
-        themes: [ThemeConfigurations.light],
         providerOverrides: overrides,
       );
     });
@@ -373,8 +361,6 @@ void main() {
         tester: tester,
         screen: const FamilyManagementScreen(initialTabIndex: 2),
         testName: 'vehicles_list_realistic',
-        devices: DeviceConfigurations.defaultSet,
-        themes: ThemeConfigurations.basic,
         providerOverrides: overrides,
       );
     });
@@ -419,8 +405,6 @@ void main() {
         tester: tester,
         screen: const FamilyManagementScreen(initialTabIndex: 2),
         testName: 'vehicles_list_edge_cases',
-        devices: [DeviceConfigurations.iphone13],
-        themes: [ThemeConfigurations.light],
         providerOverrides: overrides,
       );
     });

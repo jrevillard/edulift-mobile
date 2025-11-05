@@ -43,13 +43,7 @@ class GoldenTestConfig {
 
   // Device configuration presets
   static Map<String, List<DeviceConfig>> get devicePresets => {
-    'quick': DeviceConfigurations.defaultSet,
-    'mobile': DeviceConfigurations.mobilePhones,
-    'full': DeviceConfigurations.all,
-    'small': DeviceConfigurations.smallPhones,
-    'regular': DeviceConfigurations.regularPhones,
-    'large': DeviceConfigurations.largePhones,
-    'tablet': DeviceConfigurations.tablets,
+    'default': DeviceConfigurations.defaultSet,
   };
 
   // Theme configuration presets
@@ -158,7 +152,7 @@ class GoldenTestConfig {
 
       case GoldenTestType.comprehensive:
         return TestTypeConfig(
-          devices: DeviceConfigurations.all,
+          devices: DeviceConfigurations.defaultSet,
           themes: ThemeConfigurations.all,
           locales: defaultLocales,
         );

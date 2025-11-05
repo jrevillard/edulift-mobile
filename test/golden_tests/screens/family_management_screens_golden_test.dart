@@ -13,8 +13,6 @@ import 'package:edulift/features/family/presentation/pages/add_child_page.dart';
 import 'package:edulift/features/family/presentation/pages/add_vehicle_page.dart';
 
 import '../../support/golden/golden_test_wrapper.dart';
-import '../../support/golden/device_configurations.dart';
-import '../../support/golden/theme_configurations.dart';
 import '../../support/network_mocking.dart';
 
 void main() {
@@ -33,8 +31,6 @@ void main() {
         tester: tester,
         screen: const CreateFamilyPage(),
         testName: 'create_family_page_light',
-        devices: DeviceConfigurations.defaultSet,
-        themes: [ThemeConfigurations.light],
         providerOverrides: overrides,
       );
     });
@@ -53,8 +49,6 @@ void main() {
         tester: tester,
         screen: const CreateFamilyPage(),
         testName: 'create_family_page_dark',
-        devices: DeviceConfigurations.defaultSet,
-        themes: [ThemeConfigurations.dark],
         providerOverrides: overrides,
       );
     });
@@ -75,8 +69,6 @@ void main() {
         tester: tester,
         screen: const AddChildPage(),
         testName: 'add_child_page_light',
-        devices: DeviceConfigurations.defaultSet,
-        themes: [ThemeConfigurations.light],
         providerOverrides: overrides,
       );
     });
@@ -95,8 +87,6 @@ void main() {
         tester: tester,
         screen: const AddChildPage(),
         testName: 'add_child_page_dark',
-        devices: DeviceConfigurations.defaultSet,
-        themes: [ThemeConfigurations.dark],
         providerOverrides: overrides,
       );
     });
@@ -117,8 +107,6 @@ void main() {
         tester: tester,
         screen: const AddVehiclePage(),
         testName: 'add_vehicle_page_light',
-        devices: DeviceConfigurations.defaultSet,
-        themes: [ThemeConfigurations.light],
         providerOverrides: overrides,
       );
     });
@@ -137,8 +125,6 @@ void main() {
         tester: tester,
         screen: const AddVehiclePage(),
         testName: 'add_vehicle_page_dark',
-        devices: DeviceConfigurations.defaultSet,
-        themes: [ThemeConfigurations.dark],
         providerOverrides: overrides,
       );
     });

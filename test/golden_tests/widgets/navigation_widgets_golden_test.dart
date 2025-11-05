@@ -9,8 +9,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:edulift/core/presentation/widgets/navigation/app_navigation.dart';
 import '../../support/golden/golden_test_wrapper.dart';
-import '../../support/golden/device_configurations.dart';
-import '../../support/golden/theme_configurations.dart';
 
 void main() {
   group('Phase 4: Navigation Widgets Golden Tests', () {
@@ -20,8 +18,6 @@ void main() {
           tester: tester,
           widget: AppNavigation(currentIndex: 0, onDestinationSelected: (_) {}),
           testName: 'app_navigation_first_tab_light',
-          devices: DeviceConfigurations.defaultSet,
-          themes: [ThemeConfigurations.light],
         );
       });
 
@@ -32,8 +28,6 @@ void main() {
           tester: tester,
           widget: AppNavigation(currentIndex: 1, onDestinationSelected: (_) {}),
           testName: 'app_navigation_family_tab_light',
-          devices: DeviceConfigurations.defaultSet,
-          themes: [ThemeConfigurations.light],
         );
       });
 
@@ -42,8 +36,6 @@ void main() {
           tester: tester,
           widget: AppNavigation(currentIndex: 3, onDestinationSelected: (_) {}),
           testName: 'app_navigation_groups_tab_dark',
-          devices: DeviceConfigurations.defaultSet,
-          themes: [ThemeConfigurations.dark],
         );
       });
 
@@ -54,8 +46,6 @@ void main() {
           tester: tester,
           widget: AppNavigation(currentIndex: 4, onDestinationSelected: (_) {}),
           testName: 'app_navigation_settings_tab_dark',
-          devices: DeviceConfigurations.defaultSet,
-          themes: [ThemeConfigurations.dark],
         );
       });
     });
@@ -82,8 +72,6 @@ void main() {
             destinations: destinations,
           ),
           testName: 'adaptive_navigation_mobile',
-          devices: DeviceConfigurations.defaultSet,
-          themes: [ThemeConfigurations.light],
         );
       });
 
@@ -109,8 +97,6 @@ void main() {
             destinations: destinations,
           ),
           testName: 'adaptive_navigation_selected_icon_dark',
-          devices: DeviceConfigurations.defaultSet,
-          themes: [ThemeConfigurations.dark],
         );
       });
     });
@@ -142,8 +128,6 @@ void main() {
           tester: tester,
           widget: QuickNavigation(actions: actions),
           testName: 'quick_navigation_horizontal',
-          devices: DeviceConfigurations.defaultSet,
-          themes: [ThemeConfigurations.light],
         );
       });
 
@@ -167,8 +151,6 @@ void main() {
           tester: tester,
           widget: QuickNavigation(actions: actions, direction: Axis.vertical),
           testName: 'quick_navigation_vertical_dark',
-          devices: DeviceConfigurations.defaultSet,
-          themes: [ThemeConfigurations.dark],
         );
       });
     });

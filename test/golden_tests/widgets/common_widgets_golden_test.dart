@@ -9,8 +9,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:edulift/core/presentation/widgets/loading_indicator.dart';
 import '../../support/golden/golden_test_wrapper.dart';
-import '../../support/golden/device_configurations.dart';
-import '../../support/golden/theme_configurations.dart';
 
 void main() {
   group('Phase 4: Common Widgets Golden Tests', () {
@@ -26,8 +24,6 @@ void main() {
           tester: tester,
           widget: const LoadingIndicator(),
           testName: 'loading_indicator_default_light',
-          devices: DeviceConfigurations.defaultSet,
-          themes: [ThemeConfigurations.light],
           skipSettle: true, // Infinite animation
         );
       });
@@ -39,8 +35,6 @@ void main() {
           tester: tester,
           widget: const LoadingIndicator(message: 'Chargement en cours...'),
           testName: 'loading_indicator_with_message_light',
-          devices: DeviceConfigurations.defaultSet,
-          themes: [ThemeConfigurations.light],
           skipSettle: true, // Infinite animation
         );
       });
@@ -54,8 +48,6 @@ void main() {
             message: 'Chargement des données école 🚌',
           ),
           testName: 'loading_indicator_utf8_dark',
-          devices: DeviceConfigurations.defaultSet,
-          themes: [ThemeConfigurations.dark],
           skipSettle: true, // Infinite animation
         );
       });
@@ -65,8 +57,6 @@ void main() {
           tester: tester,
           widget: const LoadingIndicator(showMessage: false),
           testName: 'loading_indicator_no_message',
-          devices: DeviceConfigurations.defaultSet,
-          themes: [ThemeConfigurations.light],
           skipSettle: true, // Infinite animation
         );
       });
@@ -78,8 +68,6 @@ void main() {
           tester: tester,
           widget: const Center(child: InlineLoadingIndicator()),
           testName: 'inline_loading_indicator_default',
-          devices: DeviceConfigurations.defaultSet,
-          themes: [ThemeConfigurations.light],
           skipSettle: true, // Infinite animation
         );
       });
@@ -93,8 +81,6 @@ void main() {
             child: InlineLoadingIndicator(size: 32, color: Colors.red),
           ),
           testName: 'inline_loading_indicator_custom',
-          devices: DeviceConfigurations.defaultSet,
-          themes: [ThemeConfigurations.light],
           skipSettle: true, // Infinite animation
         );
       });
@@ -109,8 +95,6 @@ void main() {
             child: Center(child: Text('Content visible')),
           ),
           testName: 'loading_overlay_not_loading',
-          devices: DeviceConfigurations.defaultSet,
-          themes: [ThemeConfigurations.light],
         );
       });
 
@@ -123,8 +107,6 @@ void main() {
             child: Center(child: Text('Background content')),
           ),
           testName: 'loading_overlay_loading',
-          devices: DeviceConfigurations.defaultSet,
-          themes: [ThemeConfigurations.light],
           skipSettle: true, // Infinite animation
         );
       });

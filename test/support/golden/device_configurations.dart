@@ -60,6 +60,13 @@ class DeviceConfigurations {
     platform: TargetPlatform.android,
   );
 
+  static const oppoFindX2Neo = DeviceConfig(
+    name: 'oppo_find_x2_neo',
+    size: Size(360, 800), // 1080x2400 physical -> ~360x800 logical
+    pixelRatio: 3.0,
+    platform: TargetPlatform.android,
+  );
+
   // Large phones (428+px)
   static const iphoneProMax = DeviceConfig(
     name: 'iphone_14_pro_max',
@@ -76,45 +83,16 @@ class DeviceConfigurations {
     platform: TargetPlatform.iOS,
   );
 
-  // Device groups
-  static List<DeviceConfig> get smallPhones => [iphoneSE, pixel4a];
-
-  static List<DeviceConfig> get regularPhones => [iphone13, pixel6, galaxyS21];
-
-  static List<DeviceConfig> get largePhones => [iphoneProMax];
-
-  static List<DeviceConfig> get mobilePhones => [
-    ...smallPhones,
-    ...regularPhones,
-    ...largePhones,
-  ];
-
-  static List<DeviceConfig> get tablets => [iPadPro];
-
-  static List<DeviceConfig> get all => [...mobilePhones, ...tablets];
-
-  /// Default subset for fast tests (iOS only - existing tests)
+  /// UNIQUE centralized configuration for ALL tests
+  /// SINGLE source of truth - tests ALL important devices
   static List<DeviceConfig> get defaultSet => [
-    iphoneSE, // Small iOS
-    iphone13, // Regular iOS
-    iPadPro, // Tablet iOS
-  ];
-
-  /// Cross-platform subset for comprehensive tests (iOS + Android)
-  static List<DeviceConfig> get crossPlatformSet => [
-    iphoneSE, // Small iOS
-    pixel4a, // Small Android
-    iphone13, // Regular iOS
-    pixel6, // Regular Android
-    iPadPro, // Tablet iOS
-  ];
-
-  /// Extended set for regression tests
-  static List<DeviceConfig> get extendedSet => [
-    ...smallPhones,
-    ...regularPhones,
-    largePhones.first,
-    ...tablets,
+    iphoneSE, // Small iOS (320x568)
+    pixel4a, // Small Android (360x640)
+    iphone13, // Regular iOS (390x844)
+    pixel6, // Regular Android (412x915)
+    galaxyS21, // Android (360x800)
+    oppoFindX2Neo, // User's device (360x800 Android 12) - IMPORTANT
+    iPadPro, // Tablet iOS (834x1194)
   ];
 }
 

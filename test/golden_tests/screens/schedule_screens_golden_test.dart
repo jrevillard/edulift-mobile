@@ -28,8 +28,6 @@ import 'package:edulift/core/services/providers/auth_provider.dart';
 import 'package:edulift/core/domain/entities/user.dart';
 
 import '../../support/golden/golden_test_wrapper.dart';
-import '../../support/golden/device_configurations.dart';
-import '../../support/golden/theme_configurations.dart';
 import '../../support/factories/schedule_data_factory.dart';
 import '../../support/factories/group_data_factory.dart';
 import '../../support/factories/family_data_factory.dart';
@@ -268,8 +266,6 @@ void main() {
         tester: tester,
         screen: SchedulePage(groupId: groups[0].id),
         testName: 'schedule_list_light_15slots',
-        devices: DeviceConfigurations.crossPlatformSet,
-        themes: [ThemeConfigurations.light],
         providerOverrides: overrides,
       );
     });
@@ -311,8 +307,6 @@ void main() {
         tester: tester,
         screen: SchedulePage(groupId: groups[0].id),
         testName: 'schedule_list_dark_20slots',
-        devices: DeviceConfigurations.crossPlatformSet,
-        themes: [ThemeConfigurations.dark],
         providerOverrides: overrides,
       );
     });
@@ -343,8 +337,6 @@ void main() {
         tester: tester,
         screen: const SchedulePage(),
         testName: 'schedule_no_groups_empty',
-        devices: DeviceConfigurations.crossPlatformSet,
-        themes: [ThemeConfigurations.light],
         providerOverrides: overrides,
       );
     });
@@ -379,8 +371,6 @@ void main() {
         tester: tester,
         screen: SchedulePage(groupId: groups[0].id),
         testName: 'schedule_with_group_loading',
-        devices: DeviceConfigurations.crossPlatformSet,
-        themes: [ThemeConfigurations.light],
         providerOverrides: overrides,
       );
     });
@@ -416,8 +406,6 @@ void main() {
         tester: tester,
         screen: SchedulePage(groupId: groups[0].id),
         testName: 'schedule_with_group_error',
-        devices: DeviceConfigurations.crossPlatformSet,
-        themes: [ThemeConfigurations.light],
         providerOverrides: overrides,
       );
     });
@@ -457,8 +445,6 @@ void main() {
         tester: tester,
         screen: SchedulePage(groupId: groups[0].id),
         testName: 'schedule_tablet_with_sidebar',
-        devices: [DeviceConfigurations.iPadPro],
-        themes: [ThemeConfigurations.light],
         providerOverrides: overrides,
       );
     });
@@ -498,8 +484,6 @@ void main() {
         tester: tester,
         screen: SchedulePage(groupId: groups[0].id),
         testName: 'schedule_high_contrast',
-        devices: DeviceConfigurations.crossPlatformSet,
-        themes: [ThemeConfigurations.highContrastLight],
         providerOverrides: overrides,
       );
     });
@@ -541,8 +525,6 @@ void main() {
         tester: tester,
         screen: SchedulePage(groupId: groups[0].id),
         testName: 'schedule_responsive_small',
-        devices: DeviceConfigurations.crossPlatformSet,
-        themes: [ThemeConfigurations.light, ThemeConfigurations.dark],
         providerOverrides: overrides,
       );
     });
@@ -582,8 +564,6 @@ void main() {
         tester: tester,
         screen: SchedulePage(groupId: groups[0].id),
         testName: 'schedule_complex_data',
-        devices: DeviceConfigurations.crossPlatformSet,
-        themes: [ThemeConfigurations.light, ThemeConfigurations.dark],
         providerOverrides: overrides,
       );
     });

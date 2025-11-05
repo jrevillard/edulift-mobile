@@ -19,8 +19,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mockito/mockito.dart';
 
 import '../../support/golden/golden_test_wrapper.dart';
-import '../../support/golden/device_configurations.dart';
-import '../../support/golden/theme_configurations.dart';
 import '../../support/factories/test_data_factory.dart';
 import '../../test_mocks/generated_mocks.mocks.dart';
 import '../../support/network_mocking.dart';
@@ -83,8 +81,6 @@ void main() {
         tester: tester,
         widget: const InviteMemberWidget(),
         testName: 'invite_member_widget_light',
-        devices: DeviceConfigurations.defaultSet,
-        themes: [ThemeConfigurations.light],
         providerOverrides: createProviderOverrides(),
       );
     });
@@ -94,8 +90,6 @@ void main() {
         tester: tester,
         widget: const InviteMemberWidget(),
         testName: 'invite_member_widget_dark',
-        devices: DeviceConfigurations.defaultSet,
-        themes: [ThemeConfigurations.dark],
         providerOverrides: createProviderOverrides(),
       );
     });
@@ -107,8 +101,6 @@ void main() {
         tester: tester,
         widget: InviteMemberWidget(onInvitationSent: () {}),
         testName: 'invite_member_widget_with_callback_light',
-        devices: DeviceConfigurations.defaultSet,
-        themes: [ThemeConfigurations.light],
         providerOverrides: createProviderOverrides(),
       );
     });
@@ -125,8 +117,6 @@ void main() {
           familyId: 'test-family-1',
         ),
         testName: 'invitation_management_widget_admin_light',
-        devices: DeviceConfigurations.defaultSet,
-        themes: [ThemeConfigurations.light],
         providerOverrides: createProviderOverrides(),
       );
     });
@@ -141,8 +131,6 @@ void main() {
           familyId: 'test-family-2',
         ),
         testName: 'invitation_management_widget_admin_dark',
-        devices: DeviceConfigurations.defaultSet,
-        themes: [ThemeConfigurations.dark],
         providerOverrides: createProviderOverrides(),
       );
     });
@@ -157,8 +145,6 @@ void main() {
           familyId: 'test-family-3',
         ),
         testName: 'invitation_management_widget_member_light',
-        devices: DeviceConfigurations.defaultSet,
-        themes: [ThemeConfigurations.light],
         providerOverrides: createProviderOverrides(),
       );
     });
@@ -173,8 +159,6 @@ void main() {
           familyId: 'test-family-4',
         ),
         testName: 'invitation_management_widget_member_dark',
-        devices: DeviceConfigurations.defaultSet,
-        themes: [ThemeConfigurations.dark],
         providerOverrides: createProviderOverrides(),
       );
     });

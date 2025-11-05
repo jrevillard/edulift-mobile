@@ -11,8 +11,6 @@ import 'package:edulift/core/domain/entities/groups/group.dart';
 import 'package:edulift/features/groups/presentation/widgets/group_card.dart';
 
 import '../../support/golden/golden_test_wrapper.dart';
-import '../../support/golden/device_configurations.dart';
-import '../../support/golden/theme_configurations.dart';
 import '../../support/factories/group_data_factory.dart';
 import '../../support/factories/test_data_factory.dart';
 
@@ -31,8 +29,6 @@ void main() {
         tester: tester,
         widget: GroupCard(group: group, onSelect: () {}, onManage: () {}),
         testName: 'group_card_realistic',
-        devices: DeviceConfigurations.defaultSet,
-        themes: ThemeConfigurations.basic,
       );
     });
 
@@ -45,8 +41,6 @@ void main() {
         tester: tester,
         widget: GroupCard(group: ownerGroup, onSelect: () {}, onManage: () {}),
         testName: 'group_card_owner',
-        devices: [DeviceConfigurations.iphone13],
-        themes: [ThemeConfigurations.light],
       );
     });
 
@@ -61,8 +55,6 @@ void main() {
           onManage: () {},
         ),
         testName: 'group_card_long_name',
-        devices: [DeviceConfigurations.iphoneSE],
-        themes: [ThemeConfigurations.light],
       );
     });
 
@@ -77,8 +69,6 @@ void main() {
           onManage: () {},
         ),
         testName: 'group_card_special_chars',
-        devices: [DeviceConfigurations.iphone13],
-        themes: [ThemeConfigurations.light],
       );
     });
 
@@ -89,8 +79,6 @@ void main() {
         tester: tester,
         widget: GroupCard(group: fullGroup, onSelect: () {}, onManage: () {}),
         testName: 'group_card_at_capacity',
-        devices: [DeviceConfigurations.iphone13],
-        themes: [ThemeConfigurations.light],
       );
     });
 
@@ -101,8 +89,6 @@ void main() {
         tester: tester,
         widget: GroupCard(group: pausedGroup, onSelect: () {}, onManage: () {}),
         testName: 'group_card_paused',
-        devices: [DeviceConfigurations.iphone13],
-        themes: [ThemeConfigurations.light],
       );
     });
 
@@ -113,8 +99,6 @@ void main() {
         tester: tester,
         widget: GroupCard(group: group, onSelect: () {}, onManage: () {}),
         testName: 'group_card_dark',
-        devices: [DeviceConfigurations.iphone13],
-        themes: [ThemeConfigurations.dark],
       );
     });
 
@@ -125,8 +109,6 @@ void main() {
         tester: tester,
         widget: GroupCard(group: group, onSelect: () {}, onManage: () {}),
         testName: 'group_card_high_contrast',
-        devices: [DeviceConfigurations.iphone13],
-        themes: [ThemeConfigurations.highContrastLight],
       );
     });
 
@@ -137,8 +119,6 @@ void main() {
         tester: tester,
         widget: GroupCard(group: group, onSelect: () {}, onManage: () {}),
         testName: 'group_card_large_font',
-        devices: [DeviceConfigurations.iphone13],
-        themes: [ThemeConfigurations.lightLargeFont],
       );
     });
 
@@ -149,8 +129,6 @@ void main() {
         tester: tester,
         widget: GroupCard(group: group, onSelect: () {}, onManage: () {}),
         testName: 'group_card_tablet',
-        devices: [DeviceConfigurations.iPadPro],
-        themes: [ThemeConfigurations.light],
       );
     });
   });
@@ -184,8 +162,6 @@ void main() {
           ),
         },
         baseTestName: 'group_card_states',
-        devices: [DeviceConfigurations.iphone13],
-        themes: [ThemeConfigurations.light],
       );
     });
   });
@@ -204,8 +180,6 @@ void main() {
           },
         ),
         testName: 'group_list_volumetric',
-        devices: [DeviceConfigurations.iphone13],
-        themes: [ThemeConfigurations.light],
       );
     });
 
@@ -228,8 +202,6 @@ void main() {
           },
         ),
         testName: 'group_families_volumetric',
-        devices: [DeviceConfigurations.iphone13],
-        themes: [ThemeConfigurations.light],
       );
     });
   });

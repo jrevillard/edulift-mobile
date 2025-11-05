@@ -15,8 +15,6 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:edulift/core/navigation/navigation_state.dart' as nav;
 
 import '../../support/golden/golden_test_wrapper.dart';
-import '../../support/golden/device_configurations.dart';
-import '../../support/golden/theme_configurations.dart';
 import '../../support/factories/test_data_factory.dart';
 import '../../support/network_mocking.dart';
 
@@ -40,8 +38,6 @@ void main() {
         tester: tester,
         screen: const InviteMemberPage(),
         testName: 'invite_member_page_light',
-        devices: DeviceConfigurations.defaultSet,
-        themes: [ThemeConfigurations.light],
         providerOverrides: overrides,
       );
     });
@@ -60,8 +56,6 @@ void main() {
         tester: tester,
         screen: const InviteMemberPage(),
         testName: 'invite_member_page_dark',
-        devices: DeviceConfigurations.defaultSet,
-        themes: [ThemeConfigurations.dark],
         providerOverrides: overrides,
       );
     });
@@ -82,8 +76,6 @@ void main() {
         tester: tester,
         screen: const InviteFamilyPage(groupId: 'test-group-1'),
         testName: 'invite_family_page_light',
-        devices: DeviceConfigurations.defaultSet,
-        themes: [ThemeConfigurations.light],
         providerOverrides: overrides,
       );
     });
@@ -102,8 +94,6 @@ void main() {
         tester: tester,
         screen: const InviteFamilyPage(groupId: 'test-group-2'),
         testName: 'invite_family_page_dark',
-        devices: DeviceConfigurations.defaultSet,
-        themes: [ThemeConfigurations.dark],
         providerOverrides: overrides,
       );
     });
@@ -126,8 +116,6 @@ void main() {
         tester: tester,
         screen: const FamilyInvitationPage(),
         testName: 'family_invitation_page_no_code_light',
-        devices: DeviceConfigurations.defaultSet,
-        themes: [ThemeConfigurations.light],
         providerOverrides: overrides,
       );
     });
@@ -148,8 +136,6 @@ void main() {
         tester: tester,
         screen: const FamilyInvitationPage(),
         testName: 'family_invitation_page_no_code_dark',
-        devices: DeviceConfigurations.defaultSet,
-        themes: [ThemeConfigurations.dark],
         providerOverrides: overrides,
       );
     });
@@ -170,8 +156,6 @@ void main() {
         tester: tester,
         screen: const FamilyInvitationPage(inviteCode: 'FAMILY123ABC'),
         testName: 'family_invitation_page_with_code_light',
-        devices: DeviceConfigurations.defaultSet,
-        themes: [ThemeConfigurations.light],
         providerOverrides: overrides,
       );
     });
@@ -192,8 +176,6 @@ void main() {
         tester: tester,
         screen: const FamilyInvitationPage(inviteCode: 'FAMILY456DEF'),
         testName: 'family_invitation_page_with_code_dark',
-        devices: DeviceConfigurations.defaultSet,
-        themes: [ThemeConfigurations.dark],
         providerOverrides: overrides,
       );
     });
@@ -216,8 +198,6 @@ void main() {
         tester: tester,
         screen: const GroupInvitationPage(),
         testName: 'group_invitation_page_no_code_light',
-        devices: DeviceConfigurations.defaultSet,
-        themes: [ThemeConfigurations.light],
         providerOverrides: overrides,
       );
     });
@@ -238,8 +218,6 @@ void main() {
         tester: tester,
         screen: const GroupInvitationPage(),
         testName: 'group_invitation_page_no_code_dark',
-        devices: DeviceConfigurations.defaultSet,
-        themes: [ThemeConfigurations.dark],
         providerOverrides: overrides,
       );
     });
@@ -260,8 +238,6 @@ void main() {
         tester: tester,
         screen: const GroupInvitationPage(inviteCode: 'GROUP789GHI'),
         testName: 'group_invitation_page_with_code_light',
-        devices: DeviceConfigurations.defaultSet,
-        themes: [ThemeConfigurations.light],
         providerOverrides: overrides,
       );
     });
@@ -280,8 +256,6 @@ void main() {
         tester: tester,
         screen: const GroupInvitationPage(inviteCode: 'GROUP012JKL'),
         testName: 'group_invitation_page_with_code_dark',
-        devices: DeviceConfigurations.defaultSet,
-        themes: [ThemeConfigurations.dark],
         providerOverrides: overrides,
       );
     });
@@ -309,8 +283,6 @@ void main() {
           memberCount: 4,
         ),
         testName: 'configure_family_invitation_page_light',
-        devices: DeviceConfigurations.defaultSet,
-        themes: [ThemeConfigurations.light],
         providerOverrides: overrides,
       );
     });
@@ -336,8 +308,6 @@ void main() {
           memberCount: 5,
         ),
         testName: 'configure_family_invitation_page_dark',
-        devices: DeviceConfigurations.defaultSet,
-        themes: [ThemeConfigurations.dark],
         providerOverrides: overrides,
       );
     });
@@ -363,8 +333,6 @@ void main() {
             memberCount: 3,
           ),
           testName: 'configure_family_invitation_page_intl_light',
-          devices: DeviceConfigurations.defaultSet,
-          themes: [ThemeConfigurations.light],
           providerOverrides: overrides,
         );
       },

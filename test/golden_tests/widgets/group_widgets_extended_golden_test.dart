@@ -18,8 +18,6 @@ import 'package:edulift/core/domain/entities/groups/group_family.dart';
 import 'package:edulift/core/domain/entities/groups/group.dart';
 
 import '../../support/golden/golden_test_wrapper.dart';
-import '../../support/golden/device_configurations.dart';
-import '../../support/golden/theme_configurations.dart';
 import '../../support/factories/group_data_factory.dart';
 import '../../support/factories/test_data_factory.dart';
 
@@ -45,8 +43,6 @@ void main() {
           onSuccess: () {},
         ),
         testName: 'promote_admin_dialog_light',
-        devices: DeviceConfigurations.defaultSet,
-        themes: [ThemeConfigurations.light],
       );
     });
 
@@ -63,8 +59,6 @@ void main() {
           onSuccess: () {},
         ),
         testName: 'promote_admin_dialog_dark',
-        devices: DeviceConfigurations.defaultSet,
-        themes: [ThemeConfigurations.dark],
       );
     });
   });
@@ -85,8 +79,6 @@ void main() {
           onSuccess: () {},
         ),
         testName: 'demote_member_dialog_light',
-        devices: DeviceConfigurations.defaultSet,
-        themes: [ThemeConfigurations.light],
       );
     });
 
@@ -105,8 +97,6 @@ void main() {
           onSuccess: () {},
         ),
         testName: 'demote_member_dialog_dark',
-        devices: DeviceConfigurations.defaultSet,
-        themes: [ThemeConfigurations.dark],
       );
     });
   });
@@ -123,8 +113,6 @@ void main() {
           onSuccess: () {},
         ),
         testName: 'remove_family_dialog_light',
-        devices: DeviceConfigurations.defaultSet,
-        themes: [ThemeConfigurations.light],
       );
     });
 
@@ -139,8 +127,6 @@ void main() {
           onSuccess: () {},
         ),
         testName: 'remove_family_dialog_dark',
-        devices: DeviceConfigurations.defaultSet,
-        themes: [ThemeConfigurations.dark],
       );
     });
   });
@@ -159,8 +145,6 @@ void main() {
           onSuccess: () {},
         ),
         testName: 'cancel_invitation_dialog_light',
-        devices: DeviceConfigurations.defaultSet,
-        themes: [ThemeConfigurations.light],
       );
     });
 
@@ -177,8 +161,6 @@ void main() {
           onSuccess: () {},
         ),
         testName: 'cancel_invitation_dialog_dark',
-        devices: DeviceConfigurations.defaultSet,
-        themes: [ThemeConfigurations.dark],
       );
     });
   });
@@ -193,8 +175,6 @@ void main() {
           userRole: GroupMemberRole.member,
         ),
         testName: 'leave_group_dialog_light',
-        devices: DeviceConfigurations.defaultSet,
-        themes: [ThemeConfigurations.light],
       );
     });
 
@@ -207,8 +187,6 @@ void main() {
           userRole: GroupMemberRole.admin,
         ),
         testName: 'leave_group_dialog_dark',
-        devices: DeviceConfigurations.defaultSet,
-        themes: [ThemeConfigurations.dark],
       );
     });
   });
@@ -229,8 +207,6 @@ void main() {
           onRemoveFamily: () {},
         ),
         testName: 'family_action_sheet_member_light',
-        devices: DeviceConfigurations.defaultSet,
-        themes: [ThemeConfigurations.light],
       );
     });
 
@@ -249,8 +225,6 @@ void main() {
           onRemoveFamily: () {},
         ),
         testName: 'family_action_sheet_admin_dark',
-        devices: DeviceConfigurations.defaultSet,
-        themes: [ThemeConfigurations.dark],
       );
     });
 
@@ -266,8 +240,6 @@ void main() {
           onCancelInvitation: () {},
         ),
         testName: 'family_action_sheet_pending_light',
-        devices: DeviceConfigurations.defaultSet,
-        themes: [ThemeConfigurations.light],
       );
     });
   });
@@ -291,8 +263,6 @@ void main() {
           onSelectionChanged: (days) {},
         ),
         testName: 'weekday_selector_weekdays_light',
-        devices: DeviceConfigurations.defaultSet,
-        themes: [ThemeConfigurations.light],
       );
     });
 
@@ -316,8 +286,6 @@ void main() {
           onSelectionChanged: (days) {},
         ),
         testName: 'weekday_selector_all_dark',
-        devices: DeviceConfigurations.defaultSet,
-        themes: [ThemeConfigurations.dark],
       );
     });
 
@@ -333,8 +301,6 @@ void main() {
           onSelectionChanged: (days) {},
         ),
         testName: 'weekday_selector_partial_light',
-        devices: DeviceConfigurations.defaultSet,
-        themes: [ThemeConfigurations.light],
       );
     });
   });
@@ -376,8 +342,6 @@ void main() {
             ),
           ),
           testName: 'group_families_list_large_light',
-          devices: DeviceConfigurations.defaultSet,
-          themes: [ThemeConfigurations.light],
         );
       },
     );
@@ -422,8 +386,6 @@ void main() {
             ),
           ),
           testName: 'group_families_list_mixed_dark',
-          devices: DeviceConfigurations.defaultSet,
-          themes: [ThemeConfigurations.dark],
         );
       },
     );

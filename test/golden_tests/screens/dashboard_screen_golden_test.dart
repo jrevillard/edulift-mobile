@@ -10,8 +10,6 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:edulift/features/groups/presentation/widgets/group_card.dart';
 
 import '../../support/golden/golden_test_wrapper.dart';
-import '../../support/golden/device_configurations.dart';
-import '../../support/golden/theme_configurations.dart';
 import '../../support/factories/group_data_factory.dart';
 import '../../support/factories/family_data_factory.dart';
 import '../../support/factories/schedule_data_factory.dart';
@@ -183,8 +181,6 @@ void main() {
         tester: tester,
         screen: screen,
         testName: 'dashboard_with_data',
-        devices: DeviceConfigurations.defaultSet,
-        themes: ThemeConfigurations.basic,
       );
     });
 
@@ -232,8 +228,6 @@ void main() {
         tester: tester,
         widget: screen,
         testName: 'dashboard',
-        devices: [DeviceConfigurations.iphone13],
-        themes: [ThemeConfigurations.light],
       );
     });
 
@@ -271,8 +265,6 @@ void main() {
         tester: tester,
         screen: screen,
         testName: 'dashboard_dark',
-        devices: [DeviceConfigurations.iphone13],
-        themes: [ThemeConfigurations.dark],
       );
     });
 
@@ -303,8 +295,6 @@ void main() {
         tester: tester,
         screen: screen,
         testName: 'dashboard_tablet',
-        devices: [DeviceConfigurations.iPadPro],
-        themes: [ThemeConfigurations.light],
       );
     });
   });

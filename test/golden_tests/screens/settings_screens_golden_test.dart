@@ -10,8 +10,6 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:edulift/core/navigation/navigation_state.dart' as nav;
 import 'package:edulift/core/presentation/widgets/settings/settings_page.dart';
 import '../../support/golden/golden_test_wrapper.dart';
-import '../../support/golden/device_configurations.dart';
-import '../../support/golden/theme_configurations.dart';
 import '../../support/network_mocking.dart';
 
 void main() {
@@ -30,8 +28,6 @@ void main() {
         tester: tester,
         screen: const SettingsPage(),
         testName: 'settings_page_light',
-        devices: DeviceConfigurations.defaultSet,
-        themes: [ThemeConfigurations.light],
         providerOverrides: overrides,
       );
     });
@@ -50,8 +46,6 @@ void main() {
         tester: tester,
         screen: const SettingsPage(),
         testName: 'settings_page_dark',
-        devices: DeviceConfigurations.defaultSet,
-        themes: [ThemeConfigurations.dark],
         providerOverrides: overrides,
       );
     });
