@@ -295,9 +295,10 @@ class _SchedulePageState extends ConsumerState<SchedulePage>
 
   Widget _buildNoGroupsState() {
     return Center(
-      child: Padding(
+      child: SingleChildScrollView(
         padding: const EdgeInsets.all(32),
         child: Column(
+          mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Icon(Icons.groups_outlined, size: 120, color: Colors.grey[400]),

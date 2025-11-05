@@ -5093,13 +5093,13 @@ class MockScheduleRemoteDataSource extends _i1.Mock
   _i21.Future<void> removeVehicleFromSlot({
     required String? groupId,
     required String? slotId,
-    required String? vehicleAssignmentId,
+    required String? vehicleId,
   }) =>
       (super.noSuchMethod(
             Invocation.method(#removeVehicleFromSlot, [], {
               #groupId: groupId,
               #slotId: slotId,
-              #vehicleAssignmentId: vehicleAssignmentId,
+              #vehicleId: vehicleId,
             }),
             returnValue: _i21.Future<void>.value(),
             returnValueForMissingStub: _i21.Future<void>.value(),
@@ -7540,13 +7540,13 @@ class MockGroupScheduleRepository extends _i1.Mock
   _i21.Future<_i47.Result<void, _i48.ApiFailure>> removeVehicleFromSlot(
     String? groupId,
     String? slotId,
-    String? vehicleAssignmentId,
+    String? vehicleId,
   ) =>
       (super.noSuchMethod(
             Invocation.method(#removeVehicleFromSlot, [
               groupId,
               slotId,
-              vehicleAssignmentId,
+              vehicleId,
             ]),
             returnValue: _i21.Future<_i47.Result<void, _i48.ApiFailure>>.value(
               _i43.dummyValue<_i47.Result<void, _i48.ApiFailure>>(
@@ -7554,7 +7554,7 @@ class MockGroupScheduleRepository extends _i1.Mock
                 Invocation.method(#removeVehicleFromSlot, [
                   groupId,
                   slotId,
-                  vehicleAssignmentId,
+                  vehicleId,
                 ]),
               ),
             ),
@@ -7565,7 +7565,7 @@ class MockGroupScheduleRepository extends _i1.Mock
                     Invocation.method(#removeVehicleFromSlot, [
                       groupId,
                       slotId,
-                      vehicleAssignmentId,
+                      vehicleId,
                     ]),
                   ),
                 ),
@@ -7576,14 +7576,14 @@ class MockGroupScheduleRepository extends _i1.Mock
   _i21.Future<_i47.Result<void, _i48.ApiFailure>> removeVehicleFromSlotWithWeek(
     String? groupId,
     String? slotId,
-    String? vehicleAssignmentId,
+    String? vehicleId,
     String? week,
   ) =>
       (super.noSuchMethod(
             Invocation.method(#removeVehicleFromSlotWithWeek, [
               groupId,
               slotId,
-              vehicleAssignmentId,
+              vehicleId,
               week,
             ]),
             returnValue: _i21.Future<_i47.Result<void, _i48.ApiFailure>>.value(
@@ -7592,7 +7592,7 @@ class MockGroupScheduleRepository extends _i1.Mock
                 Invocation.method(#removeVehicleFromSlotWithWeek, [
                   groupId,
                   slotId,
-                  vehicleAssignmentId,
+                  vehicleId,
                   week,
                 ]),
               ),
@@ -7604,7 +7604,7 @@ class MockGroupScheduleRepository extends _i1.Mock
                     Invocation.method(#removeVehicleFromSlotWithWeek, [
                       groupId,
                       slotId,
-                      vehicleAssignmentId,
+                      vehicleId,
                       week,
                     ]),
                   ),

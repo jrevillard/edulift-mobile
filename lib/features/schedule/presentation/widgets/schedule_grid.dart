@@ -532,41 +532,27 @@ class _ScheduleGridState extends ConsumerState<ScheduleGrid> {
       widget.scheduleConfig,
     );
 
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        return Padding(
-          padding: EdgeInsets.all(isTablet ? 20.0 : 16.0),
-          child: Column(
-            children: [
-              // Time slots header - Show period labels (Matin, Après-midi)
-              _buildTimeHeader(
-                groupedSlots.map((g) => g.label).toList(),
-                isTablet,
-              ),
-              const SizedBox(height: 16),
+    return Padding(
+      padding: EdgeInsets.all(isTablet ? 20.0 : 16.0),
+      child: Column(
+        children: [
+          // Time slots header - Show period labels (Matin, Après-midi)
+          _buildTimeHeader(groupedSlots.map((g) => g.label).toList(), isTablet),
+          const SizedBox(height: 16),
 
-              // Days with time slots - Use Flexible instead of Expanded to prevent overflow
-              Flexible(
-                child: Container(
-                  constraints: BoxConstraints(
-                    maxHeight:
-                        constraints.maxHeight *
-                        0.9, // Responsive height constraint
-                  ),
-                  child: ListView.builder(
-                    itemCount: days.length,
-                    itemBuilder: (context, dayIndex) {
-                      final day = days[dayIndex];
-                      // Day card now gets its own day-specific slots internally
-                      return _buildDayCard(context, day, isTablet);
-                    },
-                  ),
-                ),
-              ),
-            ],
+          // Days with time slots - Use Expanded properly with ListView
+          Expanded(
+            child: ListView.builder(
+              itemCount: days.length,
+              itemBuilder: (context, dayIndex) {
+                final day = days[dayIndex];
+                // Day card now gets its own day-specific slots internally
+                return _buildDayCard(context, day, isTablet);
+              },
+            ),
           ),
-        );
-      },
+        ],
+      ),
     );
   }
 
@@ -732,10 +718,16 @@ class _ScheduleGridState extends ConsumerState<ScheduleGrid> {
             final label = periodSlot.label;
             final times = periodSlot.times;
 
-            return Container(
-              width: 140, // Fixed width pour scroll horizontal
-              padding: const EdgeInsets.symmetric(horizontal: 4),
-              child: _buildPeriodSlot(context, day, label, times),
+            return ConstrainedBox(
+              constraints: const BoxConstraints(
+                maxWidth:
+                    120, // Reduced max width to prevent overflow on small screens
+                minWidth: 100, // Minimum width for usability
+              ),
+              child: Container(
+                padding: const EdgeInsets.symmetric(horizontal: 4),
+                child: _buildPeriodSlot(context, day, label, times),
+              ),
             );
           }).toList(),
         ),
@@ -800,28 +792,34 @@ class _ScheduleGridState extends ConsumerState<ScheduleGrid> {
       child: Stack(
         fit: StackFit.passthrough, // Let Stack size match its child
         children: [
-          ScheduleSlotWidget(
-            groupId: widget.groupId,
-            day: day,
-            time: periodLabel, // Display period label, not time
-            week: widget.week,
-            scheduleSlot: aggregatedSlot,
-            onTap: isPast
-                ? () => _showPastSlotWarning(context)
-                : () => _handlePeriodSlotTap(
-                    context,
-                    day,
-                    periodLabel,
-                    times,
-                    periodSlots,
-                  ),
-            onVehicleDrop: isPast
-                ? (_) =>
-                      _showPastSlotWarning(
-                        context,
-                      ) // Show warning on drop attempts
-                : (vehicleId) =>
-                      _handlePeriodVehicleDrop(day, times, vehicleId),
+          ConstrainedBox(
+            constraints: const BoxConstraints(
+              maxWidth:
+                  110, // Constrain max width to prevent overflow on small screens
+            ),
+            child: ScheduleSlotWidget(
+              groupId: widget.groupId,
+              day: day,
+              time: periodLabel, // Display period label, not time
+              week: widget.week,
+              scheduleSlot: aggregatedSlot,
+              onTap: isPast
+                  ? () => _showPastSlotWarning(context)
+                  : () => _handlePeriodSlotTap(
+                      context,
+                      day,
+                      periodLabel,
+                      times,
+                      periodSlots,
+                    ),
+              onVehicleDrop: isPast
+                  ? (_) =>
+                        _showPastSlotWarning(
+                          context,
+                        ) // Show warning on drop attempts
+                  : (vehicleId) =>
+                        _handlePeriodVehicleDrop(day, times, vehicleId),
+            ),
           ),
           if (isPast)
             Positioned(

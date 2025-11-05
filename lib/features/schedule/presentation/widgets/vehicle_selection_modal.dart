@@ -645,12 +645,16 @@ class _VehicleSelectionModalState extends ConsumerState<VehicleSelectionModal> {
                             ),
                           ),
                         ] else
-                          Text(
-                            AppLocalizations.of(
-                              context,
-                            ).noVehiclesAssignedToTimeSlot,
-                            style: TextStyle(
-                              color: AppColors.textSecondaryThemed(context),
+                          Expanded(
+                            child: Text(
+                              AppLocalizations.of(
+                                context,
+                              ).noVehiclesAssignedToTimeSlot,
+                              style: TextStyle(
+                                color: AppColors.textSecondaryThemed(context),
+                              ),
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 1,
                             ),
                           ),
                       ],

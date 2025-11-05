@@ -58,11 +58,15 @@ class _DashboardPageState extends ConsumerState<DashboardPage>
                         height: 32,
                       ),
                       const SizedBox(width: 8),
-                      Semantics(
-                        header: true,
-                        child: Text(
-                          AppLocalizations.of(context).dashboard,
-                          key: const Key('dashboard_title'),
+                      Flexible(
+                        child: Semantics(
+                          header: true,
+                          child: Text(
+                            AppLocalizations.of(context).dashboard,
+                            key: const Key('dashboard_title'),
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 1,
+                          ),
                         ),
                       ),
                     ],
@@ -189,57 +193,43 @@ class _DashboardPageState extends ConsumerState<DashboardPage>
   }
 
   Widget _buildTabletLayout(BuildContext context, WidgetRef ref) {
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        return SizedBox(
-          key: const Key('tablet_layout'),
-          width: constraints.maxWidth,
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Expanded(
-                flex: 2,
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    _buildFamilyOverview(context, ref),
-                    const SizedBox(height: 16),
-                    _buildQuickActions(context, ref),
-                    const SizedBox(height: 16),
-                    _buildRecentActivities(context, ref),
-                  ],
-                ),
-              ),
-              const SizedBox(width: 16),
-              Expanded(child: _buildUpcomingTrips(context, ref)),
-            ],
-          ),
-        );
-      },
-    );
-  }
-
-  Widget _buildPhoneLayout(BuildContext context, WidgetRef ref) {
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        return SizedBox(
-          key: const Key('phone_layout'),
-          width: constraints.maxWidth,
+    return Row(
+      key: const Key('tablet_layout'),
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Expanded(
+          flex: 2,
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
               _buildFamilyOverview(context, ref),
-              const SizedBox(height: 12),
-              _buildQuickActions(context, ref),
-              const SizedBox(height: 12),
-              _buildRecentActivities(context, ref),
-              const SizedBox(height: 12),
-              _buildUpcomingTrips(context, ref),
               const SizedBox(height: 16),
+              _buildQuickActions(context, ref),
+              const SizedBox(height: 16),
+              _buildRecentActivities(context, ref),
             ],
           ),
-        );
-      },
+        ),
+        const SizedBox(width: 16),
+        Expanded(child: _buildUpcomingTrips(context, ref)),
+      ],
+    );
+  }
+
+  Widget _buildPhoneLayout(BuildContext context, WidgetRef ref) {
+    return Column(
+      key: const Key('phone_layout'),
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        _buildFamilyOverview(context, ref),
+        const SizedBox(height: 12),
+        _buildQuickActions(context, ref),
+        const SizedBox(height: 12),
+        _buildRecentActivities(context, ref),
+        const SizedBox(height: 12),
+        _buildUpcomingTrips(context, ref),
+        const SizedBox(height: 16),
+      ],
     );
   }
 
@@ -563,21 +553,19 @@ class _DashboardPageState extends ConsumerState<DashboardPage>
                   ),
                 )
               else
-                Flexible(
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: activities
-                        .take(3)
-                        .map(
-                          (activity) => _ActivityItem(
-                            icon: _getIconFromName(activity.iconName),
-                            title: activity.title,
-                            subtitle: activity.subtitle,
-                            color: _getActivityColor(activity.type),
-                          ),
-                        )
-                        .toList(),
-                  ),
+                Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: activities
+                      .take(3)
+                      .map(
+                        (activity) => _ActivityItem(
+                          icon: _getIconFromName(activity.iconName),
+                          title: activity.title,
+                          subtitle: activity.subtitle,
+                          color: _getActivityColor(activity.type),
+                        ),
+                      )
+                      .toList(),
                 ),
             ],
           ),
@@ -638,22 +626,20 @@ class _DashboardPageState extends ConsumerState<DashboardPage>
                   ),
                 )
               else
-                Flexible(
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: trips
-                        .take(3)
-                        .map(
-                          (trip) => _TripItem(
-                            time: trip.time,
-                            destination: trip.destination,
-                            type: trip.type,
-                            date: trip.date,
-                            children: trip.children,
-                          ),
-                        )
-                        .toList(),
-                  ),
+                Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: trips
+                      .take(3)
+                      .map(
+                        (trip) => _TripItem(
+                          time: trip.time,
+                          destination: trip.destination,
+                          type: trip.type,
+                          date: trip.date,
+                          children: trip.children,
+                        ),
+                      )
+                      .toList(),
                 ),
             ],
           ),
