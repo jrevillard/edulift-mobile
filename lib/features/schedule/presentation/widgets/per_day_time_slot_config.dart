@@ -129,7 +129,69 @@ class _PerDayTimeSlotConfigState extends State<PerDayTimeSlotConfig> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final screenHeight = MediaQuery.of(context).size.height;
+    final screenWidth = MediaQuery.of(context).size.width;
+    // Detect small screens including Oppo Find X2 Neo (360x800)
+    final isSmallScreen = screenHeight < 700 || screenWidth < 380;
 
+    // Use SingleChildScrollView for small screens to prevent overflow
+    if (isSmallScreen) {
+      return SingleChildScrollView(
+        child: ConstrainedBox(
+          constraints: BoxConstraints(
+            minHeight: MediaQuery.of(context).size.height * 0.6,
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              // Header - simplified without scattered add button
+              Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 8,
+                ),
+                child: Text(
+                  '${widget.weekdayLabel} ${AppLocalizations.of(context).departureHours}',
+                  style: theme.textTheme.titleLarge?.copyWith(
+                    fontWeight: FontWeight.w600,
+                    fontSize: 18,
+                  ),
+                ),
+              ),
+
+              // Usage info
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: Text(
+                  AppLocalizations.of(context).slotsConfigured(
+                    _workingSlots.length,
+                    widget.maxSlots,
+                    _workingSlots.length,
+                  ),
+                  style: theme.textTheme.bodySmall?.copyWith(
+                    color: theme.colorScheme.onSurface.withValues(alpha: 0.6),
+                  ),
+                ),
+              ),
+
+              const SizedBox(height: 8),
+
+              // Time slots content - no Expanded for small screens
+              if (_workingSlots.isEmpty)
+                _buildEmptyState(theme)
+              else
+                _buildTimeSlotsList(theme),
+
+              // Add bottom padding for scroll space
+              const SizedBox(height: 20),
+            ],
+          ),
+        ),
+      );
+    }
+
+    // Original layout for larger screens
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
@@ -172,36 +234,44 @@ class _PerDayTimeSlotConfigState extends State<PerDayTimeSlotConfig> {
   }
 
   Widget _buildEmptyState(ThemeData theme) {
+    final screenHeight = MediaQuery.of(context).size.height;
+    final isSmallScreen = screenHeight < 700;
+    final iconSize = isSmallScreen ? 60.0 : 80.0;
+    final spacing = isSmallScreen ? 16.0 : 24.0;
+    final padding = isSmallScreen ? 16.0 : 24.0;
+
     return SingleChildScrollView(
       child: ConstrainedBox(
-        constraints: const BoxConstraints(minHeight: 150),
+        constraints: BoxConstraints(minHeight: isSmallScreen ? 100 : 150),
         child: Center(
           child: Padding(
-            padding: const EdgeInsets.all(24.0),
+            padding: EdgeInsets.all(padding),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               mainAxisSize: MainAxisSize.min,
               children: [
                 Icon(
                   Icons.schedule_outlined,
-                  size: 80,
+                  size: iconSize,
                   color: theme.colorScheme.onSurface.withValues(alpha: 0.3),
                 ),
-                const SizedBox(height: 24),
+                SizedBox(height: spacing),
                 Text(
                   AppLocalizations.of(context).noTimeSlotsConfigured,
                   textAlign: TextAlign.center,
                   style: theme.textTheme.titleMedium?.copyWith(
                     color: theme.colorScheme.onSurface.withValues(alpha: 0.6),
                     fontWeight: FontWeight.w600,
+                    fontSize: isSmallScreen ? 16 : null,
                   ),
                 ),
-                const SizedBox(height: 8),
+                SizedBox(height: spacing * 0.5),
                 Text(
                   AppLocalizations.of(context).tapToAddFirstTimeSlot,
                   textAlign: TextAlign.center,
                   style: theme.textTheme.bodyMedium?.copyWith(
                     color: theme.colorScheme.onSurface.withValues(alpha: 0.5),
+                    fontSize: isSmallScreen ? 14 : null,
                   ),
                 ),
               ],
@@ -213,39 +283,98 @@ class _PerDayTimeSlotConfigState extends State<PerDayTimeSlotConfig> {
   }
 
   Widget _buildTimeSlotsList(ThemeData theme) {
-    return ListView.builder(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
-      itemCount: _workingSlots.length,
-      itemBuilder: (context, index) {
-        final timeSlot = _workingSlots[index];
-        return Card(
-          margin: const EdgeInsets.only(bottom: 8),
-          child: ListTile(
-            leading: Icon(Icons.schedule, color: theme.colorScheme.primary),
-            title: Text(
-              timeSlot,
-              style: theme.textTheme.titleMedium?.copyWith(
-                fontWeight: FontWeight.w500,
+    final screenHeight = MediaQuery.of(context).size.height;
+    final isSmallScreen = screenHeight < 700;
+
+    if (isSmallScreen) {
+      // For small screens, use Column to avoid ListView height constraints
+      return Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16),
+        child: Column(
+          children: _workingSlots.asMap().entries.map((entry) {
+            final index = entry.key;
+            final timeSlot = entry.value;
+            return Card(
+              margin: const EdgeInsets.only(bottom: 8),
+              child: ListTile(
+                dense: true,
+                leading: Icon(
+                  Icons.schedule,
+                  color: theme.colorScheme.primary,
+                  size: 20,
+                ),
+                title: Text(
+                  timeSlot,
+                  style: theme.textTheme.titleMedium?.copyWith(
+                    fontWeight: FontWeight.w500,
+                    fontSize: 14,
+                  ),
+                ),
+                trailing: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    IconButton(
+                      onPressed: () => _editDepartureHour(index),
+                      icon: const Icon(Icons.edit, size: 20),
+                      tooltip: AppLocalizations.of(context).editTime,
+                      visualDensity: VisualDensity.compact,
+                    ),
+                    IconButton(
+                      onPressed: () => _deleteDepartureHour(index),
+                      icon: const Icon(Icons.delete, size: 20),
+                      tooltip: AppLocalizations.of(context).deleteTime,
+                      visualDensity: VisualDensity.compact,
+                    ),
+                  ],
+                ),
+              ),
+            );
+          }).toList(),
+        ),
+      );
+    }
+
+    // Original ListView for larger screens
+    return ConstrainedBox(
+      constraints: BoxConstraints(
+        maxHeight:
+            MediaQuery.of(context).size.height *
+            0.6, // Max 60% of screen height
+      ),
+      child: ListView.builder(
+        padding: const EdgeInsets.symmetric(horizontal: 16),
+        itemCount: _workingSlots.length,
+        itemBuilder: (context, index) {
+          final timeSlot = _workingSlots[index];
+          return Card(
+            margin: const EdgeInsets.only(bottom: 8),
+            child: ListTile(
+              leading: Icon(Icons.schedule, color: theme.colorScheme.primary),
+              title: Text(
+                timeSlot,
+                style: theme.textTheme.titleMedium?.copyWith(
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+              trailing: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  IconButton(
+                    onPressed: () => _editDepartureHour(index),
+                    icon: const Icon(Icons.edit),
+                    tooltip: AppLocalizations.of(context).editTime,
+                  ),
+                  IconButton(
+                    onPressed: () => _deleteDepartureHour(index),
+                    icon: const Icon(Icons.delete),
+                    tooltip: AppLocalizations.of(context).deleteTime,
+                  ),
+                ],
               ),
             ),
-            trailing: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                IconButton(
-                  onPressed: () => _editDepartureHour(index),
-                  icon: const Icon(Icons.edit),
-                  tooltip: AppLocalizations.of(context).editTime,
-                ),
-                IconButton(
-                  onPressed: () => _deleteDepartureHour(index),
-                  icon: const Icon(Icons.delete),
-                  tooltip: AppLocalizations.of(context).deleteTime,
-                ),
-              ],
-            ),
-          ),
-        );
-      },
+          );
+        },
+      ),
     );
   }
 }

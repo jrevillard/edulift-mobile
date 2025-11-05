@@ -245,21 +245,24 @@ class _FamilyManagementScreenState extends ConsumerState<FamilyManagementScreen>
                       route: AppRoutes.inviteMember,
                       trigger: nav.NavigationTrigger.userNavigation,
                     ),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Icon(
-                      Icons.person_add,
-                      color: Theme.of(context).colorScheme.onPrimary,
-                    ),
-                    const SizedBox(width: 8),
-                    Text(
-                      l10n.inviteFamilyMembers,
-                      style: TextStyle(
+                child: FittedBox(
+                  fit: BoxFit.scaleDown,
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Icon(
+                        Icons.person_add,
                         color: Theme.of(context).colorScheme.onPrimary,
                       ),
-                    ),
-                  ],
+                      const SizedBox(width: 8),
+                      Text(
+                        l10n.inviteFamilyMembers,
+                        style: TextStyle(
+                          color: Theme.of(context).colorScheme.onPrimary,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),

@@ -556,30 +556,59 @@ class _WeekdaySelectorState extends State<WeekdaySelector> {
 
           const SizedBox(height: 8),
 
-          // Selected days list
-          Wrap(
-            spacing: 8,
-            runSpacing: 4,
-            children: _selectedDays.map((day) {
-              final index = _weekdays.indexOf(day);
-              final abbreviation = _getWeekdayAbbreviation(context, index);
-              return Chip(
-                label: Text(abbreviation),
-                backgroundColor: theme.colorScheme.primary.withValues(
-                  alpha: 0.1,
-                ),
-                side: BorderSide(
-                  color: theme.colorScheme.primary.withValues(alpha: 0.3),
-                ),
-                labelStyle: TextStyle(
-                  color: theme.colorScheme.primary,
-                  fontSize: 12,
-                ),
-                materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                visualDensity: VisualDensity.compact,
-              );
-            }).toList(),
-          ),
+          // Selected days list - responsive for small screens
+          if (_selectedDays.length > 4)
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                children: _selectedDays.map((day) {
+                  final index = _weekdays.indexOf(day);
+                  final abbreviation = _getWeekdayAbbreviation(context, index);
+                  return Padding(
+                    padding: const EdgeInsets.only(right: 8.0),
+                    child: Chip(
+                      label: Text(abbreviation),
+                      backgroundColor: theme.colorScheme.primary.withValues(
+                        alpha: 0.1,
+                      ),
+                      side: BorderSide(
+                        color: theme.colorScheme.primary.withValues(alpha: 0.3),
+                      ),
+                      labelStyle: TextStyle(
+                        color: theme.colorScheme.primary,
+                        fontSize: 12,
+                      ),
+                      materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                      visualDensity: VisualDensity.compact,
+                    ),
+                  );
+                }).toList(),
+              ),
+            )
+          else
+            Wrap(
+              spacing: _selectedDays.length > 3 ? 6 : 8,
+              runSpacing: 4,
+              children: _selectedDays.map((day) {
+                final index = _weekdays.indexOf(day);
+                final abbreviation = _getWeekdayAbbreviation(context, index);
+                return Chip(
+                  label: Text(abbreviation),
+                  backgroundColor: theme.colorScheme.primary.withValues(
+                    alpha: 0.1,
+                  ),
+                  side: BorderSide(
+                    color: theme.colorScheme.primary.withValues(alpha: 0.3),
+                  ),
+                  labelStyle: TextStyle(
+                    color: theme.colorScheme.primary,
+                    fontSize: 12,
+                  ),
+                  materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                  visualDensity: VisualDensity.compact,
+                );
+              }).toList(),
+            ),
         ],
       ),
     );

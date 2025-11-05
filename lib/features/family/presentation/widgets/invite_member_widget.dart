@@ -42,182 +42,191 @@ class _InviteMemberWidgetState extends ConsumerState<InviteMemberWidget> {
     final theme = Theme.of(context);
     final localizations = AppLocalizations.of(context);
     return Card(
-      child: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Form(
-          key: _formKey,
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // Header
-              Row(
+      child: ConstrainedBox(
+        constraints: const BoxConstraints(
+          maxHeight: 600,
+        ), // Prevent excessive height on large screens
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: Form(
+            key: _formKey,
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  // Header
+                  Row(
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.all(8),
+                        decoration: BoxDecoration(
+                          color: theme.colorScheme.primaryContainer.withValues(
+                            alpha: 0.3,
+                          ),
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: Icon(
+                          Icons.person_add,
+                          color: theme.colorScheme.primary,
+                          size: 20,
+                        ),
+                      ),
+                      const SizedBox(width: 12),
+                      Expanded(
+                        child: Text(
+                          localizations.inviteFamilyMember,
+                          key: const Key('invite_member_title'),
+                          style: theme.textTheme.titleLarge?.copyWith(
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 16),
+
+                  // Email field
+                  TextFormField(
+                    key: const Key('email_address_field'),
+                    controller: _emailController,
+                    keyboardType: TextInputType.emailAddress,
+                    textInputAction: TextInputAction.next,
+                    decoration: InputDecoration(
+                      labelText: localizations.emailAddress,
+                      hintText: localizations.enterMemberEmail,
+                      prefixIcon: const Icon(Icons.email_outlined),
+                      border: const OutlineInputBorder(),
+                    ),
+                    validator: (value) {
+                      final error = FamilyFormValidator.validateEmail(value);
+                      if (error != null) {
+                        final l10n = AppLocalizations.of(context);
+                        return error.toLocalizedMessage(l10n);
+                      }
+                      return null;
+                    },
+                    enabled: !_isLoading,
+                  ),
+                  const SizedBox(height: 16),
+
+                  // Name field (optional)
+                  TextFormField(
+                    key: const Key('name_field'),
+                    controller: _nameController,
+                    textInputAction: TextInputAction.done,
+                    textCapitalization: TextCapitalization.words,
+                    decoration: InputDecoration(
+                      labelText: localizations.nameOptional,
+                      hintText: localizations.enterMemberName,
+                      prefixIcon: const Icon(Icons.person_outline),
+                      border: const OutlineInputBorder(),
+                    ),
+                    enabled: !_isLoading,
+                  ),
+                  const SizedBox(height: 16),
+
+                  // Invitation type
+                  Text(
+                    localizations.invitationType,
+                    key: const Key('invitation_type_label'),
+                    style: theme.textTheme.titleSmall?.copyWith(
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  SegmentedButton<InvitationType>(
+                    key: const Key('invitation_type_selector'),
+                    segments: [
+                      ButtonSegment(
+                        value: InvitationType.family,
+                        label: Text(localizations.familyMember),
+                        icon: const Icon(Icons.family_restroom),
+                      ),
+                    ],
+                    selected: {_invitationType},
+                    onSelectionChanged: _isLoading
+                        ? null
+                        : (Set<InvitationType> newSelection) {
+                            setState(() {
+                              _invitationType = newSelection.first;
+                            });
+                          },
+                  ),
+                  const SizedBox(height: 8),
                   Container(
                     padding: const EdgeInsets.all(8),
                     decoration: BoxDecoration(
                       color: theme.colorScheme.primaryContainer.withValues(
-                        alpha: 0.3,
+                        alpha: 0.1,
                       ),
-                      borderRadius: BorderRadius.circular(8),
+                      borderRadius: BorderRadius.circular(4),
                     ),
-                    child: Icon(
-                      Icons.person_add,
-                      color: theme.colorScheme.primary,
-                      size: 20,
-                    ),
-                  ),
-                  const SizedBox(width: 12),
-                  Expanded(
-                    child: Text(
-                      localizations.inviteFamilyMember,
-                      key: const Key('invite_member_title'),
-                      style: theme.textTheme.titleLarge?.copyWith(
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 16),
-
-              // Email field
-              TextFormField(
-                key: const Key('email_address_field'),
-                controller: _emailController,
-                keyboardType: TextInputType.emailAddress,
-                textInputAction: TextInputAction.next,
-                decoration: InputDecoration(
-                  labelText: localizations.emailAddress,
-                  hintText: localizations.enterMemberEmail,
-                  prefixIcon: const Icon(Icons.email_outlined),
-                  border: const OutlineInputBorder(),
-                ),
-                validator: (value) {
-                  final error = FamilyFormValidator.validateEmail(value);
-                  if (error != null) {
-                    final l10n = AppLocalizations.of(context);
-                    return error.toLocalizedMessage(l10n);
-                  }
-                  return null;
-                },
-                enabled: !_isLoading,
-              ),
-              const SizedBox(height: 16),
-
-              // Name field (optional)
-              TextFormField(
-                key: const Key('name_field'),
-                controller: _nameController,
-                textInputAction: TextInputAction.done,
-                textCapitalization: TextCapitalization.words,
-                decoration: InputDecoration(
-                  labelText: localizations.nameOptional,
-                  hintText: localizations.enterMemberName,
-                  prefixIcon: const Icon(Icons.person_outline),
-                  border: const OutlineInputBorder(),
-                ),
-                enabled: !_isLoading,
-              ),
-              const SizedBox(height: 16),
-
-              // Invitation type
-              Text(
-                localizations.invitationType,
-                key: const Key('invitation_type_label'),
-                style: theme.textTheme.titleSmall?.copyWith(
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-              const SizedBox(height: 8),
-              SegmentedButton<InvitationType>(
-                key: const Key('invitation_type_selector'),
-                segments: [
-                  ButtonSegment(
-                    value: InvitationType.family,
-                    label: Text(localizations.familyMember),
-                    icon: const Icon(Icons.family_restroom),
-                  ),
-                ],
-                selected: {_invitationType},
-                onSelectionChanged: _isLoading
-                    ? null
-                    : (Set<InvitationType> newSelection) {
-                        setState(() {
-                          _invitationType = newSelection.first;
-                        });
-                      },
-              ),
-              const SizedBox(height: 8),
-              Container(
-                padding: const EdgeInsets.all(8),
-                decoration: BoxDecoration(
-                  color: theme.colorScheme.primaryContainer.withValues(
-                    alpha: 0.1,
-                  ),
-                  borderRadius: BorderRadius.circular(4),
-                ),
-                child: Row(
-                  children: [
-                    Icon(
-                      Icons.info_outline,
-                      size: 14,
-                      color: theme.colorScheme.primary,
-                    ),
-                    const SizedBox(width: 6),
-                    Expanded(
-                      child: Text(
-                        localizations.familyMemberDescription,
-                        style: theme.textTheme.bodySmall?.copyWith(
+                    child: Row(
+                      children: [
+                        Icon(
+                          Icons.info_outline,
+                          size: 14,
                           color: theme.colorScheme.primary,
                         ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox(height: 24),
-
-              // Action buttons
-              Row(
-                children: [
-                  Expanded(
-                    child: OutlinedButton(
-                      key: const Key('reset_button'),
-                      onPressed: _isLoading ? null : _resetForm,
-                      child: Text(localizations.reset),
+                        const SizedBox(width: 6),
+                        Expanded(
+                          child: Text(
+                            localizations.familyMemberDescription,
+                            style: theme.textTheme.bodySmall?.copyWith(
+                              color: theme.colorScheme.primary,
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
-                  const SizedBox(width: 12),
-                  Expanded(
-                    flex: 2,
-                    child: FilledButton(
-                      key: const Key('send_invitation_button'),
-                      onPressed: _isLoading ? null : _sendInvitation,
-                      child: _isLoading
-                          ? const SizedBox(
-                              width: 16,
-                              height: 16,
-                              child: CircularProgressIndicator(strokeWidth: 2),
-                            )
-                          : Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                const Icon(Icons.send, size: 16),
-                                const SizedBox(width: 8),
-                                Flexible(
-                                  child: Text(
-                                    localizations.sendInvitation,
-                                    overflow: TextOverflow.ellipsis,
+                  const SizedBox(height: 24),
+
+                  // Action buttons
+                  Row(
+                    children: [
+                      Expanded(
+                        child: OutlinedButton(
+                          key: const Key('reset_button'),
+                          onPressed: _isLoading ? null : _resetForm,
+                          child: Text(localizations.reset),
+                        ),
+                      ),
+                      const SizedBox(width: 12),
+                      Expanded(
+                        flex: 2,
+                        child: FilledButton(
+                          key: const Key('send_invitation_button'),
+                          onPressed: _isLoading ? null : _sendInvitation,
+                          child: _isLoading
+                              ? const SizedBox(
+                                  width: 16,
+                                  height: 16,
+                                  child: CircularProgressIndicator(
+                                    strokeWidth: 2,
                                   ),
+                                )
+                              : Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    const Icon(Icons.send, size: 16),
+                                    const SizedBox(width: 8),
+                                    Flexible(
+                                      child: Text(
+                                        localizations.sendInvitation,
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                    ),
+                                  ],
                                 ),
-                              ],
-                            ),
-                    ),
+                        ),
+                      ),
+                    ],
                   ),
                 ],
               ),
-            ],
+            ),
           ),
         ),
       ),

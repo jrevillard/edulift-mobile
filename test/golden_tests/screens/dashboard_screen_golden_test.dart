@@ -1,340 +1,138 @@
 // EduLift - Dashboard Screen Golden Tests
-// Comprehensive visual regression tests for dashboard and home screens
+// Comprehensive visual regression tests for dashboard screen using REAL production page
 
 @Tags(['golden'])
 library;
 
-import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:edulift/features/groups/presentation/widgets/group_card.dart';
+import 'package:edulift/features/dashboard/presentation/pages/dashboard_page.dart';
+import 'package:edulift/core/services/providers/auth_provider.dart';
+import 'package:edulift/core/domain/entities/user.dart';
+import 'package:edulift/core/navigation/navigation_state.dart' as nav;
 
 import '../../support/golden/golden_test_wrapper.dart';
-import '../../support/factories/group_data_factory.dart';
-import '../../support/factories/family_data_factory.dart';
-import '../../support/factories/schedule_data_factory.dart';
 import '../../support/factories/test_data_factory.dart';
+import '../../support/mock_fallbacks.dart';
+import '../../support/network_mocking.dart';
 
 void main() {
   // Reset factories before tests
   setUpAll(() {
-    GroupDataFactory.resetCounters();
-    FamilyDataFactory.resetCounters();
-    ScheduleDataFactory.resetCounters();
+    // Setup all mock fallbacks first
+    setupMockFallbacks();
+
     TestDataFactory.resetSeed();
   });
 
-  group('Dashboard Screen - Golden Tests', () {
-    testWidgets('Dashboard - with groups and schedules', (tester) async {
-      final groups = GroupDataFactory.createLargeGroupList(count: 5);
-      final schedules = ScheduleDataFactory.createLargeScheduleSlotList(
-        count: 10,
+  group('Dashboard Screen - Golden Tests (Real Production Code)', () {
+    testWidgets('DashboardPage - real production page', (tester) async {
+      final testUser = User(
+        id: 'user-1',
+        email: 'admin@example.com',
+        name: 'Günther Beaumont',
+        createdAt: DateTime.now(),
+        updatedAt: DateTime.now(),
       );
 
-      final screen = Scaffold(
-        appBar: AppBar(
-          title: const Text('Dashboard'),
-          actions: [
-            IconButton(icon: const Icon(Icons.notifications), onPressed: () {}),
-          ],
+      final overrides = [
+        currentUserProvider.overrideWith((ref) => testUser),
+        nav.navigationStateProvider.overrideWith(
+          (ref) => nav.NavigationStateNotifier(),
         ),
-        body: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // User welcome section
-              Container(
-                padding: const EdgeInsets.all(24),
-                color: Colors.blue.shade50,
-                child: const Row(
-                  children: [
-                    CircleAvatar(
-                      radius: 32,
-                      child: Icon(Icons.person, size: 32),
-                    ),
-                    SizedBox(width: 16),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Welcome back!',
-                            style: TextStyle(
-                              fontSize: 24,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          Text(
-                            'Günther Beaumont',
-                            style: TextStyle(fontSize: 16),
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
 
-              // Quick stats
-              Padding(
-                padding: const EdgeInsets.all(16),
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: _StatCard(
-                        title: 'Groups',
-                        value: groups.length.toString(),
-                        icon: Icons.groups,
-                        color: Colors.blue,
-                      ),
-                    ),
-                    const SizedBox(width: 16),
-                    Expanded(
-                      child: _StatCard(
-                        title: 'Schedules',
-                        value: schedules.length.toString(),
-                        icon: Icons.calendar_today,
-                        color: Colors.green,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-
-              // Groups section
-              const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 16),
-                child: Text(
-                  'My Groups',
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                ),
-              ),
-              const SizedBox(height: 8),
-              ListView.builder(
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                itemCount: groups.take(3).length,
-                itemBuilder: (context, index) {
-                  final group = groups[index];
-                  return Padding(
-                    padding: const EdgeInsets.only(bottom: 12),
-                    child: GroupCard(
-                      group: group,
-                      onSelect: () {},
-                      onManage: () {},
-                    ),
-                  );
-                },
-              ),
-
-              // Upcoming schedules section
-              const Padding(
-                padding: EdgeInsets.all(16),
-                child: Text(
-                  'Upcoming Schedules',
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                ),
-              ),
-              ListView.builder(
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                itemCount: schedules.take(5).length,
-                itemBuilder: (context, index) {
-                  final slot = schedules[index];
-                  return Card(
-                    margin: const EdgeInsets.only(bottom: 8),
-                    child: ListTile(
-                      leading: const Icon(Icons.calendar_today),
-                      title: Text(
-                        '${slot.dayOfWeek.fullName} - ${slot.timeOfDay.toApiFormat()}',
-                      ),
-                      subtitle: Text('Week ${slot.week}'),
-                      trailing: Text(
-                        '${slot.vehicleAssignments.length} vehicles',
-                      ),
-                    ),
-                  );
-                },
-              ),
-            ],
-          ),
-        ),
-        bottomNavigationBar: BottomNavigationBar(
-          items: const [
-            BottomNavigationBarItem(
-              icon: Icon(Icons.dashboard),
-              label: 'Dashboard',
-            ),
-            BottomNavigationBarItem(icon: Icon(Icons.groups), label: 'Groups'),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.family_restroom),
-              label: 'Family',
-            ),
-          ],
-        ),
-      );
+        // CRITICAL: Prevent all real network calls during golden tests
+        ...getAllNetworkMockOverrides(),
+      ];
 
       await GoldenTestWrapper.testScreen(
         tester: tester,
-        screen: screen,
-        testName: 'dashboard_with_data',
+        screen: const DashboardPage(),
+        testName: 'dashboard_real_production',
+        providerOverrides: overrides,
       );
     });
 
-    testWidgets('Dashboard - empty state', (tester) async {
-      final screen = Scaffold(
-        appBar: AppBar(title: const Text('Dashboard')),
-        body: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Icon(
-                Icons.dashboard_outlined,
-                size: 80,
-                color: Colors.grey,
-              ),
-              const SizedBox(height: 24),
-              const Text(
-                'Welcome to EduLift!',
-                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-              ),
-              const SizedBox(height: 8),
-              const Text(
-                'Get started by creating a group or joining one',
-                style: TextStyle(color: Colors.grey),
-                textAlign: TextAlign.center,
-              ),
-              const SizedBox(height: 32),
-              ElevatedButton.icon(
-                onPressed: () {},
-                icon: const Icon(Icons.add),
-                label: const Text('Create Group'),
-              ),
-              const SizedBox(height: 16),
-              OutlinedButton.icon(
-                onPressed: () {},
-                icon: const Icon(Icons.group_add),
-                label: const Text('Join Group'),
-              ),
-            ],
-          ),
-        ),
+    testWidgets('DashboardPage - empty state', (tester) async {
+      final testUser = User(
+        id: 'user-2',
+        email: 'new@example.com',
+        name: 'New User',
+        createdAt: DateTime.now(),
+        updatedAt: DateTime.now(),
       );
+
+      final overrides = [
+        currentUserProvider.overrideWith((ref) => testUser),
+        nav.navigationStateProvider.overrideWith(
+          (ref) => nav.NavigationStateNotifier(),
+        ),
+
+        // CRITICAL: Prevent all real network calls during golden tests
+        ...getAllNetworkMockOverrides(),
+      ];
 
       await GoldenTestWrapper.testEmptyState(
         tester: tester,
-        widget: screen,
+        widget: const DashboardPage(),
         testName: 'dashboard',
+        category: 'screen',
+        providerOverrides: overrides,
       );
     });
 
-    testWidgets('Dashboard - dark theme', (tester) async {
-      final groups = GroupDataFactory.createLargeGroupList(count: 3);
-
-      final screen = Scaffold(
-        appBar: AppBar(title: const Text('Dashboard')),
-        body: Padding(
-          padding: const EdgeInsets.all(16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const Text(
-                'My Groups',
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-              ),
-              const SizedBox(height: 16),
-              ...groups.map(
-                (group) => Padding(
-                  padding: const EdgeInsets.only(bottom: 12),
-                  child: GroupCard(
-                    group: group,
-                    onSelect: () {},
-                    onManage: () {},
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
+    testWidgets('DashboardPage - dark theme', (tester) async {
+      final testUser = User(
+        id: 'user-3',
+        email: 'test@example.com',
+        name: 'Test User',
+        createdAt: DateTime.now(),
+        updatedAt: DateTime.now(),
       );
+
+      final overrides = [
+        currentUserProvider.overrideWith((ref) => testUser),
+        nav.navigationStateProvider.overrideWith(
+          (ref) => nav.NavigationStateNotifier(),
+        ),
+
+        // CRITICAL: Prevent all real network calls during golden tests
+        ...getAllNetworkMockOverrides(),
+      ];
 
       await GoldenTestWrapper.testScreen(
         tester: tester,
-        screen: screen,
-        testName: 'dashboard_dark',
+        screen: const DashboardPage(),
+        testName: 'dashboard_dark_real',
+        providerOverrides: overrides,
       );
     });
 
-    testWidgets('Dashboard - tablet layout', (tester) async {
-      final groups = GroupDataFactory.createLargeGroupList(count: 6);
-
-      final screen = Scaffold(
-        appBar: AppBar(title: const Text('Dashboard')),
-        body: Padding(
-          padding: const EdgeInsets.all(24),
-          child: GridView.builder(
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2,
-              childAspectRatio: 1.4, // Decreased to give more vertical space
-              crossAxisSpacing: 16,
-              mainAxisSpacing: 16,
-            ),
-            itemCount: groups.length,
-            itemBuilder: (context, index) {
-              final group = groups[index];
-              return GroupCard(group: group, onSelect: () {}, onManage: () {});
-            },
-          ),
-        ),
+    testWidgets('DashboardPage - tablet layout', (tester) async {
+      final testUser = User(
+        id: 'user-4',
+        email: 'tablet@example.com',
+        name: 'Tablet User',
+        createdAt: DateTime.now(),
+        updatedAt: DateTime.now(),
       );
+
+      final overrides = [
+        currentUserProvider.overrideWith((ref) => testUser),
+        nav.navigationStateProvider.overrideWith(
+          (ref) => nav.NavigationStateNotifier(),
+        ),
+
+        // CRITICAL: Prevent all real network calls during golden tests
+        ...getAllNetworkMockOverrides(),
+      ];
 
       await GoldenTestWrapper.testScreen(
         tester: tester,
-        screen: screen,
-        testName: 'dashboard_tablet',
+        screen: const DashboardPage(),
+        testName: 'dashboard_tablet_real',
+        providerOverrides: overrides,
       );
     });
   });
-}
-
-// Helper widget for stat cards
-class _StatCard extends StatelessWidget {
-  final String title;
-  final String value;
-  final IconData icon;
-  final Color color;
-
-  const _StatCard({
-    required this.title,
-    required this.value,
-    required this.icon,
-    required this.color,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Card(
-      child: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          children: [
-            Icon(icon, size: 32, color: color),
-            const SizedBox(height: 8),
-            Text(
-              value,
-              style: TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-                color: color,
-              ),
-            ),
-            Text(title, style: const TextStyle(color: Colors.grey)),
-          ],
-        ),
-      ),
-    );
-  }
 }

@@ -201,6 +201,10 @@ class _ScheduleTimePickerState extends ConsumerState<ScheduleTimePicker>
     final theme = Theme.of(context);
     final l10n = AppLocalizations.of(context);
     final commonTimes = _generateCommonTimes();
+    final screenHeight = MediaQuery.of(context).size.height;
+    final screenWidth = MediaQuery.of(context).size.width;
+    // Detect small screens including Oppo Find X2 Neo (360x800)
+    final isSmallScreen = screenHeight < 700 || screenWidth < 380;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -216,14 +220,14 @@ class _ScheduleTimePickerState extends ConsumerState<ScheduleTimePicker>
               borderRadius: BorderRadius.circular(16),
             ),
             child: Padding(
-              padding: const EdgeInsets.all(16),
+              padding: EdgeInsets.all(isSmallScreen ? 12 : 16),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   _buildGridHeader(theme, l10n),
-                  const SizedBox(height: 12),
+                  SizedBox(height: isSmallScreen ? 8 : 12),
                   Flexible(child: _buildTimeGrid(theme, commonTimes)),
-                  const SizedBox(height: 12),
+                  SizedBox(height: isSmallScreen ? 8 : 12),
                   _buildCustomTimeButton(theme, l10n),
                 ],
               ),
@@ -243,9 +247,13 @@ class _ScheduleTimePickerState extends ConsumerState<ScheduleTimePicker>
     final userTimezone = currentUser?.timezone;
     // Show timezone name instead of offset since times are already in user timezone
     final timezoneDisplay = userTimezone ?? 'UTC';
+    final screenHeight = MediaQuery.of(context).size.height;
+    final screenWidth = MediaQuery.of(context).size.width;
+    // Detect small screens including Oppo Find X2 Neo (360x800)
+    final isSmallScreen = screenHeight < 700 || screenWidth < 380;
 
     return Padding(
-      padding: const EdgeInsets.all(16),
+      padding: EdgeInsets.all(isSmallScreen ? 12 : 16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -253,13 +261,14 @@ class _ScheduleTimePickerState extends ConsumerState<ScheduleTimePicker>
             l10n.configureWeekdaySchedule(widget.weekdayLabel),
             style: theme.textTheme.titleLarge?.copyWith(
               fontWeight: FontWeight.w600,
+              fontSize: isSmallScreen ? 20 : null,
             ),
           ),
-          const SizedBox(height: 8),
+          SizedBox(height: isSmallScreen ? 4 : 8),
 
           // Enhanced instruction with visual cues + timezone indicator
           Container(
-            padding: const EdgeInsets.all(12),
+            padding: EdgeInsets.all(isSmallScreen ? 8 : 12),
             decoration: BoxDecoration(
               color: theme.colorScheme.primaryContainer.withValues(alpha: 0.3),
               borderRadius: BorderRadius.circular(8),
@@ -274,10 +283,10 @@ class _ScheduleTimePickerState extends ConsumerState<ScheduleTimePicker>
                   children: [
                     Icon(
                       Icons.touch_app,
-                      size: 20,
+                      size: isSmallScreen ? 16 : 20,
                       color: theme.colorScheme.primary,
                     ),
-                    const SizedBox(width: 8),
+                    SizedBox(width: isSmallScreen ? 6 : 8),
                     Expanded(
                       child: Text(
                         l10n.timePickerInstructions,
@@ -285,20 +294,21 @@ class _ScheduleTimePickerState extends ConsumerState<ScheduleTimePicker>
                           color: theme.colorScheme.onSurface.withValues(
                             alpha: 0.8,
                           ),
+                          fontSize: isSmallScreen ? 12 : null,
                         ),
                       ),
                     ),
                   ],
                 ),
-                const SizedBox(height: 4),
+                SizedBox(height: isSmallScreen ? 2 : 4),
                 Row(
                   children: [
                     Icon(
                       Icons.schedule,
-                      size: 16,
+                      size: isSmallScreen ? 14 : 16,
                       color: theme.colorScheme.primary.withValues(alpha: 0.7),
                     ),
-                    const SizedBox(width: 4),
+                    SizedBox(width: isSmallScreen ? 3 : 4),
                     Expanded(
                       child: Text(
                         AppLocalizations.of(
@@ -308,7 +318,7 @@ class _ScheduleTimePickerState extends ConsumerState<ScheduleTimePicker>
                           color: theme.colorScheme.onSurface.withValues(
                             alpha: 0.6,
                           ),
-                          fontSize: 11,
+                          fontSize: isSmallScreen ? 10 : 11,
                           fontStyle: FontStyle.italic,
                         ),
                         overflow: TextOverflow.ellipsis,
@@ -320,16 +330,20 @@ class _ScheduleTimePickerState extends ConsumerState<ScheduleTimePicker>
               ],
             ),
           ),
-          const SizedBox(height: 16),
+          SizedBox(height: isSmallScreen ? 8 : 16),
 
           // Clear all button
           ElevatedButton.icon(
             onPressed: _selectedTimes.isNotEmpty ? _clearAllTimes : null,
-            icon: const Icon(Icons.clear_all, size: 18),
+            icon: Icon(Icons.clear_all, size: isSmallScreen ? 16 : 18),
             label: Text(l10n.clearAll),
             style: ElevatedButton.styleFrom(
               backgroundColor: AppColors.error.withValues(alpha: 0.1),
               foregroundColor: AppColors.error,
+              padding: EdgeInsets.symmetric(
+                horizontal: isSmallScreen ? 12 : 16,
+                vertical: isSmallScreen ? 6 : 8,
+              ),
             ),
           ),
         ],
@@ -492,6 +506,10 @@ class _ScheduleTimePickerState extends ConsumerState<ScheduleTimePicker>
   Widget _buildStatusFooter(ThemeData theme, AppLocalizations l10n) {
     final selectedCount = _selectedTimes.length;
     final hasSelection = selectedCount > 0;
+    final screenHeight = MediaQuery.of(context).size.height;
+    final screenWidth = MediaQuery.of(context).size.width;
+    // Detect small screens including Oppo Find X2 Neo (360x800)
+    final isSmallScreen = screenHeight < 700 || screenWidth < 380;
 
     String getTimeRangeText() {
       if (_selectedTimes.isEmpty) return l10n.noDepartureTimesSelected;
@@ -504,7 +522,7 @@ class _ScheduleTimePickerState extends ConsumerState<ScheduleTimePicker>
         context,
         ScheduleAnimations.normal,
       ),
-      padding: const EdgeInsets.all(12),
+      padding: EdgeInsets.all(isSmallScreen ? 8 : 12),
       decoration: BoxDecoration(
         color: hasSelection
             ? theme.colorScheme.primaryContainer.withValues(alpha: 0.3)
@@ -524,12 +542,12 @@ class _ScheduleTimePickerState extends ConsumerState<ScheduleTimePicker>
             children: [
               Icon(
                 hasSelection ? Icons.schedule : Icons.info_outline,
-                size: 16,
+                size: isSmallScreen ? 14 : 16,
                 color: hasSelection
                     ? theme.colorScheme.primary
                     : theme.colorScheme.onSurface.withValues(alpha: 0.6),
               ),
-              const SizedBox(width: 8),
+              SizedBox(width: isSmallScreen ? 6 : 8),
               Expanded(
                 child: Text(
                   getTimeRangeText(),
@@ -540,6 +558,7 @@ class _ScheduleTimePickerState extends ConsumerState<ScheduleTimePicker>
                     fontWeight: hasSelection
                         ? FontWeight.w600
                         : FontWeight.normal,
+                    fontSize: isSmallScreen ? 12 : null,
                   ),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
@@ -550,7 +569,7 @@ class _ScheduleTimePickerState extends ConsumerState<ScheduleTimePicker>
                   selectedCount == widget.maxSlots
                       ? Icons.warning
                       : Icons.check_circle,
-                  size: 16,
+                  size: isSmallScreen ? 14 : 16,
                   color: selectedCount == widget.maxSlots
                       ? AppColors.warning
                       : AppColors.success,
@@ -559,15 +578,15 @@ class _ScheduleTimePickerState extends ConsumerState<ScheduleTimePicker>
             ],
           ),
           if (hasSelection) ...[
-            const SizedBox(height: 8),
+            SizedBox(height: isSmallScreen ? 4 : 8),
             // Selected times as chips - limit height to prevent overflow
             ConstrainedBox(
-              constraints: const BoxConstraints(maxHeight: 60),
+              constraints: BoxConstraints(maxHeight: isSmallScreen ? 40 : 60),
               child: Wrap(
-                spacing: 6,
-                runSpacing: 3,
+                spacing: isSmallScreen ? 4 : 6,
+                runSpacing: 2,
                 children: (_selectedTimes.toList()..sort())
-                    .take(8) // Limit to 8 chips
+                    .take(isSmallScreen ? 6 : 8) // Limit chips on small screen
                     .map((time) {
                       // Times are already in user's timezone - display as-is
                       final displayTime = time;
@@ -577,27 +596,35 @@ class _ScheduleTimePickerState extends ConsumerState<ScheduleTimePicker>
                           displayTime,
                           style: theme.textTheme.bodySmall?.copyWith(
                             fontWeight: FontWeight.w500,
-                            fontSize: 10,
+                            fontSize: isSmallScreen ? 9 : 10,
                           ),
                         ),
                         backgroundColor: theme.colorScheme.primaryContainer
                             .withValues(alpha: 0.5),
-                        deleteIcon: const Icon(Icons.close, size: 14),
+                        deleteIcon: Icon(
+                          Icons.close,
+                          size: isSmallScreen ? 12 : 14,
+                        ),
                         onDeleted: () => _toggleTime(time),
                         visualDensity: VisualDensity.compact,
+                        padding: EdgeInsets.symmetric(
+                          horizontal: isSmallScreen ? 6 : 8,
+                          vertical: isSmallScreen ? 2 : 4,
+                        ),
                       );
                     })
                     .toList(),
               ),
             ),
-            if (_selectedTimes.length > 8) // Show indicator if more items
+            if (_selectedTimes.length >
+                (isSmallScreen ? 6 : 8)) // Show indicator if more items
               Padding(
-                padding: const EdgeInsets.only(top: 4),
+                padding: EdgeInsets.only(top: isSmallScreen ? 2 : 4),
                 child: Text(
-                  '+${_selectedTimes.length - 8} more...',
+                  '+${_selectedTimes.length - (isSmallScreen ? 6 : 8)} more...',
                   style: theme.textTheme.bodySmall?.copyWith(
                     color: theme.colorScheme.onSurface.withValues(alpha: 0.6),
-                    fontSize: 10,
+                    fontSize: isSmallScreen ? 9 : 10,
                   ),
                 ),
               ),

@@ -50,46 +50,76 @@ class GroupCard extends StatelessWidget {
             desktopVertical: 20,
           ),
           child: Column(
+            mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               // Header with group icon and role
-              Row(
-                children: [
-                  Container(
-                    width: context.getAdaptiveIconSize(
-                      mobile: 40,
-                      tablet: 48,
-                      desktop: 52,
+              // Use a layout that adapts to small screens
+              if (MediaQuery.of(context).size.width < 120)
+                // Very small screen - stack elements vertically with compact layout
+                Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Container(
+                      width: 32, // Smaller for very small screens
+                      height: 32, // Smaller for very small screens
+                      decoration: BoxDecoration(
+                        color: theme.colorScheme.primary.withValues(alpha: 0.1),
+                        borderRadius: BorderRadius.circular(6),
+                      ),
+                      child: Icon(
+                        Icons.groups,
+                        color: theme.colorScheme.primary,
+                        size: 18, // Smaller icon
+                      ),
                     ),
-                    height: context.getAdaptiveIconSize(
-                      mobile: 40,
-                      tablet: 48,
-                      desktop: 52,
-                    ),
-                    decoration: BoxDecoration(
-                      color: theme.colorScheme.primary.withValues(alpha: 0.1),
-                      borderRadius: BorderRadius.circular(
-                        context.getAdaptiveIconSize(
-                          mobile: 8,
-                          tablet: 10,
-                          desktop: 12,
+                    const SizedBox(height: 2), // Minimal spacing
+                    Center(child: _buildRoleBadge(userRole, theme, context)),
+                  ],
+                )
+              else
+                // Normal screen - use horizontal layout with flexible width
+                Row(
+                  children: [
+                    Flexible(
+                      child: Container(
+                        width: context.getAdaptiveIconSize(
+                          mobile: 40,
+                          tablet: 48,
+                          desktop: 52,
+                        ),
+                        height: context.getAdaptiveIconSize(
+                          mobile: 40,
+                          tablet: 48,
+                          desktop: 52,
+                        ),
+                        decoration: BoxDecoration(
+                          color: theme.colorScheme.primary.withValues(
+                            alpha: 0.1,
+                          ),
+                          borderRadius: BorderRadius.circular(
+                            context.getAdaptiveIconSize(
+                              mobile: 8,
+                              tablet: 10,
+                              desktop: 12,
+                            ),
+                          ),
+                        ),
+                        child: Icon(
+                          Icons.groups,
+                          color: theme.colorScheme.primary,
+                          size: context.getAdaptiveIconSize(
+                            mobile: 24,
+                            tablet: 28,
+                            desktop: 32,
+                          ),
                         ),
                       ),
                     ),
-                    child: Icon(
-                      Icons.groups,
-                      color: theme.colorScheme.primary,
-                      size: context.getAdaptiveIconSize(
-                        mobile: 24,
-                        tablet: 28,
-                        desktop: 32,
-                      ),
-                    ),
-                  ),
-                  const Spacer(),
-                  _buildRoleBadge(userRole, theme, context),
-                ],
-              ),
+                    const Spacer(),
+                    Flexible(child: _buildRoleBadge(userRole, theme, context)),
+                  ],
+                ),
 
               SizedBox(
                 height: context.getAdaptiveSpacing(
@@ -108,22 +138,39 @@ class GroupCard extends StatelessWidget {
                             : theme.textTheme.titleMedium)
                         ?.copyWith(
                           fontWeight: FontWeight.w600,
-                          fontSize: (isTablet ? 20 : 18) * context.fontScale,
+                          fontSize:
+                              (MediaQuery.of(context).size.width < 120
+                                  ? 12 // Very small text for tiny screens
+                                  : (isTablet ? 20 : 18)) *
+                              context.fontScale,
                         ),
-                maxLines: 2,
+                maxLines: MediaQuery.of(context).size.width < 120 ? 1 : 2,
                 overflow: TextOverflow.ellipsis,
               ),
 
               SizedBox(
-                height: context.getAdaptiveSpacing(
-                  mobile: 8,
-                  tablet: 10,
-                  desktop: 12,
-                ),
+                height: MediaQuery.of(context).size.width < 120
+                    ? 2 // Minimal spacing for tiny screens
+                    : context.getAdaptiveSpacing(
+                        mobile: 8,
+                        tablet: 10,
+                        desktop: 12,
+                      ),
               ),
 
               // Description or member count
-              if (description != null && description.isNotEmpty)
+              if (MediaQuery.of(context).size.width < 120)
+                // Very compact display for tiny screens
+                Text(
+                  '$familyCount',
+                  style: theme.textTheme.bodySmall?.copyWith(
+                    color: AppColors.textSecondaryThemed(context),
+                    fontSize: 10, // Very small text
+                  ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                )
+              else if (description != null && description.isNotEmpty)
                 Text(
                   description,
                   style:
@@ -151,11 +198,13 @@ class GroupCard extends StatelessWidget {
                 ),
 
               SizedBox(
-                height: context.getAdaptiveSpacing(
-                  mobile: 16,
-                  tablet: 20,
-                  desktop: 24,
-                ),
+                height: MediaQuery.of(context).size.width < 120
+                    ? 4 // Reduced spacing for tiny screens
+                    : context.getAdaptiveSpacing(
+                        mobile: 16,
+                        tablet: 20,
+                        desktop: 24,
+                      ),
               ),
 
               // Action buttons
@@ -200,6 +249,7 @@ class GroupCard extends StatelessWidget {
 
   Widget _buildRoleBadge(String role, ThemeData theme, BuildContext context) {
     final isTablet = context.isTablet;
+    final isSmallScreen = MediaQuery.of(context).size.width < 120;
 
     Color backgroundColor;
     Color textColor;
@@ -211,40 +261,63 @@ class GroupCard extends StatelessWidget {
       case 'ADMIN':
         backgroundColor = colorScheme.errorContainer;
         textColor = colorScheme.error;
-        displayRole = 'Admin';
+        displayRole = 'Adm'; // Shorter text for small screens
         break;
       case 'COORDINATOR':
         backgroundColor = colorScheme.tertiaryContainer;
         textColor = colorScheme.tertiary;
-        displayRole = 'Coordinator';
+        displayRole = 'Coord'; // Shorter text for small screens
         break;
       case 'MEMBER':
       default:
         backgroundColor = AppColors.surfaceVariantThemed(context);
         textColor = AppColors.textSecondaryThemed(context);
-        displayRole = 'Member';
+        displayRole = 'Mem'; // Shorter text for small screens
         break;
+    }
+
+    // Use even shorter text for very small screens
+    if (isSmallScreen) {
+      switch (role.toUpperCase()) {
+        case 'ADMIN':
+          displayRole = 'A';
+          break;
+        case 'COORDINATOR':
+          displayRole = 'C';
+          break;
+        case 'MEMBER':
+        default:
+          displayRole = 'M';
+          break;
+      }
     }
 
     return Container(
       padding: EdgeInsets.symmetric(
-        horizontal: context.getAdaptiveSpacing(
-          mobile: 8,
-          tablet: 10,
-          desktop: 12,
-        ),
-        vertical: context.getAdaptiveSpacing(mobile: 4, tablet: 6, desktop: 8),
+        horizontal: isSmallScreen
+            ? 4
+            : context.getAdaptiveSpacing(mobile: 8, tablet: 10, desktop: 12),
+        vertical: isSmallScreen
+            ? 2
+            : context.getAdaptiveSpacing(mobile: 4, tablet: 6, desktop: 8),
       ),
       decoration: BoxDecoration(
         color: backgroundColor,
-        borderRadius: BorderRadius.circular(isTablet ? 16 : 12),
+        borderRadius: BorderRadius.circular(
+          isSmallScreen ? 6 : (isTablet ? 16 : 12),
+        ),
       ),
-      child: Text(
-        displayRole,
-        style: TextStyle(
-          color: textColor,
-          fontSize: (isTablet ? 13 : 11) * context.fontScale,
-          fontWeight: FontWeight.w500,
+      child: FittedBox(
+        fit: BoxFit.scaleDown,
+        child: Text(
+          displayRole,
+          style: TextStyle(
+            color: textColor,
+            fontSize: isSmallScreen
+                ? 10
+                : ((isTablet ? 13 : 11) * context.fontScale),
+            fontWeight: FontWeight.w500,
+          ),
         ),
       ),
     );
