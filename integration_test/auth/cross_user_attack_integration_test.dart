@@ -4,6 +4,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:patrol/patrol.dart';
+import '../helpers/deep_link_helper.dart';
 import '../helpers/mailpit_helper.dart';
 import '../helpers/auth_flow_helper.dart';
 
@@ -57,7 +58,7 @@ void main() {
       );
 
       // Open the invalid magic link
-      await $.native.openUrl(invalidMagicLink);
+      await DeepLinkHelper.openWithTimeout($, invalidMagicLink);
       await $.pump(const Duration(milliseconds: 500));
       await $.pumpAndSettle();
 

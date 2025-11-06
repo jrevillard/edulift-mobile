@@ -15,6 +15,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:patrol/patrol.dart';
+import '../helpers/deep_link_helper.dart';
 import '../helpers/test_data_generator.dart';
 import '../helpers/mailpit_helper.dart';
 import '../helpers/auth_flow_helper.dart';
@@ -700,7 +701,7 @@ void main() {
 
         // STEP 4: Try to verify magic link with no network (manual approach for error testing)
         debugPrint('🔗 Opening magic link with airplane mode enabled...');
-        await $.native.openUrl(magicLink!);
+        await DeepLinkHelper.openWithTimeout($, magicLink!);
         await $.pump(const Duration(milliseconds: 500));
 
         // STEP 5: ENHANCED - Verify network error during verification

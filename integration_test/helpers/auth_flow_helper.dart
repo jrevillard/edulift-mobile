@@ -11,6 +11,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'test_data_generator.dart';
 import 'mailpit_helper.dart';
 import 'network_device_helper.dart';
+import 'deep_link_helper.dart';
 
 /// Factory class for all authentication flows in E2E tests
 ///
@@ -327,12 +328,16 @@ class AuthFlowHelper {
     debugPrint('🔗 MAGIC LINK: Processing verification link');
     debugPrint('   Link: ${magicLink.substring(0, 50)}...');
 
-    // Open magic link deep link in app
-    await $.native.openUrl(magicLink);
-    // Use pump() instead of pumpAndSettle() to avoid hanging
-    await $.pump(const Duration(milliseconds: 300));
+    // Open magic link with timeout protection and verify expected screen
+    // This prevents tests from hanging if deep links are misconfigured
+    await DeepLinkHelper.openAndVerify(
+      $,
+      magicLink,
+      expect: find.byKey(const Key('welcome_to_edulift_message')),
+      pumpAndSettle: false, // We'll do custom waiting below
+    );
 
-    // Wait for magic link verification to complete with retry
+    // Additional wait with retry for magic link verification to complete
     await _waitWithRetry(
       $,
       () => $.waitUntilVisible(

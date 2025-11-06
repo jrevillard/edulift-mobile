@@ -20,7 +20,7 @@ import 'package:edulift/core/config/environment_config.dart';
 /// Usage:
 /// ```dart
 /// final magicLink = await MailpitHelper.waitForMagicLink('user@example.com');
-/// await $.native.openUrl(magicLink);
+/// await DeepLinkHelper.openAndVerify($, magicLink, expect: find.text('Welcome'));
 /// ```
 class MailpitHelper {
   /// Get Mailpit API URL based on current environment configuration

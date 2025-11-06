@@ -23,6 +23,7 @@ import 'package:patrol/patrol.dart';
 import '../helpers/test_data_generator.dart';
 import '../helpers/mailpit_helper.dart';
 import '../helpers/auth_flow_helper.dart';
+import '../helpers/deep_link_helper.dart';
 
 /// E2E tests for magic link security scenarios
 ///
@@ -113,7 +114,7 @@ void main() {
         debugPrint('✅ Logout completed for reuse test');
 
         // STEP 5: Attempt to reuse the same magic link (DETERMINISTIC ERROR EXPECTED)
-        await $.native.openUrl(magicLink);
+        await DeepLinkHelper.openWithTimeout($, magicLink);
         await $.pump(const Duration(seconds: 3)); // Allow processing time
 
         // STEP 6: ENHANCED - Verify security error message content
@@ -166,7 +167,7 @@ void main() {
         debugPrint('🔍 Testing invalid token security response');
 
         // STEP 3: ENHANCED - Verify invalid token error message content
-        await $.native.openUrl(invalidTokenLink);
+        await DeepLinkHelper.openWithTimeout($, invalidTokenLink);
         await $.pump(const Duration(seconds: 2));
 
         final errorMessage =
@@ -212,7 +213,7 @@ void main() {
         debugPrint('🔍 Testing malformed URI security response');
 
         // STEP 3: Test malformed URI - should be rejected and stay on current page
-        await $.native.openUrl(malformedLink);
+        await DeepLinkHelper.openWithTimeout($, malformedLink);
         await $.pump(const Duration(seconds: 2));
 
         // STEP 4: Malformed URI should be rejected, user stays on current page
@@ -250,7 +251,7 @@ void main() {
         debugPrint('🔍 Testing tampered token security response');
 
         // STEP 3: ENHANCED - Verify tampered token error message content
-        await $.native.openUrl(tamperedLink);
+        await DeepLinkHelper.openWithTimeout($, tamperedLink);
         await $.pump(const Duration(seconds: 2));
 
         final errorMessage =
@@ -461,7 +462,7 @@ void main() {
         debugPrint('🔧 New PKCE pair generated - creating mismatch scenario');
 
         // STEP 6: Try to use the old magic link with new PKCE context
-        await $.native.openUrl(originalMagicLink);
+        await DeepLinkHelper.openWithTimeout($, originalMagicLink);
         await $.pump(const Duration(seconds: 3));
 
         // STEP 7: ENHANCED - Verify PKCE validation error message content
@@ -614,7 +615,7 @@ void main() {
 
         // STEP 5: Simulate replay attack - try to reuse same magic link
         // This should fail due to PKCE security (used code_verifier)
-        await $.native.openUrl(magicLink);
+        await DeepLinkHelper.openWithTimeout($, magicLink);
         await $.pump(const Duration(seconds: 3));
 
         // STEP 6: ENHANCED - Verify PKCE replay prevention error message
@@ -716,7 +717,7 @@ void main() {
         debugPrint('🔍 Testing cross-user PKCE security attack');
         debugPrint('   Using User A magic link with User B PKCE context');
 
-        await $.native.openUrl(userAMagicLink);
+        await DeepLinkHelper.openWithTimeout($, userAMagicLink);
         await $.pump(const Duration(seconds: 3));
 
         // STEP 6: ENHANCED - Verify cross-user security error message

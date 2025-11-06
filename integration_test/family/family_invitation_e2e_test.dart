@@ -18,6 +18,7 @@ import '../helpers/test_data_generator.dart';
 import '../helpers/auth_flow_helper.dart';
 import '../helpers/mailpit_helper.dart';
 import '../helpers/invitation_flow_helper.dart';
+import '../helpers/deep_link_helper.dart';
 
 // Helper function moved to InvitationFlowHelper
 
@@ -170,10 +171,10 @@ void main() {
           );
 
           // Open member invitation as unauthenticated user
-          await $.native.openUrl(memberInvitationLink!);
-          await $.waitUntilVisible(
-            find.byKey(const Key('invitation_family_info')),
-            timeout: const Duration(seconds: 8),
+          await DeepLinkHelper.openAndVerify(
+            $,
+            memberInvitationLink!,
+            expect: find.byKey(const Key('invitation_family_info')),
           );
 
           // Accept member invitation with progressive auth flow - custom implementation to avoid step 82 issue
@@ -328,10 +329,10 @@ void main() {
             $,
             adminInvitee,
           );
-          await $.native.openUrl(adminInvitationLink!);
-          await $.waitUntilVisible(
-            find.byKey(const Key('invitation_family_info')),
-            timeout: const Duration(seconds: 8),
+          await DeepLinkHelper.openAndVerify(
+            $,
+            adminInvitationLink!,
+            expect: find.byKey(const Key('invitation_family_info')),
           );
 
           // Should see join family button (authenticated user without family)
@@ -363,10 +364,10 @@ void main() {
             $,
             promotionTestUser,
           );
-          await $.native.openUrl(promotionInvitationLink!);
-          await $.waitUntilVisible(
-            find.byKey(const Key('join_family_button')),
-            timeout: const Duration(seconds: 8),
+          await DeepLinkHelper.openAndVerify(
+            $,
+            promotionInvitationLink!,
+            expect: find.byKey(const Key('join_family_button')),
           );
           await $.tap(find.byKey(const Key('join_family_button')));
           await $.waitUntilVisible(
@@ -387,10 +388,10 @@ void main() {
             $,
             demotionTestUser,
           );
-          await $.native.openUrl(demotionInvitationLink!);
-          await $.waitUntilVisible(
-            find.byKey(const Key('join_family_button')),
-            timeout: const Duration(seconds: 8),
+          await DeepLinkHelper.openAndVerify(
+            $,
+            demotionInvitationLink!,
+            expect: find.byKey(const Key('join_family_button')),
           );
           await $.tap(find.byKey(const Key('join_family_button')));
           await $.waitUntilVisible(
@@ -411,10 +412,10 @@ void main() {
           final fakeInvitationUrl =
               '${adminInvitationLink.split('?')[0]}?code=$fakeInvitationCode';
 
-          await $.native.openUrl(fakeInvitationUrl);
-          await $.waitUntilVisible(
-            find.byKey(const Key('back-to-login-button')),
-            timeout: const Duration(seconds: 8),
+          await DeepLinkHelper.openAndVerify(
+            $,
+            fakeInvitationUrl,
+            expect: find.byKey(const Key('back-to-login-button')),
           );
           debugPrint('✅ PHASE 3A: Invalid invitation properly rejected');
 
@@ -430,7 +431,7 @@ void main() {
 
           // Try to use cross-email test invitation with different authenticated user
           // adminInvitee is logged in, but invitation is for crossEmailTestUser
-          await $.native.openUrl(crossEmailInvitationLink!);
+          await DeepLinkHelper.openWithTimeout($, crossEmailInvitationLink!);
 
           // ENHANCED: Verify invitation error message content, not just presence
           final errorMessage =
@@ -476,7 +477,7 @@ void main() {
           );
 
           // Try to reuse the member invitation that was already accepted in PHASE 1
-          await $.native.openUrl(memberInvitationLink);
+          await DeepLinkHelper.openWithTimeout($, memberInvitationLink);
 
           // BACKEND BEHAVIOR: Already-used invitations return INVALID_CODE (not ALREADY_USED)
           // This is because the backend deletes or marks invitations as invalid after acceptance

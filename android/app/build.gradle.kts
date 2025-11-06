@@ -55,14 +55,14 @@ data class DeepLinkConfig(val scheme: String, val host: String?, val port: Strin
 
 fun parseDeepLinkUrl(url: String): DeepLinkConfig {
     return when {
-        // Custom scheme (e.g., "edulift://")
-        url.startsWith("edulift://") -> {
-            DeepLinkConfig(scheme = "edulift", host = null, port = null)
-        }
         // HTTPS URL (e.g., "https://transport.tanjama.fr:50443/")
         url.startsWith("https://") -> {
             val urlWithoutScheme = url.removePrefix("https://")
             val hostAndPort = urlWithoutScheme.trimEnd('/').split("/").first()
+
+            if (hostAndPort.isBlank()) {
+                throw IllegalArgumentException("HTTPS URLs must specify a host: $url")
+            }
 
             // Check if port is specified
             val (host, port) = if (hostAndPort.contains(":")) {
@@ -73,6 +73,22 @@ fun parseDeepLinkUrl(url: String): DeepLinkConfig {
             }
 
             DeepLinkConfig(scheme = "https", host = host, port = port)
+        }
+        // Custom scheme (e.g., "edulift://", "eduliftxxx://", "myapp://")
+        // Custom schemes should NOT have a host - they work like "myapp://" not "myapp://host.com"
+        url.contains("://") -> {
+            val scheme = url.substringBefore("://")
+            val afterScheme = url.substringAfter("://").trimEnd('/')
+
+            // Custom schemes should have nothing or only "/" after the scheme
+            if (afterScheme.isNotBlank()) {
+                throw IllegalArgumentException(
+                    "Custom scheme URLs should not specify a host. Use format like 'myapp://' not 'myapp://host.com'. " +
+                    "For HTTPS URLs with hosts, use 'https://host.com'. Got: $url"
+                )
+            }
+
+            DeepLinkConfig(scheme = scheme, host = null, port = null)
         }
         else -> throw IllegalArgumentException("Unsupported deep link URL format: $url")
     }
@@ -158,7 +174,7 @@ android {
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode
         versionName = flutter.versionName
-        
+
         testInstrumentationRunner = "pl.leancode.patrol.PatrolJUnitRunner"
         testInstrumentationRunnerArguments["clearPackageData"] = "true"
     }
@@ -199,12 +215,7 @@ android {
             resValue("string", "FLAVOR", "development")
 
             // Deep link configuration from config/development.json
-            val deepLinkUrl = getDeepLinkBaseUrl("development")
-            val config = parseDeepLinkUrl(deepLinkUrl)
-
-            manifestPlaceholders.apply {
-                put("allIntentFilters", generateAllIntentFilters(config))
-            }
+            // (manifests will be automatically generated)
         }
 
         create("staging") {
@@ -215,12 +226,7 @@ android {
             resValue("string", "FLAVOR", "staging")
 
             // Deep link configuration from config/staging.json
-            val deepLinkUrl = getDeepLinkBaseUrl("staging")
-            val config = parseDeepLinkUrl(deepLinkUrl)
-
-            manifestPlaceholders.apply {
-                put("allIntentFilters", generateAllIntentFilters(config))
-            }
+            // (manifests will be automatically generated)
         }
 
         create("e2e") {
@@ -231,12 +237,7 @@ android {
             resValue("string", "FLAVOR", "e2e")
 
             // Deep link configuration from config/e2e.json
-            val deepLinkUrl = getDeepLinkBaseUrl("e2e")
-            val config = parseDeepLinkUrl(deepLinkUrl)
-
-            manifestPlaceholders.apply {
-                put("allIntentFilters", generateAllIntentFilters(config))
-            }
+            // (manifests will be automatically generated)
         }
 
         create("production") {
@@ -246,12 +247,7 @@ android {
             resValue("string", "FLAVOR", "production")
 
             // Deep link configuration from config/production.json
-            val deepLinkUrl = getDeepLinkBaseUrl("production")
-            val config = parseDeepLinkUrl(deepLinkUrl)
-
-            manifestPlaceholders.apply {
-                put("allIntentFilters", generateAllIntentFilters(config))
-            }
+            // (manifests will be automatically generated)
         }
     }
     
@@ -265,6 +261,79 @@ android {
     }
 }
 
+
+
+
+/**
+ * Generates the XML content for a partial manifest file.
+ * @param intentFiltersXml The generated <intent-filter> block.
+ * @param activityName The target activity name, e.g., ".MainActivity".
+ * @return The complete content of the partial AndroidManifest.xml file.
+ */
+fun createPartialManifestContent(intentFiltersXml: String, activityName: String = ".MainActivity"): String {
+    return """<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+    <application>
+        <activity
+            android:name="$activityName"
+            android:exported="true"
+            tools:node="merge">
+${intentFiltersXml.lines().joinToString("\n            ")}
+            </activity>
+        </application>
+    </manifest>""".trimIndent()
+}
+
+// Logic to create and link manifest generation tasks
+android.applicationVariants.all {
+    val variant = this
+    val flavorName = variant.flavorName
+
+    // Create a task to generate the manifest for this specific flavor.
+    // Use the full variant name to avoid conflicts
+    val generateManifestTaskName = "generateDeepLinkManifestFor${variant.name}"
+    val generateManifestTaskProvider = tasks.register(generateManifestTaskName) {
+        group = "Manifest Generation"
+        description = "Generates the partial AndroidManifest.xml for the $flavorName flavor."
+
+        doLast {
+            // 1. Define input and output paths
+            val configJsonFile = project.file("../../config/$flavorName.json")
+            val outputDir = project.file("src/$flavorName")
+            val manifestOutputFile = project.file("$outputDir/AndroidManifest.xml")
+
+            if (!configJsonFile.exists()) {
+                throw GradleException("Configuration file not found: ${configJsonFile.path}")
+            }
+
+            // 2. Read configuration and generate <intent-filter> block
+            val deepLinkUrl = getDeepLinkBaseUrl(flavorName)
+            val config = parseDeepLinkUrl(deepLinkUrl)
+            val intentFilters = generateAllIntentFilters(config)
+
+            if (intentFilters.isBlank()) {
+                println("No intent filters generated for flavor '$flavorName'. Skipping manifest creation.")
+                return@doLast
+            }
+
+            // 3. Generate complete partial manifest content
+            val manifestContent = createPartialManifestContent(intentFilters)
+
+            // 4. Write file
+            outputDir.mkdirs()
+            manifestOutputFile.writeText(manifestContent)
+
+            println("Generated partial manifest for '$flavorName' at ${manifestOutputFile.path}")
+        }
+    }
+
+    // 5. Link our task to the build cycle.
+    // The main manifest processing task depends on our generation
+    tasks.named("process${variant.name.replaceFirstChar { it.uppercase() }}MainManifest") {
+        dependsOn(generateManifestTaskProvider)
+    }
+}
 
 flutter {
     source = "../.."

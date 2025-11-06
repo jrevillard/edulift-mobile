@@ -67,6 +67,7 @@ import '../helpers/test_data_generator.dart';
 import '../helpers/auth_flow_helper.dart';
 import '../helpers/group_flow_helper.dart';
 import '../helpers/invitation_flow_helper.dart';
+import '../helpers/deep_link_helper.dart';
 
 void main() {
   patrolTest('Group Management E2E: CRUD, families, roles, settings', (
@@ -258,16 +259,12 @@ void main() {
     );
     debugPrint('✅ Group invitation link retrieved: $groupInvitationLink');
 
-    // Open the invitation deep link (contains invitation code)
+    // Open the invitation deep link with timeout protection
     debugPrint('🔗 Opening group invitation deep link...');
-    await $.native.openUrl(groupInvitationLink!);
-    await $.pumpAndSettle();
-
-    // Wait for GroupInvitationPage to load and validate the invitation
-    debugPrint('⏳ Waiting for invitation validation and join button...');
-    await $.waitUntilVisible(
-      find.byKey(const Key('groupInvitation_joinGroup_button')),
-      timeout: const Duration(seconds: 10),
+    await DeepLinkHelper.openAndVerify(
+      $,
+      groupInvitationLink!,
+      expect: find.byKey(const Key('groupInvitation_joinGroup_button')),
     );
     debugPrint('✅ Join group button is visible');
 

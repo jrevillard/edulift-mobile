@@ -107,3 +107,8 @@ android/key.properties
 android/app/release.keystore
 android/app/debug.keystore
 android/build/
+
+# Automatically generated
+android/app/src/production/AndroidManifest.xml
+android/app/src/staging/AndroidManifest.xml
+android/app/src/e2e/AndroidManifest.xml
