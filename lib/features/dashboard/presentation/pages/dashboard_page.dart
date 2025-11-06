@@ -9,6 +9,8 @@ import 'package:edulift/core/domain/entities/family.dart';
 import '../../../../core/domain/entities/user.dart';
 import '../../domain/entities/dashboard_entities.dart';
 import '../providers/dashboard_providers.dart';
+import '../widgets/today_transport_card.dart';
+import '../widgets/seven_day_timeline_widget.dart';
 import 'package:edulift/core/navigation/navigation_state.dart';
 import 'package:edulift/core/presentation/mixins/navigation_cleanup_mixin.dart';
 
@@ -202,10 +204,14 @@ class _DashboardPageState extends ConsumerState<DashboardPage>
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              _buildFamilyOverview(context, ref),
+              const TodayTransportCard(),
               const SizedBox(height: 16),
-              _buildQuickActions(context, ref),
+              const SevenDayTimelineWidget(),
               const SizedBox(height: 16),
+              _buildCompactFamilyOverview(context, ref),
+              const SizedBox(height: 12),
+              _buildCompactQuickActions(context, ref),
+              const SizedBox(height: 12),
               _buildRecentActivities(context, ref),
             ],
           ),
@@ -221,10 +227,14 @@ class _DashboardPageState extends ConsumerState<DashboardPage>
       key: const Key('phone_layout'),
       mainAxisSize: MainAxisSize.min,
       children: [
-        _buildFamilyOverview(context, ref),
+        const TodayTransportCard(),
         const SizedBox(height: 12),
-        _buildQuickActions(context, ref),
+        const SevenDayTimelineWidget(),
         const SizedBox(height: 12),
+        _buildCompactFamilyOverview(context, ref),
+        const SizedBox(height: 8),
+        _buildCompactQuickActions(context, ref),
+        const SizedBox(height: 8),
         _buildRecentActivities(context, ref),
         const SizedBox(height: 12),
         _buildUpcomingTrips(context, ref),
@@ -233,267 +243,96 @@ class _DashboardPageState extends ConsumerState<DashboardPage>
     );
   }
 
-  Widget _buildFamilyOverview(BuildContext context, WidgetRef ref) {
+  Widget _buildCompactFamilyOverview(BuildContext context, WidgetRef ref) {
     final familyAsync = ref.watch(currentFamilyComposedProvider);
-    final l10n = AppLocalizations.of(context);
-    return Semantics(
-      label: l10n.familyOverviewSection,
-      child: familyAsync.when(
-        data: (family) {
-          if (family == null) {
-            return Card(
-              key: const Key('no_family_empty_state'),
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Semantics(
-                      label: l10n.welcomeIcon,
-                      child: Icon(
-                        Icons.family_restroom,
-                        size: 48,
-                        color: Theme.of(context).colorScheme.primary,
-                      ),
-                    ),
-                    const SizedBox(height: 16),
-                    Semantics(
-                      header: true,
-                      child: Text(
-                        'Welcome to EduLift!',
-                        key: const Key('dashboard_welcome_new_user_message'),
-                        style: Theme.of(context).textTheme.titleLarge,
-                      ),
-                    ),
-                    const SizedBox(height: 8),
-                    Text(
-                      'Start by creating or joining a family',
-                      style: Theme.of(context).textTheme.bodyMedium,
-                      textAlign: TextAlign.center,
-                    ),
-                  ],
-                ),
-              ),
-            );
-          }
 
-          return Card(
-            key: const Key('family_overview_card'),
-            elevation: 4,
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Row(
+    return familyAsync.when(
+      data: (family) {
+        if (family == null) {
+          return const SizedBox.shrink();
+        }
+
+        return Card(
+          key: const Key('compact_family_overview_card'),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(
+              horizontal: 16.0,
+              vertical: 12.0,
+            ),
+            child: Row(
+              children: [
+                Icon(
+                  Icons.family_restroom,
+                  color: Theme.of(context).colorScheme.primary,
+                  size: 20,
+                ),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
                     children: [
-                      Semantics(
-                        label: l10n.familyIcon,
-                        child: Icon(
-                          Icons.family_restroom,
-                          color: Theme.of(context).colorScheme.primary,
-                        ),
+                      Text(
+                        family.name,
+                        key: const Key('compact_family_name'),
+                        style: Theme.of(context).textTheme.titleMedium,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
                       ),
-                      const SizedBox(width: 8),
-                      Expanded(
-                        child: Semantics(
-                          header: true,
-                          child: Text(
-                            family.name,
-                            key: Key('family_name_display_${family.name}'),
-                            style: Theme.of(context).textTheme.titleLarge,
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                          ),
+                      Text(
+                        '${family.totalChildren} enfants • ${family.totalVehicles} véhicules',
+                        key: const Key('compact_family_stats'),
+                        style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                          color: Theme.of(context).colorScheme.onSurfaceVariant,
                         ),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
                       ),
                     ],
                   ),
-                  const SizedBox(height: 12),
-                  Semantics(
-                    label: l10n.familyStatistics(
-                      family.totalMembers,
-                      family.totalChildren,
-                      family.totalVehicles,
-                    ),
-                    child: Wrap(
-                      spacing: 16,
-                      runSpacing: 8,
-                      children: [
-                        Text(
-                          AppLocalizations.of(
-                            context,
-                          ).totalMembersCount(family.totalMembers),
-                        ),
-                        Text(
-                          AppLocalizations.of(
-                            context,
-                          ).totalChildrenCount(family.totalChildren),
-                        ),
-                        Text(
-                          AppLocalizations.of(
-                            context,
-                          ).totalVehiclesCount(family.totalVehicles),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          );
-        },
-        loading: () => Semantics(
-          label: l10n.loadingFamilyInformation,
-          child: Card(
-            key: const Key('family_loading_state'),
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  const CircularProgressIndicator(),
-                  const SizedBox(height: 16),
-                  Text(
-                    'Loading family information...',
-                    style: Theme.of(context).textTheme.bodyMedium,
-                  ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
-        ),
-        error: (error, stackTrace) => Semantics(
-          label: l10n.errorLoadingFamilyInformation,
-          child: Card(
-            key: const Key('family_error_state'),
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Semantics(
-                    label: 'Error icon',
-                    child: Icon(
-                      Icons.error_outline,
-                      size: 48,
-                      color: Theme.of(context).colorScheme.error,
-                    ),
-                  ),
-                  const SizedBox(height: 16),
-                  Text(
-                    'Error loading family',
-                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                      color: Theme.of(context).colorScheme.error,
-                    ),
-                  ),
-                  const SizedBox(height: 8),
-                  Text(
-                    error.toString(),
-                    style: Theme.of(context).textTheme.bodySmall,
-                    textAlign: TextAlign.center,
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ),
-      ),
+        );
+      },
+      loading: () => const SizedBox.shrink(),
+      error: (_, __) => const SizedBox.shrink(),
     );
   }
 
-  Widget _buildQuickActions(BuildContext context, WidgetRef ref) {
+  Widget _buildCompactQuickActions(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
     final actions = ref.watch(dashboardCallbacksProvider);
-    final screenWidth = MediaQuery.of(context).size.width;
-    final screenHeight = MediaQuery.of(context).size.height;
-    final isSmallScreen = screenWidth < 600;
-    final isShortScreen = screenHeight < 700;
 
-    return Semantics(
-      label: l10n.quickActionsSection,
-      child: Card(
-        key: const Key('quick_actions_section'),
-        elevation: 4,
-        child: Padding(
-          padding: EdgeInsets.all(isShortScreen ? 12.0 : 16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Semantics(
-                header: true,
-                child: Text(
-                  'Quick Actions',
-                  style: Theme.of(context).textTheme.titleLarge,
-                ),
-              ),
-              SizedBox(height: isShortScreen ? 8 : 16),
-              if (isSmallScreen || isShortScreen)
-                Wrap(
-                  spacing: 8.0,
-                  runSpacing: 8.0,
-                  children: [
-                    _QuickActionButton(
-                      key: const Key('quick_action_add_child'),
-                      icon: Icons.person_add,
-                      title: l10n.addChildAction,
-                      description: l10n.registerForTransport,
-                      onPressed: actions?.onAddChild ?? () {},
-                      isCompact: true,
-                    ),
-                    _QuickActionButton(
-                      key: const Key('quick_action_join_group'),
-                      icon: Icons.groups,
-                      title: l10n.joinGroupAction,
-                      description: l10n.connectWithOtherFamilies,
-                      onPressed: actions?.onJoinGroup ?? () {},
-                      isCompact: true,
-                    ),
-                    _QuickActionButton(
-                      key: const Key('quick_action_add_vehicle'),
-                      icon: Icons.directions_car,
-                      title: l10n.addVehicleAction,
-                      description: l10n.offerRidesToOthers,
-                      onPressed: actions?.onAddVehicle ?? () {},
-                      isCompact: true,
-                    ),
-                  ],
-                )
-              else
-                Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    _QuickActionButton(
-                      key: const Key('quick_action_add_child'),
-                      icon: Icons.person_add,
-                      title: l10n.addChildAction,
-                      description: l10n.registerForTransport,
-                      onPressed: actions?.onAddChild ?? () {},
-                    ),
-                    const SizedBox(height: 8),
-                    _QuickActionButton(
-                      key: const Key('quick_action_join_group'),
-                      icon: Icons.groups,
-                      title: l10n.joinGroupAction,
-                      description: l10n.connectWithOtherFamilies,
-                      onPressed: actions?.onJoinGroup ?? () {},
-                    ),
-                    const SizedBox(height: 8),
-                    _QuickActionButton(
-                      key: const Key('quick_action_add_vehicle'),
-                      icon: Icons.directions_car,
-                      title: l10n.addVehicleAction,
-                      description: l10n.offerRidesToOthers,
-                      onPressed: actions?.onAddVehicle ?? () {},
-                    ),
-                  ],
-                ),
-            ],
-          ),
+    if (actions == null) return const SizedBox.shrink();
+
+    return Card(
+      key: const Key('compact_quick_actions_section'),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            _CompactActionButton(
+              key: const Key('compact_action_add_child'),
+              icon: Icons.person_add,
+              onPressed: actions.onAddChild,
+              tooltip: l10n.addChildAction,
+            ),
+            _CompactActionButton(
+              key: const Key('compact_action_join_group'),
+              icon: Icons.groups,
+              onPressed: actions.onJoinGroup,
+              tooltip: l10n.joinGroupAction,
+            ),
+            _CompactActionButton(
+              key: const Key('compact_action_add_vehicle'),
+              icon: Icons.directions_car,
+              onPressed: actions.onAddVehicle,
+              tooltip: l10n.addVehicleAction,
+            ),
+          ],
         ),
       ),
     );
@@ -680,13 +519,13 @@ class _DashboardPageState extends ConsumerState<DashboardPage>
   Color _getActivityColor(ActivityType type) {
     switch (type) {
       case ActivityType.childAdded:
-        return Colors.blue;
+        return Theme.of(context).colorScheme.primary;
       case ActivityType.groupJoined:
-        return Colors.green;
+        return Theme.of(context).colorScheme.secondary;
       case ActivityType.vehicleAdded:
-        return Colors.orange;
+        return Theme.of(context).colorScheme.tertiary;
       case ActivityType.scheduleCreated:
-        return Colors.purple;
+        return Theme.of(context).colorScheme.surfaceContainerHighest;
     }
   }
 
@@ -707,127 +546,6 @@ class _DashboardPageState extends ConsumerState<DashboardPage>
       default:
         return Icons.info;
     }
-  }
-}
-
-class _QuickActionButton extends StatelessWidget {
-  final IconData icon;
-  final String title;
-  final String description;
-  final VoidCallback onPressed;
-  final bool isCompact;
-
-  const _QuickActionButton({
-    super.key,
-    required this.icon,
-    required this.title,
-    required this.description,
-    required this.onPressed,
-    this.isCompact = false,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Semantics(
-      button: true,
-      label: '$title: $description',
-      child: ConstrainedBox(
-        constraints: BoxConstraints(
-          minHeight: 44.0,
-          maxHeight: isCompact ? 60.0 : double.infinity,
-          minWidth: isCompact ? 100.0 : double.infinity,
-          maxWidth: isCompact ? 160.0 : double.infinity,
-        ),
-        child: Card(
-          child: InkWell(
-            onTap: onPressed,
-            borderRadius: BorderRadius.circular(8),
-            child: Padding(
-              padding: EdgeInsets.all(isCompact ? 12.0 : 16.0),
-              child: isCompact
-                  ? _buildCompactLayout(context)
-                  : _buildFullLayout(context),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildCompactLayout(BuildContext context) {
-    return Row(
-      mainAxisSize: MainAxisSize.min,
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Container(
-          padding: const EdgeInsets.all(4),
-          decoration: BoxDecoration(
-            color: Theme.of(context).colorScheme.primary.withValues(alpha: 0.1),
-            borderRadius: BorderRadius.circular(4),
-          ),
-          child: Icon(
-            icon,
-            color: Theme.of(context).colorScheme.primary,
-            size: 18,
-          ),
-        ),
-        const SizedBox(width: 8),
-        Expanded(
-          child: Text(
-            title,
-            style: Theme.of(context).textTheme.bodySmall?.copyWith(
-              fontWeight: FontWeight.w500,
-              fontSize: 12,
-            ),
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildFullLayout(BuildContext context) {
-    return Row(
-      children: [
-        Container(
-          padding: const EdgeInsets.all(12),
-          decoration: BoxDecoration(
-            color: Theme.of(context).colorScheme.primary.withValues(alpha: 0.1),
-            borderRadius: BorderRadius.circular(8),
-          ),
-          child: Icon(icon, color: Theme.of(context).colorScheme.primary),
-        ),
-        const SizedBox(width: 16),
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(
-                title,
-                style: Theme.of(context).textTheme.titleMedium,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-              ),
-              Text(
-                description,
-                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  color: Theme.of(context).colorScheme.onSurfaceVariant,
-                ),
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
-              ),
-            ],
-          ),
-        ),
-        Icon(
-          Icons.arrow_forward_ios,
-          size: 16,
-          color: Theme.of(context).colorScheme.onSurfaceVariant,
-        ),
-      ],
-    );
   }
 }
 
@@ -894,6 +612,48 @@ class _ActivityItem extends StatelessWidget {
   }
 }
 
+class _CompactActionButton extends StatelessWidget {
+  const _CompactActionButton({
+    super.key,
+    required this.icon,
+    required this.onPressed,
+    this.tooltip,
+  });
+
+  final IconData icon;
+  final VoidCallback onPressed;
+  final String? tooltip;
+
+  @override
+  Widget build(BuildContext context) {
+    return Tooltip(
+      message: tooltip ?? '',
+      child: Semantics(
+        button: true,
+        label: tooltip ?? '',
+        child: InkWell(
+          onTap: onPressed,
+          borderRadius: BorderRadius.circular(8),
+          child: Container(
+            padding: const EdgeInsets.all(8),
+            decoration: BoxDecoration(
+              color: Theme.of(
+                context,
+              ).colorScheme.primary.withValues(alpha: 0.1),
+              borderRadius: BorderRadius.circular(8),
+            ),
+            child: Icon(
+              icon,
+              color: Theme.of(context).colorScheme.primary,
+              size: 20,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
 class _TripItem extends StatelessWidget {
   final String time;
   final String destination;
@@ -934,8 +694,12 @@ class _TripItem extends StatelessWidget {
                     ),
                     decoration: BoxDecoration(
                       color: type == TripType.dropOff
-                          ? Colors.orange.withValues(alpha: 0.1)
-                          : Colors.blue.withValues(alpha: 0.1),
+                          ? Theme.of(
+                              context,
+                            ).colorScheme.secondary.withValues(alpha: 0.1)
+                          : Theme.of(
+                              context,
+                            ).colorScheme.primary.withValues(alpha: 0.1),
                       borderRadius: BorderRadius.circular(4),
                     ),
                     child: Semantics(
@@ -944,8 +708,8 @@ class _TripItem extends StatelessWidget {
                         time,
                         style: Theme.of(context).textTheme.bodySmall?.copyWith(
                           color: type == TripType.dropOff
-                              ? Colors.orange
-                              : Colors.blue,
+                              ? Theme.of(context).colorScheme.secondary
+                              : Theme.of(context).colorScheme.primary,
                           fontWeight: FontWeight.bold,
                         ),
                       ),

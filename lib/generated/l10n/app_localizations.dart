@@ -6937,6 +6937,84 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Times shown in your timezone ({timezone})'**
   String timesShownInTimezone(String timezone);
+
+  /// Title for today's transport card
+  ///
+  /// In en, this message translates to:
+  /// **'Today\'s Transports'**
+  String get todayTransports;
+
+  /// Message when no transports are scheduled for today
+  ///
+  /// In en, this message translates to:
+  /// **'No transports scheduled today'**
+  String get noTransportsToday;
+
+  /// Button text to view full schedule
+  ///
+  /// In en, this message translates to:
+  /// **'See full schedule →'**
+  String get seeFullSchedule;
+
+  /// Error message when transport data refresh fails
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to refresh transport data'**
+  String get refreshFailed;
+
+  /// Loading message for today's transport data
+  ///
+  /// In en, this message translates to:
+  /// **'Loading today\'s transports...'**
+  String get loadingTodayTransports;
+
+  /// Accessibility label for transport loading error
+  ///
+  /// In en, this message translates to:
+  /// **'Error loading transports'**
+  String get errorLoadingTransports;
+
+  /// Accessibility label for today's transport list
+  ///
+  /// In en, this message translates to:
+  /// **'Today\'s transport list'**
+  String get todayTransportList;
+
+  /// Header title for 7-day timeline view
+  ///
+  /// In en, this message translates to:
+  /// **'Next 7 days'**
+  String get next7Days;
+
+  /// Accessibility label for expanded week view state
+  ///
+  /// In en, this message translates to:
+  /// **'Week view expanded'**
+  String get weekViewExpanded;
+
+  /// Day badge text with transport count
+  ///
+  /// In en, this message translates to:
+  /// **'{day} • {count} transports'**
+  String dayWithTransports(String day, int count);
+
+  /// Empty state message when no transports scheduled for the week
+  ///
+  /// In en, this message translates to:
+  /// **'No transports this week'**
+  String get noTransportsWeek;
+
+  /// Tooltip for expand week view button
+  ///
+  /// In en, this message translates to:
+  /// **'Expand week view'**
+  String get expandWeekView;
+
+  /// Tooltip for collapse week view button
+  ///
+  /// In en, this message translates to:
+  /// **'Collapse week view'**
+  String get collapseWeekView;
 }
 
 class _AppLocalizationsDelegate

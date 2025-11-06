@@ -5415,5 +5415,67 @@
         "example": "Europe/Paris"
       }
     }
+  },
+  "todayTransports": "Today's Transports",
+  "@todayTransports": {
+    "description": "Title for today's transport card"
+  },
+  "noTransportsToday": "No transports scheduled today",
+  "@noTransportsToday": {
+    "description": "Message when no transports are scheduled for today"
+  },
+  "seeFullSchedule": "See full schedule →",
+  "@seeFullSchedule": {
+    "description": "Button text to view full schedule"
+  },
+  "refreshFailed": "Failed to refresh transport data",
+  "@refreshFailed": {
+    "description": "Error message when transport data refresh fails"
+  },
+  "loadingTodayTransports": "Loading today's transports...",
+  "@loadingTodayTransports": {
+    "description": "Loading message for today's transport data"
+  },
+  "errorLoadingTransports": "Error loading transports",
+  "@errorLoadingTransports": {
+    "description": "Accessibility label for transport loading error"
+  },
+  "todayTransportList": "Today's transport list",
+  "@todayTransportList": {
+    "description": "Accessibility label for today's transport list"
+  },
+  "next7Days": "Next 7 days",
+  "@next7Days": {
+    "description": "Header title for 7-day timeline view"
+  },
+  "weekViewExpanded": "Week view expanded",
+  "@weekViewExpanded": {
+    "description": "Accessibility label for expanded week view state"
+  },
+  "dayWithTransports": "{day} • {count} transports",
+  "@dayWithTransports": {
+    "description": "Day badge text with transport count",
+    "placeholders": {
+      "day": {
+        "type": "String",
+        "description": "Day name abbreviation"
+      },
+      "count": {
+        "type": "int",
+        "description": "Number of transports"
+      }
+    }
+  },
+  "noTransportsWeek": "No transports this week",
+  "@noTransportsWeek": {
+    "description": "Empty state message when no transports scheduled for the week"
+  },
+  "expandWeekView": "Expand week view",
+  "@expandWeekView": {
+    "description": "Tooltip for expand week view button"
+  },
+  "collapseWeekView": "Collapse week view",
+  "@collapseWeekView": {
+    "description": "Tooltip for collapse week view button"
   }
 }

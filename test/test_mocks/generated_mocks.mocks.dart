@@ -7321,13 +7321,13 @@ class MockGroupScheduleRepository extends _i1.Mock
   _i39.Future<_i45.Result<void, _i46.ApiFailure>> removeVehicleFromSlot(
     String? groupId,
     String? slotId,
-    String? vehicleAssignmentId,
+    String? vehicleId,
   ) =>
       (super.noSuchMethod(
             Invocation.method(#removeVehicleFromSlot, [
               groupId,
               slotId,
-              vehicleAssignmentId,
+              vehicleId,
             ]),
             returnValue: _i39.Future<_i45.Result<void, _i46.ApiFailure>>.value(
               _i42.dummyValue<_i45.Result<void, _i46.ApiFailure>>(
@@ -7335,7 +7335,7 @@ class MockGroupScheduleRepository extends _i1.Mock
                 Invocation.method(#removeVehicleFromSlot, [
                   groupId,
                   slotId,
-                  vehicleAssignmentId,
+                  vehicleId,
                 ]),
               ),
             ),
@@ -7346,7 +7346,7 @@ class MockGroupScheduleRepository extends _i1.Mock
                     Invocation.method(#removeVehicleFromSlot, [
                       groupId,
                       slotId,
-                      vehicleAssignmentId,
+                      vehicleId,
                     ]),
                   ),
                 ),
@@ -7357,14 +7357,14 @@ class MockGroupScheduleRepository extends _i1.Mock
   _i39.Future<_i45.Result<void, _i46.ApiFailure>> removeVehicleFromSlotWithWeek(
     String? groupId,
     String? slotId,
-    String? vehicleAssignmentId,
+    String? vehicleId,
     String? week,
   ) =>
       (super.noSuchMethod(
             Invocation.method(#removeVehicleFromSlotWithWeek, [
               groupId,
               slotId,
-              vehicleAssignmentId,
+              vehicleId,
               week,
             ]),
             returnValue: _i39.Future<_i45.Result<void, _i46.ApiFailure>>.value(
@@ -7373,7 +7373,7 @@ class MockGroupScheduleRepository extends _i1.Mock
                 Invocation.method(#removeVehicleFromSlotWithWeek, [
                   groupId,
                   slotId,
-                  vehicleAssignmentId,
+                  vehicleId,
                   week,
                 ]),
               ),
@@ -7385,7 +7385,7 @@ class MockGroupScheduleRepository extends _i1.Mock
                     Invocation.method(#removeVehicleFromSlotWithWeek, [
                       groupId,
                       slotId,
-                      vehicleAssignmentId,
+                      vehicleId,
                       week,
                     ]),
                   ),

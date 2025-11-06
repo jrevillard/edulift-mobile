@@ -38,6 +38,7 @@ import '../../../features/family/domain/usecases/get_family_usecase.dart';
 import '../../../features/family/domain/usecases/leave_family_usecase.dart';
 import '../../../features/family/domain/usecases/clear_all_family_data_usecase.dart';
 import '../../../features/family/domain/usecases/family_invitation_usecase.dart';
+import '../../../features/dashboard/domain/usecases/get_7day_transport_summary.dart';
 // Service imports
 import '../../../features/family/domain/services/children_service.dart';
 import '../../../features/family/domain/services/children_service_impl.dart';
@@ -215,6 +216,17 @@ ClearAllFamilyDataUsecase clearAllFamilyDataUsecase(Ref ref) {
 InvitationUseCase invitationUsecase(Ref ref) {
   final repository = ref.watch(invitationRepositoryProvider);
   return InvitationUseCase(repository: repository);
+}
+
+/// Get7DayTransportSummary use case provider - dashboard transport aggregation
+@riverpod
+Get7DayTransportSummary get7DayTransportSummary(Ref ref) {
+  final scheduleRepository = ref.watch(scheduleRepositoryProvider);
+  final authService = ref.watch(authServiceProvider);
+  return Get7DayTransportSummary(
+    scheduleRepository: scheduleRepository,
+    authService: authService,
+  );
 }
 
 // NOTE: Repository providers moved to repository_providers.dart

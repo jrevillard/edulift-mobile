@@ -8,3 +8,6 @@ export 'data/datasources/dashboard_remote_datasource.dart';
 
 // Presentation - Pages
 export 'presentation/pages/dashboard_page.dart';
+
+// Presentation - Widgets
+export 'presentation/widgets/today_transport_card.dart';

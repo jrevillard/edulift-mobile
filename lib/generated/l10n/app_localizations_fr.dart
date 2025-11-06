@@ -4292,4 +4292,47 @@ class AppLocalizationsFr extends AppLocalizations {
   String timesShownInTimezone(String timezone) {
     return 'Horaires affichés dans votre fuseau horaire ($timezone)';
   }
+
+  @override
+  String get todayTransports => 'Transports d\'aujourd\'hui';
+
+  @override
+  String get noTransportsToday => 'Aucun transport prévu aujourd\'hui';
+
+  @override
+  String get seeFullSchedule => 'Voir le planning complet →';
+
+  @override
+  String get refreshFailed =>
+      'Échec du rafraîchissement des données de transport';
+
+  @override
+  String get loadingTodayTransports =>
+      'Chargement des transports d\'aujourd\'hui...';
+
+  @override
+  String get errorLoadingTransports => 'Erreur de chargement des transports';
+
+  @override
+  String get todayTransportList => 'Liste des transports d\'aujourd\'hui';
+
+  @override
+  String get next7Days => 'Prochains 7 jours';
+
+  @override
+  String get weekViewExpanded => 'Vue semaine étendue';
+
+  @override
+  String dayWithTransports(String day, int count) {
+    return '$day • $count transports';
+  }
+
+  @override
+  String get noTransportsWeek => 'Aucun transport cette semaine';
+
+  @override
+  String get expandWeekView => 'Étendre la vue semaine';
+
+  @override
+  String get collapseWeekView => 'Réduire la vue semaine';
 }

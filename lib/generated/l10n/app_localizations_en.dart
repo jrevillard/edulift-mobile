@@ -4198,4 +4198,45 @@ class AppLocalizationsEn extends AppLocalizations {
   String timesShownInTimezone(String timezone) {
     return 'Times shown in your timezone ($timezone)';
   }
+
+  @override
+  String get todayTransports => 'Today\'s Transports';
+
+  @override
+  String get noTransportsToday => 'No transports scheduled today';
+
+  @override
+  String get seeFullSchedule => 'See full schedule →';
+
+  @override
+  String get refreshFailed => 'Failed to refresh transport data';
+
+  @override
+  String get loadingTodayTransports => 'Loading today\'s transports...';
+
+  @override
+  String get errorLoadingTransports => 'Error loading transports';
+
+  @override
+  String get todayTransportList => 'Today\'s transport list';
+
+  @override
+  String get next7Days => 'Next 7 days';
+
+  @override
+  String get weekViewExpanded => 'Week view expanded';
+
+  @override
+  String dayWithTransports(String day, int count) {
+    return '$day • $count transports';
+  }
+
+  @override
+  String get noTransportsWeek => 'No transports this week';
+
+  @override
+  String get expandWeekView => 'Expand week view';
+
+  @override
+  String get collapseWeekView => 'Collapse week view';
 }

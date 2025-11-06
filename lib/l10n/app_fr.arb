@@ -5423,5 +5423,67 @@
         "example": "Europe/Paris"
       }
     }
+  },
+  "todayTransports": "Transports d'aujourd'hui",
+  "@todayTransports": {
+    "description": "Titre pour la carte des transports d'aujourd'hui"
+  },
+  "noTransportsToday": "Aucun transport prévu aujourd'hui",
+  "@noTransportsToday": {
+    "description": "Message lorsqu'aucun transport n'est prévu pour aujourd'hui"
+  },
+  "seeFullSchedule": "Voir le planning complet →",
+  "@seeFullSchedule": {
+    "description": "Texte du bouton pour voir le planning complet"
+  },
+  "refreshFailed": "Échec du rafraîchissement des données de transport",
+  "@refreshFailed": {
+    "description": "Message d'erreur lorsque le rafraîchissement des données de transport échoue"
+  },
+  "loadingTodayTransports": "Chargement des transports d'aujourd'hui...",
+  "@loadingTodayTransports": {
+    "description": "Message de chargement pour les données de transport du jour"
+  },
+  "errorLoadingTransports": "Erreur de chargement des transports",
+  "@errorLoadingTransports": {
+    "description": "Label d'accessibilité pour l'erreur de chargement des transports"
+  },
+  "todayTransportList": "Liste des transports d'aujourd'hui",
+  "@todayTransportList": {
+    "description": "Label d'accessibilité pour la liste des transports du jour"
+  },
+  "next7Days": "Prochains 7 jours",
+  "@next7Days": {
+    "description": "Titre de l'en-tête pour la vue chronologique sur 7 jours"
+  },
+  "weekViewExpanded": "Vue semaine étendue",
+  "@weekViewExpanded": {
+    "description": "Label d'accessibilité pour l'état de vue semaine étendue"
+  },
+  "dayWithTransports": "{day} • {count} transports",
+  "@dayWithTransports": {
+    "description": "Texte du badge de jour avec le nombre de transports",
+    "placeholders": {
+      "day": {
+        "type": "String",
+        "description": "Abréviation du nom du jour"
+      },
+      "count": {
+        "type": "int",
+        "description": "Nombre de transports"
+      }
+    }
+  },
+  "noTransportsWeek": "Aucun transport cette semaine",
+  "@noTransportsWeek": {
+    "description": "Message d'état vide lorsqu'aucun transport n'est prévu pour la semaine"
+  },
+  "expandWeekView": "Étendre la vue semaine",
+  "@expandWeekView": {
+    "description": "Infobulle pour le bouton d'extension de la vue semaine"
+  },
+  "collapseWeekView": "Réduire la vue semaine",
+  "@collapseWeekView": {
+    "description": "Infobulle pour le bouton de réduction de la vue semaine"
   }
 }
