@@ -124,20 +124,7 @@ fun generateAllIntentFilters(config: DeepLinkConfig): String {
         <action android:name="android.intent.action.VIEW"/>
         <category android:name="android.intent.category.DEFAULT"/>
         <category android:name="android.intent.category.BROWSABLE"/>
-        <data android:scheme="${config.scheme}"$hostAttribute$portAttribute android:pathPrefix="/dashboard"/>
-      </intent-filter>
-      <intent-filter android:autoVerify="$autoVerify">
-        <action android:name="android.intent.action.VIEW"/>
-        <category android:name="android.intent.category.DEFAULT"/>
-        <category android:name="android.intent.category.BROWSABLE"/>
         <data android:scheme="${config.scheme}"$hostAttribute$portAttribute android:pathPrefix="/invite"/>
-      </intent-filter>
-      <!-- Catch-all for root path -->
-      <intent-filter android:autoVerify="$autoVerify">
-        <action android:name="android.intent.action.VIEW"/>
-        <category android:name="android.intent.category.DEFAULT"/>
-        <category android:name="android.intent.category.BROWSABLE"/>
-        <data android:scheme="${config.scheme}"$hostAttribute$portAttribute/>
       </intent-filter>
     """.trimIndent()
 }

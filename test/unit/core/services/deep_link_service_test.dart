@@ -614,5 +614,47 @@ void main() {
         },
       );
     });
+
+    // =================== PERFORMANCE TESTS ===================
+
+    group('Performance', () {
+      test('should parse complex URLs efficiently', () {
+        // ARRANGE
+        const url =
+            'edulift://auth/verify?token=very_long_token_with_many_characters_123456789&inviteCode=family_invite_code_456&email=very.long.email.address%40example.com&param1=value1&param2=value2&param3=value3';
+
+        // ACT
+        final result = deepLinkService.parseDeepLink(url);
+
+        // ASSERT - Should parse quickly even for complex URLs
+        expect(result, isNotNull);
+        expect(result!.path, equals('auth/verify'));
+        expect(result.parameters, hasLength(greaterThan(4)));
+      });
+
+      test('should handle multiple consecutive parse calls efficiently', () {
+        // ARRANGE
+        const urls = [
+          'edulift://auth/verify?token=abc123',
+          'edulift://groups/join?code=grp789',
+          'edulift://families/join?code=fam456',
+        ];
+
+        // ACT
+        final stopwatch = Stopwatch()..start();
+        final results = urls
+            .map((url) => deepLinkService.parseDeepLink(url))
+            .toList();
+        stopwatch.stop();
+
+        // ASSERT
+        expect(results, hasLength(3));
+        expect(results.every((result) => result != null), isTrue);
+        expect(
+          stopwatch.elapsedMilliseconds,
+          lessThan(100),
+        ); // Should be very fast
+      });
+    });
   });
 }

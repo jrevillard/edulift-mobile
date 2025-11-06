@@ -27,7 +27,7 @@ class DeepLinkTestData {
   static const familyJoinWithTokenUrl =
       'edulift://families/join?code=fam456&token=magic123';
 
-  /// Dashboard direct access
+  /// Dashboard direct access (INVALID - not supported by deep link service)
   static const dashboardUrl = 'edulift://dashboard';
   static const dashboardWithParamsUrl =
       'edulift://dashboard?view=schedule&groupId=123';
