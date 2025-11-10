@@ -399,8 +399,8 @@ class _GroupsPageState extends ConsumerState<GroupsPage>
     );
 
     final childAspectRatio = context.isDesktop
-        ? 1.0
-        : (context.isTablet ? 0.9 : 0.8);
+        ? 1.4
+        : (context.isTablet ? 1.2 : 1.0);
 
     return Padding(
       padding: context.getAdaptivePadding(
