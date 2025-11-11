@@ -49,11 +49,12 @@ mixin NavigationCleanupMixin<T extends ConsumerStatefulWidget>
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    // Also clear when dependencies change (e.g., route becomes active again in shell)
-    if (_hasInitialized) {
-      _scheduleNavigationClear();
+    // Remove automatic clearing in didChangeDependencies to prevent navigation loops
+    // Only clear navigation state in initState when page first loads
+    // This allows normal navigation away from the page without interference
+    if (!_hasInitialized) {
+      _hasInitialized = true;
     }
-    _hasInitialized = true;
   }
 
   void _scheduleNavigationClear() {
