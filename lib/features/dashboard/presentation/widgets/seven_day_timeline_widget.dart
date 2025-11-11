@@ -1,5 +1,3 @@
-import 'dart:math' as math;
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -7,21 +5,19 @@ import 'package:edulift/generated/l10n/app_localizations.dart';
 import 'package:edulift/features/dashboard/presentation/providers/transport_providers.dart';
 import 'package:edulift/features/dashboard/presentation/providers/dashboard_providers.dart';
 import 'package:edulift/features/dashboard/domain/entities/dashboard_transport_summary.dart';
-import 'package:edulift/core/domain/entities/schedule/time_of_day.dart';
-import 'package:edulift/core/domain/entities/schedule/vehicle_assignment.dart';
+import 'package:edulift/features/dashboard/presentation/widgets/transport_horizontal_list.dart';
 
 /// Seven Day Timeline Widget for dashboard transport overview
 ///
-/// Displays a 7-day rolling view of transport schedules with expand/collapse
-/// functionality. Shows transport counts and capacity status for quick overview
-/// in collapsed state, detailed breakdown in expanded state.
+/// Displays a 7-day rolling view of transport schedules in collapsed state.
+/// Shows transport counts and capacity status for quick overview.
 ///
 /// Features:
-/// - 7-day rolling window (Thursday → Thursday)
-/// - Collapsed state: Day badges with transport count and status
-/// - Expanded state: Detailed day-by-day transport breakdown
+/// - 7-day rolling window (today → today+6)
+/// - Day badges with transport count and status
 /// - Pull-to-refresh functionality
 /// - Material 3 design with proper accessibility
+/// - Responsive design (mobile/tablet)
 class SevenDayTimelineWidget extends ConsumerWidget {
   const SevenDayTimelineWidget({super.key});
 
@@ -29,12 +25,10 @@ class SevenDayTimelineWidget extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
     final weeklyAsync = ref.watch(day7TransportSummaryProvider);
-    final isExpanded = ref.watch(weekViewExpandedNotifierProvider);
     final refreshCallback = ref.read(dashboardRefreshProvider);
 
     return Semantics(
-      label:
-          '${l10n.next7Days}, ${isExpanded ? l10n.weekViewExpanded : 'collapsed'}',
+      label: l10n.next7Days,
       child: Card(
         key: const Key('seven_day_timeline_widget'),
         elevation: 4,
@@ -44,16 +38,15 @@ class SevenDayTimelineWidget extends ConsumerWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: [
-              _buildHeader(context, ref, l10n, isExpanded),
+              _buildHeader(context, l10n),
               const SizedBox(height: 16),
               _buildRefreshableContent(
                 context,
                 ref,
                 weeklyAsync,
-                isExpanded,
                 refreshCallback,
               ),
-              if (refreshCallback != null && !isExpanded) ...[
+              if (refreshCallback != null) ...[
                 const SizedBox(height: 16),
                 _buildFooter(context, l10n, refreshCallback),
               ],
@@ -64,12 +57,7 @@ class SevenDayTimelineWidget extends ConsumerWidget {
     );
   }
 
-  Widget _buildHeader(
-    BuildContext context,
-    WidgetRef ref,
-    AppLocalizations l10n,
-    bool isExpanded,
-  ) {
+  Widget _buildHeader(BuildContext context, AppLocalizations l10n) {
     return Row(
       children: [
         Semantics(
@@ -95,27 +83,6 @@ class SevenDayTimelineWidget extends ConsumerWidget {
             ),
           ),
         ),
-        const SizedBox(width: 8),
-        Semantics(
-          button: true,
-          label: isExpanded ? l10n.collapseWeekView : l10n.expandWeekView,
-          hint: isExpanded ? 'Collapse week view' : 'Expand week view',
-          child: IconButton(
-            key: const Key('week_view_toggle_button'),
-            onPressed: () {
-              ref.read(weekViewExpandedNotifierProvider.notifier).toggle();
-            },
-            tooltip: isExpanded ? l10n.collapseWeekView : l10n.expandWeekView,
-            icon: AnimatedRotation(
-              turns: isExpanded ? 0.5 : 0.0,
-              duration: const Duration(milliseconds: 200),
-              child: Icon(
-                Icons.expand_more,
-                color: Theme.of(context).colorScheme.primary,
-              ),
-            ),
-          ),
-        ),
       ],
     );
   }
@@ -124,7 +91,6 @@ class SevenDayTimelineWidget extends ConsumerWidget {
     BuildContext context,
     WidgetRef ref,
     AsyncValue<List<DayTransportSummary>> weeklyAsync,
-    bool isExpanded,
     VoidCallback? refreshCallback,
   ) {
     final l10n = AppLocalizations.of(context);
@@ -136,28 +102,61 @@ class SevenDayTimelineWidget extends ConsumerWidget {
           return _buildEmptyState(context, l10n);
         }
 
-        // Only wrap with refresh if we have actual content to refresh
-        if (refreshCallback != null) {
-          return RefreshIndicator(
-            onRefresh: () async {
-              // Invalidate the provider to trigger a refresh
-              ref.invalidate(day7TransportSummaryProvider);
-              // Also call the dashboard refresh callback if available
-              refreshCallback.call();
-            },
-            child: isExpanded
-                ? _buildExpandedView(context, summaries, l10n)
-                : _buildCollapsedView(context, summaries, l10n),
-          );
-        }
-
-        return isExpanded
-            ? _buildExpandedView(context, summaries, l10n)
-            : _buildCollapsedView(context, summaries, l10n);
+        // Always use collapsed view (no expanded state)
+        return _buildCollapsedView(context, summaries, l10n);
       },
       loading: () => _buildLoadingState(context, l10n),
-      error: (error, stack) => _buildErrorState(context, l10n, error, ref),
+      error: (error, stackTrace) =>
+          _buildErrorState(context, l10n, error, stackTrace),
     );
+  }
+
+  /// Generate 7-day rolling window starting from today
+  List<DateTime> _generateWeekDays() {
+    final today = DateTime.now();
+    final weekDays = <DateTime>[];
+
+    for (var i = 0; i < 7; i++) {
+      weekDays.add(today.add(Duration(days: i)));
+    }
+
+    return weekDays;
+  }
+
+  /// Helper method to compare dates without time components
+  bool _isSameDay(dynamic date1, DateTime date2) {
+    if (date1 is String) {
+      // Parse ISO date string (YYYY-MM-DD)
+      final parts = date1.split('-');
+      if (parts.length != 3) return false;
+
+      try {
+        final year = int.parse(parts[0]);
+        final month = int.parse(parts[1]);
+        final day = int.parse(parts[2]);
+        return year == date2.year && month == date2.month && day == date2.day;
+      } catch (e) {
+        return false;
+      }
+    } else if (date1 is DateTime) {
+      return date1.year == date2.year &&
+          date1.month == date2.month &&
+          date1.day == date2.day;
+    }
+    return false;
+  }
+
+  /// Check if current device is a tablet based on screen width
+  static bool _isTablet(BuildContext context) {
+    return MediaQuery.of(context).size.width > 768;
+  }
+
+  /// Calculate appropriate height for collapsed week view
+  double _calculateCollapsedViewHeight(BuildContext context) {
+    // DayBadge has minHeight of 48, so calculate based on that plus padding
+    const baseHeight = 48.0; // Minimum touch target for DayBadge
+    const verticalPadding = 16.0; // 8px top + 8px bottom padding
+    return baseHeight + verticalPadding;
   }
 
   Widget _buildCollapsedView(
@@ -167,20 +166,24 @@ class SevenDayTimelineWidget extends ConsumerWidget {
   ) {
     // Generate 7-day rolling window starting from today
     final weekDays = _generateWeekDays();
+    final isTablet = SevenDayTimelineWidget._isTablet(context);
+    final calculatedHeight = _calculateCollapsedViewHeight(context);
 
     return ConstrainedBox(
       constraints: BoxConstraints(
-        minHeight: 80,
-        maxHeight: _calculateCollapsedViewHeight(context),
+        minHeight: calculatedHeight,
+        maxHeight: calculatedHeight,
       ),
       child: Semantics(
         label: 'Week overview with transport counts',
         child: ListView.separated(
           key: const Key('week_overview_list'),
-          scrollDirection: Axis.horizontal,
-          padding: const EdgeInsets.symmetric(horizontal: 4),
+          padding: EdgeInsets.symmetric(
+            horizontal: isTablet ? 16.0 : 8.0,
+            vertical: isTablet ? 12.0 : 4.0,
+          ),
           itemCount: weekDays.length,
-          separatorBuilder: (context, index) => const SizedBox(width: 8),
+          separatorBuilder: (context, index) => const SizedBox(height: 8.0),
           itemBuilder: (context, index) {
             final dayDate = weekDays[index];
             final summary = summaries
@@ -199,58 +202,19 @@ class SevenDayTimelineWidget extends ConsumerWidget {
     );
   }
 
-  Widget _buildExpandedView(
-    BuildContext context,
-    List<DayTransportSummary> summaries,
-    AppLocalizations l10n,
-  ) {
-    // Generate 7-day rolling window starting from today
-    final weekDays = _generateWeekDays();
-
-    return Semantics(
-      label: 'Detailed week view with transport information',
-      child: ListView.separated(
-        key: const Key('week_detail_list'),
-        shrinkWrap: true,
-        physics: const NeverScrollableScrollPhysics(),
-        itemCount: weekDays.length,
-        separatorBuilder: (context, index) => const SizedBox(height: 12),
-        itemBuilder: (context, index) {
-          final dayDate = weekDays[index];
-          final summary = summaries
-              .where((s) => _isSameDay(s.date, dayDate))
-              .firstOrNull;
-
-          return DayDetailCard(
-            key: Key('day_detail_card_$index'),
-            date: dayDate,
-            summary: summary,
-            isToday: _isSameDay(dayDate, DateTime.now()),
-          );
-        },
-      ),
-    );
-  }
-
   Widget _buildEmptyState(BuildContext context, AppLocalizations l10n) {
     return ConstrainedBox(
-      key: const Key('no_transports_week_empty_state'),
-      constraints: BoxConstraints(
-        minHeight: 120,
-        maxHeight: _calculateMaxContentHeight(context),
-      ),
+      key: const Key('week_timeline_empty'),
+      constraints: const BoxConstraints(minHeight: 120),
       child: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           mainAxisSize: MainAxisSize.min,
           children: [
-            Semantics(
-              label: 'No transports this week icon',
-              child: Icon(
-                Icons.date_range_outlined,
-                size: 40,
-                color: Theme.of(context).colorScheme.primary,
-              ),
+            Icon(
+              Icons.schedule_outlined,
+              size: 40,
+              color: Theme.of(context).colorScheme.primary,
             ),
             const SizedBox(height: 12),
             Flexible(
@@ -274,28 +238,21 @@ class SevenDayTimelineWidget extends ConsumerWidget {
   Widget _buildLoadingState(BuildContext context, AppLocalizations l10n) {
     return ConstrainedBox(
       key: const Key('week_timeline_loading'),
-      constraints: BoxConstraints(
-        minHeight: 120,
-        maxHeight: _calculateMaxContentHeight(context),
-      ),
+      constraints: const BoxConstraints(minHeight: 120),
       child: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           mainAxisSize: MainAxisSize.min,
           children: [
-            const CircularProgressIndicator(),
+            CircularProgressIndicator(
+              strokeWidth: 2,
+              color: Theme.of(context).colorScheme.primary,
+            ),
             const SizedBox(height: 12),
-            Flexible(
-              child: Text(
-                'Loading week schedule...',
-                key: const Key('loading_week_message'),
-                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  color: Theme.of(context).colorScheme.onSurfaceVariant,
-                ),
-                textAlign: TextAlign.center,
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
-              ),
+            Text(
+              l10n.loadingTodayTransports,
+              key: const Key('loading_transports_message'),
+              style: Theme.of(context).textTheme.bodyMedium,
             ),
           ],
         ),
@@ -307,55 +264,31 @@ class SevenDayTimelineWidget extends ConsumerWidget {
     BuildContext context,
     AppLocalizations l10n,
     Object error,
-    WidgetRef ref,
+    StackTrace stackTrace,
   ) {
     return ConstrainedBox(
       key: const Key('week_timeline_error'),
-      constraints: BoxConstraints(
-        minHeight: 140, // Increased minimum height to prevent overflow
-        maxHeight: _calculateMaxContentHeight(
-          context,
-        ), // Dynamic max height based on screen size
-      ),
+      constraints: const BoxConstraints(minHeight: 120),
       child: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           mainAxisSize: MainAxisSize.min,
           children: [
-            Semantics(
-              label: 'Error loading week data',
-              child: Icon(
-                Icons.error_outline,
-                size: 40,
+            Icon(
+              Icons.error_outline,
+              size: 40,
+              color: Theme.of(context).colorScheme.error,
+            ),
+            const SizedBox(height: 12),
+            Text(
+              l10n.errorLoadingTransports,
+              key: const Key('error_transports_message'),
+              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                 color: Theme.of(context).colorScheme.error,
               ),
             ),
-            const SizedBox(height: 12),
-            Flexible(
-              child: Text(
-                l10n.refreshFailed,
-                key: const Key('week_error_message'),
-                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  color: Theme.of(context).colorScheme.error,
-                ),
-                textAlign: TextAlign.center,
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
-              ),
-            ),
             const SizedBox(height: 8),
-            TextButton(
-              key: const Key('week_retry_button'),
-              onPressed: () {
-                ref.invalidate(day7TransportSummaryProvider);
-              },
-              child: Text(
-                'Try Again',
-                style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                  color: Theme.of(context).colorScheme.primary,
-                ),
-              ),
-            ),
+            Text('Tap to retry', style: Theme.of(context).textTheme.bodySmall),
           ],
         ),
       ),
@@ -369,91 +302,40 @@ class SevenDayTimelineWidget extends ConsumerWidget {
   ) {
     return Semantics(
       button: true,
-      hint: 'View full week schedule',
-      child: ConstrainedBox(
-        constraints: const BoxConstraints(
-          minHeight: 48, // WCAG AA minimum touch target
-        ),
-        child: InkWell(
-          key: const Key('see_week_schedule_button'),
-          onTap: refreshCallback,
-          borderRadius: BorderRadius.circular(8),
-          child: Container(
-            width: double.infinity,
-            padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
-            decoration: BoxDecoration(
-              color: Theme.of(context).colorScheme.surfaceContainerHighest,
-              borderRadius: BorderRadius.circular(8),
+      label: l10n.seeFullSchedule,
+      child: TextButton(
+        key: const Key('see_full_schedule_button'),
+        onPressed: refreshCallback,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Expanded(
+              child: Text(
+                l10n.seeFullSchedule,
+                key: const Key('see_full_schedule_text'),
+                style: Theme.of(context).textTheme.bodyMedium,
+                textAlign: TextAlign.center,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+              ),
             ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text(
-                  'View Full Week',
-                  key: const Key('see_week_schedule_text'),
-                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                    color: Theme.of(context).colorScheme.primary,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-                const SizedBox(width: 8),
-                Icon(
-                  Icons.arrow_forward,
-                  size: 16,
-                  color: Theme.of(context).colorScheme.primary,
-                ),
-              ],
+            const SizedBox(width: 4),
+            Icon(
+              Icons.arrow_forward,
+              size: 16,
+              color: Theme.of(context).colorScheme.primary,
             ),
-          ),
+          ],
         ),
       ),
     );
-  }
-
-  /// Generate 7-day rolling window starting from today
-  List<DateTime> _generateWeekDays() {
-    final today = DateTime.now();
-    final weekDays = <DateTime>[];
-
-    for (var i = 0; i < 7; i++) {
-      weekDays.add(today.add(Duration(days: i)));
-    }
-
-    return weekDays;
-  }
-
-  /// Helper method to compare dates without time components
-  bool _isSameDay(DateTime date1, DateTime date2) {
-    return date1.year == date2.year &&
-        date1.month == date2.month &&
-        date1.day == date2.day;
-  }
-
-  /// Calculate maximum content height based on screen size and content requirements
-  double _calculateMaxContentHeight(BuildContext context) {
-    final screenHeight = MediaQuery.of(context).size.height;
-    final safeAreaTop = MediaQuery.of(context).padding.top;
-    final safeAreaBottom = MediaQuery.of(context).padding.bottom;
-    final availableHeight = screenHeight - safeAreaTop - safeAreaBottom;
-
-    // For error/loading/empty states, use a reasonable portion of available height
-    // but not too much to dominate the screen
-    return math.min(200, availableHeight * 0.25);
-  }
-
-  /// Calculate appropriate height for collapsed week view
-  double _calculateCollapsedViewHeight(BuildContext context) {
-    // DayBadge has minHeight of 48, so calculate based on that plus padding
-    const baseHeight = 48.0; // Minimum touch target for DayBadge
-    const verticalPadding = 16.0; // 8px top + 8px bottom padding
-    return baseHeight + verticalPadding;
   }
 }
 
 /// Day badge for collapsed week view
 ///
-/// Shows day name, transport count, and capacity status in a compact badge.
+/// Shows day name with transport count and capacity status in a compact badge.
+/// Shows first letter of day name + dot indicator if has transports
 class DayBadge extends StatelessWidget {
   final DateTime date;
   final DayTransportSummary? summary;
@@ -468,21 +350,21 @@ class DayBadge extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context);
     final dayName = _formatDayName(date);
     final transportCount = summary?.transports.length ?? 0;
     final hasTransports = transportCount > 0;
+    final isTablet = SevenDayTimelineWidget._isTablet(context);
 
     return Semantics(
       label: hasTransports
-          ? l10n.dayWithTransports(dayName, transportCount)
+          ? '$dayName, $transportCount transports'
           : '$dayName, no transports',
       selected: isToday,
       child: ConstrainedBox(
-        constraints: const BoxConstraints(
-          minWidth: 60,
-          maxWidth: 80,
-          minHeight: 48, // WCAG AA minimum touch target
+        constraints: BoxConstraints(
+          minWidth: isTablet ? 80 : 60,
+          maxWidth: isTablet ? 100 : 80,
+          minHeight: isTablet ? 60 : 48,
         ),
         child: Card(
           elevation: isToday ? 4 : 2,
@@ -495,57 +377,35 @@ class DayBadge extends StatelessWidget {
             },
             borderRadius: BorderRadius.circular(8),
             child: Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: const EdgeInsets.all(2.0), // Minimal padding
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 mainAxisSize: MainAxisSize.min,
                 children: [
+                  // Simple day name with transport indicator
                   Text(
-                    dayName,
+                    dayName.substring(
+                      0,
+                      1,
+                    ), // Just first letter: M, T, W, T, F, S, S
                     key: const Key('day_name'),
-                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                       color: isToday
                           ? Theme.of(context).colorScheme.onPrimaryContainer
                           : Theme.of(context).colorScheme.onSurfaceVariant,
-                      fontWeight: isToday ? FontWeight.bold : FontWeight.normal,
+                      fontWeight: FontWeight.bold,
                     ),
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
                   ),
-                  const SizedBox(height: 4),
                   if (hasTransports) ...[
-                    Text(
-                      '$transportCount',
-                      key: const Key('transport_count'),
-                      style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                        color: isToday
-                            ? Theme.of(context).colorScheme.onPrimaryContainer
-                            : Theme.of(context).colorScheme.onSurfaceVariant,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    const SizedBox(height: 2),
-                    _buildCapacityIndicator(context),
-                  ] else ...[
-                    Text(
-                      '0',
-                      key: const Key('no_transports'),
-                      style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                        color: isToday
-                            ? Theme.of(context).colorScheme.onPrimaryContainer
-                            : Theme.of(context).colorScheme.onSurfaceVariant,
-                        fontWeight: FontWeight.normal,
-                      ),
-                    ),
-                    const SizedBox(height: 2),
+                    const SizedBox(height: 1),
                     Container(
-                      width: 16,
-                      height: 4,
+                      width: 6,
+                      height: 3,
                       decoration: BoxDecoration(
-                        color: Theme.of(
-                          context,
-                        ).colorScheme.surfaceContainerHighest,
-                        borderRadius: BorderRadius.circular(2),
+                        color: isToday
+                            ? Theme.of(context).colorScheme.onPrimaryContainer
+                            : Theme.of(context).colorScheme.primary,
+                        borderRadius: BorderRadius.circular(1.5),
                       ),
                     ),
                   ],
@@ -554,46 +414,6 @@ class DayBadge extends StatelessWidget {
             ),
           ),
         ),
-      ),
-    );
-  }
-
-  Widget _buildCapacityIndicator(BuildContext context) {
-    if (summary == null || summary!.transports.isEmpty) {
-      return Container(
-        width: 16,
-        height: 4,
-        decoration: BoxDecoration(
-          color: Theme.of(context).colorScheme.surfaceContainerHighest,
-          borderRadius: BorderRadius.circular(2),
-        ),
-      );
-    }
-
-    // Get overall capacity status from all transports
-    final transports = summary!.transports;
-    final hasFull = transports.any(
-      (t) => t.overallCapacityStatus == CapacityStatus.full,
-    );
-    final hasAvailable = transports.any(
-      (t) => t.overallCapacityStatus == CapacityStatus.available,
-    );
-
-    Color color;
-    if (hasFull) {
-      color = Colors.red;
-    } else if (hasAvailable) {
-      color = Colors.green;
-    } else {
-      color = Colors.orange;
-    }
-
-    return Container(
-      width: 16,
-      height: 4,
-      decoration: BoxDecoration(
-        color: color.withValues(alpha: 0.8),
-        borderRadius: BorderRadius.circular(2),
       ),
     );
   }
@@ -621,8 +441,7 @@ class DayDetailCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context);
-    final dayName = _formatFullDayName(date);
+    final dayName = _formatDayName(date);
     final dateStr = _formatDate(date);
 
     return Semantics(
@@ -646,7 +465,7 @@ class DayDetailCard extends StatelessWidget {
               if (summary != null && summary!.hasScheduledTransports)
                 _buildTransportsList(context, summary!.transports)
               else
-                _buildNoTransportsMessage(context, l10n),
+                _buildNoTransportsMessage(context),
             ],
           ),
         ),
@@ -715,32 +534,16 @@ class DayDetailCard extends StatelessWidget {
     List<TransportSlotSummary> transports,
   ) {
     if (transports.isEmpty) {
-      return _buildNoTransportsMessage(context, AppLocalizations.of(context));
+      return _buildNoTransportsMessage(context);
     }
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisSize: MainAxisSize.min,
-      children: transports
-          .asMap()
-          .entries
-          .map(
-            (entry) => Padding(
-              padding: const EdgeInsets.only(bottom: 8.0),
-              child: TransportTimeSlot(
-                key: Key('transport_slot_${entry.key}'),
-                transport: entry.value,
-              ),
-            ),
-          )
-          .toList(),
+    return TransportHorizontalList(
+      transports: transports,
+      semanticLabel: 'Transport list for day',
     );
   }
 
-  Widget _buildNoTransportsMessage(
-    BuildContext context,
-    AppLocalizations l10n,
-  ) {
+  Widget _buildNoTransportsMessage(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8.0),
       child: Row(
@@ -763,16 +566,8 @@ class DayDetailCard extends StatelessWidget {
     );
   }
 
-  String _formatFullDayName(DateTime date) {
-    const dayNames = [
-      'Monday',
-      'Tuesday',
-      'Wednesday',
-      'Thursday',
-      'Friday',
-      'Saturday',
-      'Sunday',
-    ];
+  String _formatDayName(DateTime date) {
+    const dayNames = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
     return dayNames[date.weekday - 1];
   }
 
@@ -792,243 +587,5 @@ class DayDetailCard extends StatelessWidget {
       'Dec',
     ];
     return '${months[date.month - 1]} ${date.day}';
-  }
-}
-
-/// Transport time slot display for expanded view
-///
-/// Shows detailed information about a single transport time slot.
-class TransportTimeSlot extends StatelessWidget {
-  final TransportSlotSummary transport;
-
-  const TransportTimeSlot({super.key, required this.transport});
-
-  @override
-  Widget build(BuildContext context) {
-    return Semantics(
-      label:
-          'Transport at ${_formatTime(transport.time)} to ${transport.destination}',
-      child: Container(
-        padding: const EdgeInsets.all(12.0),
-        decoration: BoxDecoration(
-          color: Theme.of(context).colorScheme.surfaceContainerLow,
-          borderRadius: BorderRadius.circular(8),
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            _buildTimeAndDestination(context),
-            const SizedBox(height: 8),
-            _buildCapacityInfo(context),
-            const SizedBox(height: 8),
-            _buildVehiclesList(context),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildTimeAndDestination(BuildContext context) {
-    return Row(
-      children: [
-        Container(
-          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-          decoration: BoxDecoration(
-            color: Theme.of(context).colorScheme.primaryContainer,
-            borderRadius: BorderRadius.circular(6),
-          ),
-          child: Text(
-            _formatTime(transport.time),
-            key: const Key('transport_time_slot'),
-            style: Theme.of(context).textTheme.bodySmall?.copyWith(
-              color: Theme.of(context).colorScheme.onPrimaryContainer,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-        ),
-        const SizedBox(width: 8),
-        Expanded(
-          child: Text(
-            transport.destination,
-            key: const Key('transport_destination_slot'),
-            style: Theme.of(
-              context,
-            ).textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w600),
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-          ),
-        ),
-        _buildStatusIcon(context),
-      ],
-    );
-  }
-
-  Widget _buildCapacityInfo(BuildContext context) {
-    return Row(
-      children: [
-        Icon(
-          Icons.people,
-          size: 16,
-          color: Theme.of(context).colorScheme.onSurfaceVariant,
-        ),
-        const SizedBox(width: 4),
-        Text(
-          '${transport.totalChildrenAssigned}/${transport.totalCapacity} seats',
-          style: Theme.of(context).textTheme.bodySmall?.copyWith(
-            color: Theme.of(context).colorScheme.onSurfaceVariant,
-          ),
-        ),
-        const SizedBox(width: 8),
-        Expanded(
-          child: Container(
-            height: 4,
-            decoration: BoxDecoration(
-              color: Theme.of(context).colorScheme.surfaceContainerHighest,
-              borderRadius: BorderRadius.circular(2),
-            ),
-            child: FractionallySizedBox(
-              alignment: Alignment.centerLeft,
-              widthFactor: transport.utilizationPercentage / 100,
-              child: Container(
-                decoration: BoxDecoration(
-                  color: _getCapacityColor(
-                    context,
-                    transport.overallCapacityStatus,
-                  ),
-                  borderRadius: BorderRadius.circular(2),
-                ),
-              ),
-            ),
-          ),
-        ),
-        const SizedBox(width: 4),
-        Text(
-          '${transport.utilizationPercentage.toStringAsFixed(0)}%',
-          style: Theme.of(context).textTheme.bodySmall?.copyWith(
-            color: Theme.of(context).colorScheme.onSurfaceVariant,
-            fontWeight: FontWeight.w500,
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildVehiclesList(BuildContext context) {
-    if (transport.vehicleAssignmentSummaries.isEmpty) {
-      return Text(
-        'No vehicles assigned',
-        style: Theme.of(context).textTheme.bodySmall?.copyWith(
-          color: Theme.of(context).colorScheme.onSurfaceVariant,
-          fontStyle: FontStyle.italic,
-        ),
-      );
-    }
-
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisSize: MainAxisSize.min,
-      children: transport.vehicleAssignmentSummaries
-          .take(3) // Limit to first 3 vehicles for space
-          .map(
-            (vehicle) => Padding(
-              padding: const EdgeInsets.only(bottom: 4.0),
-              child: VehicleInfoRow(vehicle: vehicle),
-            ),
-          )
-          .toList(),
-    );
-  }
-
-  Widget _buildStatusIcon(BuildContext context) {
-    IconData icon;
-    Color color;
-
-    switch (transport.overallCapacityStatus) {
-      case CapacityStatus.available:
-        icon = Icons.check_circle;
-        color = Colors.green;
-        break;
-      case CapacityStatus.nearFull:
-        icon = Icons.warning;
-        color = Colors.orange;
-        break;
-      case CapacityStatus.full:
-        icon = Icons.error;
-        color = Colors.red;
-        break;
-      case CapacityStatus.exceeded:
-        icon = Icons.error;
-        color = Colors.red;
-        break;
-    }
-
-    return Icon(icon, size: 16, color: color);
-  }
-
-  Color _getCapacityColor(BuildContext context, CapacityStatus status) {
-    switch (status) {
-      case CapacityStatus.available:
-        return Colors.green;
-      case CapacityStatus.nearFull:
-        return Colors.orange;
-      case CapacityStatus.full:
-        return Colors.red;
-      case CapacityStatus.exceeded:
-        return Colors.red;
-    }
-  }
-
-  String _formatTime(TimeOfDayValue time) {
-    final hour = time.hour;
-    final minute = time.minute;
-    final period = hour >= 12 ? 'PM' : 'AM';
-    final displayHour = hour > 12
-        ? hour - 12
-        : hour == 0
-        ? 12
-        : hour;
-    final minuteStr = minute.toString().padLeft(2, '0');
-
-    return '$displayHour:$minuteStr $period';
-  }
-}
-
-/// Vehicle information row for transport details
-class VehicleInfoRow extends StatelessWidget {
-  final VehicleAssignmentSummary vehicle;
-
-  const VehicleInfoRow({super.key, required this.vehicle});
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Icon(
-          Icons.directions_car,
-          size: 14,
-          color: Theme.of(context).colorScheme.onSurfaceVariant,
-        ),
-        const SizedBox(width: 4),
-        Expanded(
-          child: Text(
-            vehicle.vehicleName,
-            style: Theme.of(context).textTheme.bodySmall?.copyWith(
-              color: Theme.of(context).colorScheme.onSurfaceVariant,
-            ),
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-          ),
-        ),
-        const SizedBox(width: 8),
-        Text(
-          '${vehicle.assignedChildrenCount}/${vehicle.vehicleCapacity}',
-          style: Theme.of(context).textTheme.bodySmall?.copyWith(
-            color: Theme.of(context).colorScheme.onSurfaceVariant,
-            fontWeight: FontWeight.w500,
-          ),
-        ),
-      ],
-    );
   }
 }

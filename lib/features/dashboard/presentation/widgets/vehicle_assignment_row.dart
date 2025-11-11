@@ -164,11 +164,11 @@ class VehicleAssignmentRow extends StatelessWidget {
     switch (capacityStatus) {
       case CapacityStatus.available:
         return Theme.of(context).colorScheme.primary;
-      case CapacityStatus.nearFull:
+      case CapacityStatus.limited:
         return Theme.of(context).colorScheme.secondary;
       case CapacityStatus.full:
         return Theme.of(context).colorScheme.error;
-      case CapacityStatus.exceeded:
+      case CapacityStatus.overcapacity:
         return Theme.of(context).colorScheme.error;
     }
   }
@@ -178,11 +178,11 @@ class VehicleAssignmentRow extends StatelessWidget {
     switch (capacityStatus) {
       case CapacityStatus.available:
         return Icons.check_circle;
-      case CapacityStatus.nearFull:
+      case CapacityStatus.limited:
         return Icons.warning;
       case CapacityStatus.full:
         return Icons.error;
-      case CapacityStatus.exceeded:
+      case CapacityStatus.overcapacity:
         return Icons.error;
     }
   }

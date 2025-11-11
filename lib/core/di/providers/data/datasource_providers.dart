@@ -12,7 +12,7 @@ import '../../../../features/schedule/data/datasources/schedule_remote_datasourc
 import '../../../../features/schedule/data/datasources/schedule_local_datasource_impl.dart';
 import '../../../../features/groups/data/datasources/group_remote_datasource_impl.dart';
 import '../../../../features/groups/data/datasources/group_local_datasource_impl.dart';
-import '../../../../features/dashboard/data/datasources/dashboard_remote_datasource.dart';
+// Dashboard data sources are now handled via API client directly
 import '../../../../core/storage/auth_local_datasource.dart';
 import '../foundation/network_providers.dart';
 import '../foundation/storage_providers.dart';
@@ -81,12 +81,7 @@ GroupLocalDataSourceImpl groupLocalDatasource(Ref ref) {
   return GroupLocalDataSourceImpl();
 }
 
-/// DashboardRemoteDataSource provider
-@riverpod
-DashboardRemoteDataSourceImpl dashboardRemoteDatasource(Ref ref) {
-  final dashboardApiClient = ref.watch(dashboardApiClientProvider);
-  return DashboardRemoteDataSourceImpl(apiClient: dashboardApiClient);
-}
+// REMOVED: DashboardRemoteDataSource provider - dashboard data is now handled via API client directly
 
 // REMOVED: ValidationService provider - toxic system eliminated in PHASE 5
 // Validation is now handled by domain-specific validators (FamilyFormValidator, VehicleFormValidator, ChildFormValidator, etc.)

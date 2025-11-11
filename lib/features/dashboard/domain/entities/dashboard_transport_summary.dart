@@ -2,19 +2,17 @@
 // Aggregates existing schedule entities for dashboard consumption
 
 import 'package:equatable/equatable.dart';
-import 'package:edulift/core/domain/entities/schedule/time_of_day.dart';
 import 'package:edulift/core/domain/entities/schedule/vehicle_assignment.dart';
 
 /// Dashboard-specific aggregation of transport information for a single day
 ///
-/// This is a display-focused entity that aggregates existing schedule domain entities
-/// for dashboard consumption. It should NOT contain business logic - only pre-calculated
-/// display values derived from core domain entities.
+/// This entity matches the backend API specification for DayTransportSummary.
+/// It aggregates transport data for dashboard display with pre-calculated values.
 class DayTransportSummary extends Equatable {
-  /// The calendar date (not week-based)
-  final DateTime date;
+  /// The calendar date in ISO format (YYYY-MM-DD)
+  final String date;
 
-  /// All transport slots for this day (dashboard summaries, not domain entities)
+  /// All transport slots for this day
   final List<TransportSlotSummary> transports;
 
   /// Total number of children assigned to vehicles on this day (pre-calculated)
@@ -44,7 +42,7 @@ class DayTransportSummary extends Equatable {
   ];
 
   DayTransportSummary copyWith({
-    DateTime? date,
+    String? date,
     List<TransportSlotSummary>? transports,
     int? totalChildrenInVehicles,
     int? totalVehiclesWithAssignments,
@@ -65,16 +63,22 @@ class DayTransportSummary extends Equatable {
 
 /// Summary of a single transport time slot for dashboard display
 ///
-/// This entity aggregates data from core schedule domain entities for dashboard display.
+/// This entity matches the backend API specification for TransportSlotSummary.
 /// All values should be pre-calculated to avoid business logic in the presentation layer.
 class TransportSlotSummary extends Equatable {
-  /// Time of the transport slot (from domain entity)
-  final TimeOfDayValue time;
+  /// Time of the transport slot in HH:mm format
+  final String time;
 
-  /// Destination location (display string, not domain entity)
-  final String destination;
+  /// Group ID for this transport slot
+  final String groupId;
 
-  /// Vehicle assignment summaries for this time slot (dashboard-specific)
+  /// Group name for identification
+  final String groupName;
+
+  /// Unique schedule slot ID
+  final String scheduleSlotId;
+
+  /// Vehicle assignment summaries for this time slot
   final List<VehicleAssignmentSummary> vehicleAssignmentSummaries;
 
   /// Total children assigned across all vehicles (pre-calculated)
@@ -83,12 +87,14 @@ class TransportSlotSummary extends Equatable {
   /// Total capacity across all vehicles (pre-calculated)
   final int totalCapacity;
 
-  /// Overall capacity status for this time slot (from domain calculation)
+  /// Overall capacity status for this time slot
   final CapacityStatus overallCapacityStatus;
 
   const TransportSlotSummary({
     required this.time,
-    required this.destination,
+    required this.groupId,
+    required this.groupName,
+    required this.scheduleSlotId,
     required this.vehicleAssignmentSummaries,
     required this.totalChildrenAssigned,
     required this.totalCapacity,
@@ -98,7 +104,9 @@ class TransportSlotSummary extends Equatable {
   @override
   List<Object?> get props => [
     time,
-    destination,
+    groupId,
+    groupName,
+    scheduleSlotId,
     vehicleAssignmentSummaries,
     totalChildrenAssigned,
     totalCapacity,
@@ -109,12 +117,39 @@ class TransportSlotSummary extends Equatable {
   double get utilizationPercentage =>
       totalCapacity > 0 ? (totalChildrenAssigned / totalCapacity) * 100 : 0.0;
 
-  /// Check if this time slot is at full capacity
-  bool get isFull => overallCapacityStatus == CapacityStatus.full;
+  /// Check if this time slot is at full capacity or overcapacity
+  bool get isFull =>
+      overallCapacityStatus == CapacityStatus.full ||
+      overallCapacityStatus == CapacityStatus.overcapacity;
+
+  TransportSlotSummary copyWith({
+    String? time,
+    String? groupId,
+    String? groupName,
+    String? scheduleSlotId,
+    List<VehicleAssignmentSummary>? vehicleAssignmentSummaries,
+    int? totalChildrenAssigned,
+    int? totalCapacity,
+    CapacityStatus? overallCapacityStatus,
+  }) {
+    return TransportSlotSummary(
+      time: time ?? this.time,
+      groupId: groupId ?? this.groupId,
+      groupName: groupName ?? this.groupName,
+      scheduleSlotId: scheduleSlotId ?? this.scheduleSlotId,
+      vehicleAssignmentSummaries:
+          vehicleAssignmentSummaries ?? this.vehicleAssignmentSummaries,
+      totalChildrenAssigned:
+          totalChildrenAssigned ?? this.totalChildrenAssigned,
+      totalCapacity: totalCapacity ?? this.totalCapacity,
+      overallCapacityStatus:
+          overallCapacityStatus ?? this.overallCapacityStatus,
+    );
+  }
 }
 
 /// Simplified vehicle assignment representation for dashboard display
-/// This is a dashboard-specific aggregation, not the core domain VehicleAssignment
+/// This entity matches the backend API specification for VehicleAssignmentSummary.
 class VehicleAssignmentSummary extends Equatable {
   /// Vehicle information (basic display data)
   final String vehicleId;
@@ -130,6 +165,18 @@ class VehicleAssignmentSummary extends Equatable {
   /// Capacity status (calculated from domain logic, stored for display)
   final CapacityStatus capacityStatus;
 
+  /// Vehicle family ID
+  final String vehicleFamilyId;
+
+  /// Whether this is a family vehicle
+  final bool isFamilyVehicle;
+
+  /// Driver information (optional)
+  final VehicleDriver? driver;
+
+  /// Children assigned to this vehicle
+  final List<VehicleChild> children;
+
   const VehicleAssignmentSummary({
     required this.vehicleId,
     required this.vehicleName,
@@ -137,6 +184,10 @@ class VehicleAssignmentSummary extends Equatable {
     required this.assignedChildrenCount,
     required this.availableSeats,
     required this.capacityStatus,
+    required this.vehicleFamilyId,
+    required this.isFamilyVehicle,
+    this.driver,
+    required this.children,
   });
 
   @override
@@ -147,6 +198,10 @@ class VehicleAssignmentSummary extends Equatable {
     assignedChildrenCount,
     availableSeats,
     capacityStatus,
+    vehicleFamilyId,
+    isFamilyVehicle,
+    driver,
+    children,
   ];
 
   /// Check if this vehicle assignment is full
@@ -164,6 +219,10 @@ class VehicleAssignmentSummary extends Equatable {
     int? assignedChildrenCount,
     int? availableSeats,
     CapacityStatus? capacityStatus,
+    String? vehicleFamilyId,
+    bool? isFamilyVehicle,
+    VehicleDriver? driver,
+    List<VehicleChild>? children,
   }) {
     return VehicleAssignmentSummary(
       vehicleId: vehicleId ?? this.vehicleId,
@@ -173,6 +232,10 @@ class VehicleAssignmentSummary extends Equatable {
           assignedChildrenCount ?? this.assignedChildrenCount,
       availableSeats: availableSeats ?? this.availableSeats,
       capacityStatus: capacityStatus ?? this.capacityStatus,
+      vehicleFamilyId: vehicleFamilyId ?? this.vehicleFamilyId,
+      isFamilyVehicle: isFamilyVehicle ?? this.isFamilyVehicle,
+      driver: driver ?? this.driver,
+      children: children ?? this.children,
     );
   }
 }
@@ -237,9 +300,47 @@ class SevenDayTransportSummary extends Equatable {
   }
 
   /// Helper method to compare dates without time
-  bool _isSameDay(DateTime date1, DateTime date2) {
-    return date1.year == date2.year &&
-        date1.month == date2.month &&
-        date1.day == date2.day;
+  bool _isSameDay(String dateStr, DateTime date) {
+    try {
+      final parts = dateStr.split('-');
+      if (parts.length != 3) return false;
+
+      final year = int.parse(parts[0]);
+      final month = int.parse(parts[1]);
+      final day = int.parse(parts[2]);
+
+      return year == date.year && month == date.month && day == date.day;
+    } catch (e) {
+      return false;
+    }
   }
+}
+
+/// Vehicle driver information for dashboard display
+class VehicleDriver extends Equatable {
+  final String id;
+  final String name;
+
+  const VehicleDriver({required this.id, required this.name});
+
+  @override
+  List<Object?> get props => [id, name];
+}
+
+/// Vehicle child information for dashboard display
+class VehicleChild extends Equatable {
+  final String childId;
+  final String childName;
+  final String childFamilyId;
+  final bool isFamilyChild;
+
+  const VehicleChild({
+    required this.childId,
+    required this.childName,
+    required this.childFamilyId,
+    required this.isFamilyChild,
+  });
+
+  @override
+  List<Object?> get props => [childId, childName, childFamilyId, isFamilyChild];
 }

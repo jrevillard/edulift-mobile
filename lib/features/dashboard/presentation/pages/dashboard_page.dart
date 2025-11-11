@@ -5,9 +5,11 @@ import 'package:edulift/generated/l10n/app_localizations.dart';
 import 'package:edulift/core/services/providers/auth_provider.dart';
 import 'package:edulift/core/presentation/widgets/connection/unified_connection_indicator.dart';
 import 'package:edulift/features/family/providers.dart';
-import 'package:edulift/core/domain/entities/family.dart';
 import '../../../../core/domain/entities/user.dart';
 import '../../domain/entities/dashboard_entities.dart';
+import '../../../../core/utils/timezone_formatter.dart';
+import '../../../../core/utils/weekday_localization.dart';
+import '../providers/transport_providers.dart';
 import '../providers/dashboard_providers.dart';
 import '../widgets/today_transport_card.dart';
 import '../widgets/seven_day_timeline_widget.dart';
@@ -23,7 +25,7 @@ class DashboardPage extends ConsumerStatefulWidget {
 
 class _DashboardPageState extends ConsumerState<DashboardPage>
     with NavigationCleanupMixin {
-  // NavigationCleanupMixin automatically clears navigation in initState
+  // NavigationCleanupMixin automatically clears navigation in init state
 
   @override
   Widget build(BuildContext context) {
@@ -36,10 +38,8 @@ class _DashboardPageState extends ConsumerState<DashboardPage>
         builder: (context, constraints) {
           return RefreshIndicator(
             onRefresh: () async {
-              final refreshCallback = ref.read(dashboardRefreshProvider);
-              if (refreshCallback != null) {
-                refreshCallback();
-              }
+              ref.invalidate(day7TransportSummaryProvider);
+              ref.invalidate(todayTransportSummaryProvider);
             },
             child: CustomScrollView(
               slivers: [
@@ -60,7 +60,7 @@ class _DashboardPageState extends ConsumerState<DashboardPage>
                         height: 32,
                       ),
                       const SizedBox(width: 8),
-                      Flexible(
+                      Expanded(
                         child: Semantics(
                           header: true,
                           child: Text(
@@ -101,21 +101,26 @@ class _DashboardPageState extends ConsumerState<DashboardPage>
                   ],
                 ),
                 SliverToBoxAdapter(
-                  child: Padding(
-                    padding: EdgeInsets.all(isTablet ? 16.0 : 12.0),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        // Welcome Section
-                        _buildWelcomeSection(context, user),
-                        const SizedBox(height: 24),
+                  child: ConstrainedBox(
+                    constraints: BoxConstraints(
+                      maxWidth: MediaQuery.of(context).size.width,
+                    ),
+                    child: Padding(
+                      padding: EdgeInsets.all(isTablet ? 16.0 : 12.0),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          // Welcome Section
+                          _buildWelcomeSection(context, user),
+                          const SizedBox(height: 24),
 
-                        // Main Content
-                        if (isTablet)
-                          _buildTabletLayout(context, ref)
-                        else
-                          _buildPhoneLayout(context, ref),
-                      ],
+                          // Main Content
+                          if (isTablet)
+                            _buildTabletLayout(context, ref)
+                          else
+                            _buildPhoneLayout(context, ref),
+                        ],
+                      ),
                     ),
                   ),
                 ),
@@ -195,56 +200,71 @@ class _DashboardPageState extends ConsumerState<DashboardPage>
   }
 
   Widget _buildTabletLayout(BuildContext context, WidgetRef ref) {
-    return Row(
+    return ConstrainedBox(
       key: const Key('tablet_layout'),
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Expanded(
-          flex: 2,
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              const TodayTransportCard(),
-              const SizedBox(height: 16),
-              const SevenDayTimelineWidget(),
-              const SizedBox(height: 16),
-              _buildCompactFamilyOverview(context, ref),
-              const SizedBox(height: 12),
-              _buildCompactQuickActions(context, ref),
-              const SizedBox(height: 12),
-              _buildRecentActivities(context, ref),
-            ],
+      constraints: BoxConstraints(
+        maxHeight:
+            MediaQuery.of(context).size.height *
+            0.7, // Limit height to prevent overflow
+      ),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Expanded(
+            flex: 2,
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  _buildCompactFamilyOverview(context, ref),
+                  const SizedBox(height: 16),
+                  const TodayTransportCard(),
+                  const SizedBox(height: 16),
+                  const SevenDayTimelineWidget(),
+                  const SizedBox(height: 16),
+                  _buildCompactQuickActions(context, ref),
+                  const SizedBox(height: 12),
+                  _buildRecentActivities(context, ref),
+                ],
+              ),
+            ),
           ),
-        ),
-        const SizedBox(width: 16),
-        Expanded(child: _buildUpcomingTrips(context, ref)),
-      ],
+        ],
+      ),
     );
   }
 
   Widget _buildPhoneLayout(BuildContext context, WidgetRef ref) {
-    return Column(
+    return ConstrainedBox(
       key: const Key('phone_layout'),
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        const TodayTransportCard(),
-        const SizedBox(height: 12),
-        const SevenDayTimelineWidget(),
-        const SizedBox(height: 12),
-        _buildCompactFamilyOverview(context, ref),
-        const SizedBox(height: 8),
-        _buildCompactQuickActions(context, ref),
-        const SizedBox(height: 8),
-        _buildRecentActivities(context, ref),
-        const SizedBox(height: 12),
-        _buildUpcomingTrips(context, ref),
-        const SizedBox(height: 16),
-      ],
+      constraints: BoxConstraints(
+        maxHeight:
+            MediaQuery.of(context).size.height *
+            0.8, // Limit height to prevent overflow
+      ),
+      child: SingleChildScrollView(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            _buildCompactFamilyOverview(context, ref),
+            const SizedBox(height: 12),
+            const TodayTransportCard(),
+            const SizedBox(height: 12),
+            const SevenDayTimelineWidget(),
+            const SizedBox(height: 12),
+            _buildCompactQuickActions(context, ref),
+            const SizedBox(height: 8),
+            _buildRecentActivities(context, ref),
+            const SizedBox(height: 16),
+          ],
+        ),
+      ),
     );
   }
 
   Widget _buildCompactFamilyOverview(BuildContext context, WidgetRef ref) {
     final familyAsync = ref.watch(currentFamilyComposedProvider);
+    final l10n = AppLocalizations.of(context);
 
     return familyAsync.when(
       data: (family) {
@@ -280,7 +300,7 @@ class _DashboardPageState extends ConsumerState<DashboardPage>
                         overflow: TextOverflow.ellipsis,
                       ),
                       Text(
-                        '${family.totalChildren} enfants • ${family.totalVehicles} véhicules',
+                        '${l10n.childrenCount(family.totalChildren)} • ${l10n.vehiclesCount(family.totalVehicles)}',
                         key: const Key('compact_family_stats'),
                         style: Theme.of(context).textTheme.bodySmall?.copyWith(
                           color: Theme.of(context).colorScheme.onSurfaceVariant,
@@ -413,107 +433,24 @@ class _DashboardPageState extends ConsumerState<DashboardPage>
     );
   }
 
-  Widget _buildUpcomingTrips(BuildContext context, WidgetRef ref) {
-    final trips = ref.watch(upcomingTripsProvider);
-    final l10n = AppLocalizations.of(context);
-    return Semantics(
-      label: l10n.upcomingTripsSection,
-      child: Card(
-        key: const Key('upcoming_trips_section'),
-        elevation: 4,
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Semantics(
-                header: true,
-                child: Text(
-                  'This Week\'s Trips',
-                  style: Theme.of(context).textTheme.titleLarge,
-                ),
-              ),
-              const SizedBox(height: 16),
-              if (trips.isEmpty)
-                Container(
-                  key: const Key('no_trips_empty_state'),
-                  padding: const EdgeInsets.all(24.0),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Semantics(
-                        label: l10n.noTripsScheduledIcon,
-                        child: Icon(
-                          Icons.schedule,
-                          size: 48,
-                          color: Theme.of(context).colorScheme.primary,
-                        ),
-                      ),
-                      const SizedBox(height: 16),
-                      Text(
-                        'No trips this week',
-                        style: Theme.of(context).textTheme.titleMedium,
-                      ),
-                      const SizedBox(height: 8),
-                      Text(
-                        'Your schedule is clear',
-                        style: Theme.of(context).textTheme.bodyMedium,
-                        textAlign: TextAlign.center,
-                      ),
-                    ],
-                  ),
-                )
-              else
-                Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: trips
-                      .take(3)
-                      .map(
-                        (trip) => _TripItem(
-                          time: trip.time,
-                          destination: trip.destination,
-                          type: trip.type,
-                          date: trip.date,
-                          children: trip.children,
-                        ),
-                      )
-                      .toList(),
-                ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
   String _formatCurrentDate() {
-    final now = DateTime.now();
-    final weekdays = [
-      'Monday',
-      'Tuesday',
-      'Wednesday',
-      'Thursday',
-      'Friday',
-      'Saturday',
-      'Sunday',
-    ];
-    final months = [
-      'January',
-      'February',
-      'March',
-      'April',
-      'May',
-      'June',
-      'July',
-      'August',
-      'September',
-      'October',
-      'November',
-      'December',
-    ];
+    final l10n = AppLocalizations.of(context);
+    final weekdayLabels = getLocalizedWeekdayLabels(l10n);
+    final weekdayName = weekdayLabels[DateTime.now().weekday - 1];
 
-    return '${weekdays[now.weekday - 1]}, ${months[now.month - 1]} ${now.day}';
+    // Use TimezoneFormatter for date (no timezone needed for current date)
+    final formattedDate = TimezoneFormatter.formatDateOnly(
+      DateTime.now().toUtc(),
+      null,
+    );
+
+    // Replace English weekday with localized weekday
+    final parts = formattedDate.split(' ');
+    if (parts.length >= 2) {
+      return '$weekdayName ${parts[1]} ${parts[2]}';
+    }
+
+    return formattedDate;
   }
 
   Color _getActivityColor(ActivityType type) {
@@ -647,130 +584,6 @@ class _CompactActionButton extends StatelessWidget {
               color: Theme.of(context).colorScheme.primary,
               size: 20,
             ),
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class _TripItem extends StatelessWidget {
-  final String time;
-  final String destination;
-  final TripType type;
-  final String date;
-  final List<Child> children;
-
-  const _TripItem({
-    required this.time,
-    required this.destination,
-    required this.type,
-    required this.date,
-    required this.children,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    final childrenNames = children.map((child) => child.name).join(', ');
-    final tripTypeLabel = type == TripType.dropOff ? 'Drop off' : 'Pick up';
-
-    return Semantics(
-      label:
-          'Trip: $tripTypeLabel at $time to $destination on $date ${children.isNotEmpty ? 'with $childrenNames' : ''}',
-      child: Card(
-        margin: const EdgeInsets.symmetric(vertical: 4),
-        child: Padding(
-          padding: const EdgeInsets.all(12.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Row(
-                children: [
-                  Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 8,
-                      vertical: 4,
-                    ),
-                    decoration: BoxDecoration(
-                      color: type == TripType.dropOff
-                          ? Theme.of(
-                              context,
-                            ).colorScheme.secondary.withValues(alpha: 0.1)
-                          : Theme.of(
-                              context,
-                            ).colorScheme.primary.withValues(alpha: 0.1),
-                      borderRadius: BorderRadius.circular(4),
-                    ),
-                    child: Semantics(
-                      label: 'Trip time: $time',
-                      child: Text(
-                        time,
-                        style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                          color: type == TripType.dropOff
-                              ? Theme.of(context).colorScheme.secondary
-                              : Theme.of(context).colorScheme.primary,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(width: 8),
-                  Expanded(
-                    child: Semantics(
-                      label: 'Destination: $destination',
-                      child: Text(
-                        destination,
-                        style: Theme.of(context).textTheme.titleSmall,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 8),
-              Row(
-                children: [
-                  Semantics(
-                    label: '$tripTypeLabel icon',
-                    child: Icon(
-                      type == TripType.dropOff
-                          ? Icons.arrow_upward
-                          : Icons.arrow_downward,
-                      size: 16,
-                      color: Theme.of(context).colorScheme.onSurfaceVariant,
-                    ),
-                  ),
-                  const SizedBox(width: 4),
-                  Expanded(
-                    child: Text(
-                      '$tripTypeLabel • $date',
-                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                        color: Theme.of(context).colorScheme.primary,
-                      ),
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ),
-                ],
-              ),
-              if (children.isNotEmpty) ...[
-                const SizedBox(height: 8),
-                Semantics(
-                  label: 'Children: $childrenNames',
-                  child: Text(
-                    childrenNames,
-                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                      color: Theme.of(context).colorScheme.onSurfaceVariant,
-                      fontWeight: FontWeight.w500,
-                    ),
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                ),
-              ],
-            ],
           ),
         ),
       ),

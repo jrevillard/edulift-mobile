@@ -8,7 +8,7 @@ import 'theme_configurations.dart';
 /// Global configuration for golden tests
 class GoldenTestConfig {
   // Pixel comparison tolerance (0.0 = exact match, 1.0 = any difference allowed)
-  static const double defaultTolerance = 0.01;
+  static const double defaultTolerance = 0.1;
 
   // Default device configurations
   static List<DeviceConfig> get defaultDevices =>

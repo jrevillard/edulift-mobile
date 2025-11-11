@@ -6,27 +6,46 @@ part of 'transport_providers.dart';
 // RiverpodGenerator
 // **************************************************************************
 
+String _$familyVehiclesHash() => r'1ae7f9721fa94673f4740f56a7cd86246355bea5';
+
+/// Provider for loading vehicles for family filtering logic
+/// Uses FamilyState.vehicles directly - no async calls needed
+///
+/// Copied from [familyVehicles].
+@ProviderFor(familyVehicles)
+final familyVehiclesProvider =
+    AutoDisposeProvider<Map<String, Vehicle>>.internal(
+      familyVehicles,
+      name: r'familyVehiclesProvider',
+      debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+          ? null
+          : _$familyVehiclesHash,
+      dependencies: null,
+      allTransitiveDependencies: null,
+    );
+
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
+typedef FamilyVehiclesRef = AutoDisposeProviderRef<Map<String, Vehicle>>;
 String _$day7TransportSummaryHash() =>
-    r'd6e5fd59e4ade02bca17cb36f3f926ef37b43bc8';
+    r'e33ddc2b5e878278661fc38a6b081e151e14b0ba';
 
 /// Provider for fetching 7-day transport summary for dashboard display
 ///
-/// This provider bridges the Get7DayTransportSummary use case with the UI layer,
-/// following the existing Result<T, ScheduleFailure> pattern for error handling.
+/// This provider implements the real family filtering logic according to the
+/// backend dashboard API specification. It aggregates transport data from all
+/// family groups and applies intelligent filtering based on family relevance.
 ///
 /// **Auto-dispose Pattern:**
 /// - Automatically disposes when user logs out (watches currentUserProvider)
 /// - Invalidates cache when auth state changes
 /// - Invalidates when family state changes
 ///
-/// **Error Handling:**
-/// - Converts Result<T, ScheduleFailure> to AsyncValue error state
-/// - Throws Exception on failure for Riverpod error handling
-/// - UI should handle AsyncValue states: loading, data, error
-///
-/// **Caching:**
-/// - 10-minute cache for weekly data (transport schedules don't change frequently)
-/// - Manual refresh capability through invalidate()
+/// **Family Filtering Logic:**
+/// - Vehicles from the family are always included
+/// - Vehicles from other families are included ONLY if they contain family children
+/// - Aggregates data from all family groups
+/// - Applies 7-day rolling window logic
 ///
 /// **Usage Example:**
 /// ```dart
@@ -55,7 +74,7 @@ final day7TransportSummaryProvider =
 // ignore: unused_element
 typedef Day7TransportSummaryRef =
     AutoDisposeFutureProviderRef<List<DayTransportSummary>>;
-String _$todayTransportsHash() => r'356fa49fac9d1a773d588d7cb049e868e73c31cd';
+String _$todayTransportsHash() => r'4884de96856a6568e1b5264952d19dfdfb760cb3';
 
 /// Provider for extracting today's transport data from the 7-day summary
 ///
@@ -98,7 +117,7 @@ final todayTransportsProvider =
 typedef TodayTransportsRef =
     AutoDisposeFutureProviderRef<List<TransportSlotSummary>>;
 String _$todayTransportSummaryHash() =>
-    r'd90cc69509353e01cdb960c3c069273cc9923b7c';
+    r'42277c1713653ceb11ce841ebb11bd3b99886874';
 
 /// Provider for today's transport summary with full day context
 ///
@@ -199,7 +218,7 @@ final todayTransportCountProvider = AutoDisposeFutureProvider<int>.internal(
 // ignore: unused_element
 typedef TodayTransportCountRef = AutoDisposeFutureProviderRef<int>;
 String _$selectedDayNotifierHash() =>
-    r'2f1e22a06ca99c743e7074de0d645cbf17c601f4';
+    r'5f1250a482d6cc5060fb963770c3befc79ebf145';
 
 /// Provider for managing the selected day in the dashboard UI
 ///

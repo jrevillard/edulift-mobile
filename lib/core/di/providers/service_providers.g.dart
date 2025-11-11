@@ -328,28 +328,6 @@ final invitationUsecaseProvider =
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
 typedef InvitationUsecaseRef = AutoDisposeProviderRef<InvitationUseCase>;
-String _$get7DayTransportSummaryHash() =>
-    r'c4dc9012bc1dbf95672b612c5ce2a7a0245cdb12';
-
-/// Get7DayTransportSummary use case provider - dashboard transport aggregation
-///
-/// Copied from [get7DayTransportSummary].
-@ProviderFor(get7DayTransportSummary)
-final get7DayTransportSummaryProvider =
-    AutoDisposeProvider<Get7DayTransportSummary>.internal(
-      get7DayTransportSummary,
-      name: r'get7DayTransportSummaryProvider',
-      debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-          ? null
-          : _$get7DayTransportSummaryHash,
-      dependencies: null,
-      allTransitiveDependencies: null,
-    );
-
-@Deprecated('Will be removed in 3.0. Use Ref instead')
-// ignore: unused_element
-typedef Get7DayTransportSummaryRef =
-    AutoDisposeProviderRef<Get7DayTransportSummary>;
 String _$magicLinkServiceHash() => r'd834788158e71929f0598f91d8e7d832e834abec';
 
 /// MagicLinkService provider - returns proper IMagicLinkService implementation

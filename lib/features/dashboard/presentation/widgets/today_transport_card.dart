@@ -6,8 +6,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:edulift/generated/l10n/app_localizations.dart';
 import 'package:edulift/features/dashboard/presentation/providers/transport_providers.dart';
 import 'package:edulift/features/dashboard/presentation/providers/dashboard_providers.dart';
+import 'package:edulift/features/dashboard/presentation/widgets/transport_horizontal_list.dart';
 import 'package:edulift/features/dashboard/domain/entities/dashboard_transport_summary.dart';
-import 'package:edulift/core/domain/entities/schedule/time_of_day.dart';
 import 'package:edulift/core/domain/entities/schedule/vehicle_assignment.dart';
 
 /// Today's Transport Card for the dashboard
@@ -54,8 +54,6 @@ class TodayTransportCard extends ConsumerWidget {
   }
 
   Widget _buildHeader(BuildContext context, AppLocalizations l10n) {
-    final currentDate = _formatCurrentDate();
-
     return Row(
       children: [
         Semantics(
@@ -79,24 +77,6 @@ class TodayTransportCard extends ConsumerWidget {
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
             ),
-          ),
-        ),
-        const SizedBox(width: 8),
-        Container(
-          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
-          decoration: BoxDecoration(
-            color: Theme.of(context).colorScheme.secondaryContainer,
-            borderRadius: BorderRadius.circular(12),
-          ),
-          child: Text(
-            currentDate,
-            key: const Key('current_date_badge'),
-            style: Theme.of(context).textTheme.bodySmall?.copyWith(
-              color: Theme.of(context).colorScheme.onSecondaryContainer,
-              fontWeight: FontWeight.w500,
-            ),
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
           ),
         ),
       ],
@@ -145,22 +125,9 @@ class TodayTransportCard extends ConsumerWidget {
     BuildContext context,
     List<TransportSlotSummary> transports,
   ) {
-    return Semantics(
-      label: AppLocalizations.of(context).todayTransportList,
-      child: ListView.separated(
-        key: const Key('transport_list'),
-        scrollDirection: Axis.horizontal,
-        padding: const EdgeInsets.symmetric(horizontal: 4),
-        itemCount: transports.length,
-        separatorBuilder: (context, index) => const SizedBox(width: 12),
-        itemBuilder: (context, index) {
-          final transport = transports[index];
-          return TransportMiniCard(
-            key: Key('transport_mini_card_$index'),
-            transport: transport,
-          );
-        },
-      ),
+    return TransportHorizontalList(
+      transports: transports,
+      semanticLabel: AppLocalizations.of(context).todayTransportList,
     );
   }
 
@@ -323,14 +290,18 @@ class TodayTransportCard extends ConsumerWidget {
             ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
-              mainAxisSize: MainAxisSize.min,
               children: [
-                Text(
-                  l10n.seeFullSchedule,
-                  key: const Key('see_full_schedule_text'),
-                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                    color: Theme.of(context).colorScheme.primary,
-                    fontWeight: FontWeight.w500,
+                Expanded(
+                  child: Text(
+                    l10n.seeFullSchedule,
+                    key: const Key('see_full_schedule_text'),
+                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                      color: Theme.of(context).colorScheme.primary,
+                      fontWeight: FontWeight.w500,
+                    ),
+                    textAlign: TextAlign.center,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
                   ),
                 ),
                 const SizedBox(width: 8),
@@ -347,25 +318,16 @@ class TodayTransportCard extends ConsumerWidget {
     );
   }
 
-  String _formatCurrentDate() {
-    final now = DateTime.now();
-    final weekdays = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
-    final months = [
-      'Jan',
-      'Feb',
-      'Mar',
-      'Apr',
-      'May',
-      'Jun',
-      'Jul',
-      'Aug',
-      'Sep',
-      'Oct',
-      'Nov',
-      'Dec',
-    ];
+  /// Calculate maximum content height based on screen size and content requirements
+  double _calculateMaxContentHeight(BuildContext context) {
+    final screenHeight = MediaQuery.of(context).size.height;
+    final safeAreaTop = MediaQuery.of(context).padding.top;
+    final safeAreaBottom = MediaQuery.of(context).padding.bottom;
+    final availableHeight = screenHeight - safeAreaTop - safeAreaBottom;
 
-    return '${weekdays[now.weekday - 1]}, ${months[now.month - 1]} ${now.day}';
+    // For error/loading/empty states, use a reasonable portion of available height
+    // but not too much to dominate the screen
+    return math.min(200, availableHeight * 0.25);
   }
 }
 
@@ -382,7 +344,7 @@ class TransportMiniCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Semantics(
       label:
-          'Transport: ${_formatTime(transport.time)} to ${transport.destination} with ${transport.totalChildrenAssigned} children',
+          'Transport: ${transport.time} to ${transport.groupName} with ${transport.totalChildrenAssigned} children',
       child: ConstrainedBox(
         constraints: const BoxConstraints(maxWidth: 280, minWidth: 200),
         child: Card(
@@ -399,11 +361,11 @@ class TransportMiniCard extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   _buildTimeSection(context),
-                  const SizedBox(height: 8),
+                  const SizedBox(height: 4),
                   _buildDestinationSection(context),
-                  const SizedBox(height: 8),
+                  const SizedBox(height: 4),
                   _buildCapacitySection(context),
-                  const Spacer(),
+                  const SizedBox(height: 4),
                   _buildVehiclesSection(context, AppLocalizations.of(context)),
                 ],
               ),
@@ -424,7 +386,7 @@ class TransportMiniCard extends StatelessWidget {
             borderRadius: BorderRadius.circular(6),
           ),
           child: Text(
-            _formatTime(transport.time),
+            transport.time,
             key: const Key('transport_time'),
             style: Theme.of(context).textTheme.bodySmall?.copyWith(
               color: Theme.of(context).colorScheme.onPrimaryContainer,
@@ -440,9 +402,9 @@ class TransportMiniCard extends StatelessWidget {
 
   Widget _buildDestinationSection(BuildContext context) {
     return Semantics(
-      label: 'Destination: ${transport.destination}',
+      label: 'Group: ${transport.groupName}',
       child: Text(
-        transport.destination,
+        transport.groupName,
         key: const Key('transport_destination'),
         style: Theme.of(
           context,
@@ -528,29 +490,33 @@ class TransportMiniCard extends StatelessWidget {
               color: Theme.of(context).colorScheme.onSurfaceVariant,
             ),
             const SizedBox(width: 4),
-            Text(
-              vehicleCount == 1
-                  ? firstVehicle.vehicleName
-                  : '$vehicleCount vehicles',
-              key: const Key('vehicle_count'),
-              style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                color: Theme.of(context).colorScheme.onSurfaceVariant,
-                fontWeight: FontWeight.w500,
+            Expanded(
+              child: Text(
+                vehicleCount == 1
+                    ? firstVehicle.vehicleName
+                    : '$vehicleCount vehicles',
+                key: const Key('vehicle_count'),
+                style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                  color: Theme.of(context).colorScheme.onSurfaceVariant,
+                  fontWeight: FontWeight.w500,
+                ),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
               ),
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
             ),
           ],
         ),
         if (firstVehicle.assignedChildrenCount > 0) ...[
-          const SizedBox(height: 4),
+          const SizedBox(height: 2),
           Text(
-            '${firstVehicle.assignedChildrenCount} children',
-            key: const Key('children_count'),
+            _formatChildrenForCard(firstVehicle),
+            key: const Key('children_info'),
             style: Theme.of(context).textTheme.bodySmall?.copyWith(
               color: Theme.of(context).colorScheme.onSurfaceVariant,
+              fontStyle: FontStyle.italic,
             ),
-            maxLines: 1,
+            // Limit to 2 lines to prevent overflow in compact card
+            maxLines: 2,
             overflow: TextOverflow.ellipsis,
           ),
         ],
@@ -567,7 +533,7 @@ class TransportMiniCard extends StatelessWidget {
         statusColor = Theme.of(context).colorScheme.primary;
         statusIcon = Icons.check_circle;
         break;
-      case CapacityStatus.nearFull:
+      case CapacityStatus.limited:
         statusColor = Theme.of(context).colorScheme.secondary;
         statusIcon = Icons.warning;
         break;
@@ -575,7 +541,7 @@ class TransportMiniCard extends StatelessWidget {
         statusColor = Theme.of(context).colorScheme.error;
         statusIcon = Icons.error;
         break;
-      case CapacityStatus.exceeded:
+      case CapacityStatus.overcapacity:
         statusColor = Theme.of(context).colorScheme.error;
         statusIcon = Icons.error;
         break;
@@ -591,38 +557,32 @@ class TransportMiniCard extends StatelessWidget {
     switch (status) {
       case CapacityStatus.available:
         return Theme.of(context).colorScheme.primary;
-      case CapacityStatus.nearFull:
+      case CapacityStatus.limited:
         return Theme.of(context).colorScheme.secondary;
       case CapacityStatus.full:
         return Theme.of(context).colorScheme.error;
-      case CapacityStatus.exceeded:
+      case CapacityStatus.overcapacity:
         return Theme.of(context).colorScheme.error;
     }
   }
 
-  String _formatTime(TimeOfDayValue time) {
-    final hour = time.hour;
-    final minute = time.minute;
-    final period = hour >= 12 ? 'PM' : 'AM';
-    final displayHour = hour > 12
-        ? hour - 12
-        : hour == 0
-        ? 12
-        : hour;
-    final minuteStr = minute.toString().padLeft(2, '0');
+  /// Formats children information for compact card display
+  /// Shows all children with their family names
+  /// Example: "Emmie (Smith), John (Doe)"
+  String _formatChildrenForCard(VehicleAssignmentSummary vehicle) {
+    if (vehicle.children.isEmpty) {
+      return '${vehicle.assignedChildrenCount} children';
+    }
 
-    return '$displayHour:$minuteStr $period';
+    // Show all children with family names
+    return vehicle.children
+        .map((child) {
+          final familyName = child.childFamilyName;
+          if (familyName != null && familyName.isNotEmpty) {
+            return '${child.childName} ($familyName)';
+          }
+          return child.childName;
+        })
+        .join(', ');
   }
-}
-
-/// Calculate maximum content height based on screen size and content requirements
-double _calculateMaxContentHeight(BuildContext context) {
-  final screenHeight = MediaQuery.of(context).size.height;
-  final safeAreaTop = MediaQuery.of(context).padding.top;
-  final safeAreaBottom = MediaQuery.of(context).padding.bottom;
-  final availableHeight = screenHeight - safeAreaTop - safeAreaBottom;
-
-  // For error/loading/empty states, use a reasonable portion of available height
-  // but not too much to dominate the screen
-  return math.min(200, availableHeight * 0.25);
 }

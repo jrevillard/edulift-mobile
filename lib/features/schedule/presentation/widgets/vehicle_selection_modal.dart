@@ -173,10 +173,10 @@ class _VehicleSelectionModalState extends ConsumerState<VehicleSelectionModal> {
     // Use domain-provided status to determine color (no business logic here)
     Color barColor;
     switch (status) {
-      case CapacityStatus.exceeded:
+      case CapacityStatus.overcapacity:
         barColor = AppColors.error;
       case CapacityStatus.full:
-      case CapacityStatus.nearFull:
+      case CapacityStatus.limited:
         barColor = AppColors.warning;
       case CapacityStatus.available:
         barColor = AppColors.success;

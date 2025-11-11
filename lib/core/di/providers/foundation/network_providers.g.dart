@@ -186,27 +186,6 @@ final childrenApiClientProvider =
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
 typedef ChildrenApiClientRef = AutoDisposeProviderRef<ChildrenApiClient>;
-String _$dashboardApiClientHash() =>
-    r'3e0222bc358856b65773c2f0c11b41b63c51d623';
-
-/// Provider for DashboardApiClient
-///
-/// Copied from [dashboardApiClient].
-@ProviderFor(dashboardApiClient)
-final dashboardApiClientProvider =
-    AutoDisposeProvider<DashboardApiClient>.internal(
-      dashboardApiClient,
-      name: r'dashboardApiClientProvider',
-      debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-          ? null
-          : _$dashboardApiClientHash,
-      dependencies: null,
-      allTransitiveDependencies: null,
-    );
-
-@Deprecated('Will be removed in 3.0. Use Ref instead')
-// ignore: unused_element
-typedef DashboardApiClientRef = AutoDisposeProviderRef<DashboardApiClient>;
 String _$fcmApiClientHash() => r'865dc4ed9fe9ed13bc9b6cf51c79b08a60d87ffc';
 
 /// Provider for FcmApiClient

@@ -3,35 +3,70 @@
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import '../../../../core/di/providers/providers.dart';
+import 'dart:async';
 import '../../../../core/services/providers/auth_provider.dart';
+import '../../../../core/utils/app_logger.dart';
+import '../../../../core/utils/timezone_formatter.dart';
+import '../../../../core/utils/date/iso_week_utils.dart';
+import '../../../../core/utils/date/date_utils.dart';
+import '../../../../core/domain/entities/schedule/vehicle_assignment.dart';
+import '../../../../core/domain/entities/schedule/schedule_slot.dart';
+import '../../../../core/domain/entities/schedule/day_of_week.dart';
+import '../../../../core/domain/entities/family/vehicle.dart';
 import '../../domain/entities/dashboard_transport_summary.dart';
 import '../../../../features/family/presentation/providers/family_provider.dart';
+import '../../../../core/di/providers/providers.dart';
 
 part 'transport_providers.g.dart';
 
 // =============================================================================
-// PART 1: 7-DAY TRANSPORT DATA PROVIDERS
+// PART 1: VEHICLE PROVIDERS
+// =============================================================================
+
+/// Provider for loading vehicles for family filtering logic
+/// Uses FamilyState.vehicles directly - no async calls needed
+@riverpod
+Map<String, Vehicle> familyVehicles(Ref ref) {
+  final familyState = ref.watch(familyProvider);
+
+  if (familyState.family == null || familyState.vehicles.isEmpty) {
+    return {};
+  }
+
+  // Convert FamilyState.vehicles list to a Map for easy lookup
+  final vehiclesMap = <String, Vehicle>{};
+  for (final vehicle in familyState.vehicles) {
+    vehiclesMap[vehicle.id] = vehicle;
+  }
+
+  AppLogger.debug('Loaded family vehicles from FamilyState', {
+    'familyId': familyState.family!.id,
+    'vehicleCount': vehiclesMap.length,
+  });
+
+  return vehiclesMap;
+}
+
+// =============================================================================
+// PART 2: 7-DAY TRANSPORT DATA PROVIDERS
 // =============================================================================
 
 /// Provider for fetching 7-day transport summary for dashboard display
 ///
-/// This provider bridges the Get7DayTransportSummary use case with the UI layer,
-/// following the existing Result<T, ScheduleFailure> pattern for error handling.
+/// This provider implements the real family filtering logic according to the
+/// backend dashboard API specification. It aggregates transport data from all
+/// family groups and applies intelligent filtering based on family relevance.
 ///
 /// **Auto-dispose Pattern:**
 /// - Automatically disposes when user logs out (watches currentUserProvider)
 /// - Invalidates cache when auth state changes
 /// - Invalidates when family state changes
 ///
-/// **Error Handling:**
-/// - Converts Result<T, ScheduleFailure> to AsyncValue error state
-/// - Throws Exception on failure for Riverpod error handling
-/// - UI should handle AsyncValue states: loading, data, error
-///
-/// **Caching:**
-/// - 10-minute cache for weekly data (transport schedules don't change frequently)
-/// - Manual refresh capability through invalidate()
+/// **Family Filtering Logic:**
+/// - Vehicles from the family are always included
+/// - Vehicles from other families are included ONLY if they contain family children
+/// - Aggregates data from all family groups
+/// - Applies 7-day rolling window logic
 ///
 /// **Usage Example:**
 /// ```dart
@@ -57,34 +92,141 @@ Future<List<DayTransportSummary>> day7TransportSummary(Ref ref) async {
   }
 
   if (familyState.family == null) {
-    throw Exception(
-      'No family selected - please join or create a family first',
-    );
+    // Return empty data instead of throwing - dashboard can handle empty state
+    AppLogger.debug('No family selected - returning empty transport summary');
+    return [];
   }
 
-  // Use the family ID as group ID for transport data
-  final groupId = familyState.family!.id;
-  final startDate = DateTime.now();
+  final familyId = familyState.family!.id;
+
+  // Get user timezone - CRITICAL: Use user timezone, not device timezone
+  final userTimezone = user.timezone ?? 'UTC';
+  AppLogger.debug('Fetching 7-day transport summary with family filtering', {
+    'familyId': familyId,
+    'userTimezone': userTimezone,
+  });
+
+  // Load vehicles for family filtering logic (now synchronous)
+  final vehiclesMap = ref.watch(familyVehiclesProvider);
 
   try {
-    final useCase = ref.read(get7DayTransportSummaryProvider);
-    final result = await useCase.execute(groupId, startDate);
+    // Get all groups for the family
+    final groupRepository = ref.read(groupRepositoryProvider);
+    final groupsResult = await groupRepository.getGroups();
 
-    return result.when(
-      ok: (summaries) {
-        // Sort summaries by date for consistent UI display
-        final sortedSummaries = List<DayTransportSummary>.from(summaries)
-          ..sort((a, b) => a.date.compareTo(b.date));
-        return sortedSummaries;
-      },
-      err: (failure) {
-        // Convert ScheduleFailure to Exception for Riverpod error handling
-        throw Exception(failure.message ?? 'Failed to load transport summary');
-      },
+    if (!groupsResult.isOk) {
+      AppLogger.error('Failed to fetch family groups', {
+        'error': groupsResult.error.toString(),
+      });
+      return [];
+    }
+
+    final familyGroups = groupsResult.value!;
+    if (familyGroups.isEmpty) {
+      AppLogger.debug(
+        'No groups found for family - returning empty transport summary',
+      );
+      return [];
+    }
+
+    // Get schedule repository for fetching schedules
+    final scheduleRepository = ref.read(scheduleRepositoryProvider);
+    final allFamilyRelevantSlots = <ScheduleSlot>[];
+
+    // Generate the 7-day rolling period starting from today in USER timezone
+    // CRITICAL FIX: Use timezone-aware date calculations, not device timezone
+    final startDate = DateUtils.getTodayInUserTimezone(userTimezone);
+    final weekFormat = getISOWeekString(startDate, userTimezone);
+
+    AppLogger.debug('Fetching schedules for 7-day period', {
+      'startDate': startDate.toIso8601String(),
+      'weekFormat': weekFormat,
+      'groupCount': familyGroups.length,
+    });
+
+    // For each family group, fetch the weekly schedule
+    for (final group in familyGroups) {
+      try {
+        final schedulesResult = await scheduleRepository.getWeeklySchedule(
+          group.id,
+          weekFormat,
+        );
+
+        if (schedulesResult.isOk) {
+          final weeklySlots = schedulesResult.value!;
+
+          // Filter slots to include only those within our 7-day window
+          final relevantSlots = weeklySlots.where((slot) {
+            final slotDateTime = _convertScheduleSlotToDateTime(
+              slot,
+              startDate,
+            );
+            return slotDateTime != null &&
+                slotDateTime.isAfter(
+                  startDate.subtract(const Duration(days: 1)),
+                ) &&
+                slotDateTime.isBefore(startDate.add(const Duration(days: 7)));
+          }).toList();
+
+          // Apply family filtering to the slots
+          final filteredSlots = _filterFamilyRelevantSlots(
+            relevantSlots,
+            familyId,
+            vehiclesMap,
+          );
+
+          allFamilyRelevantSlots.addAll(filteredSlots);
+
+          AppLogger.debug('Processed group schedules', {
+            'groupId': group.id,
+            'groupName': group.name,
+            'totalSlots': weeklySlots.length,
+            'relevantSlots': relevantSlots.length,
+            'filteredSlots': filteredSlots.length,
+          });
+        } else {
+          AppLogger.warning('Failed to fetch schedule for group', {
+            'groupId': group.id,
+            'groupName': group.name,
+            'error': schedulesResult.error.toString(),
+          });
+        }
+      } catch (e) {
+        AppLogger.error('Error processing group schedule', {
+          'groupId': group.id,
+          'groupName': group.name,
+          'error': e.toString(),
+        });
+        // Continue with other groups even if one fails
+      }
+    }
+
+    // Group filtered slots by day and create DayTransportSummary objects
+    final daySummaries = _createDaySummariesFromSlots(
+      allFamilyRelevantSlots,
+      startDate,
+      familyId,
+      vehiclesMap,
+      userTimezone,
     );
+
+    AppLogger.debug('Successfully generated 7-day transport summary', {
+      'familyId': familyId,
+      'totalSlots': allFamilyRelevantSlots.length,
+      'daysWithData': daySummaries
+          .where((d) => d.hasScheduledTransports)
+          .length,
+    });
+
+    return daySummaries;
   } catch (e) {
-    // Ensure any unexpected errors are properly surfaced
-    throw Exception('Failed to load transport data: ${e.toString()}');
+    AppLogger.error('Error generating 7-day transport summary', {
+      'familyId': familyId,
+      'error': e.toString(),
+    });
+
+    // Return empty list on error rather than throwing - dashboard can handle empty state
+    return [];
   }
 }
 
@@ -122,10 +264,17 @@ Future<List<TransportSlotSummary>> todayTransports(Ref ref) async {
   // Handle the AsyncValue state from the watched provider
   return weeklySummariesAsync.when(
     data: (summaries) {
-      // Find today's summary
-      final today = DateTime.now();
+      // Get current user for timezone
+      final user = ref.read(currentUserProvider);
+      if (user == null) {
+        return [];
+      }
+
+      // Find today's summary using USER timezone
+      final userTimezone = user.timezone ?? 'UTC';
+      final todayInUserTimezone = DateUtils.getTodayInUserTimezone(userTimezone);
       final todaySummary = summaries.where((summary) {
-        return _isSameDay(summary.date, today);
+        return _isSameDay(summary.date, todayInUserTimezone);
       }).firstOrNull;
 
       // Return today's transports, or empty list if no data
@@ -160,10 +309,17 @@ Future<DayTransportSummary?> todayTransportSummary(Ref ref) async {
 
   return weeklySummariesAsync.when(
     data: (summaries) {
-      // Find today's summary
-      final today = DateTime.now();
+      // Get current user for timezone
+      final user = ref.read(currentUserProvider);
+      if (user == null) {
+        return null;
+      }
+
+      // Find today's summary using USER timezone
+      final userTimezone = user.timezone ?? 'UTC';
+      final todayInUserTimezone = DateUtils.getTodayInUserTimezone(userTimezone);
       return summaries.where((summary) {
-        return _isSameDay(summary.date, today);
+        return _isSameDay(summary.date, todayInUserTimezone);
       }).firstOrNull;
     },
     loading: () => null, // Return null during loading
@@ -200,7 +356,13 @@ class SelectedDayNotifier extends _$SelectedDayNotifier {
   DateTime build() {
     // Auto-dispose when auth changes
     ref.watch(currentUserProvider);
-    return DateTime.now();
+
+    // Get current user for timezone-aware date
+    final user = ref.read(currentUserProvider);
+    final userTimezone = user?.timezone ?? 'UTC';
+
+    // Return today's date in USER timezone
+    return DateUtils.getTodayInUserTimezone(userTimezone);
   }
 
   /// Select a specific day
@@ -210,7 +372,12 @@ class SelectedDayNotifier extends _$SelectedDayNotifier {
 
   /// Select today
   void selectToday() {
-    state = DateTime.now();
+    // Get current user for timezone-aware date
+    final user = ref.read(currentUserProvider);
+    final userTimezone = user?.timezone ?? 'UTC';
+
+    // Set today's date in USER timezone
+    state = DateUtils.getTodayInUserTimezone(userTimezone);
   }
 
   /// Move to next day
@@ -315,12 +482,372 @@ Future<int> todayTransportCount(Ref ref) async {
 }
 
 // =============================================================================
-// PART 5: UTILITY FUNCTIONS
+// PART 5: FAMILY FILTERING UTILITIES
+// =============================================================================
+
+/// Filter schedule slots to include only family-relevant transports
+///
+/// This implements the core business logic from the backend API specification:
+/// - Vehicles from the family are always included (even if empty)
+/// - Vehicles from other families are included ONLY if they contain family children
+///
+/// [allSlots] All schedule slots for the family groups
+/// [familyId] The ID of the authenticated family
+/// Returns filtered list of slots containing only family-relevant transports
+List<ScheduleSlot> _filterFamilyRelevantSlots(
+  List<ScheduleSlot> allSlots,
+  String familyId,
+  Map<String, Vehicle> vehiclesMap,
+) {
+  return allSlots.where((slot) {
+    // Check if this slot has any family-relevant vehicle assignments
+    final hasFamilyRelevantVehicles = slot.vehicleAssignments.any((
+      vehicleAssignment,
+    ) {
+      return _isVehicleFamilyRelevant(vehicleAssignment, familyId, vehiclesMap);
+    });
+
+    if (!hasFamilyRelevantVehicles) {
+      AppLogger.debug('Filtering out slot - no family-relevant vehicles', {
+        'slotId': slot.id,
+        'groupId': slot.groupId,
+        'vehicleCount': slot.vehicleAssignments.length,
+      });
+    }
+
+    return hasFamilyRelevantVehicles;
+  }).toList();
+}
+
+/// Check if a vehicle assignment is relevant to the family
+///
+/// Returns true if:
+/// - The vehicle belongs to the family (always shown)
+/// - OR the vehicle contains children from the family (shown for those children)
+bool _isVehicleFamilyRelevant(
+  VehicleAssignment vehicleAssignment,
+  String familyId,
+  Map<String, Vehicle> vehiclesMap,
+) {
+  // Case 1: Check if this is a family vehicle
+  final vehicle = vehiclesMap[vehicleAssignment.vehicleId];
+  if (vehicle != null && vehicle.familyId == familyId) {
+    AppLogger.debug('Vehicle relevant - family vehicle', {
+      'vehicleId': vehicleAssignment.vehicleId,
+      'vehicleName': vehicleAssignment.vehicleName,
+      'familyId': vehicle.familyId,
+    });
+    return true; // Always show family vehicles
+  }
+
+  // Case 2: Check if this vehicle has any children from the family
+  final hasFamilyChildren = vehicleAssignment.childAssignments.any((
+    childAssignment,
+  ) {
+    return childAssignment.familyId == familyId;
+  });
+
+  if (hasFamilyChildren) {
+    AppLogger.debug('Vehicle relevant - contains family children', {
+      'vehicleId': vehicleAssignment.vehicleId,
+      'vehicleName': vehicleAssignment.vehicleName,
+      'familyChildren': vehicleAssignment.childAssignments
+          .where((ca) => ca.familyId == familyId)
+          .length,
+    });
+  }
+
+  return hasFamilyChildren;
+}
+
+/// Convert ScheduleSlot to DateTime for date comparisons
+///
+/// This converts the day-of-week and time into a concrete DateTime
+/// based on a reference date (typically the start of the 7-day period)
+DateTime? _convertScheduleSlotToDateTime(
+  ScheduleSlot slot,
+  DateTime referenceDate,
+) {
+  try {
+    // Map DayOfWeek enum to actual day offset from reference
+    final dayOffset = _getDayOffsetFromReference(slot.dayOfWeek, referenceDate);
+
+    // Combine reference date with the time from timeOfDay
+    final slotDate = referenceDate.add(Duration(days: dayOffset));
+
+    return DateTime(
+      slotDate.year,
+      slotDate.month,
+      slotDate.day,
+      slot.timeOfDay.hour,
+      slot.timeOfDay.minute,
+    );
+  } catch (e) {
+    AppLogger.warning('Failed to convert ScheduleSlot to DateTime', {
+      'slotId': slot.id,
+      'dayOfWeek': slot.dayOfWeek.toString(),
+      'timeOfDay': slot.timeOfDay.toString(),
+      'error': e.toString(),
+    });
+    return null;
+  }
+}
+
+/// Get the day offset for a DayOfWeek relative to a reference date
+int _getDayOffsetFromReference(DayOfWeek dayOfWeek, DateTime referenceDate) {
+  final referenceDay = referenceDate.weekday; // 1=Monday, 7=Sunday
+
+  final slotDayValue = _convertDayOfWeekToInt(dayOfWeek);
+
+  // Calculate offset (could be negative if slot day is before reference day)
+  final offset = slotDayValue - referenceDay;
+
+  // Handle week wrap-around: if offset is too negative, adjust to next week
+  if (offset < -3) {
+    // More than 3 days before reference, assume next week
+    return offset + 7;
+  }
+
+  return offset;
+}
+
+/// Convert DayOfWeek enum to int (1=Monday, 7=Sunday)
+int _convertDayOfWeekToInt(DayOfWeek dayOfWeek) {
+  switch (dayOfWeek) {
+    case DayOfWeek.monday:
+      return 1;
+    case DayOfWeek.tuesday:
+      return 2;
+    case DayOfWeek.wednesday:
+      return 3;
+    case DayOfWeek.thursday:
+      return 4;
+    case DayOfWeek.friday:
+      return 5;
+    case DayOfWeek.saturday:
+      return 6;
+    case DayOfWeek.sunday:
+      return 7;
+  }
+}
+
+/// Create DayTransportSummary objects from filtered schedule slots
+List<DayTransportSummary> _createDaySummariesFromSlots(
+  List<ScheduleSlot> slots,
+  DateTime startDate,
+  String familyId,
+  Map<String, Vehicle> vehiclesMap,
+  String userTimezone,
+) {
+  final summaries = <DayTransportSummary>[];
+
+  // Create 7 days from startDate
+  for (var dayOffset = 0; dayOffset < 7; dayOffset++) {
+    final currentDate = startDate.add(Duration(days: dayOffset));
+    final dateString = _formatDateAsIso(currentDate);
+
+    // Find slots for this specific day
+    final daySlots = slots.where((slot) {
+      final slotDateTime = _convertScheduleSlotToDateTime(slot, startDate);
+      return slotDateTime != null && _isSameDay(slotDateTime, currentDate);
+    }).toList();
+
+    // Convert slots to transport summaries
+    final transports = daySlots
+        .map(
+          (slot) => _convertSlotToTransportSummary(
+            slot,
+            familyId,
+            vehiclesMap,
+            userTimezone,
+          ),
+        )
+        .toList();
+
+    // Calculate aggregate statistics
+    final totalChildren = transports.fold(
+      0,
+      (sum, transport) => sum + transport.totalChildrenAssigned,
+    );
+    final totalVehicles = transports.fold(
+      0,
+      (sum, transport) => sum + transport.vehicleAssignmentSummaries.length,
+    );
+
+    summaries.add(
+      DayTransportSummary(
+        date: dateString,
+        transports: transports,
+        totalChildrenInVehicles: totalChildren,
+        totalVehiclesWithAssignments: totalVehicles,
+        hasScheduledTransports: transports.isNotEmpty,
+      ),
+    );
+  }
+
+  return summaries;
+}
+
+/// Convert ScheduleSlot to TransportSlotSummary
+TransportSlotSummary _convertSlotToTransportSummary(
+  ScheduleSlot slot,
+  String familyId,
+  Map<String, Vehicle> vehiclesMap,
+  String userTimezone,
+) {
+  // Convert vehicle assignments to summaries
+  final vehicleSummaries = slot.vehicleAssignments
+      .where((va) => _isVehicleFamilyRelevant(va, familyId, vehiclesMap))
+      .map(
+        (va) => _convertVehicleAssignmentToSummary(va, familyId, vehiclesMap),
+      )
+      .toList();
+
+  // Calculate totals
+  final totalChildren = vehicleSummaries.fold(
+    0,
+    (sum, vehicle) => sum + vehicle.assignedChildrenCount,
+  );
+  final totalCapacity = vehicleSummaries.fold(
+    0,
+    (sum, vehicle) => sum + vehicle.vehicleCapacity,
+  );
+
+  // Determine overall capacity status
+  final overallStatus = _calculateOverallCapacityStatus(vehicleSummaries);
+
+  // Format time using TimezoneFormatter for consistent timezone-aware display
+  // Create a UTC DateTime from the time of day for proper timezone conversion
+  final nowUtc = DateTime.now().toUtc();
+  final slotUtcDateTime = DateTime.utc(
+    nowUtc.year,
+    nowUtc.month,
+    nowUtc.day,
+    slot.timeOfDay.hour,
+    slot.timeOfDay.minute,
+  );
+
+  final formattedTime = TimezoneFormatter.formatTimeOnly(
+    slotUtcDateTime,
+    userTimezone,
+  );
+
+  return TransportSlotSummary(
+    time: formattedTime,
+    groupId: slot.groupId,
+    groupName: 'Group ${slot.groupId}', // TODO: Get actual group name
+    scheduleSlotId: slot.id,
+    vehicleAssignmentSummaries: vehicleSummaries,
+    totalChildrenAssigned: totalChildren,
+    totalCapacity: totalCapacity,
+    overallCapacityStatus: overallStatus,
+  );
+}
+
+/// Convert VehicleAssignment to VehicleAssignmentSummary
+VehicleAssignmentSummary _convertVehicleAssignmentToSummary(
+  VehicleAssignment vehicleAssignment,
+  String familyId,
+  Map<String, Vehicle> vehiclesMap,
+) {
+  // Filter children to include only family children
+  final familyChildren = vehicleAssignment.childAssignments
+      .where((ca) => ca.familyId == familyId)
+      .map(
+        (ca) => VehicleChild(
+          childId: ca.childId,
+          childName: ca.childName ?? 'Unknown Child',
+          childFamilyId: ca.familyId ?? '',
+          isFamilyChild: ca.familyId == familyId,
+        ),
+      )
+      .toList();
+
+  // Determine capacity status
+  final capacityStatus = vehicleAssignment.capacityStatus();
+
+  // Check if this is a family vehicle
+  final vehicle = vehiclesMap[vehicleAssignment.vehicleId];
+  final vehicleFamilyId = vehicle?.familyId ?? '';
+  final isFamilyVehicle = vehicleFamilyId == familyId;
+
+  return VehicleAssignmentSummary(
+    vehicleId: vehicleAssignment.vehicleId,
+    vehicleName: vehicleAssignment.vehicleName,
+    vehicleCapacity: vehicleAssignment.effectiveCapacity,
+    assignedChildrenCount: familyChildren.length,
+    availableSeats: vehicleAssignment.effectiveCapacity - familyChildren.length,
+    capacityStatus: capacityStatus,
+    vehicleFamilyId: vehicleFamilyId,
+    isFamilyVehicle: isFamilyVehicle,
+    driver: vehicleAssignment.driverName != null
+        ? VehicleDriver(
+            id: vehicleAssignment.driverId ?? '',
+            name: vehicleAssignment.driverName!,
+          )
+        : null,
+    children: familyChildren,
+  );
+}
+
+/// Calculate overall capacity status for a transport slot
+CapacityStatus _calculateOverallCapacityStatus(
+  List<VehicleAssignmentSummary> vehicles,
+) {
+  if (vehicles.isEmpty) return CapacityStatus.available;
+
+  // Check if any vehicle is overcapacity
+  if (vehicles.any((v) => v.capacityStatus == CapacityStatus.overcapacity)) {
+    return CapacityStatus.overcapacity;
+  }
+
+  // Check if all vehicles are full
+  if (vehicles.every((v) => v.capacityStatus == CapacityStatus.full)) {
+    return CapacityStatus.full;
+  }
+
+  // Check if any vehicle has limited availability
+  if (vehicles.any((v) => v.capacityStatus == CapacityStatus.limited)) {
+    return CapacityStatus.limited;
+  }
+
+  // Otherwise, there's available capacity
+  return CapacityStatus.available;
+}
+
+/// Format DateTime as ISO date string (YYYY-MM-DD)
+String _formatDateAsIso(DateTime date) {
+  return '${date.year}-${date.month.toString().padLeft(2, '0')}-${date.day.toString().padLeft(2, '0')}';
+}
+
+
+// =============================================================================
+// PART 7: LEGACY UTILITY FUNCTIONS
 // =============================================================================
 
 /// Helper method to compare dates without time components
-bool _isSameDay(DateTime date1, DateTime date2) {
-  return date1.year == date2.year &&
-      date1.month == date2.month &&
-      date1.day == date2.day;
+bool _isSameDay(dynamic date1, DateTime date2) {
+  if (date1 is String) {
+    // Parse ISO date string (YYYY-MM-DD)
+    final parts = date1.split('-');
+    if (parts.length != 3) return false;
+
+    try {
+      final year = int.parse(parts[0]);
+      final month = int.parse(parts[1]);
+      final day = int.parse(parts[2]);
+      return year == date2.year && month == date2.month && day == date2.day;
+    } catch (e) {
+      return false;
+    }
+  } else if (date1 is DateTime) {
+    return date1.year == date2.year &&
+        date1.month == date2.month &&
+        date1.day == date2.day;
+  }
+  return false;
 }
+
+// =============================================================================
+// END OF TRANSPORT PROVIDERS
+// =============================================================================

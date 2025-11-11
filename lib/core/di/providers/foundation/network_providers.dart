@@ -10,7 +10,7 @@ import '../../../network/family_api_client.dart';
 import '../../../network/group_api_client.dart';
 import '../../../network/schedule_api_client.dart';
 import '../../../network/children_api_client.dart';
-import '../../../network/dashboard_api_client.dart';
+// Dashboard API client removed - dashboard now uses transport-first architecture
 import '../../../network/fcm_api_client.dart';
 import '../../../../data/network/base_api_client.dart';
 import '../../../network/interceptors/network_interceptors.dart';
@@ -193,12 +193,7 @@ ChildrenApiClient childrenApiClient(Ref ref) {
   return ChildrenApiClient.create(dio, baseUrl: config.apiBaseUrl);
 }
 
-/// Provider for DashboardApiClient
-@riverpod
-DashboardApiClient dashboardApiClient(Ref ref) {
-  final dio = ref.watch(apiDioProvider);
-  return DashboardApiClient.create(dio);
-}
+// REMOVED: DashboardApiClient provider - dashboard now uses transport-first architecture
 
 /// Provider for FcmApiClient
 @riverpod

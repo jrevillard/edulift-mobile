@@ -65,12 +65,12 @@ class VehicleAssignment extends Equatable {
     final assignedCount = childAssignments.length;
 
     if (assignedCount > effectiveCapacity) {
-      return CapacityStatus.exceeded;
+      return CapacityStatus.overcapacity;
     } else if (assignedCount == effectiveCapacity) {
       return CapacityStatus.full;
     } else if (effectiveCapacity > 0 &&
         assignedCount / effectiveCapacity >= 0.8) {
-      return CapacityStatus.nearFull;
+      return CapacityStatus.limited;
     } else {
       return CapacityStatus.available;
     }
@@ -156,15 +156,15 @@ enum VehicleAssignmentStatus { assigned, confirmed, cancelled, completed }
 /// Represents the capacity status of a vehicle assignment
 /// Used by UI to determine visual representation without business logic
 enum CapacityStatus {
-  /// Vehicle has available seats (less than 80% full)
+  /// Vehicle has available seats
   available,
 
-  /// Vehicle is near capacity (80% or more, but not full)
-  nearFull,
+  /// Vehicle has limited availability
+  limited,
 
   /// Vehicle is at full capacity
   full,
 
   /// Vehicle capacity has been exceeded
-  exceeded,
+  overcapacity,
 }

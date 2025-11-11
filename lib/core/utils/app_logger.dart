@@ -264,7 +264,7 @@ class AppLogger {
     }
 
     // Log with enhanced context
-    error('Flutter Error: $message', error, stackTrace);
+    AppLogger.error('Flutter Error: $message', error, stackTrace);
 
     // Send to Crashlytics with enhanced context
     _sendFlutterErrorToCrashlytics(

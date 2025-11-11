@@ -159,27 +159,5 @@ final groupLocalDatasourceProvider =
 // ignore: unused_element
 typedef GroupLocalDatasourceRef =
     AutoDisposeProviderRef<GroupLocalDataSourceImpl>;
-String _$dashboardRemoteDatasourceHash() =>
-    r'4c823c0cd69df5d10bc063719dc15a2a9a7851af';
-
-/// DashboardRemoteDataSource provider
-///
-/// Copied from [dashboardRemoteDatasource].
-@ProviderFor(dashboardRemoteDatasource)
-final dashboardRemoteDatasourceProvider =
-    AutoDisposeProvider<DashboardRemoteDataSourceImpl>.internal(
-      dashboardRemoteDatasource,
-      name: r'dashboardRemoteDatasourceProvider',
-      debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-          ? null
-          : _$dashboardRemoteDatasourceHash,
-      dependencies: null,
-      allTransitiveDependencies: null,
-    );
-
-@Deprecated('Will be removed in 3.0. Use Ref instead')
-// ignore: unused_element
-typedef DashboardRemoteDatasourceRef =
-    AutoDisposeProviderRef<DashboardRemoteDataSourceImpl>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

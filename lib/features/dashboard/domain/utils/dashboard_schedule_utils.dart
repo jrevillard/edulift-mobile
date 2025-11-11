@@ -4,6 +4,7 @@
 import 'package:edulift/core/domain/entities/schedule.dart'
     as schedule_entities;
 import 'package:edulift/core/presentation/extensions/time_of_day_timezone_extension.dart';
+import 'package:edulift/core/domain/entities/family/child_assignment.dart';
 import 'package:edulift/features/dashboard/domain/entities/dashboard_transport_summary.dart';
 
 /// Utility class for dashboard schedule operations
@@ -59,6 +60,17 @@ class DashboardScheduleUtils {
     return 'School';
   }
 
+  /// Extract group name from a schedule slot
+  ///
+  /// In a complete implementation, this would fetch group name from:
+  /// - Group repository/cache using groupId
+  /// - Group data embedded in schedule slot
+  static String _extractGroupNameFromSlot(schedule_entities.ScheduleSlot slot) {
+    // Default group name for now - this should be enhanced to fetch actual group name
+    // from a group repository or include group name in schedule data
+    return 'Group ${slot.groupId.substring(0, 8)}';
+  }
+
   /// Calculate overall capacity status for a group of vehicle assignments
   ///
   /// This method aggregates capacity status across multiple vehicles
@@ -72,7 +84,7 @@ class DashboardScheduleUtils {
     }
 
     if (totalChildren > totalCapacity) {
-      return schedule_entities.CapacityStatus.exceeded;
+      return schedule_entities.CapacityStatus.overcapacity;
     }
 
     if (totalChildren == totalCapacity) {
@@ -81,7 +93,7 @@ class DashboardScheduleUtils {
 
     final utilizationPercentage = (totalChildren / totalCapacity) * 100;
     if (utilizationPercentage >= 80) {
-      return schedule_entities.CapacityStatus.nearFull;
+      return schedule_entities.CapacityStatus.limited;
     }
 
     return schedule_entities.CapacityStatus.available;
@@ -176,6 +188,14 @@ class DashboardScheduleUtils {
             final assignedCount = vehicleAssignment.childAssignments.length;
             final availableSeats = effectiveCapacity - assignedCount;
 
+            // Determine vehicle family context from child assignments
+            final vehicleFamilyId = _extractVehicleFamilyId(
+              vehicleAssignment.childAssignments,
+            );
+            final isFamilyVehicle = _isFamilyVehicle(
+              vehicleAssignment.childAssignments,
+            );
+
             // Create vehicle assignment summary for dashboard display
             final vehicleSummary = VehicleAssignmentSummary(
               vehicleId: vehicleAssignment.vehicleId,
@@ -184,6 +204,11 @@ class DashboardScheduleUtils {
               assignedChildrenCount: assignedCount,
               availableSeats: availableSeats,
               capacityStatus: capacityStatus,
+              vehicleFamilyId: vehicleFamilyId ?? '',
+              isFamilyVehicle: isFamilyVehicle,
+              children: _createVehicleChildren(
+                vehicleAssignment.childAssignments,
+              ),
             );
 
             vehicleSummaries.add(vehicleSummary);
@@ -200,10 +225,17 @@ class DashboardScheduleUtils {
           totalCapacity,
         );
 
+        // Extract group information from the representative slot
+        final groupId = representativeSlot.groupId;
+        final groupName = _extractGroupNameFromSlot(representativeSlot);
+        final scheduleSlotId = representativeSlot.id;
+
         // Create transport slot summary
         final transportSummary = TransportSlotSummary(
-          time: representativeSlot.timeOfDay,
-          destination: extractDestinationFromSlot(representativeSlot),
+          time: representativeSlot.timeOfDay.toApiFormat(),
+          groupId: groupId,
+          groupName: groupName,
+          scheduleSlotId: scheduleSlotId,
           vehicleAssignmentSummaries: vehicleSummaries,
           totalChildrenAssigned: totalChildrenAssigned,
           totalCapacity: totalCapacity,
@@ -218,5 +250,53 @@ class DashboardScheduleUtils {
     transportSummaries.sort((a, b) => a.time.compareTo(b.time));
 
     return transportSummaries;
+  }
+
+  /// Extract vehicle family ID from child assignments
+  /// Returns the family ID if all assigned children belong to the same family, null otherwise
+  static String? _extractVehicleFamilyId(
+    List<ChildAssignment> childAssignments,
+  ) {
+    if (childAssignments.isEmpty) return null;
+
+    final familyIds = childAssignments
+        .map((assignment) => assignment.familyId)
+        .where((familyId) => familyId != null)
+        .toSet();
+
+    // Return family ID only if all assigned children belong to the same family
+    return familyIds.length == 1 ? familyIds.first : null;
+  }
+
+  /// Determine if this is a family vehicle
+  /// A vehicle is considered a family vehicle if all assigned children belong to the same family
+  static bool _isFamilyVehicle(List<ChildAssignment> childAssignments) {
+    if (childAssignments.isEmpty) return false;
+
+    final familyIds = childAssignments
+        .map((assignment) => assignment.familyId)
+        .where((familyId) => familyId != null)
+        .toSet();
+
+    // It's a family vehicle only if all assigned children belong to the same family
+    return familyIds.length == 1;
+  }
+
+  /// Create VehicleChild entities from ChildAssignment list
+  static List<VehicleChild> _createVehicleChildren(
+    List<ChildAssignment> childAssignments,
+  ) {
+    // Determine if this is a family vehicle (all children belong to same family)
+    final isFamilyVehicle = _isFamilyVehicle(childAssignments);
+
+    return childAssignments.map((assignment) {
+      return VehicleChild(
+        childId: assignment.childId,
+        childName: assignment.childName ?? 'Unknown Child',
+        childFamilyId: assignment.familyId ?? '',
+        // A child is considered family if this is a family vehicle
+        isFamilyChild: isFamilyVehicle,
+      );
+    }).toList();
   }
 }

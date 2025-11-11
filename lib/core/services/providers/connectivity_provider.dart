@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:flutter/foundation.dart';
 
 class ConnectivityNotifier extends StateNotifier<AsyncValue<bool>> {
   StreamSubscription<List<ConnectivityResult>>? _subscription;
@@ -8,6 +9,11 @@ class ConnectivityNotifier extends StateNotifier<AsyncValue<bool>> {
   ConnectivityNotifier() : super(const AsyncValue.loading()) {
     _initialize();
   }
+
+  // Test-only constructor
+  @visibleForTesting
+  ConnectivityNotifier.test(AsyncValue<bool> initialState)
+    : super(initialState);
 
   Future<void> _initialize() async {
     try {

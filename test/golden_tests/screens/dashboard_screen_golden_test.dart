@@ -5,11 +5,16 @@
 library;
 
 import 'package:flutter_test/flutter_test.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:edulift/features/dashboard/presentation/pages/dashboard_page.dart';
 import 'package:edulift/core/services/providers/auth_provider.dart';
+import 'package:edulift/core/services/providers/connectivity_provider.dart';
+import 'package:edulift/core/presentation/widgets/connection/unified_connection_indicator.dart';
 import 'package:edulift/core/domain/entities/user.dart';
 import 'package:edulift/core/navigation/navigation_state.dart' as nav;
+import 'package:edulift/features/dashboard/presentation/providers/dashboard_providers.dart';
+import 'package:edulift/features/family/providers.dart';
 
 import '../../support/golden/golden_test_wrapper.dart';
 import '../../support/factories/test_data_factory.dart';
@@ -41,6 +46,24 @@ void main() {
           (ref) => nav.NavigationStateNotifier(),
         ),
 
+        // Mock dashboard providers for new dashboard implementation
+        dashboardCallbacksProvider.overrideWith((ref) => null),
+        dashboardRefreshProvider.overrideWith((ref) => () {}),
+        dashboardLoadingProvider.overrideWith((ref) => false),
+        currentFamilyComposedProvider.overrideWith(
+          (ref) => const AsyncValue.data(null),
+        ),
+
+        // Mock connectivity provider to prevent MissingPluginException
+        connectivityProvider.overrideWith(
+          (ref) => ConnectivityNotifier.test(const AsyncValue.data(true)),
+        ),
+
+        // Mock unified connection status provider to prevent dependency on connectivity
+        unifiedConnectionStatusProvider.overrideWith(
+          (ref) => ConnectionStatus.fullyConnected,
+        ),
+
         // CRITICAL: Prevent all real network calls during golden tests
         ...getAllNetworkMockOverrides(),
       ];
@@ -66,6 +89,24 @@ void main() {
         currentUserProvider.overrideWith((ref) => testUser),
         nav.navigationStateProvider.overrideWith(
           (ref) => nav.NavigationStateNotifier(),
+        ),
+
+        // Mock dashboard providers for new dashboard implementation
+        dashboardCallbacksProvider.overrideWith((ref) => null),
+        dashboardRefreshProvider.overrideWith((ref) => () {}),
+        dashboardLoadingProvider.overrideWith((ref) => false),
+        currentFamilyComposedProvider.overrideWith(
+          (ref) => const AsyncValue.data(null),
+        ),
+
+        // Mock connectivity provider to prevent MissingPluginException
+        connectivityProvider.overrideWith(
+          (ref) => ConnectivityNotifier.test(const AsyncValue.data(true)),
+        ),
+
+        // Mock unified connection status provider to prevent dependency on connectivity
+        unifiedConnectionStatusProvider.overrideWith(
+          (ref) => ConnectionStatus.fullyConnected,
         ),
 
         // CRITICAL: Prevent all real network calls during golden tests
@@ -96,6 +137,24 @@ void main() {
           (ref) => nav.NavigationStateNotifier(),
         ),
 
+        // Mock dashboard providers for new dashboard implementation
+        dashboardCallbacksProvider.overrideWith((ref) => null),
+        dashboardRefreshProvider.overrideWith((ref) => () {}),
+        dashboardLoadingProvider.overrideWith((ref) => false),
+        currentFamilyComposedProvider.overrideWith(
+          (ref) => const AsyncValue.data(null),
+        ),
+
+        // Mock connectivity provider to prevent MissingPluginException
+        connectivityProvider.overrideWith(
+          (ref) => ConnectivityNotifier.test(const AsyncValue.data(true)),
+        ),
+
+        // Mock unified connection status provider to prevent dependency on connectivity
+        unifiedConnectionStatusProvider.overrideWith(
+          (ref) => ConnectionStatus.fullyConnected,
+        ),
+
         // CRITICAL: Prevent all real network calls during golden tests
         ...getAllNetworkMockOverrides(),
       ];
@@ -121,6 +180,24 @@ void main() {
         currentUserProvider.overrideWith((ref) => testUser),
         nav.navigationStateProvider.overrideWith(
           (ref) => nav.NavigationStateNotifier(),
+        ),
+
+        // Mock dashboard providers for new dashboard implementation
+        dashboardCallbacksProvider.overrideWith((ref) => null),
+        dashboardRefreshProvider.overrideWith((ref) => () {}),
+        dashboardLoadingProvider.overrideWith((ref) => false),
+        currentFamilyComposedProvider.overrideWith(
+          (ref) => const AsyncValue.data(null),
+        ),
+
+        // Mock connectivity provider to prevent MissingPluginException
+        connectivityProvider.overrideWith(
+          (ref) => ConnectivityNotifier.test(const AsyncValue.data(true)),
+        ),
+
+        // Mock unified connection status provider to prevent dependency on connectivity
+        unifiedConnectionStatusProvider.overrideWith(
+          (ref) => ConnectionStatus.fullyConnected,
         ),
 
         // CRITICAL: Prevent all real network calls during golden tests
