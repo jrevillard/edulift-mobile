@@ -40,19 +40,16 @@ class DateUtils {
       final location = tz.getLocation(userTimezone);
       final nowInUserTz = tz.TZDateTime.from(nowUtc, location);
 
-      AppLogger.debug(
-        '[DateUtils] Generated today in user timezone',
-        {
-          'userTimezone': userTimezone,
-          'utcTime': nowUtc.toIso8601String(),
-          'localTime': nowInUserTz.toIso8601String(),
-          'result': DateTime.utc(
-            nowInUserTz.year,
-            nowInUserTz.month,
-            nowInUserTz.day,
-          ).toIso8601String(),
-        },
-      );
+      AppLogger.debug('[DateUtils] Generated today in user timezone', {
+        'userTimezone': userTimezone,
+        'utcTime': nowUtc.toIso8601String(),
+        'localTime': nowInUserTz.toIso8601String(),
+        'result': DateTime.utc(
+          nowInUserTz.year,
+          nowInUserTz.month,
+          nowInUserTz.day,
+        ).toIso8601String(),
+      });
 
       // Return midnight of today as UTC DateTime (preserving just the date)
       // We use UTC to avoid timezone interpretation issues later
@@ -99,8 +96,8 @@ class DateUtils {
       // Compare directly with today's date components
       // today is already a UTC DateTime with the date in user's timezone
       return dateTimeInUserTz.year == today.year &&
-             dateTimeInUserTz.month == today.month &&
-             dateTimeInUserTz.day == today.day;
+          dateTimeInUserTz.month == today.month &&
+          dateTimeInUserTz.day == today.day;
     } catch (e, stackTrace) {
       AppLogger.error(
         '[DateUtils] Failed to check if date is today in user timezone',
@@ -111,8 +108,8 @@ class DateUtils {
       // Fallback to simple comparison (may be wrong due to timezone)
       final now = DateTime.now();
       return dateTime.year == now.year &&
-             dateTime.month == now.month &&
-             dateTime.day == now.day;
+          dateTime.month == now.month &&
+          dateTime.day == now.day;
     }
   }
 
@@ -125,7 +122,10 @@ class DateUtils {
   /// - userTimezone: User's IANA timezone (e.g., "Europe/Paris")
   ///
   /// Returns: DateTime representing the start of the day in user timezone
-  static DateTime getStartOfDayInUserTimezone(DateTime dateTime, String userTimezone) {
+  static DateTime getStartOfDayInUserTimezone(
+    DateTime dateTime,
+    String userTimezone,
+  ) {
     try {
       final location = tz.getLocation(userTimezone);
       final dateTimeInUserTz = tz.TZDateTime.from(dateTime.toUtc(), location);

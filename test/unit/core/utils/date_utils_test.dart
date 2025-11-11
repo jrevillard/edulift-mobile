@@ -50,7 +50,11 @@ void main() {
       final nowUtc = DateTime.now().toUtc();
       final nyLocation = tz.getLocation('America/New_York');
       final nowInNy = tz.TZDateTime.from(nowUtc, nyLocation);
-      final expectedDate = DateTime.utc(nowInNy.year, nowInNy.month, nowInNy.day);
+      final expectedDate = DateTime.utc(
+        nowInNy.year,
+        nowInNy.month,
+        nowInNy.day,
+      );
 
       // Act
       final result = DateUtils.getTodayInUserTimezone('America/New_York');
@@ -124,29 +128,26 @@ void main() {
   });
 
   group('DateUtils QA - Edge Cases', () {
-    test(
-      'should handle extreme positive offset (Pacific/Kiritimati UTC+14)',
-      () {
-        // Arrange - Calculate expected date for Kiritimati (one of earliest timezones)
-        final nowUtc = DateTime.now().toUtc();
-        final kiritimatiLocation = tz.getLocation('Pacific/Kiritimati');
-        final nowInKiritimati = tz.TZDateTime.from(nowUtc, kiritimatiLocation);
-        final expectedDate = DateTime.utc(
-          nowInKiritimati.year,
-          nowInKiritimati.month,
-          nowInKiritimati.day,
-        );
+    test('should handle extreme positive offset (Pacific/Kiritimati UTC+14)', () {
+      // Arrange - Calculate expected date for Kiritimati (one of earliest timezones)
+      final nowUtc = DateTime.now().toUtc();
+      final kiritimatiLocation = tz.getLocation('Pacific/Kiritimati');
+      final nowInKiritimati = tz.TZDateTime.from(nowUtc, kiritimatiLocation);
+      final expectedDate = DateTime.utc(
+        nowInKiritimati.year,
+        nowInKiritimati.month,
+        nowInKiritimati.day,
+      );
 
-        // Act
-        final result = DateUtils.getTodayInUserTimezone('Pacific/Kiritimati');
+      // Act
+      final result = DateUtils.getTodayInUserTimezone('Pacific/Kiritimati');
 
-        // Assert
-        expect(result, equals(expectedDate));
-        expect(result.hour, equals(0));
-        expect(result.minute, equals(0));
-        expect(result.second, equals(0));
-      },
-    );
+      // Assert
+      expect(result, equals(expectedDate));
+      expect(result.hour, equals(0));
+      expect(result.minute, equals(0));
+      expect(result.second, equals(0));
+    });
 
     test('should handle Southern Hemisphere DST (Australia/Sydney)', () {
       // Arrange - Calculate expected date for Sydney (DST opposite to Northern hemisphere)
@@ -463,7 +464,11 @@ void main() {
       final nowUtc = DateTime.now().toUtc();
       final nyLocation = tz.getLocation('America/New_York');
       final nowInNy = tz.TZDateTime.from(nowUtc, nyLocation);
-      final expectedDate = DateTime.utc(nowInNy.year, nowInNy.month, nowInNy.day);
+      final expectedDate = DateTime.utc(
+        nowInNy.year,
+        nowInNy.month,
+        nowInNy.day,
+      );
 
       // Act
       final result = DateUtils.getTodayInUserTimezone('America/New_York');
@@ -583,16 +588,13 @@ void main() {
       expect(result.hour, equals(0));
     });
 
-    test(
-      'should fallback gracefully when timezone is invalid',
-      () {
-        // Act - Use invalid timezone to trigger fallback path
-        final result = DateUtils.getTodayInUserTimezone('Invalid/Timezone');
+    test('should fallback gracefully when timezone is invalid', () {
+      // Act - Use invalid timezone to trigger fallback path
+      final result = DateUtils.getTodayInUserTimezone('Invalid/Timezone');
 
-        // Assert - Should return device timezone as fallback
-        expect(result, isA<DateTime>());
-        expect(result.hour, equals(0));
-      },
-    );
+      // Assert - Should return device timezone as fallback
+      expect(result, isA<DateTime>());
+      expect(result.hour, equals(0));
+    });
   });
 }

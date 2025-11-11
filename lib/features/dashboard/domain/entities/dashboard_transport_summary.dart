@@ -332,15 +332,23 @@ class VehicleChild extends Equatable {
   final String childId;
   final String childName;
   final String childFamilyId;
+  final String? childFamilyName;
   final bool isFamilyChild;
 
   const VehicleChild({
     required this.childId,
     required this.childName,
     required this.childFamilyId,
+    this.childFamilyName,
     required this.isFamilyChild,
   });
 
   @override
-  List<Object?> get props => [childId, childName, childFamilyId, isFamilyChild];
+  List<Object?> get props => [
+    childId,
+    childName,
+    childFamilyId,
+    childFamilyName,
+    isFamilyChild,
+  ];
 }

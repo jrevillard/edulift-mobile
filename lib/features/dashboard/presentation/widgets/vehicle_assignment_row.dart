@@ -83,8 +83,11 @@ class VehicleAssignmentRow extends StatelessWidget {
     );
   }
 
-  /// Builds the vehicle information section (name + capacity)
+  /// Builds the vehicle information section (name + capacity + children)
   Widget _buildVehicleInfo(BuildContext context, AppLocalizations l10n) {
+    // Format children names with family names in parentheses
+    final childrenText = _formatChildrenNames();
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,
@@ -109,8 +112,41 @@ class VehicleAssignmentRow extends StatelessWidget {
           maxLines: 1,
           overflow: TextOverflow.ellipsis,
         ),
+        if (childrenText.isNotEmpty) ...[
+          const SizedBox(height: 2),
+          Text(
+            childrenText,
+            key: const Key('children_names'),
+            style: Theme.of(context).textTheme.bodySmall?.copyWith(
+              color: Theme.of(context).colorScheme.onSurfaceVariant,
+              fontStyle: FontStyle.italic,
+            ),
+            // No maxLines limit - show all children
+            overflow: TextOverflow.visible,
+            softWrap: true,
+          ),
+        ],
       ],
     );
+  }
+
+  /// Formats children names with family names in parentheses
+  /// Example: "Emmie (Smith), John (Doe), Sarah (Brown)"
+  /// Shows ALL children with their family names
+  String _formatChildrenNames() {
+    if (vehicleAssignment.children.isEmpty) {
+      return '';
+    }
+
+    return vehicleAssignment.children
+        .map((child) {
+          final familyName = child.childFamilyName;
+          if (familyName != null && familyName.isNotEmpty) {
+            return '${child.childName} ($familyName)';
+          }
+          return child.childName;
+        })
+        .join(', ');
   }
 
   /// Builds the capacity status section with progress indicator

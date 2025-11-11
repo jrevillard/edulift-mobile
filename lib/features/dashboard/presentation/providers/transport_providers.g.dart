@@ -28,7 +28,7 @@ final familyVehiclesProvider =
 // ignore: unused_element
 typedef FamilyVehiclesRef = AutoDisposeProviderRef<Map<String, Vehicle>>;
 String _$day7TransportSummaryHash() =>
-    r'e33ddc2b5e878278661fc38a6b081e151e14b0ba';
+    r'9042fe63f2538883cf57466e1740284664ca0d77';
 
 /// Provider for fetching 7-day transport summary for dashboard display
 ///
@@ -74,7 +74,7 @@ final day7TransportSummaryProvider =
 // ignore: unused_element
 typedef Day7TransportSummaryRef =
     AutoDisposeFutureProviderRef<List<DayTransportSummary>>;
-String _$todayTransportsHash() => r'4884de96856a6568e1b5264952d19dfdfb760cb3';
+String _$todayTransportsHash() => r'e0f1f0850ccf0addfe99aac587c69eec6bffe7b8';
 
 /// Provider for extracting today's transport data from the 7-day summary
 ///
@@ -117,7 +117,7 @@ final todayTransportsProvider =
 typedef TodayTransportsRef =
     AutoDisposeFutureProviderRef<List<TransportSlotSummary>>;
 String _$todayTransportSummaryHash() =>
-    r'42277c1713653ceb11ce841ebb11bd3b99886874';
+    r'6183e2648172e1a094de7950e11b82017d91c664';
 
 /// Provider for today's transport summary with full day context
 ///
@@ -218,7 +218,7 @@ final todayTransportCountProvider = AutoDisposeFutureProvider<int>.internal(
 // ignore: unused_element
 typedef TodayTransportCountRef = AutoDisposeFutureProviderRef<int>;
 String _$selectedDayNotifierHash() =>
-    r'5f1250a482d6cc5060fb963770c3befc79ebf145';
+    r'1c9d097d8cf5851be9af00c9d89cb31b80c3d6fe';
 
 /// Provider for managing the selected day in the dashboard UI
 ///

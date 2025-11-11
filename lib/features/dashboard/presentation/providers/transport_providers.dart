@@ -15,6 +15,7 @@ import '../../../../core/domain/entities/schedule/day_of_week.dart';
 import '../../../../core/domain/entities/family/vehicle.dart';
 import '../../domain/entities/dashboard_transport_summary.dart';
 import '../../../../features/family/presentation/providers/family_provider.dart';
+import '../../../../features/schedule/presentation/providers/schedule_providers.dart';
 import '../../../../core/di/providers/providers.dart';
 
 part 'transport_providers.g.dart';
@@ -129,8 +130,7 @@ Future<List<DayTransportSummary>> day7TransportSummary(Ref ref) async {
       return [];
     }
 
-    // Get schedule repository for fetching schedules
-    final scheduleRepository = ref.read(scheduleRepositoryProvider);
+    // Track all family-relevant schedule slots
     final allFamilyRelevantSlots = <ScheduleSlot>[];
 
     // Generate the 7-day rolling period starting from today in USER timezone
@@ -145,52 +145,42 @@ Future<List<DayTransportSummary>> day7TransportSummary(Ref ref) async {
     });
 
     // For each family group, fetch the weekly schedule
+    // IMPORTANT: Watch the schedule provider to enable auto-refresh
+    // When schedule changes, this provider will automatically re-run
     for (final group in familyGroups) {
       try {
-        final schedulesResult = await scheduleRepository.getWeeklySchedule(
-          group.id,
-          weekFormat,
+        // Watch schedule provider instead of calling repository directly
+        // This creates a dependency that enables automatic refresh
+        final weeklySlots = await ref.watch(
+          weeklyScheduleProvider(group.id, weekFormat).future,
         );
 
-        if (schedulesResult.isOk) {
-          final weeklySlots = schedulesResult.value!;
+        // Filter slots to include only those within our 7-day window
+        final relevantSlots = weeklySlots.where((slot) {
+          final slotDateTime = _convertScheduleSlotToDateTime(slot, startDate);
+          return slotDateTime != null &&
+              slotDateTime.isAfter(
+                startDate.subtract(const Duration(days: 1)),
+              ) &&
+              slotDateTime.isBefore(startDate.add(const Duration(days: 7)));
+        }).toList();
 
-          // Filter slots to include only those within our 7-day window
-          final relevantSlots = weeklySlots.where((slot) {
-            final slotDateTime = _convertScheduleSlotToDateTime(
-              slot,
-              startDate,
-            );
-            return slotDateTime != null &&
-                slotDateTime.isAfter(
-                  startDate.subtract(const Duration(days: 1)),
-                ) &&
-                slotDateTime.isBefore(startDate.add(const Duration(days: 7)));
-          }).toList();
+        // Apply family filtering to the slots
+        final filteredSlots = _filterFamilyRelevantSlots(
+          relevantSlots,
+          familyId,
+          vehiclesMap,
+        );
 
-          // Apply family filtering to the slots
-          final filteredSlots = _filterFamilyRelevantSlots(
-            relevantSlots,
-            familyId,
-            vehiclesMap,
-          );
+        allFamilyRelevantSlots.addAll(filteredSlots);
 
-          allFamilyRelevantSlots.addAll(filteredSlots);
-
-          AppLogger.debug('Processed group schedules', {
-            'groupId': group.id,
-            'groupName': group.name,
-            'totalSlots': weeklySlots.length,
-            'relevantSlots': relevantSlots.length,
-            'filteredSlots': filteredSlots.length,
-          });
-        } else {
-          AppLogger.warning('Failed to fetch schedule for group', {
-            'groupId': group.id,
-            'groupName': group.name,
-            'error': schedulesResult.error.toString(),
-          });
-        }
+        AppLogger.debug('Processed group schedules', {
+          'groupId': group.id,
+          'groupName': group.name,
+          'totalSlots': weeklySlots.length,
+          'relevantSlots': relevantSlots.length,
+          'filteredSlots': filteredSlots.length,
+        });
       } catch (e) {
         AppLogger.error('Error processing group schedule', {
           'groupId': group.id,
@@ -272,7 +262,9 @@ Future<List<TransportSlotSummary>> todayTransports(Ref ref) async {
 
       // Find today's summary using USER timezone
       final userTimezone = user.timezone ?? 'UTC';
-      final todayInUserTimezone = DateUtils.getTodayInUserTimezone(userTimezone);
+      final todayInUserTimezone = DateUtils.getTodayInUserTimezone(
+        userTimezone,
+      );
       final todaySummary = summaries.where((summary) {
         return _isSameDay(summary.date, todayInUserTimezone);
       }).firstOrNull;
@@ -317,7 +309,9 @@ Future<DayTransportSummary?> todayTransportSummary(Ref ref) async {
 
       // Find today's summary using USER timezone
       final userTimezone = user.timezone ?? 'UTC';
-      final todayInUserTimezone = DateUtils.getTodayInUserTimezone(userTimezone);
+      final todayInUserTimezone = DateUtils.getTodayInUserTimezone(
+        userTimezone,
+      );
       return summaries.where((summary) {
         return _isSameDay(summary.date, todayInUserTimezone);
       }).firstOrNull;
@@ -750,18 +744,24 @@ VehicleAssignmentSummary _convertVehicleAssignmentToSummary(
   String familyId,
   Map<String, Vehicle> vehiclesMap,
 ) {
-  // Filter children to include only family children
-  final familyChildren = vehicleAssignment.childAssignments
-      .where((ca) => ca.familyId == familyId)
+  // Convert ALL children to VehicleChild entities
+  // Note: Backend already filters which vehicles are relevant to the family
+  // The isFamilyChild flag is for UI highlighting only, NOT for filtering
+  final allChildren = vehicleAssignment.childAssignments
       .map(
         (ca) => VehicleChild(
           childId: ca.childId,
           childName: ca.childName ?? 'Unknown Child',
           childFamilyId: ca.familyId ?? '',
-          isFamilyChild: ca.familyId == familyId,
+          childFamilyName: ca.familyName, // Include family name for display
+          isFamilyChild: ca.familyId == familyId, // Flag for UI highlighting
         ),
       )
       .toList();
+
+  // Use total child count for accurate capacity display
+  // This matches the schedule feature's behavior and shows correct availability
+  final totalChildrenCount = allChildren.length;
 
   // Determine capacity status
   final capacityStatus = vehicleAssignment.capacityStatus();
@@ -775,8 +775,8 @@ VehicleAssignmentSummary _convertVehicleAssignmentToSummary(
     vehicleId: vehicleAssignment.vehicleId,
     vehicleName: vehicleAssignment.vehicleName,
     vehicleCapacity: vehicleAssignment.effectiveCapacity,
-    assignedChildrenCount: familyChildren.length,
-    availableSeats: vehicleAssignment.effectiveCapacity - familyChildren.length,
+    assignedChildrenCount: totalChildrenCount, // Correct total count
+    availableSeats: vehicleAssignment.effectiveCapacity - totalChildrenCount,
     capacityStatus: capacityStatus,
     vehicleFamilyId: vehicleFamilyId,
     isFamilyVehicle: isFamilyVehicle,
@@ -786,7 +786,7 @@ VehicleAssignmentSummary _convertVehicleAssignmentToSummary(
             name: vehicleAssignment.driverName!,
           )
         : null,
-    children: familyChildren,
+    children: allChildren, // Include all children with isFamilyChild flag
   );
 }
 
@@ -819,7 +819,6 @@ CapacityStatus _calculateOverallCapacityStatus(
 String _formatDateAsIso(DateTime date) {
   return '${date.year}-${date.month.toString().padLeft(2, '0')}-${date.day.toString().padLeft(2, '0')}';
 }
-
 
 // =============================================================================
 // PART 7: LEGACY UTILITY FUNCTIONS

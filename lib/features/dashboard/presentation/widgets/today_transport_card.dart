@@ -366,7 +366,13 @@ class TransportMiniCard extends StatelessWidget {
                   const SizedBox(height: 4),
                   _buildCapacitySection(context),
                   const SizedBox(height: 4),
-                  _buildVehiclesSection(context, AppLocalizations.of(context)),
+                  // Use Flexible to allow vehicles section to take remaining space
+                  Flexible(
+                    child: _buildVehiclesSection(
+                      context,
+                      AppLocalizations.of(context),
+                    ),
+                  ),
                 ],
               ),
             ),
@@ -472,6 +478,8 @@ class TransportMiniCard extends StatelessWidget {
           color: Theme.of(context).colorScheme.onSurfaceVariant,
           fontStyle: FontStyle.italic,
         ),
+        maxLines: 1,
+        overflow: TextOverflow.ellipsis,
       );
     }
 
@@ -508,16 +516,21 @@ class TransportMiniCard extends StatelessWidget {
         ),
         if (firstVehicle.assignedChildrenCount > 0) ...[
           const SizedBox(height: 2),
-          Text(
-            _formatChildrenForCard(firstVehicle),
-            key: const Key('children_info'),
-            style: Theme.of(context).textTheme.bodySmall?.copyWith(
-              color: Theme.of(context).colorScheme.onSurfaceVariant,
-              fontStyle: FontStyle.italic,
+          // Use Flexible to allow text to take available space without overflow
+          Flexible(
+            child: Text(
+              _formatChildrenForCard(firstVehicle),
+              key: const Key('children_info'),
+              style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                color: Theme.of(context).colorScheme.onSurfaceVariant,
+                fontStyle: FontStyle.italic,
+                fontSize: 11, // Slightly smaller font for better fit
+                height: 1.3, // Tighter line height
+              ),
+              // Limit to 2 lines to prevent overflow in compact card
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
             ),
-            // Limit to 2 lines to prevent overflow in compact card
-            maxLines: 2,
-            overflow: TextOverflow.ellipsis,
           ),
         ],
       ],
