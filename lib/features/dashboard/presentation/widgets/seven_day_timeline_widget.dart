@@ -9,26 +9,36 @@ import 'package:edulift/features/dashboard/presentation/widgets/transport_horizo
 
 /// Seven Day Timeline Widget for dashboard transport overview
 ///
-/// Displays a 7-day rolling view of transport schedules in collapsed state.
-/// Shows transport counts and capacity status for quick overview.
+/// Displays a 7-day rolling view of transport schedules with day selection.
+/// Shows transport details for the selected day.
 ///
 /// Features:
 /// - 7-day rolling window (today → today+6)
-/// - Day badges with transport count and status
+/// - Interactive day badges with transport indicators
+/// - Selected day shows full transport details in horizontal scrollable cards
 /// - Pull-to-refresh functionality
 /// - Material 3 design with proper accessibility
 /// - Responsive design (mobile/tablet)
-class SevenDayTimelineWidget extends ConsumerWidget {
+class SevenDayTimelineWidget extends ConsumerStatefulWidget {
   const SevenDayTimelineWidget({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<SevenDayTimelineWidget> createState() =>
+      _SevenDayTimelineWidgetState();
+}
+
+class _SevenDayTimelineWidgetState
+    extends ConsumerState<SevenDayTimelineWidget> {
+  int _selectedDayIndex = 0; // Today by default
+
+  @override
+  Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     final weeklyAsync = ref.watch(day7TransportSummaryProvider);
     final refreshCallback = ref.read(dashboardRefreshProvider);
 
     return Semantics(
-      label: l10n.next7Days,
+      label: l10n.weeklySchedule,
       child: Card(
         key: const Key('seven_day_timeline_widget'),
         elevation: 4,
@@ -61,9 +71,9 @@ class SevenDayTimelineWidget extends ConsumerWidget {
     return Row(
       children: [
         Semantics(
-          label: l10n.next7Days,
+          label: l10n.weeklySchedule,
           child: Icon(
-            Icons.date_range,
+            Icons.calendar_view_week,
             color: Theme.of(context).colorScheme.primary,
             size: 24,
           ),
@@ -73,8 +83,8 @@ class SevenDayTimelineWidget extends ConsumerWidget {
           child: Semantics(
             header: true,
             child: Text(
-              l10n.next7Days,
-              key: const Key('next_7_days_title'),
+              l10n.weeklySchedule,
+              key: const Key('weekly_schedule_title'),
               style: Theme.of(
                 context,
               ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
@@ -146,19 +156,6 @@ class SevenDayTimelineWidget extends ConsumerWidget {
     return false;
   }
 
-  /// Check if current device is a tablet based on screen width
-  static bool _isTablet(BuildContext context) {
-    return MediaQuery.of(context).size.width > 768;
-  }
-
-  /// Calculate appropriate height for collapsed week view
-  double _calculateCollapsedViewHeight(BuildContext context) {
-    // DayBadge has minHeight of 48, so calculate based on that plus padding
-    const baseHeight = 48.0; // Minimum touch target for DayBadge
-    const verticalPadding = 16.0; // 8px top + 8px bottom padding
-    return baseHeight + verticalPadding;
-  }
-
   Widget _buildCollapsedView(
     BuildContext context,
     List<DayTransportSummary> summaries,
@@ -166,37 +163,150 @@ class SevenDayTimelineWidget extends ConsumerWidget {
   ) {
     // Generate 7-day rolling window starting from today
     final weekDays = _generateWeekDays();
-    final isTablet = SevenDayTimelineWidget._isTablet(context);
-    final calculatedHeight = _calculateCollapsedViewHeight(context);
+    final selectedDate = weekDays[_selectedDayIndex];
+    final selectedSummary = summaries
+        .where((s) => _isSameDay(s.date, selectedDate))
+        .firstOrNull;
 
-    return ConstrainedBox(
-      constraints: BoxConstraints(
-        minHeight: calculatedHeight,
-        maxHeight: calculatedHeight,
-      ),
-      child: Semantics(
-        label: 'Week overview with transport counts',
-        child: ListView.separated(
-          key: const Key('week_overview_list'),
-          padding: EdgeInsets.symmetric(
-            horizontal: isTablet ? 16.0 : 8.0,
-            vertical: isTablet ? 12.0 : 4.0,
+    // Responsive layout parameters
+    final screenWidth = MediaQuery.of(context).size.width;
+    final isTablet = screenWidth >= 600;
+
+    // Badge sizing - larger on mobile, compact on tablet
+    final badgeWidth = isTablet ? 56.0 : 64.0;
+    final badgeHeight = isTablet ? 64.0 : 72.0;
+    final badgeSpacing = isTablet ? 8.0 : 12.0;
+    final horizontalPadding = isTablet ? 4.0 : 8.0;
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        // Day badges (horizontal selector)
+        SizedBox(
+          height: badgeHeight,
+          child: Semantics(
+            label: 'Week day selector',
+            child: ListView.separated(
+              key: const Key('week_day_selector'),
+              scrollDirection: Axis.horizontal,
+              // Use snap-to-center physics on mobile for better UX
+              physics: isTablet
+                  ? const ClampingScrollPhysics()
+                  : const BouncingScrollPhysics(),
+              padding: EdgeInsets.symmetric(horizontal: horizontalPadding),
+              itemCount: weekDays.length,
+              separatorBuilder: (context, index) =>
+                  SizedBox(width: badgeSpacing),
+              itemBuilder: (context, index) {
+                final dayDate = weekDays[index];
+                final summary = summaries
+                    .where((s) => _isSameDay(s.date, dayDate))
+                    .firstOrNull;
+                final isSelected = _selectedDayIndex == index;
+
+                return SelectableDayBadge(
+                  key: Key('day_badge_$index'),
+                  date: dayDate,
+                  summary: summary,
+                  isToday: _isSameDay(dayDate, DateTime.now()),
+                  isSelected: isSelected,
+                  isTablet: isTablet,
+                  badgeWidth: badgeWidth,
+                  onTap: () {
+                    setState(() {
+                      _selectedDayIndex = index;
+                    });
+                  },
+                );
+              },
+            ),
           ),
-          itemCount: weekDays.length,
-          separatorBuilder: (context, index) => const SizedBox(height: 8.0),
-          itemBuilder: (context, index) {
-            final dayDate = weekDays[index];
-            final summary = summaries
-                .where((s) => _isSameDay(s.date, dayDate))
-                .firstOrNull;
+        ),
+        const SizedBox(height: 16),
+        const Divider(),
+        const SizedBox(height: 16),
 
-            return DayBadge(
-              key: Key('day_badge_$index'),
-              date: dayDate,
-              summary: summary,
-              isToday: _isSameDay(dayDate, DateTime.now()),
-            );
-          },
+        // Selected day header
+        Text(
+          _formatSelectedDayHeader(selectedDate, l10n),
+          key: const Key('selected_day_header'),
+          style: Theme.of(
+            context,
+          ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w600),
+        ),
+        const SizedBox(height: 12),
+
+        // Transport mini cards for selected day
+        if (selectedSummary != null && selectedSummary.hasScheduledTransports)
+          TransportHorizontalList(
+            key: const Key('selected_day_transports'),
+            transports: selectedSummary.transports,
+            semanticLabel:
+                'Transports for ${_formatSelectedDayHeader(selectedDate, l10n)}',
+          )
+        else
+          _buildNoTransportsForDay(context, l10n),
+      ],
+    );
+  }
+
+  /// Format the selected day header (e.g., "Monday, Nov 11")
+  String _formatSelectedDayHeader(DateTime date, AppLocalizations l10n) {
+    const dayNames = [
+      'Monday',
+      'Tuesday',
+      'Wednesday',
+      'Thursday',
+      'Friday',
+      'Saturday',
+      'Sunday',
+    ];
+    const months = [
+      'Jan',
+      'Feb',
+      'Mar',
+      'Apr',
+      'May',
+      'Jun',
+      'Jul',
+      'Aug',
+      'Sep',
+      'Oct',
+      'Nov',
+      'Dec',
+    ];
+
+    final dayName = dayNames[date.weekday - 1];
+    final month = months[date.month - 1];
+    final day = date.day;
+
+    return '$dayName, $month $day';
+  }
+
+  /// Build message when selected day has no transports
+  Widget _buildNoTransportsForDay(BuildContext context, AppLocalizations l10n) {
+    return SizedBox(
+      key: const Key('no_transports_selected_day'),
+      height: 120,
+      child: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(
+              Icons.schedule,
+              size: 40,
+              color: Theme.of(context).colorScheme.onSurfaceVariant,
+            ),
+            const SizedBox(height: 8),
+            Text(
+              l10n.noTransportsToday,
+              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                color: Theme.of(context).colorScheme.onSurfaceVariant,
+              ),
+              textAlign: TextAlign.center,
+            ),
+          ],
         ),
       ),
     );
@@ -332,95 +442,132 @@ class SevenDayTimelineWidget extends ConsumerWidget {
   }
 }
 
-/// Day badge for collapsed week view
+/// Selectable day badge for week view
 ///
-/// Shows day name with transport count and capacity status in a compact badge.
-/// Shows first letter of day name + dot indicator if has transports
-class DayBadge extends StatelessWidget {
+/// Shows day name with transport indicator and selection state.
+/// Shows first letter of day name + dot indicator if has transports.
+/// Supports tap to select the day.
+/// Responsive design: larger touch targets on mobile, compact on tablet.
+class SelectableDayBadge extends StatelessWidget {
   final DateTime date;
   final DayTransportSummary? summary;
   final bool isToday;
+  final bool isSelected;
+  final bool isTablet;
+  final double badgeWidth;
+  final VoidCallback onTap;
 
-  const DayBadge({
+  const SelectableDayBadge({
     super.key,
     required this.date,
     this.summary,
     this.isToday = false,
+    this.isSelected = false,
+    this.isTablet = false,
+    this.badgeWidth = 56.0,
+    required this.onTap,
   });
 
   @override
   Widget build(BuildContext context) {
-    final dayName = _formatDayName(date);
+    final dayName = _formatDayName(context, date);
     final transportCount = summary?.transports.length ?? 0;
     final hasTransports = transportCount > 0;
-    final isTablet = SevenDayTimelineWidget._isTablet(context);
+
+    // Responsive text sizing
+    final textStyle = isTablet
+        ? Theme.of(context).textTheme.bodySmall
+        : Theme.of(context).textTheme.bodyMedium;
+
+    // Responsive indicator sizing
+    final indicatorSize = isTablet ? 6.0 : 8.0;
+    final indicatorSpacing = isTablet ? 4.0 : 6.0;
 
     return Semantics(
       label: hasTransports
           ? '$dayName, $transportCount transports'
           : '$dayName, no transports',
-      selected: isToday,
-      child: ConstrainedBox(
-        constraints: BoxConstraints(
-          minWidth: isTablet ? 80 : 60,
-          maxWidth: isTablet ? 100 : 80,
-          minHeight: isTablet ? 60 : 48,
-        ),
-        child: Card(
-          elevation: isToday ? 4 : 2,
-          color: isToday
-              ? Theme.of(context).colorScheme.primaryContainer
-              : null,
-          child: InkWell(
-            onTap: () {
-              // Handle day selection - could expand to that day
-            },
-            borderRadius: BorderRadius.circular(8),
-            child: Padding(
-              padding: const EdgeInsets.all(2.0), // Minimal padding
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  // Simple day name with transport indicator
-                  Text(
-                    dayName.substring(
-                      0,
-                      1,
-                    ), // Just first letter: M, T, W, T, F, S, S
-                    key: const Key('day_name'),
-                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                      color: isToday
-                          ? Theme.of(context).colorScheme.onPrimaryContainer
-                          : Theme.of(context).colorScheme.onSurfaceVariant,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  if (hasTransports) ...[
-                    const SizedBox(height: 1),
-                    Container(
-                      width: 6,
-                      height: 3,
-                      decoration: BoxDecoration(
-                        color: isToday
-                            ? Theme.of(context).colorScheme.onPrimaryContainer
-                            : Theme.of(context).colorScheme.primary,
-                        borderRadius: BorderRadius.circular(1.5),
-                      ),
-                    ),
-                  ],
-                ],
+      selected: isSelected,
+      button: true,
+      child: GestureDetector(
+        onTap: onTap,
+        child: Container(
+          width: badgeWidth,
+          // Minimum touch target of 48x48 for accessibility
+          constraints: const BoxConstraints(minWidth: 48, minHeight: 48),
+          decoration: BoxDecoration(
+            color: isSelected
+                ? Theme.of(context).colorScheme.primaryContainer
+                : (isToday
+                      ? Theme.of(context).colorScheme.surfaceContainerHighest
+                      : Theme.of(context).colorScheme.surface),
+            borderRadius: BorderRadius.circular(isTablet ? 12 : 16),
+            border: isSelected
+                ? Border.all(
+                    color: Theme.of(context).colorScheme.primary,
+                    width: 2,
+                  )
+                : (isToday
+                      ? Border.all(
+                          color: Theme.of(context).colorScheme.outline,
+                          width: 1.5,
+                        )
+                      : null),
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              // Day short name (e.g., Mon, Tue, Wed)
+              Text(
+                dayName,
+                style: textStyle?.copyWith(
+                  color: isSelected
+                      ? Theme.of(context).colorScheme.onPrimaryContainer
+                      : Theme.of(context).colorScheme.onSurfaceVariant,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
-            ),
+              if (hasTransports) ...[
+                SizedBox(height: indicatorSpacing),
+                Container(
+                  width: indicatorSize,
+                  height: indicatorSize,
+                  decoration: BoxDecoration(
+                    color: isSelected
+                        ? Theme.of(context).colorScheme.primary
+                        : Theme.of(context).colorScheme.secondary,
+                    shape: BoxShape.circle,
+                  ),
+                ),
+              ],
+            ],
           ),
         ),
       ),
     );
   }
 
-  String _formatDayName(DateTime date) {
-    const dayNames = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
-    return dayNames[date.weekday - 1];
+  String _formatDayName(BuildContext context, DateTime date) {
+    final l10n = AppLocalizations.of(context);
+    // Weekday: 1 = Monday, 7 = Sunday
+    switch (date.weekday) {
+      case DateTime.monday:
+        return l10n.mondayShort;
+      case DateTime.tuesday:
+        return l10n.tuesdayShort;
+      case DateTime.wednesday:
+        return l10n.wednesdayShort;
+      case DateTime.thursday:
+        return l10n.thursdayShort;
+      case DateTime.friday:
+        return l10n.fridayShort;
+      case DateTime.saturday:
+        return l10n.saturdayShort;
+      case DateTime.sunday:
+        return l10n.sundayShort;
+      default:
+        return '';
+    }
   }
 }
 

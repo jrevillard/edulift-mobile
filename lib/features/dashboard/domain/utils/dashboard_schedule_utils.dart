@@ -294,6 +294,7 @@ class DashboardScheduleUtils {
         childId: assignment.childId,
         childName: assignment.childName ?? 'Unknown Child',
         childFamilyId: assignment.familyId ?? '',
+        childFamilyName: assignment.familyName,
         // A child is considered family if this is a family vehicle
         isFamilyChild: isFamilyVehicle,
       );

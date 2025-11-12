@@ -11,7 +11,6 @@ import '../../../../core/utils/timezone_formatter.dart';
 import '../../../../core/utils/weekday_localization.dart';
 import '../providers/transport_providers.dart';
 import '../providers/dashboard_providers.dart';
-import '../widgets/today_transport_card.dart';
 import '../widgets/seven_day_timeline_widget.dart';
 import 'package:edulift/core/navigation/navigation_state.dart';
 import 'package:edulift/core/presentation/mixins/navigation_cleanup_mixin.dart';
@@ -39,7 +38,6 @@ class _DashboardPageState extends ConsumerState<DashboardPage>
           return RefreshIndicator(
             onRefresh: () async {
               ref.invalidate(day7TransportSummaryProvider);
-              ref.invalidate(todayTransportSummaryProvider);
             },
             child: CustomScrollView(
               slivers: [
@@ -218,8 +216,6 @@ class _DashboardPageState extends ConsumerState<DashboardPage>
                 children: [
                   _buildCompactFamilyOverview(context, ref),
                   const SizedBox(height: 16),
-                  const TodayTransportCard(),
-                  const SizedBox(height: 16),
                   const SevenDayTimelineWidget(),
                   const SizedBox(height: 16),
                   _buildCompactQuickActions(context, ref),
@@ -247,8 +243,6 @@ class _DashboardPageState extends ConsumerState<DashboardPage>
           mainAxisSize: MainAxisSize.min,
           children: [
             _buildCompactFamilyOverview(context, ref),
-            const SizedBox(height: 12),
-            const TodayTransportCard(),
             const SizedBox(height: 12),
             const SevenDayTimelineWidget(),
             const SizedBox(height: 12),

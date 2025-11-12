@@ -12,8 +12,15 @@ import 'package:edulift/core/domain/entities/schedule/vehicle_assignment.dart';
 
 /// Today's Transport Card for the dashboard
 ///
+/// **DEPRECATED**: This widget is no longer used in the dashboard.
+/// The SevenDayTimelineWidget now handles display of transport details for any selected day,
+/// including today (selected by default), making this widget redundant.
+///
+/// Kept for reference and potential revert if needed.
+///
 /// Displays today's transport schedule in a horizontally scrollable card format.
 /// Features pull-to-refresh, loading/error states, and Material 3 design.
+@Deprecated('Use SevenDayTimelineWidget instead')
 class TodayTransportCard extends ConsumerWidget {
   const TodayTransportCard({super.key});
 
@@ -101,7 +108,7 @@ class TodayTransportCard extends ConsumerWidget {
         // Only wrap with refresh if we have actual content to refresh
         if (refreshCallback != null) {
           return SizedBox(
-            height: 160,
+            height: 240,
             child: RefreshIndicator(
               onRefresh: () async {
                 // Invalidate the provider to trigger a refresh
@@ -260,7 +267,7 @@ class TodayTransportCard extends ConsumerWidget {
     }
 
     return SizedBox(
-      height: 160,
+      height: 240,
       child: _buildTransportListView(context, transports),
     );
   }
@@ -335,18 +342,23 @@ class TodayTransportCard extends ConsumerWidget {
 ///
 /// Shows transport time, destination, and capacity status in a compact format.
 /// Designed for horizontal scrolling in the TodayTransportCard.
+/// Supports responsive width for mobile and tablet layouts.
 class TransportMiniCard extends StatelessWidget {
   final TransportSlotSummary transport;
+  final double? cardWidth;
 
-  const TransportMiniCard({super.key, required this.transport});
+  const TransportMiniCard({super.key, required this.transport, this.cardWidth});
 
   @override
   Widget build(BuildContext context) {
+    // Use provided width or fall back to default constraints
+    final effectiveWidth = cardWidth ?? 200.0;
+
     return Semantics(
       label:
           'Transport: ${transport.time} to ${transport.groupName} with ${transport.totalChildrenAssigned} children',
-      child: ConstrainedBox(
-        constraints: const BoxConstraints(maxWidth: 280, minWidth: 200),
+      child: SizedBox(
+        width: effectiveWidth,
         child: Card(
           elevation: 2,
           child: InkWell(
@@ -366,13 +378,8 @@ class TransportMiniCard extends StatelessWidget {
                   const SizedBox(height: 4),
                   _buildCapacitySection(context),
                   const SizedBox(height: 4),
-                  // Use Flexible to allow vehicles section to take remaining space
-                  Flexible(
-                    child: _buildVehiclesSection(
-                      context,
-                      AppLocalizations.of(context),
-                    ),
-                  ),
+                  // Vehicles section - all vehicles displayed
+                  _buildVehiclesSection(context, AppLocalizations.of(context)),
                 ],
               ),
             ),
@@ -483,57 +490,218 @@ class TransportMiniCard extends StatelessWidget {
       );
     }
 
-    final vehicleCount = transport.vehicleAssignmentSummaries.length;
-    final firstVehicle = transport.vehicleAssignmentSummaries.first;
-
+    // Display ALL vehicles separately
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,
-      children: [
-        Row(
-          children: [
-            Icon(
-              Icons.directions_car,
-              size: 14,
-              color: Theme.of(context).colorScheme.onSurfaceVariant,
+      children: transport.vehicleAssignmentSummaries
+          .asMap()
+          .entries
+          .map(
+            (entry) => Padding(
+              padding: EdgeInsets.only(
+                bottom:
+                    entry.key < transport.vehicleAssignmentSummaries.length - 1
+                    ? 10.0
+                    : 0.0,
+              ),
+              child: _buildVehicleItem(context, entry.value, entry.key),
             ),
-            const SizedBox(width: 4),
-            Expanded(
-              child: Text(
-                vehicleCount == 1
-                    ? firstVehicle.vehicleName
-                    : '$vehicleCount vehicles',
-                key: const Key('vehicle_count'),
-                style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                  color: Theme.of(context).colorScheme.onSurfaceVariant,
-                  fontWeight: FontWeight.w500,
+          )
+          .toList(),
+    );
+  }
+
+  /// Build a single vehicle item with all its information
+  Widget _buildVehicleItem(
+    BuildContext context,
+    VehicleAssignmentSummary vehicle,
+    int index,
+  ) {
+    final isFamilyVehicle = vehicle.isFamilyVehicle;
+
+    return Container(
+      key: Key('vehicle_item_$index'),
+      padding: const EdgeInsets.all(8.0),
+      decoration: isFamilyVehicle
+          ? BoxDecoration(
+              color: Theme.of(
+                context,
+              ).colorScheme.tertiaryContainer.withValues(alpha: 0.3),
+              borderRadius: BorderRadius.circular(6),
+            )
+          : BoxDecoration(
+              color: Theme.of(
+                context,
+              ).colorScheme.surfaceContainerHighest.withValues(alpha: 0.3),
+              borderRadius: BorderRadius.circular(6),
+            ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          // Vehicle header
+          Row(
+            children: [
+              Icon(
+                Icons.directions_car,
+                size: 14,
+                color: isFamilyVehicle
+                    ? Theme.of(context).colorScheme.tertiary
+                    : Theme.of(context).colorScheme.onSurfaceVariant,
+              ),
+              const SizedBox(width: 4),
+              Expanded(
+                child: Text(
+                  vehicle.vehicleName,
+                  key: Key('vehicle_name_$index'),
+                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                    color: isFamilyVehicle
+                        ? Theme.of(context).colorScheme.onTertiaryContainer
+                        : Theme.of(context).colorScheme.onSurfaceVariant,
+                    fontWeight: FontWeight.w600,
+                  ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
                 ),
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
               ),
-            ),
+            ],
+          ),
+          // Children list
+          if (vehicle.assignedChildrenCount > 0) ...[
+            const SizedBox(height: 4),
+            _buildChildrenText(context, vehicle),
           ],
+          // Capacity bar
+          const SizedBox(height: 6),
+          _buildVehicleCapacity(context, vehicle),
+        ],
+      ),
+    );
+  }
+
+  /// Build capacity section for a single vehicle
+  Widget _buildVehicleCapacity(
+    BuildContext context,
+    VehicleAssignmentSummary vehicle,
+  ) {
+    final utilizationPercentage = vehicle.utilizationPercentage;
+    final capacityColor = _getCapacityStatusColor(
+      context,
+      vehicle.capacityStatus,
+    );
+
+    return Row(
+      children: [
+        // Capacity text
+        Text(
+          '${vehicle.assignedChildrenCount}/${vehicle.vehicleCapacity} seats',
+          style: Theme.of(context).textTheme.bodySmall?.copyWith(
+            color: Theme.of(context).colorScheme.onSurfaceVariant,
+            fontSize: 10,
+            fontWeight: FontWeight.w500,
+          ),
         ),
-        if (firstVehicle.assignedChildrenCount > 0) ...[
-          const SizedBox(height: 2),
-          // Use Flexible to allow text to take available space without overflow
-          Flexible(
-            child: Text(
-              _formatChildrenForCard(firstVehicle),
-              key: const Key('children_info'),
-              style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                color: Theme.of(context).colorScheme.onSurfaceVariant,
-                fontStyle: FontStyle.italic,
-                fontSize: 11, // Slightly smaller font for better fit
-                height: 1.3, // Tighter line height
+        const SizedBox(width: 6),
+        // Progress bar
+        Expanded(
+          child: Container(
+            height: 4,
+            decoration: BoxDecoration(
+              color: Theme.of(context).colorScheme.surfaceContainerHighest,
+              borderRadius: BorderRadius.circular(2),
+            ),
+            child: FractionallySizedBox(
+              alignment: Alignment.centerLeft,
+              widthFactor: utilizationPercentage / 100,
+              child: Container(
+                decoration: BoxDecoration(
+                  color: capacityColor,
+                  borderRadius: BorderRadius.circular(2),
+                ),
               ),
-              // Limit to 2 lines to prevent overflow in compact card
-              maxLines: 2,
-              overflow: TextOverflow.ellipsis,
             ),
           ),
-        ],
+        ),
       ],
+    );
+  }
+
+  /// Build children text with color highlighting for family children
+  Widget _buildChildrenText(
+    BuildContext context,
+    VehicleAssignmentSummary vehicle,
+  ) {
+    if (vehicle.children.isEmpty) {
+      return Text(
+        '${vehicle.assignedChildrenCount} children',
+        key: const Key('children_info'),
+        style: Theme.of(context).textTheme.bodySmall?.copyWith(
+          color: Theme.of(context).colorScheme.onSurfaceVariant,
+          fontStyle: FontStyle.italic,
+          fontSize: 11,
+          height: 1.3,
+        ),
+      );
+    }
+
+    // Build a rich text with different colors for family vs non-family children
+    final textSpans = <TextSpan>[];
+    for (var i = 0; i < vehicle.children.length; i++) {
+      final child = vehicle.children[i];
+      final childName =
+          child.childFamilyName != null && child.childFamilyName!.isNotEmpty
+          ? '${child.childName} (${child.childFamilyName})'
+          : child.childName;
+
+      final isFamilyChild = child.isFamilyChild;
+
+      // Add bullet point prefix for each child
+      if (i == 0) {
+        textSpans.add(
+          TextSpan(
+            text: '• ',
+            style: Theme.of(context).textTheme.bodySmall?.copyWith(
+              color: Theme.of(context).colorScheme.onSurfaceVariant,
+              fontSize: 11,
+              height: 1.3,
+            ),
+          ),
+        );
+      }
+
+      textSpans.add(
+        TextSpan(
+          text: childName,
+          style: Theme.of(context).textTheme.bodySmall?.copyWith(
+            color: isFamilyChild
+                ? Theme.of(context).colorScheme.tertiary
+                : Theme.of(context).colorScheme.onSurfaceVariant,
+            fontStyle: FontStyle.italic,
+            fontSize: 11,
+            height: 1.3,
+            fontWeight: isFamilyChild ? FontWeight.w600 : FontWeight.normal,
+          ),
+        ),
+      );
+
+      if (i < vehicle.children.length - 1) {
+        textSpans.add(
+          TextSpan(
+            text: '\n• ',
+            style: Theme.of(context).textTheme.bodySmall?.copyWith(
+              color: Theme.of(context).colorScheme.onSurfaceVariant,
+              fontSize: 11,
+              height: 1.3,
+            ),
+          ),
+        );
+      }
+    }
+
+    return RichText(
+      key: const Key('children_info'),
+      text: TextSpan(children: textSpans),
     );
   }
 
@@ -577,25 +745,5 @@ class TransportMiniCard extends StatelessWidget {
       case CapacityStatus.overcapacity:
         return Theme.of(context).colorScheme.error;
     }
-  }
-
-  /// Formats children information for compact card display
-  /// Shows all children with their family names
-  /// Example: "Emmie (Smith), John (Doe)"
-  String _formatChildrenForCard(VehicleAssignmentSummary vehicle) {
-    if (vehicle.children.isEmpty) {
-      return '${vehicle.assignedChildrenCount} children';
-    }
-
-    // Show all children with family names
-    return vehicle.children
-        .map((child) {
-          final familyName = child.childFamilyName;
-          if (familyName != null && familyName.isNotEmpty) {
-            return '${child.childName} ($familyName)';
-          }
-          return child.childName;
-        })
-        .join(', ');
   }
 }
