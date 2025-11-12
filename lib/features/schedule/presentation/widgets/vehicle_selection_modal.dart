@@ -743,7 +743,11 @@ class _VehicleSelectionModalState extends ConsumerState<VehicleSelectionModal> {
           ),
           const SizedBox(height: 12),
           ...availableVehicles.map(
-            (vehicle) => _buildAvailableVehicleCard(context, vehicle),
+            (vehicle) => _buildAvailableVehicleCard(
+              context,
+              vehicle,
+              timeSlot: timeSlot,
+            ),
           ),
         ] else if (assignedVehicles.isEmpty) ...[
           _buildEmptyState(context),
