@@ -49,7 +49,13 @@ void main() {
       return ProviderScope(
         overrides: [currentUserProvider.overrideWithValue(mockUser)],
         child: TestAppConfiguration.createTestWidget(
-          child: child,
+          child: SizedBox(
+            width: 768, // iPad width - larger than phone but still reasonable
+            height: 600, // Reasonable height to prevent overflow
+            child: SingleChildScrollView(
+              child: child,
+            ),
+          ),
           locale: locale,
         ),
       );
