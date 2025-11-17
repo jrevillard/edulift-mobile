@@ -28,7 +28,7 @@ final familyVehiclesProvider =
 // ignore: unused_element
 typedef FamilyVehiclesRef = AutoDisposeProviderRef<Map<String, Vehicle>>;
 String _$day7TransportSummaryHash() =>
-    r'8b97b409449de491e6944fd671a7769ea8d7bbd5';
+    r'3f1f0b444a6d13670b4ce6090519130e5c530c96';
 
 /// Provider for fetching 7-day transport summary for dashboard display
 ///

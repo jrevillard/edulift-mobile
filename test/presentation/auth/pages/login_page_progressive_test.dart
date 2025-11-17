@@ -4,7 +4,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mockito/mockito.dart';
 import 'package:mockito/src/dummies.dart';
-import 'package:dartz/dartz.dart';
+import 'package:dartz/dartz.dart' hide Unit;
 
 import 'package:edulift/features/auth/presentation/pages/login_page.dart';
 import 'package:edulift/core/errors/failures.dart';
@@ -15,7 +15,7 @@ import '../../../support/simple_widget_test_helper.dart';
 class AuthTestFixtures {
   /// Creates a successful void result for auth operations
   static Result<void, Failure> successVoid() =>
-      const Result<void, Failure>.ok(null);
+      const Result<void, Failure>.ok(Unit());
 
   /// Creates a server error result for auth operations
   static Result<void, Failure> serverError({String? message}) =>
@@ -67,10 +67,8 @@ class AuthTestFixtures {
 void main() {
   // Provide dummy values for Result types to fix MissingDummyValueError
   setUpAll(() async {
-    provideDummy<Result<void, AuthFailure>>(
-      const Result<void, AuthFailure>.ok(null),
-    );
-    provideDummy<Either<AuthFailure, bool>>(const Right(false));
+    provideDummy<Result<void, Failure>>(const Result<void, Failure>.ok(Unit()));
+    provideDummy<Either<Failure, bool>>(const Right(false));
 
     // Initialize test DI system properly
     await SimpleWidgetTestHelper.initialize();

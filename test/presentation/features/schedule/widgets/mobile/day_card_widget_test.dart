@@ -70,7 +70,14 @@ void main() {
     });
 
     Widget createTestWidget({required Widget child}) {
-      return TestAppConfiguration.createTestWidget(child: child);
+      // Use scrollable container to prevent overflow issues
+      return TestAppConfiguration.createTestWidget(
+        child: SizedBox(
+          width: 768, // iPad width - larger than phone but still reasonable
+          height: 600, // Reasonable height
+          child: SingleChildScrollView(child: child),
+        ),
+      );
     }
 
     testWidgets('displays day card with basic information', (

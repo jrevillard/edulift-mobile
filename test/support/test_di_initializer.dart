@@ -39,12 +39,11 @@ class TestDIInitializer {
   static ProviderContainer? _testContainer;
   static final Map<Type, Mock> _mocks = {};
 
-  static ProviderContainer initialize({List<Override>? overrides}) {
+  static void initialize() {
     _configureDummyValues();
     // Initialize test dependencies with provider container
     _testContainer?.dispose();
-    _testContainer = _createTestContainer(overrides);
-    return _testContainer!;
+    _testContainer = _createTestContainer(null);
   }
 
   /// Create a new test container with mock overrides
