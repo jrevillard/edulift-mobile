@@ -1,206 +1,358 @@
 # Codemagic CI/CD Configuration for EduLift Mobile
-# iOS builds DISABLED - requires Apple Developer Program ($99/year)
+# iOS builds enabled with AltStore PAL (no Apple Developer Program needed)
 # Android builds handled by GitHub Actions
 
-# NOTE: iOS distribution requires Apple Developer Program
-# - Ad-hoc distribution: $99/year + device UDID registration
-# - TestFlight: $99/year (recommended for testing)
-# - App Store: $99/year
+# NOTE: AltStore PAL distribution
+# - AltStore PAL: Free alternative distribution in EU
+# - No code signing required (--no-codesign)
+# - Firebase App Distribution for .ipa hosting
+# - GitHub Pages for AltStore PAL source metadata
 
 workflows:
-  # iOS Staging Build (DISABLED - requires Apple Developer Program)
-  # Re-enable when Apple Developer account is available
-  #
-  # To enable: Uncomment the entire section below and update with your
-  # Apple Developer credentials
-  #
-  # ios-staging:
-  #   name: iOS Staging
-  #   instance_type: mac_mini_m2
-  #   max_build_duration: 60
-  #
-  #   environment:
-  #     groups:
-  #       - firebase # FIREBASE_SERVICE_ACCOUNT_STAGING
-  #     flutter: stable
-  #     xcode: latest
-  #     cocoapods: default
-  #     ios_signing:
-  #       distribution_type: ad_hoc
-  #       bundle_identifier: com.edulift.app.staging
-  #     vars:
-  #       FLAVOR: staging
-  #       BUNDLE_ID: "com.edulift.app.staging"
-  #
-  #   triggering:
-  #     events:
-  #       - tag
-  #     tag_patterns:
-  #       - pattern: 'v*-alpha*'
-  #       - pattern: 'v*-beta*'
-  #       - pattern: 'v*-rc*'
-  #     cancel_previous_builds: true
-  #
-  #   scripts:
-  #     - name: Get Flutter packages
-  #       script: |
-  #         flutter pub get
-  #
-  #     - name: Run code generation
-  #       script: |
-  #         flutter pub run build_runner build --delete-conflicting-outputs
-  #
-  #     - name: Install dependencies and tools
-  #       script: |
-  #         cd ios && pod install
-  #         # Install jq for JSON parsing
-  #         brew install jq
-  #
-  #     - name: Configure iOS Deep Links
-  #       script: |
-  #         # Configure iOS deep links from config/DEEP_LINK_BASE_URL
-  #         # This script automatically:
-  #         # - Reads DEEP_LINK_BASE_URL from config/staging.json
-  #         # - Updates Info.plist with URL schemes
-  #         # - Creates/updates Runner.entitlements with Associated Domains
-  #         echo "🔧 Configuring iOS deep links for staging environment"
-  #         ./scripts/configure_ios.sh staging
-  #
-  #         # Verify configuration
-  #         echo "📱 iOS Configuration Summary:"
-  #         echo "✅ Info.plist updated with URL schemes"
-  #         if [[ -f "ios/Runner/Runner.entitlements" ]]; then
-  #           echo "✅ Entitlements file created/updated"
-  #           if grep -q "com.apple.developer.associated-domains" ios/Runner/Runner.entitlements; then
-  #             echo "🌐 Universal Links configured"
-  #           else
-  #             echo "📱 Custom URL scheme only (no Universal Links)"
-  #           fi
-  #         else
-  #           echo "📱 Custom URL scheme only (no entitlements needed)"
-  #         fi
-  #
-  #     - name: Set up code signing settings for iOS
-  #       script: |
-  #         xcode-project use-profiles --bundle-id="$BUNDLE_ID" --profile-type="APP_STORE"
-  #
-  #     - name: Build iOS IPA (staging)
-  #       script: |
-  #         flutter build ipa --release \
-  #           --flavor staging \
-  #           --dart-define-from-file=config/staging.json \
-  #           --export-options-plist=$HOME/export_options.plist
-  #
-  #   artifacts:
-  #     - build/ios/ipa/*.ipa
-  #     - $HOME/Library/Developer/Xcode/DerivedData/**/Build/**/*.dSYM
-  #
-  #   publishing:
-  #     firebase:
-  #       firebase_service_account: $FIREBASE_SERVICE_ACCOUNT_STAGING
-  #       ios:
-  #         app_id: 1:390712570284:ios:11ab124204e6c10c054a09
-  #         groups:
-  #           - staging-team
-  #
-  #     email:
-  #       recipients:
-  #         - jerome.revillard@wanadoo.fr
-  #       notify:
-  #         success: true
-  #         failure: true
+  # iOS Staging Build with AltStore PAL
+  ios-staging-altstore:
+    name: iOS Staging (AltStore PAL)
+    instance_type: mac_mini_m2
+    max_build_duration: 60
 
-  # iOS Production Build (DISABLED - requires Apple Developer Program)
-  # ios-production:
-  #   name: iOS Production
-  #   instance_type: mac_mini_m2
-  #   max_build_duration: 60
-  #
-  #   environment:
-  #     groups:
-  #       - firebase
-  #     flutter: stable
-  #     xcode: latest
-  #     cocoapods: default
-  #     ios_signing:
-  #       distribution_type: ad_hoc
-  #       bundle_identifier: com.edulift.app
-  #     vars:
-  #       FLAVOR: production
-  #       BUNDLE_ID: "com.edulift.app"
-  #
-  #   triggering:
-  #     events:
-  #       - tag
-  #     tag_patterns:
-  #       - pattern: 'v[0-9]*.[0-9]*.[0-9]*'
-  #     cancel_previous_builds: false # Don't cancel production builds
-  #
-  #   scripts:
-  #     - name: Get Flutter packages
-  #       script: |
-  #         flutter pub get
-  #
-  #     - name: Run code generation
-  #       script: |
-  #         flutter pub run build_runner build --delete-conflicting-outputs
-  #
-  #     - name: Install dependencies and tools
-  #       script: |
-  #         cd ios && pod install
-  #         # Install jq for JSON parsing
-  #         brew install jq
-  #
-  #     - name: Configure iOS Deep Links
-  #       script: |
-  #         # Configure iOS deep links from config/DEEP_LINK_BASE_URL
-  #         # This script automatically:
-  #         # - Reads DEEP_LINK_BASE_URL from config/production.json
-  #         # - Updates Info.plist with URL schemes
-  #         # - Creates/updates Runner.entitlements with Associated Domains
-  #         echo "🔧 Configuring iOS deep links for production environment"
-  #         ./scripts/configure_ios.sh production
-  #
-  #         # Verify configuration
-  #         echo "📱 iOS Configuration Summary:"
-  #         echo "✅ Info.plist updated with URL schemes"
-  #         if [[ -f "ios/Runner/Runner.entitlements" ]]; then
-  #           echo "✅ Entitlements file created/updated"
-  #           if grep -q "com.apple.developer.associated-domains" ios/Runner/Runner.entitlements; then
-  #             echo "🌐 Universal Links configured"
-  #           else
-  #             echo "📱 Custom URL scheme only (no Universal Links)"
-  #           fi
-  #         else
-  #           echo "📱 Custom URL scheme only (no entitlements needed)"
-  #         fi
-  #
-  #     - name: Set up code signing settings for iOS
-  #       script: |
-  #         xcode-project use-profiles --bundle_id="$BUNDLE_ID" --profile-type="APP_STORE"
-  #
-  #     - name: Build iOS IPA (production)
-  #       script: |
-  #         flutter build ipa --release \
-  #           --flavor production \
-  #           --dart-define-from-file=config/production.json \
-  #           --export-options-plist=$HOME/export_options.plist
-  #
-  #   artifacts:
-  #     - build/ios/ipa/*.ipa
-  #     - $HOME/Library/Developer/Xcode/DerivedData/**/Build/**/*.dSYM
-  #
-  #   publishing:
-  #     firebase:
-  #       firebase_service_account: $FIREBASE_SERVICE_ACCOUNT_PROD
-  #       ios:
-  #         app_id: 1:928262951410:ios:139da35e9a165907779b6b
-  #         groups:
-  #           - production-team
-  #
-  #     email:
-  #       recipients:
-  #         - jerome.revillard@wanadoo.fr
-  #       notify:
-  #         success: true
-  #         failure: true
+    environment:
+      groups:
+        - firebase # FIREBASE_SERVICE_ACCOUNT_STAGING
+      flutter: stable
+      xcode: latest
+      cocoapods: default
+      vars:
+        FLAVOR: staging
+        BUNDLE_ID: "com.edulift.app.staging"
+        ALTSTORE_REPO: "jrevillard/my-altstore"
+        ALTSTORE_BRANCH: "main"
+      # Note: Set GITHUB_TOKEN in Codemagic environment variables
+      # Create Personal Access Token at: https://github.com/settings/tokens
+      # Required permissions: repo (full control of private repositories)
+
+    triggering:
+      events:
+        - tag
+      tag_patterns:
+        - pattern: 'v*-alpha*'
+        - pattern: 'v*-beta*'
+        - pattern: 'v*-rc*'
+      cancel_previous_builds: true
+
+    scripts:
+      - name: Get Flutter packages
+        script: |
+          flutter pub get
+
+      - name: Run code generation
+        script: |
+          flutter pub run build_runner build --delete-conflicting-outputs
+
+      - name: Install dependencies and tools
+        script: |
+          cd ios && pod install
+          # Install jq for JSON parsing and curl for GitHub API
+          brew install jq curl
+
+      - name: Configure iOS Deep Links
+        script: |
+          # Configure iOS deep links from config/DEEP_LINK_BASE_URL
+          echo "🔧 Configuring iOS deep links for staging environment"
+          ./scripts/configure_ios.sh staging
+
+          # Verify configuration
+          echo "📱 iOS Configuration Summary:"
+          echo "✅ Info.plist updated with URL schemes"
+          if [[ -f "ios/Runner/Runner.entitlements" ]]; then
+            echo "✅ Entitlements file created/updated"
+            if grep -q "com.apple.developer.associated-domains" ios/Runner/Runner.entitlements; then
+              echo "🌐 Universal Links configured"
+            else
+              echo "📱 Custom URL scheme only (no Universal Links)"
+            fi
+          else
+            echo "📱 Custom URL scheme only (no entitlements needed)"
+          fi
+
+      - name: Build iOS IPA for AltStore PAL (staging)
+        script: |
+          echo "🚀 Building iOS IPA for AltStore PAL (unsigned)"
+
+          # Build unsigned IPA
+          flutter build ipa --release \
+            --flavor staging \
+            --dart-define-from-file=config/staging.json \
+            --no-codesign
+
+          # Get IPA path and info
+          IPA_PATH=$(find build/ios/ipa -name "*.ipa" | head -n 1)
+          echo "Built IPA: $IPA_PATH"
+
+          if [[ -f "$IPA_PATH" ]]; then
+            echo "✅ IPA built successfully: $(du -h "$IPA_PATH" | cut -f1)"
+          else
+            echo "❌ Failed to build IPA"
+            exit 1
+          fi
+
+      - name: Prepare AltStore PAL source update
+        script: |
+          echo "📱 Preparing AltStore PAL source update for staging"
+
+          # Get build info
+          IPA_PATH=$(find build/ios/ipa -name "*.ipa" | head -n 1)
+          VERSION=$(flutter --version | head -n 1 | cut -d' ' -f2)
+          BUILD_NUMBER=$(date +%s)
+          IPA_SIZE=$(du -h "$IPA_PATH" | cut -f1)
+
+          echo "IPA Path: $IPA_PATH"
+          echo "Version: $VERSION"
+          echo "Build Number: $BUILD_NUMBER"
+          echo "Size: $IPA_SIZE"
+
+          # Create temp directory for AltStore files
+          mkdir -p altstore_temp
+          cd altstore_temp
+
+          # Clone AltStore repository with authentication
+          if [[ -n "$GITHUB_TOKEN" ]]; then
+            echo "🔑 Using GitHub token for authentication"
+            git clone https://$GITHUB_TOKEN@github.com/$ALTSTORE_REPO.git .
+          else
+            echo "⚠️  GITHUB_TOKEN not set, using public clone (may fail for private repos)"
+            git clone https://github.com/$ALTSTORE_REPO.git .
+          fi
+          git checkout $ALTSTORE_BRANCH
+
+          # Construct Firebase App Distribution URL
+          # Firebase App Distribution URLs follow this format:
+          FIREBASE_URL="https://appdistribution.firebase.google.com/1:390712570284:ios:11ab124204e6c10c054a09"
+
+          echo "Using Firebase URL: $FIREBASE_URL"
+
+          # Update app JSON files
+          ./scripts/update-altstore.sh staging "$VERSION" "$BUILD_NUMBER" "$FIREBASE_URL" "$IPA_SIZE"
+
+          echo "✅ AltStore PAL source files updated"
+
+      - name: Commit and push AltStore PAL source updates
+        script: |
+          cd altstore_temp
+
+          # Configure git
+          git config --global user.name "Codemagic CI"
+          git config --global user.email "ci@codemagic.io"
+
+          # Add and commit changes
+          git add .
+          if git diff --staged --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "ci(staging): update AltStore PAL source for v$VERSION-$BUILD_NUMBER
+
+            - Version: $VERSION
+            - Build: $BUILD_NUMBER
+            - Size: $IPA_SIZE
+            - Environment: staging"
+
+            # Configure push URL with token for authentication
+            if [[ -n "$GITHUB_TOKEN" ]]; then
+              git remote set-url origin https://$GITHUB_TOKEN@github.com/$ALTSTORE_REPO.git
+            fi
+
+            # Push changes
+            git push origin $ALTSTORE_BRANCH
+            echo "✅ AltStore PAL source updates pushed to GitHub"
+          fi
+
+    artifacts:
+      - build/ios/ipa/*.ipa
+      - altstore_temp/**
+
+    publishing:
+      firebase:
+        firebase_service_account: $FIREBASE_SERVICE_ACCOUNT_STAGING
+        ios:
+          app_id: 1:390712570284:ios:11ab124204e6c10c054a09
+          groups:
+            - staging-team
+
+      email:
+        recipients:
+          - jerome.revillard@wanadoo.fr
+        notify:
+          success: true
+          failure: true
+
+  # iOS Production Build with AltStore PAL
+  ios-production-altstore:
+    name: iOS Production (AltStore PAL)
+    instance_type: mac_mini_m2
+    max_build_duration: 60
+
+    environment:
+      groups:
+        - firebase
+      flutter: stable
+      xcode: latest
+      cocoapods: default
+      vars:
+        FLAVOR: production
+        BUNDLE_ID: "com.edulift.app"
+        ALTSTORE_REPO: "jrevillard/my-altstore"
+        ALTSTORE_BRANCH: "main"
+      # Note: Set GITHUB_TOKEN in Codemagic environment variables
+      # Create Personal Access Token at: https://github.com/settings/tokens
+      # Required permissions: repo (full control of private repositories)
+
+    triggering:
+      events:
+        - tag
+      tag_patterns:
+        - pattern: 'v[0-9]*.[0-9]*.[0-9]*'
+      cancel_previous_builds: false # Don't cancel production builds
+
+    scripts:
+      - name: Get Flutter packages
+        script: |
+          flutter pub get
+
+      - name: Run code generation
+        script: |
+          flutter pub run build_runner build --delete-conflicting-outputs
+
+      - name: Install dependencies and tools
+        script: |
+          cd ios && pod install
+          # Install jq for JSON parsing and curl for GitHub API
+          brew install jq curl
+
+      - name: Configure iOS Deep Links
+        script: |
+          # Configure iOS deep links from config/DEEP_LINK_BASE_URL
+          echo "🔧 Configuring iOS deep links for production environment"
+          ./scripts/configure_ios.sh production
+
+          # Verify configuration
+          echo "📱 iOS Configuration Summary:"
+          echo "✅ Info.plist updated with URL schemes"
+          if [[ -f "ios/Runner/Runner.entitlements" ]]; then
+            echo "✅ Entitlements file created/updated"
+            if grep -q "com.apple.developer.associated-domains" ios/Runner/Runner.entitlements; then
+              echo "🌐 Universal Links configured"
+            else
+              echo "📱 Custom URL scheme only (no Universal Links)"
+            fi
+          else
+            echo "📱 Custom URL scheme only (no entitlements needed)"
+          fi
+
+      - name: Build iOS IPA for AltStore PAL (production)
+        script: |
+          echo "🚀 Building iOS IPA for AltStore PAL (unsigned)"
+
+          # Build unsigned IPA
+          flutter build ipa --release \
+            --flavor production \
+            --dart-define-from-file=config/production.json \
+            --no-codesign
+
+          # Get IPA path and info
+          IPA_PATH=$(find build/ios/ipa -name "*.ipa" | head -n 1)
+          echo "Built IPA: $IPA_PATH"
+
+          if [[ -f "$IPA_PATH" ]]; then
+            echo "✅ IPA built successfully: $(du -h "$IPA_PATH" | cut -f1)"
+          else
+            echo "❌ Failed to build IPA"
+            exit 1
+          fi
+
+      - name: Prepare AltStore PAL source update
+        script: |
+          echo "📱 Preparing AltStore PAL source update for production"
+
+          # Get build info
+          IPA_PATH=$(find build/ios/ipa -name "*.ipa" | head -n 1)
+          VERSION=$(flutter --version | head -n 1 | cut -d' ' -f2)
+          BUILD_NUMBER=$(date +%s)
+          IPA_SIZE=$(du -h "$IPA_PATH" | cut -f1)
+
+          echo "IPA Path: $IPA_PATH"
+          echo "Version: $VERSION"
+          echo "Build Number: $BUILD_NUMBER"
+          echo "Size: $IPA_SIZE"
+
+          # Create temp directory for AltStore files
+          mkdir -p altstore_temp
+          cd altstore_temp
+
+          # Clone AltStore repository with authentication
+          if [[ -n "$GITHUB_TOKEN" ]]; then
+            echo "🔑 Using GitHub token for authentication"
+            git clone https://$GITHUB_TOKEN@github.com/$ALTSTORE_REPO.git .
+          else
+            echo "⚠️  GITHUB_TOKEN not set, using public clone (may fail for private repos)"
+            git clone https://github.com/$ALTSTORE_REPO.git .
+          fi
+          git checkout $ALTSTORE_BRANCH
+
+          # Construct Firebase App Distribution URL
+          # Firebase App Distribution URLs follow this format:
+          FIREBASE_URL="https://appdistribution.firebase.google.com/1:928262951410:ios:139da35e9a165907779b6b"
+
+          echo "Using Firebase URL: $FIREBASE_URL"
+
+          # Update app JSON files
+          ./scripts/update-altstore.sh production "$VERSION" "$BUILD_NUMBER" "$FIREBASE_URL" "$IPA_SIZE"
+
+          echo "✅ AltStore PAL source files updated"
+
+      - name: Commit and push AltStore PAL source updates
+        script: |
+          cd altstore_temp
+
+          # Configure git
+          git config --global user.name "Codemagic CI"
+          git config --global user.email "ci@codemagic.io"
+
+          # Add and commit changes
+          git add .
+          if git diff --staged --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "ci(production): update AltStore PAL source for v$VERSION-$BUILD_NUMBER
+
+            - Version: $VERSION
+            - Build: $BUILD_NUMBER
+            - Size: $IPA_SIZE
+            - Environment: production"
+
+            # Configure push URL with token for authentication
+            if [[ -n "$GITHUB_TOKEN" ]]; then
+              git remote set-url origin https://$GITHUB_TOKEN@github.com/$ALTSTORE_REPO.git
+            fi
+
+            # Push changes
+            git push origin $ALTSTORE_BRANCH
+            echo "✅ AltStore PAL source updates pushed to GitHub"
+          fi
+
+    artifacts:
+      - build/ios/ipa/*.ipa
+      - altstore_temp/**
+
+    publishing:
+      firebase:
+        firebase_service_account: $FIREBASE_SERVICE_ACCOUNT_PROD
+        ios:
+          app_id: 1:928262951410:ios:139da35e9a165907779b6b
+          groups:
+            - production-team
+
+      email:
+        recipients:
+          - jerome.revillard@wanadoo.fr
+        notify:
+          success: true
+          failure: true
