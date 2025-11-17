@@ -145,12 +145,12 @@ class ScheduleSlotWidget extends StatelessWidget {
             // Offline indicator
             if (_hasOfflineChanges()) ...[
               const SizedBox(width: 4),
-              const Tooltip(
+              Tooltip(
                 message: 'Offline changes pending',
                 child: Icon(
                   Icons.cloud_off,
                   size: 12,
-                  color: AppColors.warning,
+                  color: AppColors.warningThemed(context),
                 ),
               ),
             ],
@@ -199,17 +199,17 @@ class ScheduleSlotWidget extends StatelessWidget {
         if (childCount > 0) ...[
           Row(
             children: [
-              const Icon(
+              Icon(
                 Icons.child_care,
                 size: ScheduleDimensions.iconSizeSmall,
-                color: AppColors.success,
+                color: AppColors.successThemed(context),
               ),
               const SizedBox(width: ScheduleDimensions.spacingXs / 2),
               Expanded(
                 child: Text(
                   AppLocalizations.of(context).childrenCount(childCount),
                   style: AppTextStyles.overline.copyWith(
-                    color: AppColors.success,
+                    color: AppColors.successThemed(context),
                     fontWeight: FontWeight.w500,
                   ),
                   maxLines: 1,
@@ -255,17 +255,17 @@ class ScheduleSlotWidget extends StatelessWidget {
         if (totalChildren > 0) ...[
           Row(
             children: [
-              const Icon(
+              Icon(
                 Icons.child_care,
                 size: ScheduleDimensions.iconSizeSmall,
-                color: AppColors.success,
+                color: AppColors.successThemed(context),
               ),
               const SizedBox(width: ScheduleDimensions.spacingXs / 2),
               Expanded(
                 child: Text(
                   AppLocalizations.of(context).childrenCount(totalChildren),
                   style: AppTextStyles.overline.copyWith(
-                    color: AppColors.success,
+                    color: AppColors.successThemed(context),
                     fontWeight: FontWeight.w500,
                   ),
                   maxLines: 1,

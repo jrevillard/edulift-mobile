@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import '../presentation/pages/splash_page.dart';
 import '../presentation/pages/invalid_deep_link_page.dart';
 import '../presentation/widgets/main_shell.dart';
-import '../presentation/themes/app_colors.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:edulift/generated/l10n/app_localizations.dart';
@@ -841,7 +840,11 @@ class AppRouter {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const Icon(Icons.error_outline, size: 64, color: AppColors.error),
+              const Icon(
+                Icons.error_outline,
+                size: 64,
+                color: Color(0xFFDC2626),
+              ),
               const SizedBox(height: 16),
               const Text(
                 '404 - Page Not Found',

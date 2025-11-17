@@ -168,7 +168,7 @@ class _ScheduleTimePickerState extends ConsumerState<ScheduleTimePicker>
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(l10n.maximumTimeSlotsAllowed(widget.maxSlots)),
-        backgroundColor: AppColors.error,
+        backgroundColor: AppColors.errorThemed(context),
         behavior: SnackBarBehavior.floating,
       ),
     );
@@ -180,7 +180,7 @@ class _ScheduleTimePickerState extends ConsumerState<ScheduleTimePicker>
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(l10n.timeAlreadySelected(time)),
-        backgroundColor: AppColors.warning,
+        backgroundColor: AppColors.warningThemed(context),
         behavior: SnackBarBehavior.floating,
         duration: const Duration(seconds: 2),
       ),
@@ -338,8 +338,10 @@ class _ScheduleTimePickerState extends ConsumerState<ScheduleTimePicker>
             icon: Icon(Icons.clear_all, size: isSmallScreen ? 16 : 18),
             label: Text(l10n.clearAll),
             style: ElevatedButton.styleFrom(
-              backgroundColor: AppColors.error.withValues(alpha: 0.1),
-              foregroundColor: AppColors.error,
+              backgroundColor: AppColors.errorThemed(
+                context,
+              ).withValues(alpha: 0.1),
+              foregroundColor: AppColors.errorThemed(context),
               padding: EdgeInsets.symmetric(
                 horizontal: isSmallScreen ? 12 : 16,
                 vertical: isSmallScreen ? 6 : 8,
@@ -571,8 +573,8 @@ class _ScheduleTimePickerState extends ConsumerState<ScheduleTimePicker>
                       : Icons.check_circle,
                   size: isSmallScreen ? 14 : 16,
                   color: selectedCount == widget.maxSlots
-                      ? AppColors.warning
-                      : AppColors.success,
+                      ? AppColors.warningThemed(context)
+                      : AppColors.successThemed(context),
                 ),
               ],
             ],

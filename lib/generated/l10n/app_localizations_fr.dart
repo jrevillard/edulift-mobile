@@ -1425,6 +1425,9 @@ class AppLocalizationsFr extends AppLocalizations {
   String get failedToLoadSchedule => 'Impossible de charger le planning';
 
   @override
+  String get failedToChangeWeek => 'Impossible de changer de semaine';
+
+  @override
   String failedToLoadVehicles(String error) {
     return 'Impossible de charger les véhicules : $error';
   }
@@ -2127,13 +2130,7 @@ class AppLocalizationsFr extends AppLocalizations {
   String get manage => 'Gérer';
 
   @override
-  String get manageChildren => 'Gérer les enfants';
-
-  @override
   String get manageFamily => 'Gérer la Famille';
-
-  @override
-  String get manageVehicles => 'Gérer les véhicules';
 
   @override
   String maxSeatsLabel(int max) {
@@ -3440,9 +3437,6 @@ class AppLocalizationsFr extends AppLocalizations {
   String get configureScheduleTooltip => 'Configurer l\'emploi du temps';
 
   @override
-  String get manageChildrenTooltip => 'Gérer les enfants';
-
-  @override
   String get removeVehicleTooltip => 'Retirer le véhicule';
 
   @override
@@ -3630,7 +3624,7 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String welcomeBackUser(String userName) {
-    return 'Bon retour, $userName !';
+    return 'Bonjour, $userName !';
   }
 
   @override
@@ -4193,11 +4187,6 @@ class AppLocalizationsFr extends AppLocalizations {
   }
 
   @override
-  String manageChildrenForVehicle(String vehicleName) {
-    return 'Gérer les enfants pour $vehicleName';
-  }
-
-  @override
   String removeVehicleFromSlot(String vehicleName) {
     return 'Retirer $vehicleName de ce créneau';
   }
@@ -4215,10 +4204,6 @@ class AppLocalizationsFr extends AppLocalizations {
   @override
   String get hasPendingChanges =>
       'Des modifications hors ligne sont en attente';
-
-  @override
-  String get childAssignmentComingSoon =>
-      'Fonctionnalité d\'assignation d\'enfants bientôt disponible';
 
   @override
   String seatOverrideUpdateFailed(String error) {
@@ -4335,4 +4320,16 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get collapseWeekView => 'Réduire la vue semaine';
+
+  @override
+  String get scheduleSlotError =>
+      'Impossible de compléter cette opération. Le créneau horaire n\'existe peut-être pas ou il peut y avoir un problème de connexion.';
+
+  @override
+  String get permissionError =>
+      'Vous n\'avez pas la permission d\'effectuer cette action.';
+
+  @override
+  String get vehicleNotFoundError =>
+      'Le véhicule sélectionné n\'a pas pu être trouvé. Veuillez réessayer.';
 }

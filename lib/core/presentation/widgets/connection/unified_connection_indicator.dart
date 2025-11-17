@@ -99,9 +99,9 @@ class UnifiedConnectionIndicator extends ConsumerWidget {
   Color _getStatusColor(BuildContext context, ConnectionStatus status) {
     switch (status) {
       case ConnectionStatus.fullyConnected:
-        return AppColors.success;
+        return AppColors.successThemed(context);
       case ConnectionStatus.limitedConnectivity:
-        return AppColors.warning;
+        return AppColors.warningThemed(context);
       case ConnectionStatus.offline:
         return AppColors.errorThemed(context);
     }
@@ -202,7 +202,9 @@ class UnifiedConnectionIndicator extends ConsumerWidget {
           height: 8,
           decoration: BoxDecoration(
             shape: BoxShape.circle,
-            color: isConnected ? AppColors.success : AppColors.error,
+            color: isConnected
+                ? AppColors.successThemed(context)
+                : AppColors.errorThemed(context),
           ),
         ),
         const SizedBox(width: 12),

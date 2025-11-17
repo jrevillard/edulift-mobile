@@ -6,7 +6,6 @@ import '../../../../core/utils/app_logger.dart';
 import '../../../../core/router/route_factory.dart';
 import '../../../../core/router/app_routes.dart';
 import '../../../../generated/l10n/app_localizations.dart';
-import '../../../../core/presentation/themes/app_colors.dart';
 import '../pages/login_page.dart';
 import '../pages/magic_link_page.dart';
 import '../pages/magic_link_verify_page.dart';
@@ -86,7 +85,7 @@ class _ErrorPage extends ConsumerWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Icon(Icons.error, size: 64, color: AppColors.error),
+            const Icon(Icons.error, size: 64, color: Color(0xFFDC2626)),
             const SizedBox(height: 16),
             Text(error, textAlign: TextAlign.center),
             const SizedBox(height: 16),

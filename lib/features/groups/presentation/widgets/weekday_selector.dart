@@ -129,7 +129,7 @@ class _WeekdaySelectorState extends State<WeekdaySelector> {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(message),
-        backgroundColor: AppColors.warning,
+        backgroundColor: AppColors.warningThemed(context),
         behavior: SnackBarBehavior.floating,
       ),
     );
@@ -446,13 +446,15 @@ class _WeekdaySelectorState extends State<WeekdaySelector> {
                       vertical: 2,
                     ),
                     decoration: BoxDecoration(
-                      color: AppColors.warningContainer,
+                      color: AppColors.warningThemed(context),
                       borderRadius: BorderRadius.circular(8),
                     ),
                     child: Text(
                       AppLocalizations.of(context).weekendLabel,
                       style: theme.textTheme.bodySmall?.copyWith(
-                        color: AppColors.onWarningContainer,
+                        color: Theme.of(
+                          context,
+                        ).colorScheme.onTertiaryContainer,
                         fontSize: 10,
                       ),
                     ),
@@ -472,18 +474,24 @@ class _WeekdaySelectorState extends State<WeekdaySelector> {
       return Container(
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
-          color: AppColors.warningContainer,
-          border: Border.all(color: AppColors.warning),
+          color: AppColors.warningThemed(context),
+          border: Border.all(color: AppColors.warningThemed(context)),
           borderRadius: BorderRadius.circular(8),
         ),
         child: Row(
           children: [
-            const Icon(Icons.warning, color: AppColors.warning, size: 20),
+            Icon(
+              Icons.warning,
+              color: Theme.of(context).colorScheme.tertiary,
+              size: 20,
+            ),
             const SizedBox(width: 8),
             Expanded(
               child: Text(
                 l10n.noDaysSelectedWarning,
-                style: const TextStyle(color: AppColors.onWarningContainer),
+                style: TextStyle(
+                  color: Theme.of(context).colorScheme.onTertiaryContainer,
+                ),
               ),
             ),
           ],

@@ -7584,56 +7584,6 @@ class MockGroupScheduleRepository extends _i1.Mock
           as _i39.Future<_i45.Result<_i84.VehicleAssignment, _i46.ApiFailure>>);
 
   @override
-  _i39.Future<_i45.Result<List<_i32.Child>, _i46.ApiFailure>>
-  getAvailableChildren(
-    String? groupId,
-    String? week,
-    String? day,
-    String? time,
-  ) =>
-      (super.noSuchMethod(
-            Invocation.method(#getAvailableChildren, [
-              groupId,
-              week,
-              day,
-              time,
-            ]),
-            returnValue:
-                _i39.Future<
-                  _i45.Result<List<_i32.Child>, _i46.ApiFailure>
-                >.value(
-                  _i42.dummyValue<
-                    _i45.Result<List<_i32.Child>, _i46.ApiFailure>
-                  >(
-                    this,
-                    Invocation.method(#getAvailableChildren, [
-                      groupId,
-                      week,
-                      day,
-                      time,
-                    ]),
-                  ),
-                ),
-            returnValueForMissingStub:
-                _i39.Future<
-                  _i45.Result<List<_i32.Child>, _i46.ApiFailure>
-                >.value(
-                  _i42.dummyValue<
-                    _i45.Result<List<_i32.Child>, _i46.ApiFailure>
-                  >(
-                    this,
-                    Invocation.method(#getAvailableChildren, [
-                      groupId,
-                      week,
-                      day,
-                      time,
-                    ]),
-                  ),
-                ),
-          )
-          as _i39.Future<_i45.Result<List<_i32.Child>, _i46.ApiFailure>>);
-
-  @override
   _i39.Future<_i45.Result<List<_i84.ScheduleConflict>, _i46.ApiFailure>>
   checkScheduleConflicts(
     String? groupId,

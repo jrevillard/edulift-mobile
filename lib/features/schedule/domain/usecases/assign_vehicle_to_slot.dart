@@ -17,11 +17,11 @@ class AssignVehicleToSlot {
     AssignVehicleToSlotParams params,
   ) async {
     // Validate input parameters (business rules)
-    if (params.groupId.isEmpty ||
-        params.day.isEmpty ||
-        params.time.isEmpty ||
-        params.week.isEmpty ||
-        params.vehicleId.isEmpty) {
+    if (params.groupId.trim().isEmpty ||
+        params.day.trim().isEmpty ||
+        params.time.trim().isEmpty ||
+        params.week.trim().isEmpty ||
+        params.vehicleId.trim().isEmpty) {
       return Result.err(
         ApiFailure.validationError(
           message:

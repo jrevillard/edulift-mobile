@@ -360,7 +360,7 @@ class _EditChildPageState extends ConsumerState<EditChildPage> {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(l10n.childUpdatedSuccessfully),
-            backgroundColor: AppColors.success,
+            backgroundColor: AppColors.successThemed(context),
           ),
         );
 

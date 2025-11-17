@@ -100,7 +100,7 @@ class _InviteFamilyPageState extends ConsumerState<InviteFamilyPage> {
             SnackBar(
               key: const Key('family_search_error_snackbar'),
               content: Text(l10n.searchFailed(errorMessage)),
-              backgroundColor: AppColors.error,
+              backgroundColor: AppColors.errorThemed(context),
             ),
           );
         },
@@ -117,7 +117,7 @@ class _InviteFamilyPageState extends ConsumerState<InviteFamilyPage> {
         SnackBar(
           key: const Key('family_search_error_snackbar'),
           content: Text(l10n.searchFailed(l10n.unexpectedError)),
-          backgroundColor: AppColors.error,
+          backgroundColor: AppColors.errorThemed(context),
         ),
       );
     }
@@ -172,7 +172,7 @@ class _InviteFamilyPageState extends ConsumerState<InviteFamilyPage> {
                 color: theme.colorScheme.surface,
                 boxShadow: [
                   BoxShadow(
-                    color: AppColors.shadow(context),
+                    color: Theme.of(context).colorScheme.shadow,
                     blurRadius: 4,
                     offset: const Offset(0, 2),
                   ),
@@ -368,10 +368,10 @@ class _InviteFamilyPageState extends ConsumerState<InviteFamilyPage> {
               if (_searchResults.length >= 10)
                 Tooltip(
                   message: l10n.refineSearchForMoreResults,
-                  child: const Icon(
+                  child: Icon(
                     Icons.info_outline,
                     size: 20,
-                    color: AppColors.warning,
+                    color: AppColors.warningThemed(context),
                   ),
                 ),
             ],

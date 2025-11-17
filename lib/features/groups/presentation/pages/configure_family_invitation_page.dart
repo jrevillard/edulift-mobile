@@ -96,7 +96,7 @@ class _ConfigureFamilyInvitationPageState
             SnackBar(
               key: const Key('family_invitation_error_snackbar'),
               content: Text(l10n.invitationFailed(errorMessage)),
-              backgroundColor: AppColors.errorThemed(context),
+              backgroundColor: Theme.of(context).colorScheme.error,
             ),
           );
         },
@@ -113,7 +113,7 @@ class _ConfigureFamilyInvitationPageState
         SnackBar(
           key: const Key('family_invitation_error_snackbar'),
           content: Text(l10n.invitationFailed(l10n.unexpectedError)),
-          backgroundColor: AppColors.errorThemed(context),
+          backgroundColor: Theme.of(context).colorScheme.error,
         ),
       );
     }

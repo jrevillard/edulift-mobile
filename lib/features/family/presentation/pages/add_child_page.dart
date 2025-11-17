@@ -333,7 +333,7 @@ class _AddChildPageState extends ConsumerState<AddChildPage> {
                 context,
               ).childAddedSuccessfully(_nameController.text.trim()),
             ),
-            backgroundColor: AppColors.success,
+            backgroundColor: AppColors.successThemed(context),
           ),
         );
 

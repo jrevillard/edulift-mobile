@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../core/services/app_state_provider.dart';
-import '../../../../core/presentation/themes/app_colors.dart';
 import '../utils/responsive_breakpoints.dart';
 
 class OfflineIndicator extends ConsumerWidget {
@@ -37,7 +36,7 @@ class OfflineIndicator extends ConsumerWidget {
         color: Theme.of(context).colorScheme.error,
         boxShadow: [
           BoxShadow(
-            color: AppColors.shadow(context),
+            color: Theme.of(context).shadowColor,
             blurRadius: 4,
             offset: const Offset(0, 2),
           ),

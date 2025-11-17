@@ -458,11 +458,17 @@ class _VehiclesPageState extends ConsumerState<VehiclesPage> {
                           value: 'delete',
                           child: Row(
                             children: [
-                              const Icon(Icons.delete, color: AppColors.error),
+                              Icon(
+                                Icons.delete,
+                                color: Theme.of(context).colorScheme.error,
+                                size: 20,
+                              ),
                               const SizedBox(width: 8),
                               Text(
                                 AppLocalizations.of(context).delete,
-                                style: const TextStyle(color: AppColors.error),
+                                style: TextStyle(
+                                  color: Theme.of(context).colorScheme.error,
+                                ),
                               ),
                             ],
                           ),
@@ -535,7 +541,7 @@ class _VehiclesPageState extends ConsumerState<VehiclesPage> {
             usagePercentage > 0.8
                 ? theme.colorScheme.error
                 : usagePercentage > 0.6
-                ? AppColors.warning
+                ? AppColors.warningThemed(context)
                 : theme.colorScheme.primary,
           ),
         ),

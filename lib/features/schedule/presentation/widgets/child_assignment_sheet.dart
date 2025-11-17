@@ -4,11 +4,15 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:edulift/core/domain/entities/schedule.dart';
 import 'package:edulift/core/domain/entities/family/child.dart';
 import 'package:edulift/core/domain/entities/family/child_assignment.dart';
+import 'package:edulift/core/domain/entities/family/vehicle.dart';
 import 'package:edulift/generated/l10n/app_localizations.dart';
 import '../providers/schedule_providers.dart';
+import '../providers/vehicle_assignment_provider.dart';
+import '../../domain/failures/schedule_failure.dart';
 import '../design/schedule_design.dart';
 import '../../../../core/presentation/themes/app_text_styles.dart';
 import '../../../../core/presentation/themes/app_colors.dart';
+import '../../../../core/utils/app_logger.dart';
 
 /// Child Assignment Sheet with Validation
 /// Level 3 DraggableScrollableSheet at 90%
@@ -16,19 +20,30 @@ class ChildAssignmentSheet extends ConsumerStatefulWidget {
   final String groupId;
   final String week;
   final String slotId;
-  final VehicleAssignment vehicleAssignment;
+  final VehicleAssignment? vehicleAssignment; // null for slot creation
+  final Vehicle? vehicleToCreate; // vehicle for new slot creation
   final List<Child> availableChildren;
   final List<String> currentlyAssignedChildIds;
+  final String? day; // day name for slot creation
+  final String? time; // time string for slot creation
+  final bool shouldCloseParentOnSuccess; // close parent sheet on success
 
   const ChildAssignmentSheet({
     super.key,
     required this.groupId,
     required this.week,
     required this.slotId,
-    required this.vehicleAssignment,
+    this.vehicleAssignment,
+    this.vehicleToCreate,
     required this.availableChildren,
     required this.currentlyAssignedChildIds,
-  });
+    this.day, // day for slot creation
+    this.time, // time for slot creation
+    this.shouldCloseParentOnSuccess = false, // default: don't close parent
+  }) : assert(
+         vehicleAssignment != null || vehicleToCreate != null,
+         'Either vehicleAssignment or vehicleToCreate must be provided',
+       );
 
   @override
   ConsumerState<ChildAssignmentSheet> createState() =>
@@ -38,7 +53,6 @@ class ChildAssignmentSheet extends ConsumerStatefulWidget {
 class _ChildAssignmentSheetState extends ConsumerState<ChildAssignmentSheet> {
   final Set<String> _selectedChildIds = {};
   bool _isLoading = false;
-  String? _conflictError;
 
   @override
   void initState() {
@@ -69,9 +83,9 @@ class _ChildAssignmentSheetState extends ConsumerState<ChildAssignmentSheet> {
                   vertical: ScheduleDimensions.spacingMd,
                 ),
                 decoration: BoxDecoration(
-                  color: AppColors.onSurfaceVariant(
+                  color: Theme.of(
                     context,
-                  ).withValues(alpha: 0.4),
+                  ).colorScheme.onSurfaceVariant.withValues(alpha: 0.4),
                   borderRadius: BorderRadius.circular(2),
                 ),
               ),
@@ -87,10 +101,6 @@ class _ChildAssignmentSheetState extends ConsumerState<ChildAssignmentSheet> {
                 ),
                 child: _buildCapacityBar(),
               ),
-
-              // Conflict error display
-              if (_conflictError != null && _conflictError!.isNotEmpty)
-                _buildConflictError(),
 
               // Scrollable child list
               Expanded(
@@ -161,7 +171,8 @@ class _ChildAssignmentSheetState extends ConsumerState<ChildAssignmentSheet> {
                   ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w600),
                 ),
                 Text(
-                  widget.vehicleAssignment.vehicleName,
+                  widget.vehicleAssignment?.vehicleName ??
+                      widget.vehicleToCreate!.name,
                   style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                     color: AppColors.textSecondaryThemed(context),
                   ),
@@ -176,41 +187,49 @@ class _ChildAssignmentSheetState extends ConsumerState<ChildAssignmentSheet> {
 
   Widget _buildCapacityBar() {
     final usedSeats = _selectedChildIds.length;
-    final effectiveCapacity = widget.vehicleAssignment.effectiveCapacity;
-    final baseCapacity = widget.vehicleAssignment.capacity;
-    final hasOverride = widget.vehicleAssignment.hasOverride;
+    final effectiveCapacity =
+        widget.vehicleAssignment?.effectiveCapacity ??
+        widget.vehicleToCreate!.capacity;
+    final baseCapacity =
+        widget.vehicleAssignment?.capacity ?? widget.vehicleToCreate!.capacity;
+    final hasOverride = widget.vehicleAssignment?.hasOverride ?? false;
 
     final percentage = effectiveCapacity > 0
         ? usedSeats / effectiveCapacity
         : 0.0;
 
     // Use domain logic through temporary vehicle assignment for capacity status
-    final tempAssignment = widget.vehicleAssignment.copyWith(
-      childAssignments: _selectedChildIds
-          .map(
-            (id) => ChildAssignment(
-              id: id,
-              childId: id,
-              assignmentType: 'temp',
-              assignmentId: 'temp',
-              status: AssignmentStatus.pending,
-              createdAt: DateTime.now(),
-              updatedAt: DateTime.now(),
-            ),
-          )
-          .toList(),
-    );
+    final tempAssignment =
+        (widget.vehicleAssignment ?? VehicleAssignment.empty()).copyWith(
+          vehicleName:
+              widget.vehicleAssignment?.vehicleName ??
+              widget.vehicleToCreate!.name,
+          capacity: baseCapacity,
+          childAssignments: _selectedChildIds
+              .map(
+                (id) => ChildAssignment(
+                  id: id,
+                  childId: id,
+                  assignmentType: 'temp',
+                  assignmentId: 'temp',
+                  status: AssignmentStatus.pending,
+                  createdAt: DateTime.now(),
+                  updatedAt: DateTime.now(),
+                ),
+              )
+              .toList(),
+        );
     final status = tempAssignment.capacityStatus();
 
     Color barColor;
     switch (status) {
       case CapacityStatus.overcapacity:
-        barColor = AppColors.error;
+        barColor = AppColors.errorThemed(context);
       case CapacityStatus.full:
       case CapacityStatus.limited:
-        barColor = AppColors.warning;
+        barColor = AppColors.warningThemed(context);
       case CapacityStatus.available:
-        barColor = AppColors.success;
+        barColor = AppColors.successThemed(context);
     }
 
     return Column(
@@ -231,12 +250,12 @@ class _ChildAssignmentSheetState extends ConsumerState<ChildAssignmentSheet> {
             ),
             const SizedBox(width: ScheduleDimensions.spacingSm),
             if (hasOverride)
-              const Tooltip(
+              Tooltip(
                 message: 'Seat override active',
                 child: Icon(
                   Icons.edit,
                   size: ScheduleDimensions.iconSizeSmall,
-                  color: AppColors.warning,
+                  color: AppColors.warningThemed(context),
                 ),
               ),
           ],
@@ -261,7 +280,7 @@ class _ChildAssignmentSheetState extends ConsumerState<ChildAssignmentSheet> {
                 child: Text(
                   'Override: $effectiveCapacity ($baseCapacity base)',
                   style: AppTextStyles.overline.copyWith(
-                    color: AppColors.warning,
+                    color: AppColors.warningThemed(context),
                   ),
                   overflow: TextOverflow.ellipsis,
                   maxLines: 1,
@@ -345,7 +364,7 @@ class _ChildAssignmentSheetState extends ConsumerState<ChildAssignmentSheet> {
                       Text(
                         'Vehicle full',
                         style: AppTextStyles.bodySmall.copyWith(
-                          color: AppColors.error,
+                          color: AppColors.errorThemed(context),
                         ),
                       ),
                   ],
@@ -436,39 +455,6 @@ class _ChildAssignmentSheetState extends ConsumerState<ChildAssignmentSheet> {
   }
 
   /// Build conflict error warning banner
-  Widget _buildConflictError() {
-    return Container(
-      padding: const EdgeInsets.all(ScheduleDimensions.spacingMd),
-      margin: const EdgeInsets.symmetric(
-        horizontal: ScheduleDimensions.spacingLg,
-        vertical: ScheduleDimensions.spacingSm,
-      ),
-      decoration: BoxDecoration(
-        color: AppColors.error.withValues(alpha: 0.1),
-        border: Border.all(color: AppColors.error.withValues(alpha: 0.3)),
-        borderRadius: BorderRadius.circular(8),
-      ),
-      child: Row(
-        children: [
-          const Icon(
-            Icons.error_outline,
-            color: AppColors.error,
-            size: ScheduleDimensions.iconSizeSmall,
-          ),
-          const SizedBox(width: ScheduleDimensions.spacingSm),
-          Expanded(
-            child: Text(
-              _conflictError!,
-              style: AppTextStyles.labelSmall.copyWith(
-                color: AppColors.error,
-                fontWeight: FontWeight.w500,
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
 
   bool _canAssignChild(Child child) {
     // Already selected children can always be unassigned
@@ -479,7 +465,9 @@ class _ChildAssignmentSheetState extends ConsumerState<ChildAssignmentSheet> {
     // Use effectiveCapacity check (same validation as ValidateChildAssignmentUseCase)
     // Note: Use case expects Future<Result> which isn't suitable for synchronous UI check
     final currentAssignmentCount = _selectedChildIds.length;
-    final effectiveCapacity = widget.vehicleAssignment.effectiveCapacity;
+    final effectiveCapacity =
+        widget.vehicleAssignment?.effectiveCapacity ??
+        widget.vehicleToCreate!.capacity;
 
     return currentAssignmentCount < effectiveCapacity;
   }
@@ -490,22 +478,9 @@ class _ChildAssignmentSheetState extends ConsumerState<ChildAssignmentSheet> {
     setState(() {
       if (_selectedChildIds.contains(child.id)) {
         _selectedChildIds.remove(child.id);
-        // Clear conflict error when user makes changes
-        _conflictError = null;
       } else {
         if (_canAssignChild(child)) {
           _selectedChildIds.add(child.id);
-          // Clear conflict error on valid selection
-          _conflictError = null;
-        } else {
-          // Set conflict error instead of showing snackbar
-          _conflictError = AppLocalizations.of(context).vehicleCapacityFull;
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(AppLocalizations.of(context).vehicleCapacityFull),
-              backgroundColor: AppColors.error,
-            ),
-          );
         }
       }
     });
@@ -515,7 +490,6 @@ class _ChildAssignmentSheetState extends ConsumerState<ChildAssignmentSheet> {
   ///
   /// Ensures data integrity by blocking save when:
   /// - No changes detected (_hasChanges = false)
-  /// - Conflict error present (_conflictError != null)
   /// - Validation failed (_isValid() = false)
   /// - Loading in progress (_isLoading = true)
   ///
@@ -528,9 +502,6 @@ class _ChildAssignmentSheetState extends ConsumerState<ChildAssignmentSheet> {
     // Loading in progress = block save
     if (_isLoading) return false;
 
-    // Conflict detected = block save
-    if (_conflictError != null && _conflictError!.isNotEmpty) return false;
-
     // No changes = no save needed
     if (!_hasChanges) return false;
 
@@ -542,24 +513,143 @@ class _ChildAssignmentSheetState extends ConsumerState<ChildAssignmentSheet> {
 
   /// Check if there are changes compared to initial state
   bool get _hasChanges {
-    // Compare current selection with initial assignments
+    // For new slot creation, always allow save (even with no children selected)
+    if (widget.vehicleToCreate != null) {
+      return true;
+    }
+
+    // For existing slots, check if sets are different (additions or removals)
     final currentIds = _selectedChildIds.toSet();
     final initialIds = widget.currentlyAssignedChildIds.toSet();
 
-    // Check if sets are different (additions or removals)
     return currentIds.difference(initialIds).isNotEmpty ||
         initialIds.difference(currentIds).isNotEmpty;
+  }
+
+  /// Create slot with vehicle and assign children (NEW FLOW)
+  Future<void> _createSlotWithVehicleAndAssignChildren() async {
+    try {
+      // Validate required parameters
+      if (widget.day == null || widget.time == null) {
+        final failure = ScheduleFailure.validationError(
+          message: 'Day and time are required for slot creation',
+        );
+        return _handleScheduleError(failure);
+      }
+
+      final vehicle = widget.vehicleToCreate!;
+      final selectedChildren = _selectedChildIds;
+
+      // STEP 1: Create slot with vehicle using proper provider
+      final vehicleResult = await ref
+          .read(vehicleAssignmentProvider)
+          .assignVehicleToSlot(
+            groupId: widget.groupId,
+            day: widget.day!,
+            time: widget.time!,
+            week: widget.week,
+            vehicleId: vehicle.id,
+          );
+
+      if (vehicleResult.isErr) {
+        final failure = vehicleResult.unwrapErr();
+        return _handleScheduleError(failure);
+      }
+
+      final vehicleAssignment = vehicleResult.unwrap();
+
+      // STEP 2: Assign children to the newly created vehicle assignment
+      for (final childId in selectedChildren) {
+        final childResult = await ref
+            .read(assignmentStateNotifierProvider.notifier)
+            .assignChild(
+              groupId: widget.groupId,
+              week: widget.week,
+              assignmentId: vehicleAssignment.id,
+              childId: childId,
+              vehicleAssignment: vehicleAssignment,
+            );
+
+        if (childResult.isErr) {
+          final failure = childResult.unwrapErr();
+          return _handleScheduleError(failure);
+        }
+      }
+
+      // STEP 3: Success - close sheet
+      if (mounted) {
+        setState(() => _isLoading = false);
+        _handleSuccessState();
+      }
+    } catch (e, stackTrace) {
+      AppLogger.error(
+        'ChildAssignmentSheet: Unexpected error in create slot flow',
+        e,
+        stackTrace,
+      );
+      setState(() => _isLoading = false);
+      if (mounted) {
+        _handleScheduleError(
+          ScheduleFailure.serverError(message: e.toString()),
+        );
+      }
+    }
+  }
+
+  void _handleSuccessState() {
+    if (!mounted) return;
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(
+          AppLocalizations.of(context).assignmentsSavedSuccessfully,
+        ),
+        backgroundColor: AppColors.successThemed(context),
+        behavior: SnackBarBehavior.floating,
+        duration: const Duration(seconds: 2),
+      ),
+    );
+
+    // Close sheet after success
+    Navigator.of(context).pop();
+
+    // Close parent sheet if requested (for new slot creation flow)
+    if (widget.shouldCloseParentOnSuccess && mounted) {
+      Navigator.of(context).pop();
+    }
+  }
+
+  void _handleScheduleError(ScheduleFailure failure) {
+    if (!mounted) return;
+
+    final localizations = AppLocalizations.of(context);
+    final errorKey = failure.localizationKey;
+
+    // Use switch pattern like in family feature
+    final errorMessage = switch (errorKey) {
+      'errorValidation' => localizations.errorValidation,
+      'errorServerMessage' => localizations.errorServerMessage,
+      'errorNetworkMessage' => localizations.errorNetworkMessage,
+      _ => failure.message ?? localizations.errorUnknown,
+    };
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(errorMessage),
+        backgroundColor: AppColors.errorThemed(context),
+      ),
+    );
   }
 
   /// Validate current assignment state
   bool _isValid() {
     // Check capacity constraint
     final selectedCount = _selectedChildIds.length;
-    final effectiveCapacity = widget.vehicleAssignment.effectiveCapacity;
+    final effectiveCapacity =
+        widget.vehicleAssignment?.effectiveCapacity ??
+        widget.vehicleToCreate!.capacity;
 
     if (selectedCount > effectiveCapacity) {
-      _conflictError =
-          'Capacity exceeded: $selectedCount children selected, but only $effectiveCapacity seats available';
       return false;
     }
 
@@ -571,7 +661,12 @@ class _ChildAssignmentSheetState extends ConsumerState<ChildAssignmentSheet> {
 
     await HapticFeedback.mediumImpact();
 
-    // Determine children to add/remove
+    // NOUVEAU: Créer slot avec véhicule puis assigner enfants
+    if (widget.vehicleToCreate != null) {
+      return _createSlotWithVehicleAndAssignChildren();
+    }
+
+    // EXISTANT: Logique normale pour slot existant
     final childrenToAdd = _selectedChildIds
         .where((id) => !widget.currentlyAssignedChildIds.contains(id))
         .toList();
@@ -588,7 +683,7 @@ class _ChildAssignmentSheetState extends ConsumerState<ChildAssignmentSheet> {
           .assignChild(
             groupId: widget.groupId,
             week: widget.week,
-            assignmentId: widget.vehicleAssignment.id,
+            assignmentId: widget.vehicleAssignment!.id,
             childId: childId,
             vehicleAssignment: widget.vehicleAssignment,
           );
@@ -601,7 +696,7 @@ class _ChildAssignmentSheetState extends ConsumerState<ChildAssignmentSheet> {
 
         // ✅ Messages spécifiques selon statusCode et error code
         var errorMessage = '';
-        var errorColor = AppColors.error;
+        var errorColor = AppColors.errorThemed(context);
         var errorIcon = Icons.error;
         var canRetry = false;
 
@@ -614,7 +709,7 @@ class _ChildAssignmentSheetState extends ConsumerState<ChildAssignmentSheet> {
                   error.message ??
                   'This child is already assigned to another vehicle for this time slot. '
                       'Please check the schedule and try again.';
-              errorColor = AppColors.warning;
+              errorColor = AppColors.warningThemed(context);
               errorIcon = Icons.warning_amber_rounded;
               canRetry = true;
             } else if (error.code == 'schedule.capacity_exceeded_race') {
@@ -622,7 +717,7 @@ class _ChildAssignmentSheetState extends ConsumerState<ChildAssignmentSheet> {
               errorMessage =
                   'Vehicle capacity changed. Another parent just assigned a child. '
                   'Please refresh and try again.';
-              errorColor = AppColors.warning;
+              errorColor = AppColors.warningThemed(context);
               errorIcon = Icons.warning_amber_rounded;
               canRetry = true;
             } else {
@@ -630,7 +725,7 @@ class _ChildAssignmentSheetState extends ConsumerState<ChildAssignmentSheet> {
               errorMessage =
                   error.message ??
                   'Conflict detected. Please refresh and try again.';
-              errorColor = AppColors.warning;
+              errorColor = AppColors.warningThemed(context);
               errorIcon = Icons.warning_amber_rounded;
               canRetry = true;
             }
@@ -641,7 +736,7 @@ class _ChildAssignmentSheetState extends ConsumerState<ChildAssignmentSheet> {
             errorMessage =
                 error.message ??
                 'Invalid assignment. Please check your selection.';
-            errorColor = AppColors.error;
+            errorColor = AppColors.errorThemed(context);
             errorIcon = Icons.error_outline;
             break;
 
@@ -649,7 +744,7 @@ class _ChildAssignmentSheetState extends ConsumerState<ChildAssignmentSheet> {
             // Permission denied
             errorMessage =
                 'You don\'t have permission to assign children to this vehicle.';
-            errorColor = AppColors.error;
+            errorColor = AppColors.errorThemed(context);
             errorIcon = Icons.block;
             break;
 
@@ -657,7 +752,7 @@ class _ChildAssignmentSheetState extends ConsumerState<ChildAssignmentSheet> {
             // Generic server error
             errorMessage =
                 error.message ?? 'An error occurred. Please try again.';
-            errorColor = AppColors.error;
+            errorColor = AppColors.errorThemed(context);
             errorIcon = Icons.error;
         }
 
@@ -701,7 +796,7 @@ class _ChildAssignmentSheetState extends ConsumerState<ChildAssignmentSheet> {
           .unassignChild(
             groupId: widget.groupId,
             week: widget.week,
-            assignmentId: widget.vehicleAssignment.id,
+            assignmentId: widget.vehicleAssignment!.id,
             childId: childId,
             slotId: widget.slotId, // Use reliable slotId from widget parameter
             childAssignmentId:
@@ -716,7 +811,7 @@ class _ChildAssignmentSheetState extends ConsumerState<ChildAssignmentSheet> {
 
         // ✅ Messages spécifiques selon statusCode
         var errorMessage = '';
-        var errorColor = AppColors.error;
+        var errorColor = AppColors.errorThemed(context);
         var errorIcon = Icons.error;
         var canRetry = false;
 
@@ -725,7 +820,7 @@ class _ChildAssignmentSheetState extends ConsumerState<ChildAssignmentSheet> {
             // Conflict - Child no longer assigned
             errorMessage =
                 'Assignment changed while editing. Please refresh and try again.';
-            errorColor = AppColors.warning;
+            errorColor = AppColors.warningThemed(context);
             errorIcon = Icons.warning_amber_rounded;
             canRetry = true;
             break;
@@ -733,14 +828,14 @@ class _ChildAssignmentSheetState extends ConsumerState<ChildAssignmentSheet> {
           case 400:
             // Validation error
             errorMessage = error.message ?? 'Invalid unassignment operation.';
-            errorColor = AppColors.error;
+            errorColor = AppColors.errorThemed(context);
             errorIcon = Icons.error_outline;
             break;
 
           case 403:
             // Permission denied
             errorMessage = 'You don\'t have permission to unassign this child.';
-            errorColor = AppColors.error;
+            errorColor = AppColors.errorThemed(context);
             errorIcon = Icons.block;
             break;
 
@@ -748,7 +843,7 @@ class _ChildAssignmentSheetState extends ConsumerState<ChildAssignmentSheet> {
             // Generic server error
             errorMessage =
                 error.message ?? 'Failed to unassign child. Please try again.';
-            errorColor = AppColors.error;
+            errorColor = AppColors.errorThemed(context);
             errorIcon = Icons.error;
         }
 
@@ -796,7 +891,7 @@ class _ChildAssignmentSheetState extends ConsumerState<ChildAssignmentSheet> {
           content: Text(
             AppLocalizations.of(context).assignmentsSavedSuccessfully,
           ),
-          backgroundColor: AppColors.success,
+          backgroundColor: AppColors.successThemed(context),
         ),
       );
 

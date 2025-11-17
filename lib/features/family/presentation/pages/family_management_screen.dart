@@ -330,7 +330,11 @@ class _FamilyManagementScreenState extends ConsumerState<FamilyManagementScreen>
       ),
       child: Row(
         children: [
-          const Icon(Icons.people, color: AppColors.primary, size: 20),
+          Icon(
+            Icons.people,
+            color: Theme.of(context).colorScheme.primary,
+            size: 20,
+          ),
           const SizedBox(width: 8),
           Expanded(
             child: Text(

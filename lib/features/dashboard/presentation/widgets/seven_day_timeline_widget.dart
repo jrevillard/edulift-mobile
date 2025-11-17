@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intl/intl.dart';
 
 import 'package:edulift/generated/l10n/app_localizations.dart';
 import 'package:edulift/features/dashboard/presentation/providers/transport_providers.dart';
 import 'package:edulift/features/dashboard/presentation/providers/dashboard_providers.dart';
 import 'package:edulift/features/dashboard/domain/entities/dashboard_transport_summary.dart';
 import 'package:edulift/features/dashboard/presentation/widgets/transport_horizontal_list.dart';
+import 'package:edulift/core/utils/weekday_localization.dart';
 
 /// Seven Day Timeline Widget for dashboard transport overview
 ///
@@ -229,7 +231,7 @@ class _SevenDayTimelineWidgetState
 
         // Selected day header
         Text(
-          _formatSelectedDayHeader(selectedDate, l10n),
+          _formatSelectedDayHeader(context, selectedDate),
           key: const Key('selected_day_header'),
           style: Theme.of(
             context,
@@ -243,45 +245,12 @@ class _SevenDayTimelineWidgetState
             key: const Key('selected_day_transports'),
             transports: selectedSummary.transports,
             semanticLabel:
-                'Transports for ${_formatSelectedDayHeader(selectedDate, l10n)}',
+                'Transports for ${_formatSelectedDayHeader(context, selectedDate)}',
           )
         else
           _buildNoTransportsForDay(context, l10n),
       ],
     );
-  }
-
-  /// Format the selected day header (e.g., "Monday, Nov 11")
-  String _formatSelectedDayHeader(DateTime date, AppLocalizations l10n) {
-    const dayNames = [
-      'Monday',
-      'Tuesday',
-      'Wednesday',
-      'Thursday',
-      'Friday',
-      'Saturday',
-      'Sunday',
-    ];
-    const months = [
-      'Jan',
-      'Feb',
-      'Mar',
-      'Apr',
-      'May',
-      'Jun',
-      'Jul',
-      'Aug',
-      'Sep',
-      'Oct',
-      'Nov',
-      'Dec',
-    ];
-
-    final dayName = dayNames[date.weekday - 1];
-    final month = months[date.month - 1];
-    final day = date.day;
-
-    return '$dayName, $month $day';
   }
 
   /// Build message when selected day has no transports
@@ -442,6 +411,28 @@ class _SevenDayTimelineWidgetState
   }
 }
 
+/// Format day name using existing utility to avoid code duplication
+String _formatDayName(BuildContext context, DateTime date) {
+  final l10n = AppLocalizations.of(context);
+  final shortLabels = getLocalizedWeekdayShortLabels(l10n);
+  return shortLabels[date.weekday -
+      1]; // Monday=1, so subtract 1 for 0-indexed array
+}
+
+/// Format date using locale-aware DateFormat
+String _formatDate(BuildContext context, DateTime date) {
+  final l10n = AppLocalizations.of(context);
+  final formatter = DateFormat('d MMM', l10n.localeName);
+  return formatter.format(date);
+}
+
+/// Format selected day header combining day name and date
+String _formatSelectedDayHeader(BuildContext context, DateTime date) {
+  final dayName = _formatDayName(context, date);
+  final dateStr = _formatDate(context, date);
+  return '$dayName, $dateStr';
+}
+
 /// Selectable day badge for week view
 ///
 /// Shows day name with transport indicator and selection state.
@@ -546,29 +537,6 @@ class SelectableDayBadge extends StatelessWidget {
       ),
     );
   }
-
-  String _formatDayName(BuildContext context, DateTime date) {
-    final l10n = AppLocalizations.of(context);
-    // Weekday: 1 = Monday, 7 = Sunday
-    switch (date.weekday) {
-      case DateTime.monday:
-        return l10n.mondayShort;
-      case DateTime.tuesday:
-        return l10n.tuesdayShort;
-      case DateTime.wednesday:
-        return l10n.wednesdayShort;
-      case DateTime.thursday:
-        return l10n.thursdayShort;
-      case DateTime.friday:
-        return l10n.fridayShort;
-      case DateTime.saturday:
-        return l10n.saturdayShort;
-      case DateTime.sunday:
-        return l10n.sundayShort;
-      default:
-        return '';
-    }
-  }
 }
 
 /// Day detail card for expanded week view
@@ -588,8 +556,8 @@ class DayDetailCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final dayName = _formatDayName(date);
-    final dateStr = _formatDate(date);
+    final dayName = _formatDayName(context, date);
+    final dateStr = _formatDate(context, date);
 
     return Semantics(
       label: '$dayName $dateStr transport details',
@@ -711,28 +679,5 @@ class DayDetailCard extends StatelessWidget {
         ],
       ),
     );
-  }
-
-  String _formatDayName(DateTime date) {
-    const dayNames = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
-    return dayNames[date.weekday - 1];
-  }
-
-  String _formatDate(DateTime date) {
-    const months = [
-      'Jan',
-      'Feb',
-      'Mar',
-      'Apr',
-      'May',
-      'Jun',
-      'Jul',
-      'Aug',
-      'Sep',
-      'Oct',
-      'Nov',
-      'Dec',
-    ];
-    return '${months[date.month - 1]} ${date.day}';
   }
 }

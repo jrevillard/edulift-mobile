@@ -17,6 +17,7 @@ import '../../domain/entities/dashboard_transport_summary.dart';
 import '../../../../features/family/presentation/providers/family_provider.dart';
 import '../../../../features/schedule/presentation/providers/schedule_providers.dart';
 import '../../../../core/di/providers/providers.dart';
+import '../../../../core/domain/entities/groups/group.dart';
 
 part 'transport_providers.g.dart';
 
@@ -136,33 +137,89 @@ Future<List<DayTransportSummary>> day7TransportSummary(Ref ref) async {
     // Generate the 7-day rolling period starting from today in USER timezone
     // CRITICAL FIX: Use timezone-aware date calculations, not device timezone
     final startDate = DateUtils.getTodayInUserTimezone(userTimezone);
-    final weekFormat = getISOWeekString(startDate, userTimezone);
-
     AppLogger.debug('Fetching schedules for 7-day period', {
       'startDate': startDate.toIso8601String(),
-      'weekFormat': weekFormat,
       'groupCount': familyGroups.length,
     });
 
-    // For each family group, fetch the weekly schedule
+    // CRITICAL: When 7-day window spans multiple ISO weeks, fetch data from ALL weeks
+    // Example: Sunday 2025-01-05 → Saturday 2025-01-11 spans week 2025-W01 and 2025-W02
+    final uniqueWeeks = <String>{};
+    for (var dayOffset = 0; dayOffset < 7; dayOffset++) {
+      final currentDate = startDate.add(Duration(days: dayOffset));
+      final weekFormat = getISOWeekString(currentDate, userTimezone);
+      uniqueWeeks.add(weekFormat);
+    }
+
+    AppLogger.debug('7-day window spans multiple weeks', {
+      'startDate': startDate.toIso8601String(),
+      'uniqueWeeks': uniqueWeeks.toList(),
+    });
+
+    // For each family group, fetch schedule data for ALL weeks in our 7-day window
     // IMPORTANT: Watch the schedule provider to enable auto-refresh
     // When schedule changes, this provider will automatically re-run
     for (final group in familyGroups) {
       try {
         // Watch schedule provider instead of calling repository directly
         // This creates a dependency that enables automatic refresh
-        final weeklySlots = await ref.watch(
-          weeklyScheduleProvider(group.id, weekFormat).future,
-        );
+        // Fetch schedule data for each unique week in our window
+        final allWeeklySlots = <ScheduleSlot>[];
+        for (final weekFormat in uniqueWeeks) {
+          final weeklySlots = await ref.watch(
+            weeklyScheduleProvider(group.id, weekFormat).future,
+          );
+          allWeeklySlots.addAll(weeklySlots);
 
-        // Filter slots to include only those within our 7-day window
-        final relevantSlots = weeklySlots.where((slot) {
+          AppLogger.debug('Fetched weekly schedule', {
+            'groupId': group.id,
+            'groupName': group.name,
+            'weekFormat': weekFormat,
+            'slotCount': weeklySlots.length,
+            'slotsDetails': weeklySlots
+                .map(
+                  (slot) => {
+                    'id': slot.id,
+                    'week': slot.week,
+                    'dayOfWeek': slot.dayOfWeek.toString(),
+                    'timeOfDay': slot.timeOfDay.toString(),
+                  },
+                )
+                .toList(),
+          });
+        }
+
+        // Filter slots from all weeks to include only those within our 7-day window
+        // CRITICAL FIX: Also check that the slot's actual week matches the expected week for that date
+        final relevantSlots = allWeeklySlots.where((slot) {
           final slotDateTime = _convertScheduleSlotToDateTime(slot, startDate);
-          return slotDateTime != null &&
+          if (slotDateTime == null) return false;
+
+          final isInWindow =
               slotDateTime.isAfter(
                 startDate.subtract(const Duration(days: 1)),
               ) &&
               slotDateTime.isBefore(startDate.add(const Duration(days: 7)));
+
+          // CRITICAL: Verify the slot's week matches what it should be for this date
+          // This prevents mixing slots from different weeks in the 7-day window
+          final expectedWeek = getISOWeekString(slotDateTime, userTimezone);
+          final weekMatches = slot.week == expectedWeek;
+
+          AppLogger.debug('Filtering slot', {
+            'slotId': slot.id,
+            'slotWeek': slot.week,
+            'expectedWeek': expectedWeek,
+            'slotDayOfWeek': slot.dayOfWeek.toString(),
+            'slotTime': slot.timeOfDay.toString(),
+            'convertedDateTime': slotDateTime.toIso8601String(),
+            'startDate': startDate.toIso8601String(),
+            'isInWindow': isInWindow,
+            'weekMatches': weekMatches,
+            'willInclude': isInWindow && weekMatches,
+          });
+
+          return isInWindow && weekMatches;
         }).toList();
 
         // Apply family filtering to the slots
@@ -177,7 +234,7 @@ Future<List<DayTransportSummary>> day7TransportSummary(Ref ref) async {
         AppLogger.debug('Processed group schedules', {
           'groupId': group.id,
           'groupName': group.name,
-          'totalSlots': weeklySlots.length,
+          'totalSlots': allWeeklySlots.length,
           'relevantSlots': relevantSlots.length,
           'filteredSlots': filteredSlots.length,
         });
@@ -198,6 +255,7 @@ Future<List<DayTransportSummary>> day7TransportSummary(Ref ref) async {
       familyId,
       vehiclesMap,
       userTimezone,
+      familyGroups,
     );
 
     AppLogger.debug('Successfully generated 7-day transport summary', {
@@ -569,13 +627,26 @@ DateTime? _convertScheduleSlotToDateTime(
     // Combine reference date with the time from timeOfDay
     final slotDate = referenceDate.add(Duration(days: dayOffset));
 
-    return DateTime(
+    final result = DateTime(
       slotDate.year,
       slotDate.month,
       slotDate.day,
       slot.timeOfDay.hour,
       slot.timeOfDay.minute,
     );
+
+    AppLogger.debug('_convertScheduleSlotToDateTime', {
+      'slotId': slot.id,
+      'slotDayOfWeek': slot.dayOfWeek.toString(),
+      'slotTimeOfDay': slot.timeOfDay.toString(),
+      'referenceDate': referenceDate.toIso8601String(),
+      'referenceWeekday': referenceDate.weekday,
+      'dayOffset': dayOffset,
+      'slotDate': slotDate.toIso8601String(),
+      'finalResult': result.toIso8601String(),
+    });
+
+    return result;
   } catch (e) {
     AppLogger.warning('Failed to convert ScheduleSlot to DateTime', {
       'slotId': slot.id,
@@ -597,8 +668,13 @@ int _getDayOffsetFromReference(DayOfWeek dayOfWeek, DateTime referenceDate) {
   final offset = slotDayValue - referenceDay;
 
   // Handle week wrap-around: if offset is too negative, adjust to next week
-  if (offset < -3) {
-    // More than 3 days before reference, assume next week
+  // For 7-day window Sunday-Saturday, we need different logic
+  if (offset < -6) {
+    // More than 6 days before reference (impossible in 7-day window)
+    return offset + 7;
+  } else if (offset < 0) {
+    // Negative offset means slot is in next week for Sunday->Saturday view
+    // Example: Sunday (7) -> Monday (1) = -6, should be +1 (next Monday)
     return offset + 7;
   }
 
@@ -632,6 +708,7 @@ List<DayTransportSummary> _createDaySummariesFromSlots(
   String familyId,
   Map<String, Vehicle> vehiclesMap,
   String userTimezone,
+  List<Group> familyGroups,
 ) {
   final summaries = <DayTransportSummary>[];
 
@@ -654,6 +731,7 @@ List<DayTransportSummary> _createDaySummariesFromSlots(
             familyId,
             vehiclesMap,
             userTimezone,
+            familyGroups,
           ),
         )
         .toList();
@@ -688,6 +766,7 @@ TransportSlotSummary _convertSlotToTransportSummary(
   String familyId,
   Map<String, Vehicle> vehiclesMap,
   String userTimezone,
+  List<Group> familyGroups,
 ) {
   // Convert vehicle assignments to summaries
   final vehicleSummaries = slot.vehicleAssignments
@@ -726,10 +805,11 @@ TransportSlotSummary _convertSlotToTransportSummary(
     userTimezone,
   );
 
+  final group = familyGroups.where((g) => g.id == slot.groupId).firstOrNull;
   return TransportSlotSummary(
     time: formattedTime,
     groupId: slot.groupId,
-    groupName: 'Group ${slot.groupId}', // TODO: Get actual group name
+    groupName: group?.name ?? 'Unknown Group ${slot.groupId}',
     scheduleSlotId: slot.id,
     vehicleAssignmentSummaries: vehicleSummaries,
     totalChildrenAssigned: totalChildren,

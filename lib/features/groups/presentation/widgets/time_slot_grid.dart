@@ -251,7 +251,7 @@ class _TimeSlotGridState extends ConsumerState<TimeSlotGrid> {
                   Container(
                     padding: const EdgeInsets.all(8),
                     decoration: BoxDecoration(
-                      color: AppColors.errorContainer(context),
+                      color: AppColors.errorThemed(context),
                       borderRadius: BorderRadius.circular(8),
                       border: Border.all(color: AppColors.errorThemed(context)),
                     ),
@@ -267,7 +267,9 @@ class _TimeSlotGridState extends ConsumerState<TimeSlotGrid> {
                           child: Text(
                             _validationError!,
                             style: TextStyle(
-                              color: AppColors.onErrorContainer(context),
+                              color: Theme.of(
+                                context,
+                              ).colorScheme.onErrorContainer,
                               fontSize: 12,
                             ),
                           ),

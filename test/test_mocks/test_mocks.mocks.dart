@@ -5198,29 +5198,6 @@ class MockScheduleRemoteDataSource extends _i1.Mock
           as _i21.Future<void>);
 
   @override
-  _i21.Future<List<_i12.ChildDto>> getAvailableChildren({
-    required String? groupId,
-    required String? week,
-    required String? day,
-    required String? time,
-  }) =>
-      (super.noSuchMethod(
-            Invocation.method(#getAvailableChildren, [], {
-              #groupId: groupId,
-              #week: week,
-              #day: day,
-              #time: time,
-            }),
-            returnValue: _i21.Future<List<_i12.ChildDto>>.value(
-              <_i12.ChildDto>[],
-            ),
-            returnValueForMissingStub: _i21.Future<List<_i12.ChildDto>>.value(
-              <_i12.ChildDto>[],
-            ),
-          )
-          as _i21.Future<List<_i12.ChildDto>>);
-
-  @override
   _i21.Future<_i2.ScheduleConfigDto> getScheduleConfig(String? groupId) =>
       (super.noSuchMethod(
             Invocation.method(#getScheduleConfig, [groupId]),
@@ -7801,56 +7778,6 @@ class MockGroupScheduleRepository extends _i1.Mock
                 ),
           )
           as _i21.Future<_i47.Result<_i71.VehicleAssignment, _i48.ApiFailure>>);
-
-  @override
-  _i21.Future<_i47.Result<List<_i18.Child>, _i48.ApiFailure>>
-  getAvailableChildren(
-    String? groupId,
-    String? week,
-    String? day,
-    String? time,
-  ) =>
-      (super.noSuchMethod(
-            Invocation.method(#getAvailableChildren, [
-              groupId,
-              week,
-              day,
-              time,
-            ]),
-            returnValue:
-                _i21.Future<
-                  _i47.Result<List<_i18.Child>, _i48.ApiFailure>
-                >.value(
-                  _i43.dummyValue<
-                    _i47.Result<List<_i18.Child>, _i48.ApiFailure>
-                  >(
-                    this,
-                    Invocation.method(#getAvailableChildren, [
-                      groupId,
-                      week,
-                      day,
-                      time,
-                    ]),
-                  ),
-                ),
-            returnValueForMissingStub:
-                _i21.Future<
-                  _i47.Result<List<_i18.Child>, _i48.ApiFailure>
-                >.value(
-                  _i43.dummyValue<
-                    _i47.Result<List<_i18.Child>, _i48.ApiFailure>
-                  >(
-                    this,
-                    Invocation.method(#getAvailableChildren, [
-                      groupId,
-                      week,
-                      day,
-                      time,
-                    ]),
-                  ),
-                ),
-          )
-          as _i21.Future<_i47.Result<List<_i18.Child>, _i48.ApiFailure>>);
 
   @override
   _i21.Future<_i47.Result<List<_i71.ScheduleConflict>, _i48.ApiFailure>>

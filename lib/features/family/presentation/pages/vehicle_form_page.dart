@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:edulift/generated/l10n/app_localizations.dart';
-import 'package:edulift/core/presentation/themes/app_colors.dart';
 import 'package:edulift/core/domain/entities/family.dart';
 
 // COMPOSITION ROOT: Import ONLY from feature-level composition root
@@ -299,7 +298,7 @@ class _VehicleFormPageState extends ConsumerState<VehicleFormPage> {
         color: Theme.of(context).colorScheme.surface,
         boxShadow: [
           BoxShadow(
-            color: AppColors.shadow(context),
+            color: Theme.of(context).shadowColor,
             blurRadius: 8,
             offset: const Offset(0, -2),
           ),

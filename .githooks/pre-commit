@@ -2,8 +2,6 @@
 # EduLift Mobile - Pre-commit Hook
 # Ensures code quality before committing
 
-set -e
-
 echo "🔍 Running pre-commit checks..."
 
 # Colors for output

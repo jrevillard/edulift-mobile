@@ -2318,6 +2318,12 @@ abstract class AppLocalizations {
   /// **'Failed to Load Schedule'**
   String get failedToLoadSchedule;
 
+  /// Error message when changing week
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to change week'**
+  String get failedToChangeWeek;
+
   /// Vehicle loading error message
   ///
   /// In en, this message translates to:
@@ -3428,23 +3434,11 @@ abstract class AppLocalizations {
   /// **'Manage'**
   String get manage;
 
-  /// Button to manage children in vehicle selection
-  ///
-  /// In en, this message translates to:
-  /// **'Manage Children'**
-  String get manageChildren;
-
   /// Family management section
   ///
   /// In en, this message translates to:
   /// **'Manage Family'**
   String get manageFamily;
-
-  /// Title for vehicle management modal
-  ///
-  /// In en, this message translates to:
-  /// **'Manage Vehicles'**
-  String get manageVehicles;
 
   /// No description provided for @maxSeatsLabel.
   ///
@@ -5612,12 +5606,6 @@ abstract class AppLocalizations {
   /// **'Configure Schedule'**
   String get configureScheduleTooltip;
 
-  /// Tooltip for manage children button
-  ///
-  /// In en, this message translates to:
-  /// **'Manage Children'**
-  String get manageChildrenTooltip;
-
   /// Tooltip for remove vehicle button
   ///
   /// In en, this message translates to:
@@ -6806,12 +6794,6 @@ abstract class AppLocalizations {
   /// **'{day} at {time} with {count, plural, =1{1 vehicle} other{{count} vehicles}}, tap to manage'**
   String slotWithVehiclesTapToManage(String day, String time, int count);
 
-  /// Semantic label for manage children button
-  ///
-  /// In en, this message translates to:
-  /// **'Manage children for {vehicleName}'**
-  String manageChildrenForVehicle(String vehicleName);
-
   /// Semantic label for remove vehicle button
   ///
   /// In en, this message translates to:
@@ -6835,12 +6817,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Has pending offline changes'**
   String get hasPendingChanges;
-
-  /// Placeholder message for child assignment feature
-  ///
-  /// In en, this message translates to:
-  /// **'Child assignment feature coming soon'**
-  String get childAssignmentComingSoon;
 
   /// Error message when seat override update fails
   ///
@@ -7015,6 +6991,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Collapse week view'**
   String get collapseWeekView;
+
+  /// User-friendly error message for schedule slot ID missing errors
+  ///
+  /// In en, this message translates to:
+  /// **'Unable to complete this operation. The schedule slot may not exist or there may be a connection issue.'**
+  String get scheduleSlotError;
+
+  /// Error message when user lacks permissions
+  ///
+  /// In en, this message translates to:
+  /// **'You don\'t have permission to perform this action.'**
+  String get permissionError;
+
+  /// Error message when vehicle is not found
+  ///
+  /// In en, this message translates to:
+  /// **'The selected vehicle could not be found. Please try again.'**
+  String get vehicleNotFoundError;
 }
 
 class _AppLocalizationsDelegate
