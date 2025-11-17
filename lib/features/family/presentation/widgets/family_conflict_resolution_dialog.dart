@@ -67,7 +67,10 @@ class _FamilyConflictResolutionDialogState
     return AlertDialog(
       title: Row(
         children: [
-          Icon(Icons.warning_amber_rounded, color: theme.colorScheme.warning),
+          Icon(
+            Icons.warning_amber_rounded,
+            color: AppColors.warningThemed(context),
+          ),
           const SizedBox(width: 8),
           Expanded(
             child: Text(
@@ -253,8 +256,7 @@ class _FamilyConflictResolutionDialogState
   }
 
   Widget _buildInfoRow(IconData icon, String text, {bool isWarning = false}) {
-    final theme = Theme.of(context);
-    final color = isWarning ? theme.colorScheme.warning : null;
+    final color = isWarning ? AppColors.warningThemed(context) : null;
 
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 4),
@@ -478,9 +480,4 @@ class FamilyConflictResolutionWithData {
   final String data;
 
   const FamilyConflictResolutionWithData(this.resolution, this.data);
-}
-
-/// Extension to add warning color to theme
-extension ThemeExtension on ColorScheme {
-  Color get warning => AppColors.warning;
 }

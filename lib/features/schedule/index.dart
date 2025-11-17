@@ -25,8 +25,6 @@ export 'presentation/providers/realtime_schedule_provider.dart';
 export 'presentation/pages/schedule_coordination_screen.dart';
 
 // Presentation - Widgets
-export 'presentation/widgets/schedule_grid.dart';
 export 'presentation/widgets/schedule_slot_widget.dart';
-export 'presentation/widgets/vehicle_selection_modal.dart';
 
 // Error Handling - Use core/presentation/widgets/error_boundary_widget.dart for Clean Architecture

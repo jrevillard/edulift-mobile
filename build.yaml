@@ -5,3 +5,6 @@ targets:
         generate_for:
           include:
             - test/**
+      build_runner:
+        options:
+          delete_conflicting_outputs: true

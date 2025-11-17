@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:edulift/generated/l10n/app_localizations.dart';
-import 'package:edulift/core/presentation/themes/app_colors.dart';
 
 class GlobalLoadingOverlay extends StatelessWidget {
   const GlobalLoadingOverlay({super.key});
@@ -9,7 +8,7 @@ class GlobalLoadingOverlay extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     return Container(
-      color: AppColors.scrim(context),
+      color: Colors.black54,
       child: Center(
         child: Card(
           elevation: 8,

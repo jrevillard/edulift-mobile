@@ -44,9 +44,9 @@ class LastAdminProtectionWidget extends ConsumerWidget {
       margin: const EdgeInsets.all(16),
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: theme.colorScheme.warningContainer,
+        color: AppColors.warningThemed(context).withValues(alpha: 0.1),
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: theme.colorScheme.warning, width: 2),
+        border: Border.all(color: AppColors.warningThemed(context), width: 2),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -55,14 +55,14 @@ class LastAdminProtectionWidget extends ConsumerWidget {
             children: [
               Icon(
                 Icons.admin_panel_settings,
-                color: theme.colorScheme.onWarningContainer,
+                color: AppColors.warningThemed(context),
               ),
               const SizedBox(width: 8),
               Expanded(
                 child: Text(
                   localizations.lastAdminProtection,
                   style: theme.textTheme.titleMedium?.copyWith(
-                    color: theme.colorScheme.onWarningContainer,
+                    color: AppColors.warningThemed(context),
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -72,7 +72,7 @@ class LastAdminProtectionWidget extends ConsumerWidget {
           const SizedBox(height: 12),
           Text(
             localizations.lastAdminWarning,
-            style: TextStyle(color: theme.colorScheme.onWarningContainer),
+            style: TextStyle(color: AppColors.warningThemed(context)),
           ),
           const SizedBox(height: 16),
 
@@ -93,7 +93,7 @@ class LastAdminProtectionWidget extends ConsumerWidget {
         Text(
           localizations.availableOptions,
           style: theme.textTheme.titleSmall?.copyWith(
-            color: theme.colorScheme.onWarningContainer,
+            color: AppColors.warningThemed(context),
             fontWeight: FontWeight.bold,
           ),
         ),
@@ -337,22 +337,17 @@ class _TransferOwnershipDialog extends StatelessWidget {
           Container(
             padding: const EdgeInsets.all(12),
             decoration: BoxDecoration(
-              color: theme.colorScheme.warningContainer,
+              color: AppColors.warningThemed(context).withValues(alpha: 0.1),
               borderRadius: BorderRadius.circular(8),
             ),
             child: Row(
               children: [
-                Icon(
-                  Icons.warning,
-                  color: theme.colorScheme.onWarningContainer,
-                ),
+                Icon(Icons.warning, color: AppColors.warningThemed(context)),
                 const SizedBox(width: 8),
                 Expanded(
                   child: Text(
                     localizations.transferOwnershipWarning,
-                    style: TextStyle(
-                      color: theme.colorScheme.onWarningContainer,
-                    ),
+                    style: TextStyle(color: AppColors.warningThemed(context)),
                   ),
                 ),
               ],
@@ -475,13 +470,6 @@ class _DeleteFamilyConfirmationDialogState
       ],
     );
   }
-}
-
-/// Extension to add warning colors to theme
-extension ColorSchemeExtension on ColorScheme {
-  Color get warning => AppColors.warning;
-  Color get warningContainer => AppColors.warningContainer;
-  Color get onWarningContainer => AppColors.onWarningContainer;
 }
 
 /// Extension for FamilyRole display names

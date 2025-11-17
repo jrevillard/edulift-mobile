@@ -2,7 +2,6 @@
 // Consistent typography throughout the application
 
 import 'package:flutter/material.dart';
-import 'app_colors.dart';
 
 /// Application text styles
 class AppTextStyles {
@@ -17,7 +16,6 @@ class AppTextStyles {
     fontSize: 32.0,
     fontWeight: FontWeight.w700,
     height: 1.25,
-    color: AppColors.textPrimary,
   );
 
   static const TextStyle h2 = TextStyle(
@@ -25,7 +23,6 @@ class AppTextStyles {
     fontSize: 24.0,
     fontWeight: FontWeight.w600,
     height: 1.33,
-    color: AppColors.textPrimary,
   );
 
   static const TextStyle h3 = TextStyle(
@@ -33,7 +30,6 @@ class AppTextStyles {
     fontSize: 20.0,
     fontWeight: FontWeight.w600,
     height: 1.4,
-    color: AppColors.textPrimary,
   );
 
   static const TextStyle h4 = TextStyle(
@@ -41,7 +37,6 @@ class AppTextStyles {
     fontSize: 18.0,
     fontWeight: FontWeight.w600,
     height: 1.44,
-    color: AppColors.textPrimary,
   );
 
   static const TextStyle h5 = TextStyle(
@@ -49,7 +44,6 @@ class AppTextStyles {
     fontSize: 16.0,
     fontWeight: FontWeight.w600,
     height: 1.5,
-    color: AppColors.textPrimary,
   );
 
   static const TextStyle h6 = TextStyle(
@@ -57,7 +51,6 @@ class AppTextStyles {
     fontSize: 14.0,
     fontWeight: FontWeight.w600,
     height: 1.57,
-    color: AppColors.textPrimary,
   );
 
   // Body text styles
@@ -66,7 +59,6 @@ class AppTextStyles {
     fontSize: 16.0,
     fontWeight: FontWeight.w400,
     height: 1.5,
-    color: AppColors.textPrimary,
   );
 
   static const TextStyle bodyMedium = TextStyle(
@@ -74,7 +66,6 @@ class AppTextStyles {
     fontSize: 14.0,
     fontWeight: FontWeight.w400,
     height: 1.57,
-    color: AppColors.textPrimary,
   );
 
   static const TextStyle bodySmall = TextStyle(
@@ -82,7 +73,6 @@ class AppTextStyles {
     fontSize: 12.0,
     fontWeight: FontWeight.w400,
     height: 1.67,
-    color: AppColors.textSecondary,
   );
 
   // Label styles
@@ -91,7 +81,6 @@ class AppTextStyles {
     fontSize: 14.0,
     fontWeight: FontWeight.w500,
     height: 1.57,
-    color: AppColors.textPrimary,
   );
 
   static const TextStyle labelMedium = TextStyle(
@@ -99,7 +88,6 @@ class AppTextStyles {
     fontSize: 12.0,
     fontWeight: FontWeight.w500,
     height: 1.67,
-    color: AppColors.textPrimary,
   );
 
   static const TextStyle labelSmall = TextStyle(
@@ -107,7 +95,6 @@ class AppTextStyles {
     fontSize: 11.0,
     fontWeight: FontWeight.w500,
     height: 1.82,
-    color: AppColors.textSecondary,
   );
 
   // Caption and overline
@@ -116,7 +103,6 @@ class AppTextStyles {
     fontSize: 12.0,
     fontWeight: FontWeight.w400,
     height: 1.67,
-    color: AppColors.textSecondary,
   );
 
   static const TextStyle overline = TextStyle(
@@ -125,16 +111,14 @@ class AppTextStyles {
     fontWeight: FontWeight.w500,
     height: 1.6,
     letterSpacing: 0.5,
-    color: AppColors.textSecondary,
   );
 
-  // Button text styles
+  // Button text styles (without hardcoded colors)
   static const TextStyle buttonLarge = TextStyle(
     fontFamily: fontFamily,
     fontSize: 16.0,
     fontWeight: FontWeight.w600,
     height: 1.5,
-    color: Colors.white,
   );
 
   static const TextStyle buttonMedium = TextStyle(
@@ -142,7 +126,6 @@ class AppTextStyles {
     fontSize: 14.0,
     fontWeight: FontWeight.w600,
     height: 1.57,
-    color: Colors.white,
   );
 
   static const TextStyle buttonSmall = TextStyle(
@@ -150,6 +133,58 @@ class AppTextStyles {
     fontSize: 12.0,
     fontWeight: FontWeight.w600,
     height: 1.67,
-    color: Colors.white,
   );
+
+  // Themed text styles that use context for colors
+  static TextStyle getThemedH1(BuildContext context) =>
+      h1.copyWith(color: Theme.of(context).colorScheme.onSurface);
+
+  static TextStyle getThemedH2(BuildContext context) =>
+      h2.copyWith(color: Theme.of(context).colorScheme.onSurface);
+
+  static TextStyle getThemedH3(BuildContext context) =>
+      h3.copyWith(color: Theme.of(context).colorScheme.onSurface);
+
+  static TextStyle getThemedH4(BuildContext context) =>
+      h4.copyWith(color: Theme.of(context).colorScheme.onSurface);
+
+  static TextStyle getThemedH5(BuildContext context) =>
+      h5.copyWith(color: Theme.of(context).colorScheme.onSurface);
+
+  static TextStyle getThemedH6(BuildContext context) =>
+      h6.copyWith(color: Theme.of(context).colorScheme.onSurface);
+
+  static TextStyle getThemedBodyLarge(BuildContext context) =>
+      bodyLarge.copyWith(color: Theme.of(context).colorScheme.onSurface);
+
+  static TextStyle getThemedBodyMedium(BuildContext context) =>
+      bodyMedium.copyWith(color: Theme.of(context).colorScheme.onSurface);
+
+  static TextStyle getThemedBodySmall(BuildContext context) =>
+      bodySmall.copyWith(color: Theme.of(context).colorScheme.onSurfaceVariant);
+
+  static TextStyle getThemedLabelLarge(BuildContext context) =>
+      labelLarge.copyWith(color: Theme.of(context).colorScheme.onSurface);
+
+  static TextStyle getThemedLabelMedium(BuildContext context) => labelMedium
+      .copyWith(color: Theme.of(context).colorScheme.onSurfaceVariant);
+
+  static TextStyle getThemedLabelSmall(BuildContext context) => labelSmall
+      .copyWith(color: Theme.of(context).colorScheme.onSurfaceVariant);
+
+  static TextStyle getThemedCaption(BuildContext context) =>
+      caption.copyWith(color: Theme.of(context).colorScheme.onSurfaceVariant);
+
+  static TextStyle getThemedOverline(BuildContext context) =>
+      overline.copyWith(color: Theme.of(context).colorScheme.onSurfaceVariant);
+
+  // Button styles with theme-appropriate colors
+  static TextStyle getThemedButtonLarge(BuildContext context) =>
+      buttonLarge.copyWith(color: Theme.of(context).colorScheme.onPrimary);
+
+  static TextStyle getThemedButtonMedium(BuildContext context) =>
+      buttonMedium.copyWith(color: Theme.of(context).colorScheme.onPrimary);
+
+  static TextStyle getThemedButtonSmall(BuildContext context) =>
+      buttonSmall.copyWith(color: Theme.of(context).colorScheme.onPrimary);
 }

@@ -9,7 +9,6 @@ import '../../../../core/network/models/schedule/schedule_slot_dto.dart';
 import '../../../../core/network/models/schedule/schedule_response_dto.dart';
 import '../../../../core/network/models/schedule/vehicle_assignment_dto.dart';
 import '../../../../core/network/models/schedule/schedule_config_dto.dart';
-import '../../../../core/network/models/child/child_dto.dart';
 import '../../../../core/network/models/family/schedule_slot_child_dto.dart';
 import '../../../../core/network/requests/schedule_requests.dart';
 import '../../../../core/network/requests/group_requests.dart';
@@ -314,30 +313,6 @@ class ScheduleRemoteDataSourceImpl implements ScheduleRemoteDataSource {
     AppLogger.debug(
       '[ScheduleRemoteDataSource] Successfully removed child from vehicle',
     );
-  }
-
-  @override
-  Future<List<ChildDto>> getAvailableChildren({
-    required String groupId,
-    required String week,
-    required String day,
-    required String time,
-  }) async {
-    AppLogger.debug(
-      '[ScheduleRemoteDataSource] getAvailableChildren() called',
-      {'groupId': groupId, 'week': week, 'day': day, 'time': time},
-    );
-
-    // For now, return empty list until API endpoint is available
-    // The API client has getAvailableChildren(slotId) but we need
-    // to first find or create the slot based on groupId, week, day, time
-    // This is a placeholder implementation
-    final availableChildren = <ChildDto>[];
-
-    AppLogger.debug(
-      '[ScheduleRemoteDataSource] Successfully fetched available children',
-    );
-    return availableChildren;
   }
 
   // ========================================

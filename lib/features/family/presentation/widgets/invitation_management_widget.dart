@@ -5,7 +5,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../../../core/presentation/themes/app_colors.dart';
 import '../../../../core/utils/app_logger.dart';
 import 'package:edulift/core/domain/entities/family.dart';
 import '../../../../generated/l10n/app_localizations.dart';
@@ -457,7 +456,7 @@ class _FamilyInvitationManagementWidgetState
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(localizations.invitationCancelledSuccessfully),
-            backgroundColor: AppColors.success,
+            backgroundColor: Theme.of(context).colorScheme.primary,
           ),
         );
       }
@@ -466,7 +465,7 @@ class _FamilyInvitationManagementWidgetState
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(localizations.failedToCancel(e.toString())),
-            backgroundColor: AppColors.error,
+            backgroundColor: Theme.of(context).colorScheme.error,
           ),
         );
       }
@@ -484,7 +483,7 @@ class _FamilyInvitationManagementWidgetState
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(localizations.invitationCodeNotAvailable),
-            backgroundColor: AppColors.error,
+            backgroundColor: Theme.of(context).colorScheme.error,
           ),
         );
       }
@@ -571,7 +570,7 @@ class _FamilyInvitationManagementWidgetState
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(localizations.invitationCodeCopied),
-            backgroundColor: AppColors.success,
+            backgroundColor: Theme.of(context).colorScheme.primary,
           ),
         );
       }
@@ -580,7 +579,7 @@ class _FamilyInvitationManagementWidgetState
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(localizations.failedToCopyCode(e.toString())),
-            backgroundColor: AppColors.error,
+            backgroundColor: Theme.of(context).colorScheme.error,
           ),
         );
       }
@@ -592,26 +591,26 @@ class _FamilyInvitationManagementWidgetState
     bool isExpired,
     bool isExpiringSoon,
   ) {
-    if (isExpired) return AppColors.error;
-    if (isExpiringSoon) return AppColors.warning;
+    if (isExpired) return Theme.of(context).colorScheme.error;
+    if (isExpiringSoon) return Theme.of(context).colorScheme.secondary;
 
     switch (status) {
       case InvitationStatus.pending:
-        return AppColors.warning;
+        return Theme.of(context).colorScheme.secondary;
       case InvitationStatus.accepted:
-        return AppColors.success;
+        return Theme.of(context).colorScheme.primary;
       case InvitationStatus.declined:
-        return AppColors.error;
+        return Theme.of(context).colorScheme.error;
       case InvitationStatus.expired:
-        return AppColors.error;
+        return Theme.of(context).colorScheme.error;
       case InvitationStatus.cancelled:
-        return AppColors.textSecondary;
+        return Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.6);
       case InvitationStatus.revoked:
-        return AppColors.textSecondary;
+        return Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.6);
       case InvitationStatus.failed:
-        return AppColors.error;
+        return Theme.of(context).colorScheme.error;
       case InvitationStatus.invalid:
-        return AppColors.error;
+        return Theme.of(context).colorScheme.error;
     }
   }
 

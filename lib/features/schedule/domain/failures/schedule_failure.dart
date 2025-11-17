@@ -1,95 +1,104 @@
 import '../../../../core/errors/failures.dart';
+import '../errors/schedule_error.dart';
 
-/// Schedule-specific failure class for domain-level validation
-/// Used for client-side validation and business logic errors
+/// Domain-specific schedule failure
+/// Represents business logic violations in the schedule domain
 class ScheduleFailure extends Failure {
-  const ScheduleFailure({
-    super.message,
-    super.code,
-    super.statusCode,
-    super.details,
-  });
+  final ScheduleError error;
 
-  /// Factory for capacity exceeded errors (pre-validation)
-  factory ScheduleFailure.capacityExceeded({
+  const ScheduleFailure({
+    required this.error,
+    String? message,
+    Map<String, dynamic>? details,
+  }) : super(message: message, code: 'schedule_error', details: details);
+
+  String get localizationKey => error.localizationKey;
+
+  @override
+  List<Object?> get props => [error, message, code, details];
+
+  @override
+  String toString() => 'ScheduleFailure(error: $error, message: $message)';
+
+  // Factory methods for common schedule errors
+  factory ScheduleFailure.slotNotFound({
+    String? slotId,
+    String? message,
+    Map<String, dynamic>? details,
+  }) => ScheduleFailure(
+    error: ScheduleError.slotNotFound,
+    message: message,
+    details: {...?details, if (slotId != null) 'slotId': slotId},
+  );
+
+  factory ScheduleFailure.vehicleCapacityExceeded({
     required int capacity,
     required int assigned,
-    String? details,
+    String? vehicleId,
+    String? message,
+    Map<String, dynamic>? details,
   }) => ScheduleFailure(
-    code: 'schedule.capacity_exceeded',
-    message: details ?? 'Vehicle capacity exceeded',
-    statusCode: 400,
+    error: ScheduleError.vehicleCapacityExceeded,
+    message: message,
     details: {
+      ...?details,
       'capacity': capacity,
       'assigned': assigned,
       'available': capacity - assigned,
+      if (vehicleId != null) 'vehicleId': vehicleId,
     },
   );
 
-  /// Factory for child already assigned errors
   factory ScheduleFailure.childAlreadyAssigned({
+    required String childId,
     required String childName,
-    String? details,
+    String? message,
+    Map<String, dynamic>? details,
   }) => ScheduleFailure(
-    code: 'schedule.child_already_assigned',
-    message:
-        details ??
-        'Child already assigned to another vehicle for this time slot',
-    statusCode: 409,
-    details: {'childName': childName},
+    error: ScheduleError.childAlreadyAssigned,
+    message: message,
+    details: {...?details, 'childId': childId, 'childName': childName},
   );
 
-  /// Factory for race condition detection (server state changed while offline)
-  factory ScheduleFailure.capacityExceededRace({
-    required int capacity,
-    required int assigned,
+  factory ScheduleFailure.vehicleAssignmentFailed({
+    String? vehicleId,
+    String? slotId,
+    String? message,
+    Map<String, dynamic>? details,
   }) => ScheduleFailure(
-    code: 'schedule.capacity_exceeded_race',
-    message:
-        'Vehicle capacity exceeded. Another parent assigned a child while you were editing.',
-    statusCode: 409,
+    error: ScheduleError.vehicleAssignmentFailed,
+    message: message,
     details: {
-      'capacity': capacity,
-      'assigned': assigned,
-      'type': 'race_condition',
+      ...?details,
+      if (vehicleId != null) 'vehicleId': vehicleId,
+      if (slotId != null) 'slotId': slotId,
     },
   );
 
-  /// Factory for validation errors
   factory ScheduleFailure.validationError({
     required String message,
     Map<String, dynamic>? details,
   }) => ScheduleFailure(
-    code: 'schedule.validation_error',
+    error: ScheduleError.timeSlotInvalid,
     message: message,
-    statusCode: 400,
     details: details,
   );
 
-  /// Factory for not found errors
-  factory ScheduleFailure.notFound({required String resource}) =>
-      ScheduleFailure(
-        code: 'schedule.not_found',
-        message: '$resource not found',
-        statusCode: 404,
-        details: {'resource': resource},
-      );
-
-  /// Factory for network errors
-  factory ScheduleFailure.noConnection() => const ScheduleFailure(
-    code: 'network.no_connection',
-    message: 'No internet connection',
-    statusCode: 503,
+  factory ScheduleFailure.networkError({
+    String? message,
+    Map<String, dynamic>? details,
+  }) => ScheduleFailure(
+    error: ScheduleError.networkError,
+    message: message,
+    details: details,
   );
 
-  /// Factory for server errors
   factory ScheduleFailure.serverError({
     String? message,
     Map<String, dynamic>? details,
   }) => ScheduleFailure(
-    code: 'schedule.server_error',
-    message: message ?? 'Server error occurred',
-    statusCode: 500,
+    error: ScheduleError.serverError,
+    message: message,
     details: details,
   );
 }

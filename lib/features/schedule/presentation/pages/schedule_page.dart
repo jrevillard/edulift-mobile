@@ -1,20 +1,32 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intl/intl.dart';
+import 'dart:async';
 import '../../../../core/navigation/navigation_state.dart';
 import '../providers/schedule_providers.dart';
+import '../providers/displayable_slots_provider.dart';
+import '../../providers.dart';
+import '../../domain/usecases/remove_vehicle_from_slot.dart';
+import '../models/displayable_time_slot.dart';
+import '../widgets/mobile/schedule_week_cards.dart';
+import '../widgets/vehicle_selection_sheet.dart';
 import '../../../groups/providers.dart';
 import '../../../groups/presentation/providers/group_schedule_config_provider.dart';
 import '../../../../core/domain/entities/groups/group.dart';
 import 'package:edulift/core/domain/entities/family.dart';
+import 'package:edulift/core/domain/entities/family/vehicle.dart';
 import '../../../family/presentation/providers/family_provider.dart';
-import '../widgets/vehicle_selection_modal.dart';
-import '../widgets/schedule_grid.dart';
+import '../../domain/services/schedule_datetime_service.dart';
 // REMOVED: realtime_schedule_indicators.dart - feature simplified (no invitation lists)
 import '../../../../generated/l10n/app_localizations.dart';
 import '../../../../core/presentation/mixins/navigation_cleanup_mixin.dart';
+import '../../../../core/presentation/themes/app_colors.dart';
 import 'package:edulift/core/domain/entities/schedule.dart';
 import 'package:edulift/core/utils/date/iso_week_utils.dart';
+import 'package:edulift/core/utils/date/date_utils.dart' as app_date_utils;
+import '../../../../core/utils/app_logger.dart';
+import '../../../../core/services/providers/auth_provider.dart';
 
 class SchedulePage extends ConsumerStatefulWidget {
   final String? groupId;
@@ -26,9 +38,15 @@ class SchedulePage extends ConsumerStatefulWidget {
 }
 
 class _SchedulePageState extends ConsumerState<SchedulePage>
-    with NavigationCleanupMixin {
+    with NavigationCleanupMixin, WidgetsBindingObserver {
   String? _selectedGroupId;
-  String _currentWeek = '';
+  late String _currentWeek;
+  late String _currentDisplayedWeek;
+  final ScheduleDateTimeService _dateTimeService =
+      const ScheduleDateTimeService();
+  Timer? _pastSlotRefreshTimer;
+  DateTime _currentTime =
+      DateTime.now(); // Track current time for past slot detection
 
   @override
   void initState() {
@@ -36,13 +54,22 @@ class _SchedulePageState extends ConsumerState<SchedulePage>
     // NavigationCleanupMixin automatically clears navigation state
     _selectedGroupId = widget.groupId;
     _initializeCurrentWeek();
+    // Start with the current week
+    _currentDisplayedWeek = _currentWeek;
+
     // Load data when page initializes
     WidgetsBinding.instance.addPostFrameCallback((_) {
       ref.read(groupsComposedProvider.notifier).loadUserGroups();
       if (_selectedGroupId != null) {
         _loadScheduleData();
       }
+
+      // Start timer to refresh past slot status every minute
+      _startPastSlotRefreshTimer();
     });
+
+    // Listen for app lifecycle changes to restart timer when app becomes active
+    WidgetsBinding.instance.addObserver(this);
   }
 
   void _initializeCurrentWeek() {
@@ -51,98 +78,18 @@ class _SchedulePageState extends ConsumerState<SchedulePage>
   }
 
   void _loadScheduleData() {
-    // ✅ FIX: Invalidate the auto-dispose provider to trigger reload
+    // ✅ FIX: Invalidate the auto-dispose providers to trigger reload
     // This ensures the UI fetches fresh data using the modern provider system
     if (_selectedGroupId != null) {
-      ref.invalidate(weeklyScheduleProvider(_selectedGroupId!, _currentWeek));
+      ref.invalidate(
+        weeklyScheduleProvider(_selectedGroupId!, _currentDisplayedWeek),
+      );
+      ref.invalidate(
+        displayableSlotsProvider(_selectedGroupId!, _currentDisplayedWeek),
+      );
       // Note: Schedule config is now handled by dedicated schedule config provider
       // and loaded when needed by specific config widgets
     }
-  }
-
-  void _handleVehicleDrop(String day, String time, String vehicleId) async {
-    try {
-      // ✅ FIX: Use modern slot state notifier for mutations
-      // Then invalidate the auto-dispose provider to refresh UI
-      await ref
-          .read(slotStateNotifierProvider.notifier)
-          .upsertSlot(
-            groupId: _selectedGroupId!,
-            day: day,
-            time: time,
-            week: _currentWeek,
-          );
-
-      // Refresh is handled by invalidation in the notifier
-      // No need to call _loadScheduleData() - provider will auto-refresh
-    } catch (e) {
-      _showErrorSnackBar(e.toString());
-    }
-  }
-
-  /// Handle week navigation from PageView swipe
-  /// Calculates new week based on offset from current week
-  /// and reloads schedule data
-  ///
-  /// Note: weekOffset is the delta from _currentWeek
-  /// - weekOffset = 0: stay on current week
-  /// - weekOffset = 1: next week
-  /// - weekOffset = -1: previous week
-  void _handleWeekChanged(int weekOffset) {
-    try {
-      // ⚠️ CRITICAL BUG FIX: Calculate from CURRENT week, not initial week!
-      // weekOffset is always relative to the week passed to ScheduleGrid (which is _currentWeek)
-      // NOT relative to _initialWeek (which was set once in initState and never changes)
-      //
-      // Example bug scenario:
-      // - Initial: W42, Current: W42
-      // - Click next: offset=1 → W42+1=W43 ✓
-      // - Click next: offset=2 → W42+2=W44 ✓ (WRONG! Should be W43+1=W44)
-      //
-      // Correct calculation:
-      // - weekOffset is delta from _currentWeek (the week ScheduleGrid is displaying)
-      // - So we calculate: _currentWeek + weekOffset
-      final newWeek = addWeeksToISOWeek(_currentWeek, weekOffset);
-
-      debugPrint('🔄 Week changed callback:');
-      debugPrint('   Week offset: $weekOffset');
-      debugPrint('   Current week (base): $_currentWeek');
-      debugPrint('   New week: $newWeek');
-
-      // Only update if different to avoid unnecessary rebuilds
-      if (newWeek != _currentWeek) {
-        setState(() {
-          _currentWeek = newWeek;
-        });
-
-        // Reload schedule data for new week
-        _loadScheduleData();
-      }
-    } catch (e) {
-      debugPrint('ERROR: Failed to calculate week offset: $e');
-    }
-  }
-
-  /// Handle manage vehicles request
-  /// Opens VehicleSelectionModal with period slot data
-  void _handleManageVehicles(PeriodSlotData scheduleSlot) {
-    showModalBottomSheet(
-      context: context,
-      isScrollControlled: true,
-      backgroundColor: Colors.transparent,
-      builder: (context) => VehicleSelectionModal(
-        key: ValueKey(
-          'vehicle-modal-${scheduleSlot.week}-${scheduleSlot.dayOfWeek.name}-${DateTime.now().millisecondsSinceEpoch}',
-        ),
-        groupId: _selectedGroupId!,
-        scheduleSlot: scheduleSlot,
-      ),
-    ).then((_) {
-      // When modal closes, force refresh of the page
-      if (_selectedGroupId != null) {
-        ref.invalidate(weeklyScheduleProvider(_selectedGroupId!, _currentWeek));
-      }
-    });
   }
 
   void _showErrorSnackBar(String message) {
@@ -242,16 +189,12 @@ class _SchedulePageState extends ConsumerState<SchedulePage>
     }
 
     // Mobile-first layout - full width (sidebar removed per Phase 3 plan)
-    return _buildScheduleContent(
-      selectedGroup,
-      scheduleAsync,
-      scheduleConfigState,
-    );
+    return _buildMobileScheduleView(selectedGroup, scheduleConfigState);
   }
 
-  Widget _buildScheduleContent(
+  /// NEW: Build schedule view using mobile-optimized widgets with DisplayableTimeSlot
+  Widget _buildMobileScheduleView(
     Group selectedGroup,
-    AsyncValue<List<ScheduleSlot>> scheduleAsync,
     AsyncValue<ScheduleConfig?> scheduleConfigState,
   ) {
     // Check if config is null or error (matching web behavior)
@@ -262,34 +205,62 @@ class _SchedulePageState extends ConsumerState<SchedulePage>
       return _buildConfigRequiredState(selectedGroup);
     }
 
-    // ✅ FIX: Use AsyncValue.when to handle loading, data, and error states
-    // This replaces the old ScheduleState pattern with modern Riverpod AsyncValue
-    return scheduleAsync.when(
+    // ✅ NEW: Use displayableSlotsProvider to get ALL configured slots
+    final displayableSlotsAsync = ref.watch(
+      displayableSlotsProvider(_selectedGroupId!, _currentDisplayedWeek),
+    );
+
+    return displayableSlotsAsync.when(
       loading: () => const Center(child: CircularProgressIndicator()),
       error: (error, stack) => _buildScheduleErrorState(error.toString()),
-      data: (scheduleSlots) => RefreshIndicator(
-        onRefresh: () async {
-          // Invalidate current week schedule to force reload
-          ref.invalidate(
-            weeklyScheduleProvider(_selectedGroupId!, _currentWeek),
-          );
+      data: (displayableSlots) => Column(
+        children: [
+          _buildWeekIndicator(),
+          Expanded(
+            child: RefreshIndicator(
+              onRefresh: () async {
+                // Reload current week data
+                _loadScheduleData();
 
-          // Small delay for smooth animation
-          await Future.delayed(const Duration(milliseconds: 300));
-
-          // Haptic feedback on complete
-          await HapticFeedback.mediumImpact();
-        },
-        child: ScheduleGrid(
-          groupId: _selectedGroupId!,
-          week: _currentWeek,
-          scheduleData: scheduleSlots,
-          scheduleConfig: scheduleConfigState.value,
-          onManageVehicles: _handleManageVehicles,
-          onVehicleDrop: _handleVehicleDrop,
-          onWeekChanged: _handleWeekChanged,
-        ),
+                // Haptic feedback
+                await HapticFeedback.mediumImpact();
+              },
+              child: SingleChildScrollView(
+                child: _buildScheduleWeekCards(displayableSlots),
+              ),
+            ),
+          ),
+        ],
       ),
+    );
+  }
+
+  /// Build ScheduleWeekCards with DisplayableTimeSlot data
+  Widget _buildScheduleWeekCards(List<DisplayableTimeSlot> displayableSlots) {
+    // Get family vehicles for display
+    final family = ref.read(familyProvider);
+    final vehiclesMap = {
+      for (final vehicle in family.vehicles) vehicle.id: vehicle,
+    };
+
+    // Get children for display
+    final childrenMap = {for (final child in family.children) child.id: child};
+
+    // Extract configured days from displayable slots
+    final configuredDays = displayableSlots
+        .map((slot) => slot.dayOfWeek)
+        .toSet()
+        .toList();
+
+    return ScheduleWeekCards(
+      displayableSlots: displayableSlots,
+      configuredDays: configuredDays,
+      vehicles: vehiclesMap,
+      childrenMap: childrenMap,
+      onSlotTap: _handleDisplayableSlotTap,
+      onAddVehicle: _handleAddVehicleToDisplayableSlot,
+      onVehicleAction: _handleVehicleAction,
+      isSlotInPast: _isSlotInPast,
     );
   }
 
@@ -683,9 +654,598 @@ class _SchedulePageState extends ConsumerState<SchedulePage>
     return userRole == 'OWNER' || userRole == 'ADMIN';
   }
 
+  /// Build week indicator with navigation controls
+  /// Copied from schedule_grid.dart and adapted for _currentDisplayedWeek
+  Widget _buildWeekIndicator() {
+    final l10n = AppLocalizations.of(context);
+    final screenWidth = MediaQuery.of(context).size.width;
+
+    // Responsive: très petits écrans (< 360px) → layout compact
+    final isVerySmallScreen = screenWidth < 360;
+
+    // Calculate week dates for display using the current displayed week
+    final weekDates = _getWeekDateRange(_currentDisplayedWeek);
+
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+      decoration: BoxDecoration(
+        color: Theme.of(context).primaryColor.withValues(alpha: 0.1),
+        border: Border(
+          bottom: BorderSide(color: AppColors.borderThemed(context)),
+        ),
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          IconButton(
+            onPressed: () {
+              AppLogger.debug(
+                'Previous week button clicked - current week: $_currentDisplayedWeek',
+              );
+
+              // Calculate previous week directly
+              final previousWeek = addWeeksToISOWeek(_currentDisplayedWeek, -1);
+
+              AppLogger.debug(
+                'Updating from $_currentDisplayedWeek to $previousWeek',
+              );
+
+              setState(() {
+                _currentDisplayedWeek = previousWeek;
+              });
+
+              // Reload data for the new week
+              _loadScheduleData();
+            },
+            icon: const Icon(Icons.chevron_left),
+            tooltip: l10n.previousWeek,
+          ),
+          // Make week indicator tappable to open date picker
+          Expanded(
+            child: GestureDetector(
+              onTap: () => _showDatePicker(context),
+              child: Container(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 12,
+                  vertical: 8,
+                ),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(8),
+                  color: Theme.of(
+                    context,
+                  ).scaffoldBackgroundColor.withValues(alpha: 0.5),
+                ),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(
+                      Icons.calendar_today,
+                      size: isVerySmallScreen ? 14 : 16,
+                      color: Theme.of(context).primaryColor,
+                    ),
+                    const SizedBox(width: 8),
+                    // Date range display only (no confusing labels)
+                    Flexible(
+                      child: Text(
+                        weekDates != null
+                            ? _formatWeekDateRange(weekDates, isVerySmallScreen)
+                            : l10n.selectWeekHelpText,
+                        style: Theme.of(context).textTheme.titleMedium
+                            ?.copyWith(
+                              fontWeight: FontWeight.w600,
+                              fontSize: isVerySmallScreen ? 14 : null,
+                            ),
+                        textAlign: TextAlign.center,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+          IconButton(
+            onPressed: () {
+              AppLogger.debug(
+                'Next week button clicked - current week: $_currentDisplayedWeek',
+              );
+
+              // Calculate next week directly
+              final nextWeek = addWeeksToISOWeek(_currentDisplayedWeek, 1);
+
+              AppLogger.debug(
+                'Updating from $_currentDisplayedWeek to $nextWeek',
+              );
+
+              setState(() {
+                _currentDisplayedWeek = nextWeek;
+              });
+
+              // Reload data for the new week
+              _loadScheduleData();
+            },
+            icon: const Icon(Icons.chevron_right),
+            tooltip: l10n.nextWeek,
+          ),
+        ],
+      ),
+    );
+  }
+
+  /// Show week picker to jump to specific week
+  /// Uses a custom dialog that highlights entire weeks (Monday-Sunday)
+  /// When user selects any date, it snaps to the Monday of that week
+  Future<void> _showDatePicker(BuildContext context) async {
+    final l10n = AppLocalizations.of(context);
+
+    // Use the currently displayed week as the initial date
+    final currentWeekMonday = parseMondayFromISOWeek(_currentDisplayedWeek);
+    if (currentWeekMonday == null) {
+      AppLogger.error('Failed to parse displayed week: $_currentDisplayedWeek');
+      return;
+    }
+
+    // Convert to local timezone for user display
+    final currentDate = currentWeekMonday.toLocal();
+
+    // ⚠️ DYNAMIC DATE RANGE: Calculate firstDate and lastDate based on current week
+    // This prevents "initialDate must be on or before lastDate" errors when navigating to future weeks
+    // Allow selection ±2 years from current week
+    final firstDate = DateTime(currentDate.year - 2);
+    final lastDate = DateTime(currentDate.year + 2, 12, 31);
+
+    final selectedDate = await showDatePicker(
+      context: context,
+      initialDate: currentDate,
+      firstDate: firstDate,
+      lastDate: lastDate,
+      helpText: l10n.selectWeekHelpText,
+      selectableDayPredicate: (date) {
+        // Allow all dates, but we'll snap to Monday later
+        return true;
+      },
+      builder: (context, child) {
+        return Theme(
+          data: Theme.of(context).copyWith(
+            // Customize the date picker appearance
+            datePickerTheme: const DatePickerThemeData(
+              headerHelpStyle: TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              // Add helper text above the picker
+              Container(
+                margin: const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
+                padding: const EdgeInsets.all(12),
+                decoration: BoxDecoration(
+                  color: Theme.of(context).primaryColor.withValues(alpha: 0.1),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Icon(
+                      Icons.info_outline,
+                      size: 16,
+                      color: Theme.of(context).primaryColor,
+                    ),
+                    const SizedBox(width: 8),
+                    Flexible(
+                      child: Text(
+                        l10n.weekPickerHelperText,
+                        style: TextStyle(
+                          fontSize: 12,
+                          color: Theme.of(context).primaryColor,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Flexible(child: child!),
+            ],
+          ),
+        );
+      },
+    );
+
+    if (selectedDate != null) {
+      // Use timezone_utils for proper timezone handling
+      // Get user timezone from auth service
+      final authState = ref.read(authStateProvider);
+      final userTimezone = authState.user?.timezone ?? 'UTC';
+
+      AppLogger.debug(
+        'DatePicker Selection: selected date=$selectedDate, user timezone=$userTimezone',
+      );
+
+      // Get ISO week string using timezone-aware method
+      final selectedWeekString = getISOWeekString(selectedDate, userTimezone);
+
+      AppLogger.debug(
+        'Calculated ISO week: $selectedWeekString, current displayed week: $_currentDisplayedWeek',
+      );
+
+      // ✨ Direct week update - no more PageView complexity!
+      AppLogger.debug(
+        'DatePicker: updating from $_currentDisplayedWeek to $selectedWeekString',
+      );
+
+      setState(() {
+        _currentDisplayedWeek = selectedWeekString;
+      });
+
+      // Reload data for the selected week
+      _loadScheduleData();
+
+      // Haptic feedback
+      await HapticFeedback.lightImpact();
+    }
+  }
+
+  /// Get the date range (Monday to Sunday) for a given ISO week string
+  /// Returns null if calculation fails
+  ({DateTime monday, DateTime sunday})? _getWeekDateRange(String weekString) {
+    try {
+      // Parse the week string (format: "2025-W41")
+      final monday = parseMondayFromISOWeek(weekString);
+      if (monday == null) return null;
+
+      // Sunday is 6 days after Monday
+      final sunday = monday.add(const Duration(days: 6));
+
+      return (monday: monday, sunday: sunday);
+    } catch (e) {
+      AppLogger.error('_getWeekDateRange failed for week $weekString: $e');
+      return null;
+    }
+  }
+
+  /// Format week date range for display with responsive formatting
+  ///
+  /// Examples:
+  /// - Normal (>= 360px): "6 - 12 janv. 2025" or "30 déc. 2024 - 5 janv. 2025"
+  /// - Compact (< 360px): "6-12 jan" or "30 déc-5 jan"
+  String _formatWeekDateRange(
+    ({DateTime monday, DateTime sunday}) weekDates,
+    bool compactMode,
+  ) {
+    final monday = weekDates.monday;
+    final sunday = weekDates.sunday;
+
+    // Format month names (localized)
+    final mondayMonth = _getMonthAbbreviation(monday.month, compactMode);
+    final sundayMonth = _getMonthAbbreviation(sunday.month, compactMode);
+
+    if (compactMode) {
+      // Very compact format for small screens (< 360px)
+      // Same month: "6-12 jan"
+      // Different months, same year: "30 déc-5 jan"
+      // Different years: "30 déc 24-5 jan 25"
+      if (monday.month == sunday.month && monday.year == sunday.year) {
+        return '${monday.day}-${sunday.day} $mondayMonth';
+      } else if (monday.year == sunday.year) {
+        return '${monday.day} $mondayMonth-${sunday.day} $sundayMonth';
+      } else {
+        final mondayYear = (monday.year % 100).toString().padLeft(2, '0');
+        final sundayYear = (sunday.year % 100).toString().padLeft(2, '0');
+        return '${monday.day} $mondayMonth $mondayYear-${sunday.day} $sundayMonth $sundayYear';
+      }
+    } else {
+      // Normal format for regular screens (>= 360px)
+      // Same month: "6 - 12 janv. 2025"
+      // Different months, same year: "30 déc. - 5 janv. 2025"
+      // Different years: "30 déc. 2024 - 5 janv. 2025"
+      if (monday.month == sunday.month && monday.year == sunday.year) {
+        return '${monday.day} - ${sunday.day} $mondayMonth ${monday.year}';
+      } else if (monday.year == sunday.year) {
+        return '${monday.day} $mondayMonth - ${sunday.day} $sundayMonth ${monday.year}';
+      } else {
+        return '${monday.day} $mondayMonth ${monday.year} - ${sunday.day} $sundayMonth ${sunday.year}';
+      }
+    }
+  }
+
+  /// Get localized month abbreviation using Intl
+  /// Returns 3-letter abbreviation (e.g., "jan", "fév", "mars")
+  ///
+  /// Uses device locale for proper localization (French, English, etc.)
+  String _getMonthAbbreviation(int month, bool ultraCompact) {
+    // Create a date with the target month (day doesn't matter)
+    final date = DateTime(2025, month);
+
+    // Get locale from context (e.g., "fr", "en")
+    final locale = Localizations.localeOf(context).toString();
+
+    if (ultraCompact) {
+      // Ultra compact: 3 letters (jan, fév, mar)
+      final formatter = DateFormat('MMM', locale);
+      final abbreviated = formatter.format(date);
+
+      // Remove trailing dots if present (some locales add them)
+      final cleaned = abbreviated.replaceAll('.', '');
+
+      // Ensure max 3 characters
+      return cleaned.length > 3
+          ? cleaned.substring(0, 3).toLowerCase()
+          : cleaned.toLowerCase();
+    } else {
+      // Normal mode: slightly longer abbreviation (janv., févr., etc.)
+      // For French: MMM gives "janv.", "févr.", etc.
+      // For English: MMM gives "Jan", "Feb", etc.
+      final formatter = DateFormat('MMM', locale);
+      return formatter.format(date);
+    }
+  }
+
+  /// Handle tap on DisplayableTimeSlot - always use VehicleSelectionSheet
+  void _handleDisplayableSlotTap(DisplayableTimeSlot displayableSlot) {
+    _handleAddVehicleToDisplayableSlot(displayableSlot);
+  }
+
+  /// Check if a DisplayableTimeSlot is in the past (using DateUtils utility)
+  bool _isSlotInPast(DisplayableTimeSlot displayableSlot) {
+    // Calculate the actual datetime for this slot
+    final slotDateTime = _dateTimeService.calculateDateTimeFromSlot(
+      displayableSlot.dayOfWeek.name,
+      displayableSlot.timeOfDay.toApiFormat(),
+      displayableSlot.scheduleSlot?.week ?? _currentDisplayedWeek,
+    );
+
+    if (slotDateTime == null) return false;
+
+    // Get current user timezone
+    final currentUser = ref.watch(currentUserProvider);
+    final userTimezone = currentUser?.timezone ?? 'UTC';
+
+    // Use DateUtils utility with 5-minute buffer
+    return app_date_utils.DateUtils.isPastInUserTimezone(
+      slotDateTime,
+      userTimezone,
+      minutesBuffer: 5,
+    );
+  }
+
+  /// Handle adding vehicle to DisplayableTimeSlot (creates slot if needed)
+  void _handleAddVehicleToDisplayableSlot(
+    DisplayableTimeSlot displayableSlot,
+  ) async {
+    try {
+      if (!mounted) return;
+
+      // Check if slot is in the past
+      if (_isSlotInPast(displayableSlot)) {
+        _showErrorSnackBar(
+          'Impossible d\'ajouter un véhicule à un créneau horaire passé.',
+        );
+        return;
+      }
+
+      // Use VehicleSelectionSheet for both new and existing slots
+      await _showVehicleSelectionSheet(displayableSlot);
+
+      // Refresh the display
+      _refreshDisplayableSlots();
+    } catch (e) {
+      _showErrorSnackBar('Impossible d\'ajouter le véhicule: $e');
+    }
+  }
+
+  /// Handle vehicle actions for DisplayableTimeSlot
+  void _handleVehicleAction(
+    DisplayableTimeSlot displayableSlot,
+    VehicleAssignment vehicleAssignment,
+    String action,
+  ) {
+    if (action == 'remove') {
+      _handleRemoveVehicle(displayableSlot, vehicleAssignment);
+    }
+  }
+
+  /// Remove vehicle from slot
+  Future<void> _handleRemoveVehicle(
+    DisplayableTimeSlot displayableSlot,
+    VehicleAssignment vehicleAssignment,
+  ) async {
+    final l10n = AppLocalizations.of(context);
+
+    if (displayableSlot.scheduleSlot == null) return;
+    if (_selectedGroupId == null) return;
+
+    try {
+      await HapticFeedback.lightImpact();
+
+      // Extract required parameters
+      final slotId = displayableSlot.scheduleSlot!.id;
+      final vehicleId = vehicleAssignment.vehicleId;
+
+      // Use the remove vehicle use case
+      final useCase = ref.read(removeVehicleFromSlotUsecaseProvider);
+      final result = await useCase.call(
+        RemoveVehicleFromSlotParams(
+          groupId: _selectedGroupId!,
+          slotId: slotId,
+          vehicleId: vehicleId,
+        ),
+      );
+
+      if (result.isError) {
+        throw Exception(result.error.toString());
+      }
+
+      // Success feedback
+      await HapticFeedback.heavyImpact();
+
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            key: const Key('vehicle_removed_success_snackbar'),
+            content: Text(
+              l10n.vehicleRemovedSuccess(vehicleAssignment.vehicleName),
+            ),
+            backgroundColor: AppColors.successThemed(context),
+            behavior: SnackBarBehavior.floating,
+            duration: const Duration(seconds: 2),
+          ),
+        );
+
+        // Check if this was the last vehicle and provide contextual feedback
+        final wasLastVehicle = displayableSlot.vehicleAssignments.length == 1;
+        if (wasLastVehicle) {
+          // Small delay to allow the SnackBar to show before potential UI changes
+          await Future.delayed(const Duration(milliseconds: 500));
+
+          if (mounted) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                key: const Key('slot_now_empty_snackbar'),
+                content: Text(l10n.noVehiclesAssigned),
+                backgroundColor: AppColors.infoThemed(context),
+                duration: const Duration(seconds: 3),
+              ),
+            );
+          }
+        }
+      }
+
+      // Refresh data after successful removal
+      _refreshDisplayableSlots();
+    } catch (e) {
+      if (mounted) {
+        _showErrorSnackBar(
+          '${AppLocalizations.of(context).failedToLoadVehicles(vehicleAssignment.vehicleName)}: $e',
+        );
+      }
+    }
+  }
+
+  /// Refresh displayable slots after modifications
+  void _refreshDisplayableSlots() {
+    if (_selectedGroupId != null) {
+      AppLogger.debug(
+        'Refreshing displayable slots for week: $_currentDisplayedWeek',
+      );
+
+      // Invalidate both providers to ensure fresh data flow
+      ref.invalidate(
+        weeklyScheduleProvider(_selectedGroupId!, _currentDisplayedWeek),
+      );
+      ref.invalidate(
+        displayableSlotsProvider(_selectedGroupId!, _currentDisplayedWeek),
+      );
+
+      AppLogger.debug(
+        'Invalidated weeklyScheduleProvider and displayableSlotsProvider',
+      );
+    }
+  }
+
+  /// Show VehicleSelectionSheet for both empty and existing slots
+  Future<void> _showVehicleSelectionSheet(
+    DisplayableTimeSlot displayableSlot,
+  ) async {
+    if (!mounted || _selectedGroupId == null) return;
+
+    // Get all family vehicles
+    final family = ref.read(familyProvider);
+    final allFamilyVehicles = family.vehicles;
+
+    if (allFamilyVehicles.isEmpty) {
+      _showErrorSnackBar(
+        'Aucun véhicule disponible. Veuillez d\'abord ajouter un véhicule à votre famille.',
+      );
+      return;
+    }
+
+    // Get all vehicle IDs already assigned in this slot
+    final assignedVehicleIdsInSlot = displayableSlot.vehicleAssignments
+        .map((assignment) => assignment.vehicleId)
+        .where((id) => id.isNotEmpty)
+        .toSet();
+
+    // Available vehicles = all family vehicles - already assigned vehicles in this slot
+    final availableVehicles = allFamilyVehicles
+        .where((vehicle) => !assignedVehicleIdsInSlot.contains(vehicle.id))
+        .toList();
+
+    // Use the existing schedule slot if available, or create a temp one for new slots
+    final scheduleSlot =
+        displayableSlot.scheduleSlot ??
+        ScheduleSlot(
+          id: 'temp-${displayableSlot.compositeKey}',
+          groupId: _selectedGroupId!,
+          dayOfWeek: displayableSlot.dayOfWeek,
+          timeOfDay: displayableSlot.timeOfDay,
+          week: _currentDisplayedWeek, // Use displayed week, not current week
+          vehicleAssignments: const [],
+          maxVehicles: 5,
+          createdAt: DateTime.now(),
+          updatedAt: DateTime.now(),
+        );
+
+    await showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (context) => VehicleSelectionSheet(
+        groupId: _selectedGroupId!,
+        scheduleSlot: scheduleSlot,
+        availableVehicles: availableVehicles,
+      ),
+    );
+  }
+
+  /// Start timer to refresh past slot status every minute (smart approach)
+  void _startPastSlotRefreshTimer() {
+    _pastSlotRefreshTimer = Timer.periodic(const Duration(seconds: 30), (
+      timer,
+    ) {
+      if (mounted) {
+        final newTime = DateTime.now();
+        // Only trigger rebuild if time actually changed enough to affect past status
+        if (newTime.difference(_currentTime).inSeconds >= 60) {
+          setState(() {
+            _currentTime = newTime;
+          });
+        }
+      }
+    });
+  }
+
+  /// Stop the past slot refresh timer
+  void _stopPastSlotRefreshTimer() {
+    _pastSlotRefreshTimer?.cancel();
+    _pastSlotRefreshTimer = null;
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    super.didChangeAppLifecycleState(state);
+    if (state == AppLifecycleState.resumed) {
+      // App became active, restart timer and refresh time
+      _stopPastSlotRefreshTimer();
+      setState(() {
+        _currentTime = DateTime.now();
+      });
+      _startPastSlotRefreshTimer();
+    } else if (state == AppLifecycleState.paused) {
+      // App going to background, stop timer to save resources
+      _stopPastSlotRefreshTimer();
+    }
+  }
+
   @override
   void dispose() {
     // Cancel any ongoing operations
+    _stopPastSlotRefreshTimer();
+    WidgetsBinding.instance.removeObserver(this);
     super.dispose();
   }
 }

@@ -8,6 +8,7 @@ import '../../../../core/domain/entities/schedule/schedule_slot.dart';
 import '../../../../core/domain/entities/schedule/vehicle_assignment.dart';
 import '../../../../core/domain/entities/family/child_assignment.dart';
 import '../../../../features/schedule/domain/failures/schedule_failure.dart';
+import '../../../../features/schedule/domain/errors/schedule_error.dart';
 import '../../../../core/di/providers/repository_providers.dart';
 import '../../../../core/services/providers/auth_provider.dart';
 import '../../../../core/utils/result.dart';
@@ -298,9 +299,9 @@ class AssignmentStateNotifier extends _$AssignmentStateNotifier {
           // Then return failure
           return Result.err(
             ScheduleFailure(
+              error: ScheduleError.childAssignmentFailed,
               message: failure.message,
-              code: failure.code,
-              statusCode: failure.statusCode,
+              details: failure.details,
             ),
           );
         },
@@ -362,9 +363,9 @@ class AssignmentStateNotifier extends _$AssignmentStateNotifier {
           // Then return failure
           return Result.err(
             ScheduleFailure(
+              error: ScheduleError.childAssignmentFailed,
               message: failure.message,
-              code: failure.code,
-              statusCode: failure.statusCode,
+              details: failure.details,
             ),
           );
         },
@@ -427,9 +428,9 @@ class AssignmentStateNotifier extends _$AssignmentStateNotifier {
           // Then return failure
           return Result.err(
             ScheduleFailure(
+              error: ScheduleError.childAssignmentFailed,
               message: failure.message,
-              code: failure.code,
-              statusCode: failure.statusCode,
+              details: failure.details,
             ),
           );
         },
@@ -516,9 +517,9 @@ class SlotStateNotifier extends _$SlotStateNotifier {
           // Then return failure
           return Result.err(
             ScheduleFailure(
+              error: ScheduleError.childAssignmentFailed,
               message: failure.message,
-              code: failure.code,
-              statusCode: failure.statusCode,
+              details: failure.details,
             ),
           );
         },

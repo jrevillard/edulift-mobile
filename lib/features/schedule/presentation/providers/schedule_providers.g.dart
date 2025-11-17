@@ -1068,7 +1068,7 @@ class _ChildAssignmentsProviderElement
 }
 
 String _$assignmentStateNotifierHash() =>
-    r'f35f42a188cdee477dd9856a711bba955e908506';
+    r'e50024fa10a6ca5101353487fc4d81e21f9a984f';
 
 /// StateNotifier for managing child assignment operations (assign/unassign/update)
 ///
@@ -1113,7 +1113,7 @@ final assignmentStateNotifierProvider =
     );
 
 typedef _$AssignmentStateNotifier = AutoDisposeAsyncNotifier<void>;
-String _$slotStateNotifierHash() => r'42f8f3ef215393885be4d9612ce3b399f04074f1';
+String _$slotStateNotifierHash() => r'74e7d72a95e7c0715982116f6e8738e0e83f3f77';
 
 /// StateNotifier for managing schedule slot operations (create/update/delete)
 ///

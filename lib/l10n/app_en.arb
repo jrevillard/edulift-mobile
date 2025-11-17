@@ -1684,6 +1684,10 @@
   "@failedToLoadSchedule": {
     "description": "Schedule loading error title"
   },
+  "failedToChangeWeek": "Failed to change week",
+  "@failedToChangeWeek": {
+    "description": "Error message when changing week"
+  },
   "failedToLoadVehicles": "Failed to load vehicles: {error}",
   "@failedToLoadVehicles": {
     "description": "Vehicle loading error message",
@@ -2585,17 +2589,9 @@
   "@manage": {
     "description": "Manage button text"
   },
-  "manageChildren": "Manage Children",
-  "@manageChildren": {
-    "description": "Button to manage children in vehicle selection"
-  },
-  "manageFamily": "Manage Family",
+    "manageFamily": "Manage Family",
   "@manageFamily": {
     "description": "Family management section"
-  },
-  "manageVehicles": "Manage Vehicles",
-  "@manageVehicles": {
-    "description": "Title for vehicle management modal"
   },
   "maxSeatsLabel": "Max: {max}",
   "@maxSeatsLabel": {
@@ -4268,11 +4264,7 @@
   "@configureScheduleTooltip": {
     "description": "Tooltip for schedule configuration button"
   },
-  "manageChildrenTooltip": "Manage Children",
-  "@manageChildrenTooltip": {
-    "description": "Tooltip for manage children button"
-  },
-  "removeVehicleTooltip": "Remove Vehicle",
+    "removeVehicleTooltip": "Remove Vehicle",
   "@removeVehicleTooltip": {
     "description": "Tooltip for remove vehicle button"
   },
@@ -5258,16 +5250,7 @@
       }
     }
   },
-  "manageChildrenForVehicle": "Manage children for {vehicleName}",
-  "@manageChildrenForVehicle": {
-    "description": "Semantic label for manage children button",
-    "placeholders": {
-      "vehicleName": {
-        "type": "String"
-      }
-    }
-  },
-  "removeVehicleFromSlot": "Remove {vehicleName} from this slot",
+    "removeVehicleFromSlot": "Remove {vehicleName} from this slot",
   "@removeVehicleFromSlot": {
     "description": "Semantic label for remove vehicle button",
     "placeholders": {
@@ -5298,11 +5281,7 @@
   "@hasPendingChanges": {
     "description": "Tooltip for offline changes indicator"
   },
-  "childAssignmentComingSoon": "Child assignment feature coming soon",
-  "@childAssignmentComingSoon": {
-    "description": "Placeholder message for child assignment feature"
-  },
-  "seatOverrideUpdateFailed": "Failed to update seat override: {error}",
+    "seatOverrideUpdateFailed": "Failed to update seat override: {error}",
   "@seatOverrideUpdateFailed": {
     "description": "Error message when seat override update fails",
     "placeholders": {
@@ -5477,5 +5456,17 @@
   "collapseWeekView": "Collapse week view",
   "@collapseWeekView": {
     "description": "Tooltip for collapse week view button"
+  },
+  "scheduleSlotError": "Unable to complete this operation. The schedule slot may not exist or there may be a connection issue.",
+  "@scheduleSlotError": {
+    "description": "User-friendly error message for schedule slot ID missing errors"
+  },
+  "permissionError": "You don't have permission to perform this action.",
+  "@permissionError": {
+    "description": "Error message when user lacks permissions"
+  },
+  "vehicleNotFoundError": "The selected vehicle could not be found. Please try again.",
+  "@vehicleNotFoundError": {
+    "description": "Error message when vehicle is not found"
   }
 }

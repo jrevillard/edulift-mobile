@@ -94,7 +94,9 @@ class _GroupScheduleConfigPageState
           ),
           TextButton(
             onPressed: () => Navigator.of(context).pop(true),
-            style: TextButton.styleFrom(foregroundColor: AppColors.error),
+            style: TextButton.styleFrom(
+              foregroundColor: AppColors.errorThemed(context),
+            ),
             child: Text(l10n.leaveButton),
           ),
         ],
@@ -111,7 +113,7 @@ class _GroupScheduleConfigPageState
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(l10n.scheduleConfigurationUpdatedSuccessfully),
-        backgroundColor: AppColors.success,
+        backgroundColor: AppColors.successThemed(context),
         behavior: SnackBarBehavior.floating,
       ),
     );
@@ -266,7 +268,7 @@ class _GroupScheduleConfigPageState
                 tablet: 72,
                 desktop: 80,
               ),
-              color: AppColors.warningContainer,
+              color: Theme.of(context).colorScheme.tertiaryContainer,
             ),
             SizedBox(
               height: context.getAdaptiveSpacing(
@@ -278,7 +280,7 @@ class _GroupScheduleConfigPageState
             Text(
               'Access Denied',
               style: theme.textTheme.headlineSmall?.copyWith(
-                color: AppColors.onWarningContainer,
+                color: Theme.of(context).colorScheme.onTertiaryContainer,
                 fontWeight: FontWeight.w600,
                 fontSize: 24 * context.fontScale,
               ),

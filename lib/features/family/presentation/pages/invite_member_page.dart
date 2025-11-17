@@ -149,7 +149,10 @@ class _InviteMemberPageState extends ConsumerState<InviteMemberPage> {
           children: [
             Row(
               children: [
-                const Icon(Icons.info_outline, color: AppColors.primary),
+                Icon(
+                  Icons.info_outline,
+                  color: Theme.of(context).colorScheme.primary,
+                ),
                 const SizedBox(width: 8),
                 Expanded(
                   child: Text(
@@ -321,7 +324,7 @@ class _InviteMemberPageState extends ConsumerState<InviteMemberPage> {
         color: Theme.of(context).colorScheme.surface,
         boxShadow: [
           BoxShadow(
-            color: AppColors.shadow(context),
+            color: Theme.of(context).shadowColor,
             blurRadius: 8,
             offset: const Offset(0, -2),
           ),
@@ -426,7 +429,7 @@ class _InviteMemberPageState extends ConsumerState<InviteMemberPage> {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Text(l10n.invitationSentSuccessfully),
-              backgroundColor: AppColors.success,
+              backgroundColor: AppColors.successThemed(context),
             ),
           );
           context.pop(); // ONLY close on success

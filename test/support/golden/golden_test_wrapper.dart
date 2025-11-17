@@ -6,6 +6,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart'
     show ProviderScope, Override;
+import 'package:timezone/data/latest_all.dart' as tz;
 
 import 'package:edulift/generated/l10n/app_localizations.dart';
 
@@ -15,6 +16,17 @@ import 'golden_test_config.dart';
 
 /// Wrapper for executing golden tests with multiple variants
 class GoldenTestWrapper {
+  static bool _isTimezoneInitialized = false;
+
+  /// Initialize timezone database once for all golden tests
+  /// Prevents "Tried to get location before initializing timezone database" errors
+  static void _ensureTimezoneInitialized() {
+    if (!_isTimezoneInitialized) {
+      tz.initializeTimeZones();
+      _isTimezoneInitialized = true;
+    }
+  }
+
   /// Test a widget with all device and theme variants
   static Future<void> testAllVariants({
     required WidgetTester tester,
@@ -28,6 +40,7 @@ class GoldenTestWrapper {
     List<Override>? providerOverrides,
     bool skipSettle = false,
   }) async {
+    _ensureTimezoneInitialized();
     final testDevices = devices ?? GoldenTestConfig.defaultDevices;
     final testThemes = themes ?? GoldenTestConfig.defaultThemes;
     final testLocales = locales ?? GoldenTestConfig.defaultLocales;
@@ -253,8 +266,11 @@ class GoldenTestWrapper {
       locale: locale.languageCode,
     );
 
-    // Compare with golden file
-    await expectLater(find.byType(Scaffold), matchesGoldenFile(goldenPath));
+    // Use the first Scaffold found to avoid multiple Scaffold issues
+    final scaffoldFinder = find.byType(Scaffold);
+    await tester.pump();
+
+    await expectLater(scaffoldFinder.first, matchesGoldenFile(goldenPath));
 
     // Reset to default size
     await tester.binding.setSurfaceSize(null);

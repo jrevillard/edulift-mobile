@@ -6,7 +6,6 @@ library;
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:timezone/data/latest_all.dart' as tz;
 
 import 'package:mockito/mockito.dart';
 
@@ -69,9 +68,7 @@ MockGroupScheduleRepository createMockScheduleRepository(
   when(
     mockRepository.getScheduleConfig(any),
   ).thenAnswer((_) async => Result.ok(createTestScheduleConfig('test-group')));
-  when(
-    mockRepository.getAvailableChildren(any, any, any, any),
-  ).thenAnswer((_) async => const Result.ok([]));
+
   when(
     mockRepository.checkScheduleConflicts(any, any, any, any, any),
   ).thenAnswer((_) async => const Result.ok([]));
@@ -215,8 +212,7 @@ class _PreInitializedScheduleConfigNotifier
 
 void main() {
   setUpAll(() async {
-    // Initialize timezone database to prevent LocationNotFoundException
-    tz.initializeTimeZones();
+    // Note: timezone initialization is now handled automatically by GoldenTestWrapper
 
     ScheduleDataFactory.resetCounters();
     GroupDataFactory.resetCounters();
@@ -244,6 +240,7 @@ void main() {
         id: 'user-1',
         email: 'test@example.com',
         name: 'Test User',
+        timezone: 'UTC',
         createdAt: DateTime.now(),
         updatedAt: DateTime.now(),
       );

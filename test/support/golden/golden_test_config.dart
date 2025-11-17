@@ -7,18 +7,12 @@ import 'theme_configurations.dart';
 
 /// Global configuration for golden tests
 class GoldenTestConfig {
-  // Pixel comparison tolerance (0.0 = exact match, 1.0 = any difference allowed)
-  static const double defaultTolerance = 0.1;
-
   // Default device configurations
   static List<DeviceConfig> get defaultDevices =>
       DeviceConfigurations.defaultSet;
 
   // Default theme configurations
   static List<ThemeConfig> get defaultThemes => ThemeConfigurations.defaultSet;
-
-  // Default pixel ratios to test
-  static const List<double> defaultPixelRatios = [1.0, 2.0, 3.0];
 
   // Locales to test for internationalization
   static const List<Locale> defaultLocales = [
@@ -33,43 +27,9 @@ class GoldenTestConfig {
   static const String goldenBasePath = '../goldens';
   static const String screenGoldensPath = '$goldenBasePath/screens';
   static const String widgetGoldensPath = '$goldenBasePath/widgets';
-  static const String errorGoldensPath = '$goldenBasePath/errors';
-  static const String loadingGoldensPath = '$goldenBasePath/loading';
 
   // Test execution configuration
-  static const Duration pumpDuration = Duration(milliseconds: 100);
   static const Duration settleDuration = Duration(seconds: 5);
-  static const int maxPumpIterations = 100;
-
-  // Device configuration presets
-  static Map<String, List<DeviceConfig>> get devicePresets => {
-    'default': DeviceConfigurations.defaultSet,
-  };
-
-  // Theme configuration presets
-  static Map<String, List<ThemeConfig>> get themePresets => {
-    'quick': ThemeConfigurations.basic,
-    'accessibility': ThemeConfigurations.accessibility,
-    'high_contrast': ThemeConfigurations.highContrast,
-    'full': ThemeConfigurations.all,
-  };
-
-  // Test variants configuration
-  static const Map<String, dynamic> testVariants = {
-    'include_loading_states': true,
-    'include_error_states': true,
-    'include_empty_states': true,
-    'include_edge_cases': true,
-  };
-
-  // Performance thresholds
-  static const Duration maxRenderTime = Duration(milliseconds: 100);
-  static const int maxMemoryUsageMB = 512;
-
-  // Accessibility configuration
-  static const bool enforceAccessibility = true;
-  static const double minTouchTargetSize = 48.0;
-  static const double minTextContrast = 4.5;
 
   /// Get golden file path for a test
   static String getGoldenPath({
@@ -92,38 +52,9 @@ class GoldenTestConfig {
         return '$screenGoldensPath/$fileName';
       case 'widget':
         return '$widgetGoldensPath/$fileName';
-      case 'error':
-        return '$errorGoldensPath/$fileName';
-      case 'loading':
-        return '$loadingGoldensPath/$fileName';
       default:
         return '$goldenBasePath/$fileName';
     }
-  }
-
-  /// Generate all test variants for comprehensive testing
-  static List<TestVariant> generateVariants({
-    List<DeviceConfig>? devices,
-    List<ThemeConfig>? themes,
-    List<Locale>? locales,
-  }) {
-    final testDevices = devices ?? defaultDevices;
-    final testThemes = themes ?? defaultThemes;
-    final testLocales = locales ?? defaultLocales;
-
-    final variants = <TestVariant>[];
-
-    for (final device in testDevices) {
-      for (final theme in testThemes) {
-        for (final locale in testLocales) {
-          variants.add(
-            TestVariant(device: device, theme: theme, locale: locale),
-          );
-        }
-      }
-    }
-
-    return variants;
   }
 
   /// Get configuration for specific test type
@@ -158,24 +89,6 @@ class GoldenTestConfig {
         );
     }
   }
-}
-
-/// Test variant combining device, theme, and locale
-class TestVariant {
-  const TestVariant({
-    required this.device,
-    required this.theme,
-    required this.locale,
-  });
-
-  final DeviceConfig device;
-  final ThemeConfig theme;
-  final Locale locale;
-
-  String get name => '${device.name}_${theme.name}_${locale.languageCode}';
-
-  @override
-  String toString() => name;
 }
 
 /// Test type configuration

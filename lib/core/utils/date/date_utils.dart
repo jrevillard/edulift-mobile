@@ -147,4 +147,63 @@ class DateUtils {
       return DateTime.utc(dateTime.year, dateTime.month, dateTime.day);
     }
   }
+
+  /// Check if a DateTime is in the past in user's timezone
+  ///
+  /// This method properly handles timezone conversion to determine if a given
+  /// DateTime is in the past from the perspective of a user in a specific timezone.
+  /// This is critical for schedule features where slot availability depends on
+  /// the user's local time, not UTC time.
+  ///
+  /// Parameters:
+  /// - dateTime: DateTime to check (should be in UTC for consistency)
+  /// - userTimezone: User's IANA timezone (e.g., "Europe/Paris", "America/New_York")
+  /// - minutesBuffer: Optional buffer in minutes (e.g., 5 to allow 5-minute grace period)
+  ///
+  /// Returns: true if the dateTime is before current time in user's timezone
+  ///
+  /// Example:
+  /// ```dart
+  /// // Check if a slot at 20:30 UTC is past for Paris user
+  /// final isPast = DateUtils.isPastInUserTimezone(
+  ///   DateTime.parse("2025-11-12T20:30:00Z"),
+  ///   "Europe/Paris",
+  ///   minutesBuffer: 5
+  /// );
+  /// ```
+  static bool isPastInUserTimezone(
+    DateTime dateTime,
+    String userTimezone, {
+    int minutesBuffer = 0,
+  }) {
+    AppLogger.debug(
+      '[DateUtils] Checking if datetime is past in user timezone',
+      {
+        'dateTime': dateTime.toIso8601String(),
+        'userTimezone': userTimezone,
+        'minutesBuffer': minutesBuffer,
+      },
+    );
+
+    final location = tz.getLocation(userTimezone);
+    final nowInUserTz = tz.TZDateTime.now(location);
+
+    // Apply buffer if specified
+    final comparisonTime = minutesBuffer > 0
+        ? nowInUserTz.subtract(Duration(minutes: minutesBuffer))
+        : nowInUserTz;
+
+    // Convert input dateTime to user timezone for comparison
+    final dateTimeInUserTz = tz.TZDateTime.from(dateTime.toUtc(), location);
+
+    final isPast = dateTimeInUserTz.isBefore(comparisonTime);
+
+    AppLogger.debug('[DateUtils] Past check result', {
+      'dateTimeInUserTz': dateTimeInUserTz.toIso8601String(),
+      'comparisonTime': comparisonTime.toIso8601String(),
+      'isPast': isPast,
+    });
+
+    return isPast;
+  }
 }

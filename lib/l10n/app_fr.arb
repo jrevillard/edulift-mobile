@@ -1689,6 +1689,10 @@
   "@failedToLoadSchedule": {
     "description": "Titre d'erreur de chargement du planning"
   },
+  "failedToChangeWeek": "Impossible de changer de semaine",
+  "@failedToChangeWeek": {
+    "description": "Message d'erreur lors du changement de semaine"
+  },
   "failedToLoadVehicles": "Impossible de charger les véhicules : {error}",
   "@failedToLoadVehicles": {
     "description": "Message d'erreur de chargement de véhicules",
@@ -2592,17 +2596,9 @@
   "@manage": {
     "description": "Texte bouton gérer"
   },
-  "manageChildren": "Gérer les enfants",
-  "@manageChildren": {
-    "description": "Bouton pour gérer les enfants dans la sélection de véhicule"
-  },
-  "manageFamily": "Gérer la Famille",
+    "manageFamily": "Gérer la Famille",
   "@manageFamily": {
     "description": "Section gestion famille"
-  },
-  "manageVehicles": "Gérer les véhicules",
-  "@manageVehicles": {
-    "description": "Titre du modal de gestion des véhicules"
   },
   "maxSeatsLabel": "Maximum: {max} sièges",
   "@maxSeatsLabel": {
@@ -4282,11 +4278,7 @@
   "@configureScheduleTooltip": {
     "description": "Info-bulle pour le bouton de configuration de l'emploi du temps"
   },
-  "manageChildrenTooltip": "Gérer les enfants",
-  "@manageChildrenTooltip": {
-    "description": "Info-bulle pour le bouton de gestion des enfants"
-  },
-  "removeVehicleTooltip": "Retirer le véhicule",
+    "removeVehicleTooltip": "Retirer le véhicule",
   "@removeVehicleTooltip": {
     "description": "Info-bulle pour le bouton de suppression de véhicule"
   },
@@ -4529,7 +4521,7 @@
       }
     }
   },
-  "welcomeBackUser": "Bon retour, {userName} !",
+  "welcomeBackUser": "Bonjour, {userName} !",
   "@welcomeBackUser": {
     "description": "Message de bienvenue avec nom d'utilisateur",
     "placeholders": {
@@ -5268,16 +5260,7 @@
       }
     }
   },
-  "manageChildrenForVehicle": "Gérer les enfants pour {vehicleName}",
-  "@manageChildrenForVehicle": {
-    "description": "Label sémantique pour le bouton de gestion des enfants",
-    "placeholders": {
-      "vehicleName": {
-        "type": "String"
-      }
-    }
-  },
-  "removeVehicleFromSlot": "Retirer {vehicleName} de ce créneau",
+    "removeVehicleFromSlot": "Retirer {vehicleName} de ce créneau",
   "@removeVehicleFromSlot": {
     "description": "Label sémantique pour le bouton de retrait de véhicule",
     "placeholders": {
@@ -5308,11 +5291,7 @@
   "@hasPendingChanges": {
     "description": "Info-bulle pour l'indicateur de modifications hors ligne"
   },
-  "childAssignmentComingSoon": "Fonctionnalité d'assignation d'enfants bientôt disponible",
-  "@childAssignmentComingSoon": {
-    "description": "Message temporaire pour la fonctionnalité d'assignation d'enfants"
-  },
-  "seatOverrideUpdateFailed": "Échec de la mise à jour du remplacement de siège : {error}",
+    "seatOverrideUpdateFailed": "Échec de la mise à jour du remplacement de siège : {error}",
   "@seatOverrideUpdateFailed": {
     "description": "Message d'erreur lors de l'échec de la mise à jour du remplacement de siège",
     "placeholders": {
@@ -5485,5 +5464,17 @@
   "collapseWeekView": "Réduire la vue semaine",
   "@collapseWeekView": {
     "description": "Infobulle pour le bouton de réduction de la vue semaine"
+  },
+  "scheduleSlotError": "Impossible de compléter cette opération. Le créneau horaire n'existe peut-être pas ou il peut y avoir un problème de connexion.",
+  "@scheduleSlotError": {
+    "description": "Message d'erreur convivial pour les erreurs d'ID de créneau horaire manquant"
+  },
+  "permissionError": "Vous n'avez pas la permission d'effectuer cette action.",
+  "@permissionError": {
+    "description": "Message d'erreur lorsque l'utilisateur n'a pas les permissions"
+  },
+  "vehicleNotFoundError": "Le véhicule sélectionné n'a pas pu être trouvé. Veuillez réessayer.",
+  "@vehicleNotFoundError": {
+    "description": "Message d'erreur lorsque le véhicule n'est pas trouvé"
   }
 }

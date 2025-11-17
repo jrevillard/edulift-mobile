@@ -1389,6 +1389,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get failedToLoadSchedule => 'Failed to Load Schedule';
 
   @override
+  String get failedToChangeWeek => 'Failed to change week';
+
+  @override
   String failedToLoadVehicles(String error) {
     return 'Failed to load vehicles: $error';
   }
@@ -2075,13 +2078,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get manage => 'Manage';
 
   @override
-  String get manageChildren => 'Manage Children';
-
-  @override
   String get manageFamily => 'Manage Family';
-
-  @override
-  String get manageVehicles => 'Manage Vehicles';
 
   @override
   String maxSeatsLabel(int max) {
@@ -3377,9 +3374,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get configureScheduleTooltip => 'Configure Schedule';
 
   @override
-  String get manageChildrenTooltip => 'Manage Children';
-
-  @override
   String get removeVehicleTooltip => 'Remove Vehicle';
 
   @override
@@ -4104,11 +4098,6 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String manageChildrenForVehicle(String vehicleName) {
-    return 'Manage children for $vehicleName';
-  }
-
-  @override
   String removeVehicleFromSlot(String vehicleName) {
     return 'Remove $vehicleName from this slot';
   }
@@ -4125,10 +4114,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get hasPendingChanges => 'Has pending offline changes';
-
-  @override
-  String get childAssignmentComingSoon =>
-      'Child assignment feature coming soon';
 
   @override
   String seatOverrideUpdateFailed(String error) {
@@ -4239,4 +4224,16 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get collapseWeekView => 'Collapse week view';
+
+  @override
+  String get scheduleSlotError =>
+      'Unable to complete this operation. The schedule slot may not exist or there may be a connection issue.';
+
+  @override
+  String get permissionError =>
+      'You don\'t have permission to perform this action.';
+
+  @override
+  String get vehicleNotFoundError =>
+      'The selected vehicle could not be found. Please try again.';
 }

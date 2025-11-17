@@ -2,23 +2,29 @@ import 'package:flutter/material.dart';
 
 /// Application color palette (Material 3)
 ///
-/// This class provides theme-aware color tokens that adapt to light/dark mode.
+/// This class provides semantic color tokens that adapt to light/dark mode.
 /// All colors are built on Material 3 ColorScheme for guaranteed accessibility.
+///
+/// **IMPORTANT**: When to use AppColors vs Theme.of(context):
+/// - USE AppColors: For semantic tokens with business logic (status, badges, days)
+/// - USE Theme.of(context): For direct access to Material 3 colors (primary, surface, etc)
 ///
 /// Includes semantic tokens for:
 /// - Status states (available, partial, full, conflict)
 /// - Component badges (driver, child)
-/// - Calendar/scheduling (day colors and icons)
+/// - Calendar/scheduling (day colors and icons with i18n support)
 /// - Capacity indicators (ok, warning, error)
+/// - Status colors (success, error, warning, info)
 ///
-/// Usage:
+/// Usage examples:
 /// ```dart
+/// // ✅ CORRECT: Use semantic tokens for business logic
 /// Container(
 ///   color: AppColors.statusAvailable(context),
 ///   child: Row(
 ///     children: [
 ///       Icon(
-///         AppColors.getDayIcon('monday'),
+///         AppColors.getDayIcon('monday', context),
 ///         color: AppColors.getDayColor('monday'),
 ///       ),
 ///       Text(
@@ -28,208 +34,85 @@ import 'package:flutter/material.dart';
 ///     ],
 ///   ),
 /// )
+///
+/// // ✅ CORRECT: Use Theme.of for direct color access
+/// Container(
+///   color: Theme.of(context).colorScheme.primary, // NOT AppColors.primaryThemed()
+/// )
 /// ```
 class AppColors {
   AppColors._(); // Private constructor to prevent instantiation
 
   // ============================================================================
-  // PRIMARY COLORS (Material 3)
+  // PRIMARY COLORS (Theme aliases - kept for compatibility)
   // ============================================================================
 
-  /// Primary brand color (Indigo 500)
-  /// For theme-aware dark mode support, use primaryThemed(context)
-  static const Color primary = Color(0xFF6366F1);
-
   /// Primary brand color (theme-aware)
+  /// NOTE: Consider using Theme.of(context).colorScheme.primary directly for new code
   static Color primaryThemed(BuildContext context) =>
       Theme.of(context).colorScheme.primary;
 
-  /// Primary container (for badges, chips, lighter backgrounds)
-  static Color primaryContainer(BuildContext context) =>
-      Theme.of(context).colorScheme.primaryContainer;
-
-  /// Text/icons on primary color
-  static Color onPrimary(BuildContext context) =>
-      Theme.of(context).colorScheme.onPrimary;
-
-  /// Text/icons on primary container
-  static Color onPrimaryContainer(BuildContext context) =>
-      Theme.of(context).colorScheme.onPrimaryContainer;
-
-  // ============================================================================
-  // SECONDARY COLORS (Material 3)
-  // ============================================================================
-
   /// Secondary accent color (theme-aware)
+  /// NOTE: Consider using Theme.of(context).colorScheme.secondary directly for new code
   static Color secondary(BuildContext context) =>
       Theme.of(context).colorScheme.secondary;
 
-  /// Secondary container (for secondary badges, chips)
-  static Color secondaryContainer(BuildContext context) =>
-      Theme.of(context).colorScheme.secondaryContainer;
-
-  /// Text/icons on secondary color
-  static Color onSecondary(BuildContext context) =>
-      Theme.of(context).colorScheme.onSecondary;
-
-  /// Text/icons on secondary container
-  static Color onSecondaryContainer(BuildContext context) =>
-      Theme.of(context).colorScheme.onSecondaryContainer;
-
-  // ============================================================================
-  // TERTIARY COLORS (Material 3)
-  // ============================================================================
-
   /// Tertiary accent color (theme-aware)
+  /// NOTE: Consider using Theme.of(context).colorScheme.tertiary directly for new code
   static Color tertiary(BuildContext context) =>
       Theme.of(context).colorScheme.tertiary;
 
-  /// Tertiary container (for tertiary badges, chips)
-  static Color tertiaryContainer(BuildContext context) =>
-      Theme.of(context).colorScheme.tertiaryContainer;
-
-  /// Text/icons on tertiary color
-  static Color onTertiary(BuildContext context) =>
-      Theme.of(context).colorScheme.onTertiary;
-
-  /// Text/icons on tertiary container
-  static Color onTertiaryContainer(BuildContext context) =>
-      Theme.of(context).colorScheme.onTertiaryContainer;
-
   // ============================================================================
-  // TEXT COLORS (Material 3)
+  // TEXT COLORS (Thematic semantic tokens)
   // ============================================================================
-
-  /// Primary text color (Gray 900)
-  /// For theme-aware dark mode support, use textPrimaryThemed(context)
-  static const Color textPrimary = Color(0xFF111827);
-
-  /// Secondary text color (Gray 500)
-  /// For theme-aware dark mode support, use textSecondaryThemed(context)
-  static const Color textSecondary = Color(0xFF6B7280);
 
   /// Primary text color (highest emphasis, theme-aware)
+  /// Use for primary text content that needs to adapt to light/dark mode
   static Color textPrimaryThemed(BuildContext context) =>
       Theme.of(context).colorScheme.onSurface;
 
   /// Secondary text (medium emphasis, theme-aware)
+  /// Use for secondary text content, subtitles, descriptions
   static Color textSecondaryThemed(BuildContext context) =>
       Theme.of(context).colorScheme.onSurfaceVariant;
 
-  /// Disabled text (low emphasis)
+  /// Disabled text (low emphasis, theme-aware)
+  /// Use for disabled text elements
   static Color textDisabled(BuildContext context) =>
       Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.38);
 
   // ============================================================================
-  // BACKGROUND COLORS (Material 3)
+  // SURFACE COLORS (Thematic semantic tokens)
   // ============================================================================
 
-  /// Main background color (Gray 50)
-  /// For theme-aware dark mode support, use backgroundThemed(context)
-  static const Color background = Color(0xFFFAFAFA);
-
-  /// Surface color (White)
-  /// For theme-aware dark mode support, use surfaceThemed(context)
-  static const Color surface = Color(0xFFFFFFFF);
-
-  /// Surface variant (Gray 100)
-  /// For theme-aware dark mode support, use surfaceVariantThemed(context)
-  static const Color surfaceVariant = Color(0xFFF3F4F6);
-
-  /// Main background color (theme-aware)
-  static Color backgroundThemed(BuildContext context) =>
-      Theme.of(context).colorScheme.surface;
-
-  /// Surface color (cards, sheets, dialogs, theme-aware)
-  static Color surfaceThemed(BuildContext context) =>
-      Theme.of(context).colorScheme.surface;
-
   /// Surface variant (subtle elevation, alternate surface, theme-aware)
+  /// Use for card backgrounds, subtle containers, and elevated surfaces
   static Color surfaceVariantThemed(BuildContext context) =>
       Theme.of(context).colorScheme.surfaceContainerHighest;
 
-  /// Surface container (low elevation)
-  static Color surfaceContainer(BuildContext context) =>
-      Theme.of(context).colorScheme.surfaceContainer;
-
-  /// Surface container (lowest elevation)
-  static Color surfaceContainerLowest(BuildContext context) =>
-      Theme.of(context).colorScheme.surfaceContainerLowest;
-
-  /// Surface container (highest elevation)
-  static Color surfaceContainerHighest(BuildContext context) =>
-      Theme.of(context).colorScheme.surfaceContainerHighest;
-
-  /// Text/icons on surface
-  static Color onSurface(BuildContext context) =>
-      Theme.of(context).colorScheme.onSurface;
-
-  /// Text/icons on surface variant
-  static Color onSurfaceVariant(BuildContext context) =>
-      Theme.of(context).colorScheme.onSurfaceVariant;
-
   // ============================================================================
-  // STATUS COLORS (Material 3)
+  // STATUS COLORS (Semantic tokens - widely used in the app)
   // ============================================================================
 
-  /// Success state (Tailwind Emerald 500)
-  ///
-  /// Hardcoded value as Material 3 ColorScheme has no semantic equivalent for success.
-  /// Using fixed color ensures consistent success representation across light/dark themes
-  /// and maintains brand identity (Tailwind design system).
-  ///
-  /// For themed alternatives, consider:
-  /// - `colorScheme.tertiary` for accent success
-  /// - `colorScheme.primaryContainer` for success backgrounds
-  static const Color success = Color(0xFF10B981);
+  /// Success state (theme-aware - uses tertiary)
+  /// Use for success indicators, positive feedback, completed actions
+  static Color successThemed(BuildContext context) =>
+      Theme.of(context).colorScheme.tertiary;
 
-  /// Warning state (Tailwind Amber 500)
-  ///
-  /// Hardcoded value as Material 3 ColorScheme has no semantic equivalent for warning.
-  /// Using fixed color ensures consistent warning representation across light/dark themes
-  /// and maintains brand identity (Tailwind design system).
-  ///
-  /// For themed alternatives, consider:
-  /// - `colorScheme.secondary` for accent warnings
-  /// - `colorScheme.tertiaryContainer` for warning backgrounds
-  static const Color warning = Color(0xFFF59E0B);
+  /// Warning state (theme-aware - uses secondary)
+  /// Use for warning indicators, caution messages, attention needed
+  static Color warningThemed(BuildContext context) =>
+      Theme.of(context).colorScheme.secondary;
 
-  /// Warning container (for warning backgrounds)
-  static const Color warningContainer = Color(0xFFFEF3C7); // Amber 100
-
-  /// Text/icons on warning container
-  static const Color onWarningContainer = Color(0xFF78350F); // Amber 900
-
-  /// Error state (Tailwind Red 500)
-  /// For theme-aware dark mode support, use errorThemed(context)
-  static const Color error = Color(0xFFEF4444);
-
-  /// Error state (theme-aware)
+  /// Error state (theme-aware - uses error)
+  /// Use for error indicators, negative feedback, failed actions
   static Color errorThemed(BuildContext context) =>
       Theme.of(context).colorScheme.error;
 
-  /// Error container (for error backgrounds)
-  static Color errorContainer(BuildContext context) =>
-      Theme.of(context).colorScheme.errorContainer;
-
-  /// Text/icons on error color
-  static Color onError(BuildContext context) =>
-      Theme.of(context).colorScheme.onError;
-
-  /// Text/icons on error container
-  static Color onErrorContainer(BuildContext context) =>
-      Theme.of(context).colorScheme.onErrorContainer;
-
-  /// Info state (Tailwind Blue 500)
-  ///
-  /// Hardcoded value as Material 3 ColorScheme has no semantic equivalent for info.
-  /// Using fixed color ensures consistent info representation across light/dark themes
-  /// and maintains brand identity (Tailwind design system).
-  ///
-  /// For themed alternatives, consider:
-  /// - `colorScheme.primary` for info actions
-  /// - `colorScheme.primaryContainer` for info backgrounds
-  static const Color info = Color(0xFF3B82F6);
+  /// Info state (theme-aware - uses primary)
+  /// Use for info indicators, neutral messages, informational content
+  static Color infoThemed(BuildContext context) =>
+      Theme.of(context).colorScheme.primary;
 
   // ============================================================================
   // STATUS SEMANTICS (Slot/Resource states)
@@ -262,110 +145,36 @@ class AppColors {
   // ============================================================================
 
   /// Driver/vehicle badge color
+  /// Use for driver identification badges, vehicle labels
   static Color driverBadge(BuildContext context) =>
       Theme.of(context).colorScheme.primaryContainer;
 
   /// Child/participant badge color
+  /// Use for child identification badges, participant labels
   static Color childBadge(BuildContext context) =>
       Theme.of(context).colorScheme.secondaryContainer;
 
-  /// Capacity indicator - OK state (reuse success)
-  static const Color capacityOk = success; // Color(0xFF10B981)
+  /// Capacity indicator - OK state (brand color)
+  static const Color capacityOk = Color(0xFF10B981);
 
   /// Capacity indicator - Warning state (near full)
-  static const Color capacityWarning = warning; // Color(0xFFF59E0B)
+  static const Color capacityWarning = Color(0xFFF59E0B);
 
   /// Capacity indicator - Error state (over capacity)
   static Color capacityError(BuildContext context) =>
       Theme.of(context).colorScheme.error;
 
   // ============================================================================
-  // DAY COLORS (Calendar/scheduling semantics)
+  // BORDER COLORS (Thematic semantic tokens)
   // ============================================================================
-
-  static const Color monday = Colors.blue;
-  static const Color tuesday = Colors.green;
-  static const Color wednesday = Colors.orange;
-  static const Color thursday = Colors.purple;
-  static const Color friday = Colors.red;
-
-  /// Get color for a specific day (supports French and English)
-  static Color getDayColor(String day) {
-    switch (day.toLowerCase()) {
-      case 'monday':
-      case 'lundi':
-        return monday;
-      case 'tuesday':
-      case 'mardi':
-        return tuesday;
-      case 'wednesday':
-      case 'mercredi':
-        return wednesday;
-      case 'thursday':
-      case 'jeudi':
-        return thursday;
-      case 'friday':
-      case 'vendredi':
-        return friday;
-      default:
-        return Colors.grey;
-    }
-  }
-
-  /// Get icon shape for a specific day (colorblind-friendly pattern differentiation)
-  /// Each day has a unique icon shape to complement color coding:
-  /// - Monday: Circle (Blue)
-  /// - Tuesday: Square (Green)
-  /// - Wednesday: Triangle (Orange)
-  /// - Thursday: Diamond (Purple)
-  /// - Friday: Star (Red)
-  static IconData getDayIcon(String day) {
-    switch (day.toLowerCase()) {
-      case 'monday':
-      case 'lundi':
-        return Icons.circle; // Monday = Blue Circle
-      case 'tuesday':
-      case 'mardi':
-        return Icons.square; // Tuesday = Green Square
-      case 'wednesday':
-      case 'mercredi':
-        return Icons.change_history; // Wednesday = Orange Triangle
-      case 'thursday':
-      case 'jeudi':
-        return Icons.diamond; // Thursday = Purple Diamond
-      case 'friday':
-      case 'vendredi':
-        return Icons.star; // Friday = Red Star
-      default:
-        return Icons.circle_outlined;
-    }
-  }
-
-  // ============================================================================
-  // BORDER COLORS (Material 3)
-  // ============================================================================
-
-  /// Default border color (Gray 200)
-  /// For theme-aware dark mode support, use borderThemed(context)
-  static const Color border = Color(0xFFE5E7EB);
 
   /// Default border color (subtle, low emphasis, theme-aware)
+  /// Use for subtle borders, dividers, and outlines
   static Color borderThemed(BuildContext context) =>
       Theme.of(context).colorScheme.outlineVariant;
 
   /// Strong/emphasized border color (high emphasis)
+  /// Use for emphasized borders, focus states, important dividers
   static Color borderStrong(BuildContext context) =>
       Theme.of(context).colorScheme.outline;
-
-  // ============================================================================
-  // SHADOW COLORS (Material 3)
-  // ============================================================================
-
-  /// Shadow color (theme-aware)
-  static Color shadow(BuildContext context) =>
-      Theme.of(context).colorScheme.shadow;
-
-  /// Scrim color (for overlays, bottom sheets)
-  static Color scrim(BuildContext context) =>
-      Theme.of(context).colorScheme.scrim;
 }

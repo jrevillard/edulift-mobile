@@ -41,10 +41,10 @@ class ValidateChildAssignmentUseCase {
     // 3. Check capacity - BLOCK if at or over capacity
     if (assignedCount >= capacity) {
       return Result.err(
-        ScheduleFailure.capacityExceeded(
+        ScheduleFailure.vehicleCapacityExceeded(
           capacity: capacity,
           assigned: assignedCount,
-          details:
+          message:
               'Cannot assign child. Vehicle is at full capacity ($assignedCount/$capacity seats).',
         ),
       );

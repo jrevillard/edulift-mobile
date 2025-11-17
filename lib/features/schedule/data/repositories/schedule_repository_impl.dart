@@ -6,14 +6,12 @@ import '../../../../core/network/network_error_handler.dart';
 import '../../../../core/network/models/schedule/schedule_slot_dto.dart';
 import '../../../../core/network/models/schedule/schedule_config_dto.dart';
 import '../../../../core/network/models/schedule/vehicle_assignment_dto.dart';
-import '../../../../core/network/models/child/child_dto.dart';
 import '../../../../core/utils/app_logger.dart';
 import '../../domain/repositories/schedule_repository.dart';
 import 'package:edulift/core/domain/entities/schedule.dart'
     as schedule_entities;
 import '../../../family/domain/entities/child_assignment.dart'
     as family_entities;
-import '../../../../core/domain/entities/family/child.dart';
 import '../datasources/schedule_local_datasource.dart';
 import '../datasources/schedule_remote_datasource.dart';
 import '../../../../core/network/requests/group_requests.dart';
@@ -138,45 +136,6 @@ class ScheduleRepositoryImpl implements GroupScheduleRepository {
             'Cannot create empty schedule slots. Use assignVehicleToSlot() '
             'to create a slot with a vehicle in a single API call.',
       ),
-    );
-  }
-
-  @override
-  Future<Result<List<Child>, ApiFailure>> getAvailableChildren(
-    String groupId,
-    String week,
-    String day,
-    String time,
-  ) async {
-    // Use NetworkErrorHandler with networkOnly strategy (READ operation)
-    final result = await _networkErrorHandler
-        .executeRepositoryOperation<List<ChildDto>>(
-          () => _remoteDataSource.getAvailableChildren(
-            groupId: groupId,
-            week: week,
-            day: day,
-            time: time,
-          ),
-          operationName: 'schedule.getAvailableChildren',
-          strategy: CacheStrategy.networkOnly,
-          serviceName: 'schedule',
-          config: RetryConfig.quick,
-          context: {
-            'feature': 'schedule_management',
-            'operation_type': 'read',
-            'groupId': groupId,
-            'week': week,
-            'day': day,
-            'time': time,
-          },
-        );
-
-    return result.when(
-      ok: (dtos) {
-        final children = dtos.map((dto) => dto.toDomain()).toList();
-        return Result.ok(children);
-      },
-      err: (failure) => Result.err(failure),
     );
   }
 

@@ -9,6 +9,9 @@ import 'package:edulift/features/dashboard/presentation/providers/dashboard_prov
 import 'package:edulift/features/dashboard/presentation/widgets/transport_horizontal_list.dart';
 import 'package:edulift/features/dashboard/domain/entities/dashboard_transport_summary.dart';
 import 'package:edulift/core/domain/entities/schedule/vehicle_assignment.dart';
+import 'package:edulift/core/presentation/widgets/vehicle_card.dart';
+import 'package:edulift/features/family/presentation/providers/family_provider.dart';
+import 'package:edulift/core/domain/entities/family/child.dart';
 
 /// Today's Transport Card for the dashboard
 ///
@@ -343,14 +346,14 @@ class TodayTransportCard extends ConsumerWidget {
 /// Shows transport time, destination, and capacity status in a compact format.
 /// Designed for horizontal scrolling in the TodayTransportCard.
 /// Supports responsive width for mobile and tablet layouts.
-class TransportMiniCard extends StatelessWidget {
+class TransportMiniCard extends ConsumerWidget {
   final TransportSlotSummary transport;
   final double? cardWidth;
 
   const TransportMiniCard({super.key, required this.transport, this.cardWidth});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     // Use provided width or fall back to default constraints
     final effectiveWidth = cardWidth ?? 200.0;
 
@@ -379,7 +382,11 @@ class TransportMiniCard extends StatelessWidget {
                   _buildCapacitySection(context),
                   const SizedBox(height: 4),
                   // Vehicles section - all vehicles displayed
-                  _buildVehiclesSection(context, AppLocalizations.of(context)),
+                  _buildVehiclesSection(
+                    context,
+                    ref,
+                    AppLocalizations.of(context),
+                  ),
                 ],
               ),
             ),
@@ -476,7 +483,11 @@ class TransportMiniCard extends StatelessWidget {
     );
   }
 
-  Widget _buildVehiclesSection(BuildContext context, AppLocalizations l10n) {
+  Widget _buildVehiclesSection(
+    BuildContext context,
+    WidgetRef ref,
+    AppLocalizations l10n,
+  ) {
     if (transport.vehicleAssignmentSummaries.isEmpty) {
       return Text(
         l10n.noVehiclesAssigned,
@@ -490,7 +501,7 @@ class TransportMiniCard extends StatelessWidget {
       );
     }
 
-    // Display ALL vehicles separately
+    // Display ALL vehicles using shared VehicleCard component
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,
@@ -502,206 +513,62 @@ class TransportMiniCard extends StatelessWidget {
               padding: EdgeInsets.only(
                 bottom:
                     entry.key < transport.vehicleAssignmentSummaries.length - 1
-                    ? 10.0
+                    ? 8.0
                     : 0.0,
               ),
-              child: _buildVehicleItem(context, entry.value, entry.key),
+              child: _buildVehicleCard(context, ref, entry.value, entry.key),
             ),
           )
           .toList(),
     );
   }
 
-  /// Build a single vehicle item with all its information
-  Widget _buildVehicleItem(
+  /// Build a vehicle using the shared VehicleCard component
+  Widget _buildVehicleCard(
     BuildContext context,
+    WidgetRef ref,
     VehicleAssignmentSummary vehicle,
     int index,
   ) {
-    final isFamilyVehicle = vehicle.isFamilyVehicle;
-
-    return Container(
-      key: Key('vehicle_item_$index'),
-      padding: const EdgeInsets.all(8.0),
-      decoration: isFamilyVehicle
-          ? BoxDecoration(
-              color: Theme.of(
-                context,
-              ).colorScheme.tertiaryContainer.withValues(alpha: 0.3),
-              borderRadius: BorderRadius.circular(6),
-            )
-          : BoxDecoration(
-              color: Theme.of(
-                context,
-              ).colorScheme.surfaceContainerHighest.withValues(alpha: 0.3),
-              borderRadius: BorderRadius.circular(6),
-            ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          // Vehicle header
-          Row(
-            children: [
-              Icon(
-                Icons.directions_car,
-                size: 14,
-                color: isFamilyVehicle
-                    ? Theme.of(context).colorScheme.tertiary
-                    : Theme.of(context).colorScheme.onSurfaceVariant,
-              ),
-              const SizedBox(width: 4),
-              Expanded(
-                child: Text(
-                  vehicle.vehicleName,
-                  key: Key('vehicle_name_$index'),
-                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                    color: isFamilyVehicle
-                        ? Theme.of(context).colorScheme.onTertiaryContainer
-                        : Theme.of(context).colorScheme.onSurfaceVariant,
-                    fontWeight: FontWeight.w600,
-                  ),
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                ),
-              ),
-            ],
-          ),
-          // Children list
-          if (vehicle.assignedChildrenCount > 0) ...[
-            const SizedBox(height: 4),
-            _buildChildrenText(context, vehicle),
-          ],
-          // Capacity bar
-          const SizedBox(height: 6),
-          _buildVehicleCapacity(context, vehicle),
-        ],
-      ),
+    // Get current family and children map like in the schedule
+    final currentFamily = ref.watch(
+      familyProvider.select((state) => state.family),
     );
-  }
-
-  /// Build capacity section for a single vehicle
-  Widget _buildVehicleCapacity(
-    BuildContext context,
-    VehicleAssignmentSummary vehicle,
-  ) {
-    final utilizationPercentage = vehicle.utilizationPercentage;
-    final capacityColor = _getCapacityStatusColor(
-      context,
-      vehicle.capacityStatus,
+    final familyChildren = ref.watch(
+      familyProvider.select((state) => state.children),
     );
-
-    return Row(
-      children: [
-        // Capacity text
-        Text(
-          '${vehicle.assignedChildrenCount}/${vehicle.vehicleCapacity} seats',
-          style: Theme.of(context).textTheme.bodySmall?.copyWith(
-            color: Theme.of(context).colorScheme.onSurfaceVariant,
-            fontSize: 10,
-            fontWeight: FontWeight.w500,
-          ),
-        ),
-        const SizedBox(width: 6),
-        // Progress bar
-        Expanded(
-          child: Container(
-            height: 4,
-            decoration: BoxDecoration(
-              color: Theme.of(context).colorScheme.surfaceContainerHighest,
-              borderRadius: BorderRadius.circular(2),
-            ),
-            child: FractionallySizedBox(
-              alignment: Alignment.centerLeft,
-              widthFactor: utilizationPercentage / 100,
-              child: Container(
-                decoration: BoxDecoration(
-                  color: capacityColor,
-                  borderRadius: BorderRadius.circular(2),
-                ),
-              ),
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-
-  /// Build children text with color highlighting for family children
-  Widget _buildChildrenText(
-    BuildContext context,
-    VehicleAssignmentSummary vehicle,
-  ) {
-    if (vehicle.children.isEmpty) {
-      return Text(
-        '${vehicle.assignedChildrenCount} children',
-        key: const Key('children_info'),
-        style: Theme.of(context).textTheme.bodySmall?.copyWith(
-          color: Theme.of(context).colorScheme.onSurfaceVariant,
-          fontStyle: FontStyle.italic,
-          fontSize: 11,
-          height: 1.3,
-        ),
-      );
+    final childrenMap = <String, Child>{};
+    for (final child in familyChildren) {
+      childrenMap[child.id] = child;
     }
 
-    // Build a rich text with different colors for family vs non-family children
-    final textSpans = <TextSpan>[];
-    for (var i = 0; i < vehicle.children.length; i++) {
-      final child = vehicle.children[i];
-      final childName =
-          child.childFamilyName != null && child.childFamilyName!.isNotEmpty
-          ? '${child.childName} (${child.childFamilyName})'
-          : child.childName;
+    // Extract child names and determine family flags using the same logic as schedule
+    final childrenNames = <String>[];
+    final isFamilyFlags = <bool>[];
 
-      final isFamilyChild = child.isFamilyChild;
+    for (final child in vehicle.children) {
+      childrenNames.add(child.childName);
 
-      // Add bullet point prefix for each child
-      if (i == 0) {
-        textSpans.add(
-          TextSpan(
-            text: '• ',
-            style: Theme.of(context).textTheme.bodySmall?.copyWith(
-              color: Theme.of(context).colorScheme.onSurfaceVariant,
-              fontSize: 11,
-              height: 1.3,
-            ),
-          ),
-        );
-      }
+      // Look up the child in the family children map to get correct familyId
+      final familyChild = childrenMap[child.childId];
+      final isFamilyChild = familyChild?.familyId == currentFamily?.id;
 
-      textSpans.add(
-        TextSpan(
-          text: childName,
-          style: Theme.of(context).textTheme.bodySmall?.copyWith(
-            color: isFamilyChild
-                ? Theme.of(context).colorScheme.tertiary
-                : Theme.of(context).colorScheme.onSurfaceVariant,
-            fontStyle: FontStyle.italic,
-            fontSize: 11,
-            height: 1.3,
-            fontWeight: isFamilyChild ? FontWeight.w600 : FontWeight.normal,
-          ),
-        ),
-      );
-
-      if (i < vehicle.children.length - 1) {
-        textSpans.add(
-          TextSpan(
-            text: '\n• ',
-            style: Theme.of(context).textTheme.bodySmall?.copyWith(
-              color: Theme.of(context).colorScheme.onSurfaceVariant,
-              fontSize: 11,
-              height: 1.3,
-            ),
-          ),
-        );
-      }
+      isFamilyFlags.add(isFamilyChild);
     }
 
-    return RichText(
-      key: const Key('children_info'),
-      text: TextSpan(children: textSpans),
+    return VehicleCard(
+      key: Key('vehicle_card_$index'),
+      vehicleName: vehicle.vehicleName,
+      childrenNames: childrenNames,
+      isFamilyFlags: isFamilyFlags,
+      assignedCount: vehicle.assignedChildrenCount,
+      capacity: vehicle.vehicleCapacity,
+      capacityStatus: vehicle.capacityStatus,
+      isFamilyVehicle: vehicle.isFamilyVehicle,
+      compact: true, // Use compact mode for dashboard
+      onTap: () {
+        // TODO: Navigate to vehicle details or handle tap
+      },
     );
   }
 

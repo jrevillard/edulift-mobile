@@ -14,12 +14,6 @@ void main() {
   group('Phase 4: Common Widgets Golden Tests', () {
     group('LoadingIndicator', () {
       testWidgets('LoadingIndicator - Default - Light Theme', (tester) async {
-        await tester.pumpWidget(
-          const MaterialApp(home: Scaffold(body: LoadingIndicator())),
-        );
-        await tester
-            .pump(); // Use pump() not pumpAndSettle() for infinite animations
-
         await GoldenTestWrapper.testWidget(
           tester: tester,
           widget: const LoadingIndicator(),

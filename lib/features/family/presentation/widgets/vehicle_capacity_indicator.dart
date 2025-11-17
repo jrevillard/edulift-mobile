@@ -129,11 +129,11 @@ class _VehicleCapacityIndicatorState extends State<VehicleCapacityIndicator>
 
     Color statusColor;
     if (isOverCapacity) {
-      statusColor = AppColors.error;
+      statusColor = AppColors.errorThemed(context);
     } else if (isNearCapacity) {
-      statusColor = AppColors.warning;
+      statusColor = AppColors.warningThemed(context);
     } else {
-      statusColor = AppColors.success;
+      statusColor = AppColors.successThemed(context);
     }
 
     return GestureDetector(
@@ -218,7 +218,7 @@ class _VehicleCapacityIndicatorState extends State<VehicleCapacityIndicator>
                         height: 16,
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
-                          color: AppColors.warning,
+                          color: AppColors.warningThemed(context),
                           border: Border.all(
                             color: Theme.of(context).colorScheme.surface,
                             width: 1.5,

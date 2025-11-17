@@ -1,0 +1,749 @@
+import 'package:flutter_test/flutter_test.dart';
+import 'package:mockito/mockito.dart';
+
+import 'package:edulift/features/schedule/data/repositories/schedule_repository_impl.dart';
+import 'package:edulift/features/schedule/data/datasources/schedule_local_datasource.dart';
+import 'package:edulift/features/schedule/data/datasources/schedule_remote_datasource.dart';
+import 'package:edulift/features/schedule/domain/repositories/schedule_repository.dart';
+import 'package:edulift/core/domain/entities/schedule/schedule_slot.dart';
+import 'package:edulift/core/domain/entities/schedule/day_of_week.dart';
+import 'package:edulift/core/domain/entities/schedule/time_of_day.dart';
+import 'package:edulift/core/domain/entities/family/child_assignment.dart';
+import 'package:edulift/core/utils/result.dart';
+import 'package:edulift/core/errors/failures.dart';
+import 'package:edulift/core/network/network_info.dart';
+
+import '../../../../../test_mocks/test_mocks.dart';
+
+void main() {
+  group('ScheduleRepositoryImpl Tests', () {
+    late MockScheduleLocalDataSource mockLocalDataSource;
+    late MockScheduleRemoteDataSource mockRemoteDataSource;
+    late MockNetworkInfo mockNetworkInfo;
+    late ScheduleRepositoryImpl repository;
+
+    setUp(() {
+      mockLocalDataSource = MockScheduleLocalDataSource();
+      mockRemoteDataSource = MockScheduleRemoteDataSource();
+      mockNetworkInfo = MockNetworkInfo();
+      repository = ScheduleRepositoryImpl(
+        localDataSource: mockLocalDataSource,
+        remoteDataSource: mockRemoteDataSource,
+        networkInfo: mockNetworkInfo,
+      );
+    });
+
+    group('getWeeklySchedule', () {
+      final testSlots = [
+        ScheduleSlot(
+          id: 'slot1',
+          groupId: 'group1',
+          dayOfWeek: DayOfWeek.monday,
+          timeOfDay: const TimeOfDayValue(8, 0),
+          week: '2024-W01',
+          vehicleAssignments: const [],
+          maxVehicles: 2,
+          createdAt: DateTime.now(),
+          updatedAt: DateTime.now(),
+        ),
+        ScheduleSlot(
+          id: 'slot2',
+          groupId: 'group1',
+          dayOfWeek: DayOfWeek.wednesday,
+          timeOfDay: const TimeOfDayValue(15, 30),
+          week: '2024-W01',
+          vehicleAssignments: const [],
+          maxVehicles: 1,
+          createdAt: DateTime.now(),
+          updatedAt: DateTime.now(),
+        ),
+      ];
+
+      test('should return remote data when network is available', () async {
+        // Arrange
+        when(mockNetworkInfo.isConnected).thenAnswer((_) async => true);
+        when(
+          mockRemoteDataSource.getWeeklySchedule('group1', '2024-W01'),
+        ).thenAnswer((_) async => testSlots);
+        when(
+          mockLocalDataSource.cacheWeeklySchedule(
+            'group1',
+            '2024-W01',
+            testSlots,
+          ),
+        ).thenAnswer((_) async => Future.value());
+
+        // Act
+        final result = await repository.getWeeklySchedule('group1', '2024-W01');
+
+        // Assert
+        expect(result.isOk, isTrue);
+        expect(result.unwrap, equals(testSlots));
+        verify(
+          mockRemoteDataSource.getWeeklySchedule('group1', '2024-W01'),
+        ).called(1);
+        verify(
+          mockLocalDataSource.cacheWeeklySchedule(
+            'group1',
+            '2024-W01',
+            testSlots,
+          ),
+        ).called(1);
+      });
+
+      test('should return local data when network is unavailable', () async {
+        // Arrange
+        when(mockNetworkInfo.isConnected).thenAnswer((_) async => false);
+        when(
+          mockLocalDataSource.getCachedWeeklySchedule('group1', '2024-W01'),
+        ).thenAnswer((_) async => testSlots);
+
+        // Act
+        final result = await repository.getWeeklySchedule('group1', '2024-W01');
+
+        // Assert
+        expect(result.isOk, isTrue);
+        expect(result.unwrap, equals(testSlots));
+        verify(
+          mockLocalDataSource.getCachedWeeklySchedule('group1', '2024-W01'),
+        ).called(1);
+        verifyNever(mockRemoteDataSource.getWeeklySchedule(any, any));
+      });
+
+      test('should return failure when remote call fails', () async {
+        // Arrange
+        when(mockNetworkInfo.isConnected).thenAnswer((_) async => true);
+        when(
+          mockRemoteDataSource.getWeeklySchedule('group1', '2024-W01'),
+        ).thenThrow(Exception('Network error'));
+
+        // Act
+        final result = await repository.getWeeklySchedule('group1', '2024-W01');
+
+        // Assert
+        expect(result.isErr, isTrue);
+        expect(result.unwrapErr, isA<ApiFailure>());
+        verify(
+          mockRemoteDataSource.getWeeklySchedule('group1', '2024-W01'),
+        ).called(1);
+      });
+
+      test('should return failure when local call fails', () async {
+        // Arrange
+        when(mockNetworkInfo.isConnected).thenAnswer((_) async => false);
+        when(
+          mockLocalDataSource.getCachedWeeklySchedule('group1', '2024-W01'),
+        ).thenThrow(Exception('Local storage error'));
+
+        // Act
+        final result = await repository.getWeeklySchedule('group1', '2024-W01');
+
+        // Assert
+        expect(result.isErr, isTrue);
+        expect(result.unwrapErr, isA<CacheFailure>());
+        verify(
+          mockLocalDataSource.getCachedWeeklySchedule('group1', '2024-W01'),
+        ).called(1);
+      });
+
+      test('should cache data after successful remote fetch', () async {
+        // Arrange
+        when(mockNetworkInfo.isConnected).thenAnswer((_) async => true);
+        when(
+          mockRemoteDataSource.getWeeklySchedule('group1', '2024-W01'),
+        ).thenAnswer((_) async => testSlots);
+        when(
+          mockLocalDataSource.cacheWeeklySchedule(
+            'group1',
+            '2024-W01',
+            testSlots,
+          ),
+        ).thenAnswer((_) async => Future.value());
+
+        // Act
+        await repository.getWeeklySchedule('group1', '2024-W01');
+
+        // Assert
+        verify(
+          mockLocalDataSource.cacheWeeklySchedule(
+            'group1',
+            '2024-W01',
+            testSlots,
+          ),
+        ).called(1);
+      });
+    });
+
+    group('assignVehicleToSlot', () {
+      const params = AssignVehicleToSlotParams(
+        scheduleSlotId: 'slot1',
+        vehicleId: 'vehicle1',
+        assignedBy: 'user1',
+      );
+
+      test(
+        'should assign vehicle successfully when network is available',
+        () async {
+          // Arrange
+          final updatedSlot = ScheduleSlot(
+            id: 'slot1',
+            groupId: 'group1',
+            dayOfWeek: DayOfWeek.monday,
+            timeOfDay: const TimeOfDayValue(8, 0),
+            week: '2024-W01',
+            vehicleAssignments: [
+              VehicleAssignment(
+                id: 'va1',
+                scheduleSlotId: 'slot1',
+                vehicleId: 'vehicle1',
+                assignedAt: DateTime.now(),
+                assignedBy: 'user1',
+                vehicleName: 'Family Van',
+                capacity: 6,
+                createdAt: DateTime.now(),
+                updatedAt: DateTime.now(),
+              ),
+            ],
+            maxVehicles: 2,
+            createdAt: DateTime.now(),
+            updatedAt: DateTime.now(),
+          );
+
+          when(mockNetworkInfo.isConnected).thenAnswer((_) async => true);
+          when(
+            mockRemoteDataSource.assignVehicleToSlot(params),
+          ).thenAnswer((_) async => updatedSlot);
+          when(
+            mockLocalDataSource.updateCachedScheduleSlot('slot1', updatedSlot),
+          ).thenAnswer((_) async => Future.value());
+
+          // Act
+          final result = await repository.assignVehicleToSlot(params);
+
+          // Assert
+          expect(result.isOk, isTrue);
+          expect(result.unwrap.id, equals('slot1'));
+          expect(result.unwrap.vehicleAssignments.length, equals(1));
+          verify(mockRemoteDataSource.assignVehicleToSlot(params)).called(1);
+          verify(
+            mockLocalDataSource.updateCachedScheduleSlot('slot1', updatedSlot),
+          ).called(1);
+        },
+      );
+
+      test('should return failure when network is unavailable', () async {
+        // Arrange
+        when(mockNetworkInfo.isConnected).thenAnswer((_) async => false);
+
+        // Act
+        final result = await repository.assignVehicleToSlot(params);
+
+        // Assert
+        expect(result.isErr, isTrue);
+        expect(result.unwrapErr, isA<NetworkFailure>());
+        verifyNever(mockRemoteDataSource.assignVehicleToSlot(any));
+      });
+
+      test('should return failure when remote call fails', () async {
+        // Arrange
+        when(mockNetworkInfo.isConnected).thenAnswer((_) async => true);
+        when(
+          mockRemoteDataSource.assignVehicleToSlot(params),
+        ).thenThrow(Exception('Assignment failed'));
+
+        // Act
+        final result = await repository.assignVehicleToSlot(params);
+
+        // Assert
+        expect(result.isErr, isTrue);
+        expect(result.unwrapErr, isA<ApiFailure>());
+        verify(mockRemoteDataSource.assignVehicleToSlot(params)).called(1);
+      });
+    });
+
+    group('assignChildrenToVehicle', () {
+      const params = AssignChildrenToVehicleParams(
+        scheduleSlotId: 'slot1',
+        vehicleAssignmentId: 'va1',
+        childIds: ['child1', 'child2'],
+        assignedBy: 'user1',
+      );
+
+      test(
+        'should assign children successfully when network is available',
+        () async {
+          // Arrange
+          final now = DateTime.now();
+          final updatedSlot = ScheduleSlot(
+            id: 'slot1',
+            groupId: 'group1',
+            dayOfWeek: DayOfWeek.monday,
+            timeOfDay: const TimeOfDayValue(8, 0),
+            week: '2024-W01',
+            vehicleAssignments: [
+              VehicleAssignment(
+                id: 'va1',
+                scheduleSlotId: 'slot1',
+                vehicleId: 'vehicle1',
+                assignedAt: now,
+                assignedBy: 'user1',
+                vehicleName: 'Family Van',
+                capacity: 6,
+                childAssignments: [
+                  ChildAssignment.transportation(
+                    id: 'ca1',
+                    childId: 'child1',
+                    groupId: 'group1',
+                    scheduleSlotId: 'slot1',
+                    vehicleAssignmentId: 'va1',
+                    assignedAt: now,
+                    status: AssignmentStatus.confirmed,
+                    assignmentDate: now,
+                  ),
+                  ChildAssignment.transportation(
+                    id: 'ca2',
+                    childId: 'child2',
+                    groupId: 'group1',
+                    scheduleSlotId: 'slot1',
+                    vehicleAssignmentId: 'va1',
+                    assignedAt: now,
+                    status: AssignmentStatus.confirmed,
+                    assignmentDate: now,
+                  ),
+                ],
+                createdAt: now,
+                updatedAt: now,
+              ),
+            ],
+            maxVehicles: 2,
+            createdAt: now,
+            updatedAt: now,
+          );
+
+          when(mockNetworkInfo.isConnected).thenAnswer((_) async => true);
+          when(
+            mockRemoteDataSource.assignChildrenToVehicle(params),
+          ).thenAnswer((_) async => updatedSlot);
+          when(
+            mockLocalDataSource.updateCachedScheduleSlot('slot1', updatedSlot),
+          ).thenAnswer((_) async => Future.value());
+
+          // Act
+          final result = await repository.assignChildrenToVehicle(params);
+
+          // Assert
+          expect(result.isOk, isTrue);
+          expect(result.unwrap.id, equals('slot1'));
+          final vehicleAssignment = result.unwrap.vehicleAssignments.first;
+          expect(vehicleAssignment.childAssignments.length, equals(2));
+          verify(
+            mockRemoteDataSource.assignChildrenToVehicle(params),
+          ).called(1);
+          verify(
+            mockLocalDataSource.updateCachedScheduleSlot('slot1', updatedSlot),
+          ).called(1);
+        },
+      );
+
+      test('should return failure when network is unavailable', () async {
+        // Arrange
+        when(mockNetworkInfo.isConnected).thenAnswer((_) async => false);
+
+        // Act
+        final result = await repository.assignChildrenToVehicle(params);
+
+        // Assert
+        expect(result.isErr, isTrue);
+        expect(result.unwrapErr, isA<NetworkFailure>());
+        verifyNever(mockRemoteDataSource.assignChildrenToVehicle(any));
+      });
+
+      test(
+        'should return failure when assignment fails due to capacity',
+        () async {
+          // Arrange
+          when(mockNetworkInfo.isConnected).thenAnswer((_) async => true);
+          when(mockRemoteDataSource.assignChildrenToVehicle(params)).thenThrow(
+            ApiFailure.conflict(message: 'Vehicle capacity exceeded'),
+          );
+
+          // Act
+          final result = await repository.assignChildrenToVehicle(params);
+
+          // Assert
+          expect(result.isErr, isTrue);
+          expect(result.unwrapErr, isA<ApiFailure>());
+          expect(result.unwrapErr.statusCode, equals(409));
+          verify(
+            mockRemoteDataSource.assignChildrenToVehicle(params),
+          ).called(1);
+        },
+      );
+    });
+
+    group('removeVehicleFromSlot', () {
+      const params = RemoveVehicleFromSlotParams(
+        scheduleSlotId: 'slot1',
+        vehicleAssignmentId: 'va1',
+      );
+
+      test(
+        'should remove vehicle successfully when network is available',
+        () async {
+          // Arrange
+          final updatedSlot = ScheduleSlot(
+            id: 'slot1',
+            groupId: 'group1',
+            dayOfWeek: DayOfWeek.monday,
+            timeOfDay: const TimeOfDayValue(8, 0),
+            week: '2024-W01',
+            vehicleAssignments: const [],
+            maxVehicles: 2,
+            createdAt: DateTime.now(),
+            updatedAt: DateTime.now(),
+          );
+
+          when(mockNetworkInfo.isConnected).thenAnswer((_) async => true);
+          when(
+            mockRemoteDataSource.removeVehicleFromSlot(params),
+          ).thenAnswer((_) async => updatedSlot);
+          when(
+            mockLocalDataSource.updateCachedScheduleSlot('slot1', updatedSlot),
+          ).thenAnswer((_) async => Future.value());
+
+          // Act
+          final result = await repository.removeVehicleFromSlot(params);
+
+          // Assert
+          expect(result.isOk, isTrue);
+          expect(result.unwrap.vehicleAssignments, isEmpty);
+          verify(mockRemoteDataSource.removeVehicleFromSlot(params)).called(1);
+          verify(
+            mockLocalDataSource.updateCachedScheduleSlot('slot1', updatedSlot),
+          ).called(1);
+        },
+      );
+
+      test('should return failure when network is unavailable', () async {
+        // Arrange
+        when(mockNetworkInfo.isConnected).thenAnswer((_) async => false);
+
+        // Act
+        final result = await repository.removeVehicleFromSlot(params);
+
+        // Assert
+        expect(result.isErr, isTrue);
+        expect(result.unwrapErr, isA<NetworkFailure>());
+        verifyNever(mockRemoteDataSource.removeVehicleFromSlot(any));
+      });
+    });
+
+    group('validateChildAssignment', () {
+      const params = ValidateChildAssignmentParams(
+        scheduleSlotId: 'slot1',
+        vehicleAssignmentId: 'va1',
+        childId: 'child1',
+      );
+
+      test('should validate assignment successfully', () async {
+        // Arrange
+        final validationResult = ValidationResult(
+          isValid: true,
+          conflicts: const [],
+          warnings: const ['Child has allergies'],
+        );
+
+        when(mockNetworkInfo.isConnected).thenAnswer((_) async => true);
+        when(
+          mockRemoteDataSource.validateChildAssignment(params),
+        ).thenAnswer((_) async => validationResult);
+
+        // Act
+        final result = await repository.validateChildAssignment(params);
+
+        // Assert
+        expect(result.isOk, isTrue);
+        expect(result.unwrap.isValid, isTrue);
+        expect(result.unwrap.warnings, contains('Child has allergies'));
+        verify(mockRemoteDataSource.validateChildAssignment(params)).called(1);
+      });
+
+      test('should return validation conflicts', () async {
+        // Arrange
+        final conflicts = [
+          const ScheduleConflict(
+            type: ConflictType.overcapacity,
+            description: 'Vehicle would be over capacity',
+            severity: Severity.high,
+          ),
+        ];
+
+        final validationResult = ValidationResult(
+          isValid: false,
+          conflicts: conflicts,
+          warnings: const [],
+        );
+
+        when(mockNetworkInfo.isConnected).thenAnswer((_) async => true);
+        when(
+          mockRemoteDataSource.validateChildAssignment(params),
+        ).thenAnswer((_) async => validationResult);
+
+        // Act
+        final result = await repository.validateChildAssignment(params);
+
+        // Assert
+        expect(result.isOk, isTrue);
+        expect(result.unwrap.isValid, isFalse);
+        expect(result.unwrap.conflicts.length, equals(1));
+        expect(
+          result.unwrap.conflicts.first.type,
+          equals(ConflictType.overcapacity),
+        );
+      });
+    });
+
+    group('manageScheduleConfig', () {
+      const params = ManageScheduleConfigParams(
+        groupId: 'group1',
+        maxVehiclesPerSlot: 2,
+        defaultVehicleCapacity: 6,
+        weekStartsOn: DayOfWeek.monday,
+        requiresDriverConfirmation: true,
+      );
+
+      test('should update schedule configuration successfully', () async {
+        // Arrange
+        final config = ScheduleConfig(
+          groupId: 'group1',
+          maxVehiclesPerSlot: 2,
+          defaultVehicleCapacity: 6,
+          weekStartsOn: DayOfWeek.monday,
+          requiresDriverConfirmation: true,
+          createdAt: DateTime.now(),
+          updatedAt: DateTime.now(),
+        );
+
+        when(mockNetworkInfo.isConnected).thenAnswer((_) async => true);
+        when(
+          mockRemoteDataSource.updateScheduleConfig(params),
+        ).thenAnswer((_) async => config);
+        when(
+          mockLocalDataSource.cacheScheduleConfig(config),
+        ).thenAnswer((_) async => Future.value());
+
+        // Act
+        final result = await repository.manageScheduleConfig(params);
+
+        // Assert
+        expect(result.isOk, isTrue);
+        expect(result.unwrap.groupId, equals('group1'));
+        expect(result.unwrap.maxVehiclesPerSlot, equals(2));
+        verify(mockRemoteDataSource.updateScheduleConfig(params)).called(1);
+        verify(mockLocalDataSource.cacheScheduleConfig(config)).called(1);
+      });
+
+      test('should return failure when config update fails', () async {
+        // Arrange
+        when(mockNetworkInfo.isConnected).thenAnswer((_) async => true);
+        when(mockRemoteDataSource.updateScheduleConfig(params)).thenThrow(
+          ApiFailure.validationError(message: 'Invalid configuration'),
+        );
+
+        // Act
+        final result = await repository.manageScheduleConfig(params);
+
+        // Assert
+        expect(result.isErr, isTrue);
+        expect(result.unwrapErr, isA<ApiFailure>());
+        expect(result.unwrapErr.statusCode, equals(422));
+      });
+    });
+
+    group('manageScheduleOperations', () {
+      test('should clear cache successfully', () async {
+        // Arrange
+        when(
+          mockLocalDataSource.clearScheduleCache('group1'),
+        ).thenAnswer((_) async => Future.value());
+
+        // Act
+        final result = await repository.manageScheduleOperations(
+          const ClearCacheParams(groupId: 'group1'),
+        );
+
+        // Assert
+        expect(result.isOk, isTrue);
+        verify(mockLocalDataSource.clearScheduleCache('group1')).called(1);
+      });
+
+      test('should refresh schedule successfully', () async {
+        // Arrange
+        final testSlots = [
+          ScheduleSlot(
+            id: 'slot1',
+            groupId: 'group1',
+            dayOfWeek: DayOfWeek.monday,
+            timeOfDay: const TimeOfDayValue(8, 0),
+            week: '2024-W01',
+            vehicleAssignments: const [],
+            maxVehicles: 2,
+            createdAt: DateTime.now(),
+            updatedAt: DateTime.now(),
+          ),
+        ];
+
+        when(mockNetworkInfo.isConnected).thenAnswer((_) async => true);
+        when(
+          mockRemoteDataSource.getWeeklySchedule('group1', '2024-W01'),
+        ).thenAnswer((_) async => testSlots);
+        when(
+          mockLocalDataSource.cacheWeeklySchedule(
+            'group1',
+            '2024-W01',
+            testSlots,
+          ),
+        ).thenAnswer((_) async => Future.value());
+
+        // Act
+        final result = await repository.manageScheduleOperations(
+          const RefreshScheduleParams(groupId: 'group1', week: '2024-W01'),
+        );
+
+        // Assert
+        expect(result.isOk, isTrue);
+        expect(result.unwrap, equals(testSlots));
+        verify(
+          mockRemoteDataSource.getWeeklySchedule('group1', '2024-W01'),
+        ).called(1);
+      });
+    });
+
+    group('error handling', () {
+      test('should handle network timeouts correctly', () async {
+        // Arrange
+        when(mockNetworkInfo.isConnected).thenAnswer((_) async => true);
+        when(
+          mockRemoteDataSource.getWeeklySchedule('group1', '2024-W01'),
+        ).thenThrow(ApiFailure.timeout(url: 'https://api.example.com'));
+
+        // Act
+        final result = await repository.getWeeklySchedule('group1', '2024-W01');
+
+        // Assert
+        expect(result.isErr, isTrue);
+        expect(result.unwrapErr, isA<ApiFailure>());
+        expect(result.unwrapErr.statusCode, equals(408));
+      });
+
+      test('should handle unauthorized access correctly', () async {
+        // Arrange
+        when(mockNetworkInfo.isConnected).thenAnswer((_) async => true);
+        when(
+          mockRemoteDataSource.getWeeklySchedule('group1', '2024-W01'),
+        ).thenThrow(ApiFailure.unauthorized());
+
+        // Act
+        final result = await repository.getWeeklySchedule('group1', '2024-W01');
+
+        // Assert
+        expect(result.isErr, isTrue);
+        expect(result.unwrapErr, isA<ApiFailure>());
+        expect(result.unwrapErr.statusCode, equals(401));
+      });
+
+      test('should handle server errors correctly', () async {
+        // Arrange
+        when(mockNetworkInfo.isConnected).thenAnswer((_) async => true);
+        when(
+          mockRemoteDataSource.getWeeklySchedule('group1', '2024-W01'),
+        ).thenThrow(ApiFailure.serverError(message: 'Internal server error'));
+
+        // Act
+        final result = await repository.getWeeklySchedule('group1', '2024-W01');
+
+        // Assert
+        expect(result.isErr, isTrue);
+        expect(result.unwrapErr, isA<ApiFailure>());
+        expect(result.unwrapErr.statusCode, equals(500));
+      });
+
+      test('should handle not found errors correctly', () async {
+        // Arrange
+        when(mockNetworkInfo.isConnected).thenAnswer((_) async => true);
+        when(
+          mockRemoteDataSource.getWeeklySchedule(
+            'nonexistent-group',
+            '2024-W01',
+          ),
+        ).thenThrow(ApiFailure.notFound(resource: 'Group'));
+
+        // Act
+        final result = await repository.getWeeklySchedule(
+          'nonexistent-group',
+          '2024-W01',
+        );
+
+        // Assert
+        expect(result.isErr, isTrue);
+        expect(result.unwrapErr, isA<ApiFailure>());
+        expect(result.unwrapErr.statusCode, equals(404));
+      });
+    });
+
+    group('cache management', () {
+      test('should fall back to cache when network fails', () async {
+        // Arrange
+        final cachedSlots = [
+          ScheduleSlot(
+            id: 'slot1',
+            groupId: 'group1',
+            dayOfWeek: DayOfWeek.monday,
+            timeOfDay: const TimeOfDayValue(8, 0),
+            week: '2024-W01',
+            vehicleAssignments: const [],
+            maxVehicles: 2,
+            createdAt: DateTime.now(),
+            updatedAt: DateTime.now(),
+          ),
+        ];
+
+        when(mockNetworkInfo.isConnected).thenAnswer((_) async => true);
+        when(
+          mockRemoteDataSource.getWeeklySchedule('group1', '2024-W01'),
+        ).thenThrow(ApiFailure.noConnection());
+        when(
+          mockLocalDataSource.getCachedWeeklySchedule('group1', '2024-W01'),
+        ).thenAnswer((_) async => cachedSlots);
+
+        // Act
+        final result = await repository.getWeeklySchedule('group1', '2024-W01');
+
+        // Assert
+        expect(result.isOk, isTrue);
+        expect(result.unwrap, equals(cachedSlots));
+        verify(
+          mockLocalDataSource.getCachedWeeklySchedule('group1', '2024-W01'),
+        ).called(1);
+      });
+
+      test('should handle cache miss gracefully', () async {
+        // Arrange
+        when(mockNetworkInfo.isConnected).thenAnswer((_) async => true);
+        when(
+          mockRemoteDataSource.getWeeklySchedule('group1', '2024-W01'),
+        ).thenThrow(ApiFailure.noConnection());
+        when(
+          mockLocalDataSource.getCachedWeeklySchedule('group1', '2024-W01'),
+        ).thenThrow(CacheFailure.notFound());
+
+        // Act
+        final result = await repository.getWeeklySchedule('group1', '2024-W01');
+
+        // Assert
+        expect(result.isErr, isTrue);
+        expect(result.unwrapErr, isA<CacheFailure>());
+      });
+    });
+  });
+}

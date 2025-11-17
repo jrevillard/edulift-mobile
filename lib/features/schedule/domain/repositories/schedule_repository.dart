@@ -4,7 +4,6 @@ import 'package:edulift/core/domain/entities/schedule.dart'
     as schedule_entities;
 import '../../../family/domain/entities/child_assignment.dart'
     as family_entities;
-import '../../../../core/domain/entities/family/child.dart';
 
 abstract class GroupScheduleRepository {
   /// Get weekly schedule for a group
@@ -82,14 +81,6 @@ abstract class GroupScheduleRepository {
     String groupId,
     String vehicleAssignmentId,
     int? seatOverride,
-  );
-
-  /// Get available children for assignment
-  Future<Result<List<Child>, ApiFailure>> getAvailableChildren(
-    String groupId,
-    String week,
-    String day,
-    String time,
   );
 
   /// Check for schedule conflicts

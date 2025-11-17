@@ -4,7 +4,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import '../../../core/presentation/themes/app_colors.dart';
 import '../../../core/presentation/themes/app_spacing.dart';
 import '../../../core/presentation/themes/app_text_styles.dart';
 
@@ -37,7 +36,7 @@ class AdaptiveScaffold extends StatelessWidget {
         actions: actions,
         automaticallyImplyLeading: automaticallyImplyLeading,
         backgroundColor: theme.scaffoldBackgroundColor,
-        foregroundColor: AppColors.textPrimary,
+        foregroundColor: theme.colorScheme.onSurface,
         elevation: 0,
         systemOverlayStyle: SystemUiOverlayStyle.dark,
       ),
@@ -106,8 +105,8 @@ class AdaptiveButton extends StatelessWidget {
       child: OutlinedButton(
         onPressed: onPressed,
         style: OutlinedButton.styleFrom(
-          foregroundColor: AppColors.primary,
-          side: const BorderSide(color: AppColors.primary),
+          foregroundColor: Theme.of(context).colorScheme.primary,
+          side: BorderSide(color: Theme.of(context).colorScheme.primary),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(AppSpacing.radiusMd),
           ),
@@ -120,7 +119,9 @@ class AdaptiveButton extends StatelessWidget {
   Widget _buildTextButton(BuildContext context) {
     return TextButton(
       onPressed: onPressed,
-      style: TextButton.styleFrom(foregroundColor: AppColors.primary),
+      style: TextButton.styleFrom(
+        foregroundColor: Theme.of(context).colorScheme.primary,
+      ),
       child: child,
     );
   }
@@ -174,7 +175,7 @@ class AdaptiveIconButton extends StatelessWidget {
       icon: Icon(icon),
       onPressed: onPressed,
       tooltip: tooltip,
-      color: AppColors.textPrimary,
+      color: Theme.of(context).colorScheme.onSurface,
     );
   }
 }
@@ -237,29 +238,45 @@ class AdaptiveTextFormField extends StatelessWidget {
           decoration: InputDecoration(
             hintText: hint,
             hintStyle: AppTextStyles.bodyMedium.copyWith(
-              color: AppColors.textSecondary,
+              color: Theme.of(
+                context,
+              ).colorScheme.onSurface.withValues(alpha: 0.6),
             ),
             filled: true,
-            fillColor: enabled ? AppColors.surface : AppColors.surfaceVariant,
+            fillColor: enabled
+                ? Theme.of(context).colorScheme.surface
+                : Theme.of(context).colorScheme.surfaceContainerHighest,
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(AppSpacing.radiusMd),
-              borderSide: const BorderSide(color: AppColors.border),
+              borderSide: BorderSide(
+                color: Theme.of(context).colorScheme.outline,
+              ),
             ),
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(AppSpacing.radiusMd),
-              borderSide: const BorderSide(color: AppColors.border),
+              borderSide: BorderSide(
+                color: Theme.of(context).colorScheme.outline,
+              ),
             ),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(AppSpacing.radiusMd),
-              borderSide: const BorderSide(color: AppColors.primary, width: 2),
+              borderSide: BorderSide(
+                color: Theme.of(context).colorScheme.primary,
+                width: 2,
+              ),
             ),
             errorBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(AppSpacing.radiusMd),
-              borderSide: const BorderSide(color: AppColors.error),
+              borderSide: BorderSide(
+                color: Theme.of(context).colorScheme.error,
+              ),
             ),
             focusedErrorBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(AppSpacing.radiusMd),
-              borderSide: const BorderSide(color: AppColors.error, width: 2),
+              borderSide: BorderSide(
+                color: Theme.of(context).colorScheme.error,
+                width: 2,
+              ),
             ),
             contentPadding: const EdgeInsets.symmetric(
               horizontal: AppSpacing.md,

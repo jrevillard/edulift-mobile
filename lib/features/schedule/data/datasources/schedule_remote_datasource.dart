@@ -5,7 +5,6 @@
 import '../../../../core/network/models/schedule/schedule_slot_dto.dart';
 import '../../../../core/network/models/schedule/vehicle_assignment_dto.dart';
 import '../../../../core/network/models/schedule/schedule_config_dto.dart';
-import '../../../../core/network/models/child/child_dto.dart';
 import '../../../../core/network/requests/group_requests.dart';
 
 /// Abstract interface for schedule remote data source
@@ -63,14 +62,6 @@ abstract class ScheduleRemoteDataSource {
     required String slotId,
     required String vehicleAssignmentId,
     required String childAssignmentId,
-  });
-
-  /// Get available children for slot from server
-  Future<List<ChildDto>> getAvailableChildren({
-    required String groupId,
-    required String week,
-    required String day,
-    required String time,
   });
 
   // ========================================

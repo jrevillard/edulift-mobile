@@ -74,7 +74,7 @@ class _GroupDetailsPageState extends ConsumerState<GroupDetailsPage>
             Icon(
               Icons.error_outline,
               size: 64,
-              color: AppColors.errorThemed(context),
+              color: Theme.of(context).colorScheme.error,
             ),
             const SizedBox(height: 16),
             Text(l10n.groupNotFound, style: const TextStyle(fontSize: 18)),
@@ -541,7 +541,7 @@ class _GroupDetailsPageState extends ConsumerState<GroupDetailsPage>
           Icon(
             Icons.error_outline,
             size: 64,
-            color: AppColors.errorThemed(context),
+            color: Theme.of(context).colorScheme.error,
           ),
           const SizedBox(height: 16),
           Text(
@@ -572,12 +572,12 @@ class _GroupDetailsPageState extends ConsumerState<GroupDetailsPage>
 
     switch (role.toUpperCase()) {
       case 'OWNER':
-        backgroundColor = AppColors.tertiaryContainer(context);
+        backgroundColor = Theme.of(context).colorScheme.tertiaryContainer;
         textColor = AppColors.tertiary(context);
         break;
       case 'ADMIN':
-        backgroundColor = AppColors.errorContainer(context);
-        textColor = AppColors.errorThemed(context);
+        backgroundColor = Theme.of(context).colorScheme.errorContainer;
+        textColor = Theme.of(context).colorScheme.error;
         break;
       case 'MEMBER':
       default:
