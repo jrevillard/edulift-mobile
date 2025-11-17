@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:timezone/data/latest_all.dart' as tz;
 import 'package:edulift/features/schedule/presentation/widgets/mobile/enhanced_slot_card.dart';
 import 'package:edulift/core/domain/entities/family/vehicle.dart';
 import 'package:edulift/core/domain/entities/family/child.dart';
@@ -25,6 +26,8 @@ void main() {
     late MockUser mockUser;
 
     setUpAll(() async {
+      // Initialize timezone database for tests
+      tz.initializeTimeZones();
       await TestAppConfiguration.initialize();
     });
 
@@ -38,6 +41,7 @@ void main() {
       );
 
       mockUser = MockUser();
+      when(mockUser.id).thenReturn('test-user-id');
       when(mockUser.timezone).thenReturn('America/New_York');
     });
 
