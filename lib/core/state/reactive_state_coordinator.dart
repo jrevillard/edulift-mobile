@@ -44,7 +44,8 @@ mixin ReactiveStateCoordinator {
     stateUpdate();
 
     // STATE-OF-THE-ART: Yield to microtask queue to ensure state propagation
-    await Future.delayed(Duration.zero);
+    // SOLUTION FINALE: Utiliser microtask au lieu de timer pour éviter les problèmes de test
+    await Future.microtask(() {});
 
     if (withFrameCallback) {
       // STATE-OF-THE-ART: Coordinate with widget lifecycle
@@ -83,7 +84,8 @@ mixin ReactiveStateCoordinator {
     );
 
     // STATE-OF-THE-ART: Allow state stabilization before reactive processing
-    await Future.delayed(Duration.zero);
+    // SOLUTION FINALE: Utiliser microtask au lieu de timer pour éviter les problèmes de test
+    await Future.microtask(() {});
 
     try {
       await listenerLogic();
@@ -127,7 +129,8 @@ mixin ReactiveStateCoordinator {
     }
 
     // STATE-OF-THE-ART: Ensure all updates are propagated
-    await Future.delayed(Duration.zero);
+    // SOLUTION FINALE: Utiliser microtask au lieu de timer pour éviter les problèmes de test
+    await Future.microtask(() {});
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
       AppLogger.debug(

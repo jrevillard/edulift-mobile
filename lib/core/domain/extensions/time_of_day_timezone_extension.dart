@@ -4,7 +4,7 @@
 // This extension adds methods to display TimeOfDayValue (which stores UTC times)
 // in the user's local timezone throughout the UI.
 
-import '../../domain/entities/schedule/time_of_day.dart';
+import '../entities/schedule/time_of_day.dart';
 import '../../utils/timezone_formatter.dart';
 
 /// Extension for displaying TimeOfDayValue in user's timezone

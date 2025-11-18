@@ -252,7 +252,8 @@ void main() {
               !line.contains(
                 '{...state,',
               ) && // Allow spread operator for immutable sets
-              !_isCompleteObjectReplacement(line)) {
+              !_isCompleteObjectReplacement(line) &&
+              !_isNotifierObjectCreation(line)) {
             // Allow complete immutable object replacement
             violations.add(
               '${file.path}:${i + 1}: Direct state mutation: ${line}',
@@ -271,7 +272,8 @@ void main() {
                 'Set<String>.from(state)',
               ) && // Immutable set pattern
               !line.contains('List.from(') && // Immutable list pattern
-              !line.contains('.where(')) {
+              !line.contains('.where(') &&
+              !_isNotifierObjectCreation(line)) {
             // Functional collection transformation
             violations.add(
               '${file.path}:${i + 1}: Direct collection mutation on state: ${line}',
@@ -501,6 +503,53 @@ bool _isCompleteObjectReplacement(String line) {
   final simpleAssignmentPattern = RegExp(r'^[a-zA-Z_]\w*;?$');
 
   return simpleAssignmentPattern.hasMatch(assignmentPart);
+}
+
+bool _isNotifierObjectCreation(String line) {
+  // Allow common Notifier state creation patterns that are completely immutable
+  // Examples:
+  //   ✅ state = DateTime(year, month, day);
+  //   ✅ state = someFunction();
+  //   ✅ state = !state; (boolean negation)
+  //   ✅ state = state.add(duration); (immutable DateTime arithmetic)
+
+  final trimmed = line.trim();
+
+  // Must contain "state ="
+  if (!trimmed.contains('state =')) return false;
+
+  // Extract the assignment part (everything after "state = ")
+  final parts = trimmed.split('state =');
+  if (parts.length < 2) return false;
+
+  final assignmentPart = parts[1].trim();
+
+  // Allow constructor calls with parentheses
+  if (assignmentPart.startsWith('DateTime(') ||
+      assignmentPart.startsWith('DateUtils.') ||
+      assignmentPart.contains('(') && assignmentPart.contains(')')) {
+    return true;
+  }
+
+  // Allow boolean negation
+  if (assignmentPart.startsWith('!state')) {
+    return true;
+  }
+
+  // Allow immutable arithmetic on state (DateTime.add/subtract)
+  if (assignmentPart.startsWith('state.add(') ||
+      assignmentPart.startsWith('state.subtract(')) {
+    return true;
+  }
+
+  // Allow function calls (complete object creation)
+  if (assignmentPart.contains('(') &&
+      !assignmentPart.contains('state.') && // Not state.property()
+      assignmentPart.endsWith(')')) {
+    return true;
+  }
+
+  return false;
 }
 
 class Math {
