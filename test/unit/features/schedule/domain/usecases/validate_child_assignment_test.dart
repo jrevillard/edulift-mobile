@@ -223,7 +223,7 @@ void main() {
           expect(failure, isA<ScheduleFailure>());
 
           final scheduleFailure = failure as ScheduleFailure;
-          expect(scheduleFailure.code, equals('schedule_error'));
+          expect(scheduleFailure.code, equals('schedule.capacity_exceeded'));
           expect(
             scheduleFailure.error,
             equals(ScheduleError.vehicleCapacityExceeded),
@@ -265,7 +265,7 @@ void main() {
         expect(failure, isA<ScheduleFailure>());
 
         final scheduleFailure = failure as ScheduleFailure;
-        expect(scheduleFailure.code, equals('schedule_error'));
+        expect(scheduleFailure.code, equals('schedule.capacity_exceeded'));
         expect(
           scheduleFailure.error,
           equals(ScheduleError.vehicleCapacityExceeded),

@@ -6,7 +6,7 @@ import 'package:edulift/core/domain/entities/family/child.dart';
 import 'package:edulift/core/domain/entities/family/vehicle.dart';
 import 'package:edulift/core/domain/entities/family/family.dart'
     as family_entity;
-import 'package:edulift/core/presentation/extensions/time_of_day_timezone_extension.dart';
+import 'package:edulift/core/domain/extensions/time_of_day_timezone_extension.dart';
 import 'package:edulift/core/presentation/widgets/vehicle_card.dart';
 import 'package:edulift/core/presentation/themes/app_colors.dart';
 import 'package:edulift/core/services/providers/auth_provider.dart';

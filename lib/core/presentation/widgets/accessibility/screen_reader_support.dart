@@ -6,8 +6,25 @@ class ScreenReaderSupport {
   ScreenReaderSupport._();
 
   /// Announces a message to screen readers
-  static void announce(String message, {TextDirection? textDirection}) {
-    SemanticsService.announce(message, textDirection ?? TextDirection.ltr);
+  static Future<void> announce(
+    String message, {
+    TextDirection? textDirection,
+  }) async {
+    try {
+      // Try to use the new sendAnnouncement method with modern platformDispatcher
+      final platformDispatcher = WidgetsBinding.instance.platformDispatcher;
+      if (platformDispatcher.views.isNotEmpty) {
+        // Use the first available FlutterView
+        await SemanticsService.sendAnnouncement(
+          platformDispatcher.views.first,
+          message,
+          textDirection ?? TextDirection.ltr,
+        );
+        return;
+      }
+    } catch (e) {
+      // If sendAnnouncement fails, we simply don't announce - better than using deprecated API
+    }
   }
 
   /// Announces navigation changes

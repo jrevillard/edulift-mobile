@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:edulift/core/domain/entities/family/vehicle.dart';
 import 'package:edulift/core/domain/entities/schedule/schedule_slot.dart';
 import 'package:edulift/generated/l10n/app_localizations.dart';
-import 'package:edulift/core/presentation/extensions/time_of_day_timezone_extension.dart';
+import 'package:edulift/core/domain/extensions/time_of_day_timezone_extension.dart';
 import '../../../../core/services/providers/auth_provider.dart';
 import '../../../../core/utils/weekday_localization.dart';
 import '../../../../core/utils/app_logger.dart';

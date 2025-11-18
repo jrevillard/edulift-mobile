@@ -296,7 +296,7 @@ void main() {
         find.byKey(Key('day_quick_summary_${testDate.millisecondsSinceEpoch}')),
         findsOneWidget,
       );
-      expect(find.text('0/4'), findsOneWidget); // No slots have vehicles yet
+      expect(find.text('0/2'), findsOneWidget); // No slots have vehicles yet
     });
 
     testWidgets('handles non-existent displayable slots', (

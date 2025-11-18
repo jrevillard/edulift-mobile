@@ -7,10 +7,16 @@ import 'package:timezone/data/latest_all.dart' as tz;
 import 'package:edulift/core/presentation/widgets/profile/timezone_selector.dart';
 import 'package:edulift/core/services/providers/auth_provider.dart';
 import 'package:edulift/core/domain/entities/user.dart';
+import 'test_app_configuration.dart';
 
 void main() {
   group('TimezoneSelector Widget Tests', () {
     late User mockUser;
+
+    setUpAll(() async {
+      // Initialize test environment with proper localization
+      await TestAppConfiguration.initialize();
+    });
 
     setUp(() async {
       // Initialize timezone database for tests
@@ -31,9 +37,12 @@ void main() {
     });
 
     Widget createWidgetUnderTest({User? user}) {
-      return ProviderScope(
-        overrides: [currentUserProvider.overrideWithValue(user ?? mockUser)],
-        child: const MaterialApp(home: Scaffold(body: TimezoneSelector())),
+      return TestAppConfiguration.createBareTestWidget(
+        child: ProviderScope(
+          overrides: [currentUserProvider.overrideWithValue(user ?? mockUser)],
+          child: const Scaffold(body: TimezoneSelector()),
+        ),
+        locale: 'en',
       );
     }
 

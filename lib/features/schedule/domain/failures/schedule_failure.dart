@@ -10,7 +10,12 @@ class ScheduleFailure extends Failure {
     required this.error,
     String? message,
     Map<String, dynamic>? details,
-  }) : super(message: message, code: 'schedule_error', details: details);
+    String? code,
+  }) : super(
+         message: message,
+         code: code ?? 'schedule_error',
+         details: details,
+       );
 
   String get localizationKey => error.localizationKey;
 
@@ -40,6 +45,7 @@ class ScheduleFailure extends Failure {
   }) => ScheduleFailure(
     error: ScheduleError.vehicleCapacityExceeded,
     message: message,
+    code: 'schedule.capacity_exceeded',
     details: {
       ...?details,
       'capacity': capacity,

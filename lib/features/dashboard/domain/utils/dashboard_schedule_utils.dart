@@ -3,7 +3,7 @@
 
 import 'package:edulift/core/domain/entities/schedule.dart'
     as schedule_entities;
-import 'package:edulift/core/presentation/extensions/time_of_day_timezone_extension.dart';
+import 'package:edulift/core/domain/extensions/time_of_day_timezone_extension.dart';
 import 'package:edulift/core/domain/entities/family/child_assignment.dart';
 import 'package:edulift/features/dashboard/domain/entities/dashboard_transport_summary.dart';
 
