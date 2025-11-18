@@ -3,13 +3,11 @@ description: 'Setup Java, Flutter, and get dependencies'
 author: 'EduLift Team'
 inputs:
   flutter-version:
-    description: 'Flutter version to use'
-    required: false
-    default: '3.35.6'
+    description: 'Flutter version to use (must match workflow FLUTTER_VERSION)'
+    required: true
   java-version:
-    description: 'Java version to use'
-    required: false
-    default: '17'
+    description: 'Java version to use (must match workflow JAVA_VERSION)'
+    required: true
   cache-key-suffix:
     description: 'Additional suffix for cache key'
     required: false
@@ -30,6 +28,7 @@ runs:
         flutter-version: ${{ inputs.flutter-version }}
         channel: 'stable'
         cache: true
+        cache-key: 'flutter-stable-${{ inputs.flutter-version }}-${{ inputs.cache-key-suffix }}'
 
     - name: Get dependencies
       shell: bash

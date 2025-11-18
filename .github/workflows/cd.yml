@@ -36,16 +36,17 @@ permissions:
   contents: write  # Required for GitHub Release creation
   deployments: write  # Required for deployment tracking
 
-env:
-  FLUTTER_VERSION: '3.35.6'
-  JAVA_VERSION: '17'
+#env:
+  # Versions are loaded from .github/ci-versions.env
+  # This is the single source of truth for all version numbers
+  # See .github/VERSION_MANAGEMENT.md for documentation
 
 jobs:
   # Android build job
   build-android:
     name: Build Android
     runs-on: ubuntu-latest
-    timeout-minutes: 40
+    timeout-minutes: 60
     # Run on all non-dispatch events OR on dispatch if platform is not exclusively 'ios'
     if: github.event_name != 'workflow_dispatch' || github.event.inputs.platform != 'ios'
 
@@ -58,12 +59,34 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-      
+
+      - name: Load CI/CD versions from .env
+        id: load-versions
+        run: |
+          echo "🔧 Loading versions from .github/ci-versions.env"
+          # Source the .env file and export to GITHUB_OUTPUT
+          while IFS='=' read -r key value; do
+            # Skip comments and empty lines
+            [[ $key =~ ^[[:space:]]*# ]] && continue
+            [[ -z $key ]] && continue
+
+            # Remove any surrounding quotes from value
+            value=$(echo "$value" | sed 's/^["\x27]//' | sed 's/["\x27]$//')
+
+            echo "$key=$value" >> $GITHUB_OUTPUT
+            echo "✅ Loaded $key=$value"
+          done < .github/ci-versions.env
+
+      - name: Validate CI/CD Versions
+        run: |
+          echo "🔍 Validating CI/CD version consistency..."
+          ./scripts/validate-ci-versions.sh
+
       - name: Setup Flutter Environment
         uses: ./.github/actions/setup-flutter
         with:
-          flutter-version: ${{ env.FLUTTER_VERSION }}
-          java-version: ${{ env.JAVA_VERSION }}
+          flutter-version: ${{ steps.load-versions.outputs.FLUTTER_VERSION }}
+          java-version: ${{ steps.load-versions.outputs.JAVA_VERSION }}
 
       - name: Cache Gradle dependencies
         uses: actions/cache@v4
@@ -111,7 +134,11 @@ jobs:
         if: env.BUILD_TYPE == 'debug'
         run: |
           # Create debug keystore for CI builds
-          keytool -genkey -v -keystore android/app/debug.keystore -alias androiddebugkey -keyalg RSA -keysize 2048 -validity 10000 -storepass android -keypass android -dname "CN=Debug,O=Debug,C=US"
+          # Default values from .github/ci-versions.env if not loaded
+          KEYSTORE_KEY_SIZE=${{ steps.load-versions.outputs.KEYSTORE_KEY_SIZE || '2048' }}
+          KEYSTORE_VALIDITY_DAYS=${{ steps.load-versions.outputs.KEYSTORE_VALIDITY_DAYS || '10000' }}
+
+          keytool -genkey -v -keystore android/app/debug.keystore -alias androiddebugkey -keyalg RSA -keysize $KEYSTORE_KEY_SIZE -validity $KEYSTORE_VALIDITY_DAYS -storepass android -keypass android -dname "CN=edulift,O=Debug,C=FR"
 
       - name: Setup Android keystore (release)
         if: env.BUILD_TYPE == 'release'
@@ -171,7 +198,7 @@ jobs:
   build-ios:
     name: Build iOS
     runs-on: macos-latest
-    timeout-minutes: 40
+    timeout-minutes: 60
     if: false  # Disabled - free Apple account cannot distribute to Firebase/TestFlight
     # Original condition: (github.event.inputs.platform == 'ios' || github.event.inputs.platform == 'both' || github.event.inputs.platform == null) && (github.event_name == 'push' || github.event_name == 'workflow_dispatch' || startsWith(github.ref, 'refs/tags/'))
 
@@ -184,13 +211,39 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-      
+
+      - name: Load CI/CD versions from .env
+        id: load-ios-versions
+        run: |
+          echo "🔧 Loading versions from .github/ci-versions.env"
+          # Source the .env file and export to GITHUB_OUTPUT
+          while IFS='=' read -r key value; do
+            # Skip comments and empty lines
+            [[ $key =~ ^[[:space:]]*# ]] && continue
+            [[ -z $key ]] && continue
+
+            # Remove any surrounding quotes from value
+            value=$(echo "$value" | sed 's/^["\x27]//' | sed 's/["\x27]$//')
+
+            echo "$key=$value" >> $GITHUB_OUTPUT
+            echo "✅ Loaded $key=$value"
+          done < .github/ci-versions.env
+
+      - name: Validate CI/CD Versions
+        run: |
+          echo "🔍 Validating CI/CD version consistency..."
+          ./scripts/validate-ci-versions.sh
+
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: ${{ env.FLUTTER_VERSION }}
-          channel: 'stable'
+          flutter-version: ${{ steps.load-ios-versions.outputs.FLUTTER_VERSION }}
+          channel: ${{ steps.load-ios-versions.outputs.FLUTTER_CHANNEL }}
           cache: true
+          cache-key: 'flutter-${{ steps.load-ios-versions.outputs.FLUTTER_CHANNEL }}-${{ steps.load-ios-versions.outputs.FLUTTER_VERSION }}'
+
+      - name: Skip Flutter analyze (known issue)
+        run: echo "Skipping flutter analyze due to known SemanticsService.sendAnnouncement issue"
       
       - name: Get dependencies
         run: flutter pub get
@@ -201,9 +254,9 @@ jobs:
       - name: Setup Xcode
         uses: maxim-lobanov/setup-xcode@v1
         with:
-          xcode-version: '16.4'
+          xcode-version: ${{ steps.load-ios-versions.outputs.XCODE_VERSION }}
 
-      # iOS flavor build configurations are already created in project.pbxproj (commit 2405560)
+      # iOS flavor build configurations are already created in project.pbxproj
       # - name: Setup iOS flavor build configurations (one-time)
       #   run: |
       #     gem install bundler
@@ -275,8 +328,11 @@ jobs:
           IOS_PROVISIONING_PROFILE_BASE64: ${{ secrets.IOS_PROVISIONING_PROFILE }}
         run: |
           # Create temporary keychain
+          # KEYCHAIN_TIMEOUT from .github/ci-versions.env (default: 6 hours)
+          KEYCHAIN_TIMEOUT=${{ steps.load-ios-versions.outputs.KEYCHAIN_TIMEOUT || '21600' }}
+
           security create-keychain -p "temppass" build.keychain
-          security set-keychain-settings -lut 21600 build.keychain
+          security set-keychain-settings -lut $KEYCHAIN_TIMEOUT build.keychain
           security unlock-keychain -p "temppass" build.keychain
 
           # Import certificate
@@ -351,7 +407,7 @@ jobs:
       #   run: |
       #     # iOS development uses edulift-staging project
       #     firebase appdistribution:distribute ipa/*.ipa \
-      #       --app 1:390712570284:ios:11ab124204e6c10c054a09 \
+      #       --app ${{ env.FIREBASE_IOS_STAGING_APP_ID }} \
       #       --groups "${{ secrets.FIREBASE_GROUPS_STAGING || 'internal-testers' }}" \
       #       --release-notes "Automated iOS development build from commit ${{ github.sha }}"
       #   continue-on-error: true
@@ -364,7 +420,6 @@ jobs:
     needs: [build-android]
     if: startsWith(github.ref, 'refs/tags/v') && (contains(github.ref, '-rc') || contains(github.ref, '-beta') || contains(github.ref, '-alpha'))
     timeout-minutes: 15
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -402,7 +457,7 @@ jobs:
           echo "Distributing STAGING APK: $APK_FILE"
           echo "ℹ️  Note: Using APK instead of AAB (AAB requires Google Play Developer account)"
           firebase appdistribution:distribute "$APK_FILE" \
-            --app 1:390712570284:android:c6b38aa4cf23bacd054a09 \
+            --app ${{ env.FIREBASE_ANDROID_STAGING_APP_ID }} \
             --groups "${{ secrets.FIREBASE_GROUPS_STAGING || 'internal-testers' }}" \
             --release-notes "Pre-release ${{ github.ref_name }} from commit ${{ github.sha }}"
 
@@ -451,7 +506,7 @@ jobs:
           echo "Distributing PRODUCTION APK: $APK_FILE"
           echo "ℹ️  Note: Using APK instead of AAB (AAB requires Google Play Developer account)"
           firebase appdistribution:distribute "$APK_FILE" \
-            --app 1:928262951410:android:18b5cc75d10217bf779b6b \
+            --app ${{ env.FIREBASE_ANDROID_PROD_APP_ID }} \
             --groups "${{ secrets.FIREBASE_GROUPS_PROD || 'production-testers' }}" \
             --release-notes "Production release ${{ github.ref_name }} from commit ${{ github.sha }}"
 

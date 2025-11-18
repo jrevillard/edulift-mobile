@@ -47,16 +47,20 @@ echo "🔗 DEEP_LINK_BASE_URL: $DEEP_LINK_BASE_URL"
 parse_deep_link_url() {
     local url="$1"
 
-    if [[ "$url" == edulift://* ]]; then
-        # Custom URL scheme
-        URL_SCHEME="edulift"
-        ASSOCIATED_DOMAIN=""
-    elif [[ "$url" == https://* ]]; then
-        # HTTPS Universal Link
-        # Extract host (with port if present)
-        local host=$(echo "$url" | sed 's|https://||' | sed 's|/$||')
-        URL_SCHEME="edulift"
+    if [[ "$url" == https://* ]]; then
+        # HTTPS Universal Link - no custom URL scheme, only associated domain
+        # Extract host and remove port for associated domains (iOS doesn't support ports)
+        local host_with_port=$(echo "$url" | sed 's|https://||' | sed 's|/$||')
+        local host=$(echo "$host_with_port" | cut -d':' -f1)
+
+        # For HTTPS URLs, only use Universal Links (no custom scheme needed)
+        URL_SCHEME=""
         ASSOCIATED_DOMAIN="applinks:$host"
+    elif [[ "$url" == *"://"* ]]; then
+        # Extract scheme from custom URL (like tanjama://, transport://, etc.)
+        local extracted_scheme=$(echo "$url" | cut -d':' -f1)
+        URL_SCHEME="$extracted_scheme"
+        ASSOCIATED_DOMAIN=""
     else
         echo "❌ Error: Unsupported deep link URL format: $url"
         exit 1
@@ -77,60 +81,28 @@ fi
 
 echo "📝 Updating Info.plist..."
 
-# Check if PlistBuddy is available (macOS tool)
-if command -v /usr/libexec/PlistBuddy &> /dev/null; then
-    # Use PlistBuddy on macOS
-    # Remove existing URL types to avoid duplicates
-    /usr/libexec/PlistBuddy -c "Delete :CFBundleURLTypes" "$PLIST_FILE" 2>/dev/null || true
-
-    # Add new URL type configuration
-    /usr/libexec/PlistBuddy -c "Add :CFBundleURLTypes array" "$PLIST_FILE"
-    /usr/libexec/PlistBuddy -c "Add :CFBundleURLTypes:0 dict" "$PLIST_FILE"
-    /usr/libexec/PlistBuddy -c "Add :CFBundleURLTypes:0:CFBundleURLName string edulift.app" "$PLIST_FILE"
-    /usr/libexec/PlistBuddy -c "Add :CFBundleURLTypes:0:CFBundleURLSchemes array" "$PLIST_FILE"
-    /usr/libexec/PlistBuddy -c "Add :CFBundleURLTypes:0:CFBundleURLSchemes:0 string $URL_SCHEME" "$PLIST_FILE"
-
-    echo "✅ Info.plist updated using PlistBuddy"
-elif command -v plutil &> /dev/null; then
-    # Use plutil as fallback (available on macOS)
-    # Create a temporary plist with the URL configuration
-    cat > /tmp/url_types.plist << EOF
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-<plist version="1.0">
-<dict>
-    <key>CFBundleURLTypes</key>
-    <array>
-        <dict>
-            <key>CFBundleURLName</key>
-            <string>edulift.app</string>
-            <key>CFBundleURLSchemes</key>
-            <array>
-                <string>$URL_SCHEME</string>
-            </array>
-        </dict>
-    </array>
-</dict>
-</plist>
-EOF
-
-    # Merge with existing plist
-    plutil -merge "$PLIST_FILE" /tmp/url_types.plist
-    rm -f /tmp/url_types.plist
-
-    echo "✅ Info.plist updated using plutil"
-else
-    # Fallback for non-macOS systems (CI environments)
-    echo "⚠️  Warning: Neither PlistBuddy nor plutil available. Using sed-based fallback."
+if [ -n "$URL_SCHEME" ]; then
+    echo "ℹ️  Adding custom URL scheme: $URL_SCHEME"
 
     # Create backup
     cp "$PLIST_FILE" "$PLIST_FILE.backup"
 
-    # Remove existing URL types (basic sed approach)
-    sed -i.tmp '/<key>CFBundleURLTypes<\/key>/,/<\/array>/d' "$PLIST_FILE"
+    # Safer approach: use Python to properly handle XML structure
+    python3 -c "
+import re
 
-    # Insert new URL types before the first dict key that's not CFBundleURLTypes
-    sed -i.tmp "/<key>CFBundleDisplayName<\/key>/i\\
+with open('$PLIST_FILE', 'r') as f:
+    content = f.read()
+
+# Remove existing CFBundleURLTypes block safely
+content = re.sub(r'\s*<!-- Deep linking support \(auto-generated for .+?\) -->.*?<\/array>\s*', '', content, flags=re.DOTALL)
+
+with open('$PLIST_FILE', 'w') as f:
+    f.write(content)
+"
+
+    # Insert new CFBundleURLTypes before CFBundleDisplayName
+    sed -i.bak "/<key>CFBundleDisplayName<\/key>/i\\
 \\t<!-- Deep linking support (auto-generated for $ENVIRONMENT) -->\\
 \\t<key>CFBundleURLTypes<\/key>\\
 \\t<array>\\
@@ -145,9 +117,60 @@ else
 \\t<\/array>\\
 " "$PLIST_FILE"
 
-    rm -f "$PLIST_FILE.tmp"
-    echo "✅ Info.plist updated using sed fallback"
+    # Remove backup
+    rm -f "$PLIST_FILE.bak"
+
+    echo "✅ Info.plist updated with CFBundleURLTypes for $URL_SCHEME"
+else
+    echo "ℹ️  No custom URL scheme needed (using Universal Links only)"
+
+    # Remove CFBundleURLTypes safely for Universal Links only
+    python3 -c "
+import re
+
+with open('$PLIST_FILE', 'r') as f:
+    content = f.read()
+
+# Remove existing CFBundleURLTypes block safely
+content = re.sub(r'\s*<key>CFBundleURLTypes<\/key>.*?<\/array>\s*', '', content, flags=re.DOTALL)
+
+with open('$PLIST_FILE', 'w') as f:
+    f.write(content)
+"
+    echo "✅ CFBundleURLTypes removed (Universal Links only)"
 fi
+
+# --- Validate Info.plist syntax ---
+echo "🔍 Validating Info.plist syntax..."
+python3 -c "
+import xml.etree.ElementTree as ET
+import sys
+
+try:
+    tree = ET.parse('$PLIST_FILE')
+    root = tree.getroot()
+
+    # Additional validation: check it's a proper plist
+    if root.tag == 'plist' and root.get('version') == '1.0':
+        dict_elem = root.find('dict')
+        if dict_elem is not None:
+            keys = [k.text for k in dict_elem.findall('key')]
+            print(f'✅ Info.plist is valid ({len(keys)} keys found)')
+        else:
+            print('❌ Error: No dict element found in Info.plist')
+            sys.exit(1)
+    else:
+        print('❌ Error: Invalid PList root structure')
+        sys.exit(1)
+
+except ET.ParseError as e:
+    print(f'❌ XML ParseError in Info.plist: {e}')
+    print(f'💡 Fix: Line {e.position[0]}, Column {e.position[1]}')
+    sys.exit(1)
+except Exception as e:
+    print(f'❌ Error validating Info.plist: {e}')
+    sys.exit(1)
+"
 
 # --- Update Runner.entitlements for Universal Links ---
 
@@ -213,4 +236,62 @@ echo "📋 Configuration summary for $ENVIRONMENT:"
 echo "   - Config file: $CONFIG_FILE"
 echo "   - DEEP_LINK_BASE_URL: $DEEP_LINK_BASE_URL"
 echo "   - Info.plist: Updated with URL scheme"
-echo "   - Entitlements: ${ASSOCIATED_DOMAIN:+Updated with associated domain}${ASSOCIATED_DOMAIN:-No associated domain needed}"
+echo "   - Entitlements: ${ASSOCIATED_DOMAIN:+Updated with associated domain}${ASSOCIATED_DOMAIN:-No associated domain needed}"#!/usr/bin/env python3
+import sys
+
+def fix_info_plist(plist_path, env_name, url_scheme):
+    """Fix Info.plist by removing CFBundleURLTypes and adding new ones if needed"""
+    
+    with open(plist_path, 'r') as f:
+        content = f.read()
+    
+    # Always remove existing CFBundleURLTypes block completely
+    import re
+    content = re.sub(r'\s*<key>CFBundleURLTypes<\/key>.*?<\/array>.*?<\/dict>\s*', '', content, flags=re.DOTALL)
+    
+    if url_scheme:
+        # Add new CFBundleURLTypes before CFBundleDisplayName
+        insert_point = content.find('<key>CFBundleDisplayName</key>')
+        if insert_point == -1:
+            insert_point = content.find('</dict>')
+        
+        if insert_point != -1:
+            url_types_block = f'''
+\t<!-- Deep linking support (auto-generated for {env_name}) -->
+\t<key>CFBundleURLTypes</key>
+\t<array>
+\t\t<dict>
+\t\t\t<key>CFBundleURLName</key>
+\t\t\t<string>edulift.app</string>
+\t\t\t<key>CFBundleURLSchemes</key>
+\t\t\t<array>
+\t\t\t\t<string>{url_scheme}</string>
+\t\t\t</array>
+\t\t</dict>
+\t</array>
+'''
+            content = content[:insert_point] + url_types_block + content[insert_point:]
+        
+        with open(plist_path, 'w') as f:
+            f.write(content)
+        
+        return True
+    
+    return False
+
+def main():
+    if len(sys.argv) != 4:
+        print("Usage: fix_ios_config.py <plist_path> <env_name> <url_scheme>")
+        sys.exit(1)
+    
+    plist_path, env_name, url_scheme = sys.argv[1], sys.argv[2], sys.argv[3]
+    
+    success = fix_info_plist(plist_path, env_name, url_scheme)
+    
+    if success:
+        print(f"✅ CFBundleURLTypes added for {url_scheme}")
+    else:
+        print(f"✅ CFBundleURLTypes removed (Universal Links only)")
+
+if __name__ == "__main__":
+    main()

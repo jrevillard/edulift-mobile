@@ -45,20 +45,6 @@
 	<true/>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
-	<!-- Deep linking support -->
-	<key>CFBundleURLTypes</key>
-	<array>
-		<dict>
-			<key>CFBundleURLName</key>
-			<string>edulift.app</string>
-			<key>CFBundleURLSchemes</key>
-			<array>
-				<string>edulift</string>
-			</array>
-		</dict>
-	</array>
-	
-	<!-- Notification Permissions -->
 	<key>UIUserNotificationSettings</key>
 	<dict>
 		<key>UIUserNotificationTypeAlert</key>
@@ -68,15 +54,11 @@
 		<key>UIUserNotificationTypeSound</key>
 		<true/>
 	</dict>
-	
-	<!-- Background Modes for Notifications -->
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>background-processing</string>
 		<string>remote-notification</string>
 	</array>
-	
-	<!-- Firebase configuration -->
 	<key>FirebaseAppDelegateProxyEnabled</key>
 	<false/>
 </dict>

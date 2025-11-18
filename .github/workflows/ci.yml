@@ -22,10 +22,10 @@ concurrency:
 permissions:
   contents: read
 
-env:
-  FLUTTER_VERSION: '3.35.6'
-  JAVA_VERSION: '17'
-
+#env:
+  # Versions are loaded from .github/ci-versions.env
+  # This is the single source of truth for all version numbers
+  # See .github/VERSION_MANAGEMENT.md for documentation
 jobs:
   # Analyze and unit tests job
   analyze-and-test:
@@ -36,12 +36,34 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-      
+
+      - name: Load CI/CD versions from .env
+        id: load-versions
+        run: |
+          echo "🔧 Loading versions from .github/ci-versions.env"
+          # Source the .env file and export to GITHUB_OUTPUT
+          while IFS='=' read -r key value; do
+            # Skip comments and empty lines
+            [[ $key =~ ^[[:space:]]*# ]] && continue
+            [[ -z $key ]] && continue
+
+            # Remove any surrounding quotes from value
+            value=$(echo "$value" | sed 's/^["\x27]//' | sed 's/["\x27]$//')
+
+            echo "$key=$value" >> $GITHUB_OUTPUT
+            echo "✅ Loaded $key=$value"
+          done < .github/ci-versions.env
+
+      - name: Validate CI/CD Versions
+        run: |
+          echo "🔍 Validating CI/CD version consistency..."
+          ./scripts/validate-ci-versions.sh
+
       - name: Setup Flutter Environment
         uses: ./.github/actions/setup-flutter
         with:
-          flutter-version: ${{ env.FLUTTER_VERSION }}
-          java-version: ${{ env.JAVA_VERSION }}
+          flutter-version: ${{ steps.load-versions.outputs.FLUTTER_VERSION }}
+          java-version: ${{ steps.load-versions.outputs.JAVA_VERSION }}
 
       - name: Cache Gradle dependencies
         uses: actions/cache@v4
@@ -121,11 +143,33 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Load CI/CD versions from .env
+        id: load-pr-versions
+        run: |
+          echo "🔧 Loading versions from .github/ci-versions.env"
+          # Source the .env file and export to GITHUB_OUTPUT
+          while IFS='=' read -r key value; do
+            # Skip comments and empty lines
+            [[ $key =~ ^[[:space:]]*# ]] && continue
+            [[ -z $key ]] && continue
+
+            # Remove any surrounding quotes from value
+            value=$(echo "$value" | sed 's/^["\x27]//' | sed 's/["\x27]$//')
+
+            echo "$key=$value" >> $GITHUB_OUTPUT
+            echo "✅ Loaded $key=$value"
+          done < .github/ci-versions.env
+
+      - name: Validate CI/CD Versions
+        run: |
+          echo "🔍 Validating CI/CD version consistency..."
+          ./scripts/validate-ci-versions.sh
+
       - name: Setup Flutter Environment
         uses: ./.github/actions/setup-flutter
         with:
-          flutter-version: ${{ env.FLUTTER_VERSION }}
-          java-version: ${{ env.JAVA_VERSION }}
+          flutter-version: ${{ steps.load-pr-versions.outputs.FLUTTER_VERSION }}
+          java-version: ${{ steps.load-pr-versions.outputs.JAVA_VERSION }}
 
       - name: Cache Gradle dependencies
         uses: actions/cache@v4
