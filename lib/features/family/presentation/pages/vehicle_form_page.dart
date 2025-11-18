@@ -10,6 +10,7 @@ import '../utils/vehicle_form_mode.dart';
 import '../utils/vehicle_form_validator.dart';
 import '../utils/vehicle_validation_localizer.dart';
 import 'package:edulift/core/navigation/navigation_state.dart' as nav;
+import '../../../../core/presentation/utils/responsive_breakpoints.dart';
 
 /// Unified vehicle form page for both add and edit operations
 class VehicleFormPage extends ConsumerStatefulWidget {
@@ -84,22 +85,29 @@ class _VehicleFormPageState extends ConsumerState<VehicleFormPage> {
 
   @override
   Widget build(BuildContext context) {
-    // Responsive design detection
-    final screenSize = MediaQuery.of(context).size;
-    final isTablet = screenSize.width > 768;
-    final isSmallScreen = screenSize.width < 600;
-
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.mode.title(context)),
         actions: [
           if (_isSubmitting)
-            const Padding(
-              padding: EdgeInsets.all(16.0),
+            Padding(
+              padding: context.getAdaptivePadding(
+                mobileAll: 12,
+                tabletAll: 16,
+                desktopAll: 20,
+              ),
               child: SizedBox(
-                width: 20,
-                height: 20,
-                child: CircularProgressIndicator(strokeWidth: 2),
+                width: context.getAdaptiveIconSize(
+                  mobile: 18,
+                  tablet: 20,
+                  desktop: 22,
+                ),
+                height: context.getAdaptiveIconSize(
+                  mobile: 18,
+                  tablet: 20,
+                  desktop: 22,
+                ),
+                child: const CircularProgressIndicator(strokeWidth: 2),
               ),
             ),
         ],
@@ -110,56 +118,78 @@ class _VehicleFormPageState extends ConsumerState<VehicleFormPage> {
           children: [
             Expanded(
               child: SingleChildScrollView(
-                padding: EdgeInsets.all(isTablet ? 24.0 : 16.0),
+                padding: context.getAdaptivePadding(
+                  mobileAll: 16,
+                  tabletAll: 24,
+                  desktopAll: 32,
+                ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    _buildBasicInfoSection(isTablet, isSmallScreen),
-                    SizedBox(height: isTablet ? 32 : 24),
-                    _buildCapacityInfoSection(isTablet, isSmallScreen),
-                    if (_formError != null) ...[
-                      SizedBox(height: isSmallScreen ? 12 : 16),
-                      _buildErrorWidget(
-                        _formError!,
-                        () => setState(() => _formError = null),
-                        isTablet,
-                        isSmallScreen,
+                    _buildBasicInfoSection(),
+                    SizedBox(
+                      height: context.getAdaptiveSpacing(
+                        mobile: 24,
+                        tablet: 32,
+                        desktop: 40,
                       ),
+                    ),
+                    _buildCapacityInfoSection(),
+                    if (_formError != null) ...[
+                      SizedBox(
+                        height: context.getAdaptiveSpacing(
+                          mobile: 12,
+                          tablet: 16,
+                          desktop: 20,
+                        ),
+                      ),
+                      _buildErrorWidget(_formError!),
                     ],
                   ],
                 ),
               ),
             ),
-            _buildActionButtons(isTablet, isSmallScreen),
+            _buildActionButtons(),
           ],
         ),
       ),
     );
   }
 
-  Widget _buildErrorWidget(
-    String message,
-    VoidCallback onDismiss,
-    bool isTablet,
-    bool isSmallScreen,
-  ) {
+  Widget _buildErrorWidget(String message, [VoidCallback? onDismiss]) {
     return Card(
       color: Theme.of(context).colorScheme.errorContainer,
-      elevation: isTablet ? 4 : 2,
+      elevation: context.isTabletOrLarger ? 4 : 2,
       child: Padding(
-        padding: EdgeInsets.all(isTablet ? 16.0 : 12.0),
+        padding: context.getAdaptivePadding(
+          mobileAll: 12,
+          tabletAll: 16,
+          desktopAll: 20,
+        ),
         child: Row(
           children: [
             Icon(
               Icons.error,
               color: Theme.of(context).colorScheme.onErrorContainer,
+              size: context.getAdaptiveIconSize(
+                mobile: 20,
+                tablet: 22,
+                desktop: 24,
+              ),
             ),
-            const SizedBox(width: 12),
+            SizedBox(
+              width: context.getAdaptiveSpacing(
+                mobile: 8,
+                tablet: 12,
+                desktop: 16,
+              ),
+            ),
             Expanded(
               child: Text(
                 message,
                 style: TextStyle(
                   color: Theme.of(context).colorScheme.onErrorContainer,
+                  fontSize: Theme.of(context).textTheme.bodyMedium?.fontSize,
                 ),
               ),
             ),
@@ -168,6 +198,11 @@ class _VehicleFormPageState extends ConsumerState<VehicleFormPage> {
               icon: Icon(
                 Icons.close,
                 color: Theme.of(context).colorScheme.onErrorContainer,
+                size: context.getAdaptiveIconSize(
+                  mobile: 20,
+                  tablet: 22,
+                  desktop: 24,
+                ),
               ),
             ),
           ],
@@ -176,12 +211,16 @@ class _VehicleFormPageState extends ConsumerState<VehicleFormPage> {
     );
   }
 
-  Widget _buildBasicInfoSection(bool isTablet, bool isSmallScreen) {
+  Widget _buildBasicInfoSection() {
     final l10n = AppLocalizations.of(context);
     return Card(
-      elevation: isTablet ? 4 : 2,
+      elevation: context.isTabletOrLarger ? 4 : 2,
       child: Padding(
-        padding: EdgeInsets.all(isTablet ? 20.0 : 16.0),
+        padding: context.getAdaptivePadding(
+          mobileAll: 16,
+          tabletAll: 20,
+          desktopAll: 24,
+        ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -189,10 +228,16 @@ class _VehicleFormPageState extends ConsumerState<VehicleFormPage> {
               l10n.basicInformation,
               style: Theme.of(context).textTheme.titleMedium?.copyWith(
                 fontWeight: FontWeight.w600,
-                fontSize: isTablet ? 18 : null,
+                fontSize: context.isTabletOrLarger ? 18 : null,
               ),
             ),
-            SizedBox(height: isSmallScreen ? 12 : 16),
+            SizedBox(
+              height: context.getAdaptiveSpacing(
+                mobile: 12,
+                tablet: 16,
+                desktop: 20,
+              ),
+            ),
             TextFormField(
               key: const Key('vehicle_name_field'),
               controller: _nameController,
@@ -200,24 +245,66 @@ class _VehicleFormPageState extends ConsumerState<VehicleFormPage> {
                 labelText: l10n.vehicleName,
                 hintText: l10n.enterVehicleName,
                 border: const OutlineInputBorder(),
-                prefixIcon: const Icon(Icons.directions_car),
+                prefixIcon: Icon(
+                  Icons.directions_car,
+                  size: context.getAdaptiveIconSize(
+                    mobile: 20,
+                    tablet: 22,
+                    desktop: 24,
+                  ),
+                ),
+                contentPadding: context.getAdaptivePadding(
+                  mobileHorizontal: 16,
+                  mobileVertical: 12,
+                  tabletHorizontal: 20,
+                  tabletVertical: 14,
+                  desktopHorizontal: 24,
+                  desktopVertical: 16,
+                ),
               ),
               validator: _validateName,
               textInputAction: TextInputAction.next,
+              style: TextStyle(
+                fontSize: Theme.of(context).textTheme.bodyLarge?.fontSize,
+              ),
             ),
-            const SizedBox(height: 16),
+            SizedBox(
+              height: context.getAdaptiveSpacing(
+                mobile: 16,
+                tablet: 20,
+                desktop: 24,
+              ),
+            ),
             TextFormField(
               controller: _descriptionController,
               decoration: InputDecoration(
                 labelText: l10n.description,
                 hintText: l10n.optionalDescription,
                 border: const OutlineInputBorder(),
-                prefixIcon: const Icon(Icons.notes),
+                prefixIcon: Icon(
+                  Icons.notes,
+                  size: context.getAdaptiveIconSize(
+                    mobile: 20,
+                    tablet: 22,
+                    desktop: 24,
+                  ),
+                ),
                 alignLabelWithHint: true,
+                contentPadding: context.getAdaptivePadding(
+                  mobileHorizontal: 16,
+                  mobileVertical: 12,
+                  tabletHorizontal: 20,
+                  tabletVertical: 14,
+                  desktopHorizontal: 24,
+                  desktopVertical: 16,
+                ),
               ),
               maxLines: 3,
               validator: _validateDescription,
               textInputAction: TextInputAction.next,
+              style: TextStyle(
+                fontSize: Theme.of(context).textTheme.bodyLarge?.fontSize,
+              ),
             ),
           ],
         ),
@@ -225,12 +312,16 @@ class _VehicleFormPageState extends ConsumerState<VehicleFormPage> {
     );
   }
 
-  Widget _buildCapacityInfoSection(bool isTablet, bool isSmallScreen) {
+  Widget _buildCapacityInfoSection() {
     final l10n = AppLocalizations.of(context);
     return Card(
-      elevation: isTablet ? 4 : 2,
+      elevation: context.isTabletOrLarger ? 4 : 2,
       child: Padding(
-        padding: EdgeInsets.all(isTablet ? 20.0 : 16.0),
+        padding: context.getAdaptivePadding(
+          mobileAll: 16,
+          tabletAll: 20,
+          desktopAll: 24,
+        ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -238,10 +329,16 @@ class _VehicleFormPageState extends ConsumerState<VehicleFormPage> {
               l10n.capacityInformation,
               style: Theme.of(context).textTheme.titleMedium?.copyWith(
                 fontWeight: FontWeight.w600,
-                fontSize: isTablet ? 18 : null,
+                fontSize: context.isTabletOrLarger ? 18 : null,
               ),
             ),
-            SizedBox(height: isSmallScreen ? 12 : 16),
+            SizedBox(
+              height: context.getAdaptiveSpacing(
+                mobile: 12,
+                tablet: 16,
+                desktop: 20,
+              ),
+            ),
             TextFormField(
               key: const Key('vehicle_capacity_field'),
               controller: _capacityController,
@@ -249,35 +346,80 @@ class _VehicleFormPageState extends ConsumerState<VehicleFormPage> {
                 labelText: l10n.totalSeatsHint,
                 hintText: l10n.enterTotalSeats,
                 border: const OutlineInputBorder(),
-                prefixIcon: const Icon(Icons.airline_seat_recline_normal),
+                prefixIcon: Icon(
+                  Icons.airline_seat_recline_normal,
+                  size: context.getAdaptiveIconSize(
+                    mobile: 20,
+                    tablet: 22,
+                    desktop: 24,
+                  ),
+                ),
                 suffixText: l10n.seats,
+                contentPadding: context.getAdaptivePadding(
+                  mobileHorizontal: 16,
+                  mobileVertical: 12,
+                  tabletHorizontal: 20,
+                  tabletVertical: 14,
+                  desktopHorizontal: 24,
+                  desktopVertical: 16,
+                ),
               ),
               keyboardType: TextInputType.number,
               validator: _validateCapacity,
               textInputAction: TextInputAction.done,
+              style: TextStyle(
+                fontSize: Theme.of(context).textTheme.bodyLarge?.fontSize,
+              ),
             ),
-            SizedBox(height: isSmallScreen ? 8 : 12),
+            SizedBox(
+              height: context.getAdaptiveSpacing(
+                mobile: 8,
+                tablet: 12,
+                desktop: 16,
+              ),
+            ),
             Container(
-              padding: EdgeInsets.all(isTablet ? 16.0 : 12.0),
+              padding: context.getAdaptivePadding(
+                mobileAll: 12,
+                tabletAll: 16,
+                desktopAll: 20,
+              ),
               decoration: BoxDecoration(
                 color: Theme.of(
                   context,
                 ).colorScheme.primaryContainer.withValues(alpha: 0.3),
-                borderRadius: BorderRadius.circular(8),
+                borderRadius: BorderRadius.circular(
+                  context.getAdaptiveBorderRadius(
+                    mobile: 8,
+                    tablet: 10,
+                    desktop: 12,
+                  ),
+                ),
               ),
               child: Row(
                 children: [
                   Icon(
                     Icons.info_outline,
                     color: Theme.of(context).colorScheme.primary,
-                    size: 20,
+                    size: context.getAdaptiveIconSize(
+                      mobile: 18,
+                      tablet: 20,
+                      desktop: 22,
+                    ),
                   ),
-                  SizedBox(width: isSmallScreen ? 8 : 12),
+                  SizedBox(
+                    width: context.getAdaptiveSpacing(
+                      mobile: 8,
+                      tablet: 12,
+                      desktop: 16,
+                    ),
+                  ),
                   Expanded(
                     child: Text(
                       l10n.capacityHelpText,
                       style: Theme.of(context).textTheme.bodySmall?.copyWith(
                         color: Theme.of(context).colorScheme.onSurface,
+                        fontSize: context.isMobile ? 12 : null,
                       ),
                     ),
                   ),
@@ -290,17 +432,21 @@ class _VehicleFormPageState extends ConsumerState<VehicleFormPage> {
     );
   }
 
-  Widget _buildActionButtons(bool isTablet, bool isSmallScreen) {
+  Widget _buildActionButtons() {
     final l10n = AppLocalizations.of(context);
     return Container(
-      padding: EdgeInsets.all(isTablet ? 20.0 : 16.0),
+      padding: context.getAdaptivePadding(
+        mobileAll: 16,
+        tabletAll: 20,
+        desktopAll: 24,
+      ),
       decoration: BoxDecoration(
         color: Theme.of(context).colorScheme.surface,
         boxShadow: [
           BoxShadow(
-            color: Theme.of(context).shadowColor,
-            blurRadius: 8,
-            offset: const Offset(0, -2),
+            color: Theme.of(context).shadowColor.withValues(alpha: 0.15),
+            blurRadius: context.isTabletOrLarger ? 6 : 4,
+            offset: Offset(0, context.isTabletOrLarger ? -2 : -1),
           ),
         ],
       ),
@@ -310,10 +456,37 @@ class _VehicleFormPageState extends ConsumerState<VehicleFormPage> {
             Expanded(
               child: OutlinedButton(
                 onPressed: _isSubmitting ? null : () => context.pop(),
-                child: Text(l10n.cancel),
+                style: OutlinedButton.styleFrom(
+                  padding: context.getAdaptivePadding(
+                    mobileHorizontal: 16,
+                    mobileVertical: 12,
+                    tabletHorizontal: 20,
+                    tabletVertical: 14,
+                    desktopHorizontal: 24,
+                    desktopVertical: 16,
+                  ),
+                  minimumSize: Size(
+                    double.infinity,
+                    context.getAdaptiveButtonHeight(
+                      mobile: 44,
+                      tablet: 48,
+                      desktop: 52,
+                    ),
+                  ),
+                ),
+                child: Text(
+                  l10n.cancel,
+                  style: TextStyle(fontSize: context.isMobile ? 14 : 16),
+                ),
               ),
             ),
-            SizedBox(width: isSmallScreen ? 12 : 16),
+            SizedBox(
+              width: context.getAdaptiveSpacing(
+                mobile: 12,
+                tablet: 16,
+                desktop: 20,
+              ),
+            ),
             Expanded(
               flex: 2,
               child: ElevatedButton(
@@ -321,22 +494,59 @@ class _VehicleFormPageState extends ConsumerState<VehicleFormPage> {
                   '${widget.mode.isEdit ? 'update' : 'create'}_vehicle_button',
                 ),
                 onPressed: _isSubmitting ? null : _submitForm,
+                style: ElevatedButton.styleFrom(
+                  padding: context.getAdaptivePadding(
+                    mobileHorizontal: 16,
+                    mobileVertical: 12,
+                    tabletHorizontal: 20,
+                    tabletVertical: 14,
+                    desktopHorizontal: 24,
+                    desktopVertical: 16,
+                  ),
+                  minimumSize: Size(
+                    double.infinity,
+                    context.getAdaptiveButtonHeight(
+                      mobile: 44,
+                      tablet: 48,
+                      desktop: 52,
+                    ),
+                  ),
+                ),
                 child: _isSubmitting
                     ? Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          const SizedBox(
-                            width: 16,
-                            height: 16,
-                            child: CircularProgressIndicator(strokeWidth: 2),
+                          SizedBox(
+                            width: context.getAdaptiveIconSize(
+                              mobile: 14,
+                              tablet: 16,
+                              desktop: 18,
+                            ),
+                            height: context.getAdaptiveIconSize(
+                              mobile: 14,
+                              tablet: 16,
+                              desktop: 18,
+                            ),
+                            child: const CircularProgressIndicator(
+                              strokeWidth: 2,
+                            ),
                           ),
-                          const SizedBox(width: 8),
+                          SizedBox(
+                            width: context.getAdaptiveSpacing(
+                              mobile: 6,
+                              tablet: 8,
+                              desktop: 10,
+                            ),
+                          ),
                           Flexible(
                             child: Text(
                               widget.mode.isEdit
                                   ? l10n.updating
                                   : l10n.creating,
                               overflow: TextOverflow.ellipsis,
+                              style: TextStyle(
+                                fontSize: context.isMobile ? 14 : 16,
+                              ),
                             ),
                           ),
                         ],
@@ -346,15 +556,28 @@ class _VehicleFormPageState extends ConsumerState<VehicleFormPage> {
                         children: [
                           Icon(
                             widget.mode.isEdit ? Icons.update : Icons.add,
-                            size: 16,
+                            size: context.getAdaptiveIconSize(
+                              mobile: 14,
+                              tablet: 16,
+                              desktop: 18,
+                            ),
                           ),
-                          const SizedBox(width: 8),
+                          SizedBox(
+                            width: context.getAdaptiveSpacing(
+                              mobile: 6,
+                              tablet: 8,
+                              desktop: 10,
+                            ),
+                          ),
                           Flexible(
                             child: Text(
                               widget.mode.isEdit
                                   ? l10n.updateVehicle
                                   : l10n.saveVehicle,
                               overflow: TextOverflow.ellipsis,
+                              style: TextStyle(
+                                fontSize: context.isMobile ? 14 : 16,
+                              ),
                             ),
                           ),
                         ],

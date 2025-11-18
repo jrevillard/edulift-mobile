@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:edulift/generated/l10n/app_localizations.dart';
 import '../../../../core/storage/log_config.dart';
 import '../providers/log_export_provider.dart';
+import '../../utils/responsive_breakpoints.dart';
 
 /// 2025 State-of-the-Art Developer Settings Section
 /// Features modern Material Design 3, proper state management, and accessibility
@@ -17,17 +18,46 @@ class DeveloperSettingsSection extends ConsumerWidget {
     final currentLogLevel = ref.watch(currentLogLevelProvider);
 
     return Card(
-      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      margin: EdgeInsets.symmetric(
+        horizontal: context.getAdaptiveSpacing(
+          mobile: 12,
+          tablet: 20,
+          desktop: 24,
+        ),
+        vertical: context.getAdaptiveSpacing(
+          mobile: 6,
+          tablet: 10,
+          desktop: 12,
+        ),
+      ),
       child: Padding(
-        padding: const EdgeInsets.all(16),
+        padding: context.getAdaptivePadding(
+          mobileAll: 16,
+          tabletAll: 20,
+          desktopAll: 24,
+        ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // Section Header
             Row(
               children: [
-                Icon(Icons.developer_mode, color: theme.colorScheme.primary),
-                const SizedBox(width: 8),
+                Icon(
+                  Icons.developer_mode,
+                  color: theme.colorScheme.primary,
+                  size: context.getAdaptiveIconSize(
+                    mobile: 22,
+                    tablet: 24,
+                    desktop: 26,
+                  ),
+                ),
+                SizedBox(
+                  width: context.getAdaptiveSpacing(
+                    mobile: 6,
+                    tablet: 10,
+                    desktop: 12,
+                  ),
+                ),
                 Expanded(
                   child: Text(
                     l10n.developerTools,
@@ -39,12 +69,24 @@ class DeveloperSettingsSection extends ConsumerWidget {
                 ),
               ],
             ),
-            const SizedBox(height: 16),
+            SizedBox(
+              height: context.getAdaptiveSpacing(
+                mobile: 12,
+                tablet: 20,
+                desktop: 24,
+              ),
+            ),
 
             // Log Level Selection
             _buildLogLevelSection(context, ref, currentLogLevel),
 
-            const SizedBox(height: 16),
+            SizedBox(
+              height: context.getAdaptiveSpacing(
+                mobile: 12,
+                tablet: 20,
+                desktop: 24,
+              ),
+            ),
 
             // Log Export Section
             _buildLogExportSection(context, ref, logExportState, theme),
@@ -66,17 +108,36 @@ class DeveloperSettingsSection extends ConsumerWidget {
           children: [
             Icon(
               Icons.tune,
-              size: 20,
+              size: context.getAdaptiveIconSize(
+                mobile: 18,
+                tablet: 20,
+                desktop: 22,
+              ),
               color: Theme.of(context).colorScheme.onSurfaceVariant,
             ),
-            const SizedBox(width: 8),
-            Text(
-              AppLocalizations.of(context).logLevel,
-              style: Theme.of(context).textTheme.titleSmall,
+            SizedBox(
+              width: context.getAdaptiveSpacing(
+                mobile: 6,
+                tablet: 10,
+                desktop: 12,
+              ),
+            ),
+            Expanded(
+              child: Text(
+                AppLocalizations.of(context).logLevel,
+                style: Theme.of(context).textTheme.titleSmall,
+                overflow: TextOverflow.ellipsis,
+              ),
             ),
           ],
         ),
-        const SizedBox(height: 8),
+        SizedBox(
+          height: context.getAdaptiveSpacing(
+            mobile: 6,
+            tablet: 10,
+            desktop: 12,
+          ),
+        ),
         SizedBox(
           width: double.infinity,
           child: currentLogLevel.when(
@@ -88,7 +149,9 @@ class DeveloperSettingsSection extends ConsumerWidget {
             ),
           ),
         ),
-        const SizedBox(height: 4),
+        SizedBox(
+          height: context.getAdaptiveSpacing(mobile: 4, tablet: 6, desktop: 8),
+        ),
         Text(
           AppLocalizations.of(context).logLevelDescription,
           style: Theme.of(context).textTheme.bodySmall?.copyWith(
@@ -109,8 +172,19 @@ class DeveloperSettingsSection extends ConsumerWidget {
       isExpanded: true,
       decoration: InputDecoration(
         isDense: true,
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
-        contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(
+            context.getAdaptiveBorderRadius(mobile: 8, tablet: 10, desktop: 12),
+          ),
+        ),
+        contentPadding: context.getAdaptivePadding(
+          mobileHorizontal: 12,
+          mobileVertical: 8,
+          tabletHorizontal: 14,
+          tabletVertical: 10,
+          desktopHorizontal: 16,
+          desktopVertical: 12,
+        ),
       ),
       items: LogConfig.availableLevels.entries.map((entry) {
         return DropdownMenuItem<String>(
@@ -164,17 +238,36 @@ class DeveloperSettingsSection extends ConsumerWidget {
           children: [
             Icon(
               Icons.file_download,
-              size: 20,
+              size: context.getAdaptiveIconSize(
+                mobile: 18,
+                tablet: 20,
+                desktop: 22,
+              ),
               color: theme.colorScheme.onSurfaceVariant,
             ),
-            const SizedBox(width: 8),
-            Text(
-              AppLocalizations.of(context).logExport,
-              style: theme.textTheme.titleSmall,
+            SizedBox(
+              width: context.getAdaptiveSpacing(
+                mobile: 6,
+                tablet: 10,
+                desktop: 12,
+              ),
+            ),
+            Expanded(
+              child: Text(
+                AppLocalizations.of(context).logExport,
+                style: theme.textTheme.titleSmall,
+                overflow: TextOverflow.ellipsis,
+              ),
             ),
           ],
         ),
-        const SizedBox(height: 8),
+        SizedBox(
+          height: context.getAdaptiveSpacing(
+            mobile: 6,
+            tablet: 10,
+            desktop: 12,
+          ),
+        ),
 
         logExportState.when(
           data: (state) => _buildExportButton(context, ref, state, theme),
@@ -182,7 +275,13 @@ class DeveloperSettingsSection extends ConsumerWidget {
           error: (error, _) => _buildErrorButton(context, ref, error, theme),
         ),
 
-        const SizedBox(height: 8),
+        SizedBox(
+          height: context.getAdaptiveSpacing(
+            mobile: 6,
+            tablet: 10,
+            desktop: 12,
+          ),
+        ),
 
         // Export info and last export time
         logExportState.when(
@@ -221,10 +320,18 @@ class DeveloperSettingsSection extends ConsumerWidget {
       width: double.infinity,
       child: FilledButton.icon(
         onPressed: null,
-        icon: const SizedBox(
-          width: 16,
-          height: 16,
-          child: CircularProgressIndicator(strokeWidth: 2),
+        icon: SizedBox(
+          width: context.getAdaptiveIconSize(
+            mobile: 14,
+            tablet: 16,
+            desktop: 18,
+          ),
+          height: context.getAdaptiveIconSize(
+            mobile: 14,
+            tablet: 16,
+            desktop: 18,
+          ),
+          child: const CircularProgressIndicator(strokeWidth: 2),
         ),
         label: Text(AppLocalizations.of(context).exporting),
       ),
@@ -249,7 +356,9 @@ class DeveloperSettingsSection extends ConsumerWidget {
             foregroundColor: theme.colorScheme.onError,
           ),
         ),
-        const SizedBox(height: 4),
+        SizedBox(
+          height: context.getAdaptiveSpacing(mobile: 4, tablet: 6, desktop: 8),
+        ),
         Text(
           AppLocalizations.of(
             context,
@@ -299,7 +408,9 @@ class DeveloperSettingsSection extends ConsumerWidget {
             ),
           ),
         ),
-        const SizedBox(height: 4),
+        SizedBox(
+          height: context.getAdaptiveSpacing(mobile: 4, tablet: 6, desktop: 8),
+        ),
         Text(
           AppLocalizations.of(context).exportIncludesComprehensive,
           style: theme.textTheme.bodySmall?.copyWith(

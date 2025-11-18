@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:edulift/features/dashboard/domain/entities/dashboard_transport_summary.dart';
 import 'package:edulift/features/dashboard/presentation/widgets/today_transport_card.dart';
 import 'package:edulift/generated/l10n/app_localizations.dart';
+import 'package:edulift/core/presentation/utils/responsive_breakpoints.dart';
 
 /// Reusable horizontal list of transport mini cards
 ///
@@ -23,27 +24,36 @@ class TransportHorizontalList extends StatelessWidget {
       return _buildEmptyState(context);
     }
 
-    // Responsive layout parameters (600px breakpoint)
-    final screenWidth = MediaQuery.of(context).size.width;
-    final isTablet = screenWidth >= 600;
-
-    // Mobile: larger cards (230px), more spacing (16px), more padding (12px)
-    // Tablet: compact design (200px cards, 12px spacing, 4px padding)
-    // Sufficient height to display 2-3 vehicles with all children without overflow
-    final cardWidth = isTablet ? 200.0 : 230.0;
-    final separatorWidth = isTablet ? 12.0 : 16.0;
-    final horizontalPadding = isTablet ? 4.0 : 12.0;
+    // Responsive layout parameters using established Phase 1 patterns
+    // Mobile: larger cards, more spacing, more padding
+    // Tablet: compact design for space efficiency
+    // Desktop: optimal layout for larger screens
+    final cardWidth = context.getAdaptiveSpacing(
+      mobile: 230.0,
+      tablet: 200.0,
+      desktop: 220.0,
+    );
+    final separatorWidth = context.getAdaptiveSpacing(
+      mobile: 16.0,
+      tablet: 12.0,
+      desktop: 14.0,
+    );
+    final horizontalPaddingValue = context.getAdaptiveSpacing(
+      mobile: 12.0,
+      tablet: 4.0,
+      desktop: 8.0,
+    );
     // Height must be unconstrained to let cards grow based on content
 
     return Semantics(
       label: semanticLabel ?? 'Transport list',
       child: SingleChildScrollView(
         scrollDirection: Axis.horizontal,
-        // Use bouncing physics on mobile for native feel, clamping on tablet
-        physics: isTablet
-            ? const ClampingScrollPhysics()
-            : const BouncingScrollPhysics(),
-        padding: EdgeInsets.symmetric(horizontal: horizontalPadding),
+        // Use bouncing physics on mobile for native feel, clamping on larger screens
+        physics: context.isMobile
+            ? const BouncingScrollPhysics()
+            : const ClampingScrollPhysics(),
+        padding: EdgeInsets.symmetric(horizontal: horizontalPaddingValue),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -64,7 +74,11 @@ class TransportHorizontalList extends StatelessWidget {
   Widget _buildEmptyState(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     return SizedBox(
-      height: 120,
+      height: context.getAdaptiveSpacing(
+        mobile: 120.0,
+        tablet: 100.0,
+        desktop: 110.0,
+      ),
       child: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -72,10 +86,20 @@ class TransportHorizontalList extends StatelessWidget {
           children: [
             Icon(
               Icons.schedule_outlined,
-              size: 32,
+              size: context.getAdaptiveIconSize(
+                mobile: 32.0,
+                tablet: 28.0,
+                desktop: 30.0,
+              ),
               color: Theme.of(context).colorScheme.onSurfaceVariant,
             ),
-            const SizedBox(height: 8),
+            SizedBox(
+              height: context.getAdaptiveSpacing(
+                mobile: 8.0,
+                tablet: 6.0,
+                desktop: 7.0,
+              ),
+            ),
             Text(
               l10n.noTransportsToday,
               style: Theme.of(context).textTheme.bodySmall?.copyWith(

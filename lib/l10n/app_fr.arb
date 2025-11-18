@@ -141,11 +141,7 @@
   "@adjustmentReason": {},
   "adjustmentReasonHint": "Ex: siège enfant, équipement...",
   "@adjustmentReasonHint": {},
-  "admin": "Admin",
-  "@admin": {
-    "description": "Libellé du rôle d'admin (forme courte)"
-  },
-  "adminCanManageMembers": "L'admin peut gérer les membres de la famille",
+    "adminCanManageMembers": "L'admin peut gérer les membres de la famille",
   "@adminCanManageMembers": {
     "description": "Description of admin role permissions"
   },
@@ -211,10 +207,6 @@
   },
   "assignedChildren": "Enfant assigné",
   "@assignedChildren": {},
-  "available": "Disponible",
-  "@available": {
-    "description": "Statut disponible"
-  },
   "availableOptions": "Options disponibles",
   "@availableOptions": {
     "description": "Titre des options disponibles"
@@ -345,6 +337,18 @@
   "enterChildAge": "Saisir l'âge",
   "@enterChildAge": {
     "description": "Texte d'aide pour le champ de saisie de l'âge"
+  },
+  "childNameInvalidCharacters": "Le nom ne peut contenir que des lettres, des espaces, des tirets et des apostrophes",
+  "@childNameInvalidCharacters": {
+    "description": "Message d'erreur pour le format invalide du nom d'enfant"
+  },
+  "childNotFound": "Enfant non trouvé",
+  "@childNotFound": {
+    "description": "Message d'erreur lorsque l'enfant n'est pas trouvé"
+  },
+  "years": "ans",
+  "@years": {
+    "description": "Unité d'âge en années"
   },
   "childTransportCapacity": "{count, plural, =0{Ce véhicule ne peut pas transporter d'enfants (siège conducteur exclu)} =1{Ce véhicule peut transporter jusqu'à {count} enfant (siège conducteur exclu)} other{Ce véhicule peut transporter jusqu'à {count} enfants (siège conducteur exclu)}}",
   "@childTransportCapacity": {
@@ -2237,6 +2241,10 @@
   "@inviteNewMember": {
     "description": "Texte de bouton pour inviter un nouveau membre de famille"
   },
+  "sendInvitationDescription": "Envoyez une invitation pour rejoindre votre famille. Ils recevront un email avec des instructions pour accepter l'invitation.",
+  "@sendInvitationDescription": {
+    "description": "Texte descriptif expliquant le fonctionnement des invitations familiales"
+  },
   "inviteToGroup": "Inviter dans un groupe",
   "@inviteToGroup": {
     "description": "Élément de menu pour inviter dans un groupe"
@@ -2325,6 +2333,10 @@
   "language": "Langue",
   "@language": {
     "description": "Titre de la section langue"
+  },
+  "languageAndToolsMore": "Langue, Outils de développement & Plus",
+  "@languageAndToolsMore": {
+    "description": "Description pour l'élément de menu de la page des paramètres"
   },
   "languageChanged": "Langue changée avec succès",
   "@languageChanged": {
@@ -2629,6 +2641,18 @@
   "@memberActions": {
     "description": "Titre du menu actions membre"
   },
+  "groupActions": "Actions du Groupe",
+  "@groupActions": {
+    "description": "Titre pour la section des actions du groupe"
+  },
+  "createNewGroupDescription": "Créer un nouveau groupe de transport pour organiser les plannings familiaux",
+  "@createNewGroupDescription": {
+    "description": "Description pour la création d'un nouveau groupe"
+  },
+  "joinExistingGroupDescription": "Rejoindre un groupe existant en utilisant un code ou un lien d'invitation",
+  "@joinExistingGroupDescription": {
+    "description": "Description pour rejoindre un groupe existant"
+  },
   "memberCount": "{count, plural, =1{1 membre} other{{count} membres}}",
   "@memberCount": {
     "description": "Nombre de membres dans la famille",
@@ -2759,6 +2783,10 @@
   "navigationDashboard": "Tableau de bord",
   "@navigationDashboard": {
     "description": "Libellé de navigation pour le tableau de bord"
+  },
+  "navigationDashboardShort": "Accueil",
+  "@navigationDashboardShort": {
+    "description": "Libellé court de navigation pour le tableau de bord (mobile)"
   },
   "navigationFamily": "Famille",
   "@navigationFamily": {
@@ -2916,6 +2944,10 @@
   "noRecentActivity": "Aucune activité récente",
   "@noRecentActivity": {
     "description": "Message d'état vide pour aucune activité récente"
+  },
+  "noRecentActivityMessage": "Votre activité apparaîtra ici",
+  "@noRecentActivityMessage": {
+    "description": "Sous-texte d'état vide pour la section d'aucune activité récente"
   },
   "noSentInvitations": "Aucune invitation envoyée",
   "@noSentInvitations": {
@@ -3202,10 +3234,6 @@
   "save": "Enregistrer",
   "@save": {
     "description": "Texte du bouton enregistrer"
-  },
-  "saveChanges": "Enregistrer les Modifications",
-  "@saveChanges": {
-    "description": "Bouton pour enregistrer les modifications"
   },
   "saved": "Enregistré",
   "@saved": {
@@ -3879,9 +3907,9 @@
   "@viewDetails": {
     "description": "Libellé action voir détails"
   },
-  "viewGroupSchedule": "Voir l'horaire du groupe",
+  "viewGroupSchedule": "Voir le planning du groupe",
   "@viewGroupSchedule": {
-    "description": "Bouton pour voir l'horaire du groupe"
+    "description": "Bouton pour voir le planning du groupe"
   },
   "viewMemberDetails": "Voir les détails du membre",
   "@viewMemberDetails": {
@@ -4242,7 +4270,7 @@
   "@familyNameTooShortValidation": {
     "description": "Erreur de validation lorsque le nom de famille est trop court"
   },
-  "defaultGroupConfigInfo": "Aucun emploi du temps configuré. Configurez les heures de départ pour chaque jour et enregistrez pour activer l'emploi du temps.",
+  "defaultGroupConfigInfo": "Configurez les heures de départ pour chaque jour et enregistrez pour activer l'emploi du temps.",
   "@defaultGroupConfigInfo": {
     "description": "Bannière d'information pour la configuration par défaut du nouveau groupe"
   },
@@ -5092,6 +5120,10 @@
   "@unknown": {
     "description": "Valeur inconnue ou non spécifiée"
   },
+  "unnamedGroup": "Groupe sans nom",
+  "@unnamedGroup": {
+    "description": "Texte par défaut pour un groupe sans nom"
+  },
   "currentlyAssigned": "Actuellement assignés",
   "@currentlyAssigned": {
     "description": "En-tête de section pour les véhicules actuellement assignés"
@@ -5402,6 +5434,92 @@
         "example": "Europe/Paris"
       }
     }
+  },
+  "currentTimezone": "Actuel : {timezone}",
+  "@currentTimezone": {
+    "description": "Affichage du fuseau horaire actuel",
+    "placeholders": {
+      "timezone": {
+        "type": "String",
+        "example": "Europe/Paris"
+      }
+    }
+  },
+  "localTime": "Heure locale : {time}",
+  "@localTime": {
+    "description": "Affichage de l'heure locale avec décalage",
+    "placeholders": {
+      "time": {
+        "type": "String",
+        "example": "14:30 (UTC+2)"
+      }
+    }
+  },
+  "searchTimezones": "Rechercher des fuseaux horaires...",
+  "@searchTimezones": {
+    "description": "Texte indicatif pour la recherche de fuseaux horaires"
+  },
+  "noTimezonesFound": "Aucun fuseau horaire trouvé",
+  "@noTimezonesFound": {
+    "description": "Message quand la recherche ne retourne aucun fuseau horaire"
+  },
+  "selectTimezone": "Sélectionner le fuseau horaire",
+  "@selectTimezone": {
+    "description": "Label pour la liste déroulante des fuseaux horaires"
+  },
+  "tryDifferentSearchTerm": "Essayez un autre terme de recherche",
+  "@tryDifferentSearchTerm": {
+    "description": "Texte d'aide pour la recherche vide de fuseaux horaires"
+  },
+  "timezonesAvailable": "{count} fuseaux horaires disponibles",
+  "@timezonesAvailable": {
+    "description": "Texte d'aide montrant le nombre de fuseaux horaires disponibles",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "50"
+      }
+    }
+  },
+  "automaticallySyncTimezone": "Synchroniser automatiquement le fuseau horaire",
+  "@automaticallySyncTimezone": {
+    "description": "Titre pour la case à cocher de synchronisation automatique"
+  },
+  "keepTimezoneSyncedWithDevice": "Garder le fuseau horaire synchronisé avec l'appareil",
+  "@keepTimezoneSyncedWithDevice": {
+    "description": "Sous-titre pour la case à cocher de synchronisation automatique"
+  },
+  "autoSyncEnabled": "Synchronisation auto activée",
+  "@autoSyncEnabled": {
+    "description": "Message de succès quand la synchronisation auto est activée"
+  },
+  "autoSyncDisabled": "Synchronisation auto désactivée",
+  "@autoSyncDisabled": {
+    "description": "Message de succès quand la synchronisation auto est désactivée"
+  },
+  "invalidTimezoneFormat": "Format de fuseau horaire invalide",
+  "@invalidTimezoneFormat": {
+    "description": "Message d'erreur pour fuseau horaire invalide"
+  },
+  "timezoneUpdatedSuccessfully": "Fuseau horaire mis à jour avec succès",
+  "@timezoneUpdatedSuccessfully": {
+    "description": "Message de succès quand le fuseau horaire est mis à jour"
+  },
+  "failedToUpdateTimezone": "Échec de la mise à jour du fuseau horaire. Veuillez réessayer.",
+  "@failedToUpdateTimezone": {
+    "description": "Message d'erreur quand la mise à jour du fuseau horaire échoue"
+  },
+  "failedToDetectTimezone": "Échec de la détection du fuseau horaire. Veuillez réessayer.",
+  "@failedToDetectTimezone": {
+    "description": "Message d'erreur quand la détection du fuseau horaire échoue"
+  },
+  "failedToUpdateAutoSyncPreference": "Échec de la mise à jour de la préférence de synchronisation auto",
+  "@failedToUpdateAutoSyncPreference": {
+    "description": "Message d'erreur quand la mise à jour de la préférence de synchronisation auto échoue"
+  },
+  "unknownTimezone": "Inconnu",
+  "@unknownTimezone": {
+    "description": "Texte de repli pour fuseau horaire inconnu"
   },
   "todayTransports": "Transports d'aujourd'hui",
   "@todayTransports": {

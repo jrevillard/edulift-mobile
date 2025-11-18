@@ -9,6 +9,7 @@ import '../../../../core/domain/entities/auth_entities.dart';
 import '../../../../core/services/providers/auth_provider.dart';
 import '../../../../core/navigation/navigation_state.dart';
 import '../../../../generated/l10n/app_localizations.dart';
+import '../../../../core/presentation/utils/responsive_breakpoints.dart';
 import '../providers/magic_link_provider.dart';
 
 /// Magic link verification page that handles different processing states
@@ -138,12 +139,13 @@ class _MagicLinkVerifyPageState extends ConsumerState<MagicLinkVerifyPage> {
     required String text,
     bool isPrimary = true,
   }) {
-    final screenSize = MediaQuery.of(context).size;
-    final isTablet = screenSize.width > 768;
-
     return SizedBox(
       width: double.infinity,
-      height: isTablet ? 56 : 48,
+      height: context.getAdaptiveButtonHeight(
+        mobile: 48,
+        tablet: 56,
+        desktop: 56,
+      ),
       child: isPrimary
           ? ElevatedButton(
               key: Key(keyValue),
@@ -162,8 +164,6 @@ class _MagicLinkVerifyPageState extends ConsumerState<MagicLinkVerifyPage> {
   Widget build(BuildContext context) {
     final magicLinkState = ref.watch(magicLinkProvider);
     final authState = ref.watch(authStateProvider);
-    final screenSize = MediaQuery.of(context).size;
-    final isTablet = screenSize.width > 768;
 
     // CRITICAL FIX: If user is already authenticated when page builds, show success immediately
     // This handles test scenarios where auth state is set manually before verification completes
@@ -272,8 +272,12 @@ class _MagicLinkVerifyPageState extends ConsumerState<MagicLinkVerifyPage> {
                 constraints: BoxConstraints(minHeight: constraints.maxHeight),
                 child: IntrinsicHeight(
                   child: Padding(
-                    padding: EdgeInsets.all(isTablet ? 32.0 : 16.0),
-                    child: isTablet
+                    padding: context.getAdaptivePadding(
+                      mobileAll: 16,
+                      tabletAll: 24,
+                      desktopAll: 32,
+                    ),
+                    child: context.isTabletOrLarger
                         ? _buildTabletLayout(
                             context,
                             magicLinkState,
@@ -323,22 +327,32 @@ class _MagicLinkVerifyPageState extends ConsumerState<MagicLinkVerifyPage> {
 
   Widget _buildVerifyingState() {
     final l10n = AppLocalizations.of(context);
-    final screenSize = MediaQuery.of(context).size;
-    final isTablet = screenSize.width > 768;
 
     return Column(
       children: [
         const CircularProgressIndicator(),
-        SizedBox(height: isTablet ? 24 : 16),
+        SizedBox(
+          height: context.getAdaptiveSpacing(
+            mobile: 16,
+            tablet: 24,
+            desktop: 24,
+          ),
+        ),
         Text(
           l10n.verifyingMagicLink,
           key: const Key('verifying-magic-link-text'), // For Patrol E2E testing
-          style: isTablet
+          style: context.isTabletOrLarger
               ? Theme.of(context).textTheme.headlineSmall
               : Theme.of(context).textTheme.titleLarge,
           textAlign: TextAlign.center,
         ),
-        SizedBox(height: isTablet ? 12 : 8),
+        SizedBox(
+          height: context.getAdaptiveSpacing(
+            mobile: 8,
+            tablet: 12,
+            desktop: 12,
+          ),
+        ),
         Text(
           l10n.verifyingMagicLinkMessage,
           style: Theme.of(context).textTheme.bodyMedium?.copyWith(
@@ -352,28 +366,42 @@ class _MagicLinkVerifyPageState extends ConsumerState<MagicLinkVerifyPage> {
 
   Widget _buildSuccessState() {
     final l10n = AppLocalizations.of(context);
-    final screenSize = MediaQuery.of(context).size;
-    final isTablet = screenSize.width > 768;
 
     return Column(
       children: [
         Icon(
           Icons.check_circle,
-          size: isTablet ? 64 : 48, // Responsive icon size
+          size: context.getAdaptiveIconSize(
+            mobile: 48,
+            tablet: 64,
+            desktop: 64,
+          ),
           color: Theme.of(context).colorScheme.primary,
         ),
-        SizedBox(height: isTablet ? 24 : 16),
+        SizedBox(
+          height: context.getAdaptiveSpacing(
+            mobile: 16,
+            tablet: 24,
+            desktop: 24,
+          ),
+        ),
         Text(
           l10n.verificationSuccessful,
           key: const Key(
             'verification-successful-text',
           ), // For Patrol E2E testing
-          style: isTablet
+          style: context.isTabletOrLarger
               ? Theme.of(context).textTheme.headlineSmall
               : Theme.of(context).textTheme.titleLarge,
           textAlign: TextAlign.center,
         ),
-        SizedBox(height: isTablet ? 12 : 8),
+        SizedBox(
+          height: context.getAdaptiveSpacing(
+            mobile: 8,
+            tablet: 12,
+            desktop: 12,
+          ),
+        ),
         Text(
           l10n.welcomeAfterMagicLinkSuccess,
           key: const Key('welcome_to_edulift_message'),
@@ -397,8 +425,6 @@ class _MagicLinkVerifyPageState extends ConsumerState<MagicLinkVerifyPage> {
 
     final l10n = AppLocalizations.of(context);
     final canRetry = state.canRetry;
-    final screenSize = MediaQuery.of(context).size;
-    final isTablet = screenSize.width > 768;
 
     // Check if we have email for better UX decisions
     final email = widget.email ?? state.email;
@@ -434,28 +460,44 @@ class _MagicLinkVerifyPageState extends ConsumerState<MagicLinkVerifyPage> {
       '   - canRetry: $canRetry\n'
       '   - email: $email\n'
       '   - hasEmail: $hasEmail\n'
-      '   - isTablet: $isTablet\n'
+      '   - isTablet: ${context.isTabletOrLarger}\n'
       '   - About to render error UI at: ${DateTime.now().toIso8601String()}',
     );
     return Column(
       children: [
         Icon(
           Icons.error_outline,
-          size: isTablet ? 64 : 48, // Responsive icon size
+          size: context.getAdaptiveIconSize(
+            mobile: 48,
+            tablet: 64,
+            desktop: 64,
+          ),
           color: Theme.of(context).colorScheme.error,
         ),
-        SizedBox(height: isTablet ? 24 : 16),
+        SizedBox(
+          height: context.getAdaptiveSpacing(
+            mobile: 16,
+            tablet: 24,
+            desktop: 24,
+          ),
+        ),
         Text(
           l10n.verificationFailedTitle,
           key: const Key('verification-failed-text'), // For Patrol E2E testing
           style:
-              (isTablet
+              (context.isTabletOrLarger
                       ? Theme.of(context).textTheme.headlineSmall
                       : Theme.of(context).textTheme.titleLarge)
                   ?.copyWith(color: Theme.of(context).colorScheme.error),
           textAlign: TextAlign.center,
         ),
-        SizedBox(height: isTablet ? 12 : 8),
+        SizedBox(
+          height: context.getAdaptiveSpacing(
+            mobile: 8,
+            tablet: 12,
+            desktop: 12,
+          ),
+        ),
         Text(
           localizedErrorMessage,
           key: const Key('errorMessage'), // For E2E tests to find error message
@@ -464,7 +506,13 @@ class _MagicLinkVerifyPageState extends ConsumerState<MagicLinkVerifyPage> {
           ),
           textAlign: TextAlign.center,
         ),
-        SizedBox(height: isTablet ? 32 : 24),
+        SizedBox(
+          height: context.getAdaptiveSpacing(
+            mobile: 24,
+            tablet: 32,
+            desktop: 32,
+          ),
+        ),
 
         // Action Buttons - Improved UX
         Column(
@@ -490,7 +538,13 @@ class _MagicLinkVerifyPageState extends ConsumerState<MagicLinkVerifyPage> {
 
             // Show secondary button only if we have email and primary action is not login
             if (hasEmail && canRetry) ...[
-              SizedBox(height: isTablet ? 12 : 8),
+              SizedBox(
+                height: context.getAdaptiveSpacing(
+                  mobile: 8,
+                  tablet: 12,
+                  desktop: 12,
+                ),
+              ),
               _buildResponsiveButton(
                 keyValue: 'request-new-link-button',
                 onPressed: _handleRequestNewLink,
@@ -501,7 +555,13 @@ class _MagicLinkVerifyPageState extends ConsumerState<MagicLinkVerifyPage> {
 
             // Show back to login button only if primary action is not login
             if (canRetry || hasEmail) ...[
-              SizedBox(height: isTablet ? 12 : 8),
+              SizedBox(
+                height: context.getAdaptiveSpacing(
+                  mobile: 8,
+                  tablet: 12,
+                  desktop: 12,
+                ),
+              ),
               _buildResponsiveButton(
                 keyValue: 'back-to-login-button',
                 onPressed: _handleBackToLogin,
@@ -512,7 +572,13 @@ class _MagicLinkVerifyPageState extends ConsumerState<MagicLinkVerifyPage> {
           ],
         ),
 
-        SizedBox(height: isTablet ? 24 : 16),
+        SizedBox(
+          height: context.getAdaptiveSpacing(
+            mobile: 16,
+            tablet: 24,
+            desktop: 24,
+          ),
+        ),
 
         // Help Text
         Text(
@@ -553,13 +619,23 @@ class _MagicLinkVerifyPageState extends ConsumerState<MagicLinkVerifyPage> {
             color: Theme.of(context).colorScheme.primary,
           ),
         ),
-        const SizedBox(height: 32), // Reduced spacing
+        SizedBox(
+          height: context.getAdaptiveSpacing(
+            mobile: 24,
+            tablet: 32,
+            desktop: 32,
+          ),
+        ),
         // Main Content Card
         Card(
           elevation: 2,
           margin: EdgeInsets.zero, // Remove default margin for mobile
           child: Padding(
-            padding: const EdgeInsets.all(16.0), // Reduced padding for mobile
+            padding: context.getAdaptivePadding(
+              mobileAll: 16,
+              tabletAll: 20,
+              desktopAll: 24,
+            ),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [_buildStateContent(magicLinkState, shouldShowSuccess)],
@@ -592,7 +668,13 @@ class _MagicLinkVerifyPageState extends ConsumerState<MagicLinkVerifyPage> {
                   color: Theme.of(context).colorScheme.primary,
                 ),
               ),
-              const SizedBox(height: 16),
+              SizedBox(
+                height: context.getAdaptiveSpacing(
+                  mobile: 12,
+                  tablet: 16,
+                  desktop: 16,
+                ),
+              ),
               Text(
                 l10n.secureAuthentication,
                 style: Theme.of(context).textTheme.bodyLarge?.copyWith(
@@ -604,7 +686,13 @@ class _MagicLinkVerifyPageState extends ConsumerState<MagicLinkVerifyPage> {
           ),
         ),
 
-        const SizedBox(width: 48),
+        SizedBox(
+          width: context.getAdaptiveSpacing(
+            mobile: 32,
+            tablet: 48,
+            desktop: 48,
+          ),
+        ),
 
         // Right column - Content
         Expanded(
@@ -612,7 +700,11 @@ class _MagicLinkVerifyPageState extends ConsumerState<MagicLinkVerifyPage> {
           child: Card(
             elevation: 2,
             child: Padding(
-              padding: const EdgeInsets.all(32.0), // Larger padding for tablet
+              padding: context.getAdaptivePadding(
+                mobileAll: 24,
+                tabletAll: 32,
+                desktopAll: 40,
+              ),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [

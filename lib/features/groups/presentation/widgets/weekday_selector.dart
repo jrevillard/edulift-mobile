@@ -312,9 +312,6 @@ class _WeekdaySelectorState extends State<WeekdaySelector> {
   }
 
   Widget _buildWeekdayGrid(ThemeData theme) {
-    final isTablet = context.isTablet;
-    final isDesktop = context.isDesktop;
-
     // Responsive grid following established patterns
     final crossAxisCount = context.getGridColumns(
       mobile: 2,
@@ -323,8 +320,12 @@ class _WeekdaySelectorState extends State<WeekdaySelector> {
       wide: 7, // Show all days in one row on wide screens
     );
 
-    // Reduced aspect ratios to make cells taller and prevent overflow
-    final childAspectRatio = isDesktop ? 2.0 : (isTablet ? 1.2 : 0.95);
+    // Responsive aspect ratios to make cells taller and prevent overflow
+    final childAspectRatio = context.getAdaptiveAspectRatio(
+      mobile: 0.95,
+      tablet: 1.2,
+      desktop: 2.0,
+    );
 
     return GridView.builder(
       shrinkWrap: true, // Allow grid to size to content
@@ -353,7 +354,13 @@ class _WeekdaySelectorState extends State<WeekdaySelector> {
 
         return InkWell(
           onTap: () => _toggleDay(day),
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(
+            context.getAdaptiveBorderRadius(
+              mobile: 12,
+              tablet: 14,
+              desktop: 16,
+            ),
+          ),
           child: Container(
             decoration: BoxDecoration(
               color: isSelected
@@ -440,14 +447,34 @@ class _WeekdaySelectorState extends State<WeekdaySelector> {
                 ),
                 if (isWeekend)
                   Container(
-                    margin: const EdgeInsets.only(top: 4),
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 6,
-                      vertical: 2,
+                    margin: EdgeInsets.only(
+                      top: context.getAdaptiveSpacing(
+                        mobile: 4,
+                        tablet: 6,
+                        desktop: 8,
+                      ),
+                    ),
+                    padding: EdgeInsets.symmetric(
+                      horizontal: context.getAdaptiveSpacing(
+                        mobile: 6,
+                        tablet: 8,
+                        desktop: 10,
+                      ),
+                      vertical: context.getAdaptiveSpacing(
+                        mobile: 2,
+                        tablet: 3,
+                        desktop: 4,
+                      ),
                     ),
                     decoration: BoxDecoration(
                       color: AppColors.warningThemed(context),
-                      borderRadius: BorderRadius.circular(8),
+                      borderRadius: BorderRadius.circular(
+                        context.getAdaptiveBorderRadius(
+                          mobile: 8,
+                          tablet: 10,
+                          desktop: 12,
+                        ),
+                      ),
                     ),
                     child: Text(
                       AppLocalizations.of(context).weekendLabel,
@@ -455,7 +482,8 @@ class _WeekdaySelectorState extends State<WeekdaySelector> {
                         color: Theme.of(
                           context,
                         ).colorScheme.onTertiaryContainer,
-                        fontSize: 10,
+                        fontSize:
+                            (context.isTablet ? 11 : 10) * context.fontScale,
                       ),
                     ),
                   ),
@@ -472,20 +500,36 @@ class _WeekdaySelectorState extends State<WeekdaySelector> {
 
     if (_selectedDays.isEmpty) {
       return Container(
-        padding: const EdgeInsets.all(16),
+        padding: context.getAdaptivePadding(
+          mobileAll: 16,
+          tabletAll: 20,
+          desktopAll: 24,
+        ),
         decoration: BoxDecoration(
           color: AppColors.warningThemed(context),
           border: Border.all(color: AppColors.warningThemed(context)),
-          borderRadius: BorderRadius.circular(8),
+          borderRadius: BorderRadius.circular(
+            context.getAdaptiveBorderRadius(mobile: 8, tablet: 10, desktop: 12),
+          ),
         ),
         child: Row(
           children: [
             Icon(
               Icons.warning,
               color: Theme.of(context).colorScheme.tertiary,
-              size: 20,
+              size: context.getAdaptiveIconSize(
+                mobile: 20,
+                tablet: 22,
+                desktop: 24,
+              ),
             ),
-            const SizedBox(width: 8),
+            SizedBox(
+              width: context.getAdaptiveSpacing(
+                mobile: 8,
+                tablet: 10,
+                desktop: 12,
+              ),
+            ),
             Expanded(
               child: Text(
                 l10n.noDaysSelectedWarning,
@@ -504,13 +548,19 @@ class _WeekdaySelectorState extends State<WeekdaySelector> {
     final weekendCount = _selectedDays.where((day) => _isWeekend(day)).length;
 
     return Container(
-      padding: const EdgeInsets.all(16),
+      padding: context.getAdaptivePadding(
+        mobileAll: 16,
+        tabletAll: 20,
+        desktopAll: 24,
+      ),
       decoration: BoxDecoration(
         color: theme.colorScheme.primary.withValues(alpha: 0.1),
         border: Border.all(
           color: theme.colorScheme.primary.withValues(alpha: 0.3),
         ),
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: BorderRadius.circular(
+          context.getAdaptiveBorderRadius(mobile: 8, tablet: 10, desktop: 12),
+        ),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -520,9 +570,19 @@ class _WeekdaySelectorState extends State<WeekdaySelector> {
               Icon(
                 Icons.check_circle,
                 color: theme.colorScheme.primary,
-                size: 20,
+                size: context.getAdaptiveIconSize(
+                  mobile: 20,
+                  tablet: 22,
+                  desktop: 24,
+                ),
               ),
-              const SizedBox(width: 8),
+              SizedBox(
+                width: context.getAdaptiveSpacing(
+                  mobile: 8,
+                  tablet: 10,
+                  desktop: 12,
+                ),
+              ),
               Text(
                 l10n.scheduleActive,
                 style: theme.textTheme.titleSmall?.copyWith(
@@ -533,13 +593,32 @@ class _WeekdaySelectorState extends State<WeekdaySelector> {
             ],
           ),
 
-          const SizedBox(height: 8),
+          SizedBox(
+            height: context.getAdaptiveSpacing(
+              mobile: 8,
+              tablet: 10,
+              desktop: 12,
+            ),
+          ),
 
           if (weekdayCount > 0) ...[
             Row(
               children: [
-                const Icon(Icons.work_outline, size: 16),
-                const SizedBox(width: 8),
+                Icon(
+                  Icons.work_outline,
+                  size: context.getAdaptiveIconSize(
+                    mobile: 16,
+                    tablet: 18,
+                    desktop: 20,
+                  ),
+                ),
+                SizedBox(
+                  width: context.getAdaptiveSpacing(
+                    mobile: 8,
+                    tablet: 10,
+                    desktop: 12,
+                  ),
+                ),
                 Text(
                   AppLocalizations.of(context).weekdaysCount(weekdayCount),
                   style: theme.textTheme.bodySmall,
@@ -549,11 +628,30 @@ class _WeekdaySelectorState extends State<WeekdaySelector> {
           ],
 
           if (weekendCount > 0) ...[
-            const SizedBox(height: 4),
+            SizedBox(
+              height: context.getAdaptiveSpacing(
+                mobile: 4,
+                tablet: 6,
+                desktop: 8,
+              ),
+            ),
             Row(
               children: [
-                const Icon(Icons.weekend_outlined, size: 16),
-                const SizedBox(width: 8),
+                Icon(
+                  Icons.weekend_outlined,
+                  size: context.getAdaptiveIconSize(
+                    mobile: 16,
+                    tablet: 18,
+                    desktop: 20,
+                  ),
+                ),
+                SizedBox(
+                  width: context.getAdaptiveSpacing(
+                    mobile: 8,
+                    tablet: 10,
+                    desktop: 12,
+                  ),
+                ),
                 Text(
                   AppLocalizations.of(context).weekendDaysCount(weekendCount),
                   style: theme.textTheme.bodySmall,
@@ -562,7 +660,13 @@ class _WeekdaySelectorState extends State<WeekdaySelector> {
             ),
           ],
 
-          const SizedBox(height: 8),
+          SizedBox(
+            height: context.getAdaptiveSpacing(
+              mobile: 8,
+              tablet: 10,
+              desktop: 12,
+            ),
+          ),
 
           // Selected days list - responsive for small screens
           if (_selectedDays.length > 4)
@@ -573,7 +677,13 @@ class _WeekdaySelectorState extends State<WeekdaySelector> {
                   final index = _weekdays.indexOf(day);
                   final abbreviation = _getWeekdayAbbreviation(context, index);
                   return Padding(
-                    padding: const EdgeInsets.only(right: 8.0),
+                    padding: EdgeInsets.only(
+                      right: context.getAdaptiveSpacing(
+                        mobile: 8,
+                        tablet: 10,
+                        desktop: 12,
+                      ),
+                    ),
                     child: Chip(
                       label: Text(abbreviation),
                       backgroundColor: theme.colorScheme.primary.withValues(
@@ -584,7 +694,8 @@ class _WeekdaySelectorState extends State<WeekdaySelector> {
                       ),
                       labelStyle: TextStyle(
                         color: theme.colorScheme.primary,
-                        fontSize: 12,
+                        fontSize:
+                            (context.isTablet ? 13 : 12) * context.fontScale,
                       ),
                       materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
                       visualDensity: VisualDensity.compact,
@@ -610,7 +721,7 @@ class _WeekdaySelectorState extends State<WeekdaySelector> {
                   ),
                   labelStyle: TextStyle(
                     color: theme.colorScheme.primary,
-                    fontSize: 12,
+                    fontSize: (context.isTablet ? 13 : 12) * context.fontScale,
                   ),
                   materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
                   visualDensity: VisualDensity.compact,

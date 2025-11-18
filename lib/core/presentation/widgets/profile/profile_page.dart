@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../generated/l10n/app_localizations.dart';
 import '../../../services/providers/auth_provider.dart';
-import '../../../services/user_family_service.dart';
 import '../../../navigation/navigation_state.dart';
 import '../settings/settings_page.dart';
 import '../../mixins/navigation_cleanup_mixin.dart';
+import '../../utils/responsive_breakpoints.dart';
 import 'timezone_selector.dart';
 
 /// Page de profil utilisateur avec accès aux paramètres et gestion famille
@@ -31,27 +31,57 @@ class _ProfilePageState extends ConsumerState<ProfilePage>
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const SizedBox(height: 16),
+            SizedBox(
+              height: context.getAdaptiveSpacing(
+                mobile: 12,
+                tablet: 16,
+                desktop: 20,
+              ),
+            ),
 
             // Section Informations Personnelles
             _buildUserInfoCard(context, l10n, currentUser),
 
-            const SizedBox(height: 16),
+            SizedBox(
+              height: context.getAdaptiveSpacing(
+                mobile: 12,
+                tablet: 16,
+                desktop: 20,
+              ),
+            ),
 
             // Section Timezone Management
             const TimezoneSelector(),
 
-            const SizedBox(height: 16),
+            SizedBox(
+              height: context.getAdaptiveSpacing(
+                mobile: 12,
+                tablet: 16,
+                desktop: 20,
+              ),
+            ),
 
             // Section Paramètres
             _buildSettingsCard(context, l10n, ref),
 
-            const SizedBox(height: 16),
+            SizedBox(
+              height: context.getAdaptiveSpacing(
+                mobile: 12,
+                tablet: 16,
+                desktop: 20,
+              ),
+            ),
 
             // Section Actions
             _buildActionsCard(context, l10n, ref),
 
-            const SizedBox(height: 32),
+            SizedBox(
+              height: context.getAdaptiveSpacing(
+                mobile: 24,
+                tablet: 32,
+                desktop: 40,
+              ),
+            ),
           ],
         ),
       ),
@@ -65,26 +95,55 @@ class _ProfilePageState extends ConsumerState<ProfilePage>
   ) {
     return Card(
       key: const Key('profile_user_info_card'),
-      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      margin: context.getAdaptivePadding(
+        mobileHorizontal: 16,
+        mobileVertical: 8,
+        tabletHorizontal: 20,
+        tabletVertical: 10,
+        desktopHorizontal: 24,
+        desktopVertical: 12,
+      ),
       child: Padding(
-        padding: const EdgeInsets.all(16),
+        padding: context.getAdaptivePadding(
+          mobileAll: 16,
+          tabletAll: 20,
+          desktopAll: 24,
+        ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(
               children: [
                 CircleAvatar(
-                  radius: 30,
+                  radius:
+                      context
+                          .getAdaptiveIconSize(
+                            mobile: 28,
+                            tablet: 32,
+                            desktop: 36,
+                          )
+                          .toDouble() /
+                      2,
                   backgroundColor: Theme.of(
                     context,
                   ).colorScheme.primaryContainer,
                   child: Icon(
                     Icons.person,
-                    size: 30,
+                    size: context.getAdaptiveIconSize(
+                      mobile: 24,
+                      tablet: 28,
+                      desktop: 32,
+                    ),
                     color: Theme.of(context).colorScheme.onPrimaryContainer,
                   ),
                 ),
-                const SizedBox(width: 16),
+                SizedBox(
+                  width: context.getAdaptiveSpacing(
+                    mobile: 12,
+                    tablet: 16,
+                    desktop: 20,
+                  ),
+                ),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -95,7 +154,13 @@ class _ProfilePageState extends ConsumerState<ProfilePage>
                         style: Theme.of(context).textTheme.headlineSmall
                             ?.copyWith(fontWeight: FontWeight.w600),
                       ),
-                      const SizedBox(height: 4),
+                      SizedBox(
+                        height: context.getAdaptiveSpacing(
+                          mobile: 3,
+                          tablet: 4,
+                          desktop: 5,
+                        ),
+                      ),
                       Text(
                         currentUser?.email ?? '',
                         key: const Key('profile_user_email'),
@@ -103,39 +168,12 @@ class _ProfilePageState extends ConsumerState<ProfilePage>
                           color: Theme.of(context).colorScheme.onSurfaceVariant,
                         ),
                       ),
-                      const SizedBox(height: 4),
-                      // Family role chip - delegates to UserFamilyService
-                      Consumer(
-                        builder: (context, ref, child) {
-                          return FutureBuilder<bool>(
-                            future: currentUser != null
-                                ? ref.read(
-                                    cachedUserFamilyStatusProvider(
-                                      currentUser!.id,
-                                    ).future,
-                                  )
-                                : Future.value(false),
-                            builder: (context, snapshot) {
-                              final hasFamily = snapshot.data ?? false;
-                              return Chip(
-                                key: const Key('profile_family_role'),
-                                label: Text(
-                                  hasFamily ? 'Member' : 'No Family',
-                                  style: TextStyle(
-                                    color: Theme.of(
-                                      context,
-                                    ).colorScheme.onSecondaryContainer,
-                                    fontSize: 12,
-                                  ),
-                                ),
-                                backgroundColor: Theme.of(
-                                  context,
-                                ).colorScheme.secondaryContainer,
-                                visualDensity: VisualDensity.compact,
-                              );
-                            },
-                          );
-                        },
+                      SizedBox(
+                        height: context.getAdaptiveSpacing(
+                          mobile: 3,
+                          tablet: 4,
+                          desktop: 5,
+                        ),
                       ),
                     ],
                   ),
@@ -154,9 +192,20 @@ class _ProfilePageState extends ConsumerState<ProfilePage>
     WidgetRef ref,
   ) {
     return Card(
-      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      margin: context.getAdaptivePadding(
+        mobileHorizontal: 16,
+        mobileVertical: 8,
+        tabletHorizontal: 20,
+        tabletVertical: 10,
+        desktopHorizontal: 24,
+        desktopVertical: 12,
+      ),
       child: Padding(
-        padding: const EdgeInsets.all(16),
+        padding: context.getAdaptivePadding(
+          mobileAll: 16,
+          tabletAll: 20,
+          desktopAll: 24,
+        ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -166,7 +215,13 @@ class _ProfilePageState extends ConsumerState<ProfilePage>
                   Icons.settings,
                   color: Theme.of(context).colorScheme.primary,
                 ),
-                const SizedBox(width: 8),
+                SizedBox(
+                  width: context.getAdaptiveSpacing(
+                    mobile: 6,
+                    tablet: 8,
+                    desktop: 10,
+                  ),
+                ),
                 Text(
                   l10n.settings,
                   style: Theme.of(context).textTheme.titleMedium?.copyWith(
@@ -175,7 +230,13 @@ class _ProfilePageState extends ConsumerState<ProfilePage>
                 ),
               ],
             ),
-            const SizedBox(height: 16),
+            SizedBox(
+              height: context.getAdaptiveSpacing(
+                mobile: 12,
+                tablet: 16,
+                desktop: 20,
+              ),
+            ),
 
             // Navigation vers Settings
             InkWell(
@@ -185,14 +246,30 @@ class _ProfilePageState extends ConsumerState<ProfilePage>
                   MaterialPageRoute(builder: (context) => const SettingsPage()),
                 );
               },
-              borderRadius: BorderRadius.circular(8),
+              borderRadius: BorderRadius.circular(
+                context.getAdaptiveBorderRadius(
+                  mobile: 8,
+                  tablet: 10,
+                  desktop: 12,
+                ),
+              ),
               child: Container(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 12,
-                  vertical: 12,
+                padding: context.getAdaptivePadding(
+                  mobileHorizontal: 12,
+                  mobileVertical: 12,
+                  tabletHorizontal: 16,
+                  tabletVertical: 14,
+                  desktopHorizontal: 20,
+                  desktopVertical: 16,
                 ),
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(8),
+                  borderRadius: BorderRadius.circular(
+                    context.getAdaptiveBorderRadius(
+                      mobile: 8,
+                      tablet: 10,
+                      desktop: 12,
+                    ),
+                  ),
                   border: Border.all(
                     color: Theme.of(
                       context,
@@ -205,7 +282,13 @@ class _ProfilePageState extends ConsumerState<ProfilePage>
                       Icons.settings,
                       color: Theme.of(context).colorScheme.onSurface,
                     ),
-                    const SizedBox(width: 12),
+                    SizedBox(
+                      width: context.getAdaptiveSpacing(
+                        mobile: 10,
+                        tablet: 12,
+                        desktop: 16,
+                      ),
+                    ),
                     Expanded(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -247,9 +330,20 @@ class _ProfilePageState extends ConsumerState<ProfilePage>
     WidgetRef ref,
   ) {
     return Card(
-      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      margin: context.getAdaptivePadding(
+        mobileHorizontal: 16,
+        mobileVertical: 8,
+        tabletHorizontal: 20,
+        tabletVertical: 10,
+        desktopHorizontal: 24,
+        desktopVertical: 12,
+      ),
       child: Padding(
-        padding: const EdgeInsets.all(16),
+        padding: context.getAdaptivePadding(
+          mobileAll: 16,
+          tabletAll: 20,
+          desktopAll: 24,
+        ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -257,14 +351,30 @@ class _ProfilePageState extends ConsumerState<ProfilePage>
             InkWell(
               key: const Key('profile_logout_button'),
               onTap: () => _showLogoutConfirmation(context, l10n, ref),
-              borderRadius: BorderRadius.circular(8),
+              borderRadius: BorderRadius.circular(
+                context.getAdaptiveBorderRadius(
+                  mobile: 8,
+                  tablet: 10,
+                  desktop: 12,
+                ),
+              ),
               child: Container(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 12,
-                  vertical: 12,
+                padding: context.getAdaptivePadding(
+                  mobileHorizontal: 12,
+                  mobileVertical: 12,
+                  tabletHorizontal: 16,
+                  tabletVertical: 14,
+                  desktopHorizontal: 20,
+                  desktopVertical: 16,
                 ),
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(8),
+                  borderRadius: BorderRadius.circular(
+                    context.getAdaptiveBorderRadius(
+                      mobile: 8,
+                      tablet: 10,
+                      desktop: 12,
+                    ),
+                  ),
                   border: Border.all(
                     color: Theme.of(
                       context,
@@ -277,7 +387,13 @@ class _ProfilePageState extends ConsumerState<ProfilePage>
                       Icons.logout,
                       color: Theme.of(context).colorScheme.error,
                     ),
-                    const SizedBox(width: 12),
+                    SizedBox(
+                      width: context.getAdaptiveSpacing(
+                        mobile: 10,
+                        tablet: 12,
+                        desktop: 16,
+                      ),
+                    ),
                     Expanded(
                       child: Text(
                         l10n.logout,

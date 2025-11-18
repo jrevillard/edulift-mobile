@@ -4,6 +4,7 @@ import '../../../../generated/l10n/app_localizations.dart';
 import 'package:edulift/core/domain/entities/schedule.dart';
 import '../../../../core/utils/timezone_formatter.dart';
 import '../../../../core/services/providers/auth_provider.dart';
+import '../../../../core/presentation/utils/responsive_breakpoints.dart';
 
 String _getTimeSlotRange(
   Map<String, List<String>> scheduleHours,
@@ -64,11 +65,21 @@ class SchedulePreview extends ConsumerWidget {
     );
 
     return Container(
-      margin: const EdgeInsets.all(16),
-      padding: const EdgeInsets.all(16),
+      margin: context.getAdaptivePadding(
+        mobileAll: 12,
+        tabletAll: 16,
+        desktopAll: 20,
+      ),
+      padding: context.getAdaptivePadding(
+        mobileAll: 12,
+        tabletAll: 16,
+        desktopAll: 20,
+      ),
       decoration: BoxDecoration(
         color: theme.colorScheme.surface,
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(
+          context.getAdaptiveBorderRadius(mobile: 10, tablet: 12, desktop: 14),
+        ),
         border: Border.all(
           color: theme.colorScheme.outline.withValues(alpha: 0.3),
         ),
@@ -80,7 +91,13 @@ class SchedulePreview extends ConsumerWidget {
           Row(
             children: [
               Icon(Icons.preview, color: theme.colorScheme.primary),
-              const SizedBox(width: 8),
+              SizedBox(
+                width: context.getAdaptiveSpacing(
+                  mobile: 6,
+                  tablet: 8,
+                  desktop: 10,
+                ),
+              ),
               Text(
                 l10n.schedulePreview,
                 style: theme.textTheme.titleMedium?.copyWith(
@@ -90,10 +107,17 @@ class SchedulePreview extends ConsumerWidget {
             ],
           ),
 
-          const SizedBox(height: 16),
+          SizedBox(
+            height: context.getAdaptiveSpacing(
+              mobile: 14,
+              tablet: 16,
+              desktop: 18,
+            ),
+          ),
 
           // Days active
           _buildSummaryRow(
+            context: context,
             icon: Icons.calendar_today,
             label: l10n.activeDays,
             value: l10n.daysCount(activeDays),
@@ -105,10 +129,17 @@ class SchedulePreview extends ConsumerWidget {
             theme: theme,
           ),
 
-          const SizedBox(height: 8),
+          SizedBox(
+            height: context.getAdaptiveSpacing(
+              mobile: 6,
+              tablet: 8,
+              desktop: 10,
+            ),
+          ),
 
           // Time slots
           _buildSummaryRow(
+            context: context,
             icon: Icons.access_time,
             label: l10n.timeSlots,
             value: l10n.slotsCount(totalActiveSlots),
@@ -120,10 +151,17 @@ class SchedulePreview extends ConsumerWidget {
             theme: theme,
           ),
 
-          const SizedBox(height: 8),
+          SizedBox(
+            height: context.getAdaptiveSpacing(
+              mobile: 6,
+              tablet: 8,
+              desktop: 10,
+            ),
+          ),
 
           // Configuration summary
           _buildSummaryRow(
+            context: context,
             icon: Icons.schedule,
             label: l10n.configuration,
             value: l10n.slotsCount(totalActiveSlots),
@@ -136,6 +174,7 @@ class SchedulePreview extends ConsumerWidget {
   }
 
   Widget _buildSummaryRow({
+    required BuildContext context,
     required IconData icon,
     required String label,
     required String value,
@@ -145,8 +184,18 @@ class SchedulePreview extends ConsumerWidget {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Icon(icon, size: 20, color: theme.colorScheme.primary),
-        const SizedBox(width: 12),
+        Icon(
+          icon,
+          size: context.getAdaptiveIconSize(
+            mobile: 18,
+            tablet: 20,
+            desktop: 22,
+          ),
+          color: theme.colorScheme.primary,
+        ),
+        SizedBox(
+          width: context.getAdaptiveSpacing(mobile: 8, tablet: 10, desktop: 12),
+        ),
         Expanded(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -159,7 +208,13 @@ class SchedulePreview extends ConsumerWidget {
                       fontWeight: FontWeight.w500,
                     ),
                   ),
-                  const SizedBox(width: 8),
+                  SizedBox(
+                    width: context.getAdaptiveSpacing(
+                      mobile: 6,
+                      tablet: 8,
+                      desktop: 10,
+                    ),
+                  ),
                   Text(
                     value,
                     style: theme.textTheme.bodyMedium?.copyWith(
@@ -169,7 +224,13 @@ class SchedulePreview extends ConsumerWidget {
                   ),
                 ],
               ),
-              const SizedBox(height: 4),
+              SizedBox(
+                height: context.getAdaptiveSpacing(
+                  mobile: 3,
+                  tablet: 4,
+                  desktop: 5,
+                ),
+              ),
               Text(
                 detail,
                 style: theme.textTheme.bodySmall?.copyWith(

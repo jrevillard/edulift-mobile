@@ -73,17 +73,45 @@ class _GroupDetailsPageState extends ConsumerState<GroupDetailsPage>
           children: [
             Icon(
               Icons.error_outline,
-              size: 64,
+              size: context.getAdaptiveIconSize(
+                mobile: 56,
+                tablet: 64,
+                desktop: 72,
+              ),
               color: Theme.of(context).colorScheme.error,
             ),
-            const SizedBox(height: 16),
-            Text(l10n.groupNotFound, style: const TextStyle(fontSize: 18)),
-            const SizedBox(height: 8),
+            SizedBox(
+              height: context.getAdaptiveSpacing(
+                mobile: 12,
+                tablet: 16,
+                desktop: 20,
+              ),
+            ),
+            Text(
+              l10n.groupNotFound,
+              style: TextStyle(fontSize: 16 * context.fontScale),
+            ),
+            SizedBox(
+              height: context.getAdaptiveSpacing(
+                mobile: 6,
+                tablet: 8,
+                desktop: 10,
+              ),
+            ),
             Text(
               l10n.groupNotFoundOrNoAccess,
-              style: TextStyle(color: AppColors.textSecondaryThemed(context)),
+              style: TextStyle(
+                color: AppColors.textSecondaryThemed(context),
+                fontSize: 14 * context.fontScale,
+              ),
             ),
-            const SizedBox(height: 24),
+            SizedBox(
+              height: context.getAdaptiveSpacing(
+                mobile: 20,
+                tablet: 24,
+                desktop: 28,
+              ),
+            ),
             ElevatedButton(
               key: const Key('groupDetails_error_goBack_button'),
               onPressed: () => ref
@@ -101,7 +129,7 @@ class _GroupDetailsPageState extends ConsumerState<GroupDetailsPage>
 
     final groupName = group is Map
         ? group['name']
-        : group?.name ?? 'Unnamed Group';
+        : group?.name ?? l10n.unnamedGroup;
     final groupDescription = group is Map
         ? group['description']
         : group?.description;
@@ -162,7 +190,13 @@ class _GroupDetailsPageState extends ConsumerState<GroupDetailsPage>
                                   color: Theme.of(
                                     context,
                                   ).colorScheme.primary.withValues(alpha: 0.1),
-                                  borderRadius: BorderRadius.circular(12),
+                                  borderRadius: BorderRadius.circular(
+                                    context.getAdaptiveBorderRadius(
+                                      mobile: 10,
+                                      tablet: 12,
+                                      desktop: 14,
+                                    ),
+                                  ),
                                 ),
                                 child: Icon(
                                   Icons.groups,
@@ -256,7 +290,7 @@ class _GroupDetailsPageState extends ConsumerState<GroupDetailsPage>
                             Text(
                               groupDescription,
                               style: Theme.of(context).textTheme.bodyMedium
-                                  ?.copyWith(fontSize: 16 * context.fontScale),
+                                  ?.copyWith(fontSize: 15 * context.fontScale),
                             ),
                           ],
                           SizedBox(
@@ -266,23 +300,37 @@ class _GroupDetailsPageState extends ConsumerState<GroupDetailsPage>
                               desktop: 20,
                             ),
                           ),
-                          Row(
+                          Wrap(
+                            spacing: context.getAdaptiveSpacing(
+                              mobile: 8,
+                              tablet: 12,
+                              desktop: 16,
+                            ),
+                            runSpacing: context.getAdaptiveSpacing(
+                              mobile: 8,
+                              tablet: 12,
+                              desktop: 16,
+                            ),
                             children: [
                               _buildInfoChip(
                                 Icons.family_restroom,
                                 l10n.familyCount(familyCount),
                                 context,
                               ),
-                              SizedBox(
-                                width: context.getAdaptiveSpacing(
-                                  mobile: 12,
-                                  tablet: 16,
-                                  desktop: 20,
-                                ),
-                              ),
                               _buildInfoChip(
                                 Icons.event,
                                 l10n.scheduleCount(scheduleCount),
+                                context,
+                              ),
+                              if (createdAt != null)
+                                _buildInfoChip(
+                                  Icons.calendar_today,
+                                  '${l10n.created.toLowerCase()} ${_formatDate(createdAt, context)}',
+                                  context,
+                                ),
+                              _buildInfoChip(
+                                Icons.fingerprint,
+                                'ID: ${widget.groupId}',
                                 context,
                               ),
                             ],
@@ -292,14 +340,24 @@ class _GroupDetailsPageState extends ConsumerState<GroupDetailsPage>
                     ),
                   ),
 
-                  const SizedBox(height: 24),
+                  SizedBox(
+                    height: context.getAdaptiveSpacing(
+                      mobile: 20,
+                      tablet: 24,
+                      desktop: 28,
+                    ),
+                  ),
 
                   // Member Management Card (visible for all users)
                   // All users can view members (per Access-Control-and-Permissions.md)
                   // But only ADMIN/OWNER can invite families or manage roles
                   Card(
                     child: Padding(
-                      padding: const EdgeInsets.all(16),
+                      padding: context.getAdaptivePadding(
+                        mobileAll: 16,
+                        tabletAll: 20,
+                        desktopAll: 24,
+                      ),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -308,24 +366,53 @@ class _GroupDetailsPageState extends ConsumerState<GroupDetailsPage>
                               Icon(
                                 Icons.people,
                                 color: Theme.of(context).colorScheme.primary,
+                                size: context.getAdaptiveIconSize(
+                                  mobile: 20,
+                                  tablet: 22,
+                                  desktop: 24,
+                                ),
                               ),
-                              const SizedBox(width: 12),
+                              SizedBox(
+                                width: context.getAdaptiveSpacing(
+                                  mobile: 10,
+                                  tablet: 12,
+                                  desktop: 14,
+                                ),
+                              ),
                               Text(
                                 l10n.manageMembers,
                                 style: Theme.of(context).textTheme.titleLarge
-                                    ?.copyWith(fontWeight: FontWeight.bold),
+                                    ?.copyWith(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: context.isMobile
+                                          ? 18
+                                          : 20 * context.fontScale,
+                                    ),
                               ),
                             ],
                           ),
-                          const SizedBox(height: 8),
+                          SizedBox(
+                            height: context.getAdaptiveSpacing(
+                              mobile: 6,
+                              tablet: 8,
+                              desktop: 10,
+                            ),
+                          ),
                           Text(
                             l10n.manageMembersDescription,
                             style: Theme.of(context).textTheme.bodyMedium
                                 ?.copyWith(
                                   color: AppColors.textSecondaryThemed(context),
+                                  fontSize: 14 * context.fontScale,
                                 ),
                           ),
-                          const SizedBox(height: 16),
+                          SizedBox(
+                            height: context.getAdaptiveSpacing(
+                              mobile: 14,
+                              tablet: 16,
+                              desktop: 18,
+                            ),
+                          ),
                           SizedBox(
                             width: double.infinity,
                             child: ElevatedButton.icon(
@@ -341,7 +428,14 @@ class _GroupDetailsPageState extends ConsumerState<GroupDetailsPage>
                                       trigger: NavigationTrigger.userNavigation,
                                     );
                               },
-                              icon: const Icon(Icons.group),
+                              icon: Icon(
+                                Icons.group,
+                                size: context.getAdaptiveIconSize(
+                                  mobile: 18,
+                                  tablet: 20,
+                                  desktop: 22,
+                                ),
+                              ),
                               label: Text(l10n.manageMembers),
                             ),
                           ),
@@ -349,13 +443,23 @@ class _GroupDetailsPageState extends ConsumerState<GroupDetailsPage>
                       ),
                     ),
                   ),
-                  const SizedBox(height: 24),
+                  SizedBox(
+                    height: context.getAdaptiveSpacing(
+                      mobile: 20,
+                      tablet: 24,
+                      desktop: 28,
+                    ),
+                  ),
 
                   // Schedule Configuration Card (for admins only)
                   if (isGroupAdmin) ...[
                     Card(
                       child: Padding(
-                        padding: const EdgeInsets.all(16),
+                        padding: context.getAdaptivePadding(
+                          mobileAll: 16,
+                          tabletAll: 20,
+                          desktopAll: 24,
+                        ),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -364,26 +468,55 @@ class _GroupDetailsPageState extends ConsumerState<GroupDetailsPage>
                                 Icon(
                                   Icons.schedule,
                                   color: Theme.of(context).colorScheme.primary,
+                                  size: context.getAdaptiveIconSize(
+                                    mobile: 20,
+                                    tablet: 22,
+                                    desktop: 24,
+                                  ),
                                 ),
-                                const SizedBox(width: 12),
+                                SizedBox(
+                                  width: context.getAdaptiveSpacing(
+                                    mobile: 10,
+                                    tablet: 12,
+                                    desktop: 14,
+                                  ),
+                                ),
                                 Text(
                                   l10n.scheduleConfiguration,
                                   style: Theme.of(context).textTheme.titleLarge
-                                      ?.copyWith(fontWeight: FontWeight.bold),
+                                      ?.copyWith(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: context.isMobile
+                                            ? 18
+                                            : 20 * context.fontScale,
+                                      ),
                                 ),
                               ],
                             ),
-                            const SizedBox(height: 8),
+                            SizedBox(
+                              height: context.getAdaptiveSpacing(
+                                mobile: 6,
+                                tablet: 8,
+                                desktop: 10,
+                              ),
+                            ),
                             Text(
-                              'Configure the schedule for this group including time slots and active days',
+                              l10n.defaultGroupConfigInfo,
                               style: Theme.of(context).textTheme.bodyMedium
                                   ?.copyWith(
                                     color: AppColors.textSecondaryThemed(
                                       context,
                                     ),
+                                    fontSize: 14 * context.fontScale,
                                   ),
                             ),
-                            const SizedBox(height: 16),
+                            SizedBox(
+                              height: context.getAdaptiveSpacing(
+                                mobile: 14,
+                                tablet: 16,
+                                desktop: 18,
+                              ),
+                            ),
                             SizedBox(
                               width: double.infinity,
                               child: ElevatedButton.icon(
@@ -400,7 +533,14 @@ class _GroupDetailsPageState extends ConsumerState<GroupDetailsPage>
                                             NavigationTrigger.userNavigation,
                                       );
                                 },
-                                icon: const Icon(Icons.settings),
+                                icon: Icon(
+                                  Icons.settings,
+                                  size: context.getAdaptiveIconSize(
+                                    mobile: 18,
+                                    tablet: 20,
+                                    desktop: 22,
+                                  ),
+                                ),
                                 label: Text(l10n.configureSchedule),
                               ),
                             ),
@@ -408,13 +548,23 @@ class _GroupDetailsPageState extends ConsumerState<GroupDetailsPage>
                         ),
                       ),
                     ),
-                    const SizedBox(height: 24),
+                    SizedBox(
+                      height: context.getAdaptiveSpacing(
+                        mobile: 20,
+                        tablet: 24,
+                        desktop: 28,
+                      ),
+                    ),
                   ],
 
                   // Group Actions Card
                   Card(
                     child: Padding(
-                      padding: const EdgeInsets.all(16),
+                      padding: context.getAdaptivePadding(
+                        mobileAll: 16,
+                        tabletAll: 20,
+                        desktopAll: 24,
+                      ),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -423,16 +573,38 @@ class _GroupDetailsPageState extends ConsumerState<GroupDetailsPage>
                               Icon(
                                 Icons.group,
                                 color: Theme.of(context).colorScheme.primary,
+                                size: context.getAdaptiveIconSize(
+                                  mobile: 20,
+                                  tablet: 22,
+                                  desktop: 24,
+                                ),
                               ),
-                              const SizedBox(width: 12),
+                              SizedBox(
+                                width: context.getAdaptiveSpacing(
+                                  mobile: 10,
+                                  tablet: 12,
+                                  desktop: 14,
+                                ),
+                              ),
                               Text(
-                                'Group Actions',
+                                l10n.groupActions,
                                 style: Theme.of(context).textTheme.titleLarge
-                                    ?.copyWith(fontWeight: FontWeight.bold),
+                                    ?.copyWith(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: context.isMobile
+                                          ? 18
+                                          : 20 * context.fontScale,
+                                    ),
                               ),
                             ],
                           ),
-                          const SizedBox(height: 16),
+                          SizedBox(
+                            height: context.getAdaptiveSpacing(
+                              mobile: 14,
+                              tablet: 16,
+                              desktop: 18,
+                            ),
+                          ),
                           SizedBox(
                             width: double.infinity,
                             child: OutlinedButton.icon(
@@ -448,14 +620,27 @@ class _GroupDetailsPageState extends ConsumerState<GroupDetailsPage>
                                       trigger: NavigationTrigger.userNavigation,
                                     );
                               },
-                              icon: const Icon(Icons.calendar_today),
+                              icon: Icon(
+                                Icons.calendar_today,
+                                size: context.getAdaptiveIconSize(
+                                  mobile: 18,
+                                  tablet: 20,
+                                  desktop: 22,
+                                ),
+                              ),
                               label: Text(l10n.viewGroupSchedule),
                             ),
                           ),
                           // Leave Group button - only show if not owner
                           if (userRole != null &&
                               userRole != GroupMemberRole.owner) ...[
-                            const SizedBox(height: 12),
+                            SizedBox(
+                              height: context.getAdaptiveSpacing(
+                                mobile: 10,
+                                tablet: 12,
+                                desktop: 14,
+                              ),
+                            ),
                             SizedBox(
                               width: double.infinity,
                               child: OutlinedButton.icon(
@@ -469,7 +654,14 @@ class _GroupDetailsPageState extends ConsumerState<GroupDetailsPage>
                                   groupName,
                                   userRole,
                                 ),
-                                icon: const Icon(Icons.exit_to_app),
+                                icon: Icon(
+                                  Icons.exit_to_app,
+                                  size: context.getAdaptiveIconSize(
+                                    mobile: 18,
+                                    tablet: 20,
+                                    desktop: 22,
+                                  ),
+                                ),
                                 label: Text(l10n.leaveGroup),
                                 style: OutlinedButton.styleFrom(
                                   foregroundColor: Theme.of(
@@ -482,44 +674,6 @@ class _GroupDetailsPageState extends ConsumerState<GroupDetailsPage>
                               ),
                             ),
                           ],
-                        ],
-                      ),
-                    ),
-                  ),
-
-                  const SizedBox(height: 24),
-
-                  // Group Information
-                  Card(
-                    child: Padding(
-                      padding: const EdgeInsets.all(16),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            children: [
-                              Icon(
-                                Icons.info,
-                                color: Theme.of(context).colorScheme.primary,
-                              ),
-                              const SizedBox(width: 12),
-                              Text(
-                                'Group Information',
-                                style: Theme.of(context).textTheme.titleLarge
-                                    ?.copyWith(fontWeight: FontWeight.bold),
-                              ),
-                            ],
-                          ),
-                          const SizedBox(height: 16),
-                          if (createdAt != null) ...[
-                            _buildInfoRow(
-                              'Created',
-                              _formatDate(createdAt, context),
-                              context,
-                            ),
-                            const SizedBox(height: 8),
-                          ],
-                          _buildInfoRow('Group ID', widget.groupId, context),
                         ],
                       ),
                     ),
@@ -540,20 +694,45 @@ class _GroupDetailsPageState extends ConsumerState<GroupDetailsPage>
         children: [
           Icon(
             Icons.error_outline,
-            size: 64,
+            size: context.getAdaptiveIconSize(
+              mobile: 56,
+              tablet: 64,
+              desktop: 72,
+            ),
             color: Theme.of(context).colorScheme.error,
           ),
-          const SizedBox(height: 16),
+          SizedBox(
+            height: context.getAdaptiveSpacing(
+              mobile: 12,
+              tablet: 16,
+              desktop: 20,
+            ),
+          ),
           Text(
             l10n.failedToLoadGroupDetails,
-            style: const TextStyle(fontSize: 18),
+            style: TextStyle(fontSize: 16 * context.fontScale),
           ),
-          const SizedBox(height: 8),
+          SizedBox(
+            height: context.getAdaptiveSpacing(
+              mobile: 6,
+              tablet: 8,
+              desktop: 10,
+            ),
+          ),
           Text(
             GroupsErrorTranslationHelper.translateError(l10n, errorKey),
-            style: TextStyle(color: AppColors.textSecondaryThemed(context)),
+            style: TextStyle(
+              color: AppColors.textSecondaryThemed(context),
+              fontSize: 14 * context.fontScale,
+            ),
           ),
-          const SizedBox(height: 24),
+          SizedBox(
+            height: context.getAdaptiveSpacing(
+              mobile: 20,
+              tablet: 24,
+              desktop: 28,
+            ),
+          ),
           ElevatedButton(
             key: const Key('groupDetails_tryAgain_button'),
             onPressed: () {
@@ -587,16 +766,25 @@ class _GroupDetailsPageState extends ConsumerState<GroupDetailsPage>
     }
 
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+      padding: context.getAdaptivePadding(
+        mobileHorizontal: 10,
+        mobileVertical: 3,
+        tabletHorizontal: 12,
+        tabletVertical: 4,
+        desktopHorizontal: 14,
+        desktopVertical: 5,
+      ),
       decoration: BoxDecoration(
         color: backgroundColor,
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(
+          context.getAdaptiveBorderRadius(mobile: 14, tablet: 16, desktop: 18),
+        ),
       ),
       child: Text(
         role,
         style: TextStyle(
           color: textColor,
-          fontSize: 12,
+          fontSize: 11 * context.fontScale,
           fontWeight: FontWeight.w500,
         ),
       ),
@@ -615,7 +803,9 @@ class _GroupDetailsPageState extends ConsumerState<GroupDetailsPage>
       ),
       decoration: BoxDecoration(
         color: Theme.of(context).colorScheme.surface,
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(
+          context.getAdaptiveBorderRadius(mobile: 14, tablet: 16, desktop: 18),
+        ),
         border: Border.all(color: Theme.of(context).dividerColor),
       ),
       child: Row(
@@ -633,40 +823,21 @@ class _GroupDetailsPageState extends ConsumerState<GroupDetailsPage>
           SizedBox(
             width: context.getAdaptiveSpacing(mobile: 4, tablet: 6, desktop: 8),
           ),
-          Text(label, style: TextStyle(fontSize: 12 * context.fontScale)),
+          Text(label, style: TextStyle(fontSize: 11 * context.fontScale)),
         ],
       ),
     );
   }
 
-  Widget _buildInfoRow(String label, String value, BuildContext context) {
-    return Row(
-      children: [
-        SizedBox(
-          width: 120,
-          child: Text(
-            label,
-            style: const TextStyle(fontWeight: FontWeight.w500),
-          ),
-        ),
-        Expanded(
-          child: Text(
-            value,
-            style: TextStyle(color: AppColors.textSecondaryThemed(context)),
-          ),
-        ),
-      ],
-    );
-  }
-
   String _roleToString(GroupMemberRole role) {
+    final l10n = AppLocalizations.of(context);
     switch (role) {
       case GroupMemberRole.owner:
-        return 'Owner';
+        return l10n.roleOwner;
       case GroupMemberRole.admin:
-        return 'Admin';
+        return l10n.roleAdmin;
       case GroupMemberRole.member:
-        return 'Member';
+        return l10n.roleMember;
     }
   }
 

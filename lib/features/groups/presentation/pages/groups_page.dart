@@ -5,7 +5,7 @@ import '../../../../core/navigation/navigation_state.dart';
 import '../../../../core/presentation/utils/responsive_breakpoints.dart';
 import '../../../../core/presentation/themes/app_colors.dart';
 import '../../providers.dart';
-import '../widgets/group_card.dart';
+import '../widgets/unified_group_card.dart';
 import '../../../../core/presentation/mixins/navigation_cleanup_mixin.dart';
 import '../utils/groups_error_translation_helper.dart';
 
@@ -39,17 +39,6 @@ class _GroupsPageState extends ConsumerState<GroupsPage>
         );
   }
 
-  void _handleManageGroup(String groupId) {
-    // MODERN ARCHITECTURE: Use navigation state for group schedule management
-    ref
-        .read(navigationStateProvider.notifier)
-        .navigateTo(
-          route: '/groups/$groupId/manage',
-          trigger: NavigationTrigger.userNavigation,
-          context: {'groupId': groupId, 'action': 'manage_schedule'},
-        );
-  }
-
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
@@ -64,52 +53,6 @@ class _GroupsPageState extends ConsumerState<GroupsPage>
         ),
         backgroundColor: theme.colorScheme.surface,
         elevation: 0,
-        actions: [
-          // Join Group Button
-          IconButton(
-            key: const Key('join_group_button'),
-            icon: Icon(
-              Icons.person_add,
-              size: context.getAdaptiveIconSize(
-                mobile: 24,
-                tablet: 26,
-                desktop: 28,
-              ),
-            ),
-            onPressed: () {
-              ref.read(groupsComposedProvider.notifier).clearJoinError();
-              ref
-                  .read(navigationStateProvider.notifier)
-                  .navigateTo(
-                    route: '/group-invitation',
-                    trigger: NavigationTrigger.userNavigation,
-                  );
-            },
-            tooltip: l10n.joinGroup,
-          ),
-          // Create Group Button
-          IconButton(
-            key: const Key('create_group_button'),
-            icon: Icon(
-              Icons.add,
-              size: context.getAdaptiveIconSize(
-                mobile: 24,
-                tablet: 26,
-                desktop: 28,
-              ),
-            ),
-            onPressed: () {
-              ref.read(groupsComposedProvider.notifier).clearCreateError();
-              ref
-                  .read(navigationStateProvider.notifier)
-                  .navigateTo(
-                    route: '/groups/create',
-                    trigger: NavigationTrigger.userNavigation,
-                  );
-            },
-            tooltip: l10n.createGroup,
-          ),
-        ],
       ),
       body: // Build UI based on GroupsState
       groupsState.isLoading && groupsState.groups.isEmpty
@@ -122,6 +65,7 @@ class _GroupsPageState extends ConsumerState<GroupsPage>
               ),
             )
           : _buildGroupsList(groupsState.groups),
+      floatingActionButton: _buildFloatingActionButton(context, l10n),
     );
   }
 
@@ -184,8 +128,11 @@ class _GroupsPageState extends ConsumerState<GroupsPage>
                               ?.copyWith(
                                 color: AppColors.textSecondaryThemed(context),
                                 fontWeight: FontWeight.w600,
-                                fontSize:
-                                    (isTablet ? 28 : 24) * context.fontScale,
+                                fontSize: context.getAdaptiveFontSize(
+                                  mobile: 24,
+                                  tablet: 28,
+                                  desktop: 32,
+                                ),
                               ),
                       textAlign: TextAlign.center,
                     ),
@@ -205,8 +152,11 @@ class _GroupsPageState extends ConsumerState<GroupsPage>
                                   : Theme.of(context).textTheme.bodyMedium)
                               ?.copyWith(
                                 color: AppColors.textSecondaryThemed(context),
-                                fontSize:
-                                    (isTablet ? 18 : 16) * context.fontScale,
+                                fontSize: context.getAdaptiveFontSize(
+                                  mobile: 16,
+                                  tablet: 18,
+                                  desktop: 20,
+                                ),
                               ),
                       maxLines: 4,
                       overflow: TextOverflow.ellipsis,
@@ -253,9 +203,11 @@ class _GroupsPageState extends ConsumerState<GroupsPage>
                                 label: Text(
                                   l10n.joinGroup,
                                   style: TextStyle(
-                                    fontSize:
-                                        (isTablet ? 18 : 16) *
-                                        context.fontScale,
+                                    fontSize: context.getAdaptiveFontSize(
+                                      mobile: 16,
+                                      tablet: 18,
+                                      desktop: 20,
+                                    ),
                                     fontWeight: FontWeight.w600,
                                   ),
                                 ),
@@ -309,9 +261,11 @@ class _GroupsPageState extends ConsumerState<GroupsPage>
                                 label: Text(
                                   l10n.createGroup,
                                   style: TextStyle(
-                                    fontSize:
-                                        (isTablet ? 18 : 16) *
-                                        context.fontScale,
+                                    fontSize: context.getAdaptiveFontSize(
+                                      mobile: 16,
+                                      tablet: 18,
+                                      desktop: 20,
+                                    ),
                                     fontWeight: FontWeight.w600,
                                   ),
                                 ),
@@ -345,7 +299,14 @@ class _GroupsPageState extends ConsumerState<GroupsPage>
                                       trigger: NavigationTrigger.userNavigation,
                                     );
                               },
-                              icon: const Icon(Icons.person_add),
+                              icon: Icon(
+                                Icons.person_add,
+                                size: context.getAdaptiveIconSize(
+                                  mobile: 20,
+                                  tablet: 22,
+                                  desktop: 24,
+                                ),
+                              ),
                               label: Text(l10n.joinGroup),
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: Theme.of(
@@ -373,7 +334,14 @@ class _GroupsPageState extends ConsumerState<GroupsPage>
                                       trigger: NavigationTrigger.userNavigation,
                                     );
                               },
-                              icon: const Icon(Icons.add),
+                              icon: Icon(
+                                Icons.add,
+                                size: context.getAdaptiveIconSize(
+                                  mobile: 20,
+                                  tablet: 22,
+                                  desktop: 24,
+                                ),
+                              ),
                               label: Text(l10n.createGroup),
                             ),
                           ),
@@ -390,17 +358,7 @@ class _GroupsPageState extends ConsumerState<GroupsPage>
   }
 
   Widget _buildGroupsGrid(List<dynamic> groups) {
-    // Responsive grid columns following established patterns
-    final crossAxisCount = context.getGridColumns(
-      mobile: 1,
-      tablet: 2,
-      desktop: 3,
-      wide: 4,
-    );
-
-    final childAspectRatio = context.isDesktop
-        ? 1.4
-        : (context.isTablet ? 1.2 : 1.0);
+    // Responsive grid using max cross axis extent for better adaptation
 
     return Padding(
       padding: context.getAdaptivePadding(
@@ -418,8 +376,16 @@ class _GroupsPageState extends ConsumerState<GroupsPage>
             child: GridView.builder(
               key: const Key('groupsList_grid'),
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: crossAxisCount,
-                childAspectRatio: childAspectRatio,
+                crossAxisCount: context.getGridColumns(
+                  mobile: 2,
+                  tablet: 3,
+                  desktop: 4,
+                ),
+                childAspectRatio: context.getAdaptiveAspectRatio(
+                  mobile: 1.3,
+                  tablet: 1.2,
+                  desktop: 1.1,
+                ), // More reasonable ratio for cards
                 crossAxisSpacing: context.getAdaptiveSpacing(
                   mobile: 12,
                   tablet: 16,
@@ -434,11 +400,10 @@ class _GroupsPageState extends ConsumerState<GroupsPage>
               itemCount: groups.length,
               itemBuilder: (context, index) {
                 final group = groups[index];
-                return GroupCard(
+                return UnifiedGroupCard(
                   key: Key('groupCard_${group.id}'),
                   group: group,
-                  onSelect: () => _handleSelectGroup(group.id),
-                  onManage: () => _handleManageGroup(group.id),
+                  onTap: () => _handleSelectGroup(group.id),
                 );
               },
             ),
@@ -497,8 +462,11 @@ class _GroupsPageState extends ConsumerState<GroupsPage>
                                   : Theme.of(context).textTheme.headlineSmall)
                               ?.copyWith(
                                 color: AppColors.errorThemed(context),
-                                fontSize:
-                                    (isTablet ? 28 : 24) * context.fontScale,
+                                fontSize: context.getAdaptiveFontSize(
+                                  mobile: 24,
+                                  tablet: 28,
+                                  desktop: 32,
+                                ),
                                 fontWeight: FontWeight.w600,
                               ),
                       textAlign: TextAlign.center,
@@ -519,8 +487,11 @@ class _GroupsPageState extends ConsumerState<GroupsPage>
                                   : Theme.of(context).textTheme.bodyMedium)
                               ?.copyWith(
                                 color: AppColors.textSecondaryThemed(context),
-                                fontSize:
-                                    (isTablet ? 18 : 16) * context.fontScale,
+                                fontSize: context.getAdaptiveFontSize(
+                                  mobile: 16,
+                                  tablet: 18,
+                                  desktop: 20,
+                                ),
                               ),
                       maxLines: 4,
                       overflow: TextOverflow.ellipsis,
@@ -558,7 +529,11 @@ class _GroupsPageState extends ConsumerState<GroupsPage>
                         label: Text(
                           l10n.tryAgain,
                           style: TextStyle(
-                            fontSize: (isTablet ? 18 : 16) * context.fontScale,
+                            fontSize: context.getAdaptiveFontSize(
+                              mobile: 16,
+                              tablet: 18,
+                              desktop: 20,
+                            ),
                             fontWeight: FontWeight.w600,
                           ),
                         ),
@@ -578,6 +553,162 @@ class _GroupsPageState extends ConsumerState<GroupsPage>
           );
         },
       ),
+    );
+  }
+
+  Widget _buildFloatingActionButton(
+    BuildContext context,
+    AppLocalizations l10n,
+  ) {
+    return FloatingActionButton(
+      key: const Key('groups_fab'),
+      onPressed: () => _showGroupActionBottomSheet(context, l10n),
+      tooltip: l10n.groupActions,
+      child: const Icon(Icons.add),
+    );
+  }
+
+  void _showGroupActionBottomSheet(
+    BuildContext context,
+    AppLocalizations l10n,
+  ) {
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext context) {
+        return SafeArea(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              // Header
+              Container(
+                width: double.infinity,
+                padding: context.getAdaptivePadding(
+                  mobileAll: 16,
+                  tabletAll: 20,
+                ),
+                decoration: BoxDecoration(
+                  color: Theme.of(context).colorScheme.surface,
+                  borderRadius: const BorderRadius.only(
+                    topLeft: Radius.circular(16),
+                    topRight: Radius.circular(16),
+                  ),
+                ),
+                child: Column(
+                  children: [
+                    // Handle bar
+                    Container(
+                      width: context.getAdaptiveSpacing(
+                        mobile: 32,
+                        tablet: 36,
+                        desktop: 40,
+                      ),
+                      height: context.getAdaptiveSpacing(
+                        mobile: 3,
+                        tablet: 3.5,
+                        desktop: 4,
+                      ),
+                      margin: EdgeInsets.only(
+                        bottom: context.getAdaptiveSpacing(
+                          mobile: 12,
+                          tablet: 14,
+                          desktop: 16,
+                        ),
+                      ),
+                      decoration: BoxDecoration(
+                        color: Theme.of(context).colorScheme.onSurfaceVariant,
+                        borderRadius: BorderRadius.circular(
+                          context.getAdaptiveBorderRadius(
+                            mobile: 1.5,
+                            tablet: 1.75,
+                            desktop: 2,
+                          ),
+                        ),
+                      ),
+                    ),
+                    // Title
+                    Text(
+                      l10n.groupActions,
+                      style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    SizedBox(
+                      height: context.getAdaptiveSpacing(
+                        mobile: 12,
+                        tablet: 14,
+                        desktop: 16,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              // Actions
+              Padding(
+                padding: context.getAdaptivePadding(
+                  mobileHorizontal: 16,
+                  mobileVertical: 8,
+                  tabletHorizontal: 20,
+                  tabletVertical: 12,
+                ),
+                child: Column(
+                  children: [
+                    // Create Group Option
+                    ListTile(
+                      key: const Key('create_group_button'),
+                      leading: Icon(
+                        Icons.person_add,
+                        color: Theme.of(context).colorScheme.primary,
+                      ),
+                      title: Text(l10n.createGroup),
+                      subtitle: Text(l10n.createTransportGroupDescription),
+                      onTap: () {
+                        Navigator.of(context).pop();
+                        ref
+                            .read(groupsComposedProvider.notifier)
+                            .clearCreateError();
+                        ref
+                            .read(navigationStateProvider.notifier)
+                            .navigateTo(
+                              route: '/groups/create',
+                              trigger: NavigationTrigger.userNavigation,
+                            );
+                      },
+                    ),
+                    // Join Group Option
+                    ListTile(
+                      key: const Key('join_group_button'),
+                      leading: Icon(
+                        Icons.group_add,
+                        color: Theme.of(context).colorScheme.primary,
+                      ),
+                      title: Text(l10n.joinGroup),
+                      subtitle: Text(l10n.joinExistingGroupDescription),
+                      onTap: () {
+                        Navigator.of(context).pop();
+                        ref
+                            .read(groupsComposedProvider.notifier)
+                            .clearJoinError();
+                        ref
+                            .read(navigationStateProvider.notifier)
+                            .navigateTo(
+                              route: '/group-invitation',
+                              trigger: NavigationTrigger.userNavigation,
+                            );
+                      },
+                    ),
+                    SizedBox(
+                      height: context.getAdaptiveSpacing(
+                        mobile: 16,
+                        tablet: 20,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        );
+      },
     );
   }
 

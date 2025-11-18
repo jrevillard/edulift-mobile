@@ -3,8 +3,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:timezone/timezone.dart' as tz;
+import '../../../../generated/l10n/app_localizations.dart';
 import '../../../services/providers/auth_provider.dart';
 import '../../../services/timezone_service.dart';
+import '../../utils/responsive_breakpoints.dart';
 
 /// Timezone data model for dropdown
 class TimezoneData {
@@ -443,7 +445,7 @@ class _TimezoneSelectorState extends ConsumerState<TimezoneSelector> {
     }
   }
 
-  String _getLocalTime(String timezone) {
+  String _getLocalTime(String timezone, AppLocalizations l10n) {
     try {
       final location = tz.getLocation(timezone);
       final now = tz.TZDateTime.now(location);
@@ -456,19 +458,19 @@ class _TimezoneSelectorState extends ConsumerState<TimezoneSelector> {
           : 'UTC$offsetHours${offsetMinutes > 0 ? ':${offsetMinutes.toString().padLeft(2, '0')}' : ''}';
       return '${formatter.format(now)} ($offsetString)';
     } catch (e) {
-      return 'Unknown';
+      return l10n.unknownTimezone;
     }
   }
 
-  Future<void> _updateTimezone(String timezone) async {
+  Future<void> _updateTimezone(String timezone, AppLocalizations l10n) async {
     if (_isUpdating) return;
 
     // Validate timezone first
     if (!_isValidTimezone(timezone)) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Invalid timezone format')),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text(l10n.invalidTimezoneFormat)));
       }
       return;
     }
@@ -492,7 +494,7 @@ class _TimezoneSelectorState extends ConsumerState<TimezoneSelector> {
 
         messenger.showSnackBar(
           SnackBar(
-            content: const Text('Timezone updated successfully'),
+            content: Text(l10n.timezoneUpdatedSuccessfully),
             backgroundColor: Theme.of(context).colorScheme.primary,
             behavior: SnackBarBehavior.floating,
             duration: const Duration(seconds: 2),
@@ -501,7 +503,7 @@ class _TimezoneSelectorState extends ConsumerState<TimezoneSelector> {
       } else {
         messenger.showSnackBar(
           SnackBar(
-            content: const Text('Failed to update timezone. Please try again.'),
+            content: Text(l10n.failedToUpdateTimezone),
             backgroundColor: Theme.of(context).colorScheme.error,
             behavior: SnackBarBehavior.floating,
           ),
@@ -511,7 +513,7 @@ class _TimezoneSelectorState extends ConsumerState<TimezoneSelector> {
       if (mounted) {
         messenger.showSnackBar(
           SnackBar(
-            content: const Text('Failed to update timezone. Please try again.'),
+            content: Text(l10n.failedToUpdateTimezone),
             backgroundColor: Theme.of(context).colorScheme.error,
             behavior: SnackBarBehavior.floating,
           ),
@@ -526,7 +528,7 @@ class _TimezoneSelectorState extends ConsumerState<TimezoneSelector> {
     }
   }
 
-  Future<void> _autoDetectTimezone() async {
+  Future<void> _autoDetectTimezone(AppLocalizations l10n) async {
     if (_isUpdating) return;
 
     setState(() {
@@ -537,12 +539,12 @@ class _TimezoneSelectorState extends ConsumerState<TimezoneSelector> {
 
     try {
       final deviceTimezone = await TimezoneService.getCurrentTimezone();
-      await _updateTimezone(deviceTimezone);
+      await _updateTimezone(deviceTimezone, l10n);
     } catch (error) {
       if (mounted) {
         messenger.showSnackBar(
           SnackBar(
-            content: const Text('Failed to detect timezone. Please try again.'),
+            content: Text(l10n.failedToDetectTimezone),
             backgroundColor: Theme.of(context).colorScheme.error,
             behavior: SnackBarBehavior.floating,
           ),
@@ -554,7 +556,7 @@ class _TimezoneSelectorState extends ConsumerState<TimezoneSelector> {
     }
   }
 
-  Future<void> _toggleAutoSync(bool enabled) async {
+  Future<void> _toggleAutoSync(bool enabled, AppLocalizations l10n) async {
     if (_isUpdating) return; // Prevent concurrent calls
 
     setState(() {
@@ -577,7 +579,7 @@ class _TimezoneSelectorState extends ConsumerState<TimezoneSelector> {
       // Show feedback for preference change
       messenger.showSnackBar(
         SnackBar(
-          content: Text(enabled ? 'Auto-sync enabled' : 'Auto-sync disabled'),
+          content: Text(enabled ? l10n.autoSyncEnabled : l10n.autoSyncDisabled),
           backgroundColor: theme.colorScheme.primary,
           behavior: SnackBarBehavior.floating,
           duration: const Duration(seconds: 2),
@@ -586,14 +588,14 @@ class _TimezoneSelectorState extends ConsumerState<TimezoneSelector> {
 
       // If enabled, immediately sync timezone
       if (enabled) {
-        await _autoDetectTimezone();
+        await _autoDetectTimezone(l10n);
       }
     } catch (error) {
       if (!mounted) return;
 
       messenger.showSnackBar(
         SnackBar(
-          content: const Text('Failed to update auto-sync preference'),
+          content: Text(l10n.failedToUpdateAutoSyncPreference),
           backgroundColor: theme.colorScheme.error,
           behavior: SnackBarBehavior.floating,
         ),
@@ -611,12 +613,30 @@ class _TimezoneSelectorState extends ConsumerState<TimezoneSelector> {
   Widget build(BuildContext context) {
     final currentUser = ref.watch(currentUserProvider);
     final currentTimezone = currentUser?.timezone ?? 'UTC';
+    final l10n = AppLocalizations.of(context);
 
     return Card(
       key: const Key('profile_timezone_card'),
-      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      margin: context.getAdaptivePadding(
+        mobileHorizontal: 16,
+        tabletHorizontal: 20,
+        desktopHorizontal: 24,
+        mobileVertical: 8,
+        tabletVertical: 10,
+        desktopVertical: 12,
+      ),
+      elevation: 3.0, // Standard elevation for cards
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(
+          context.getAdaptiveBorderRadius(mobile: 12, tablet: 14, desktop: 16),
+        ),
+      ),
       child: Padding(
-        padding: const EdgeInsets.all(16),
+        padding: context.getAdaptivePadding(
+          mobileAll: 16,
+          tabletAll: 20,
+          desktopAll: 24,
+        ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -625,100 +645,317 @@ class _TimezoneSelectorState extends ConsumerState<TimezoneSelector> {
                 Icon(
                   Icons.access_time,
                   color: Theme.of(context).colorScheme.primary,
+                  size: context.getAdaptiveIconSize(
+                    mobile: 20,
+                    tablet: 24,
+                    desktop: 28,
+                  ),
                 ),
-                const SizedBox(width: 8),
+                SizedBox(
+                  width: context.getAdaptiveSpacing(
+                    mobile: 8,
+                    tablet: 10,
+                    desktop: 12,
+                  ),
+                ),
                 Text(
                   'Timezone',
-                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                    fontWeight: FontWeight.w600,
-                  ),
+                  style: context.isDesktop
+                      ? Theme.of(context).textTheme.titleLarge?.copyWith(
+                          fontWeight: FontWeight.w600,
+                        )
+                      : context.isTablet
+                      ? Theme.of(context).textTheme.titleLarge?.copyWith(
+                          fontWeight: FontWeight.w600,
+                        )
+                      : Theme.of(context).textTheme.titleMedium?.copyWith(
+                          fontWeight: FontWeight.w600,
+                        ),
                 ),
               ],
             ),
-            const SizedBox(height: 16),
+            SizedBox(
+              height: context.getAdaptiveSpacing(
+                mobile: 16,
+                tablet: 20,
+                desktop: 24,
+              ),
+            ),
             Text(
-              'Current: $currentTimezone',
+              l10n.currentTimezone(currentTimezone),
               key: const Key('current_timezone_display'),
-              style: Theme.of(context).textTheme.bodyMedium,
+              style: context.isDesktop
+                  ? Theme.of(context).textTheme.bodyLarge
+                  : context.isTablet
+                  ? Theme.of(context).textTheme.bodyLarge
+                  : Theme.of(context).textTheme.bodyMedium,
             ),
-            const SizedBox(height: 4),
+            SizedBox(
+              height: context.getAdaptiveSpacing(
+                mobile: 4,
+                tablet: 6,
+                desktop: 8,
+              ),
+            ),
             Text(
-              'Local time: ${_getLocalTime(currentTimezone)}',
-              style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                color: Theme.of(context).colorScheme.onSurfaceVariant,
+              l10n.localTime(_getLocalTime(currentTimezone, l10n)),
+              style: context.isDesktop
+                  ? Theme.of(context).textTheme.bodyMedium?.copyWith(
+                      color: Theme.of(context).colorScheme.onSurfaceVariant,
+                    )
+                  : context.isTablet
+                  ? Theme.of(context).textTheme.bodyMedium?.copyWith(
+                      color: Theme.of(context).colorScheme.onSurfaceVariant,
+                    )
+                  : Theme.of(context).textTheme.bodySmall?.copyWith(
+                      color: Theme.of(context).colorScheme.onSurfaceVariant,
+                    ),
+            ),
+            SizedBox(
+              height: context.getAdaptiveSpacing(
+                mobile: 16,
+                tablet: 20,
+                desktop: 24,
               ),
             ),
-            const SizedBox(height: 16),
             // Search field for filtering timezones
-            TextField(
-              controller: _searchController,
-              key: const Key('timezone_search_field'),
-              enabled: !_isUpdating && !_autoSyncEnabled,
-              decoration: const InputDecoration(
-                hintText: 'Search timezones...',
-                prefixIcon: Icon(Icons.search),
-                border: OutlineInputBorder(),
-                contentPadding: EdgeInsets.symmetric(
-                  horizontal: 12,
-                  vertical: 12,
-                ),
+            SizedBox(
+              height: context.getAdaptiveButtonHeight(
+                mobile: 48,
+                tablet: 52,
+                desktop: 56,
               ),
-            ),
-            const SizedBox(height: 12),
-            // Timezone dropdown with filtered results
-            DropdownButtonFormField<String>(
-              key: const Key('timezone_dropdown'),
-              initialValue:
-                  _filteredTimezones.any((tz) => tz.iana == currentTimezone)
-                  ? currentTimezone
-                  : null,
-              decoration: InputDecoration(
-                border: const OutlineInputBorder(),
-                contentPadding: const EdgeInsets.symmetric(
-                  horizontal: 12,
-                  vertical: 8,
-                ),
+              child: TextField(
+                controller: _searchController,
+                key: const Key('timezone_search_field'),
                 enabled: !_isUpdating && !_autoSyncEnabled,
-                labelText: _filteredTimezones.isEmpty
-                    ? 'No timezones found'
-                    : 'Select timezone',
-                helperText: _filteredTimezones.isEmpty
-                    ? 'Try a different search term'
-                    : '${_filteredTimezones.length} timezones available',
-              ),
-              items: _filteredTimezones.map((tz) {
-                return DropdownMenuItem(
-                  value: tz.iana,
-                  child: Text(
-                    tz.displayName,
-                    style: Theme.of(context).textTheme.bodyMedium,
+                decoration: InputDecoration(
+                  hintText: l10n.searchTimezones,
+                  prefixIcon: Icon(
+                    Icons.search,
+                    size: context.getAdaptiveIconSize(
+                      mobile: 20,
+                      tablet: 22,
+                      desktop: 24,
+                    ),
                   ),
-                );
-              }).toList(),
-              onChanged: (_isUpdating || _autoSyncEnabled)
-                  ? null
-                  : (String? value) {
-                      if (value != null && value != currentTimezone) {
-                        _updateTimezone(value);
-                      }
-                    },
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(
+                      context.getAdaptiveBorderRadius(
+                        mobile: 8,
+                        tablet: 10,
+                        desktop: 12,
+                      ),
+                    ),
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(
+                      context.getAdaptiveBorderRadius(
+                        mobile: 8,
+                        tablet: 10,
+                        desktop: 12,
+                      ),
+                    ),
+                    borderSide: BorderSide(
+                      color: Theme.of(context).colorScheme.outline,
+                    ),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(
+                      context.getAdaptiveBorderRadius(
+                        mobile: 8,
+                        tablet: 10,
+                        desktop: 12,
+                      ),
+                    ),
+                    borderSide: BorderSide(
+                      color: Theme.of(context).colorScheme.primary,
+                      width: 2,
+                    ),
+                  ),
+                  contentPadding: context.getAdaptivePadding(
+                    mobileHorizontal: 12,
+                    tabletHorizontal: 16,
+                    desktopHorizontal: 20,
+                    mobileVertical: 12,
+                    tabletVertical: 16,
+                    desktopVertical: 20,
+                  ),
+                ),
+              ),
             ),
-            const SizedBox(height: 12),
+            SizedBox(
+              height: context.getAdaptiveSpacing(
+                mobile: 12,
+                tablet: 16,
+                desktop: 20,
+              ),
+            ),
+            // Timezone dropdown with filtered results
+            SizedBox(
+              height: context.getAdaptiveButtonHeight(
+                mobile: 56,
+                tablet: 60,
+                desktop: 64,
+              ),
+              child: DropdownButtonFormField<String>(
+                key: const Key('timezone_dropdown'),
+                initialValue:
+                    _filteredTimezones.any((tz) => tz.iana == currentTimezone)
+                    ? currentTimezone
+                    : null,
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(
+                      context.getAdaptiveBorderRadius(
+                        mobile: 8,
+                        tablet: 10,
+                        desktop: 12,
+                      ),
+                    ),
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(
+                      context.getAdaptiveBorderRadius(
+                        mobile: 8,
+                        tablet: 10,
+                        desktop: 12,
+                      ),
+                    ),
+                    borderSide: BorderSide(
+                      color: Theme.of(context).colorScheme.outline,
+                    ),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(
+                      context.getAdaptiveBorderRadius(
+                        mobile: 8,
+                        tablet: 10,
+                        desktop: 12,
+                      ),
+                    ),
+                    borderSide: BorderSide(
+                      color: Theme.of(context).colorScheme.primary,
+                      width: 2,
+                    ),
+                  ),
+                  disabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(
+                      context.getAdaptiveBorderRadius(
+                        mobile: 8,
+                        tablet: 10,
+                        desktop: 12,
+                      ),
+                    ),
+                    borderSide: BorderSide(
+                      color: Theme.of(
+                        context,
+                      ).colorScheme.onSurface.withValues(alpha: 0.12),
+                    ),
+                  ),
+                  contentPadding: context.getAdaptivePadding(
+                    mobileHorizontal: 12,
+                    tabletHorizontal: 16,
+                    desktopHorizontal: 20,
+                    mobileVertical: 8,
+                    tabletVertical: 12,
+                    desktopVertical: 16,
+                  ),
+                  enabled: !_isUpdating && !_autoSyncEnabled,
+                  labelText: _filteredTimezones.isEmpty
+                      ? l10n.noTimezonesFound
+                      : l10n.selectTimezone,
+                  helperText: _filteredTimezones.isEmpty
+                      ? l10n.tryDifferentSearchTerm
+                      : l10n.timezonesAvailable(_filteredTimezones.length),
+                  hintStyle: context.isDesktop
+                      ? Theme.of(context).textTheme.bodyMedium
+                      : context.isTablet
+                      ? Theme.of(context).textTheme.bodyMedium
+                      : Theme.of(context).textTheme.bodySmall,
+                ),
+                items: _filteredTimezones.map((tz) {
+                  return DropdownMenuItem(
+                    value: tz.iana,
+                    child: Text(
+                      tz.displayName,
+                      style: context.isDesktop
+                          ? Theme.of(context).textTheme.bodyLarge
+                          : context.isTablet
+                          ? Theme.of(context).textTheme.bodyLarge
+                          : Theme.of(context).textTheme.bodyMedium,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  );
+                }).toList(),
+                onChanged: (_isUpdating || _autoSyncEnabled)
+                    ? null
+                    : (String? value) {
+                        if (value != null && value != currentTimezone) {
+                          _updateTimezone(value, l10n);
+                        }
+                      },
+                isExpanded: true, // Allow text to wrap on smaller screens
+                dropdownColor: Theme.of(context).colorScheme.surface,
+                borderRadius: BorderRadius.circular(
+                  context.getAdaptiveBorderRadius(
+                    mobile: 8,
+                    tablet: 10,
+                    desktop: 12,
+                  ),
+                ),
+              ),
+            ),
+            SizedBox(
+              height: context.getAdaptiveSpacing(
+                mobile: 12,
+                tablet: 16,
+                desktop: 20,
+              ),
+            ),
             CheckboxListTile(
               key: const Key('auto_sync_timezone_checkbox'),
-              title: const Text('Automatically sync timezone'),
-              subtitle: const Text('Keep timezone synchronized with device'),
+              title: Text(
+                l10n.automaticallySyncTimezone,
+                style: context.isDesktop
+                    ? Theme.of(context).textTheme.bodyLarge
+                    : context.isTablet
+                    ? Theme.of(context).textTheme.bodyLarge
+                    : Theme.of(context).textTheme.bodyMedium,
+              ),
+              subtitle: Text(
+                l10n.keepTimezoneSyncedWithDevice,
+                style: context.isDesktop
+                    ? Theme.of(context).textTheme.bodyMedium?.copyWith(
+                        color: Theme.of(context).colorScheme.onSurfaceVariant,
+                      )
+                    : context.isTablet
+                    ? Theme.of(context).textTheme.bodyMedium?.copyWith(
+                        color: Theme.of(context).colorScheme.onSurfaceVariant,
+                      )
+                    : Theme.of(context).textTheme.bodySmall?.copyWith(
+                        color: Theme.of(context).colorScheme.onSurfaceVariant,
+                      ),
+              ),
               value: _autoSyncEnabled,
               enabled: !_isUpdating,
               onChanged: _isUpdating
                   ? null
                   : (bool? value) {
                       if (value != null) {
-                        _toggleAutoSync(value);
+                        _toggleAutoSync(value, l10n);
                       }
                     },
-              contentPadding: EdgeInsets.zero,
+              contentPadding: context.getAdaptivePadding(
+                mobileHorizontal: 0,
+                tabletHorizontal: 4,
+                desktopHorizontal: 8,
+                mobileVertical: 4,
+                tabletVertical: 6,
+                desktopVertical: 8,
+              ),
               controlAffinity: ListTileControlAffinity.leading,
+              dense: context.isMobile,
             ),
           ],
         ),

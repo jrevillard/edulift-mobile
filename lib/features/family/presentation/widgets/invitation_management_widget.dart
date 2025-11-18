@@ -39,6 +39,10 @@ class _FamilyInvitationManagementWidgetState
     return admin;
   }
 
+  // Cache invitations to prevent unnecessary reloads
+  List<FamilyInvitation>? _cachedInvitations;
+  int? _lastFamilyStateHash;
+
   @override
   void initState() {
     super.initState();
@@ -55,41 +59,73 @@ class _FamilyInvitationManagementWidgetState
 
   @override
   Widget build(BuildContext context) {
-    final familyState = ref.watch(familyComposedProvider);
+    // Use Consumer to prevent rebuilds during resize
+    return Consumer(
+      builder: (context, ref, child) {
+        // Only watch the specific provider we need, not the entire family state
+        final familyState = ref.watch(familyComposedProvider);
 
-    return FutureBuilder<List<FamilyInvitation>>(
-      // Force rebuild when family state changes
-      future: ref.read(familyComposedProvider.notifier).getPendingInvitations(),
-      key: ValueKey(familyState.hashCode),
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return _buildLoadingState(context);
-        }
+        // Check if family state actually changed (not just resize)
+        final currentFamilyStateHash = familyState.hashCode;
+        final shouldReloadInvitations =
+            _lastFamilyStateHash != currentFamilyStateHash;
 
-        final invitations = snapshot.data ?? [];
-        final sortedInvitations = _getSortedInvitations(invitations);
+        return FutureBuilder<List<FamilyInvitation>>(
+          // Only refresh invitations when family state actually changes
+          future: shouldReloadInvitations
+              ? _loadAndCacheInvitations()
+              : Future.value(_cachedInvitations ?? []),
+          key: ValueKey(
+            widget.familyId,
+          ), // Use stable key instead of familyState.hashCode
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting &&
+                shouldReloadInvitations) {
+              return _buildLoadingState(context);
+            }
 
-        return Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            // Header
-            _buildHeader(context, sortedInvitations.length),
+            final invitations = snapshot.data ?? _cachedInvitations ?? [];
+            final sortedInvitations = _getSortedInvitations(invitations);
 
-            const SizedBox(height: 16),
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                // Header
+                _buildHeader(context, sortedInvitations.length),
 
-            // Invitations List
-            if (sortedInvitations.isEmpty)
-              _buildEmptyState(context)
-            else
-              _buildInvitationsList(context, sortedInvitations),
+                const SizedBox(height: 16),
 
-            // Extra space to avoid FAB overlap
-            const SizedBox(height: 80),
-          ],
+                // Invitations List
+                if (sortedInvitations.isEmpty)
+                  _buildEmptyState(context)
+                else
+                  _buildInvitationsList(context, sortedInvitations),
+
+                // Extra space to avoid FAB overlap
+                const SizedBox(height: 80),
+              ],
+            );
+          },
         );
       },
     );
+  }
+
+  Future<List<FamilyInvitation>> _loadAndCacheInvitations() async {
+    final familyState = ref.read(familyComposedProvider);
+    _lastFamilyStateHash = familyState.hashCode;
+
+    try {
+      final invitations = await ref
+          .read(familyComposedProvider.notifier)
+          .getPendingInvitations();
+      _cachedInvitations = invitations;
+      return invitations;
+    } catch (e) {
+      AppLogger.error('Error loading invitations: $e');
+      return _cachedInvitations ?? [];
+    }
   }
 
   Widget _buildHeader(BuildContext context, int count) {

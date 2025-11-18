@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:edulift/core/domain/entities/family.dart';
+import '../../../../core/presentation/utils/responsive_breakpoints.dart';
 import '../../../../core/services/providers/auth_provider.dart';
 import '../../../../generated/l10n/app_localizations.dart';
 
@@ -44,7 +45,11 @@ class MemberActionBottomSheet extends ConsumerWidget {
 
     return Container(
       constraints: BoxConstraints(
-        maxHeight: MediaQuery.of(context).size.height * 0.8,
+        maxHeight: context.getAdaptiveMaxHeight(
+          mobile: 0.85,
+          tablet: 0.8,
+          desktop: 0.75,
+        ),
       ),
       child: SingleChildScrollView(
         child: Column(
@@ -52,7 +57,11 @@ class MemberActionBottomSheet extends ConsumerWidget {
           children: [
             // Header
             Padding(
-              padding: const EdgeInsets.all(24),
+              padding: context.getAdaptivePadding(
+                mobileAll: 20,
+                tabletAll: 24,
+                desktopAll: 28,
+              ),
               child: Column(
                 children: [
                   Row(
@@ -65,7 +74,11 @@ class MemberActionBottomSheet extends ConsumerWidget {
                             ? Icon(
                                 Icons.admin_panel_settings,
                                 color: theme.colorScheme.onPrimaryContainer,
-                                size: 20,
+                                size: context.getAdaptiveIconSize(
+                                  mobile: 18,
+                                  tablet: 20,
+                                  desktop: 22,
+                                ),
                               )
                             : Text(
                                 member.displayNameOrLoading.isNotEmpty
@@ -75,22 +88,44 @@ class MemberActionBottomSheet extends ConsumerWidget {
                                 style: TextStyle(
                                   color: theme.colorScheme.onSecondaryContainer,
                                   fontWeight: FontWeight.bold,
+                                  fontSize: context.getAdaptiveFontSize(
+                                    mobile: 16,
+                                    tablet: 18,
+                                    desktop: 20,
+                                  ),
                                 ),
                               ),
                       ),
-                      const SizedBox(width: 16),
+                      SizedBox(
+                        width: context.getAdaptiveSpacing(
+                          mobile: 12,
+                          tablet: 16,
+                          desktop: 20,
+                        ),
+                      ),
                       Expanded(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
                               member.displayNameOrLoading,
-                              style: theme.textTheme.titleLarge,
+                              style: theme.textTheme.titleLarge?.copyWith(
+                                fontSize: context.getAdaptiveFontSize(
+                                  mobile: 20,
+                                  tablet: 22,
+                                  desktop: 24,
+                                ),
+                              ),
                             ),
                             Text(
                               member.role.value,
                               style: theme.textTheme.bodyMedium?.copyWith(
                                 color: theme.colorScheme.onSurfaceVariant,
+                                fontSize: context.getAdaptiveFontSize(
+                                  mobile: 14,
+                                  tablet: 15,
+                                  desktop: 16,
+                                ),
                               ),
                             ),
                           ],
@@ -110,18 +145,46 @@ class MemberActionBottomSheet extends ConsumerWidget {
                 key: Key(
                   'member_role_action_${member.role.value.toLowerCase()}',
                 ),
-                leading: const Icon(Icons.admin_panel_settings),
+                leading: Icon(
+                  Icons.admin_panel_settings,
+                  size: context.getAdaptiveIconSize(
+                    mobile: 20,
+                    tablet: 22,
+                    desktop: 24,
+                  ),
+                ),
                 title: Text(
                   member.role == FamilyRole.admin
                       ? localizations.removeAdminRole
                       : localizations.makeAdmin,
+                  style: TextStyle(
+                    fontSize: context.getAdaptiveFontSize(
+                      mobile: 16,
+                      tablet: 17,
+                      desktop: 18,
+                    ),
+                  ),
                 ),
                 subtitle: Text(
                   member.role == FamilyRole.admin
                       ? localizations.demoteFromAdmin
                       : localizations.promoteToAdmin,
+                  style: TextStyle(
+                    fontSize: context.getAdaptiveFontSize(
+                      mobile: 14,
+                      tablet: 15,
+                      desktop: 16,
+                    ),
+                  ),
                 ),
-                trailing: const Icon(Icons.arrow_forward_ios, size: 16),
+                trailing: Icon(
+                  Icons.arrow_forward_ios,
+                  size: context.getAdaptiveIconSize(
+                    mobile: 14,
+                    tablet: 16,
+                    desktop: 18,
+                  ),
+                ),
                 onTap: () {
                   Navigator.of(context).pop();
                   onChangeRole?.call();
@@ -132,10 +195,42 @@ class MemberActionBottomSheet extends ConsumerWidget {
             if (onViewDetails != null)
               ListTile(
                 key: const Key('member_view_details_action'),
-                leading: const Icon(Icons.person),
-                title: Text(localizations.viewMemberDetails),
-                subtitle: Text(localizations.seeMemberInformation),
-                trailing: const Icon(Icons.arrow_forward_ios, size: 16),
+                leading: Icon(
+                  Icons.person,
+                  size: context.getAdaptiveIconSize(
+                    mobile: 20,
+                    tablet: 22,
+                    desktop: 24,
+                  ),
+                ),
+                title: Text(
+                  localizations.viewMemberDetails,
+                  style: TextStyle(
+                    fontSize: context.getAdaptiveFontSize(
+                      mobile: 16,
+                      tablet: 17,
+                      desktop: 18,
+                    ),
+                  ),
+                ),
+                subtitle: Text(
+                  localizations.seeMemberInformation,
+                  style: TextStyle(
+                    fontSize: context.getAdaptiveFontSize(
+                      mobile: 14,
+                      tablet: 15,
+                      desktop: 16,
+                    ),
+                  ),
+                ),
+                trailing: Icon(
+                  Icons.arrow_forward_ios,
+                  size: context.getAdaptiveIconSize(
+                    mobile: 14,
+                    tablet: 16,
+                    desktop: 18,
+                  ),
+                ),
                 onTap: () {
                   Navigator.of(context).pop();
                   onViewDetails?.call();
@@ -151,13 +246,42 @@ class MemberActionBottomSheet extends ConsumerWidget {
                 leading: Icon(
                   Icons.exit_to_app,
                   color: theme.colorScheme.error,
+                  size: context.getAdaptiveIconSize(
+                    mobile: 20,
+                    tablet: 22,
+                    desktop: 24,
+                  ),
                 ),
                 title: Text(
                   localizations.leaveFamily,
-                  style: TextStyle(color: theme.colorScheme.error),
+                  style: TextStyle(
+                    color: theme.colorScheme.error,
+                    fontSize: context.getAdaptiveFontSize(
+                      mobile: 16,
+                      tablet: 17,
+                      desktop: 18,
+                    ),
+                  ),
                 ),
-                subtitle: Text(localizations.removeYourselfFromFamily),
-                trailing: const Icon(Icons.arrow_forward_ios, size: 16),
+                subtitle: Text(
+                  localizations.removeYourselfFromFamily,
+                  style: TextStyle(
+                    fontSize: context.getAdaptiveFontSize(
+                      mobile: 14,
+                      tablet: 15,
+                      desktop: 16,
+                    ),
+                  ),
+                ),
+                trailing: Icon(
+                  Icons.arrow_forward_ios,
+                  size: context.getAdaptiveIconSize(
+                    mobile: 14,
+                    tablet: 16,
+                    desktop: 18,
+                  ),
+                  color: theme.colorScheme.error,
+                ),
                 onTap: () {
                   Navigator.of(context).pop();
                   onLeaveFamily?.call();
@@ -169,13 +293,42 @@ class MemberActionBottomSheet extends ConsumerWidget {
                 leading: Icon(
                   Icons.person_remove,
                   color: theme.colorScheme.error,
+                  size: context.getAdaptiveIconSize(
+                    mobile: 20,
+                    tablet: 22,
+                    desktop: 24,
+                  ),
                 ),
                 title: Text(
                   localizations.removeMember,
-                  style: TextStyle(color: theme.colorScheme.error),
+                  style: TextStyle(
+                    color: theme.colorScheme.error,
+                    fontSize: context.getAdaptiveFontSize(
+                      mobile: 16,
+                      tablet: 17,
+                      desktop: 18,
+                    ),
+                  ),
                 ),
-                subtitle: Text(localizations.removeMemberFromFamily),
-                trailing: const Icon(Icons.arrow_forward_ios, size: 16),
+                subtitle: Text(
+                  localizations.removeMemberFromFamily,
+                  style: TextStyle(
+                    fontSize: context.getAdaptiveFontSize(
+                      mobile: 14,
+                      tablet: 15,
+                      desktop: 16,
+                    ),
+                  ),
+                ),
+                trailing: Icon(
+                  Icons.arrow_forward_ios,
+                  size: context.getAdaptiveIconSize(
+                    mobile: 14,
+                    tablet: 16,
+                    desktop: 18,
+                  ),
+                  color: theme.colorScheme.error,
+                ),
                 onTap: () {
                   Navigator.of(context).pop();
                   onRemoveMember?.call();
@@ -184,7 +337,13 @@ class MemberActionBottomSheet extends ConsumerWidget {
             ],
 
             // Bottom padding for safe area
-            const SizedBox(height: 16),
+            SizedBox(
+              height: context.getAdaptiveSpacing(
+                mobile: 16,
+                tablet: 20,
+                desktop: 24,
+              ),
+            ),
           ],
         ),
       ),

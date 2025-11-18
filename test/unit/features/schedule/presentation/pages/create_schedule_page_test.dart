@@ -56,13 +56,26 @@ void main() {
       );
 
       // Assert
-      // Find the specific Center that contains a Column
+      // Find the specific Center that contains a Padding which contains a Column
       final centerFinder = find.byType(Center).first;
       final centerWidget = tester.widget<Center>(centerFinder);
-      expect(centerWidget.child, isA<Column>());
+      expect(centerWidget.child, isA<Padding>());
+
+      // Find the Padding and verify it contains a Column
+      final paddingFinder = find.descendant(
+        of: centerFinder,
+        matching: find.byType(Padding),
+      );
+      final paddingWidget = tester.widget<Padding>(paddingFinder);
+      expect(paddingWidget.child, isA<Column>());
 
       final iconWidget = tester.widget<Icon>(find.byIcon(Icons.add_circle));
-      expect(iconWidget.size, equals(64.0));
+      // Icon size is now responsive - check that it's within reasonable range
+      expect(
+        iconWidget.size,
+        greaterThan(50.0),
+      ); // Should be between 56-72 depending on screen
+      expect(iconWidget.size, lessThan(80.0));
       expect(iconWidget.color, equals(Colors.grey));
 
       final columnWidget = tester.widget<Column>(find.byType(Column));

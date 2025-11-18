@@ -6,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../core/domain/entities/groups/group_family.dart';
 import '../../../../generated/l10n/app_localizations.dart';
+import '../../../../core/presentation/utils/responsive_breakpoints.dart';
 
 class FamilyActionBottomSheet extends ConsumerWidget {
   final GroupFamily family;
@@ -73,16 +74,34 @@ class FamilyActionBottomSheet extends ConsumerWidget {
           children: [
             // Header
             Padding(
-              padding: const EdgeInsets.all(24),
+              padding: context.getAdaptivePadding(
+                mobileAll: 20,
+                tabletAll: 24,
+                desktopAll: 28,
+              ),
               child: Column(
                 children: [
                   Row(
                     children: [
                       CircleAvatar(
                         backgroundColor: bgColor,
-                        child: Icon(roleIcon, color: iconColor, size: 20),
+                        child: Icon(
+                          roleIcon,
+                          color: iconColor,
+                          size: context.getAdaptiveIconSize(
+                            mobile: 18,
+                            tablet: 20,
+                            desktop: 22,
+                          ),
+                        ),
                       ),
-                      const SizedBox(width: 16),
+                      SizedBox(
+                        width: context.getAdaptiveSpacing(
+                          mobile: 12,
+                          tablet: 16,
+                          desktop: 20,
+                        ),
+                      ),
                       Expanded(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -108,7 +127,13 @@ class FamilyActionBottomSheet extends ConsumerWidget {
               ),
             ),
 
-            const Divider(height: 1),
+            Divider(
+              height: context.getAdaptiveSpacing(
+                mobile: 0.5,
+                tablet: 1,
+                desktop: 1,
+              ),
+            ),
 
             // Actions List
             if (family.isPending) ...[
@@ -116,10 +141,24 @@ class FamilyActionBottomSheet extends ConsumerWidget {
               if (onShowInvitationCode != null)
                 ListTile(
                   key: Key('show_code_action_${family.name}'),
-                  leading: const Icon(Icons.code),
+                  leading: Icon(
+                    Icons.code,
+                    size: context.getAdaptiveIconSize(
+                      mobile: 18,
+                      tablet: 20,
+                      desktop: 22,
+                    ),
+                  ),
                   title: Text(localizations.showInvitationCode),
                   subtitle: Text(localizations.displayInvitationCode),
-                  trailing: const Icon(Icons.arrow_forward_ios, size: 16),
+                  trailing: Icon(
+                    Icons.arrow_forward_ios,
+                    size: context.getAdaptiveIconSize(
+                      mobile: 14,
+                      tablet: 16,
+                      desktop: 18,
+                    ),
+                  ),
                   onTap: () {
                     Navigator.of(context).pop();
                     onShowInvitationCode?.call();
@@ -128,13 +167,28 @@ class FamilyActionBottomSheet extends ConsumerWidget {
               if (onCancelInvitation != null)
                 ListTile(
                   key: Key('cancel_invitation_action_${family.name}'),
-                  leading: Icon(Icons.cancel, color: theme.colorScheme.error),
+                  leading: Icon(
+                    Icons.cancel,
+                    color: theme.colorScheme.error,
+                    size: context.getAdaptiveIconSize(
+                      mobile: 18,
+                      tablet: 20,
+                      desktop: 22,
+                    ),
+                  ),
                   title: Text(
                     localizations.cancelInvitation,
                     style: TextStyle(color: theme.colorScheme.error),
                   ),
                   subtitle: Text(localizations.cancelInvitationDescription),
-                  trailing: const Icon(Icons.arrow_forward_ios, size: 16),
+                  trailing: Icon(
+                    Icons.arrow_forward_ios,
+                    size: context.getAdaptiveIconSize(
+                      mobile: 14,
+                      tablet: 16,
+                      desktop: 18,
+                    ),
+                  ),
                   onTap: () {
                     Navigator.of(context).pop();
                     onCancelInvitation?.call();
@@ -145,10 +199,24 @@ class FamilyActionBottomSheet extends ConsumerWidget {
               if (onPromoteToAdmin != null)
                 ListTile(
                   key: Key('promote_to_admin_action_${family.name}'),
-                  leading: const Icon(Icons.arrow_upward),
+                  leading: Icon(
+                    Icons.arrow_upward,
+                    size: context.getAdaptiveIconSize(
+                      mobile: 18,
+                      tablet: 20,
+                      desktop: 22,
+                    ),
+                  ),
                   title: Text(localizations.promoteToAdmin),
                   subtitle: Text(localizations.promoteToAdminDescription),
-                  trailing: const Icon(Icons.arrow_forward_ios, size: 16),
+                  trailing: Icon(
+                    Icons.arrow_forward_ios,
+                    size: context.getAdaptiveIconSize(
+                      mobile: 14,
+                      tablet: 16,
+                      desktop: 18,
+                    ),
+                  ),
                   onTap: () {
                     Navigator.of(context).pop();
                     onPromoteToAdmin?.call();
@@ -157,10 +225,24 @@ class FamilyActionBottomSheet extends ConsumerWidget {
               if (onDemoteToMember != null)
                 ListTile(
                   key: Key('demote_to_member_action_${family.name}'),
-                  leading: const Icon(Icons.arrow_downward),
+                  leading: Icon(
+                    Icons.arrow_downward,
+                    size: context.getAdaptiveIconSize(
+                      mobile: 18,
+                      tablet: 20,
+                      desktop: 22,
+                    ),
+                  ),
                   title: Text(localizations.demoteToMember),
                   subtitle: Text(localizations.demoteToMemberDescription),
-                  trailing: const Icon(Icons.arrow_forward_ios, size: 16),
+                  trailing: Icon(
+                    Icons.arrow_forward_ios,
+                    size: context.getAdaptiveIconSize(
+                      mobile: 14,
+                      tablet: 16,
+                      desktop: 18,
+                    ),
+                  ),
                   onTap: () {
                     Navigator.of(context).pop();
                     onDemoteToMember?.call();
@@ -168,7 +250,13 @@ class FamilyActionBottomSheet extends ConsumerWidget {
                 ),
 
               // Dangerous actions section
-              const Divider(),
+              Divider(
+                height: context.getAdaptiveSpacing(
+                  mobile: 0.5,
+                  tablet: 1,
+                  desktop: 1,
+                ),
+              ),
 
               if (onRemoveFamily != null)
                 ListTile(
@@ -176,6 +264,11 @@ class FamilyActionBottomSheet extends ConsumerWidget {
                   leading: Icon(
                     Icons.person_remove,
                     color: theme.colorScheme.error,
+                    size: context.getAdaptiveIconSize(
+                      mobile: 18,
+                      tablet: 20,
+                      desktop: 22,
+                    ),
                   ),
                   title: Text(
                     localizations.removeFromGroup,
@@ -184,7 +277,14 @@ class FamilyActionBottomSheet extends ConsumerWidget {
                   subtitle: Text(
                     localizations.removeFamilyFromGroupDescription,
                   ),
-                  trailing: const Icon(Icons.arrow_forward_ios, size: 16),
+                  trailing: Icon(
+                    Icons.arrow_forward_ios,
+                    size: context.getAdaptiveIconSize(
+                      mobile: 14,
+                      tablet: 16,
+                      desktop: 18,
+                    ),
+                  ),
                   onTap: () {
                     Navigator.of(context).pop();
                     onRemoveFamily?.call();
@@ -193,7 +293,13 @@ class FamilyActionBottomSheet extends ConsumerWidget {
             ],
 
             // Bottom padding for safe area
-            const SizedBox(height: 16),
+            SizedBox(
+              height: context.getAdaptiveSpacing(
+                mobile: 12,
+                tablet: 16,
+                desktop: 20,
+              ),
+            ),
           ],
         ),
       ),

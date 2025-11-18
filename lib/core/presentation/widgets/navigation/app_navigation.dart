@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:edulift/generated/l10n/app_localizations.dart';
 import 'package:flutter/services.dart';
 import '../accessibility/accessible_button.dart';
+import '../../utils/responsive_breakpoints.dart';
 
 /// Main navigation component with Material 3 design and accessibility
 class AppNavigation extends StatefulWidget {
@@ -49,11 +50,10 @@ class _AppNavigationState extends State<AppNavigation>
 
   @override
   Widget build(BuildContext context) {
-    final mediaQuery = MediaQuery.of(context);
     final theme = Theme.of(context);
 
     // Use navigation rail for larger screens
-    if (mediaQuery.size.width >= 640) {
+    if (ResponsiveBreakpoints.isTablet(context)) {
       return _buildNavigationRail(theme);
     }
 
@@ -86,7 +86,13 @@ class _AppNavigationState extends State<AppNavigation>
         leading: widget.isExtended
             ? null
             : Padding(
-                padding: const EdgeInsets.symmetric(vertical: 8),
+                padding: EdgeInsets.symmetric(
+                  vertical: context.getAdaptiveSpacing(
+                    mobile: 8,
+                    tablet: 10,
+                    desktop: 12,
+                  ),
+                ),
                 child: AccessibleIconButton(
                   onPressed: () => _showNavigationMenu(context),
                   icon: const Icon(Icons.menu),
@@ -99,7 +105,13 @@ class _AppNavigationState extends State<AppNavigation>
                 child: Align(
                   alignment: Alignment.bottomCenter,
                   child: Padding(
-                    padding: const EdgeInsets.only(bottom: 16),
+                    padding: EdgeInsets.only(
+                      bottom: context.getAdaptiveSpacing(
+                        mobile: 16,
+                        tablet: 20,
+                        desktop: 24,
+                      ),
+                    ),
                     child: AccessibleIconButton(
                       onPressed: () => _showUserMenu(context),
                       icon: const Icon(Icons.account_circle),
@@ -181,8 +193,16 @@ class _AppNavigationState extends State<AppNavigation>
   void _showNavigationMenu(BuildContext context) {
     showModalBottomSheet(
       context: context,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(
+          top: Radius.circular(
+            context.getAdaptiveBorderRadius(
+              mobile: 16,
+              tablet: 18,
+              desktop: 20,
+            ),
+          ),
+        ),
       ),
       builder: (context) => const NavigationMenuSheet(),
     );
@@ -191,8 +211,16 @@ class _AppNavigationState extends State<AppNavigation>
   void _showUserMenu(BuildContext context) {
     showModalBottomSheet(
       context: context,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(
+          top: Radius.circular(
+            context.getAdaptiveBorderRadius(
+              mobile: 16,
+              tablet: 18,
+              desktop: 20,
+            ),
+          ),
+        ),
       ),
       builder: (context) => const UserMenuSheet(),
     );
@@ -231,9 +259,8 @@ class _ResponsiveScaffoldState extends State<ResponsiveScaffold> {
 
   @override
   Widget build(BuildContext context) {
-    final mediaQuery = MediaQuery.of(context);
-    final isWideScreen = mediaQuery.size.width >= 1200;
-    final isMediumScreen = mediaQuery.size.width >= 640;
+    final isWideScreen = ResponsiveBreakpoints.isDesktop(context);
+    final isMediumScreen = ResponsiveBreakpoints.isTablet(context);
 
     if (isMediumScreen) {
       return Scaffold(
@@ -290,11 +317,10 @@ class AdaptiveNavigation extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final mediaQuery = MediaQuery.of(context);
     final theme = Theme.of(context);
 
     // Tablet/desktop layout with navigation rail
-    if (mediaQuery.size.width >= 640) {
+    if (ResponsiveBreakpoints.isTablet(context)) {
       return _buildNavigationRail(theme);
     }
 
@@ -320,7 +346,7 @@ class AdaptiveNavigation extends StatelessWidget {
 
   Widget _buildBottomNavigation(ThemeData theme) {
     return SizedBox(
-      height: height ?? kBottomNavigationBarHeight + 16,
+      height: height ?? 80,
       child: NavigationBar(
         selectedIndex: selectedIndex,
         onDestinationSelected: _handleDestinationSelected,
@@ -396,16 +422,37 @@ class QuickNavigation extends StatelessWidget {
         semanticLabel: action.semanticLabel,
         semanticHint: action.semanticHint,
         style: ElevatedButton.styleFrom(
-          padding: const EdgeInsets.all(16),
+          padding: EdgeInsets.all(
+            context.getAdaptiveSpacing(mobile: 16, tablet: 20, desktop: 24),
+          ),
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(12),
+            borderRadius: BorderRadius.circular(
+              context.getAdaptiveBorderRadius(
+                mobile: 12,
+                tablet: 14,
+                desktop: 16,
+              ),
+            ),
           ),
         ),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(action.icon, size: 24),
-            const SizedBox(height: 8),
+            Icon(
+              action.icon,
+              size: context.getAdaptiveIconSize(
+                mobile: 20,
+                tablet: 22,
+                desktop: 24,
+              ),
+            ),
+            SizedBox(
+              height: context.getAdaptiveSpacing(
+                mobile: 8,
+                tablet: 10,
+                desktop: 12,
+              ),
+            ),
             Text(
               action.label,
               style: theme.textTheme.labelMedium,
@@ -470,7 +517,9 @@ class NavigationMenuSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(24),
+      padding: EdgeInsets.all(
+        context.getAdaptiveSpacing(mobile: 20, tablet: 24, desktop: 28),
+      ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -478,7 +527,13 @@ class NavigationMenuSheet extends StatelessWidget {
             'Navigation Menu',
             style: Theme.of(context).textTheme.headlineSmall,
           ),
-          const SizedBox(height: 16),
+          SizedBox(
+            height: context.getAdaptiveSpacing(
+              mobile: 16,
+              tablet: 20,
+              desktop: 24,
+            ),
+          ),
           Text(AppLocalizations.of(context).additionalNavigationOptions),
         ],
       ),
@@ -492,7 +547,9 @@ class UserMenuSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(24),
+      padding: EdgeInsets.all(
+        context.getAdaptiveSpacing(mobile: 20, tablet: 24, desktop: 28),
+      ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -500,7 +557,13 @@ class UserMenuSheet extends StatelessWidget {
             AppLocalizations.of(context).userMenu,
             style: Theme.of(context).textTheme.headlineSmall,
           ),
-          const SizedBox(height: 16),
+          SizedBox(
+            height: context.getAdaptiveSpacing(
+              mobile: 16,
+              tablet: 20,
+              desktop: 24,
+            ),
+          ),
           Text(AppLocalizations.of(context).userProfileOptions),
         ],
       ),

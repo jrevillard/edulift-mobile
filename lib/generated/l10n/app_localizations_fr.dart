@@ -129,9 +129,6 @@ class AppLocalizationsFr extends AppLocalizations {
   String get adjustmentReasonHint => 'Ex: siège enfant, équipement...';
 
   @override
-  String get admin => 'Admin';
-
-  @override
   String get adminCanManageMembers =>
       'L\'admin peut gérer les membres de la famille';
 
@@ -190,9 +187,6 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get assignedChildren => 'Enfant assigné';
-
-  @override
-  String get available => 'Disponible';
 
   @override
   String get availableOptions => 'Options disponibles';
@@ -293,6 +287,16 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get enterChildAge => 'Saisir l\'âge';
+
+  @override
+  String get childNameInvalidCharacters =>
+      'Le nom ne peut contenir que des lettres, des espaces, des tirets et des apostrophes';
+
+  @override
+  String get childNotFound => 'Enfant non trouvé';
+
+  @override
+  String get years => 'ans';
 
   @override
   String childTransportCapacity(int count) {
@@ -1872,6 +1876,10 @@ class AppLocalizationsFr extends AppLocalizations {
   String get inviteNewMember => 'Inviter un Nouveau Membre';
 
   @override
+  String get sendInvitationDescription =>
+      'Envoyez une invitation pour rejoindre votre famille. Ils recevront un email avec des instructions pour accepter l\'invitation.';
+
+  @override
   String get inviteToGroup => 'Inviter dans un groupe';
 
   @override
@@ -1929,6 +1937,9 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get language => 'Langue';
+
+  @override
+  String get languageAndToolsMore => 'Langue, Outils de développement & Plus';
 
   @override
   String get languageChanged => 'Langue changée avec succès';
@@ -2152,6 +2163,17 @@ class AppLocalizationsFr extends AppLocalizations {
   String get memberActions => 'Actions Membre';
 
   @override
+  String get groupActions => 'Actions du Groupe';
+
+  @override
+  String get createNewGroupDescription =>
+      'Créer un nouveau groupe de transport pour organiser les plannings familiaux';
+
+  @override
+  String get joinExistingGroupDescription =>
+      'Rejoindre un groupe existant en utilisant un code ou un lien d\'invitation';
+
+  @override
   String memberCount(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
@@ -2246,6 +2268,9 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get navigationDashboard => 'Tableau de bord';
+
+  @override
+  String get navigationDashboardShort => 'Accueil';
 
   @override
   String get navigationFamily => 'Famille';
@@ -2372,6 +2397,9 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get noRecentActivity => 'Aucune activité récente';
+
+  @override
+  String get noRecentActivityMessage => 'Votre activité apparaîtra ici';
 
   @override
   String get noSentInvitations => 'Aucune invitation envoyée';
@@ -2584,9 +2612,6 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get save => 'Enregistrer';
-
-  @override
-  String get saveChanges => 'Enregistrer les Modifications';
 
   @override
   String get saved => 'Enregistré';
@@ -3102,7 +3127,7 @@ class AppLocalizationsFr extends AppLocalizations {
   String get viewDetails => 'Voir les détails';
 
   @override
-  String get viewGroupSchedule => 'Voir l\'horaire du groupe';
+  String get viewGroupSchedule => 'Voir le planning du groupe';
 
   @override
   String get viewMemberDetails => 'Voir les détails du membre';
@@ -3410,7 +3435,7 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get defaultGroupConfigInfo =>
-      'Aucun emploi du temps configuré. Configurez les heures de départ pour chaque jour et enregistrez pour activer l\'emploi du temps.';
+      'Configurez les heures de départ pour chaque jour et enregistrez pour activer l\'emploi du temps.';
 
   @override
   String get makeAdminTitle => 'Promouvoir administrateur';
@@ -4041,6 +4066,9 @@ class AppLocalizationsFr extends AppLocalizations {
   String get unknown => 'Inconnu';
 
   @override
+  String get unnamedGroup => 'Groupe sans nom';
+
+  @override
   String get currentlyAssigned => 'Actuellement assignés';
 
   @override
@@ -4277,6 +4305,69 @@ class AppLocalizationsFr extends AppLocalizations {
   String timesShownInTimezone(String timezone) {
     return 'Horaires affichés dans votre fuseau horaire ($timezone)';
   }
+
+  @override
+  String currentTimezone(String timezone) {
+    return 'Actuel : $timezone';
+  }
+
+  @override
+  String localTime(String time) {
+    return 'Heure locale : $time';
+  }
+
+  @override
+  String get searchTimezones => 'Rechercher des fuseaux horaires...';
+
+  @override
+  String get noTimezonesFound => 'Aucun fuseau horaire trouvé';
+
+  @override
+  String get selectTimezone => 'Sélectionner le fuseau horaire';
+
+  @override
+  String get tryDifferentSearchTerm => 'Essayez un autre terme de recherche';
+
+  @override
+  String timezonesAvailable(int count) {
+    return '$count fuseaux horaires disponibles';
+  }
+
+  @override
+  String get automaticallySyncTimezone =>
+      'Synchroniser automatiquement le fuseau horaire';
+
+  @override
+  String get keepTimezoneSyncedWithDevice =>
+      'Garder le fuseau horaire synchronisé avec l\'appareil';
+
+  @override
+  String get autoSyncEnabled => 'Synchronisation auto activée';
+
+  @override
+  String get autoSyncDisabled => 'Synchronisation auto désactivée';
+
+  @override
+  String get invalidTimezoneFormat => 'Format de fuseau horaire invalide';
+
+  @override
+  String get timezoneUpdatedSuccessfully =>
+      'Fuseau horaire mis à jour avec succès';
+
+  @override
+  String get failedToUpdateTimezone =>
+      'Échec de la mise à jour du fuseau horaire. Veuillez réessayer.';
+
+  @override
+  String get failedToDetectTimezone =>
+      'Échec de la détection du fuseau horaire. Veuillez réessayer.';
+
+  @override
+  String get failedToUpdateAutoSyncPreference =>
+      'Échec de la mise à jour de la préférence de synchronisation auto';
+
+  @override
+  String get unknownTimezone => 'Inconnu';
 
   @override
   String get todayTransports => 'Transports d\'aujourd\'hui';

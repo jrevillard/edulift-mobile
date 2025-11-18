@@ -195,10 +195,6 @@ class TestProvidersSetup {
       name: name,
       createdAt: DateTime.now(),
       updatedAt: DateTime.now(),
-      members: const [],
-      children: const [],
-      vehicles: const [],
-      description: null,
     );
   }
 }

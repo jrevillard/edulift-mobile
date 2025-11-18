@@ -8,6 +8,7 @@ import 'package:edulift/features/dashboard/presentation/providers/dashboard_prov
 import 'package:edulift/features/dashboard/domain/entities/dashboard_transport_summary.dart';
 import 'package:edulift/features/dashboard/presentation/widgets/transport_horizontal_list.dart';
 import 'package:edulift/core/utils/weekday_localization.dart';
+import 'package:edulift/core/presentation/utils/responsive_breakpoints.dart';
 
 /// Seven Day Timeline Widget for dashboard transport overview
 ///
@@ -170,9 +171,8 @@ class _SevenDayTimelineWidgetState
         .where((s) => _isSameDay(s.date, selectedDate))
         .firstOrNull;
 
-    // Responsive layout parameters
-    final screenWidth = MediaQuery.of(context).size.width;
-    final isTablet = screenWidth >= 600;
+    // Responsive layout parameters using unified breakpoint system
+    final isTablet = context.isTabletOrLarger;
 
     // Badge sizing - larger on mobile, compact on tablet
     final badgeWidth = isTablet ? 56.0 : 64.0;

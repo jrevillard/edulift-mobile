@@ -21,12 +21,14 @@ import '../../domain/services/schedule_datetime_service.dart';
 // REMOVED: realtime_schedule_indicators.dart - feature simplified (no invitation lists)
 import '../../../../generated/l10n/app_localizations.dart';
 import '../../../../core/presentation/mixins/navigation_cleanup_mixin.dart';
+import '../../../groups/presentation/widgets/unified_group_card.dart';
 import '../../../../core/presentation/themes/app_colors.dart';
 import 'package:edulift/core/domain/entities/schedule.dart';
 import 'package:edulift/core/utils/date/iso_week_utils.dart';
 import 'package:edulift/core/utils/date/date_utils.dart' as app_date_utils;
 import '../../../../core/utils/app_logger.dart';
 import '../../../../core/services/providers/auth_provider.dart';
+import '../../../../core/presentation/utils/responsive_breakpoints.dart';
 
 class SchedulePage extends ConsumerStatefulWidget {
   final String? groupId;
@@ -267,13 +269,31 @@ class _SchedulePageState extends ConsumerState<SchedulePage>
   Widget _buildNoGroupsState() {
     return Center(
       child: SingleChildScrollView(
-        padding: const EdgeInsets.all(32),
+        padding: context.getAdaptivePadding(
+          mobileAll: 24,
+          tabletAll: 32,
+          desktopAll: 40,
+        ),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(Icons.groups_outlined, size: 120, color: Colors.grey[400]),
-            const SizedBox(height: 24),
+            Icon(
+              Icons.groups_outlined,
+              size: context.getAdaptiveIconSize(
+                mobile: 80,
+                tablet: 120,
+                desktop: 160,
+              ),
+              color: Colors.grey[400],
+            ),
+            SizedBox(
+              height: context.getAdaptiveSpacing(
+                mobile: 16,
+                tablet: 20,
+                desktop: 24,
+              ),
+            ),
             Text(
               AppLocalizations.of(context).noTransportGroups,
               style: Theme.of(context).textTheme.headlineSmall?.copyWith(
@@ -281,7 +301,13 @@ class _SchedulePageState extends ConsumerState<SchedulePage>
                 fontWeight: FontWeight.w600,
               ),
             ),
-            const SizedBox(height: 12),
+            SizedBox(
+              height: context.getAdaptiveSpacing(
+                mobile: 8,
+                tablet: 12,
+                desktop: 16,
+              ),
+            ),
             Text(
               AppLocalizations.of(context).needGroupForSchedules,
               textAlign: TextAlign.center,
@@ -289,7 +315,13 @@ class _SchedulePageState extends ConsumerState<SchedulePage>
                 context,
               ).textTheme.bodyMedium?.copyWith(color: Colors.grey[500]),
             ),
-            const SizedBox(height: 32),
+            SizedBox(
+              height: context.getAdaptiveSpacing(
+                mobile: 24,
+                tablet: 32,
+                desktop: 40,
+              ),
+            ),
             ElevatedButton.icon(
               onPressed: () => ref
                   .read(navigationStateProvider.notifier)
@@ -310,14 +342,14 @@ class _SchedulePageState extends ConsumerState<SchedulePage>
   Widget _buildGroupSelectionState(List<Group> groups) {
     return LayoutBuilder(
       builder: (context, constraints) {
-        final screenSize = MediaQuery.of(context).size;
-        final isTablet = screenSize.width > 768;
-
-        // Responsive grid columns
-        final crossAxisCount = isTablet ? 3 : 2;
+        // Responsive grid using max cross axis extent for better adaptation
 
         return Padding(
-          padding: const EdgeInsets.all(16),
+          padding: context.getAdaptivePadding(
+            mobileAll: 12,
+            tabletAll: 16,
+            desktopAll: 20,
+          ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
@@ -327,88 +359,66 @@ class _SchedulePageState extends ConsumerState<SchedulePage>
                   fontWeight: FontWeight.w600,
                 ),
               ),
-              const SizedBox(height: 8),
+              SizedBox(
+                height: context.getAdaptiveSpacing(mobile: 6, tablet: 8),
+              ),
               Text(
                 AppLocalizations.of(context).chooseGroupForSchedule,
                 style: Theme.of(
                   context,
                 ).textTheme.bodyMedium?.copyWith(color: Colors.grey[600]),
               ),
-              const SizedBox(height: 24),
+              SizedBox(
+                height: context.getAdaptiveSpacing(
+                  mobile: 16,
+                  tablet: 20,
+                  desktop: 24,
+                ),
+              ),
               Expanded(
-                child: GridView.builder(
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: crossAxisCount,
-                    childAspectRatio: 1.5,
-                    crossAxisSpacing: 16,
-                    mainAxisSpacing: 16,
-                  ),
-                  itemCount: groups.length,
-                  itemBuilder: (context, index) {
-                    final group = groups[index];
-                    final groupId = group.id;
-                    final groupName = group.name;
-                    final userRole = _roleToString(group.userRole) ?? 'MEMBER';
-                    final familyCount = group.familyCount;
-
-                    return Card(
-                      child: InkWell(
+                child: RefreshIndicator(
+                  key: const Key('schedule_groups_refreshIndicator'),
+                  onRefresh: () async {
+                    await ref
+                        .read(groupsComposedProvider.notifier)
+                        .loadUserGroups();
+                    // Haptic feedback
+                    await HapticFeedback.mediumImpact();
+                  },
+                  child: GridView.builder(
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: context.getGridColumns(
+                        mobile: 2,
+                        tablet: 3,
+                        desktop: 4,
+                      ),
+                      childAspectRatio: 1.2, // More reasonable ratio for cards
+                      crossAxisSpacing: context.getAdaptiveSpacing(
+                        mobile: 12,
+                        tablet: 16,
+                        desktop: 20,
+                      ),
+                      mainAxisSpacing: context.getAdaptiveSpacing(
+                        mobile: 12,
+                        tablet: 16,
+                        desktop: 20,
+                      ),
+                    ),
+                    itemCount: groups.length,
+                    itemBuilder: (context, index) {
+                      final group = groups[index];
+                      return UnifiedGroupCard(
+                        key: Key('unifiedGroupCard_${group.id}'),
+                        group: group,
                         onTap: () {
                           setState(() {
-                            _selectedGroupId = groupId;
+                            _selectedGroupId = group.id;
                           });
                           _loadScheduleData();
                         },
-                        borderRadius: BorderRadius.circular(8),
-                        child: Padding(
-                          padding: const EdgeInsets.all(16),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Row(
-                                children: [
-                                  Icon(
-                                    Icons.groups,
-                                    color: Theme.of(
-                                      context,
-                                    ).colorScheme.primary,
-                                    size: 24,
-                                  ),
-                                  const SizedBox(width: 8),
-                                  Expanded(
-                                    child: Text(
-                                      groupName,
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .titleMedium
-                                          ?.copyWith(
-                                            fontWeight: FontWeight.w600,
-                                          ),
-                                      maxLines: 1,
-                                      overflow: TextOverflow.ellipsis,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              const Spacer(),
-                              Text(
-                                AppLocalizations.of(
-                                  context,
-                                ).familyCount(familyCount),
-                                style: Theme.of(context).textTheme.bodySmall
-                                    ?.copyWith(color: Colors.grey[600]),
-                              ),
-                              Text(
-                                AppLocalizations.of(context).userRole(userRole),
-                                style: Theme.of(context).textTheme.bodySmall
-                                    ?.copyWith(color: Colors.grey[600]),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    );
-                  },
+                      );
+                    },
+                  ),
                 ),
               ),
             ],
@@ -533,26 +543,48 @@ class _SchedulePageState extends ConsumerState<SchedulePage>
 
     return Center(
       child: SingleChildScrollView(
-        padding: const EdgeInsets.all(24),
+        padding: context.getAdaptivePadding(
+          mobileAll: 16,
+          tabletAll: 20,
+          desktopAll: 24,
+        ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           mainAxisSize: MainAxisSize.min,
           children: [
-            // Icon - Reduced size for smaller screens
+            // Icon - Responsive size for all screens
             Container(
-              width: 100,
-              height: 100,
+              width: context.getAdaptiveIconSize(
+                mobile: 80,
+                tablet: 100,
+                desktop: 120,
+              ),
+              height: context.getAdaptiveIconSize(
+                mobile: 80,
+                tablet: 100,
+                desktop: 120,
+              ),
               decoration: BoxDecoration(
                 color: Theme.of(context).colorScheme.surfaceContainerHighest,
                 shape: BoxShape.circle,
               ),
               child: Icon(
                 Icons.settings,
-                size: 50,
+                size: context.getAdaptiveIconSize(
+                  mobile: 36,
+                  tablet: 50,
+                  desktop: 64,
+                ),
                 color: Theme.of(context).colorScheme.onSurfaceVariant,
               ),
             ),
-            const SizedBox(height: 20),
+            SizedBox(
+              height: context.getAdaptiveSpacing(
+                mobile: 16,
+                tablet: 20,
+                desktop: 24,
+              ),
+            ),
 
             // Title
             Text(
@@ -562,7 +594,13 @@ class _SchedulePageState extends ConsumerState<SchedulePage>
               ).textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.w600),
               textAlign: TextAlign.center,
             ),
-            const SizedBox(height: 10),
+            SizedBox(
+              height: context.getAdaptiveSpacing(
+                mobile: 8,
+                tablet: 10,
+                desktop: 12,
+              ),
+            ),
 
             // Description
             Text(
@@ -572,7 +610,13 @@ class _SchedulePageState extends ConsumerState<SchedulePage>
               ),
               textAlign: TextAlign.center,
             ),
-            const SizedBox(height: 24),
+            SizedBox(
+              height: context.getAdaptiveSpacing(
+                mobile: 20,
+                tablet: 24,
+                desktop: 28,
+              ),
+            ),
 
             // Actions
             if (isAdmin)
@@ -593,7 +637,11 @@ class _SchedulePageState extends ConsumerState<SchedulePage>
               )
             else
               Container(
-                padding: const EdgeInsets.all(14),
+                padding: context.getAdaptivePadding(
+                  mobileAll: 10,
+                  tabletAll: 14,
+                  desktopAll: 16,
+                ),
                 decoration: BoxDecoration(
                   color: Theme.of(context).colorScheme.primaryContainer,
                   borderRadius: BorderRadius.circular(8),
@@ -609,9 +657,15 @@ class _SchedulePageState extends ConsumerState<SchedulePage>
                     Icon(
                       Icons.info_outline,
                       color: Theme.of(context).colorScheme.primary,
-                      size: 18,
+                      size: context.getAdaptiveIconSize(
+                        mobile: 16,
+                        tablet: 18,
+                        desktop: 20,
+                      ),
                     ),
-                    const SizedBox(width: 8),
+                    SizedBox(
+                      width: context.getAdaptiveSpacing(mobile: 6, tablet: 8),
+                    ),
                     Flexible(
                       child: Text(
                         l10n.contactAdministratorToSetupTimeSlots,
@@ -630,7 +684,13 @@ class _SchedulePageState extends ConsumerState<SchedulePage>
                 ),
               ),
 
-            const SizedBox(height: 14),
+            SizedBox(
+              height: context.getAdaptiveSpacing(
+                mobile: 12,
+                tablet: 14,
+                desktop: 16,
+              ),
+            ),
 
             // Retry button
             OutlinedButton(
@@ -658,16 +718,21 @@ class _SchedulePageState extends ConsumerState<SchedulePage>
   /// Copied from schedule_grid.dart and adapted for _currentDisplayedWeek
   Widget _buildWeekIndicator() {
     final l10n = AppLocalizations.of(context);
-    final screenWidth = MediaQuery.of(context).size.width;
-
-    // Responsive: très petits écrans (< 360px) → layout compact
-    final isVerySmallScreen = screenWidth < 360;
+    // Responsive: très petits écrans utilisent le breakpoint mobile
+    final isVerySmallScreen = context.isMobile;
 
     // Calculate week dates for display using the current displayed week
     final weekDates = _getWeekDateRange(_currentDisplayedWeek);
 
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+      padding: context.getAdaptivePadding(
+        mobileHorizontal: 12,
+        mobileVertical: 10,
+        tabletHorizontal: 16,
+        tabletVertical: 12,
+        desktopHorizontal: 20,
+        desktopVertical: 14,
+      ),
       decoration: BoxDecoration(
         color: Theme.of(context).primaryColor.withValues(alpha: 0.1),
         border: Border(
@@ -721,10 +786,16 @@ class _SchedulePageState extends ConsumerState<SchedulePage>
                   children: [
                     Icon(
                       Icons.calendar_today,
-                      size: isVerySmallScreen ? 14 : 16,
+                      size: context.getAdaptiveIconSize(
+                        mobile: 14,
+                        tablet: 16,
+                        desktop: 18,
+                      ),
                       color: Theme.of(context).primaryColor,
                     ),
-                    const SizedBox(width: 8),
+                    SizedBox(
+                      width: context.getAdaptiveSpacing(mobile: 6, tablet: 8),
+                    ),
                     // Date range display only (no confusing labels)
                     Flexible(
                       child: Text(

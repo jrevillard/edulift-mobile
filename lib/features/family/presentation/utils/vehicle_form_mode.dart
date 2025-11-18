@@ -25,15 +25,4 @@ enum VehicleFormMode {
         return l10n.editVehicleTitle;
     }
   }
-
-  /// Get the submit button text for the form mode
-  String submitButtonText(BuildContext context) {
-    final l10n = AppLocalizations.of(context);
-    switch (this) {
-      case VehicleFormMode.add:
-        return l10n.createVehicle;
-      case VehicleFormMode.edit:
-        return l10n.saveChanges;
-    }
-  }
 }

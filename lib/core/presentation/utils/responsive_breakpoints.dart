@@ -195,9 +195,86 @@ class ResponsiveBreakpoints {
       return screenWidth;
     }
   }
+
+  /// Get adaptive border radius based on screen size
+  static double getAdaptiveBorderRadius(
+    BuildContext context, {
+    double? mobile,
+    double? tablet,
+    double? desktop,
+  }) {
+    final screenWidth = MediaQuery.of(context).size.width;
+
+    if (screenWidth >= ResponsiveBreakpoints.desktop) {
+      return desktop ?? tablet ?? mobile ?? 12.0;
+    } else if (screenWidth >= ResponsiveBreakpoints.mobile) {
+      return tablet ?? mobile ?? 10.0;
+    } else {
+      return mobile ?? 8.0;
+    }
+  }
+
+  /// Get adaptive maximum height based on screen size and percentage
+  static double getAdaptiveMaxHeight(
+    BuildContext context, {
+    double? mobile,
+    double? tablet,
+    double? desktop,
+  }) {
+    final screenHeight = MediaQuery.of(context).size.height;
+    final screenWidth = MediaQuery.of(context).size.width;
+
+    double percentage;
+    if (screenWidth >= ResponsiveBreakpoints.desktop) {
+      percentage = desktop ?? tablet ?? mobile ?? 0.8;
+    } else if (screenWidth >= ResponsiveBreakpoints.mobile) {
+      percentage = tablet ?? mobile ?? 0.8;
+    } else {
+      percentage = mobile ?? 0.8;
+    }
+
+    return screenHeight * percentage;
+  }
+
+  /// Get adaptive font size based on screen size
+  static double getAdaptiveFontSize(
+    BuildContext context, {
+    double? mobile,
+    double? tablet,
+    double? desktop,
+  }) {
+    final screenWidth = MediaQuery.of(context).size.width;
+
+    if (screenWidth >= ResponsiveBreakpoints.desktop) {
+      return desktop ?? tablet ?? mobile ?? 16.0;
+    } else if (screenWidth >= ResponsiveBreakpoints.mobile) {
+      return tablet ?? mobile ?? 16.0;
+    } else {
+      return mobile ?? 16.0;
+    }
+  }
+
+  /// Get adaptive aspect ratio based on screen size
+  static double getAdaptiveAspectRatio(
+    BuildContext context, {
+    double? mobile,
+    double? tablet,
+    double? desktop,
+  }) {
+    final screenWidth = MediaQuery.of(context).size.width;
+
+    if (screenWidth >= ResponsiveBreakpoints.desktop) {
+      return desktop ?? tablet ?? mobile ?? 1.0;
+    } else if (screenWidth >= ResponsiveBreakpoints.mobile) {
+      return tablet ?? mobile ?? 1.0;
+    } else {
+      return mobile ?? 1.0;
+    }
+  }
 }
 
 /// Extension to add responsive utilities to BuildContext
+/// Provides all getAdaptive* methods as extension methods on BuildContext
 extension ResponsiveContext on BuildContext {
   /// Check if current screen is mobile size
   bool get isMobile => ResponsiveBreakpoints.isMobile(this);
@@ -299,4 +376,52 @@ extension ResponsiveContext on BuildContext {
 
   /// Get maximum content width
   double get maxContentWidth => ResponsiveBreakpoints.getMaxContentWidth(this);
+
+  /// Get adaptive border radius
+  double getAdaptiveBorderRadius({
+    double? mobile,
+    double? tablet,
+    double? desktop,
+  }) => ResponsiveBreakpoints.getAdaptiveBorderRadius(
+    this,
+    mobile: mobile,
+    tablet: tablet,
+    desktop: desktop,
+  );
+
+  /// Get adaptive maximum height
+  double getAdaptiveMaxHeight({
+    double? mobile,
+    double? tablet,
+    double? desktop,
+  }) => ResponsiveBreakpoints.getAdaptiveMaxHeight(
+    this,
+    mobile: mobile,
+    tablet: tablet,
+    desktop: desktop,
+  );
+
+  /// Get adaptive font size
+  double getAdaptiveFontSize({
+    double? mobile,
+    double? tablet,
+    double? desktop,
+  }) => ResponsiveBreakpoints.getAdaptiveFontSize(
+    this,
+    mobile: mobile,
+    tablet: tablet,
+    desktop: desktop,
+  );
+
+  /// Get adaptive aspect ratio
+  double getAdaptiveAspectRatio({
+    double? mobile,
+    double? tablet,
+    double? desktop,
+  }) => ResponsiveBreakpoints.getAdaptiveAspectRatio(
+    this,
+    mobile: mobile,
+    tablet: tablet,
+    desktop: desktop,
+  );
 }

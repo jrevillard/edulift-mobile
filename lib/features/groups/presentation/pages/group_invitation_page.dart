@@ -248,7 +248,7 @@ class _GroupInvitationPageState extends ConsumerState<GroupInvitationPage>
   }
 
   Widget _buildManualCodeInput(ThemeData theme, {String? errorKey}) {
-    final isTablet = MediaQuery.of(context).size.width > 768;
+    final isTablet = context.isTabletOrLarger;
     final l10n = AppLocalizations.of(context);
 
     // Translate error key to localized message if provided
@@ -283,7 +283,7 @@ class _GroupInvitationPageState extends ConsumerState<GroupInvitationPage>
   }
 
   Widget _buildLoadingState(ThemeData theme) {
-    final isTablet = MediaQuery.of(context).size.width > 768;
+    final isTablet = context.isTabletOrLarger;
     return InvitationLoadingState(
       invitationType: InvitationType.group, // ✅ Type-specific message
       isTablet: isTablet,
@@ -291,14 +291,12 @@ class _GroupInvitationPageState extends ConsumerState<GroupInvitationPage>
   }
 
   Widget _buildErrorState(GroupInvitationState state, ThemeData theme) {
-    final isTablet = MediaQuery.of(context).size.width > 768;
     final l10n = AppLocalizations.of(context);
     final canGoBack = Navigator.of(context).canPop();
 
     return InvitationErrorDisplay(
       errorKey: state.error ?? 'errorInvitationCodeInvalid',
       contextTitle: l10n.groupManagement,
-      isTablet: isTablet,
       actionButtonText: canGoBack ? l10n.goBack : l10n.cancel,
       onAction: () {
         if (canGoBack) {
@@ -322,8 +320,7 @@ class _GroupInvitationPageState extends ConsumerState<GroupInvitationPage>
   ) {
     final validation = state.validation!;
     final l10n = AppLocalizations.of(context);
-    final screenWidth = MediaQuery.of(context).size.width;
-    final isTablet = screenWidth > 768;
+    final isTablet = context.isTabletOrLarger;
 
     return Column(
       mainAxisSize: MainAxisSize.min,

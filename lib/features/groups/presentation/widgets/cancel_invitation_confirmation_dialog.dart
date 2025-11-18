@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../core/domain/entities/groups/group_family.dart';
+import '../../../../core/presentation/utils/responsive_breakpoints.dart';
 import '../../../../core/utils/app_logger.dart';
 import '../../../../generated/l10n/app_localizations.dart';
 import '../pages/group_members_management_page.dart' show cancelInvitation;
@@ -38,8 +39,22 @@ class _CancelInvitationConfirmationDialogState
     return AlertDialog(
       title: Row(
         children: [
-          Icon(Icons.cancel, color: theme.colorScheme.error, size: 24),
-          const SizedBox(width: 12),
+          Icon(
+            Icons.cancel,
+            color: theme.colorScheme.error,
+            size: context.getAdaptiveIconSize(
+              mobile: 22,
+              tablet: 24,
+              desktop: 26,
+            ),
+          ),
+          SizedBox(
+            width: context.getAdaptiveSpacing(
+              mobile: 10,
+              tablet: 12,
+              desktop: 14,
+            ),
+          ),
           Expanded(
             child: Text(
               localizations.cancelInvitation,
@@ -56,10 +71,20 @@ class _CancelInvitationConfirmationDialogState
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Container(
-              padding: const EdgeInsets.all(16),
+              padding: context.getAdaptivePadding(
+                mobileAll: 12,
+                tabletAll: 16,
+                desktopAll: 20,
+              ),
               decoration: BoxDecoration(
                 color: theme.colorScheme.errorContainer.withValues(alpha: 0.3),
-                borderRadius: BorderRadius.circular(8),
+                borderRadius: BorderRadius.circular(
+                  context.getAdaptiveBorderRadius(
+                    mobile: 6,
+                    tablet: 8,
+                    desktop: 10,
+                  ),
+                ),
                 border: Border.all(
                   color: theme.colorScheme.error.withValues(alpha: 0.3),
                 ),
@@ -68,14 +93,30 @@ class _CancelInvitationConfirmationDialogState
                 children: [
                   CircleAvatar(
                     backgroundColor: theme.colorScheme.errorContainer,
-                    radius: 20,
+                    radius:
+                        context.getAdaptiveIconSize(
+                          mobile: 18,
+                          tablet: 20,
+                          desktop: 22,
+                        ) *
+                        0.9,
                     child: Icon(
                       Icons.schedule,
                       color: theme.colorScheme.onErrorContainer,
-                      size: 20,
+                      size: context.getAdaptiveIconSize(
+                        mobile: 18,
+                        tablet: 20,
+                        desktop: 22,
+                      ),
                     ),
                   ),
-                  const SizedBox(width: 12),
+                  SizedBox(
+                    width: context.getAdaptiveSpacing(
+                      mobile: 10,
+                      tablet: 12,
+                      desktop: 14,
+                    ),
+                  ),
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -86,7 +127,13 @@ class _CancelInvitationConfirmationDialogState
                             fontWeight: FontWeight.w600,
                           ),
                         ),
-                        const SizedBox(height: 2),
+                        SizedBox(
+                          height: context.getAdaptiveSpacing(
+                            mobile: 1,
+                            tablet: 2,
+                            desktop: 3,
+                          ),
+                        ),
                         Text(
                           localizations.pendingInvitation,
                           style: theme.textTheme.bodySmall?.copyWith(
@@ -94,7 +141,13 @@ class _CancelInvitationConfirmationDialogState
                           ),
                         ),
                         if (widget.family.invitedAt != null) ...[
-                          const SizedBox(height: 2),
+                          SizedBox(
+                            height: context.getAdaptiveSpacing(
+                              mobile: 1,
+                              tablet: 2,
+                              desktop: 3,
+                            ),
+                          ),
                           Text(
                             localizations.invitedOn(
                               _formatDate(widget.family.invitedAt!),
@@ -110,19 +163,41 @@ class _CancelInvitationConfirmationDialogState
                 ],
               ),
             ),
-            const SizedBox(height: 16),
+            SizedBox(
+              height: context.getAdaptiveSpacing(
+                mobile: 14,
+                tablet: 16,
+                desktop: 18,
+              ),
+            ),
             Text(
               localizations.cancelInvitationConfirmation(widget.family.name),
               style: theme.textTheme.bodyMedium?.copyWith(
                 color: theme.colorScheme.onSurfaceVariant,
               ),
             ),
-            const SizedBox(height: 12),
+            SizedBox(
+              height: context.getAdaptiveSpacing(
+                mobile: 10,
+                tablet: 12,
+                desktop: 14,
+              ),
+            ),
             Container(
-              padding: const EdgeInsets.all(12),
+              padding: context.getAdaptivePadding(
+                mobileAll: 10,
+                tabletAll: 12,
+                desktopAll: 14,
+              ),
               decoration: BoxDecoration(
                 color: theme.colorScheme.errorContainer.withValues(alpha: 0.1),
-                borderRadius: BorderRadius.circular(8),
+                borderRadius: BorderRadius.circular(
+                  context.getAdaptiveBorderRadius(
+                    mobile: 6,
+                    tablet: 8,
+                    desktop: 10,
+                  ),
+                ),
                 border: Border.all(
                   color: theme.colorScheme.error.withValues(alpha: 0.3),
                 ),
@@ -131,10 +206,20 @@ class _CancelInvitationConfirmationDialogState
                 children: [
                   Icon(
                     Icons.info_outline,
-                    size: 16,
+                    size: context.getAdaptiveIconSize(
+                      mobile: 14,
+                      tablet: 16,
+                      desktop: 18,
+                    ),
                     color: theme.colorScheme.error,
                   ),
-                  const SizedBox(width: 8),
+                  SizedBox(
+                    width: context.getAdaptiveSpacing(
+                      mobile: 6,
+                      tablet: 8,
+                      desktop: 10,
+                    ),
+                  ),
                   Expanded(
                     child: Text(
                       localizations.cancelInvitationNote,
