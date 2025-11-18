@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:edulift/core/domain/entities/groups/group.dart';
-import 'package:edulift/features/groups/presentation/widgets/group_card.dart';
+import 'package:edulift/features/groups/presentation/widgets/unified_group_card.dart';
 
 import '../../support/golden/golden_test_wrapper.dart';
 import '../../support/factories/group_data_factory.dart';
@@ -22,143 +22,131 @@ void main() {
   });
 
   group('Group Widgets - Golden Tests', () {
-    testWidgets('GroupCard - realistic group', (tester) async {
+    testWidgets('UnifiedGroupCard - realistic group', (tester) async {
       final group = GroupDataFactory.createRealisticGroup(index: 0);
 
       await GoldenTestWrapper.testWidget(
         tester: tester,
-        widget: GroupCard(group: group, onSelect: () {}, onManage: () {}),
+        widget: UnifiedGroupCard(group: group, onTap: () {}),
         testName: 'group_card_realistic',
       );
     });
 
-    testWidgets('GroupCard - owner role', (tester) async {
+    testWidgets('UnifiedGroupCard - owner role', (tester) async {
       final ownerGroup = GroupDataFactory.createRealisticGroup(
         index: 1,
       ).copyWith(userRole: GroupMemberRole.owner);
 
       await GoldenTestWrapper.testWidget(
         tester: tester,
-        widget: GroupCard(group: ownerGroup, onSelect: () {}, onManage: () {}),
+        widget: UnifiedGroupCard(group: ownerGroup, onTap: () {}),
         testName: 'group_card_owner',
       );
     });
 
-    testWidgets('GroupCard - long name edge case', (tester) async {
+    testWidgets('UnifiedGroupCard - long name edge case', (tester) async {
       final longNameGroup = GroupDataFactory.createGroupWithLongName();
 
       await GoldenTestWrapper.testWidget(
         tester: tester,
-        widget: GroupCard(
-          group: longNameGroup,
-          onSelect: () {},
-          onManage: () {},
-        ),
+        widget: UnifiedGroupCard(group: longNameGroup, onTap: () {}),
         testName: 'group_card_long_name',
       );
     });
 
-    testWidgets('GroupCard - special characters', (tester) async {
+    testWidgets('UnifiedGroupCard - special characters', (tester) async {
       final specialCharsGroup = GroupDataFactory.createGroupWithSpecialChars();
 
       await GoldenTestWrapper.testWidget(
         tester: tester,
-        widget: GroupCard(
-          group: specialCharsGroup,
-          onSelect: () {},
-          onManage: () {},
-        ),
+        widget: UnifiedGroupCard(group: specialCharsGroup, onTap: () {}),
         testName: 'group_card_special_chars',
       );
     });
 
-    testWidgets('GroupCard - at capacity', (tester) async {
+    testWidgets('UnifiedGroupCard - at capacity', (tester) async {
       final fullGroup = GroupDataFactory.createGroupAtCapacity();
 
       await GoldenTestWrapper.testWidget(
         tester: tester,
-        widget: GroupCard(group: fullGroup, onSelect: () {}, onManage: () {}),
+        widget: UnifiedGroupCard(group: fullGroup, onTap: () {}),
         testName: 'group_card_at_capacity',
       );
     });
 
-    testWidgets('GroupCard - paused status', (tester) async {
+    testWidgets('UnifiedGroupCard - paused status', (tester) async {
       final pausedGroup = GroupDataFactory.createPausedGroup();
 
       await GoldenTestWrapper.testWidget(
         tester: tester,
-        widget: GroupCard(group: pausedGroup, onSelect: () {}, onManage: () {}),
+        widget: UnifiedGroupCard(group: pausedGroup, onTap: () {}),
         testName: 'group_card_paused',
       );
     });
 
-    testWidgets('GroupCard - dark theme', (tester) async {
+    testWidgets('UnifiedGroupCard - dark theme', (tester) async {
       final group = GroupDataFactory.createRealisticGroup(index: 2);
 
       await GoldenTestWrapper.testWidget(
         tester: tester,
-        widget: GroupCard(group: group, onSelect: () {}, onManage: () {}),
+        widget: UnifiedGroupCard(group: group, onTap: () {}),
         testName: 'group_card_dark',
       );
     });
 
-    testWidgets('GroupCard - high contrast theme', (tester) async {
+    testWidgets('UnifiedGroupCard - high contrast theme', (tester) async {
       final group = GroupDataFactory.createRealisticGroup(index: 3);
 
       await GoldenTestWrapper.testWidget(
         tester: tester,
-        widget: GroupCard(group: group, onSelect: () {}, onManage: () {}),
+        widget: UnifiedGroupCard(group: group, onTap: () {}),
         testName: 'group_card_high_contrast',
       );
     });
 
-    testWidgets('GroupCard - large font accessibility', (tester) async {
+    testWidgets('UnifiedGroupCard - large font accessibility', (tester) async {
       final group = GroupDataFactory.createRealisticGroup(index: 4);
 
       await GoldenTestWrapper.testWidget(
         tester: tester,
-        widget: GroupCard(group: group, onSelect: () {}, onManage: () {}),
+        widget: UnifiedGroupCard(group: group, onTap: () {}),
         testName: 'group_card_large_font',
       );
     });
 
-    testWidgets('GroupCard - tablet device', (tester) async {
+    testWidgets('UnifiedGroupCard - tablet device', (tester) async {
       final group = GroupDataFactory.createRealisticGroup(index: 5);
 
       await GoldenTestWrapper.testWidget(
         tester: tester,
-        widget: GroupCard(group: group, onSelect: () {}, onManage: () {}),
+        widget: UnifiedGroupCard(group: group, onTap: () {}),
         testName: 'group_card_tablet',
       );
     });
   });
 
   group('Group - Multiple States', () {
-    testWidgets('GroupCard - all group statuses', (tester) async {
+    testWidgets('UnifiedGroupCard - all group statuses', (tester) async {
       await GoldenTestWrapper.testStates(
         tester: tester,
         states: {
-          'active': GroupCard(
+          'active': UnifiedGroupCard(
             group: GroupDataFactory.createRealisticGroup(
               status: GroupStatus.active,
             ),
-            onSelect: () {},
-            onManage: () {},
+            onTap: () {},
           ),
-          'paused': GroupCard(
+          'paused': UnifiedGroupCard(
             group: GroupDataFactory.createPausedGroup(),
-            onSelect: () {},
-            onManage: () {},
+            onTap: () {},
           ),
-          'archived': GroupCard(
+          'archived': UnifiedGroupCard(
             group: GroupDataFactory.createArchivedGroup(),
-            onSelect: () {},
-            onManage: () {},
+            onTap: () {},
           ),
-          'draft': GroupCard(
+          'draft': UnifiedGroupCard(
             group: GroupDataFactory.createDraftGroup(),
-            onSelect: () {},
-            onManage: () {},
+            onTap: () {},
           ),
         },
         baseTestName: 'group_card_states',
@@ -176,7 +164,7 @@ void main() {
           itemCount: groups.length,
           itemBuilder: (context, index) {
             final group = groups[index];
-            return GroupCard(group: group, onSelect: () {}, onManage: () {});
+            return UnifiedGroupCard(group: group, onTap: () {});
           },
         ),
         testName: 'group_list_volumetric',

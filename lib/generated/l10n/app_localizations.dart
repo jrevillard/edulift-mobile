@@ -320,12 +320,6 @@ abstract class AppLocalizations {
   /// **'e.g., car seat, maintenance'**
   String get adjustmentReasonHint;
 
-  /// Admin role label (short form)
-  ///
-  /// In en, this message translates to:
-  /// **'Admin'**
-  String get admin;
-
   /// Description of admin role permissions
   ///
   /// In en, this message translates to:
@@ -421,12 +415,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Assigned Child'**
   String get assignedChildren;
-
-  /// Available status
-  ///
-  /// In en, this message translates to:
-  /// **'Available'**
-  String get available;
 
   /// Section header for available options
   ///
@@ -601,6 +589,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Enter age'**
   String get enterChildAge;
+
+  /// Error message for invalid child name format
+  ///
+  /// In en, this message translates to:
+  /// **'Name can only contain letters, spaces, hyphens, and apostrophes'**
+  String get childNameInvalidCharacters;
+
+  /// Error message when child is not found
+  ///
+  /// In en, this message translates to:
+  /// **'Child not found'**
+  String get childNotFound;
+
+  /// Age unit in years
+  ///
+  /// In en, this message translates to:
+  /// **'years'**
+  String get years;
 
   /// Child transport capacity with driver exclusion note and ICU pluralization
   ///
@@ -3002,6 +3008,12 @@ abstract class AppLocalizations {
   /// **'Invite New Member'**
   String get inviteNewMember;
 
+  /// Description text explaining how family invitations work
+  ///
+  /// In en, this message translates to:
+  /// **'Send an invitation to join your family. They will receive an email with instructions to accept the invitation.'**
+  String get sendInvitationDescription;
+
   /// Menu item to invite to group
   ///
   /// In en, this message translates to:
@@ -3103,6 +3115,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Language'**
   String get language;
+
+  /// Description for settings page menu item
+  ///
+  /// In en, this message translates to:
+  /// **'Language, Developer Tools & More'**
+  String get languageAndToolsMore;
 
   /// Success message for language change
   ///
@@ -3470,6 +3488,24 @@ abstract class AppLocalizations {
   /// **'Member Actions'**
   String get memberActions;
 
+  /// Title for group actions section
+  ///
+  /// In en, this message translates to:
+  /// **'Group Actions'**
+  String get groupActions;
+
+  /// Description for creating a new group
+  ///
+  /// In en, this message translates to:
+  /// **'Create a new transport group for organizing family schedules'**
+  String get createNewGroupDescription;
+
+  /// Description for joining an existing group
+  ///
+  /// In en, this message translates to:
+  /// **'Join an existing group using an invitation code or link'**
+  String get joinExistingGroupDescription;
+
   /// Number of members in family
   ///
   /// In en, this message translates to:
@@ -3625,6 +3661,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Dashboard'**
   String get navigationDashboard;
+
+  /// Short navigation label for dashboard (mobile)
+  ///
+  /// In en, this message translates to:
+  /// **'Home'**
+  String get navigationDashboardShort;
 
   /// Navigation label for family
   ///
@@ -3829,6 +3871,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'No recent activity'**
   String get noRecentActivity;
+
+  /// Empty state subtext for no recent activity section
+  ///
+  /// In en, this message translates to:
+  /// **'Your activity will appear here'**
+  String get noRecentActivityMessage;
 
   /// Empty state title for no sent invitations
   ///
@@ -4219,12 +4267,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Save'**
   String get save;
-
-  /// Button to save changes
-  ///
-  /// In en, this message translates to:
-  /// **'Save Changes'**
-  String get saveChanges;
 
   /// Successfully saved status
   ///
@@ -5555,7 +5597,7 @@ abstract class AppLocalizations {
   /// Information banner for new group default configuration
   ///
   /// In en, this message translates to:
-  /// **'No schedule configured yet. Configure departure hours for each day and save to activate the schedule.'**
+  /// **'Configure departure hours for each day and save to activate the schedule.'**
   String get defaultGroupConfigInfo;
 
   /// Dialog title for promoting user to admin
@@ -6620,6 +6662,12 @@ abstract class AppLocalizations {
   /// **'Unknown'**
   String get unknown;
 
+  /// Fallback text for group without name
+  ///
+  /// In en, this message translates to:
+  /// **'Unnamed Group'**
+  String get unnamedGroup;
+
   /// Section header for currently assigned vehicles
   ///
   /// In en, this message translates to:
@@ -6913,6 +6961,108 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Times shown in your timezone ({timezone})'**
   String timesShownInTimezone(String timezone);
+
+  /// Current timezone display
+  ///
+  /// In en, this message translates to:
+  /// **'Current: {timezone}'**
+  String currentTimezone(String timezone);
+
+  /// Local time display with timezone offset
+  ///
+  /// In en, this message translates to:
+  /// **'Local time: {time}'**
+  String localTime(String time);
+
+  /// Search placeholder for timezone field
+  ///
+  /// In en, this message translates to:
+  /// **'Search timezones...'**
+  String get searchTimezones;
+
+  /// Message when timezone search returns no results
+  ///
+  /// In en, this message translates to:
+  /// **'No timezones found'**
+  String get noTimezonesFound;
+
+  /// Label for timezone dropdown
+  ///
+  /// In en, this message translates to:
+  /// **'Select timezone'**
+  String get selectTimezone;
+
+  /// Helper text for empty timezone search
+  ///
+  /// In en, this message translates to:
+  /// **'Try a different search term'**
+  String get tryDifferentSearchTerm;
+
+  /// Helper text showing number of available timezones
+  ///
+  /// In en, this message translates to:
+  /// **'{count} timezones available'**
+  String timezonesAvailable(int count);
+
+  /// Title for auto-sync timezone checkbox
+  ///
+  /// In en, this message translates to:
+  /// **'Automatically sync timezone'**
+  String get automaticallySyncTimezone;
+
+  /// Subtitle for auto-sync timezone checkbox
+  ///
+  /// In en, this message translates to:
+  /// **'Keep timezone synchronized with device'**
+  String get keepTimezoneSyncedWithDevice;
+
+  /// Success message when auto-sync is enabled
+  ///
+  /// In en, this message translates to:
+  /// **'Auto-sync enabled'**
+  String get autoSyncEnabled;
+
+  /// Success message when auto-sync is disabled
+  ///
+  /// In en, this message translates to:
+  /// **'Auto-sync disabled'**
+  String get autoSyncDisabled;
+
+  /// Error message for invalid timezone
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid timezone format'**
+  String get invalidTimezoneFormat;
+
+  /// Success message when timezone is updated
+  ///
+  /// In en, this message translates to:
+  /// **'Timezone updated successfully'**
+  String get timezoneUpdatedSuccessfully;
+
+  /// Error message when timezone update fails
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to update timezone. Please try again.'**
+  String get failedToUpdateTimezone;
+
+  /// Error message when timezone detection fails
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to detect timezone. Please try again.'**
+  String get failedToDetectTimezone;
+
+  /// Error message when auto-sync preference update fails
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to update auto-sync preference'**
+  String get failedToUpdateAutoSyncPreference;
+
+  /// Fallback text for unknown timezone
+  ///
+  /// In en, this message translates to:
+  /// **'Unknown'**
+  String get unknownTimezone;
 
   /// Title for today's transport card
   ///

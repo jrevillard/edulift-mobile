@@ -1,0 +1,4 @@
+# Add flag assets to Flutter configuration
+flutter:
+  assets:
+    - assets/images/flags/

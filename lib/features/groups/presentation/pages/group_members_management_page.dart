@@ -333,7 +333,7 @@ class _GroupMembersManagementPageState
                     horizontal: context.isTablet ? 24 : 16,
                     vertical:
                         context.isMobile &&
-                            MediaQuery.of(context).size.width < 375
+                            MediaQuery.of(context).size.width < 400
                         ? 3
                         : 4,
                   ),

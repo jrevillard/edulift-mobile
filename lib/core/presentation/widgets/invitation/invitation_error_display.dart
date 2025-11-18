@@ -6,6 +6,7 @@ import '../../../navigation/navigation_state.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../generated/l10n/app_localizations.dart';
 import '../accessibility/accessible_button.dart';
+import '../../utils/responsive_breakpoints.dart';
 
 /// Reusable error display widget for invitation validation failures
 ///
@@ -24,9 +25,6 @@ class InvitationErrorDisplay extends ConsumerWidget {
   /// Context title (e.g., 'Family Management' or 'Group Management')
   final String contextTitle;
 
-  /// Whether to use tablet-optimized layout
-  final bool isTablet;
-
   /// Optional custom action button text (defaults to "Back to Login")
   final String? actionButtonText;
 
@@ -37,7 +35,6 @@ class InvitationErrorDisplay extends ConsumerWidget {
     super.key,
     required this.errorKey,
     required this.contextTitle,
-    this.isTablet = false,
     this.actionButtonText,
     this.onAction,
   });
@@ -80,81 +77,174 @@ class InvitationErrorDisplay extends ConsumerWidget {
     // Get localized error message
     final errorMessage = _getLocalizedErrorDirect(l10n, errorKey);
 
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        // EduLift branding section
-        Text(
-          'EduLift',
-          style: theme.textTheme.headlineLarge?.copyWith(
-            color: theme.colorScheme.primary,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        const SizedBox(height: 8),
-        Text(
-          contextTitle,
-          style: theme.textTheme.bodyMedium?.copyWith(
-            color: theme.colorScheme.onSurfaceVariant,
-          ),
-        ),
-        SizedBox(height: isTablet ? 48 : 32),
+    // Responsive design system - Phase 3A patterns
+    final adaptivePadding = context.getAdaptivePadding(
+      mobileAll: 12.0,
+      tabletAll: 20.0,
+      desktopAll: 24.0,
+    );
 
-        Icon(
-          Icons.error_outline,
-          size: isTablet ? 64 : 48,
-          color: theme.colorScheme.error,
-        ),
-        SizedBox(height: isTablet ? 24 : 16),
-        Text(
-          l10n.invalidInvitationTitle, // ✅ Localized
-          style:
-              (isTablet
-                      ? theme.textTheme.headlineSmall
-                      : theme.textTheme.titleLarge)
-                  ?.copyWith(color: theme.colorScheme.error),
-          textAlign: TextAlign.center,
-        ),
-        SizedBox(height: isTablet ? 12 : 8),
-        Text(
-          errorMessage, // ✅ Localized via direct lookup
-          // Use error-specific key for E2E testing (allows finding by error type)
-          key: Key('invitation_error_$errorKey'),
-          style: theme.textTheme.bodyMedium?.copyWith(
-            color: theme.colorScheme.onSurfaceVariant,
-          ),
-          textAlign: TextAlign.center,
-        ),
-        SizedBox(height: isTablet ? 32 : 24),
+    final adaptiveSpacing = context.getAdaptiveSpacing(
+      mobile: 8.0,
+      tablet: 20.0,
+      desktop: 24.0,
+    );
 
-        // Action button aligned with magic link style
-        SizedBox(
-          width: double.infinity,
-          child: AccessibleButton(
-            key: const Key('back-to-login-button'),
-            onPressed:
-                onAction ??
-                () {
-                  // Default: Go back if possible, otherwise navigate to dashboard
-                  // Router will redirect to login/onboarding if needed
-                  if (canGoBack) {
-                    Navigator.of(context).pop();
-                  } else {
-                    ref
-                        .read(navigationStateProvider.notifier)
-                        .navigateTo(
-                          route: '/dashboard',
-                          trigger: NavigationTrigger.userNavigation,
-                        );
-                  }
-                },
-            child: Text(
-              actionButtonText ?? (canGoBack ? l10n.goBack : l10n.close),
-              overflow: TextOverflow.ellipsis,
+    final adaptiveSmallSpacing = context.getAdaptiveSpacing(
+      mobile: 4.0,
+      tablet: 12.0,
+      desktop: 16.0,
+    );
+
+    final adaptiveLargeSpacing = context.getAdaptiveSpacing(
+      mobile: 8.0,
+      tablet: 32.0,
+      desktop: 40.0,
+    );
+
+    final adaptiveErrorIconSize = context.getAdaptiveIconSize(
+      mobile: 48.0,
+      tablet: 64.0,
+      desktop: 80.0,
+    );
+
+    final adaptiveTitleFontSize = context.getAdaptiveFontSize(
+      mobile: 22.0,
+      tablet: 24.0,
+      desktop: 28.0,
+    );
+
+    final adaptiveBodyFontSize = context.getAdaptiveFontSize(
+      mobile: 16.0,
+      tablet: 17.0,
+      desktop: 18.0,
+    );
+
+    final adaptiveBorderRadius = context.getAdaptiveBorderRadius(
+      mobile: 12.0,
+      tablet: 16.0,
+      desktop: 20.0,
+    );
+
+    final adaptiveButtonPadding = context.getAdaptivePadding(
+      mobileHorizontal: 12.0,
+      mobileVertical: 10.0,
+      tabletHorizontal: 20.0,
+      tabletVertical: 14.0,
+      desktopHorizontal: 24.0,
+      desktopVertical: 16.0,
+    );
+
+    return Padding(
+      padding: adaptivePadding,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          // EduLift branding section
+          Text(
+            'EduLift',
+            style: theme.textTheme.headlineLarge?.copyWith(
+              color: theme.colorScheme.primary,
+              fontWeight: FontWeight.bold,
+              fontSize: context.isMobile
+                  ? theme.textTheme.headlineLarge?.fontSize
+                  : context.getAdaptiveFontSize(
+                      mobile: 24.0,
+                      tablet: 28.0,
+                      desktop: 32.0,
+                    ),
             ),
           ),
-        ),
-      ],
+          SizedBox(height: adaptiveSmallSpacing),
+          Text(
+            contextTitle,
+            style: theme.textTheme.bodyMedium?.copyWith(
+              color: theme.colorScheme.onSurfaceVariant,
+              fontSize: adaptiveBodyFontSize,
+            ),
+          ),
+          SizedBox(height: adaptiveLargeSpacing),
+
+          // Error icon with responsive sizing
+          Icon(
+            Icons.error_outline,
+            size: adaptiveErrorIconSize,
+            color: theme.colorScheme.error,
+          ),
+          SizedBox(height: adaptiveSpacing),
+
+          // Error title with responsive typography
+          Text(
+            l10n.invalidInvitationTitle,
+            style: theme.textTheme.titleLarge?.copyWith(
+              color: theme.colorScheme.error,
+              fontSize: adaptiveTitleFontSize,
+              fontWeight: FontWeight.w600,
+            ),
+            textAlign: TextAlign.center,
+          ),
+          SizedBox(height: adaptiveSmallSpacing),
+
+          // Error message with responsive text sizing
+          Text(
+            errorMessage,
+            key: Key('invitation_error_$errorKey'),
+            style: theme.textTheme.bodyMedium?.copyWith(
+              color: theme.colorScheme.onSurfaceVariant,
+              fontSize: adaptiveBodyFontSize,
+              height: context.isMobile ? 1.4 : 1.5,
+            ),
+            textAlign: TextAlign.center,
+          ),
+          SizedBox(height: adaptiveSpacing),
+
+          // Action button with responsive styling
+          SizedBox(
+            width: double.infinity,
+            child: AccessibleButton(
+              key: const Key('back-to-login-button'),
+              style: ButtonStyle(
+                padding: WidgetStateProperty.all(adaptiveButtonPadding),
+                shape: WidgetStateProperty.all(
+                  RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(adaptiveBorderRadius),
+                  ),
+                ),
+                textStyle: WidgetStateProperty.all(
+                  TextStyle(
+                    fontSize: context.getAdaptiveFontSize(
+                      mobile: 16.0,
+                      tablet: 17.0,
+                      desktop: 18.0,
+                    ),
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ),
+              onPressed:
+                  onAction ??
+                  () {
+                    // Default: Go back if possible, otherwise navigate to dashboard
+                    // Router will redirect to login/onboarding if needed
+                    if (canGoBack) {
+                      Navigator.of(context).pop();
+                    } else {
+                      ref
+                          .read(navigationStateProvider.notifier)
+                          .navigateTo(
+                            route: '/dashboard',
+                            trigger: NavigationTrigger.userNavigation,
+                          );
+                    }
+                  },
+              child: Text(
+                actionButtonText ?? (canGoBack ? l10n.goBack : l10n.close),
+                overflow: TextOverflow.ellipsis,
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

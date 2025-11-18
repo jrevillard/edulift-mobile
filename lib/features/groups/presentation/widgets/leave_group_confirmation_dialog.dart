@@ -8,6 +8,7 @@ import '../../../../core/domain/entities/groups/group.dart';
 import '../../providers.dart';
 import '../../../../core/utils/app_logger.dart';
 import '../../../../generated/l10n/app_localizations.dart';
+import '../../../../core/presentation/utils/responsive_breakpoints.dart';
 
 class LeaveGroupConfirmationDialog extends ConsumerStatefulWidget {
   final String groupId;
@@ -60,8 +61,22 @@ class _LeaveGroupConfirmationDialogState
     return AlertDialog(
       title: Row(
         children: [
-          Icon(Icons.exit_to_app, color: theme.colorScheme.error, size: 24),
-          const SizedBox(width: 12),
+          Icon(
+            Icons.exit_to_app,
+            color: theme.colorScheme.error,
+            size: context.getAdaptiveIconSize(
+              mobile: 20,
+              tablet: 22,
+              desktop: 24,
+            ),
+          ),
+          SizedBox(
+            width: context.getAdaptiveSpacing(
+              mobile: 8,
+              tablet: 10,
+              desktop: 12,
+            ),
+          ),
           Expanded(
             child: Text(
               l10n.leaveGroupTitle,
@@ -78,10 +93,20 @@ class _LeaveGroupConfirmationDialogState
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Container(
-              padding: const EdgeInsets.all(16),
+              padding: context.getAdaptivePadding(
+                mobileAll: 12,
+                tabletAll: 16,
+                desktopAll: 20,
+              ),
               decoration: BoxDecoration(
                 color: theme.colorScheme.errorContainer.withValues(alpha: 0.3),
-                borderRadius: BorderRadius.circular(8),
+                borderRadius: BorderRadius.circular(
+                  context.getAdaptiveBorderRadius(
+                    mobile: 6,
+                    tablet: 8,
+                    desktop: 10,
+                  ),
+                ),
                 border: Border.all(
                   color: theme.colorScheme.error.withValues(alpha: 0.3),
                 ),
@@ -94,9 +119,19 @@ class _LeaveGroupConfirmationDialogState
                       Icon(
                         Icons.groups,
                         color: theme.colorScheme.error,
-                        size: 20,
+                        size: context.getAdaptiveIconSize(
+                          mobile: 16,
+                          tablet: 18,
+                          desktop: 20,
+                        ),
                       ),
-                      const SizedBox(width: 8),
+                      SizedBox(
+                        width: context.getAdaptiveSpacing(
+                          mobile: 6,
+                          tablet: 8,
+                          desktop: 10,
+                        ),
+                      ),
                       Expanded(
                         child: Text(
                           widget.groupName,
@@ -108,7 +143,13 @@ class _LeaveGroupConfirmationDialogState
                       ),
                     ],
                   ),
-                  const SizedBox(height: 8),
+                  SizedBox(
+                    height: context.getAdaptiveSpacing(
+                      mobile: 6,
+                      tablet: 8,
+                      desktop: 10,
+                    ),
+                  ),
                   Text(
                     l10n.youAreLeavingAs(_roleToString(widget.userRole)),
                     style: theme.textTheme.bodySmall?.copyWith(
@@ -118,12 +159,28 @@ class _LeaveGroupConfirmationDialogState
                 ],
               ),
             ),
-            const SizedBox(height: 16),
+            SizedBox(
+              height: context.getAdaptiveSpacing(
+                mobile: 12,
+                tablet: 16,
+                desktop: 20,
+              ),
+            ),
             Container(
-              padding: const EdgeInsets.all(12),
+              padding: context.getAdaptivePadding(
+                mobileAll: 10,
+                tabletAll: 12,
+                desktopAll: 14,
+              ),
               decoration: BoxDecoration(
                 color: theme.colorScheme.errorContainer.withValues(alpha: 0.1),
-                borderRadius: BorderRadius.circular(8),
+                borderRadius: BorderRadius.circular(
+                  context.getAdaptiveBorderRadius(
+                    mobile: 6,
+                    tablet: 8,
+                    desktop: 10,
+                  ),
+                ),
                 border: Border.all(
                   color: theme.colorScheme.error.withValues(alpha: 0.3),
                 ),
@@ -136,10 +193,20 @@ class _LeaveGroupConfirmationDialogState
                     children: [
                       Icon(
                         Icons.warning_amber,
-                        size: 20,
+                        size: context.getAdaptiveIconSize(
+                          mobile: 16,
+                          tablet: 18,
+                          desktop: 20,
+                        ),
                         color: theme.colorScheme.error,
                       ),
-                      const SizedBox(width: 8),
+                      SizedBox(
+                        width: context.getAdaptiveSpacing(
+                          mobile: 6,
+                          tablet: 8,
+                          desktop: 10,
+                        ),
+                      ),
                       Expanded(
                         child: Text(
                           l10n.actionCannotBeUndone,
@@ -151,7 +218,13 @@ class _LeaveGroupConfirmationDialogState
                       ),
                     ],
                   ),
-                  const SizedBox(height: 8),
+                  SizedBox(
+                    height: context.getAdaptiveSpacing(
+                      mobile: 6,
+                      tablet: 8,
+                      desktop: 10,
+                    ),
+                  ),
                   Text(
                     l10n.byLeavingGroupYouWill,
                     style: theme.textTheme.bodySmall?.copyWith(
@@ -159,9 +232,22 @@ class _LeaveGroupConfirmationDialogState
                       fontWeight: FontWeight.w600,
                     ),
                   ),
-                  const SizedBox(height: 4),
+                  SizedBox(
+                    height: context.getAdaptiveSpacing(
+                      mobile: 3,
+                      tablet: 4,
+                      desktop: 5,
+                    ),
+                  ),
                   Padding(
-                    padding: const EdgeInsets.only(left: 16),
+                    padding: context.getAdaptivePadding(
+                      mobileHorizontal: 12,
+                      mobileVertical: 0,
+                      tabletHorizontal: 16,
+                      tabletVertical: 0,
+                      desktopHorizontal: 20,
+                      desktopVertical: 0,
+                    ),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -189,12 +275,28 @@ class _LeaveGroupConfirmationDialogState
                     ),
                   ),
                   if (widget.userRole == GroupMemberRole.owner) ...[
-                    const SizedBox(height: 8),
+                    SizedBox(
+                      height: context.getAdaptiveSpacing(
+                        mobile: 6,
+                        tablet: 8,
+                        desktop: 10,
+                      ),
+                    ),
                     Container(
-                      padding: const EdgeInsets.all(8),
+                      padding: context.getAdaptivePadding(
+                        mobileAll: 6,
+                        tabletAll: 8,
+                        desktopAll: 10,
+                      ),
                       decoration: BoxDecoration(
                         color: theme.colorScheme.error.withValues(alpha: 0.1),
-                        borderRadius: BorderRadius.circular(4),
+                        borderRadius: BorderRadius.circular(
+                          context.getAdaptiveBorderRadius(
+                            mobile: 3,
+                            tablet: 4,
+                            desktop: 5,
+                          ),
+                        ),
                       ),
                       child: Text(
                         l10n.ownerFamilyCannotLeave,
@@ -208,14 +310,26 @@ class _LeaveGroupConfirmationDialogState
                 ],
               ),
             ),
-            const SizedBox(height: 16),
+            SizedBox(
+              height: context.getAdaptiveSpacing(
+                mobile: 12,
+                tablet: 16,
+                desktop: 20,
+              ),
+            ),
             Text(
               l10n.typeNameToConfirm(widget.groupName),
               style: theme.textTheme.bodyMedium?.copyWith(
                 fontWeight: FontWeight.w600,
               ),
             ),
-            const SizedBox(height: 8),
+            SizedBox(
+              height: context.getAdaptiveSpacing(
+                mobile: 6,
+                tablet: 8,
+                desktop: 10,
+              ),
+            ),
             TextField(
               controller: _confirmationController,
               decoration: InputDecoration(
@@ -247,10 +361,18 @@ class _LeaveGroupConfirmationDialogState
             ),
           ),
           child: _isLoading
-              ? const SizedBox(
-                  width: 16,
-                  height: 16,
-                  child: CircularProgressIndicator(
+              ? SizedBox(
+                  width: context.getAdaptiveIconSize(
+                    mobile: 14,
+                    tablet: 16,
+                    desktop: 18,
+                  ),
+                  height: context.getAdaptiveIconSize(
+                    mobile: 14,
+                    tablet: 16,
+                    desktop: 18,
+                  ),
+                  child: const CircularProgressIndicator(
                     strokeWidth: 2,
                     valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
                   ),

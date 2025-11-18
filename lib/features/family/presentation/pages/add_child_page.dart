@@ -13,6 +13,7 @@ import 'package:edulift/core/navigation/navigation_state.dart' as nav;
 import 'package:edulift/core/presentation/themes/app_colors.dart';
 import '../utils/child_form_validator.dart';
 import '../utils/child_validation_localizer.dart';
+import '../../../../core/presentation/utils/responsive_breakpoints.dart';
 
 class AddChildPage extends ConsumerStatefulWidget {
   const AddChildPage({super.key});
@@ -61,19 +62,6 @@ class _AddChildPageState extends ConsumerState<AddChildPage> {
       appBar: AppBar(
         title: Text(AppLocalizations.of(context).addChild),
         centerTitle: true,
-        actions: [
-          TextButton(
-            key: const Key('addChild_save_textButton'),
-            onPressed: _isSubmitting ? null : _submitForm,
-            child: _isSubmitting
-                ? const SizedBox(
-                    width: 20,
-                    height: 20,
-                    child: CircularProgressIndicator(strokeWidth: 2),
-                  )
-                : Text(AppLocalizations.of(context).save),
-          ),
-        ],
       ),
       body: Form(
         key: _formKey,
@@ -83,7 +71,7 @@ class _AddChildPageState extends ConsumerState<AddChildPage> {
           children: [
             // Header card
             _buildHeaderCard(context, theme, isTablet, isSmallScreen),
-            SizedBox(height: isSmallScreen ? 12 : 16),
+            SizedBox(height: isSmallScreen ? 8 : 12),
 
             // Child information
             _buildChildInfoSection(context, theme, isTablet, isSmallScreen),
@@ -105,31 +93,42 @@ class _AddChildPageState extends ConsumerState<AddChildPage> {
     bool isSmallScreen,
   ) {
     return Card(
-      elevation: isTablet ? 4 : 2,
+      elevation: isTablet ? 2 : 1,
       child: Padding(
-        padding: EdgeInsets.all(isTablet ? 20.0 : 16.0),
-        child: Column(
+        padding: EdgeInsets.all(isTablet ? 16.0 : 12.0),
+        child: Row(
           children: [
             Icon(
               Icons.person_add,
-              size: isTablet ? 56 : 48,
+              size: isTablet ? 32 : 28,
               color: theme.colorScheme.primary,
             ),
-            SizedBox(height: isSmallScreen ? 8 : 12),
-            Text(
-              AppLocalizations.of(context).newChild,
-              style: theme.textTheme.headlineSmall?.copyWith(
-                fontWeight: FontWeight.w600,
-                fontSize: isTablet ? 28 : null,
+            SizedBox(width: isSmallScreen ? 8 : 12),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    AppLocalizations.of(context).newChild,
+                    style: theme.textTheme.titleMedium?.copyWith(
+                      fontWeight: FontWeight.w600,
+                      fontSize: isTablet ? 18 : null,
+                    ),
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  if (!isSmallScreen) ...[
+                    const SizedBox(height: 2),
+                    Text(
+                      AppLocalizations.of(context).childInfoDescription,
+                      style: theme.textTheme.bodySmall?.copyWith(
+                        color: theme.colorScheme.onSurfaceVariant,
+                      ),
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ],
+                ],
               ),
-            ),
-            SizedBox(height: isSmallScreen ? 6 : 8),
-            Text(
-              AppLocalizations.of(context).childInfoDescription,
-              style: theme.textTheme.bodyMedium?.copyWith(
-                color: theme.colorScheme.onSurfaceVariant,
-              ),
-              textAlign: TextAlign.center,
             ),
           ],
         ),
@@ -221,42 +220,154 @@ class _AddChildPageState extends ConsumerState<AddChildPage> {
     bool isTablet,
     bool isSmallScreen,
   ) {
-    return Column(
-      children: [
-        SizedBox(
-          width: double.infinity,
-          child: FilledButton(
-            key: const ValueKey('save_child_button'),
-            onPressed: _isSubmitting ? null : _submitForm,
-            child: _isSubmitting
-                ? Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      SizedBox(
-                        width: 20,
-                        height: 20,
-                        child: CircularProgressIndicator(
-                          strokeWidth: 2,
-                          color: Theme.of(context).colorScheme.onPrimary,
-                        ),
+    final l10n = AppLocalizations.of(context);
+    return Container(
+      padding: context.getAdaptivePadding(
+        mobileAll: 16,
+        tabletAll: 20,
+        desktopAll: 24,
+      ),
+      decoration: BoxDecoration(
+        color: Theme.of(context).colorScheme.surface,
+        boxShadow: [
+          BoxShadow(
+            color: Theme.of(context).shadowColor.withValues(alpha: 0.15),
+            blurRadius: context.isTabletOrLarger ? 6 : 4,
+            offset: Offset(0, context.isTabletOrLarger ? -2 : -1),
+          ),
+        ],
+      ),
+      child: SafeArea(
+        child: Row(
+          children: [
+            Expanded(
+              child: OutlinedButton(
+                onPressed: _isSubmitting ? null : () => context.pop(),
+                style: OutlinedButton.styleFrom(
+                  padding: context.getAdaptivePadding(
+                    mobileHorizontal: 16,
+                    mobileVertical: 12,
+                    tabletHorizontal: 20,
+                    tabletVertical: 14,
+                    desktopHorizontal: 24,
+                    desktopVertical: 16,
+                  ),
+                  minimumSize: Size(
+                    double.infinity,
+                    context.getAdaptiveButtonHeight(
+                      mobile: 44,
+                      tablet: 48,
+                      desktop: 52,
+                    ),
+                  ),
+                ),
+                child: Text(
+                  l10n.cancel,
+                  style: TextStyle(fontSize: context.isMobile ? 14 : 16),
+                ),
+              ),
+            ),
+            SizedBox(
+              width: context.getAdaptiveSpacing(
+                mobile: 12,
+                tablet: 16,
+                desktop: 20,
+              ),
+            ),
+            Expanded(
+              flex: 2,
+              child: ElevatedButton(
+                key: const ValueKey('save_child_button'),
+                onPressed: _isSubmitting ? null : _submitForm,
+                style: ElevatedButton.styleFrom(
+                  padding: context.getAdaptivePadding(
+                    mobileHorizontal: 16,
+                    mobileVertical: 12,
+                    tabletHorizontal: 20,
+                    tabletVertical: 14,
+                    desktopHorizontal: 24,
+                    desktopVertical: 16,
+                  ),
+                  minimumSize: Size(
+                    double.infinity,
+                    context.getAdaptiveButtonHeight(
+                      mobile: 44,
+                      tablet: 48,
+                      desktop: 52,
+                    ),
+                  ),
+                ),
+                child: _isSubmitting
+                    ? Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          SizedBox(
+                            width: context.getAdaptiveIconSize(
+                              mobile: 14,
+                              tablet: 16,
+                              desktop: 18,
+                            ),
+                            height: context.getAdaptiveIconSize(
+                              mobile: 14,
+                              tablet: 16,
+                              desktop: 18,
+                            ),
+                            child: const CircularProgressIndicator(
+                              strokeWidth: 2,
+                            ),
+                          ),
+                          SizedBox(
+                            width: context.getAdaptiveSpacing(
+                              mobile: 6,
+                              tablet: 8,
+                              desktop: 10,
+                            ),
+                          ),
+                          Flexible(
+                            child: Text(
+                              l10n.saving,
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(
+                                fontSize: context.isMobile ? 14 : 16,
+                              ),
+                            ),
+                          ),
+                        ],
+                      )
+                    : Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Icon(
+                            Icons.person_add,
+                            size: context.getAdaptiveIconSize(
+                              mobile: 14,
+                              tablet: 16,
+                              desktop: 18,
+                            ),
+                          ),
+                          SizedBox(
+                            width: context.getAdaptiveSpacing(
+                              mobile: 6,
+                              tablet: 8,
+                              desktop: 10,
+                            ),
+                          ),
+                          Flexible(
+                            child: Text(
+                              l10n.addChild,
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(
+                                fontSize: context.isMobile ? 14 : 16,
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
-                      const SizedBox(width: 12),
-                      Text(AppLocalizations.of(context).saving),
-                    ],
-                  )
-                : Text(AppLocalizations.of(context).addChild),
-          ),
+              ),
+            ),
+          ],
         ),
-        const SizedBox(height: 12),
-        SizedBox(
-          width: double.infinity,
-          child: OutlinedButton(
-            key: const Key('addChild_cancel_button'),
-            onPressed: _isSubmitting ? null : () => context.pop(),
-            child: Text(AppLocalizations.of(context).cancel),
-          ),
-        ),
-      ],
+      ),
     );
   }
 

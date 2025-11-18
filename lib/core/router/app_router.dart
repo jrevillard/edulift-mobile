@@ -992,7 +992,7 @@ class AppBottomNavigation extends ConsumerWidget {
           key: const Key('navigation_dashboard'),
           icon: const Icon(Icons.dashboard_outlined),
           selectedIcon: const Icon(Icons.dashboard),
-          label: AppLocalizations.of(context).navigationDashboard,
+          label: AppLocalizations.of(context).navigationDashboardShort,
         ),
         NavigationDestination(
           key: const Key('navigation_family'),

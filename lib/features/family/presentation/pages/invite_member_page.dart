@@ -12,6 +12,7 @@ import '../../../../core/presentation/themes/app_colors.dart';
 import 'package:edulift/core/domain/entities/family.dart';
 import '../../../../core/errors/exceptions.dart';
 import '../../../../core/navigation/navigation_state.dart' as nav;
+import '../../../../core/presentation/utils/responsive_breakpoints.dart';
 
 /// Dedicated page for inviting family members
 /// Provides proper UX with full-page form and error handling
@@ -81,9 +82,13 @@ class _InviteMemberPageState extends ConsumerState<InviteMemberPage> {
         ),
         actions: [
           if (_isSubmitting)
-            const Padding(
-              padding: EdgeInsets.all(16.0),
-              child: SizedBox(
+            Padding(
+              padding: context.getAdaptivePadding(
+                mobileAll: 12,
+                tabletAll: 16,
+                desktopAll: 20,
+              ),
+              child: const SizedBox(
                 width: 20,
                 height: 20,
                 child: CircularProgressIndicator(strokeWidth: 2),
@@ -156,7 +161,7 @@ class _InviteMemberPageState extends ConsumerState<InviteMemberPage> {
                 const SizedBox(width: 8),
                 Expanded(
                   child: Text(
-                    'Invite New Member',
+                    localizations.inviteNewMember,
                     style: theme.textTheme.titleMedium?.copyWith(
                       fontWeight: FontWeight.w600,
                       fontSize: isTablet ? 18 : null,
@@ -168,7 +173,7 @@ class _InviteMemberPageState extends ConsumerState<InviteMemberPage> {
             ),
             SizedBox(height: isSmallScreen ? 8 : 12),
             Text(
-              'Send an invitation to join your family. They will receive an email with instructions to accept the invitation.',
+              localizations.sendInvitationDescription,
               style: theme.textTheme.bodyMedium?.copyWith(
                 color: theme.colorScheme.onSurfaceVariant,
               ),
@@ -284,7 +289,7 @@ class _InviteMemberPageState extends ConsumerState<InviteMemberPage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Invitation Failed',
+                    AppLocalizations.of(context).failed,
                     style: TextStyle(
                       color: Theme.of(context).colorScheme.onErrorContainer,
                       fontWeight: FontWeight.w600,

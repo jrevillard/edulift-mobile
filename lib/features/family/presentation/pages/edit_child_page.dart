@@ -11,6 +11,7 @@ import '../../domain/requests/child_requests.dart';
 import 'package:edulift/core/domain/entities/family.dart';
 import 'package:edulift/generated/l10n/app_localizations.dart';
 import 'package:edulift/core/presentation/themes/app_colors.dart';
+import '../../../../core/presentation/utils/responsive_breakpoints.dart';
 
 class EditChildPage extends ConsumerStatefulWidget {
   final String childId;
@@ -47,10 +48,11 @@ class _EditChildPageState extends ConsumerState<EditChildPage> {
   }
 
   void _loadChildData() {
+    final l10n = AppLocalizations.of(context);
     final familyState = ref.read(familyComposedProvider);
     _child = familyState.children.firstWhere(
       (child) => child.id == widget.childId,
-      orElse: () => throw Exception('Child not found'),
+      orElse: () => throw Exception(l10n.childNotFound),
     );
 
     // Pre-populate form fields
@@ -75,29 +77,7 @@ class _EditChildPageState extends ConsumerState<EditChildPage> {
     }
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text(l10n.edit),
-        centerTitle: true,
-        actions: [
-          TextButton(
-            key: const Key('editChild_save_textButton'),
-            onPressed: _isSubmitting ? null : _submitForm,
-            child: _isSubmitting
-                ? const SizedBox(
-                    width: 20,
-                    height: 20,
-                    child: CircularProgressIndicator(strokeWidth: 2),
-                  )
-                : Text(
-                    l10n.saveChanges,
-                    style: TextStyle(
-                      color: theme.primaryColor,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-          ),
-        ],
-      ),
+      appBar: AppBar(title: Text(l10n.edit), centerTitle: true),
       body: Form(
         key: _formKey,
         child: Scrollbar(
@@ -108,41 +88,48 @@ class _EditChildPageState extends ConsumerState<EditChildPage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                // Header Section
+                // Header Section - aligned with AddChildPage
                 Card(
                   child: Padding(
-                    padding: const EdgeInsets.all(16),
-                    child: Column(
+                    padding: const EdgeInsets.all(12),
+                    child: Row(
                       children: [
                         Icon(
                           Icons.child_care,
-                          size: 48,
+                          size: 28,
                           color: theme.primaryColor,
                         ),
-                        const SizedBox(height: 8),
-                        Text(
-                          l10n.newChild,
-                          style: theme.textTheme.titleLarge?.copyWith(
-                            fontWeight: FontWeight.w600,
+                        const SizedBox(width: 12),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                l10n.newChild,
+                                style: theme.textTheme.titleMedium?.copyWith(
+                                  fontWeight: FontWeight.w600,
+                                ),
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                              Text(
+                                l10n.childInfoDescription,
+                                style: theme.textTheme.bodySmall?.copyWith(
+                                  color: theme.colorScheme.onSurface.withValues(
+                                    alpha: 0.7,
+                                  ),
+                                ),
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ],
                           ),
-                          textAlign: TextAlign.center,
-                        ),
-                        const SizedBox(height: 4),
-                        Text(
-                          l10n.childInfoDescription,
-                          style: theme.textTheme.bodyMedium?.copyWith(
-                            color: theme.colorScheme.onSurface.withValues(
-                              alpha: 0.7,
-                            ),
-                          ),
-                          textAlign: TextAlign.center,
                         ),
                       ],
                     ),
                   ),
                 ),
 
-                const SizedBox(height: 24),
+                const SizedBox(height: 16),
 
                 // Form Fields
                 Card(
@@ -180,7 +167,7 @@ class _EditChildPageState extends ConsumerState<EditChildPage> {
                             // Validate name format - only letters, spaces, hyphens, and apostrophes
                             final nameRegex = RegExp(r"^[a-zA-ZÀ-ÿ\s\-']+$");
                             if (!nameRegex.hasMatch(value.trim())) {
-                              return 'Name can only contain letters, spaces, hyphens, and apostrophes';
+                              return l10n.childNameInvalidCharacters;
                             }
                             return null;
                           },
@@ -192,12 +179,12 @@ class _EditChildPageState extends ConsumerState<EditChildPage> {
                         TextFormField(
                           key: const Key('editChild_age_field'),
                           controller: _ageController,
-                          decoration: const InputDecoration(
-                            labelText: 'Age (optional)',
-                            hintText: 'Enter age',
-                            prefixIcon: Icon(Icons.cake),
-                            border: OutlineInputBorder(),
-                            suffixText: 'years',
+                          decoration: InputDecoration(
+                            labelText: l10n.childAgeOptional,
+                            hintText: l10n.enterChildAge,
+                            prefixIcon: const Icon(Icons.cake),
+                            border: const OutlineInputBorder(),
+                            suffixText: l10n.years,
                           ),
                           keyboardType: TextInputType.number,
                           textInputAction: TextInputAction.done,
@@ -220,68 +207,162 @@ class _EditChildPageState extends ConsumerState<EditChildPage> {
                   ),
                 ),
 
-                const SizedBox(height: 32),
-
-                // Save Button
-                SizedBox(
-                  height: 50,
-                  child: ElevatedButton(
-                    key: const Key('save_changes_button'),
-                    onPressed: _isSubmitting ? null : _submitForm,
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: theme.primaryColor,
-                      foregroundColor: theme.colorScheme.onPrimary,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8),
+                // Action buttons - consistent with other forms
+                Container(
+                  padding: context.getAdaptivePadding(
+                    mobileAll: 16,
+                    tabletAll: 20,
+                    desktopAll: 24,
+                  ),
+                  decoration: BoxDecoration(
+                    color: Theme.of(context).colorScheme.surface,
+                    boxShadow: [
+                      BoxShadow(
+                        color: Theme.of(
+                          context,
+                        ).shadowColor.withValues(alpha: 0.15),
+                        blurRadius: context.isTabletOrLarger ? 6 : 4,
+                        offset: Offset(0, context.isTabletOrLarger ? -2 : -1),
                       ),
-                    ),
-                    child: _isSubmitting
-                        ? Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              SizedBox(
-                                width: 20,
-                                height: 20,
-                                child: CircularProgressIndicator(
-                                  strokeWidth: 2,
-                                  valueColor: AlwaysStoppedAnimation<Color>(
-                                    theme.colorScheme.onPrimary,
-                                  ),
+                    ],
+                  ),
+                  child: SafeArea(
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: OutlinedButton(
+                            onPressed: _isSubmitting
+                                ? null
+                                : () => context.pop(),
+                            style: OutlinedButton.styleFrom(
+                              padding: context.getAdaptivePadding(
+                                mobileHorizontal: 16,
+                                mobileVertical: 12,
+                                tabletHorizontal: 20,
+                                tabletVertical: 14,
+                                desktopHorizontal: 24,
+                                desktopVertical: 16,
+                              ),
+                              minimumSize: Size(
+                                double.infinity,
+                                context.getAdaptiveButtonHeight(
+                                  mobile: 44,
+                                  tablet: 48,
+                                  desktop: 52,
                                 ),
                               ),
-                              const SizedBox(width: 12),
-                              Text(l10n.saving),
-                            ],
-                          )
-                        : Text(
-                            l10n.save,
-                            style: const TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w600,
+                            ),
+                            child: Text(
+                              l10n.cancel,
+                              style: TextStyle(
+                                fontSize: context.isMobile ? 14 : 16,
+                              ),
                             ),
                           ),
-                  ),
-                ),
-
-                const SizedBox(height: 16),
-
-                // Cancel Button
-                SizedBox(
-                  height: 50,
-                  child: OutlinedButton(
-                    key: const Key('editChild_cancel_button'),
-                    onPressed: _isSubmitting ? null : () => context.pop(),
-                    style: OutlinedButton.styleFrom(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                    ),
-                    child: Text(
-                      l10n.cancel,
-                      style: const TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500,
-                      ),
+                        ),
+                        SizedBox(
+                          width: context.getAdaptiveSpacing(
+                            mobile: 12,
+                            tablet: 16,
+                            desktop: 20,
+                          ),
+                        ),
+                        Expanded(
+                          flex: 2,
+                          child: ElevatedButton(
+                            key: const Key('save_changes_button'),
+                            onPressed: _isSubmitting ? null : _submitForm,
+                            style: ElevatedButton.styleFrom(
+                              padding: context.getAdaptivePadding(
+                                mobileHorizontal: 16,
+                                mobileVertical: 12,
+                                tabletHorizontal: 20,
+                                tabletVertical: 14,
+                                desktopHorizontal: 24,
+                                desktopVertical: 16,
+                              ),
+                              minimumSize: Size(
+                                double.infinity,
+                                context.getAdaptiveButtonHeight(
+                                  mobile: 44,
+                                  tablet: 48,
+                                  desktop: 52,
+                                ),
+                              ),
+                            ),
+                            child: _isSubmitting
+                                ? Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      SizedBox(
+                                        width: context.getAdaptiveIconSize(
+                                          mobile: 14,
+                                          tablet: 16,
+                                          desktop: 18,
+                                        ),
+                                        height: context.getAdaptiveIconSize(
+                                          mobile: 14,
+                                          tablet: 16,
+                                          desktop: 18,
+                                        ),
+                                        child: const CircularProgressIndicator(
+                                          strokeWidth: 2,
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        width: context.getAdaptiveSpacing(
+                                          mobile: 6,
+                                          tablet: 8,
+                                          desktop: 10,
+                                        ),
+                                      ),
+                                      Flexible(
+                                        child: Text(
+                                          l10n.updating,
+                                          overflow: TextOverflow.ellipsis,
+                                          style: TextStyle(
+                                            fontSize: context.isMobile
+                                                ? 14
+                                                : 16,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  )
+                                : Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Icon(
+                                        Icons.save,
+                                        size: context.getAdaptiveIconSize(
+                                          mobile: 14,
+                                          tablet: 16,
+                                          desktop: 18,
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        width: context.getAdaptiveSpacing(
+                                          mobile: 6,
+                                          tablet: 8,
+                                          desktop: 10,
+                                        ),
+                                      ),
+                                      Flexible(
+                                        child: Text(
+                                          l10n.save,
+                                          overflow: TextOverflow.ellipsis,
+                                          style: TextStyle(
+                                            fontSize: context.isMobile
+                                                ? 14
+                                                : 16,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ),

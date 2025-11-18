@@ -124,9 +124,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get adjustmentReasonHint => 'e.g., car seat, maintenance';
 
   @override
-  String get admin => 'Admin';
-
-  @override
   String get adminCanManageMembers => 'Admin can manage family members';
 
   @override
@@ -184,9 +181,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get assignedChildren => 'Assigned Child';
-
-  @override
-  String get available => 'Available';
 
   @override
   String get availableOptions => 'Available Options';
@@ -283,6 +277,16 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get enterChildAge => 'Enter age';
+
+  @override
+  String get childNameInvalidCharacters =>
+      'Name can only contain letters, spaces, hyphens, and apostrophes';
+
+  @override
+  String get childNotFound => 'Child not found';
+
+  @override
+  String get years => 'years';
 
   @override
   String childTransportCapacity(int count) {
@@ -1823,6 +1827,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get inviteNewMember => 'Invite New Member';
 
   @override
+  String get sendInvitationDescription =>
+      'Send an invitation to join your family. They will receive an email with instructions to accept the invitation.';
+
+  @override
   String get inviteToGroup => 'Invite to group';
 
   @override
@@ -1880,6 +1888,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get language => 'Language';
+
+  @override
+  String get languageAndToolsMore => 'Language, Developer Tools & More';
 
   @override
   String get languageChanged => 'Language changed successfully';
@@ -2100,6 +2111,17 @@ class AppLocalizationsEn extends AppLocalizations {
   String get memberActions => 'Member Actions';
 
   @override
+  String get groupActions => 'Group Actions';
+
+  @override
+  String get createNewGroupDescription =>
+      'Create a new transport group for organizing family schedules';
+
+  @override
+  String get joinExistingGroupDescription =>
+      'Join an existing group using an invitation code or link';
+
+  @override
   String memberCount(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
@@ -2194,6 +2216,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get navigationDashboard => 'Dashboard';
+
+  @override
+  String get navigationDashboardShort => 'Home';
 
   @override
   String get navigationFamily => 'Family';
@@ -2320,6 +2345,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get noRecentActivity => 'No recent activity';
+
+  @override
+  String get noRecentActivityMessage => 'Your activity will appear here';
 
   @override
   String get noSentInvitations => 'No sent invitations';
@@ -2531,9 +2559,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get save => 'Save';
-
-  @override
-  String get saveChanges => 'Save Changes';
 
   @override
   String get saved => 'Saved';
@@ -3347,7 +3372,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get defaultGroupConfigInfo =>
-      'No schedule configured yet. Configure departure hours for each day and save to activate the schedule.';
+      'Configure departure hours for each day and save to activate the schedule.';
 
   @override
   String get makeAdminTitle => 'Make Admin';
@@ -3956,6 +3981,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get unknown => 'Unknown';
 
   @override
+  String get unnamedGroup => 'Unnamed Group';
+
+  @override
   String get currentlyAssigned => 'Currently Assigned';
 
   @override
@@ -4183,6 +4211,67 @@ class AppLocalizationsEn extends AppLocalizations {
   String timesShownInTimezone(String timezone) {
     return 'Times shown in your timezone ($timezone)';
   }
+
+  @override
+  String currentTimezone(String timezone) {
+    return 'Current: $timezone';
+  }
+
+  @override
+  String localTime(String time) {
+    return 'Local time: $time';
+  }
+
+  @override
+  String get searchTimezones => 'Search timezones...';
+
+  @override
+  String get noTimezonesFound => 'No timezones found';
+
+  @override
+  String get selectTimezone => 'Select timezone';
+
+  @override
+  String get tryDifferentSearchTerm => 'Try a different search term';
+
+  @override
+  String timezonesAvailable(int count) {
+    return '$count timezones available';
+  }
+
+  @override
+  String get automaticallySyncTimezone => 'Automatically sync timezone';
+
+  @override
+  String get keepTimezoneSyncedWithDevice =>
+      'Keep timezone synchronized with device';
+
+  @override
+  String get autoSyncEnabled => 'Auto-sync enabled';
+
+  @override
+  String get autoSyncDisabled => 'Auto-sync disabled';
+
+  @override
+  String get invalidTimezoneFormat => 'Invalid timezone format';
+
+  @override
+  String get timezoneUpdatedSuccessfully => 'Timezone updated successfully';
+
+  @override
+  String get failedToUpdateTimezone =>
+      'Failed to update timezone. Please try again.';
+
+  @override
+  String get failedToDetectTimezone =>
+      'Failed to detect timezone. Please try again.';
+
+  @override
+  String get failedToUpdateAutoSyncPreference =>
+      'Failed to update auto-sync preference';
+
+  @override
+  String get unknownTimezone => 'Unknown';
 
   @override
   String get todayTransports => 'Today\'s Transports';

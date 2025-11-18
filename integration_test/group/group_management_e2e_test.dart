@@ -129,7 +129,7 @@ void main() {
 
     // GC-01A: Test cancel group creation (UI interaction - test BEFORE success)
     debugPrint('🔍 GC-01A: Testing cancel group creation');
-    await $.tap(find.byKey(const Key('create_group_button')));
+    await _tapGroupActionFabAndOption($, 'create_group_button');
     await $.waitUntilVisible(
       find.byKey(const Key('createGroup_name_field')),
       timeout: const Duration(seconds: 5),
@@ -158,7 +158,7 @@ void main() {
     debugPrint('🔍 GC-01B: Creating group as OWNER');
     final groupName = TestDataGenerator.generateUniqueGroupName();
 
-    await $.tap(find.byKey(const Key('create_group_button')));
+    await _tapGroupActionFabAndOption($, 'create_group_button');
     await $.waitUntilVisible(
       find.byKey(const Key('createGroup_name_field')),
       timeout: const Duration(seconds: 5),
@@ -376,12 +376,12 @@ void main() {
     // Navigate to groups page and tap join button (manual entry flow)
     await $.tap(find.byKey(const Key('navigation_groups')));
     await $.waitUntilVisible(
-      find.byKey(const Key('join_group_button')),
+      find.byKey(const Key('groups_fab')),
       timeout: const Duration(seconds: 5),
     );
 
     debugPrint('🔘 Tapping join button to open manual code entry page...');
-    await $.tap(find.byKey(const Key('join_group_button')));
+    await _tapGroupActionFabAndOption($, 'join_group_button');
     await $.pumpAndSettle();
 
     // Wait for invitation page to load (should show manual input)
@@ -452,7 +452,7 @@ void main() {
 
     // Second attempt: Re-open and ACCEPT this time
     debugPrint('🔄 Second attempt - re-opening invitation page...');
-    await $.tap(find.byKey(const Key('join_group_button')));
+    await _tapGroupActionFabAndOption($, 'join_group_button');
     await $.pumpAndSettle();
 
     // Wait for invitation page to load again
@@ -737,7 +737,7 @@ void main() {
     );
 
     // Test empty name
-    await $.tap(find.byKey(const Key('create_group_button')));
+    await _tapGroupActionFabAndOption($, 'create_group_button');
     await $.waitUntilVisible(
       find.byKey(const Key('createGroup_name_field')),
       timeout: const Duration(seconds: 5),
@@ -944,12 +944,12 @@ void main() {
 
     await $.tap(find.byKey(const Key('navigation_groups')));
     await $.waitUntilVisible(
-      find.byKey(const Key('join_group_button')),
+      find.byKey(const Key('groups_fab')),
       timeout: const Duration(seconds: 5),
     );
 
     // Navigate to invitation page
-    await $.tap(find.byKey(const Key('join_group_button')));
+    await _tapGroupActionFabAndOption($, 'join_group_button');
     await $.waitUntilVisible(
       find.byKey(const Key('cancel_invitation_code_button')),
       timeout: const Duration(seconds: 8),
@@ -1964,6 +1964,25 @@ void main() {
 // =================================================================
 // PRIVATE HELPER METHODS (used 2+ times in this file)
 // =================================================================
+
+/// Helper to tap FAB and then tap action button in BottomSheet
+/// This handles the new FAB + BottomSheet pattern for group actions
+Future<void> _tapGroupActionFabAndOption(
+  PatrolIntegrationTester $,
+  String actionKey, {
+  Duration timeout = const Duration(seconds: 5),
+}) async {
+  debugPrint('🔘 Tapping groups FAB to open action menu...');
+  await $.tap(find.byKey(const Key('groups_fab')));
+  await $.pumpAndSettle();
+
+  debugPrint('📋 BottomSheet opened, waiting for action button: $actionKey');
+  await $.waitUntilVisible(find.byKey(Key(actionKey)), timeout: timeout);
+
+  debugPrint('🎯 Tapping action button: $actionKey');
+  await $.tap(find.byKey(Key(actionKey)));
+  await $.pumpAndSettle();
+}
 
 /// Navigate to group details page
 Future<void> _navigateToGroupDetails(

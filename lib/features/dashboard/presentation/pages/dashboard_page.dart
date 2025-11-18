@@ -14,6 +14,7 @@ import '../providers/dashboard_providers.dart';
 import '../widgets/seven_day_timeline_widget.dart';
 import 'package:edulift/core/navigation/navigation_state.dart';
 import 'package:edulift/core/presentation/mixins/navigation_cleanup_mixin.dart';
+import '../../../../core/presentation/utils/responsive_breakpoints.dart';
 
 class DashboardPage extends ConsumerStatefulWidget {
   const DashboardPage({super.key});
@@ -29,8 +30,8 @@ class _DashboardPageState extends ConsumerState<DashboardPage>
   @override
   Widget build(BuildContext context) {
     final user = ref.watch(currentUserProvider);
-    final screenSize = MediaQuery.of(context).size;
-    final isTablet = screenSize.width > 768;
+    final isTablet = context.isTablet;
+    final isDesktop = context.isDesktop;
 
     return Scaffold(
       body: LayoutBuilder(
@@ -41,12 +42,7 @@ class _DashboardPageState extends ConsumerState<DashboardPage>
             },
             child: CustomScrollView(
               slivers: [
-                // Real-time invitation summary widget
-                const SliverToBoxAdapter(child: SizedBox.shrink()),
-                // Real-time schedule summary widget
-                const SliverToBoxAdapter(child: SizedBox.shrink()),
                 SliverAppBar(
-                  expandedHeight: isTablet ? 120 : 80,
                   floating: true,
                   pinned: true,
                   title: Row(
@@ -54,10 +50,24 @@ class _DashboardPageState extends ConsumerState<DashboardPage>
                     children: [
                       Image.asset(
                         'assets/images/logos/edulift_logo_64.png',
-                        width: 32,
-                        height: 32,
+                        width: context.getAdaptiveIconSize(
+                          mobile: 28,
+                          tablet: 32,
+                          desktop: 36,
+                        ),
+                        height: context.getAdaptiveIconSize(
+                          mobile: 28,
+                          tablet: 32,
+                          desktop: 36,
+                        ),
                       ),
-                      const SizedBox(width: 8),
+                      SizedBox(
+                        width: context.getAdaptiveSpacing(
+                          mobile: 6,
+                          tablet: 8,
+                          desktop: 10,
+                        ),
+                      ),
                       Expanded(
                         child: Semantics(
                           header: true,
@@ -72,9 +82,11 @@ class _DashboardPageState extends ConsumerState<DashboardPage>
                     ],
                   ),
                   actions: [
-                    const Padding(
-                      padding: EdgeInsets.only(right: 8.0),
-                      child: UnifiedConnectionIndicator(
+                    Padding(
+                      padding: EdgeInsets.only(
+                        right: context.getAdaptiveSpacing(mobile: 6, tablet: 8),
+                      ),
+                      child: const UnifiedConnectionIndicator(
                         key: Key('dashboard_connection_status'),
                       ),
                     ),
@@ -83,7 +95,13 @@ class _DashboardPageState extends ConsumerState<DashboardPage>
                       label: 'Logout',
                       child: IconButton(
                         key: const Key('dashboard_logout_button'),
-                        icon: const Icon(Icons.logout),
+                        icon: Icon(
+                          Icons.logout,
+                          size: context.getAdaptiveIconSize(
+                            mobile: 20,
+                            tablet: 24,
+                          ),
+                        ),
                         onPressed: () async {
                           await ref.read(authStateProvider.notifier).logout();
                           ref
@@ -104,16 +122,26 @@ class _DashboardPageState extends ConsumerState<DashboardPage>
                       maxWidth: MediaQuery.of(context).size.width,
                     ),
                     child: Padding(
-                      padding: EdgeInsets.all(isTablet ? 16.0 : 12.0),
+                      padding: context.getAdaptivePadding(
+                        mobileAll: 12,
+                        tabletAll: 16,
+                      ),
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          // Welcome Section
-                          _buildWelcomeSection(context, user),
-                          const SizedBox(height: 24),
+                          // Combined Welcome & Family Section (Space-optimized for all screen sizes)
+                          _buildWelcomeAndFamilySection(context, user, ref),
+                          SizedBox(
+                            height: context.getAdaptiveSpacing(
+                              mobile: 12,
+                              tablet: 16,
+                            ),
+                          ),
 
                           // Main Content
-                          if (isTablet)
+                          if (isDesktop)
+                            _buildDesktopLayout(context, ref)
+                          else if (isTablet)
                             _buildTabletLayout(context, ref)
                           else
                             _buildPhoneLayout(context, ref),
@@ -130,80 +158,15 @@ class _DashboardPageState extends ConsumerState<DashboardPage>
     );
   }
 
-  Widget _buildWelcomeSection(BuildContext context, User? user) {
-    final userName = user?.name.split(' ').first ?? 'User';
-    final userInitials = user?.initials ?? 'U';
-
-    final l10n = AppLocalizations.of(context);
-    return Semantics(
-      label: l10n.welcomeSection,
-      child: Card(
-        key: const Key('dashboard_welcome_section'),
-        elevation: 4,
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Row(
-            children: [
-              Semantics(
-                label: l10n.userAvatarFor(userName),
-                child: CircleAvatar(
-                  key: const Key('user_avatar'),
-                  radius: 24,
-                  backgroundColor: Theme.of(context).colorScheme.primary,
-                  child: Text(
-                    userInitials,
-                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                      color: Theme.of(context).colorScheme.onPrimary,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-              ),
-              const SizedBox(width: 16),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Semantics(
-                      header: true,
-                      child: Text(
-                        l10n.welcomeBackUser(userName),
-                        key: const Key('dashboard_welcome_back_message'),
-                        style: Theme.of(context).textTheme.titleLarge,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    ),
-                    Semantics(
-                      label: l10n.currentDateAndDashboardDesc,
-                      child: Text(
-                        l10n.yourTransportDashboard(_formatCurrentDate()),
-                        key: const Key('current_date'),
-                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                          color: Theme.of(context).colorScheme.onSurfaceVariant,
-                        ),
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
   Widget _buildTabletLayout(BuildContext context, WidgetRef ref) {
     return ConstrainedBox(
       key: const Key('tablet_layout'),
       constraints: BoxConstraints(
-        maxHeight:
-            MediaQuery.of(context).size.height *
-            0.7, // Limit height to prevent overflow
+        maxHeight: context.getAdaptiveMaxHeight(
+          mobile: 0.8,
+          tablet: 0.7,
+          desktop: 0.6,
+        ),
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -214,14 +177,71 @@ class _DashboardPageState extends ConsumerState<DashboardPage>
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  _buildCompactFamilyOverview(context, ref),
-                  const SizedBox(height: 16),
                   const SevenDayTimelineWidget(),
-                  const SizedBox(height: 16),
+                  SizedBox(
+                    height: context.getAdaptiveSpacing(mobile: 12, tablet: 16),
+                  ),
                   _buildCompactQuickActions(context, ref),
-                  const SizedBox(height: 12),
+                  SizedBox(
+                    height: context.getAdaptiveSpacing(mobile: 8, tablet: 12),
+                  ),
                   _buildRecentActivities(context, ref),
                 ],
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildDesktopLayout(BuildContext context, WidgetRef ref) {
+    return ConstrainedBox(
+      key: const Key('desktop_layout'),
+      constraints: BoxConstraints(
+        maxHeight: context.getAdaptiveMaxHeight(
+          mobile: 0.8,
+          tablet: 0.7,
+          desktop: 0.6,
+        ),
+      ),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // Main content area - takes 2/3 of the space
+          Expanded(
+            flex: 3,
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const SevenDayTimelineWidget(),
+                  SizedBox(
+                    height: context.getAdaptiveSpacing(
+                      mobile: 12,
+                      tablet: 16,
+                      desktop: 20,
+                    ),
+                  ),
+                  _buildCompactQuickActions(context, ref),
+                ],
+              ),
+            ),
+          ),
+          SizedBox(
+            width: context.getAdaptiveSpacing(
+              mobile: 12,
+              tablet: 16,
+              desktop: 24,
+            ),
+          ),
+          // Side content area - takes 1/3 of the space
+          Expanded(
+            flex: 2,
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [_buildRecentActivities(context, ref)],
               ),
             ),
           ),
@@ -234,84 +254,29 @@ class _DashboardPageState extends ConsumerState<DashboardPage>
     return ConstrainedBox(
       key: const Key('phone_layout'),
       constraints: BoxConstraints(
-        maxHeight:
-            MediaQuery.of(context).size.height *
-            0.8, // Limit height to prevent overflow
+        maxHeight: context.getAdaptiveMaxHeight(
+          mobile: 0.8,
+          tablet: 0.7,
+          desktop: 0.6,
+        ),
       ),
       child: SingleChildScrollView(
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            _buildCompactFamilyOverview(context, ref),
-            const SizedBox(height: 12),
             const SevenDayTimelineWidget(),
-            const SizedBox(height: 12),
+            SizedBox(
+              height: context.getAdaptiveSpacing(mobile: 10, tablet: 12),
+            ),
             _buildCompactQuickActions(context, ref),
-            const SizedBox(height: 8),
+            SizedBox(height: context.getAdaptiveSpacing(mobile: 6, tablet: 8)),
             _buildRecentActivities(context, ref),
-            const SizedBox(height: 16),
+            SizedBox(
+              height: context.getAdaptiveSpacing(mobile: 12, tablet: 16),
+            ),
           ],
         ),
       ),
-    );
-  }
-
-  Widget _buildCompactFamilyOverview(BuildContext context, WidgetRef ref) {
-    final familyAsync = ref.watch(currentFamilyComposedProvider);
-    final l10n = AppLocalizations.of(context);
-
-    return familyAsync.when(
-      data: (family) {
-        if (family == null) {
-          return const SizedBox.shrink();
-        }
-
-        return Card(
-          key: const Key('compact_family_overview_card'),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 16.0,
-              vertical: 12.0,
-            ),
-            child: Row(
-              children: [
-                Icon(
-                  Icons.family_restroom,
-                  color: Theme.of(context).colorScheme.primary,
-                  size: 20,
-                ),
-                const SizedBox(width: 12),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text(
-                        family.name,
-                        key: const Key('compact_family_name'),
-                        style: Theme.of(context).textTheme.titleMedium,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                      Text(
-                        '${l10n.childrenCount(family.totalChildren)} • ${l10n.vehiclesCount(family.totalVehicles)}',
-                        key: const Key('compact_family_stats'),
-                        style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                          color: Theme.of(context).colorScheme.onSurfaceVariant,
-                        ),
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ),
-        );
-      },
-      loading: () => const SizedBox.shrink(),
-      error: (_, __) => const SizedBox.shrink(),
     );
   }
 
@@ -324,7 +289,12 @@ class _DashboardPageState extends ConsumerState<DashboardPage>
     return Card(
       key: const Key('compact_quick_actions_section'),
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
+        padding: context.getAdaptivePadding(
+          mobileHorizontal: 12,
+          mobileVertical: 10,
+          tabletHorizontal: 16,
+          tabletVertical: 12,
+        ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
@@ -355,71 +325,293 @@ class _DashboardPageState extends ConsumerState<DashboardPage>
   Widget _buildRecentActivities(BuildContext context, WidgetRef ref) {
     final activities = ref.watch(recentActivitiesProvider);
     final l10n = AppLocalizations.of(context);
+    return ConstrainedBox(
+      constraints: BoxConstraints(minWidth: MediaQuery.of(context).size.width),
+      child: Semantics(
+        label: l10n.recentActivitiesSection,
+        child: Card(
+          key: const Key('recent_activities_section'),
+          elevation: 4,
+          child: Padding(
+            padding: context.getAdaptivePadding(mobileAll: 12, tabletAll: 16),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Row(
+                  children: [
+                    Semantics(
+                      label: l10n.recentActivity,
+                      child: Icon(
+                        Icons.history,
+                        color: Theme.of(context).colorScheme.primary,
+                        size: context.getAdaptiveIconSize(
+                          mobile: 20,
+                          tablet: 24,
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      width: context.getAdaptiveSpacing(mobile: 6, tablet: 8),
+                    ),
+                    Expanded(
+                      child: Semantics(
+                        header: true,
+                        child: Text(
+                          l10n.recentActivity,
+                          key: const Key('recent_activity_title'),
+                          style: Theme.of(context).textTheme.titleLarge
+                              ?.copyWith(fontWeight: FontWeight.bold),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: context.getAdaptiveSpacing(mobile: 12, tablet: 16),
+                ),
+                if (activities.isEmpty)
+                  Center(
+                    key: const Key('no_activities_empty_state'),
+                    child: Padding(
+                      padding: context.getAdaptivePadding(
+                        mobileAll: 16,
+                        tabletAll: 20,
+                        desktopAll: 24,
+                      ),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Semantics(
+                            label: l10n.noRecentActivityIcon,
+                            child: Icon(
+                              Icons.directions_run,
+                              size: context.getAdaptiveIconSize(
+                                mobile: 36,
+                                tablet: 48,
+                                desktop: 56,
+                              ),
+                              color: Theme.of(context).colorScheme.primary,
+                            ),
+                          ),
+                          SizedBox(
+                            height: context.getAdaptiveSpacing(
+                              mobile: 12,
+                              tablet: 16,
+                            ),
+                          ),
+                          Text(
+                            l10n.noRecentActivity,
+                            style: Theme.of(context).textTheme.titleMedium,
+                            textAlign: TextAlign.center,
+                          ),
+                          SizedBox(
+                            height: context.getAdaptiveSpacing(
+                              mobile: 6,
+                              tablet: 8,
+                            ),
+                          ),
+                          Text(
+                            l10n.noRecentActivityMessage,
+                            style: Theme.of(context).textTheme.bodyMedium,
+                            textAlign: TextAlign.center,
+                          ),
+                        ],
+                      ),
+                    ),
+                  )
+                else
+                  Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: activities
+                        .take(3)
+                        .map(
+                          (activity) => _ActivityItem(
+                            icon: _getIconFromName(activity.iconName),
+                            title: activity.title,
+                            subtitle: activity.subtitle,
+                            color: _getActivityColor(activity.type),
+                          ),
+                        )
+                        .toList(),
+                  ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildWelcomeAndFamilySection(
+    BuildContext context,
+    User? user,
+    WidgetRef ref,
+  ) {
+    final familyAsync = ref.watch(currentFamilyComposedProvider);
+    final isDesktop = context.isDesktop;
+    final userName = user?.name.split(' ').first ?? 'User';
+    final userInitials = user?.initials ?? 'U';
+    final l10n = AppLocalizations.of(context);
+
     return Semantics(
-      label: l10n.recentActivitiesSection,
+      label: l10n.welcomeSection,
       child: Card(
-        key: const Key('recent_activities_section'),
+        key: const Key('welcome_family_section'),
         elevation: 4,
         child: Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding: context.getAdaptivePadding(mobileAll: 12, tabletAll: 16),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: [
-              Semantics(
-                header: true,
-                child: Text(
-                  'Recent Activity',
-                  style: Theme.of(context).textTheme.titleLarge,
-                ),
-              ),
-              const SizedBox(height: 16),
-              if (activities.isEmpty)
-                SizedBox(
-                  key: const Key('no_activities_empty_state'),
-                  child: Padding(
-                    padding: const EdgeInsets.all(24.0),
+              // Welcome Row
+              Row(
+                children: [
+                  Semantics(
+                    label: l10n.userAvatarFor(userName),
+                    child: CircleAvatar(
+                      key: const Key('user_avatar'),
+                      radius:
+                          context.getAdaptiveIconSize(
+                            mobile:
+                                28, // 56px diamètre - confortable pour mobile
+                            tablet:
+                                32, // 64px diamètre - bonne proportion tablette
+                            desktop: 36, // 72px diamètre - équilibré desktop
+                          ) /
+                          2,
+                      backgroundColor: Theme.of(context).colorScheme.primary,
+                      child: FittedBox(
+                        child: Text(
+                          userInitials,
+                          style: Theme.of(context).textTheme.bodyMedium
+                              ?.copyWith(
+                                color: Theme.of(context).colorScheme.onPrimary,
+                                fontWeight: FontWeight.bold,
+                                fontSize: context.getAdaptiveIconSize(
+                                  mobile: 14, // Taille adaptée au cercle mobile
+                                  tablet:
+                                      16, // Taille adaptée au cercle tablette
+                                  desktop:
+                                      18, // Taille adaptée au cercle desktop
+                                ),
+                              ),
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    width: context.getAdaptiveSpacing(mobile: 10, tablet: 12),
+                  ),
+                  Expanded(
                     child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         Semantics(
-                          label: l10n.noRecentActivityIcon,
-                          child: Icon(
-                            Icons.directions_run,
-                            size: 48,
-                            color: Theme.of(context).colorScheme.primary,
+                          header: true,
+                          child: Text(
+                            l10n.welcomeBackUser(userName),
+                            key: const Key('dashboard_welcome_back_message'),
+                            style: isDesktop
+                                ? Theme.of(context).textTheme.titleLarge
+                                : Theme.of(context).textTheme.titleMedium,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
                           ),
                         ),
-                        const SizedBox(height: 16),
-                        Text(
-                          'No recent activity',
-                          style: Theme.of(context).textTheme.titleMedium,
-                        ),
-                        const SizedBox(height: 8),
-                        Text(
-                          'Your activity will appear here',
-                          style: Theme.of(context).textTheme.bodyMedium,
-                          textAlign: TextAlign.center,
+                        Semantics(
+                          label: l10n.currentDateAndDashboardDesc,
+                          child: Text(
+                            l10n.yourTransportDashboard(_formatCurrentDate()),
+                            key: const Key('current_date'),
+                            style: Theme.of(context).textTheme.bodySmall
+                                ?.copyWith(
+                                  color: Theme.of(
+                                    context,
+                                  ).colorScheme.onSurfaceVariant,
+                                ),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
                         ),
                       ],
                     ),
                   ),
-                )
-              else
-                Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: activities
-                      .take(3)
-                      .map(
-                        (activity) => _ActivityItem(
-                          icon: _getIconFromName(activity.iconName),
-                          title: activity.title,
-                          subtitle: activity.subtitle,
-                          color: _getActivityColor(activity.type),
+                ],
+              ),
+              SizedBox(
+                height: context.getAdaptiveSpacing(mobile: 12, tablet: 16),
+              ),
+
+              // Family Overview
+              familyAsync.when(
+                data: (family) {
+                  if (family == null) return const SizedBox.shrink();
+
+                  return Container(
+                    padding: context.getAdaptivePadding(
+                      mobileHorizontal: 12,
+                      mobileVertical: 8,
+                      tabletHorizontal: 14,
+                      tabletVertical: 10,
+                    ),
+                    decoration: BoxDecoration(
+                      color: Theme.of(
+                        context,
+                      ).colorScheme.surfaceContainerHighest,
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: Row(
+                      children: [
+                        Icon(
+                          Icons.family_restroom,
+                          color: Theme.of(context).colorScheme.primary,
+                          size: context.getAdaptiveIconSize(
+                            mobile: 14,
+                            tablet: 18,
+                            desktop: 20,
+                          ),
                         ),
-                      )
-                      .toList(),
+                        SizedBox(
+                          width: context.getAdaptiveSpacing(
+                            mobile: 10,
+                            tablet: 12,
+                          ),
+                        ),
+                        Expanded(
+                          child: Text(
+                            '${family.name} • ${l10n.childrenCount(family.totalChildren)} • ${l10n.vehiclesCount(family.totalVehicles)}',
+                            key: const Key('family_summary'),
+                            style: Theme.of(context).textTheme.bodySmall
+                                ?.copyWith(
+                                  color: Theme.of(
+                                    context,
+                                  ).colorScheme.onSurfaceVariant,
+                                ),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                      ],
+                    ),
+                  );
+                },
+                loading: () => SizedBox(
+                  height: context.getAdaptiveIconSize(
+                    mobile: 16,
+                    tablet: 20,
+                    desktop: 24,
+                  ),
+                  child: const LinearProgressIndicator(),
                 ),
+                error: (_, __) => const SizedBox.shrink(),
+              ),
             ],
           ),
         ),
@@ -498,22 +690,42 @@ class _ActivityItem extends StatelessWidget {
     return Semantics(
       label: 'Activity: $title - $subtitle',
       child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 4.0),
+        padding: EdgeInsets.symmetric(
+          vertical: context.getAdaptiveSpacing(mobile: 3, tablet: 4),
+        ),
         child: Row(
           children: [
             SizedBox(
-              width: 36,
-              height: 36,
+              width: context.getAdaptiveIconSize(
+                mobile: 32,
+                tablet: 36,
+                desktop: 40,
+              ),
+              height: context.getAdaptiveIconSize(
+                mobile: 32,
+                tablet: 36,
+                desktop: 40,
+              ),
               child: Container(
-                padding: const EdgeInsets.all(8),
+                padding: EdgeInsets.all(
+                  context.getAdaptiveSpacing(mobile: 6, tablet: 8),
+                ),
                 decoration: BoxDecoration(
                   color: color.withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(8),
                 ),
-                child: Icon(icon, color: color, size: 20),
+                child: Icon(
+                  icon,
+                  color: color,
+                  size: context.getAdaptiveIconSize(
+                    mobile: 16,
+                    tablet: 20,
+                    desktop: 24,
+                  ),
+                ),
               ),
             ),
-            const SizedBox(width: 12),
+            SizedBox(width: context.getAdaptiveSpacing(mobile: 10, tablet: 12)),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -566,7 +778,9 @@ class _CompactActionButton extends StatelessWidget {
           onTap: onPressed,
           borderRadius: BorderRadius.circular(8),
           child: Container(
-            padding: const EdgeInsets.all(8),
+            padding: EdgeInsets.all(
+              context.getAdaptiveSpacing(mobile: 6, tablet: 8),
+            ),
             decoration: BoxDecoration(
               color: Theme.of(
                 context,
@@ -576,7 +790,11 @@ class _CompactActionButton extends StatelessWidget {
             child: Icon(
               icon,
               color: Theme.of(context).colorScheme.primary,
-              size: 20,
+              size: context.getAdaptiveIconSize(
+                mobile: 16,
+                tablet: 20,
+                desktop: 24,
+              ),
             ),
           ),
         ),

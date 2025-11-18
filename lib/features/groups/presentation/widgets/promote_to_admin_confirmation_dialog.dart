@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../core/domain/entities/groups/group_family.dart';
+import '../../../../core/presentation/utils/responsive_breakpoints.dart';
 import '../../../../core/utils/app_logger.dart';
 import '../../../../generated/l10n/app_localizations.dart';
 import '../pages/group_members_management_page.dart';
@@ -41,9 +42,19 @@ class _PromoteToAdminConfirmationDialogState
           Icon(
             Icons.admin_panel_settings,
             color: theme.colorScheme.primary,
-            size: 24,
+            size: context.getAdaptiveIconSize(
+              mobile: 22,
+              tablet: 24,
+              desktop: 26,
+            ),
           ),
-          const SizedBox(width: 12),
+          SizedBox(
+            width: context.getAdaptiveSpacing(
+              mobile: 10,
+              tablet: 12,
+              desktop: 14,
+            ),
+          ),
           Expanded(
             child: Text(
               localizations.promoteToAdmin,
@@ -58,25 +69,51 @@ class _PromoteToAdminConfirmationDialogState
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Container(
-              padding: const EdgeInsets.all(16),
+              padding: context.getAdaptivePadding(
+                mobileAll: 12,
+                tabletAll: 16,
+                desktopAll: 20,
+              ),
               decoration: BoxDecoration(
                 color: theme.colorScheme.primaryContainer.withValues(
                   alpha: 0.3,
                 ),
-                borderRadius: BorderRadius.circular(8),
+                borderRadius: BorderRadius.circular(
+                  context.getAdaptiveBorderRadius(
+                    mobile: 6,
+                    tablet: 8,
+                    desktop: 10,
+                  ),
+                ),
               ),
               child: Row(
                 children: [
                   CircleAvatar(
                     backgroundColor: theme.colorScheme.primaryContainer,
-                    radius: 20,
+                    radius:
+                        context.getAdaptiveIconSize(
+                          mobile: 18,
+                          tablet: 20,
+                          desktop: 22,
+                        ) *
+                        0.9,
                     child: Icon(
                       Icons.admin_panel_settings,
                       color: theme.colorScheme.onPrimaryContainer,
-                      size: 20,
+                      size: context.getAdaptiveIconSize(
+                        mobile: 18,
+                        tablet: 20,
+                        desktop: 22,
+                      ),
                     ),
                   ),
-                  const SizedBox(width: 12),
+                  SizedBox(
+                    width: context.getAdaptiveSpacing(
+                      mobile: 10,
+                      tablet: 12,
+                      desktop: 14,
+                    ),
+                  ),
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -87,7 +124,13 @@ class _PromoteToAdminConfirmationDialogState
                             fontWeight: FontWeight.w600,
                           ),
                         ),
-                        const SizedBox(height: 2),
+                        SizedBox(
+                          height: context.getAdaptiveSpacing(
+                            mobile: 1,
+                            tablet: 2,
+                            desktop: 3,
+                          ),
+                        ),
                         Row(
                           children: [
                             Flexible(
@@ -101,7 +144,11 @@ class _PromoteToAdminConfirmationDialogState
                             ),
                             Icon(
                               Icons.arrow_forward,
-                              size: 16,
+                              size: context.getAdaptiveIconSize(
+                                mobile: 14,
+                                tablet: 16,
+                                desktop: 18,
+                              ),
                               color: theme.colorScheme.onSurfaceVariant,
                             ),
                             Flexible(
@@ -122,21 +169,43 @@ class _PromoteToAdminConfirmationDialogState
                 ],
               ),
             ),
-            const SizedBox(height: 16),
+            SizedBox(
+              height: context.getAdaptiveSpacing(
+                mobile: 14,
+                tablet: 16,
+                desktop: 18,
+              ),
+            ),
             Text(
               localizations.promoteToAdminConfirmation(widget.family.name),
               style: theme.textTheme.bodyMedium?.copyWith(
                 color: theme.colorScheme.onSurfaceVariant,
               ),
             ),
-            const SizedBox(height: 12),
+            SizedBox(
+              height: context.getAdaptiveSpacing(
+                mobile: 10,
+                tablet: 12,
+                desktop: 14,
+              ),
+            ),
             Container(
-              padding: const EdgeInsets.all(12),
+              padding: context.getAdaptivePadding(
+                mobileAll: 10,
+                tabletAll: 12,
+                desktopAll: 14,
+              ),
               decoration: BoxDecoration(
                 color: theme.colorScheme.primaryContainer.withValues(
                   alpha: 0.3,
                 ),
-                borderRadius: BorderRadius.circular(8),
+                borderRadius: BorderRadius.circular(
+                  context.getAdaptiveBorderRadius(
+                    mobile: 6,
+                    tablet: 8,
+                    desktop: 10,
+                  ),
+                ),
                 border: Border.all(
                   color: theme.colorScheme.primary.withValues(alpha: 0.3),
                 ),
@@ -145,10 +214,20 @@ class _PromoteToAdminConfirmationDialogState
                 children: [
                   Icon(
                     Icons.info_outline,
-                    size: 16,
+                    size: context.getAdaptiveIconSize(
+                      mobile: 14,
+                      tablet: 16,
+                      desktop: 18,
+                    ),
                     color: theme.colorScheme.primary,
                   ),
-                  const SizedBox(width: 8),
+                  SizedBox(
+                    width: context.getAdaptiveSpacing(
+                      mobile: 6,
+                      tablet: 8,
+                      desktop: 10,
+                    ),
+                  ),
                   Expanded(
                     child: Text(
                       localizations.adminCanManageGroupMembers,

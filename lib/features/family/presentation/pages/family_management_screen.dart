@@ -18,6 +18,7 @@ import '../widgets/leave_family_confirmation_dialog.dart';
 import 'package:edulift/core/services/providers/auth_provider.dart';
 import 'package:edulift/core/navigation/navigation_state.dart' as nav;
 import 'package:edulift/core/presentation/mixins/navigation_cleanup_mixin.dart';
+import 'package:edulift/core/presentation/utils/responsive_breakpoints.dart';
 
 /// Family management screen with comprehensive family, children, and vehicles management
 class FamilyManagementScreen extends ConsumerStatefulWidget {
@@ -54,6 +55,7 @@ class _FamilyManagementScreenState extends ConsumerState<FamilyManagementScreen>
       initialIndex: widget.initialTabIndex ?? 0,
     );
     _searchController.addListener(_onSearchChanged);
+
     // CRITICAL FIX: Initialize permissions immediately to ensure isAdmin is available before widget rendering
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       AppLogger.debug(
@@ -110,103 +112,132 @@ class _FamilyManagementScreenState extends ConsumerState<FamilyManagementScreen>
   Widget build(BuildContext context) {
     super.build(context); // Required for AutomaticKeepAliveClientMixin
 
-    // Responsive design detection
-    final screenSize = MediaQuery.of(context).size;
-    final isTablet = screenSize.width > 768;
-    final isSmallScreen = screenSize.width < 600;
+    // Responsive design detection using responsive_breakpoints
+    // Note: isTablet and isSmallScreen variables available for responsive logic
 
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
     final l10n = AppLocalizations.of(context);
-    final familyState = ref.watch(familyComposedProvider);
-    final vehiclesState = ref.watch(familyComposedProvider);
 
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(l10n.myFamily),
-        elevation: 0,
-        actions: [
-          IconButton(
-            key: const Key('familyManagement_settings_button'),
-            onPressed: () => _showSettingsMenu(),
-            icon: const Icon(Icons.more_vert),
-          ),
-        ],
-        bottom: PreferredSize(
-          preferredSize: const Size(double.infinity, 140),
-          child: Column(
-            children: [
-              Padding(
-                padding: EdgeInsets.symmetric(
-                  horizontal: isTablet ? 24.0 : 16.0,
-                  vertical: isSmallScreen ? 6.0 : 8.0,
-                ),
-                child: TextField(
-                  key: const Key('familyManagement_search_field'),
-                  controller: _searchController,
-                  focusNode: _searchFocusNode,
-                  decoration: InputDecoration(
-                    hintText: l10n.search,
-                    prefixIcon: const Icon(Icons.search),
-                    suffixIcon: _searchQuery.isNotEmpty
-                        ? IconButton(
-                            key: const Key(
-                              'familyManagement_clearSearch_button',
+    // CONSUMER : Accéder aux providers Riverpod uniquement via Consumer
+    return Consumer(
+      builder: (context, ref, child) {
+        // Sélection efficace - seulement ce qui est nécessaire
+        final familyState = ref.watch(familyComposedProvider);
+        final vehiclesState = ref.watch(familyComposedProvider);
+
+        return Scaffold(
+          appBar: AppBar(
+            title: Text(l10n.myFamily),
+            elevation: 0,
+            bottom: PreferredSize(
+              preferredSize: const Size(double.infinity, 140),
+              child: Column(
+                children: [
+                  Padding(
+                    padding: context.getAdaptivePadding(
+                      mobileHorizontal: 16.0,
+                      tabletHorizontal: 24.0,
+                      desktopHorizontal: 32.0,
+                      mobileVertical: 6.0,
+                      tabletVertical: 8.0,
+                      desktopVertical: 10.0,
+                    ),
+                    child: TextField(
+                      key: const Key('familyManagement_search_field'),
+                      controller: _searchController,
+                      focusNode: _searchFocusNode,
+                      decoration: InputDecoration(
+                        hintText: l10n.search,
+                        prefixIcon: const Icon(Icons.search),
+                        suffixIcon: _searchQuery.isNotEmpty
+                            ? IconButton(
+                                key: const Key(
+                                  'familyManagement_clearSearch_button',
+                                ),
+                                onPressed: () {
+                                  _searchController.clear();
+                                  _searchFocusNode.unfocus();
+                                },
+                                icon: const Icon(Icons.clear),
+                              )
+                            : null,
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(
+                            context.getAdaptiveBorderRadius(
+                              mobile: 12,
+                              tablet: 14,
+                              desktop: 16,
                             ),
-                            onPressed: () {
-                              _searchController.clear();
-                              _searchFocusNode.unfocus();
-                            },
-                            icon: const Icon(Icons.clear),
-                          )
-                        : null,
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12),
-                      borderSide: BorderSide.none,
-                    ),
-                    filled: true,
-                    fillColor: colorScheme.surfaceContainerHighest.withValues(
-                      alpha: 0.5,
+                          ),
+                          borderSide: BorderSide.none,
+                        ),
+                        filled: true,
+                        fillColor: colorScheme.surfaceContainerHighest
+                            .withValues(alpha: 0.5),
+                      ),
                     ),
                   ),
-                ),
-              ),
-              TabBar(
-                controller: _tabController,
-                tabs: [
-                  Tab(
-                    key: const Key('family_members_tab'),
-                    icon: const Icon(Icons.people),
-                    text: l10n.membersTabLabel,
-                  ),
-                  Tab(
-                    key: const Key('family_children_tab'),
-                    icon: const Icon(Icons.child_care),
-                    text: l10n.children,
-                  ),
-                  Tab(
-                    key: const Key('family_vehicles_tab'),
-                    icon: const Icon(Icons.directions_car),
-                    text: l10n.vehicles,
+                  TabBar(
+                    controller: _tabController,
+                    tabs: [
+                      Tab(
+                        key: const Key('family_members_tab'),
+                        icon: const Icon(Icons.people),
+                        text: l10n.membersTabLabel,
+                      ),
+                      Tab(
+                        key: const Key('family_children_tab'),
+                        icon: const Icon(Icons.child_care),
+                        text: l10n.children,
+                      ),
+                      Tab(
+                        key: const Key('family_vehicles_tab'),
+                        icon: const Icon(Icons.directions_car),
+                        text: l10n.vehicles,
+                      ),
+                    ],
                   ),
                 ],
               ),
+            ),
+          ),
+          body: TabBarView(
+            controller: _tabController,
+            children: [
+              RefreshIndicator(
+                key: const Key('familyManagement_members_refreshIndicator'),
+                onRefresh: () async {
+                  await ref.read(familyComposedProvider.notifier).loadFamily();
+                },
+                child: _buildMembersTab(familyState, l10n),
+              ),
+              RefreshIndicator(
+                key: const Key('familyManagement_children_refreshIndicator'),
+                onRefresh: () async {
+                  await ref.read(familyComposedProvider.notifier).loadFamily();
+                },
+                child: _buildChildrenTab(familyState, l10n),
+              ),
+              RefreshIndicator(
+                key: const Key('familyManagement_vehicles_refreshIndicator'),
+                onRefresh: () async {
+                  await ref.read(familyComposedProvider.notifier).loadFamily();
+                  await ref
+                      .read(familyComposedProvider.notifier)
+                      .loadVehicles();
+                },
+                child: _buildVehiclesTab(vehiclesState, l10n),
+              ),
             ],
           ),
-        ),
-      ),
-      body: TabBarView(
-        controller: _tabController,
-        children: [
-          _buildMembersTab(familyState, l10n),
-          _buildChildrenTab(familyState, l10n),
-          _buildVehiclesTab(vehiclesState, l10n),
-        ],
-      ),
-      floatingActionButton: AnimatedBuilder(
-        animation: _tabController,
-        builder: (context, child) => _buildFloatingActionButton(context, l10n),
-      ),
+          floatingActionButton: AnimatedBuilder(
+            animation: _tabController,
+            builder: (context, child) =>
+                _buildFloatingActionButton(context, l10n),
+          ),
+        );
+      },
     );
   }
 
@@ -230,12 +261,31 @@ class _FamilyManagementScreenState extends ConsumerState<FamilyManagementScreen>
                 color: AppColors.textSecondaryThemed(context),
               ),
             ),
-            const SizedBox(height: 16),
+            SizedBox(
+              height: context.getAdaptiveSpacing(
+                mobile: 16,
+                tablet: 20,
+                desktop: 24,
+              ),
+            ),
             Container(
-              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+              padding: context.getAdaptivePadding(
+                mobileHorizontal: 24,
+                mobileVertical: 12,
+                tabletHorizontal: 30,
+                tabletVertical: 14,
+                desktopHorizontal: 36,
+                desktopVertical: 16,
+              ),
               decoration: BoxDecoration(
                 color: Theme.of(context).primaryColor,
-                borderRadius: BorderRadius.circular(8),
+                borderRadius: BorderRadius.circular(
+                  context.getAdaptiveBorderRadius(
+                    mobile: 8,
+                    tablet: 10,
+                    desktop: 12,
+                  ),
+                ),
               ),
               child: GestureDetector(
                 key: const Key('familyManagement_noFamily_inviteMember_button'),
@@ -254,7 +304,13 @@ class _FamilyManagementScreenState extends ConsumerState<FamilyManagementScreen>
                         Icons.person_add,
                         color: Theme.of(context).colorScheme.onPrimary,
                       ),
-                      const SizedBox(width: 8),
+                      SizedBox(
+                        width: context.getAdaptiveSpacing(
+                          mobile: 8,
+                          tablet: 10,
+                          desktop: 12,
+                        ),
+                      ),
                       Text(
                         l10n.inviteFamilyMembers,
                         style: TextStyle(
@@ -301,7 +357,11 @@ class _FamilyManagementScreenState extends ConsumerState<FamilyManagementScreen>
         // Family invitation management widget
         SliverToBoxAdapter(
           child: Container(
-            padding: const EdgeInsets.all(16),
+            padding: context.getAdaptivePadding(
+              mobileAll: 16,
+              tabletAll: 20,
+              desktopAll: 24,
+            ),
             child: FamilyInvitationManagementWidget(
               isAdmin: isAdmin,
               familyId: family.id,
@@ -314,40 +374,11 @@ class _FamilyManagementScreenState extends ConsumerState<FamilyManagementScreen>
 
   /// EXPERT FIX: Separate header widget for clean sliver architecture
   Widget _buildMembersHeader(entities.Family family, AppLocalizations l10n) {
-    final theme = Theme.of(context);
-    final screenSize = MediaQuery.of(context).size;
-    final isTablet = screenSize.width > 768;
-
     return Container(
-      margin: EdgeInsets.all(isTablet ? 24.0 : 16.0),
-      padding: EdgeInsets.all(isTablet ? 20.0 : 16.0),
-      decoration: BoxDecoration(
-        color: theme.colorScheme.surface,
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(
-          color: theme.colorScheme.outline.withValues(alpha: 0.2),
-        ),
-      ),
-      child: Row(
-        children: [
-          Icon(
-            Icons.people,
-            color: Theme.of(context).colorScheme.primary,
-            size: 20,
-          ),
-          const SizedBox(width: 8),
-          Expanded(
-            child: Text(
-              l10n.familyMembers,
-              key: Key('family_name_display_${family.name}'),
-              style: theme.textTheme.titleMedium?.copyWith(
-                fontWeight: FontWeight.w600,
-                fontSize: isTablet ? 18 : null,
-              ),
-              overflow: TextOverflow.ellipsis,
-            ),
-          ),
-        ],
+      margin: context.getAdaptivePadding(
+        mobileAll: 4.0,
+        tabletAll: 8.0,
+        desktopAll: 8.0,
       ),
     );
   }
@@ -362,10 +393,9 @@ class _FamilyManagementScreenState extends ConsumerState<FamilyManagementScreen>
     final colorScheme = theme.colorScheme;
     final displayName = member.displayNameOrLoading;
 
-    // Responsive design variables
-    final screenSize = MediaQuery.of(context).size;
-    final isTablet = screenSize.width > 768;
-    final isSmallScreen = screenSize.width < 600;
+    // Responsive design variables using responsive_breakpoints
+    // final isTablet = context.isTablet; // Available if needed for responsive logic
+    // final isSmallScreen = context.isMobile; // Available if needed for responsive logic
 
     // Get current user to identify if this is the current user's card
     final currentUser = ref.read(authStateProvider).user;
@@ -394,16 +424,26 @@ class _FamilyManagementScreenState extends ConsumerState<FamilyManagementScreen>
           '${displayName}${isCurrentUser ? l10n.currentUserLabel : ''}, ${member.role.value}${member.userEmail != null ? ', ${member.userEmail}' : ''}',
       child: Card(
         key: key, // CRITICAL: Key parameter for widget identity (used in tests)
-        margin: EdgeInsets.symmetric(
-          horizontal: isTablet ? 24.0 : 16.0,
-          vertical: isSmallScreen ? 3.0 : 4.0,
+        margin: context.getAdaptivePadding(
+          mobileHorizontal: 16.0,
+          tabletHorizontal: 24.0,
+          desktopHorizontal: 32.0,
+          mobileVertical: 3.0,
+          tabletVertical: 4.0,
+          desktopVertical: 5.0,
         ),
         elevation: 0,
         color: isCurrentUser
             ? colorScheme.primaryContainer.withValues(alpha: 0.3)
             : null,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(
+            context.getAdaptiveBorderRadius(
+              mobile: 12,
+              tablet: 14,
+              desktop: 16,
+            ),
+          ),
           side: BorderSide(
             color: isCurrentUser
                 ? colorScheme.primary.withValues(alpha: 0.5)
@@ -412,15 +452,33 @@ class _FamilyManagementScreenState extends ConsumerState<FamilyManagementScreen>
           ),
         ),
         child: ListTile(
-          contentPadding: EdgeInsets.all(isTablet ? 20.0 : 16.0),
+          contentPadding: context.getAdaptivePadding(
+            mobileAll: 16.0,
+            tabletAll: 20.0,
+            desktopAll: 24.0,
+          ),
           leading: Container(
-            width: isTablet ? 56.0 : 48.0,
-            height: isTablet ? 56.0 : 48.0,
+            width: context.getAdaptiveSpacing(
+              mobile: 48.0,
+              tablet: 56.0,
+              desktop: 64.0,
+            ),
+            height: context.getAdaptiveSpacing(
+              mobile: 48.0,
+              tablet: 56.0,
+              desktop: 64.0,
+            ),
             decoration: BoxDecoration(
               color: member.role == entities.FamilyRole.admin
                   ? colorScheme.primaryContainer
                   : colorScheme.secondaryContainer,
-              borderRadius: BorderRadius.circular(24),
+              borderRadius: BorderRadius.circular(
+                context.getAdaptiveBorderRadius(
+                  mobile: 24,
+                  tablet: 28,
+                  desktop: 32,
+                ),
+              ),
               border: isCurrentUser
                   ? Border.all(
                       color: colorScheme.primary.withValues(alpha: 0.6),
@@ -457,15 +515,31 @@ class _FamilyManagementScreenState extends ConsumerState<FamilyManagementScreen>
                 ),
               ),
               if (isCurrentUser) ...[
-                const SizedBox(width: 8),
+                SizedBox(
+                  width: context.getAdaptiveSpacing(
+                    mobile: 8,
+                    tablet: 10,
+                    desktop: 12,
+                  ),
+                ),
                 Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 8,
-                    vertical: 2,
+                  padding: context.getAdaptivePadding(
+                    mobileHorizontal: 8,
+                    mobileVertical: 2,
+                    tabletHorizontal: 10,
+                    tabletVertical: 3,
+                    desktopHorizontal: 12,
+                    desktopVertical: 4,
                   ),
                   decoration: BoxDecoration(
                     color: colorScheme.primary,
-                    borderRadius: BorderRadius.circular(12),
+                    borderRadius: BorderRadius.circular(
+                      context.getAdaptiveBorderRadius(
+                        mobile: 12,
+                        tablet: 14,
+                        desktop: 16,
+                      ),
+                    ),
                   ),
                   child: Text(
                     l10n.youLabel,
@@ -520,7 +594,13 @@ class _FamilyManagementScreenState extends ConsumerState<FamilyManagementScreen>
             ),
             const SizedBox(height: 16),
             Text(l10n.loadingError),
-            const SizedBox(height: 8),
+            SizedBox(
+              height: context.getAdaptiveSpacing(
+                mobile: 8,
+                tablet: 10,
+                desktop: 12,
+              ),
+            ),
             ElevatedButton(
               onPressed: () =>
                   ref.read(familyComposedProvider.notifier).loadFamily(),
@@ -576,7 +656,14 @@ class _FamilyManagementScreenState extends ConsumerState<FamilyManagementScreen>
           delegate: SliverChildBuilderDelegate((context, index) {
             final child = filteredChildren[index];
             return Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
+              padding: context.getAdaptivePadding(
+                mobileHorizontal: 16,
+                mobileVertical: 6,
+                tabletHorizontal: 20,
+                tabletVertical: 8,
+                desktopHorizontal: 24,
+                desktopVertical: 10,
+              ),
               child: _buildChildCard(child, l10n),
             );
           }, childCount: filteredChildren.length),
@@ -602,7 +689,13 @@ class _FamilyManagementScreenState extends ConsumerState<FamilyManagementScreen>
             ),
             const SizedBox(height: 16),
             Text(l10n.loadingError),
-            const SizedBox(height: 8),
+            SizedBox(
+              height: context.getAdaptiveSpacing(
+                mobile: 8,
+                tablet: 10,
+                desktop: 12,
+              ),
+            ),
             ElevatedButton(
               onPressed: () =>
                   ref.read(familyComposedProvider.notifier).loadVehicles(),
@@ -660,7 +753,14 @@ class _FamilyManagementScreenState extends ConsumerState<FamilyManagementScreen>
           delegate: SliverChildBuilderDelegate((context, index) {
             final vehicle = filteredVehicles[index];
             return Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
+              padding: context.getAdaptivePadding(
+                mobileHorizontal: 16,
+                mobileVertical: 6,
+                tabletHorizontal: 20,
+                tabletVertical: 8,
+                desktopHorizontal: 24,
+                desktopVertical: 10,
+              ),
               child: _buildVehicleCard(vehicle, l10n),
             );
           }, childCount: filteredVehicles.length),
@@ -675,10 +775,16 @@ class _FamilyManagementScreenState extends ConsumerState<FamilyManagementScreen>
 
     // EMERGENCY FIX: Remove Card and InkWell - use simple Container
     return Container(
-      padding: const EdgeInsets.all(16),
+      padding: context.getAdaptivePadding(
+        mobileAll: 16,
+        tabletAll: 20,
+        desktopAll: 24,
+      ),
       decoration: BoxDecoration(
         color: colorScheme.surface,
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(
+          context.getAdaptiveBorderRadius(mobile: 16, tablet: 18, desktop: 20),
+        ),
         border: Border.all(color: colorScheme.outline.withValues(alpha: 0.2)),
       ),
       child: GestureDetector(
@@ -687,11 +793,25 @@ class _FamilyManagementScreenState extends ConsumerState<FamilyManagementScreen>
         child: Row(
           children: [
             Container(
-              width: 48,
-              height: 48,
+              width: context.getAdaptiveSpacing(
+                mobile: 48,
+                tablet: 56,
+                desktop: 64,
+              ),
+              height: context.getAdaptiveSpacing(
+                mobile: 48,
+                tablet: 56,
+                desktop: 64,
+              ),
               decoration: BoxDecoration(
                 color: colorScheme.secondaryContainer,
-                borderRadius: BorderRadius.circular(24),
+                borderRadius: BorderRadius.circular(
+                  context.getAdaptiveBorderRadius(
+                    mobile: 24,
+                    tablet: 28,
+                    desktop: 32,
+                  ),
+                ),
               ),
               child: Center(
                 child: Text(
@@ -703,7 +823,13 @@ class _FamilyManagementScreenState extends ConsumerState<FamilyManagementScreen>
                 ),
               ),
             ),
-            const SizedBox(width: 16),
+            SizedBox(
+              width: context.getAdaptiveSpacing(
+                mobile: 16,
+                tablet: 20,
+                desktop: 24,
+              ),
+            ),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -732,8 +858,16 @@ class _FamilyManagementScreenState extends ConsumerState<FamilyManagementScreen>
             ),
             // ALWAYS show context menu - permissions filtered inside menu
             SizedBox(
-              width: 44,
-              height: 44,
+              width: context.getAdaptiveSpacing(
+                mobile: 44,
+                tablet: 48,
+                desktop: 52,
+              ),
+              height: context.getAdaptiveSpacing(
+                mobile: 44,
+                tablet: 48,
+                desktop: 52,
+              ),
               child: GestureDetector(
                 key: Key('child_more_actions_${child.name}'),
                 onTap: () => _showChildActions(child),
@@ -752,10 +886,16 @@ class _FamilyManagementScreenState extends ConsumerState<FamilyManagementScreen>
 
     // EMERGENCY FIX: Remove Card and InkWell - use simple Container
     return Container(
-      padding: const EdgeInsets.all(16),
+      padding: context.getAdaptivePadding(
+        mobileAll: 16,
+        tabletAll: 20,
+        desktopAll: 24,
+      ),
       decoration: BoxDecoration(
         color: colorScheme.surface,
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(
+          context.getAdaptiveBorderRadius(mobile: 16, tablet: 18, desktop: 20),
+        ),
         border: Border.all(color: colorScheme.outline.withValues(alpha: 0.2)),
       ),
       child: GestureDetector(
@@ -764,19 +904,43 @@ class _FamilyManagementScreenState extends ConsumerState<FamilyManagementScreen>
         child: Row(
           children: [
             Container(
-              width: 48,
-              height: 48,
+              width: context.getAdaptiveSpacing(
+                mobile: 48,
+                tablet: 56,
+                desktop: 64,
+              ),
+              height: context.getAdaptiveSpacing(
+                mobile: 48,
+                tablet: 56,
+                desktop: 64,
+              ),
               decoration: BoxDecoration(
                 color: colorScheme.primaryContainer,
-                borderRadius: BorderRadius.circular(12),
+                borderRadius: BorderRadius.circular(
+                  context.getAdaptiveBorderRadius(
+                    mobile: 12,
+                    tablet: 14,
+                    desktop: 16,
+                  ),
+                ),
               ),
               child: Icon(
                 Icons.directions_car,
                 color: colorScheme.onPrimaryContainer,
-                size: 24,
+                size: context.getAdaptiveIconSize(
+                  mobile: 24,
+                  tablet: 28,
+                  desktop: 32,
+                ),
               ),
             ),
-            const SizedBox(width: 16),
+            SizedBox(
+              width: context.getAdaptiveSpacing(
+                mobile: 16,
+                tablet: 20,
+                desktop: 24,
+              ),
+            ),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -790,15 +954,31 @@ class _FamilyManagementScreenState extends ConsumerState<FamilyManagementScreen>
                     overflow: TextOverflow.ellipsis,
                     maxLines: 1,
                   ),
-                  const SizedBox(height: 4),
+                  SizedBox(
+                    height: context.getAdaptiveSpacing(
+                      mobile: 4,
+                      tablet: 6,
+                      desktop: 8,
+                    ),
+                  ),
                   Row(
                     children: [
                       Icon(
                         Icons.people,
-                        size: 16,
+                        size: context.getAdaptiveIconSize(
+                          mobile: 16,
+                          tablet: 18,
+                          desktop: 20,
+                        ),
                         color: colorScheme.onSurface.withValues(alpha: 0.6),
                       ),
-                      const SizedBox(width: 4),
+                      SizedBox(
+                        width: context.getAdaptiveSpacing(
+                          mobile: 4,
+                          tablet: 6,
+                          desktop: 8,
+                        ),
+                      ),
                       Flexible(
                         child: Text(
                           '${vehicle.capacity} ${l10n.seats}',
@@ -812,7 +992,13 @@ class _FamilyManagementScreenState extends ConsumerState<FamilyManagementScreen>
                   ),
                   if (vehicle.description != null &&
                       vehicle.description!.isNotEmpty) ...[
-                    const SizedBox(height: 4),
+                    SizedBox(
+                      height: context.getAdaptiveSpacing(
+                        mobile: 4,
+                        tablet: 6,
+                        desktop: 8,
+                      ),
+                    ),
                     Text(
                       vehicle.description!,
                       style: theme.textTheme.bodySmall?.copyWith(
@@ -825,43 +1011,45 @@ class _FamilyManagementScreenState extends ConsumerState<FamilyManagementScreen>
                 ],
               ),
             ),
-            const SizedBox(width: 16),
+            SizedBox(
+              width: context.getAdaptiveSpacing(
+                mobile: 16,
+                tablet: 20,
+                desktop: 24,
+              ),
+            ),
             Column(
               children: [
-                Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 8,
-                    vertical: 4,
-                  ),
-                  decoration: BoxDecoration(
-                    color: colorScheme.primaryContainer.withValues(alpha: 0.3),
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: Text(
-                    l10n.available, // Simple status since entities.Vehicle entity doesn't have status field
-                    style: theme.textTheme.bodySmall?.copyWith(
-                      color: colorScheme.primary,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 8),
                 // ALWAYS show context menu - permissions filtered inside menu
                 GestureDetector(
                   key: Key('vehicle_more_actions_${vehicle.name}'),
                   onTap: () => _showVehicleActions(vehicle),
                   child: Container(
-                    padding: const EdgeInsets.all(8),
+                    padding: context.getAdaptivePadding(
+                      mobileAll: 8,
+                      tabletAll: 10,
+                      desktopAll: 12,
+                    ),
                     decoration: BoxDecoration(
                       color: colorScheme.surface,
-                      borderRadius: BorderRadius.circular(8),
+                      borderRadius: BorderRadius.circular(
+                        context.getAdaptiveBorderRadius(
+                          mobile: 8,
+                          tablet: 10,
+                          desktop: 12,
+                        ),
+                      ),
                       border: Border.all(
                         color: colorScheme.outline.withValues(alpha: 0.3),
                       ),
                     ),
                     child: Icon(
                       Icons.more_vert,
-                      size: 16,
+                      size: context.getAdaptiveIconSize(
+                        mobile: 16,
+                        tablet: 18,
+                        desktop: 20,
+                      ),
                       color: colorScheme.onSurface.withValues(alpha: 0.7),
                     ),
                   ),
@@ -985,64 +1173,6 @@ class _FamilyManagementScreenState extends ConsumerState<FamilyManagementScreen>
     );
   }
 
-  void _showSettingsMenu() {
-    final l10n = AppLocalizations.of(context);
-    showModalBottomSheet(
-      context: context,
-      builder: (context) {
-        return Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            ListTile(
-              key: const Key('familyManagement_settings_notifications'),
-              leading: const Icon(Icons.notifications),
-              title: Text(l10n.notifications),
-              onTap: () {
-                Navigator.pop(context);
-                ScaffoldMessenger.of(
-                  context,
-                ).showSnackBar(SnackBar(content: Text(l10n.comingSoon)));
-              },
-            ),
-            ListTile(
-              key: const Key('familyManagement_settings_privacy'),
-              leading: const Icon(Icons.privacy_tip),
-              title: Text(l10n.privacy),
-              onTap: () {
-                Navigator.pop(context);
-                ScaffoldMessenger.of(
-                  context,
-                ).showSnackBar(SnackBar(content: Text(l10n.comingSoon)));
-              },
-            ),
-            ListTile(
-              key: const Key('familyManagement_settings_help'),
-              leading: const Icon(Icons.help),
-              title: Text(l10n.help),
-              onTap: () {
-                Navigator.pop(context);
-                ScaffoldMessenger.of(
-                  context,
-                ).showSnackBar(SnackBar(content: Text(l10n.comingSoon)));
-              },
-            ),
-            ListTile(
-              key: const Key('familyManagement_settings_about'),
-              leading: const Icon(Icons.info),
-              title: Text(l10n.about),
-              onTap: () {
-                Navigator.pop(context);
-                ScaffoldMessenger.of(
-                  context,
-                ).showSnackBar(SnackBar(content: Text(l10n.comingSoon)));
-              },
-            ),
-          ],
-        );
-      },
-    );
-  }
-
   void _showChildDetails(entities.Child child) {
     ref
         .read(nav.navigationStateProvider.notifier)
@@ -1077,7 +1207,11 @@ class _FamilyManagementScreenState extends ConsumerState<FamilyManagementScreen>
           mainAxisSize: MainAxisSize.min,
           children: [
             Padding(
-              padding: const EdgeInsets.all(16),
+              padding: context.getAdaptivePadding(
+                mobileAll: 16,
+                tabletAll: 20,
+                desktopAll: 24,
+              ),
               child: Text(
                 '${l10n.moreActionsFor} ${child.name}',
                 style: Theme.of(context).textTheme.titleMedium,
@@ -1146,12 +1280,24 @@ class _FamilyManagementScreenState extends ConsumerState<FamilyManagementScreen>
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(
+          top: Radius.circular(
+            context.getAdaptiveBorderRadius(
+              mobile: 20,
+              tablet: 24,
+              desktop: 28,
+            ),
+          ),
+        ),
       ),
       builder: (context) {
         return Container(
-          padding: const EdgeInsets.all(24),
+          padding: context.getAdaptivePadding(
+            mobileAll: 24,
+            tabletAll: 30,
+            desktopAll: 36,
+          ),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -1160,7 +1306,11 @@ class _FamilyManagementScreenState extends ConsumerState<FamilyManagementScreen>
               Row(
                 children: [
                   CircleAvatar(
-                    radius: 32,
+                    radius: context.getAdaptiveSpacing(
+                      mobile: 32,
+                      tablet: 36,
+                      desktop: 40,
+                    ),
                     backgroundColor: member.role == entities.FamilyRole.admin
                         ? theme.colorScheme.primaryContainer
                         : theme.colorScheme.secondaryContainer,
@@ -1168,7 +1318,11 @@ class _FamilyManagementScreenState extends ConsumerState<FamilyManagementScreen>
                         ? Icon(
                             Icons.admin_panel_settings,
                             color: theme.colorScheme.onPrimaryContainer,
-                            size: 24,
+                            size: context.getAdaptiveIconSize(
+                              mobile: 24,
+                              tablet: 28,
+                              desktop: 32,
+                            ),
                           )
                         : Text(
                             member.displayNameOrLoading.isNotEmpty
@@ -1177,11 +1331,17 @@ class _FamilyManagementScreenState extends ConsumerState<FamilyManagementScreen>
                             style: TextStyle(
                               color: theme.colorScheme.onSecondaryContainer,
                               fontWeight: FontWeight.bold,
-                              fontSize: 20,
+                              fontSize: 20 * context.fontScale,
                             ),
                           ),
                   ),
-                  const SizedBox(width: 16),
+                  SizedBox(
+                    width: context.getAdaptiveSpacing(
+                      mobile: 16,
+                      tablet: 20,
+                      desktop: 24,
+                    ),
+                  ),
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -1238,7 +1398,11 @@ class _FamilyManagementScreenState extends ConsumerState<FamilyManagementScreen>
                   icon: const Icon(Icons.settings),
                   label: Text(AppLocalizations.of(context).memberActions),
                   style: ElevatedButton.styleFrom(
-                    padding: const EdgeInsets.symmetric(vertical: 16),
+                    padding: context.getAdaptivePadding(
+                      mobileVertical: 16,
+                      tabletVertical: 20,
+                      desktopVertical: 24,
+                    ),
                   ),
                 ),
               ),
@@ -1257,8 +1421,22 @@ class _FamilyManagementScreenState extends ConsumerState<FamilyManagementScreen>
   }) {
     return Row(
       children: [
-        Icon(icon, size: 18, color: theme.colorScheme.onSurfaceVariant),
-        const SizedBox(width: 12),
+        Icon(
+          icon,
+          size: context.getAdaptiveIconSize(
+            mobile: 18,
+            tablet: 20,
+            desktop: 22,
+          ),
+          color: theme.colorScheme.onSurfaceVariant,
+        ),
+        SizedBox(
+          width: context.getAdaptiveSpacing(
+            mobile: 12,
+            tablet: 14,
+            desktop: 16,
+          ),
+        ),
         Text(
           '$label: ',
           style: theme.textTheme.bodyMedium?.copyWith(
@@ -1328,8 +1506,16 @@ class _FamilyManagementScreenState extends ConsumerState<FamilyManagementScreen>
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(
+          top: Radius.circular(
+            context.getAdaptiveBorderRadius(
+              mobile: 20,
+              tablet: 24,
+              desktop: 28,
+            ),
+          ),
+        ),
       ),
       builder: (context) => MemberActionBottomSheet(
         member: member,
@@ -1426,8 +1612,16 @@ class _FamilyManagementScreenState extends ConsumerState<FamilyManagementScreen>
       context: context,
       isScrollControlled: true,
       useSafeArea: true,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(
+          top: Radius.circular(
+            context.getAdaptiveBorderRadius(
+              mobile: 16,
+              tablet: 20,
+              desktop: 24,
+            ),
+          ),
+        ),
       ),
       builder: (context) {
         return Container(
@@ -1440,18 +1634,64 @@ class _FamilyManagementScreenState extends ConsumerState<FamilyManagementScreen>
               children: [
                 // Drag handle for better UX
                 Container(
-                  width: 32,
-                  height: 4,
-                  margin: const EdgeInsets.only(top: 12, bottom: 8),
+                  width: context.getAdaptiveSpacing(
+                    mobile: 32,
+                    tablet: 36,
+                    desktop: 40,
+                  ),
+                  height: context.getAdaptiveSpacing(
+                    mobile: 4,
+                    tablet: 5,
+                    desktop: 6,
+                  ),
+                  margin: EdgeInsets.only(
+                    top: context.getAdaptiveSpacing(
+                      mobile: 12,
+                      tablet: 16,
+                      desktop: 20,
+                    ),
+                    bottom: context.getAdaptiveSpacing(
+                      mobile: 8,
+                      tablet: 10,
+                      desktop: 12,
+                    ),
+                  ),
                   decoration: BoxDecoration(
                     color: Theme.of(
                       context,
                     ).colorScheme.onSurfaceVariant.withValues(alpha: 0.4),
-                    borderRadius: BorderRadius.circular(2),
+                    borderRadius: BorderRadius.circular(
+                      context.getAdaptiveBorderRadius(
+                        mobile: 2,
+                        tablet: 3,
+                        desktop: 4,
+                      ),
+                    ),
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.fromLTRB(16, 8, 16, 16),
+                  padding: EdgeInsets.fromLTRB(
+                    context.getAdaptiveSpacing(
+                      mobile: 16,
+                      tablet: 20,
+                      desktop: 24,
+                    ),
+                    context.getAdaptiveSpacing(
+                      mobile: 8,
+                      tablet: 10,
+                      desktop: 12,
+                    ),
+                    context.getAdaptiveSpacing(
+                      mobile: 16,
+                      tablet: 20,
+                      desktop: 24,
+                    ),
+                    context.getAdaptiveSpacing(
+                      mobile: 16,
+                      tablet: 20,
+                      desktop: 24,
+                    ),
+                  ),
                   child: Text(
                     '${l10n.moreActionsFor} ${vehicle.name}',
                     style: Theme.of(context).textTheme.titleMedium,

@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../generated/l10n/app_localizations.dart';
+import '../../../../core/presentation/utils/responsive_breakpoints.dart';
 
 import '../../domain/validators/family_form_validator.dart';
 import '../utils/family_validation_localizer.dart';
@@ -43,11 +44,15 @@ class _InviteMemberWidgetState extends ConsumerState<InviteMemberWidget> {
     final localizations = AppLocalizations.of(context);
     return Card(
       child: ConstrainedBox(
-        constraints: const BoxConstraints(
-          maxHeight: 600,
+        constraints: BoxConstraints(
+          maxHeight: context.isMobile ? 500 : 600,
         ), // Prevent excessive height on large screens
         child: Padding(
-          padding: const EdgeInsets.all(16),
+          padding: context.getAdaptivePadding(
+            mobileAll: 16,
+            tabletAll: 20,
+            desktopAll: 24,
+          ),
           child: Form(
             key: _formKey,
             child: SingleChildScrollView(
@@ -59,7 +64,13 @@ class _InviteMemberWidgetState extends ConsumerState<InviteMemberWidget> {
                   Row(
                     children: [
                       Container(
-                        padding: const EdgeInsets.all(8),
+                        padding: EdgeInsets.all(
+                          context.getAdaptiveSpacing(
+                            mobile: 8,
+                            tablet: 10,
+                            desktop: 12,
+                          ),
+                        ),
                         decoration: BoxDecoration(
                           color: theme.colorScheme.primaryContainer.withValues(
                             alpha: 0.3,
@@ -69,10 +80,20 @@ class _InviteMemberWidgetState extends ConsumerState<InviteMemberWidget> {
                         child: Icon(
                           Icons.person_add,
                           color: theme.colorScheme.primary,
-                          size: 20,
+                          size: context.getAdaptiveIconSize(
+                            mobile: 20,
+                            tablet: 22,
+                            desktop: 24,
+                          ),
                         ),
                       ),
-                      const SizedBox(width: 12),
+                      SizedBox(
+                        width: context.getAdaptiveSpacing(
+                          mobile: 12,
+                          tablet: 14,
+                          desktop: 16,
+                        ),
+                      ),
                       Expanded(
                         child: Text(
                           localizations.inviteFamilyMember,
@@ -84,7 +105,13 @@ class _InviteMemberWidgetState extends ConsumerState<InviteMemberWidget> {
                       ),
                     ],
                   ),
-                  const SizedBox(height: 16),
+                  SizedBox(
+                    height: context.getAdaptiveSpacing(
+                      mobile: 16,
+                      tablet: 20,
+                      desktop: 24,
+                    ),
+                  ),
 
                   // Email field
                   TextFormField(
@@ -108,7 +135,13 @@ class _InviteMemberWidgetState extends ConsumerState<InviteMemberWidget> {
                     },
                     enabled: !_isLoading,
                   ),
-                  const SizedBox(height: 16),
+                  SizedBox(
+                    height: context.getAdaptiveSpacing(
+                      mobile: 16,
+                      tablet: 20,
+                      desktop: 24,
+                    ),
+                  ),
 
                   // Name field (optional)
                   TextFormField(
@@ -124,7 +157,13 @@ class _InviteMemberWidgetState extends ConsumerState<InviteMemberWidget> {
                     ),
                     enabled: !_isLoading,
                   ),
-                  const SizedBox(height: 16),
+                  SizedBox(
+                    height: context.getAdaptiveSpacing(
+                      mobile: 16,
+                      tablet: 20,
+                      desktop: 24,
+                    ),
+                  ),
 
                   // Invitation type
                   Text(
@@ -134,7 +173,13 @@ class _InviteMemberWidgetState extends ConsumerState<InviteMemberWidget> {
                       fontWeight: FontWeight.w600,
                     ),
                   ),
-                  const SizedBox(height: 8),
+                  SizedBox(
+                    height: context.getAdaptiveSpacing(
+                      mobile: 8,
+                      tablet: 12,
+                      desktop: 16,
+                    ),
+                  ),
                   SegmentedButton<InvitationType>(
                     key: const Key('invitation_type_selector'),
                     segments: [
@@ -153,9 +198,21 @@ class _InviteMemberWidgetState extends ConsumerState<InviteMemberWidget> {
                             });
                           },
                   ),
-                  const SizedBox(height: 8),
+                  SizedBox(
+                    height: context.getAdaptiveSpacing(
+                      mobile: 8,
+                      tablet: 12,
+                      desktop: 16,
+                    ),
+                  ),
                   Container(
-                    padding: const EdgeInsets.all(8),
+                    padding: EdgeInsets.all(
+                      context.getAdaptiveSpacing(
+                        mobile: 8,
+                        tablet: 10,
+                        desktop: 12,
+                      ),
+                    ),
                     decoration: BoxDecoration(
                       color: theme.colorScheme.primaryContainer.withValues(
                         alpha: 0.1,
@@ -166,10 +223,20 @@ class _InviteMemberWidgetState extends ConsumerState<InviteMemberWidget> {
                       children: [
                         Icon(
                           Icons.info_outline,
-                          size: 14,
+                          size: context.getAdaptiveIconSize(
+                            mobile: 14,
+                            tablet: 16,
+                            desktop: 18,
+                          ),
                           color: theme.colorScheme.primary,
                         ),
-                        const SizedBox(width: 6),
+                        SizedBox(
+                          width: context.getAdaptiveSpacing(
+                            mobile: 6,
+                            tablet: 8,
+                            desktop: 10,
+                          ),
+                        ),
                         Expanded(
                           child: Text(
                             localizations.familyMemberDescription,
@@ -181,7 +248,13 @@ class _InviteMemberWidgetState extends ConsumerState<InviteMemberWidget> {
                       ],
                     ),
                   ),
-                  const SizedBox(height: 24),
+                  SizedBox(
+                    height: context.getAdaptiveSpacing(
+                      mobile: 24,
+                      tablet: 28,
+                      desktop: 32,
+                    ),
+                  ),
 
                   // Action buttons
                   Row(
@@ -193,25 +266,52 @@ class _InviteMemberWidgetState extends ConsumerState<InviteMemberWidget> {
                           child: Text(localizations.reset),
                         ),
                       ),
-                      const SizedBox(width: 12),
+                      SizedBox(
+                        width: context.getAdaptiveSpacing(
+                          mobile: 12,
+                          tablet: 14,
+                          desktop: 16,
+                        ),
+                      ),
                       Expanded(
                         flex: 2,
                         child: FilledButton(
                           key: const Key('send_invitation_button'),
                           onPressed: _isLoading ? null : _sendInvitation,
                           child: _isLoading
-                              ? const SizedBox(
-                                  width: 16,
-                                  height: 16,
-                                  child: CircularProgressIndicator(
+                              ? SizedBox(
+                                  width: context.getAdaptiveSpacing(
+                                    mobile: 16,
+                                    tablet: 18,
+                                    desktop: 20,
+                                  ),
+                                  height: context.getAdaptiveSpacing(
+                                    mobile: 16,
+                                    tablet: 18,
+                                    desktop: 20,
+                                  ),
+                                  child: const CircularProgressIndicator(
                                     strokeWidth: 2,
                                   ),
                                 )
                               : Row(
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
-                                    const Icon(Icons.send, size: 16),
-                                    const SizedBox(width: 8),
+                                    Icon(
+                                      Icons.send,
+                                      size: context.getAdaptiveIconSize(
+                                        mobile: 16,
+                                        tablet: 18,
+                                        desktop: 20,
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      width: context.getAdaptiveSpacing(
+                                        mobile: 8,
+                                        tablet: 10,
+                                        desktop: 12,
+                                      ),
+                                    ),
                                     Flexible(
                                       child: Text(
                                         localizations.sendInvitation,

@@ -22,6 +22,7 @@ import '../../../auth/presentation/widgets/email_with_progressive_name.dart';
 import '../../../../generated/l10n/app_localizations.dart';
 import '../../../../core/navigation/navigation_state.dart';
 import '../../../../core/presentation/mixins/navigation_cleanup_mixin.dart';
+import '../../../../core/presentation/utils/responsive_breakpoints.dart';
 
 /// Family invitation page handling invitation validation and acceptance
 class FamilyInvitationPage extends ConsumerStatefulWidget {
@@ -213,8 +214,7 @@ class _FamilyInvitationPageState extends ConsumerState<FamilyInvitationPage>
   Widget build(BuildContext context) {
     final state = ref.watch(familyInvitationComposedProvider);
     final theme = Theme.of(context);
-    final screenWidth = MediaQuery.of(context).size.width;
-    final isTablet = screenWidth > 768;
+    final isTablet = context.isTabletOrLarger;
     return Scaffold(
       backgroundColor: theme.colorScheme.surface,
       body: SafeArea(
@@ -273,7 +273,7 @@ class _FamilyInvitationPageState extends ConsumerState<FamilyInvitationPage>
     FamilyInvitationState state,
     ThemeData theme,
   ) {
-    final isTablet = MediaQuery.of(context).size.width > 768;
+    final isTablet = context.isTabletOrLarger;
 
     // Show loading during validation
     if (state.isValidating) {
@@ -371,7 +371,6 @@ class _FamilyInvitationPageState extends ConsumerState<FamilyInvitationPage>
     return InvitationErrorDisplay(
       errorKey: state.error ?? 'errorUnexpected',
       contextTitle: 'Family Management',
-      isTablet: isTablet,
       actionButtonText: canGoBack ? l10n.goBack : l10n.cancel,
       onAction: () {
         if (canGoBack) {

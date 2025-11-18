@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:edulift/core/presentation/widgets/vehicle_capacity_badge.dart';
 import 'package:edulift/core/presentation/widgets/family_colored_text.dart';
 import 'package:edulift/core/domain/entities/schedule/vehicle_assignment.dart';
+import '../utils/responsive_breakpoints.dart';
 
 /// Shared vehicle card component for visual consistency across dashboard and schedule
 ///
@@ -116,7 +117,19 @@ class VehicleCard extends StatelessWidget {
                 : Theme.of(
                     context,
                   ).colorScheme.tertiaryContainer.withValues(alpha: 0.3),
-            borderRadius: BorderRadius.circular(compact ? 6 : 8),
+            borderRadius: BorderRadius.circular(
+              compact
+                  ? context.getAdaptiveBorderRadius(
+                      mobile: 6,
+                      tablet: 7,
+                      desktop: 8,
+                    )
+                  : context.getAdaptiveBorderRadius(
+                      mobile: 8,
+                      tablet: 10,
+                      desktop: 12,
+                    ),
+            ),
             border: Border.all(
               color: isDisabled
                   ? Theme.of(context).colorScheme.outline.withValues(alpha: 0.2)
@@ -133,7 +146,19 @@ class VehicleCard extends StatelessWidget {
                 : Theme.of(
                     context,
                   ).colorScheme.surfaceContainerHighest.withValues(alpha: 0.3),
-            borderRadius: BorderRadius.circular(compact ? 6 : 8),
+            borderRadius: BorderRadius.circular(
+              compact
+                  ? context.getAdaptiveBorderRadius(
+                      mobile: 6,
+                      tablet: 7,
+                      desktop: 8,
+                    )
+                  : context.getAdaptiveBorderRadius(
+                      mobile: 8,
+                      tablet: 10,
+                      desktop: 12,
+                    ),
+            ),
             border: Border.all(
               color: Theme.of(
                 context,
@@ -143,7 +168,11 @@ class VehicleCard extends StatelessWidget {
 
     final content = Container(
       key: const Key('vehicle_card_container'),
-      padding: EdgeInsets.all(compact ? 8.0 : 12.0),
+      padding: EdgeInsets.all(
+        compact
+            ? context.getAdaptiveSpacing(mobile: 8, tablet: 10, desktop: 12)
+            : context.getAdaptiveSpacing(mobile: 12, tablet: 14, desktop: 16),
+      ),
       decoration: containerDecoration,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -152,13 +181,37 @@ class VehicleCard extends StatelessWidget {
           // Optional group name badge
           if (groupName != null) ...[
             _buildGroupNameBadge(context),
-            SizedBox(height: compact ? 6 : 8),
+            SizedBox(
+              height: compact
+                  ? context.getAdaptiveSpacing(
+                      mobile: 6,
+                      tablet: 8,
+                      desktop: 10,
+                    )
+                  : context.getAdaptiveSpacing(
+                      mobile: 8,
+                      tablet: 10,
+                      desktop: 12,
+                    ),
+            ),
           ],
           // Vehicle header: icon + name + capacity badge
           _buildVehicleHeader(context, effectiveIconColor),
           // Children chips
           if (childrenNames.isNotEmpty) ...[
-            SizedBox(height: compact ? 6 : 10),
+            SizedBox(
+              height: compact
+                  ? context.getAdaptiveSpacing(
+                      mobile: 6,
+                      tablet: 8,
+                      desktop: 10,
+                    )
+                  : context.getAdaptiveSpacing(
+                      mobile: 10,
+                      tablet: 12,
+                      desktop: 14,
+                    ),
+            ),
             _buildChildrenSection(context),
           ],
         ],
@@ -175,7 +228,19 @@ class VehicleCard extends StatelessWidget {
     if (onTap != null && !isDisabled) {
       return InkWell(
         onTap: onTap,
-        borderRadius: BorderRadius.circular(compact ? 6 : 8),
+        borderRadius: BorderRadius.circular(
+          compact
+              ? context.getAdaptiveBorderRadius(
+                  mobile: 6,
+                  tablet: 7,
+                  desktop: 8,
+                )
+              : context.getAdaptiveBorderRadius(
+                  mobile: 8,
+                  tablet: 10,
+                  desktop: 12,
+                ),
+        ),
         child: wrappedContent,
       );
     }
@@ -193,7 +258,19 @@ class VehicleCard extends StatelessWidget {
       ),
       decoration: BoxDecoration(
         color: Theme.of(context).colorScheme.secondaryContainer,
-        borderRadius: BorderRadius.circular(compact ? 4 : 6),
+        borderRadius: BorderRadius.circular(
+          compact
+              ? context.getAdaptiveBorderRadius(
+                  mobile: 4,
+                  tablet: 5,
+                  desktop: 6,
+                )
+              : context.getAdaptiveBorderRadius(
+                  mobile: 6,
+                  tablet: 8,
+                  desktop: 10,
+                ),
+        ),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
@@ -203,7 +280,11 @@ class VehicleCard extends StatelessWidget {
             size: compact ? 12 : 14,
             color: Theme.of(context).colorScheme.onSecondaryContainer,
           ),
-          SizedBox(width: compact ? 3 : 4),
+          SizedBox(
+            width: compact
+                ? context.getAdaptiveSpacing(mobile: 3, tablet: 4, desktop: 5)
+                : context.getAdaptiveSpacing(mobile: 4, tablet: 5, desktop: 6),
+          ),
           Flexible(
             child: Text(
               groupName!,
@@ -232,7 +313,11 @@ class VehicleCard extends StatelessWidget {
           size: compact ? 14 : 16,
           color: effectiveIconColor,
         ),
-        SizedBox(width: compact ? 4 : 6),
+        SizedBox(
+          width: compact
+              ? context.getAdaptiveSpacing(mobile: 4, tablet: 5, desktop: 6)
+              : context.getAdaptiveSpacing(mobile: 6, tablet: 8, desktop: 10),
+        ),
         // Vehicle name
         Expanded(
           child: Text(
@@ -249,7 +334,11 @@ class VehicleCard extends StatelessWidget {
             overflow: TextOverflow.ellipsis,
           ),
         ),
-        SizedBox(width: compact ? 4 : 6),
+        SizedBox(
+          width: compact
+              ? context.getAdaptiveSpacing(mobile: 4, tablet: 5, desktop: 6)
+              : context.getAdaptiveSpacing(mobile: 6, tablet: 8, desktop: 10),
+        ),
         // Capacity badge (replaces progress bar for space efficiency)
         VehicleCapacityBadge(
           assigned: assignedCount,

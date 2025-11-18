@@ -7,6 +7,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../core/domain/entities/groups/group_family.dart';
 import '../../../../core/utils/app_logger.dart';
 import '../../../../generated/l10n/app_localizations.dart';
+import '../../../../core/presentation/utils/responsive_breakpoints.dart';
 import '../pages/group_members_management_page.dart' show removeFamilyFromGroup;
 
 class RemoveFamilyConfirmationDialog extends ConsumerStatefulWidget {
@@ -40,8 +41,22 @@ class _RemoveFamilyConfirmationDialogState
         label: localizations.removeFamilyDialogAccessibilityLabel,
         child: Row(
           children: [
-            Icon(Icons.person_remove, color: theme.colorScheme.error, size: 24),
-            const SizedBox(width: 12),
+            Icon(
+              Icons.person_remove,
+              color: theme.colorScheme.error,
+              size: context.getAdaptiveIconSize(
+                mobile: 20,
+                tablet: 22,
+                desktop: 24,
+              ),
+            ),
+            SizedBox(
+              width: context.getAdaptiveSpacing(
+                mobile: 8,
+                tablet: 10,
+                desktop: 12,
+              ),
+            ),
             Expanded(
               child: Text(
                 localizations.removeFromGroup,
@@ -63,7 +78,13 @@ class _RemoveFamilyConfirmationDialogState
               padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
                 color: theme.colorScheme.errorContainer.withValues(alpha: 0.3),
-                borderRadius: BorderRadius.circular(8),
+                borderRadius: BorderRadius.circular(
+                  context.getAdaptiveBorderRadius(
+                    mobile: 6,
+                    tablet: 8,
+                    desktop: 10,
+                  ),
+                ),
                 border: Border.all(
                   color: theme.colorScheme.error.withValues(alpha: 0.3),
                 ),
@@ -85,7 +106,13 @@ class _RemoveFamilyConfirmationDialogState
                             size: 20,
                           ),
                   ),
-                  const SizedBox(width: 12),
+                  SizedBox(
+                    width: context.getAdaptiveSpacing(
+                      mobile: 8,
+                      tablet: 10,
+                      desktop: 12,
+                    ),
+                  ),
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -126,7 +153,13 @@ class _RemoveFamilyConfirmationDialogState
               padding: const EdgeInsets.all(12),
               decoration: BoxDecoration(
                 color: theme.colorScheme.errorContainer.withValues(alpha: 0.1),
-                borderRadius: BorderRadius.circular(8),
+                borderRadius: BorderRadius.circular(
+                  context.getAdaptiveBorderRadius(
+                    mobile: 6,
+                    tablet: 8,
+                    desktop: 10,
+                  ),
+                ),
                 border: Border.all(
                   color: theme.colorScheme.error.withValues(alpha: 0.3),
                 ),

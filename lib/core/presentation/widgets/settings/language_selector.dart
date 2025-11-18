@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../generated/l10n/app_localizations.dart';
 import '../../../services/providers/localization_provider.dart';
+import '../../utils/responsive_breakpoints.dart';
 
-/// Widget permettant de sélectionner et changer la langue de l'application
+/// Widget allowing user to select and change application language
 class LanguageSelector extends ConsumerWidget {
   const LanguageSelector({super.key});
 
@@ -14,9 +15,20 @@ class LanguageSelector extends ConsumerWidget {
 
     return Card(
       key: const Key('language_selector_card'),
-      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      margin: EdgeInsets.symmetric(
+        horizontal: context.getAdaptiveSpacing(
+          mobile: 8,
+          tablet: 12,
+          desktop: 16,
+        ),
+        vertical: context.getAdaptiveSpacing(mobile: 4, tablet: 6, desktop: 8),
+      ),
       child: Padding(
-        padding: const EdgeInsets.all(16),
+        padding: context.getAdaptivePadding(
+          mobileAll: 12,
+          tabletAll: 16,
+          desktopAll: 20,
+        ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -25,8 +37,19 @@ class LanguageSelector extends ConsumerWidget {
                 Icon(
                   Icons.language,
                   color: Theme.of(context).colorScheme.primary,
+                  size: context.getAdaptiveIconSize(
+                    mobile: 20,
+                    tablet: 22,
+                    desktop: 24,
+                  ),
                 ),
-                const SizedBox(width: 8),
+                SizedBox(
+                  width: context.getAdaptiveSpacing(
+                    mobile: 6,
+                    tablet: 8,
+                    desktop: 10,
+                  ),
+                ),
                 Text(
                   l10n.language,
                   style: Theme.of(context).textTheme.titleMedium?.copyWith(
@@ -35,13 +58,25 @@ class LanguageSelector extends ConsumerWidget {
                 ),
               ],
             ),
-            const SizedBox(height: 16),
+            SizedBox(
+              height: context.getAdaptiveSpacing(
+                mobile: 12,
+                tablet: 16,
+                desktop: 20,
+              ),
+            ),
             Text(
               l10n.selectLanguage,
               style: Theme.of(context).textTheme.bodyMedium,
             ),
-            const SizedBox(height: 12),
-            // Liste des langues disponibles
+            SizedBox(
+              height: context.getAdaptiveSpacing(
+                mobile: 8,
+                tablet: 10,
+                desktop: 12,
+              ),
+            ),
+            // List of available languages
             ...AppLocalizations.supportedLocales.map(
               (locale) => _buildLanguageOption(
                 context,
@@ -73,8 +108,21 @@ class LanguageSelector extends ConsumerWidget {
       onTap: () => _changeLanguage(context, ref, locale),
       borderRadius: BorderRadius.circular(8),
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-        margin: const EdgeInsets.only(bottom: 4),
+        padding: EdgeInsets.symmetric(
+          horizontal: context.getAdaptiveSpacing(
+            mobile: 10,
+            tablet: 12,
+            desktop: 14,
+          ),
+          vertical: context.getAdaptiveSpacing(
+            mobile: 6,
+            tablet: 8,
+            desktop: 10,
+          ),
+        ),
+        margin: EdgeInsets.only(
+          bottom: context.getAdaptiveSpacing(mobile: 2, tablet: 3, desktop: 4),
+        ),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(8),
           color: isSelected
@@ -85,9 +133,90 @@ class LanguageSelector extends ConsumerWidget {
         ),
         child: Row(
           children: [
-            // Flag emoji ou icône
-            Text(_getFlagEmoji(locale), style: const TextStyle(fontSize: 24)),
-            const SizedBox(width: 12),
+            // Flag icon using AssetImage for reliable rendering
+            Container(
+              width: context.getAdaptiveIconSize(
+                mobile: 24,
+                tablet: 28,
+                desktop: 32,
+              ),
+              height: context.getAdaptiveIconSize(
+                mobile: 24,
+                tablet: 28,
+                desktop: 32,
+              ),
+              alignment: Alignment.center,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(
+                  context.getAdaptiveBorderRadius(
+                    mobile: 4,
+                    tablet: 6,
+                    desktop: 8,
+                  ),
+                ),
+                border: Border.all(
+                  color: Theme.of(
+                    context,
+                  ).colorScheme.outline.withValues(alpha: 0.2),
+                ),
+              ),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(
+                  context.getAdaptiveBorderRadius(
+                    mobile: 2,
+                    tablet: 3,
+                    desktop: 4,
+                  ),
+                ),
+                child: Image.asset(
+                  _getFlagAssetPath(locale),
+                  width: context.getAdaptiveIconSize(
+                    mobile: 20,
+                    tablet: 24,
+                    desktop: 28,
+                  ),
+                  height: context.getAdaptiveIconSize(
+                    mobile: 14,
+                    tablet: 16,
+                    desktop: 18,
+                  ),
+                  fit: BoxFit.cover,
+                  errorBuilder: (context, error, stackTrace) {
+                    return Container(
+                      width: context.getAdaptiveIconSize(
+                        mobile: 20,
+                        tablet: 24,
+                        desktop: 28,
+                      ),
+                      height: context.getAdaptiveIconSize(
+                        mobile: 14,
+                        tablet: 16,
+                        desktop: 18,
+                      ),
+                      color: Theme.of(
+                        context,
+                      ).colorScheme.surfaceContainerHighest,
+                      child: Icon(
+                        Icons.public,
+                        color: Theme.of(context).colorScheme.onSurfaceVariant,
+                        size: context.getAdaptiveIconSize(
+                          mobile: 12,
+                          tablet: 14,
+                          desktop: 16,
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              ),
+            ),
+            SizedBox(
+              width: context.getAdaptiveSpacing(
+                mobile: 8,
+                tablet: 12,
+                desktop: 16,
+              ),
+            ),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -117,7 +246,11 @@ class LanguageSelector extends ConsumerWidget {
               Icon(
                 Icons.check_circle,
                 color: Theme.of(context).colorScheme.primary,
-                size: 20,
+                size: context.getAdaptiveIconSize(
+                  mobile: 18,
+                  tablet: 20,
+                  desktop: 22,
+                ),
               ),
           ],
         ),
@@ -183,14 +316,14 @@ class LanguageSelector extends ConsumerWidget {
     }
   }
 
-  String _getFlagEmoji(Locale locale) {
+  String _getFlagAssetPath(Locale locale) {
     switch (locale.languageCode) {
       case 'en':
-        return '🇺🇸'; // ou 🇬🇧 selon preference
+        return 'assets/images/flags/us.png'; // US flag
       case 'fr':
-        return '🇫🇷';
+        return 'assets/images/flags/fr.png'; // French flag
       default:
-        return '🌍';
+        return 'assets/images/flags/globe.png'; // Globe fallback
     }
   }
 }

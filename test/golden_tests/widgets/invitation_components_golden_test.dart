@@ -106,7 +106,6 @@ void main() {
               child: InvitationErrorDisplay(
                 errorKey: 'errorInvitationNotFound',
                 contextTitle: 'Group Management',
-                isTablet: true,
               ),
             ),
           ),

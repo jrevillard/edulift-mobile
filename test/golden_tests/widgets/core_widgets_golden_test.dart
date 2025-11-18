@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:edulift/core/presentation/widgets/adaptive_widgets.dart';
-import 'package:edulift/features/groups/presentation/widgets/group_card.dart';
+import 'package:edulift/features/groups/presentation/widgets/unified_group_card.dart';
 
 import '../../support/golden/golden_test_wrapper.dart';
 import '../../support/golden/device_configurations.dart';
@@ -180,14 +180,14 @@ void main() {
       );
     });
 
-    testWidgets('GroupCard - single card', (tester) async {
+    testWidgets('UnifiedGroupCard - single card', (tester) async {
       final groups = GroupDataFactory.createLargeGroupList(count: 1);
       final group = groups[0];
 
       final widget = Scaffold(
         body: Padding(
           padding: const EdgeInsets.all(16),
-          child: GroupCard(group: group, onSelect: () {}, onManage: () {}),
+          child: UnifiedGroupCard(group: group, onTap: () {}),
         ),
       );
 
@@ -200,7 +200,7 @@ void main() {
       );
     });
 
-    testWidgets('GroupCard - multiple cards list', (tester) async {
+    testWidgets('UnifiedGroupCard - multiple cards list', (tester) async {
       final groups = GroupDataFactory.createLargeGroupList(count: 3);
 
       final widget = Scaffold(
@@ -211,11 +211,7 @@ void main() {
           itemBuilder: (context, index) {
             return Padding(
               padding: const EdgeInsets.only(bottom: 12),
-              child: GroupCard(
-                group: groups[index],
-                onSelect: () {},
-                onManage: () {},
-              ),
+              child: UnifiedGroupCard(group: groups[index], onTap: () {}),
             );
           },
         ),

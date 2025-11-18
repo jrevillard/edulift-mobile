@@ -7,6 +7,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../core/domain/entities/groups/group_family.dart';
 import '../../../../core/utils/app_logger.dart';
 import '../../../../generated/l10n/app_localizations.dart';
+import '../../../../core/presentation/utils/responsive_breakpoints.dart';
 import '../pages/group_members_management_page.dart' show updateFamilyRole;
 
 class DemoteToMemberConfirmationDialog extends ConsumerStatefulWidget {
@@ -38,8 +39,22 @@ class _DemoteToMemberConfirmationDialogState
     return AlertDialog(
       title: Row(
         children: [
-          Icon(Icons.arrow_downward, color: theme.colorScheme.error, size: 24),
-          const SizedBox(width: 12),
+          Icon(
+            Icons.arrow_downward,
+            color: theme.colorScheme.error,
+            size: context.getAdaptiveIconSize(
+              mobile: 20,
+              tablet: 22,
+              desktop: 24,
+            ),
+          ),
+          SizedBox(
+            width: context.getAdaptiveSpacing(
+              mobile: 8,
+              tablet: 10,
+              desktop: 12,
+            ),
+          ),
           Expanded(
             child: Text(
               localizations.demoteToMember,
@@ -59,7 +74,13 @@ class _DemoteToMemberConfirmationDialogState
               padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
                 color: theme.colorScheme.errorContainer.withValues(alpha: 0.3),
-                borderRadius: BorderRadius.circular(8),
+                borderRadius: BorderRadius.circular(
+                  context.getAdaptiveBorderRadius(
+                    mobile: 6,
+                    tablet: 8,
+                    desktop: 10,
+                  ),
+                ),
               ),
               child: Row(
                 children: [
@@ -72,7 +93,13 @@ class _DemoteToMemberConfirmationDialogState
                       size: 20,
                     ),
                   ),
-                  const SizedBox(width: 12),
+                  SizedBox(
+                    width: context.getAdaptiveSpacing(
+                      mobile: 8,
+                      tablet: 10,
+                      desktop: 12,
+                    ),
+                  ),
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -83,7 +110,13 @@ class _DemoteToMemberConfirmationDialogState
                             fontWeight: FontWeight.w600,
                           ),
                         ),
-                        const SizedBox(height: 2),
+                        SizedBox(
+                          height: context.getAdaptiveSpacing(
+                            mobile: 1,
+                            tablet: 2,
+                            desktop: 3,
+                          ),
+                        ),
                         Row(
                           children: [
                             Flexible(
@@ -118,19 +151,37 @@ class _DemoteToMemberConfirmationDialogState
                 ],
               ),
             ),
-            const SizedBox(height: 16),
+            SizedBox(
+              height: context.getAdaptiveSpacing(
+                mobile: 12,
+                tablet: 16,
+                desktop: 20,
+              ),
+            ),
             Text(
               localizations.demoteToMemberConfirmation(widget.family.name),
               style: theme.textTheme.bodyMedium?.copyWith(
                 color: theme.colorScheme.onSurfaceVariant,
               ),
             ),
-            const SizedBox(height: 12),
+            SizedBox(
+              height: context.getAdaptiveSpacing(
+                mobile: 8,
+                tablet: 12,
+                desktop: 16,
+              ),
+            ),
             Container(
               padding: const EdgeInsets.all(12),
               decoration: BoxDecoration(
                 color: theme.colorScheme.errorContainer.withValues(alpha: 0.1),
-                borderRadius: BorderRadius.circular(8),
+                borderRadius: BorderRadius.circular(
+                  context.getAdaptiveBorderRadius(
+                    mobile: 6,
+                    tablet: 8,
+                    desktop: 10,
+                  ),
+                ),
                 border: Border.all(
                   color: theme.colorScheme.error.withValues(alpha: 0.3),
                 ),
@@ -173,10 +224,18 @@ class _DemoteToMemberConfirmationDialogState
             backgroundColor: theme.colorScheme.error,
           ),
           child: _isLoading
-              ? const SizedBox(
-                  width: 16,
-                  height: 16,
-                  child: CircularProgressIndicator(strokeWidth: 2),
+              ? SizedBox(
+                  width: context.getAdaptiveIconSize(
+                    mobile: 14,
+                    tablet: 16,
+                    desktop: 18,
+                  ),
+                  height: context.getAdaptiveIconSize(
+                    mobile: 14,
+                    tablet: 16,
+                    desktop: 18,
+                  ),
+                  child: const CircularProgressIndicator(strokeWidth: 2),
                 )
               : Text(localizations.demoteToMember),
         ),

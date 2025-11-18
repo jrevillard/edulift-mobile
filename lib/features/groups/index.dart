@@ -19,4 +19,4 @@ export 'presentation/pages/groups_page.dart';
 export 'presentation/pages/group_details_page.dart';
 
 // Presentation - Widgets
-export 'presentation/widgets/group_card.dart';
+export 'presentation/widgets/unified_group_card.dart';

@@ -9,6 +9,7 @@ import 'package:edulift/core/domain/entities/family.dart';
 import '../../providers.dart';
 import '../../../../core/utils/app_logger.dart';
 import '../../../../generated/l10n/app_localizations.dart';
+import '../../../../core/presentation/utils/responsive_breakpoints.dart';
 
 class RoleChangeConfirmationDialog extends ConsumerStatefulWidget {
   final FamilyMember member;
@@ -43,9 +44,19 @@ class _RoleChangeConfirmationDialogState
           Icon(
             Icons.admin_panel_settings,
             color: theme.colorScheme.primary,
-            size: 24,
+            size: context.getAdaptiveIconSize(
+              mobile: 20,
+              tablet: 22,
+              desktop: 24,
+            ),
           ),
-          const SizedBox(width: 12),
+          SizedBox(
+            width: context.getAdaptiveSpacing(
+              mobile: 8,
+              tablet: 10,
+              desktop: 12,
+            ),
+          ),
           Expanded(
             child: Text(
               widget.member.role == FamilyRole.admin
@@ -62,12 +73,22 @@ class _RoleChangeConfirmationDialogState
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Container(
-              padding: const EdgeInsets.all(16),
+              padding: context.getAdaptivePadding(
+                mobileAll: 12,
+                tabletAll: 14,
+                desktopAll: 16,
+              ),
               decoration: BoxDecoration(
                 color: widget.member.role == FamilyRole.admin
                     ? theme.colorScheme.errorContainer.withValues(alpha: 0.3)
                     : theme.colorScheme.primaryContainer.withValues(alpha: 0.3),
-                borderRadius: BorderRadius.circular(8),
+                borderRadius: BorderRadius.circular(
+                  context.getAdaptiveBorderRadius(
+                    mobile: 6,
+                    tablet: 7,
+                    desktop: 8,
+                  ),
+                ),
               ),
               child: Row(
                 children: [
@@ -75,7 +96,11 @@ class _RoleChangeConfirmationDialogState
                     backgroundColor: widget.member.role == FamilyRole.admin
                         ? theme.colorScheme.errorContainer
                         : theme.colorScheme.primaryContainer,
-                    radius: 20,
+                    radius: context.getAdaptiveIconSize(
+                      mobile: 16,
+                      tablet: 18,
+                      desktop: 20,
+                    ),
                     child: widget.member.role == FamilyRole.admin
                         ? Text(
                             widget.member.displayNameOrLoading.isNotEmpty
@@ -85,15 +110,30 @@ class _RoleChangeConfirmationDialogState
                             style: TextStyle(
                               color: theme.colorScheme.onErrorContainer,
                               fontWeight: FontWeight.bold,
+                              fontSize: context.getAdaptiveFontSize(
+                                mobile: 14,
+                                tablet: 16,
+                                desktop: 18,
+                              ),
                             ),
                           )
                         : Icon(
                             Icons.admin_panel_settings,
                             color: theme.colorScheme.onPrimaryContainer,
-                            size: 20,
+                            size: context.getAdaptiveIconSize(
+                              mobile: 16,
+                              tablet: 18,
+                              desktop: 20,
+                            ),
                           ),
                   ),
-                  const SizedBox(width: 12),
+                  SizedBox(
+                    width: context.getAdaptiveSpacing(
+                      mobile: 10,
+                      tablet: 11,
+                      desktop: 12,
+                    ),
+                  ),
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -104,7 +144,13 @@ class _RoleChangeConfirmationDialogState
                             fontWeight: FontWeight.w600,
                           ),
                         ),
-                        const SizedBox(height: 2),
+                        SizedBox(
+                          height: context.getAdaptiveSpacing(
+                            mobile: 1,
+                            tablet: 1.5,
+                            desktop: 2,
+                          ),
+                        ),
                         Row(
                           children: [
                             Flexible(
@@ -118,7 +164,11 @@ class _RoleChangeConfirmationDialogState
                             ),
                             Icon(
                               Icons.arrow_forward,
-                              size: 16,
+                              size: context.getAdaptiveIconSize(
+                                mobile: 14,
+                                tablet: 15,
+                                desktop: 16,
+                              ),
                               color: theme.colorScheme.onSurfaceVariant,
                             ),
                             Flexible(
@@ -141,7 +191,13 @@ class _RoleChangeConfirmationDialogState
                 ],
               ),
             ),
-            const SizedBox(height: 16),
+            SizedBox(
+              height: context.getAdaptiveSpacing(
+                mobile: 12,
+                tablet: 14,
+                desktop: 16,
+              ),
+            ),
             Text(
               widget.member.role == FamilyRole.admin
                   ? localizations.removeAdminConfirmation(
@@ -155,14 +211,30 @@ class _RoleChangeConfirmationDialogState
               ),
             ),
             if (widget.member.role == FamilyRole.member) ...[
-              const SizedBox(height: 12),
+              SizedBox(
+                height: context.getAdaptiveSpacing(
+                  mobile: 10,
+                  tablet: 11,
+                  desktop: 12,
+                ),
+              ),
               Container(
-                padding: const EdgeInsets.all(12),
+                padding: context.getAdaptivePadding(
+                  mobileAll: 10,
+                  tabletAll: 11,
+                  desktopAll: 12,
+                ),
                 decoration: BoxDecoration(
                   color: theme.colorScheme.primaryContainer.withValues(
                     alpha: 0.3,
                   ),
-                  borderRadius: BorderRadius.circular(8),
+                  borderRadius: BorderRadius.circular(
+                    context.getAdaptiveBorderRadius(
+                      mobile: 6,
+                      tablet: 7,
+                      desktop: 8,
+                    ),
+                  ),
                   border: Border.all(
                     color: theme.colorScheme.primary.withValues(alpha: 0.3),
                   ),
@@ -171,10 +243,20 @@ class _RoleChangeConfirmationDialogState
                   children: [
                     Icon(
                       Icons.info_outline,
-                      size: 16,
+                      size: context.getAdaptiveIconSize(
+                        mobile: 14,
+                        tablet: 15,
+                        desktop: 16,
+                      ),
                       color: theme.colorScheme.primary,
                     ),
-                    const SizedBox(width: 8),
+                    SizedBox(
+                      width: context.getAdaptiveSpacing(
+                        mobile: 6,
+                        tablet: 7,
+                        desktop: 8,
+                      ),
+                    ),
                     Expanded(
                       child: Text(
                         localizations.adminCanManageMembers,
@@ -208,10 +290,20 @@ class _RoleChangeConfirmationDialogState
                 : theme.colorScheme.primary,
           ),
           child: _isLoading
-              ? const SizedBox(
-                  width: 16,
-                  height: 16,
-                  child: CircularProgressIndicator(strokeWidth: 2),
+              ? SizedBox(
+                  width: context.getAdaptiveIconSize(
+                    mobile: 14,
+                    tablet: 15,
+                    desktop: 16,
+                  ),
+                  height: context.getAdaptiveIconSize(
+                    mobile: 14,
+                    tablet: 15,
+                    desktop: 16,
+                  ),
+                  child: CircularProgressIndicator(
+                    strokeWidth: context.isMobile ? 1.5 : 2.0,
+                  ),
                 )
               : Text(
                   widget.member.role == FamilyRole.admin

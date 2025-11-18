@@ -5,6 +5,7 @@ import 'package:edulift/core/presentation/widgets/accessibility/accessible_butto
 import 'package:edulift/generated/l10n/app_localizations.dart';
 import 'package:edulift/core/utils/timezone_formatter.dart';
 import 'package:edulift/core/services/providers/auth_provider.dart';
+import 'package:edulift/core/presentation/utils/responsive_breakpoints.dart';
 
 /// Schedule coordination screen with real-time updates and accessibility
 class ScheduleCoordinationScreen extends ConsumerStatefulWidget {
@@ -128,7 +129,10 @@ class _ScheduleCoordinationScreenState
           ),
         ],
         bottom: PreferredSize(
-          preferredSize: const Size(double.infinity, 120),
+          preferredSize: Size(
+            double.infinity,
+            context.getAdaptiveSpacing(mobile: 110, tablet: 120, desktop: 130),
+          ),
           child: Column(
             children: [
               _buildDateSelector(theme, colorScheme),
@@ -154,13 +158,24 @@ class _ScheduleCoordinationScreenState
 
   Widget _buildDateSelector(ThemeData theme, ColorScheme colorScheme) {
     return Container(
-      height: 60,
-      padding: const EdgeInsets.symmetric(horizontal: 16),
+      height: context.getAdaptiveSpacing(mobile: 55, tablet: 60, desktop: 65),
+      padding: context.getAdaptivePadding(
+        mobileHorizontal: 16,
+        tabletHorizontal: 20,
+        desktopHorizontal: 24,
+      ),
       child: Row(
         children: [
           AccessibleIconButton(
             onPressed: _previousDate,
-            icon: const Icon(Icons.chevron_left),
+            icon: Icon(
+              Icons.chevron_left,
+              size: context.getAdaptiveIconSize(
+                mobile: 18,
+                tablet: 20,
+                desktop: 22,
+              ),
+            ),
             semanticLabel: 'Previous day',
           ),
           Expanded(
@@ -170,16 +185,29 @@ class _ScheduleCoordinationScreenState
                 hint: 'Tap to open date picker',
                 child: InkWell(
                   onTap: _showDatePicker,
-                  borderRadius: BorderRadius.circular(8),
+                  borderRadius: BorderRadius.circular(
+                    context.getAdaptiveBorderRadius(
+                      mobile: 8,
+                      tablet: 10,
+                      desktop: 12,
+                    ),
+                  ),
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 16,
-                      vertical: 8,
+                    padding: context.getAdaptivePadding(
+                      mobileHorizontal: 16,
+                      mobileVertical: 8,
+                      tabletHorizontal: 20,
+                      tabletVertical: 10,
+                      desktopHorizontal: 24,
+                      desktopVertical: 12,
                     ),
                     child: Text(
                       _formatDate(_selectedDate),
                       style: theme.textTheme.headlineSmall?.copyWith(
                         fontWeight: FontWeight.w600,
+                        fontSize:
+                            (theme.textTheme.headlineSmall?.fontSize ?? 20) *
+                            context.fontScale,
                       ),
                       textAlign: TextAlign.center,
                     ),
@@ -190,7 +218,14 @@ class _ScheduleCoordinationScreenState
           ),
           AccessibleIconButton(
             onPressed: _nextDate,
-            icon: const Icon(Icons.chevron_right),
+            icon: Icon(
+              Icons.chevron_right,
+              size: context.getAdaptiveIconSize(
+                mobile: 18,
+                tablet: 20,
+                desktop: 22,
+              ),
+            ),
             semanticLabel: 'Next day',
           ),
         ],
@@ -200,7 +235,14 @@ class _ScheduleCoordinationScreenState
 
   Widget _buildViewSelector(ThemeData theme, ColorScheme colorScheme) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      padding: context.getAdaptivePadding(
+        mobileHorizontal: 16,
+        mobileVertical: 8,
+        tabletHorizontal: 20,
+        tabletVertical: 10,
+        desktopHorizontal: 24,
+        desktopVertical: 12,
+      ),
       child: Row(
         children: [
           Expanded(
@@ -209,17 +251,38 @@ class _ScheduleCoordinationScreenState
                 ButtonSegment(
                   value: ScheduleView.day,
                   label: Text(AppLocalizations.of(context).dayLabel),
-                  icon: const Icon(Icons.today),
+                  icon: Icon(
+                    Icons.today,
+                    size: context.getAdaptiveIconSize(
+                      mobile: 16,
+                      tablet: 18,
+                      desktop: 20,
+                    ),
+                  ),
                 ),
                 ButtonSegment(
                   value: ScheduleView.week,
                   label: Text(AppLocalizations.of(context).weekLabel),
-                  icon: const Icon(Icons.view_week),
+                  icon: Icon(
+                    Icons.view_week,
+                    size: context.getAdaptiveIconSize(
+                      mobile: 16,
+                      tablet: 18,
+                      desktop: 20,
+                    ),
+                  ),
                 ),
                 ButtonSegment(
                   value: ScheduleView.month,
                   label: Text(AppLocalizations.of(context).monthLabel),
-                  icon: const Icon(Icons.calendar_month),
+                  icon: Icon(
+                    Icons.calendar_month,
+                    size: context.getAdaptiveIconSize(
+                      mobile: 16,
+                      tablet: 18,
+                      desktop: 20,
+                    ),
+                  ),
                 ),
               ],
               selected: {_currentView},
@@ -240,17 +303,38 @@ class _ScheduleCoordinationScreenState
     return Container(
       width: double.infinity,
       color: colorScheme.errorContainer,
-      padding: const EdgeInsets.all(12),
+      padding: context.getAdaptivePadding(
+        mobileAll: 12,
+        tabletAll: 14,
+        desktopAll: 16,
+      ),
       child: Row(
         children: [
-          Icon(Icons.warning, color: colorScheme.onErrorContainer, size: 20),
-          const SizedBox(width: 8),
+          Icon(
+            Icons.warning,
+            color: colorScheme.onErrorContainer,
+            size: context.getAdaptiveIconSize(
+              mobile: 18,
+              tablet: 20,
+              desktop: 22,
+            ),
+          ),
+          SizedBox(
+            width: context.getAdaptiveSpacing(
+              mobile: 8,
+              tablet: 10,
+              desktop: 12,
+            ),
+          ),
           Expanded(
             child: Text(
               'Schedule conflicts detected. Tap to resolve.',
               style: theme.textTheme.bodyMedium?.copyWith(
                 color: colorScheme.onErrorContainer,
                 fontWeight: FontWeight.w500,
+                fontSize:
+                    (theme.textTheme.bodyMedium?.fontSize ?? 14) *
+                    context.fontScale,
               ),
             ),
           ),
@@ -259,6 +343,11 @@ class _ScheduleCoordinationScreenState
             icon: Icon(
               Icons.chevron_right,
               color: colorScheme.onErrorContainer,
+              size: context.getAdaptiveIconSize(
+                mobile: 18,
+                tablet: 20,
+                desktop: 22,
+              ),
             ),
             semanticLabel: 'View conflict details',
           ),
@@ -269,7 +358,15 @@ class _ScheduleCoordinationScreenState
 
   Widget _buildScheduleView(ThemeData theme, ColorScheme colorScheme) {
     if (_isLoading) {
-      return const Center(child: CircularProgressIndicator());
+      return Center(
+        child: CircularProgressIndicator(
+          strokeWidth: context.getAdaptiveSpacing(
+            mobile: 2.5,
+            tablet: 3,
+            desktop: 3.5,
+          ),
+        ),
+      );
     }
 
     switch (_currentView) {
@@ -297,21 +394,43 @@ class _ScheduleCoordinationScreenState
           children: [
             Icon(
               Icons.event_available,
-              size: 64,
+              size: context.getAdaptiveSpacing(
+                mobile: 56,
+                tablet: 64,
+                desktop: 72,
+              ),
               color: colorScheme.onSurface.withValues(alpha: 0.3),
             ),
-            const SizedBox(height: 16),
+            SizedBox(
+              height: context.getAdaptiveSpacing(
+                mobile: 14,
+                tablet: 16,
+                desktop: 18,
+              ),
+            ),
             Text(
               'No events scheduled',
               style: theme.textTheme.headlineSmall?.copyWith(
                 color: colorScheme.onSurface.withValues(alpha: 0.6),
+                fontSize:
+                    (theme.textTheme.headlineSmall?.fontSize ?? 20) *
+                    context.fontScale,
               ),
             ),
-            const SizedBox(height: 8),
+            SizedBox(
+              height: context.getAdaptiveSpacing(
+                mobile: 6,
+                tablet: 8,
+                desktop: 10,
+              ),
+            ),
             Text(
               'Tap + to add a new event',
               style: theme.textTheme.bodyMedium?.copyWith(
                 color: colorScheme.onSurface.withValues(alpha: 0.5),
+                fontSize:
+                    (theme.textTheme.bodyMedium?.fontSize ?? 14) *
+                    context.fontScale,
               ),
             ),
           ],
@@ -320,7 +439,11 @@ class _ScheduleCoordinationScreenState
     }
 
     return ListView.builder(
-      padding: const EdgeInsets.all(16),
+      padding: context.getAdaptivePadding(
+        mobileAll: 16,
+        tabletAll: 20,
+        desktopAll: 24,
+      ),
       itemCount: dayEvents.length,
       itemBuilder: (context, index) {
         final event = dayEvents[index];
@@ -353,7 +476,9 @@ class _ScheduleCoordinationScreenState
         ? colorScheme.errorContainer
         : _getEventTypeColor(event.type, colorScheme);
     return Card(
-      margin: const EdgeInsets.only(bottom: 12),
+      margin: EdgeInsets.only(
+        bottom: context.getAdaptiveSpacing(mobile: 10, tablet: 12, desktop: 14),
+      ),
       color: cardColor,
       child: Semantics(
         label: '${event.title} at ${_formatTime(event.startTime)}',
@@ -362,9 +487,19 @@ class _ScheduleCoordinationScreenState
             : 'Tap to view details and edit',
         child: InkWell(
           onTap: () => _showEventDetails(event),
-          borderRadius: BorderRadius.circular(16),
+          borderRadius: BorderRadius.circular(
+            context.getAdaptiveBorderRadius(
+              mobile: 14,
+              tablet: 16,
+              desktop: 18,
+            ),
+          ),
           child: Padding(
-            padding: const EdgeInsets.all(16),
+            padding: context.getAdaptivePadding(
+              mobileAll: 16,
+              tabletAll: 18,
+              desktopAll: 20,
+            ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -376,9 +511,19 @@ class _ScheduleCoordinationScreenState
                       color: hasConflict
                           ? colorScheme.onErrorContainer
                           : colorScheme.onSurface,
-                      size: 20,
+                      size: context.getAdaptiveIconSize(
+                        mobile: 18,
+                        tablet: 20,
+                        desktop: 22,
+                      ),
                     ),
-                    const SizedBox(width: 8),
+                    SizedBox(
+                      width: context.getAdaptiveSpacing(
+                        mobile: 6,
+                        tablet: 8,
+                        desktop: 10,
+                      ),
+                    ),
                     Expanded(
                       child: Text(
                         event.title,
@@ -387,46 +532,94 @@ class _ScheduleCoordinationScreenState
                           color: hasConflict
                               ? colorScheme.onErrorContainer
                               : null,
+                          fontSize:
+                              (theme.textTheme.titleMedium?.fontSize ?? 16) *
+                              context.fontScale,
                         ),
                       ),
                     ),
                     if (hasConflict)
-                      Icon(Icons.warning, color: colorScheme.error, size: 20),
+                      Icon(
+                        Icons.warning,
+                        color: colorScheme.error,
+                        size: context.getAdaptiveIconSize(
+                          mobile: 18,
+                          tablet: 20,
+                          desktop: 22,
+                        ),
+                      ),
                     _buildStatusChip(event.status, theme, colorScheme),
                   ],
                 ),
-                const SizedBox(height: 8),
+                SizedBox(
+                  height: context.getAdaptiveSpacing(
+                    mobile: 6,
+                    tablet: 8,
+                    desktop: 10,
+                  ),
+                ),
 
                 // Time and location
                 Row(
                   children: [
                     Icon(
                       Icons.access_time,
-                      size: 16,
+                      size: context.getAdaptiveIconSize(
+                        mobile: 14,
+                        tablet: 16,
+                        desktop: 18,
+                      ),
                       color: colorScheme.onSurface.withValues(alpha: 0.6),
                     ),
-                    const SizedBox(width: 4),
-                    Text(
-                      '${_formatTime(event.startTime)} - ${_formatTime(event.endTime)}',
-                      style: theme.textTheme.bodyMedium?.copyWith(
-                        color: hasConflict
-                            ? colorScheme.onErrorContainer.withValues(
-                                alpha: 0.8,
-                              )
-                            : colorScheme.onSurface.withValues(alpha: 0.7),
+                    SizedBox(
+                      width: context.getAdaptiveSpacing(
+                        mobile: 3,
+                        tablet: 4,
+                        desktop: 5,
+                      ),
+                    ),
+                    Expanded(
+                      child: Text(
+                        '${_formatTime(event.startTime)} - ${_formatTime(event.endTime)}',
+                        style: theme.textTheme.bodyMedium?.copyWith(
+                          color: hasConflict
+                              ? colorScheme.onErrorContainer.withValues(
+                                  alpha: 0.8,
+                                )
+                              : colorScheme.onSurface.withValues(alpha: 0.7),
+                          fontSize:
+                              (theme.textTheme.bodyMedium?.fontSize ?? 14) *
+                              context.fontScale,
+                        ),
                       ),
                     ),
                   ],
                 ),
-                const SizedBox(height: 4),
+                SizedBox(
+                  height: context.getAdaptiveSpacing(
+                    mobile: 3,
+                    tablet: 4,
+                    desktop: 5,
+                  ),
+                ),
                 Row(
                   children: [
                     Icon(
                       Icons.location_on,
-                      size: 16,
+                      size: context.getAdaptiveIconSize(
+                        mobile: 14,
+                        tablet: 16,
+                        desktop: 18,
+                      ),
                       color: colorScheme.onSurface.withValues(alpha: 0.6),
                     ),
-                    const SizedBox(width: 4),
+                    SizedBox(
+                      width: context.getAdaptiveSpacing(
+                        mobile: 3,
+                        tablet: 4,
+                        desktop: 5,
+                      ),
+                    ),
                     Expanded(
                       child: Text(
                         event.location,
@@ -436,12 +629,21 @@ class _ScheduleCoordinationScreenState
                                   alpha: 0.8,
                                 )
                               : colorScheme.onSurface.withValues(alpha: 0.7),
+                          fontSize:
+                              (theme.textTheme.bodyMedium?.fontSize ?? 14) *
+                              context.fontScale,
                         ),
                       ),
                     ),
                   ],
                 ),
-                const SizedBox(height: 8),
+                SizedBox(
+                  height: context.getAdaptiveSpacing(
+                    mobile: 6,
+                    tablet: 8,
+                    desktop: 10,
+                  ),
+                ),
 
                 // Driver and vehicle info
                 Row(
@@ -451,10 +653,20 @@ class _ScheduleCoordinationScreenState
                         children: [
                           Icon(
                             Icons.person,
-                            size: 16,
+                            size: context.getAdaptiveIconSize(
+                              mobile: 14,
+                              tablet: 16,
+                              desktop: 18,
+                            ),
                             color: colorScheme.onSurface.withValues(alpha: 0.6),
                           ),
-                          const SizedBox(width: 4),
+                          SizedBox(
+                            width: context.getAdaptiveSpacing(
+                              mobile: 3,
+                              tablet: 4,
+                              desktop: 5,
+                            ),
+                          ),
                           Text(
                             event.driverName,
                             style: theme.textTheme.bodySmall?.copyWith(
@@ -465,6 +677,9 @@ class _ScheduleCoordinationScreenState
                                   : colorScheme.onSurface.withValues(
                                       alpha: 0.7,
                                     ),
+                              fontSize:
+                                  (theme.textTheme.bodySmall?.fontSize ?? 12) *
+                                  context.fontScale,
                             ),
                           ),
                         ],
@@ -474,10 +689,20 @@ class _ScheduleCoordinationScreenState
                       children: [
                         Icon(
                           Icons.directions_car,
-                          size: 16,
+                          size: context.getAdaptiveIconSize(
+                            mobile: 14,
+                            tablet: 16,
+                            desktop: 18,
+                          ),
                           color: colorScheme.onSurface.withValues(alpha: 0.6),
                         ),
-                        const SizedBox(width: 4),
+                        SizedBox(
+                          width: context.getAdaptiveSpacing(
+                            mobile: 3,
+                            tablet: 4,
+                            desktop: 5,
+                          ),
+                        ),
                         Text(
                           event.vehicleName,
                           style: theme.textTheme.bodySmall?.copyWith(
@@ -486,6 +711,9 @@ class _ScheduleCoordinationScreenState
                                     alpha: 0.8,
                                   )
                                 : colorScheme.onSurface.withValues(alpha: 0.7),
+                            fontSize:
+                                (theme.textTheme.bodySmall?.fontSize ?? 12) *
+                                context.fontScale,
                           ),
                         ),
                       ],
@@ -494,15 +722,31 @@ class _ScheduleCoordinationScreenState
                 ),
 
                 if (hasConflict) ...[
-                  const SizedBox(height: 8),
+                  SizedBox(
+                    height: context.getAdaptiveSpacing(
+                      mobile: 6,
+                      tablet: 8,
+                      desktop: 10,
+                    ),
+                  ),
                   Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 8,
-                      vertical: 4,
+                    padding: context.getAdaptivePadding(
+                      mobileHorizontal: 8,
+                      mobileVertical: 4,
+                      tabletHorizontal: 10,
+                      tabletVertical: 5,
+                      desktopHorizontal: 12,
+                      desktopVertical: 6,
                     ),
                     decoration: BoxDecoration(
                       color: colorScheme.error.withValues(alpha: 0.1),
-                      borderRadius: BorderRadius.circular(4),
+                      borderRadius: BorderRadius.circular(
+                        context.getAdaptiveBorderRadius(
+                          mobile: 3,
+                          tablet: 4,
+                          desktop: 5,
+                        ),
+                      ),
                       border: Border.all(
                         color: colorScheme.error.withValues(alpha: 0.3),
                       ),
@@ -512,15 +756,28 @@ class _ScheduleCoordinationScreenState
                       children: [
                         Icon(
                           Icons.error_outline,
-                          size: 14,
+                          size: context.getAdaptiveIconSize(
+                            mobile: 12,
+                            tablet: 14,
+                            desktop: 16,
+                          ),
                           color: colorScheme.error,
                         ),
-                        const SizedBox(width: 4),
+                        SizedBox(
+                          width: context.getAdaptiveSpacing(
+                            mobile: 3,
+                            tablet: 4,
+                            desktop: 5,
+                          ),
+                        ),
                         Text(
                           'Vehicle double-booked',
                           style: theme.textTheme.bodySmall?.copyWith(
                             color: colorScheme.error,
                             fontWeight: FontWeight.w500,
+                            fontSize:
+                                (theme.textTheme.bodySmall?.fontSize ?? 12) *
+                                context.fontScale,
                           ),
                         ),
                       ],
@@ -563,15 +820,18 @@ class _ScheduleCoordinationScreenState
     }
 
     return Chip(
-      label: Text(label),
-      backgroundColor: backgroundColor,
-      labelStyle: TextStyle(
-        color: textColor,
-        fontSize: 12,
-        fontWeight: FontWeight.w500,
+      label: Text(
+        label,
+        style: TextStyle(fontSize: (12 * context.fontScale).clamp(10, 16)),
       ),
+      backgroundColor: backgroundColor,
+      labelStyle: TextStyle(color: textColor, fontWeight: FontWeight.w500),
       materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-      padding: const EdgeInsets.symmetric(horizontal: 4),
+      padding: context.getAdaptivePadding(
+        mobileHorizontal: 4,
+        tabletHorizontal: 5,
+        desktopHorizontal: 6,
+      ),
     );
   }
 
@@ -696,24 +956,33 @@ class _ScheduleCoordinationScreenState
   }
 
   Future<void> _refreshSchedule() async {
+    // Cache responsive values before any async gap
+    final isMobile = context.isMobile;
+    final isTablet = context.isTablet;
+    final l10n = AppLocalizations.of(context);
+
     await _refreshController.forward();
     setState(() {
       _isLoading = true;
     });
-    // Simulate API call
-    await Future.delayed(const Duration(seconds: 1));
+
+    // Simulate API call with responsive duration
+    final apiCallDuration = isMobile ? 800 : (isTablet ? 1000 : 1200);
+    await Future.delayed(Duration(milliseconds: apiCallDuration));
     if (!mounted) return;
 
     setState(() {
       _isLoading = false;
     });
     _refreshController.reset();
-    // Show feedback
+    // Show feedback with responsive duration
     if (mounted) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text(AppLocalizations.of(context).scheduleRefreshed),
-          duration: const Duration(seconds: 1),
+          content: Text(l10n.scheduleRefreshed),
+          duration: Duration(
+            milliseconds: isMobile ? 1500 : (isTablet ? 2000 : 2500),
+          ),
         ),
       );
     }
@@ -723,8 +992,16 @@ class _ScheduleCoordinationScreenState
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(
+          top: Radius.circular(
+            context.getAdaptiveBorderRadius(
+              mobile: 16,
+              tablet: 20,
+              desktop: 24,
+            ),
+          ),
+        ),
       ),
       builder: (context) => const ConflictResolutionSheet(),
     );
@@ -733,8 +1010,16 @@ class _ScheduleCoordinationScreenState
   void _showFilterOptions() {
     showModalBottomSheet(
       context: context,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(
+          top: Radius.circular(
+            context.getAdaptiveBorderRadius(
+              mobile: 16,
+              tablet: 20,
+              desktop: 24,
+            ),
+          ),
+        ),
       ),
       builder: (context) => const FilterOptionsSheet(),
     );
@@ -797,12 +1082,37 @@ class ConflictResolutionSheet extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     return Container(
-      padding: const EdgeInsets.all(16),
+      padding: context.getAdaptivePadding(
+        mobileAll: 16,
+        tabletAll: 20,
+        desktopAll: 24,
+      ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Text(l10n.conflictResolution),
-          Text(l10n.implementationComingSoon),
+          Text(
+            l10n.conflictResolution,
+            style: Theme.of(context).textTheme.titleLarge?.copyWith(
+              fontSize:
+                  (Theme.of(context).textTheme.titleLarge?.fontSize ?? 20) *
+                  context.fontScale,
+            ),
+          ),
+          SizedBox(
+            height: context.getAdaptiveSpacing(
+              mobile: 8,
+              tablet: 10,
+              desktop: 12,
+            ),
+          ),
+          Text(
+            l10n.implementationComingSoon,
+            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+              fontSize:
+                  (Theme.of(context).textTheme.bodyMedium?.fontSize ?? 14) *
+                  context.fontScale,
+            ),
+          ),
         ],
       ),
     );
@@ -816,12 +1126,37 @@ class FilterOptionsSheet extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     return Container(
-      padding: const EdgeInsets.all(16),
+      padding: context.getAdaptivePadding(
+        mobileAll: 16,
+        tabletAll: 20,
+        desktopAll: 24,
+      ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Text(l10n.filterOptions),
-          Text(l10n.implementationComingSoon),
+          Text(
+            l10n.filterOptions,
+            style: Theme.of(context).textTheme.titleLarge?.copyWith(
+              fontSize:
+                  (Theme.of(context).textTheme.titleLarge?.fontSize ?? 20) *
+                  context.fontScale,
+            ),
+          ),
+          SizedBox(
+            height: context.getAdaptiveSpacing(
+              mobile: 8,
+              tablet: 10,
+              desktop: 12,
+            ),
+          ),
+          Text(
+            l10n.implementationComingSoon,
+            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+              fontSize:
+                  (Theme.of(context).textTheme.bodyMedium?.fontSize ?? 14) *
+                  context.fontScale,
+            ),
+          ),
         ],
       ),
     );
@@ -835,8 +1170,22 @@ class AddEventDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     return AlertDialog(
-      title: Text(l10n.addEvent),
-      content: Text(l10n.implementationComingSoon),
+      title: Text(
+        l10n.addEvent,
+        style: Theme.of(context).textTheme.titleLarge?.copyWith(
+          fontSize:
+              (Theme.of(context).textTheme.titleLarge?.fontSize ?? 20) *
+              context.fontScale,
+        ),
+      ),
+      content: Text(
+        l10n.implementationComingSoon,
+        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+          fontSize:
+              (Theme.of(context).textTheme.bodyMedium?.fontSize ?? 14) *
+              context.fontScale,
+        ),
+      ),
     );
   }
 }

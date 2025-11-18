@@ -91,13 +91,24 @@ class _OnboardingWizardPageState extends ConsumerState<OnboardingWizardPage> {
 
     if (user == null) return const SizedBox.shrink();
 
-    final isTablet = context.isTablet;
-    final avatarRadius = isTablet ? 28.0 : 24.0;
-    final spacing = context.getAdaptiveSpacing(mobile: 12, tablet: 16);
+    final avatarRadius = context.getAdaptiveBorderRadius(
+      mobile: 24,
+      tablet: 28,
+      desktop: 32,
+    );
+    final spacing = context.getAdaptiveSpacing(
+      mobile: 12,
+      tablet: 16,
+      desktop: 20,
+    );
 
     return Card(
       key: const Key('onboarding_user_info_card'),
-      elevation: 1,
+      elevation: context.isDesktop
+          ? 3
+          : context.isTablet
+          ? 2
+          : 1,
       color: Theme.of(
         context,
       ).colorScheme.surfaceContainerHighest.withValues(alpha: 0.3),
@@ -107,6 +118,8 @@ class _OnboardingWizardPageState extends ConsumerState<OnboardingWizardPage> {
           mobileVertical: 16,
           tabletHorizontal: 20,
           tabletVertical: 18,
+          desktopHorizontal: 24,
+          desktopVertical: 20,
         ),
         child: Row(
           children: [
@@ -118,7 +131,11 @@ class _OnboardingWizardPageState extends ConsumerState<OnboardingWizardPage> {
                 style: TextStyle(
                   color: Theme.of(context).colorScheme.onPrimary,
                   fontWeight: FontWeight.bold,
-                  fontSize: isTablet ? 18 : 16,
+                  fontSize: context.getAdaptiveFontSize(
+                    mobile: 16,
+                    tablet: 18,
+                    desktop: 20,
+                  ),
                 ),
               ),
             ),
@@ -131,48 +148,69 @@ class _OnboardingWizardPageState extends ConsumerState<OnboardingWizardPage> {
                   Text(
                     AppLocalizations.of(context).loggedInAs,
                     style:
-                        (isTablet
+                        (context.isTablet || context.isDesktop
                                 ? Theme.of(context).textTheme.bodyMedium
                                 : Theme.of(context).textTheme.bodySmall)
                             ?.copyWith(
                               color: Theme.of(
                                 context,
                               ).colorScheme.onSurfaceVariant,
-                              fontSize:
-                                  (isTablet ? 14 : 12) * context.fontScale,
+                              fontSize: context.getAdaptiveFontSize(
+                                mobile: 12,
+                                tablet: 14,
+                                desktop: 16,
+                              ),
                             ),
                   ),
-                  const SizedBox(height: 2),
+                  SizedBox(
+                    height: context.getAdaptiveSpacing(
+                      mobile: 2,
+                      tablet: 3,
+                      desktop: 4,
+                    ),
+                  ),
                   Text(
                     user.name.isNotEmpty ? user.name : 'Unknown User',
                     key: const Key('onboarding_user_name'),
                     style:
-                        (isTablet
+                        (context.isTablet || context.isDesktop
                                 ? Theme.of(context).textTheme.titleMedium
                                 : Theme.of(context).textTheme.bodyLarge)
                             ?.copyWith(
                               fontWeight: FontWeight.w500,
-                              fontSize:
-                                  (isTablet ? 18 : 16) * context.fontScale,
+                              fontSize: context.getAdaptiveFontSize(
+                                mobile: 16,
+                                tablet: 18,
+                                desktop: 20,
+                              ),
                             ),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                   ),
                   if (user.email.isNotEmpty) ...[
-                    const SizedBox(height: 1),
+                    SizedBox(
+                      height: context.getAdaptiveSpacing(
+                        mobile: 1,
+                        tablet: 2,
+                        desktop: 3,
+                      ),
+                    ),
                     Text(
                       user.email,
                       key: const Key('onboarding_user_email'),
                       style:
-                          (isTablet
+                          (context.isTablet || context.isDesktop
                                   ? Theme.of(context).textTheme.bodyMedium
                                   : Theme.of(context).textTheme.bodySmall)
                               ?.copyWith(
                                 color: Theme.of(
                                   context,
                                 ).colorScheme.onSurfaceVariant,
-                                fontSize:
-                                    (isTablet ? 14 : 12) * context.fontScale,
+                                fontSize: context.getAdaptiveFontSize(
+                                  mobile: 12,
+                                  tablet: 14,
+                                  desktop: 16,
+                                ),
                               ),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
@@ -270,7 +308,6 @@ class _OnboardingWizardPageState extends ConsumerState<OnboardingWizardPage> {
         child: LayoutBuilder(
           builder: (context, constraints) {
             final isCompactHeight = context.isCompactHeight;
-            final isTablet = context.isTablet;
 
             return SingleChildScrollView(
               child: ConstrainedBox(
@@ -294,19 +331,35 @@ class _OnboardingWizardPageState extends ConsumerState<OnboardingWizardPage> {
                         children: [
                           // EduLift Branding
                           Container(
-                            padding: EdgeInsets.all(isTablet ? 24 : 16),
+                            padding: context.getAdaptivePadding(
+                              mobileAll: 16,
+                              tabletAll: 24,
+                              desktopAll: 32,
+                            ),
                             decoration: BoxDecoration(
                               color: Theme.of(
                                 context,
                               ).colorScheme.primaryContainer,
                               borderRadius: BorderRadius.circular(
-                                isTablet ? 28 : 20,
+                                context.getAdaptiveBorderRadius(
+                                  mobile: 20,
+                                  tablet: 28,
+                                  desktop: 36,
+                                ),
                               ),
                             ),
                             child: Image.asset(
                               'assets/images/logos/edulift_logo_192.png',
-                              width: isTablet ? 160 : 120,
-                              height: isTablet ? 160 : 120,
+                              width: context.isDesktop
+                                  ? 200
+                                  : context.isTablet
+                                  ? 160
+                                  : 120,
+                              height: context.isDesktop
+                                  ? 200
+                                  : context.isTablet
+                                  ? 160
+                                  : 120,
                             ),
                           ),
                           SizedBox(
@@ -319,8 +372,11 @@ class _OnboardingWizardPageState extends ConsumerState<OnboardingWizardPage> {
                           Text(
                             'EduLift',
                             style: TextStyle(
-                              fontSize:
-                                  (isTablet ? 40 : 32) * context.fontScale,
+                              fontSize: context.getAdaptiveFontSize(
+                                mobile: 32,
+                                tablet: 40,
+                                desktop: 48,
+                              ),
                               fontWeight: FontWeight.bold,
                               color: Theme.of(context).colorScheme.primary,
                             ),
@@ -338,7 +394,7 @@ class _OnboardingWizardPageState extends ConsumerState<OnboardingWizardPage> {
                             AppLocalizations.of(context).welcomeOnboarding,
                             key: const Key('onboarding_welcome_message'),
                             style:
-                                (isTablet
+                                (context.isTablet || context.isDesktop
                                         ? Theme.of(
                                             context,
                                           ).textTheme.headlineMedium
@@ -346,9 +402,11 @@ class _OnboardingWizardPageState extends ConsumerState<OnboardingWizardPage> {
                                             context,
                                           ).textTheme.headlineSmall)
                                     ?.copyWith(
-                                      fontSize:
-                                          (isTablet ? 28 : 24) *
-                                          context.fontScale,
+                                      fontSize: context.getAdaptiveFontSize(
+                                        mobile: 24,
+                                        tablet: 28,
+                                        desktop: 32,
+                                      ),
                                       fontWeight: FontWeight.bold,
                                     ),
                             textAlign: TextAlign.center,
@@ -366,7 +424,7 @@ class _OnboardingWizardPageState extends ConsumerState<OnboardingWizardPage> {
                               context,
                             ).toGetStartedSetupFamily,
                             style:
-                                (isTablet
+                                (context.isTablet || context.isDesktop
                                         ? Theme.of(
                                             context,
                                           ).textTheme.titleMedium
@@ -375,9 +433,11 @@ class _OnboardingWizardPageState extends ConsumerState<OnboardingWizardPage> {
                                       color: Theme.of(
                                         context,
                                       ).colorScheme.onSurfaceVariant,
-                                      fontSize:
-                                          (isTablet ? 18 : 16) *
-                                          context.fontScale,
+                                      fontSize: context.getAdaptiveFontSize(
+                                        mobile: 16,
+                                        tablet: 18,
+                                        desktop: 20,
+                                      ),
                                     ),
                             textAlign: TextAlign.center,
                             maxLines: 2,
@@ -404,10 +464,18 @@ class _OnboardingWizardPageState extends ConsumerState<OnboardingWizardPage> {
                           // Family Choice Card
                           ConstrainedBox(
                             constraints: BoxConstraints(
-                              maxWidth: isTablet ? 600 : double.infinity,
+                              maxWidth: context.isDesktop
+                                  ? 800
+                                  : context.isTablet
+                                  ? 600
+                                  : double.infinity,
                             ),
                             child: Card(
-                              elevation: isTablet ? 3 : 2,
+                              elevation: context.isDesktop
+                                  ? 4
+                                  : context.isTablet
+                                  ? 3
+                                  : 2,
                               child: Padding(
                                 padding: context.getAdaptivePadding(
                                   mobileHorizontal: 24,
@@ -446,7 +514,8 @@ class _OnboardingWizardPageState extends ConsumerState<OnboardingWizardPage> {
                                           context,
                                         ).youveBeenInvitedToJoinFamily,
                                         style:
-                                            (isTablet
+                                            (context.isTablet ||
+                                                        context.isDesktop
                                                     ? Theme.of(
                                                         context,
                                                       ).textTheme.headlineSmall
@@ -454,9 +523,12 @@ class _OnboardingWizardPageState extends ConsumerState<OnboardingWizardPage> {
                                                         context,
                                                       ).textTheme.titleLarge)
                                                 ?.copyWith(
-                                                  fontSize:
-                                                      (isTablet ? 26 : 22) *
-                                                      context.fontScale,
+                                                  fontSize: context
+                                                      .getAdaptiveFontSize(
+                                                        mobile: 22,
+                                                        tablet: 26,
+                                                        desktop: 30,
+                                                      ),
                                                   fontWeight: FontWeight.bold,
                                                 ),
                                         textAlign: TextAlign.center,
@@ -476,7 +548,8 @@ class _OnboardingWizardPageState extends ConsumerState<OnboardingWizardPage> {
                                           context,
                                         ).acceptInvitationToCoordinate,
                                         style:
-                                            (isTablet
+                                            (context.isTablet ||
+                                                        context.isDesktop
                                                     ? Theme.of(
                                                         context,
                                                       ).textTheme.titleMedium
@@ -487,9 +560,12 @@ class _OnboardingWizardPageState extends ConsumerState<OnboardingWizardPage> {
                                                   color: Theme.of(context)
                                                       .colorScheme
                                                       .onSurfaceVariant,
-                                                  fontSize:
-                                                      (isTablet ? 18 : 16) *
-                                                      context.fontScale,
+                                                  fontSize: context
+                                                      .getAdaptiveFontSize(
+                                                        mobile: 16,
+                                                        tablet: 18,
+                                                        desktop: 20,
+                                                      ),
                                                 ),
                                         textAlign: TextAlign.center,
                                         maxLines: 3,
@@ -518,9 +594,12 @@ class _OnboardingWizardPageState extends ConsumerState<OnboardingWizardPage> {
                                               context,
                                             ).getStarted,
                                             style: TextStyle(
-                                              fontSize:
-                                                  (isTablet ? 18 : 16) *
-                                                  context.fontScale,
+                                              fontSize: context
+                                                  .getAdaptiveFontSize(
+                                                    mobile: 16,
+                                                    tablet: 18,
+                                                    desktop: 20,
+                                                  ),
                                               fontWeight: FontWeight.w600,
                                             ),
                                           ),
@@ -551,9 +630,12 @@ class _OnboardingWizardPageState extends ConsumerState<OnboardingWizardPage> {
                                               context,
                                             ).skipOnboarding,
                                             style: TextStyle(
-                                              fontSize:
-                                                  (isTablet ? 16 : 14) *
-                                                  context.fontScale,
+                                              fontSize: context
+                                                  .getAdaptiveFontSize(
+                                                    mobile: 14,
+                                                    tablet: 16,
+                                                    desktop: 18,
+                                                  ),
                                             ),
                                           ),
                                         ),
@@ -565,7 +647,8 @@ class _OnboardingWizardPageState extends ConsumerState<OnboardingWizardPage> {
                                           context,
                                         ).chooseYourFamilySetup,
                                         style:
-                                            (isTablet
+                                            (context.isTablet ||
+                                                        context.isDesktop
                                                     ? Theme.of(
                                                         context,
                                                       ).textTheme.headlineSmall
@@ -573,9 +656,12 @@ class _OnboardingWizardPageState extends ConsumerState<OnboardingWizardPage> {
                                                         context,
                                                       ).textTheme.titleLarge)
                                                 ?.copyWith(
-                                                  fontSize:
-                                                      (isTablet ? 26 : 22) *
-                                                      context.fontScale,
+                                                  fontSize: context
+                                                      .getAdaptiveFontSize(
+                                                        mobile: 22,
+                                                        tablet: 26,
+                                                        desktop: 30,
+                                                      ),
                                                   fontWeight: FontWeight.bold,
                                                 ),
                                         textAlign: TextAlign.center,
@@ -617,9 +703,12 @@ class _OnboardingWizardPageState extends ConsumerState<OnboardingWizardPage> {
                                               context,
                                             ).createFamily,
                                             style: TextStyle(
-                                              fontSize:
-                                                  (isTablet ? 18 : 16) *
-                                                  context.fontScale,
+                                              fontSize: context
+                                                  .getAdaptiveFontSize(
+                                                    mobile: 16,
+                                                    tablet: 18,
+                                                    desktop: 20,
+                                                  ),
                                               fontWeight: FontWeight.w600,
                                             ),
                                           ),
@@ -660,9 +749,12 @@ class _OnboardingWizardPageState extends ConsumerState<OnboardingWizardPage> {
                                               context,
                                             ).joinExistingFamily,
                                             style: TextStyle(
-                                              fontSize:
-                                                  (isTablet ? 18 : 16) *
-                                                  context.fontScale,
+                                              fontSize: context
+                                                  .getAdaptiveFontSize(
+                                                    mobile: 16,
+                                                    tablet: 18,
+                                                    desktop: 20,
+                                                  ),
                                               fontWeight: FontWeight.w600,
                                             ),
                                           ),

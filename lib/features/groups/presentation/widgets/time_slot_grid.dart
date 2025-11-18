@@ -209,7 +209,11 @@ class _TimeSlotGridState extends ConsumerState<TimeSlotGrid> {
           ),
           content: ConstrainedBox(
             constraints: BoxConstraints(
-              maxWidth: context.isDesktop ? 400 : 300,
+              maxWidth: context.getAdaptiveSpacing(
+                mobile: 280,
+                tablet: 340,
+                desktop: 400,
+              ),
             ),
             child: Column(
               mainAxisSize: MainAxisSize.min,
@@ -231,7 +235,13 @@ class _TimeSlotGridState extends ConsumerState<TimeSlotGrid> {
                   autofocus: true,
                 ),
 
-                const SizedBox(height: 16),
+                SizedBox(
+                  height: context.getAdaptiveSpacing(
+                    mobile: 12,
+                    tablet: 16,
+                    desktop: 20,
+                  ),
+                ),
 
                 // Label input
                 TextFormField(
@@ -247,12 +257,28 @@ class _TimeSlotGridState extends ConsumerState<TimeSlotGrid> {
 
                 // Validation error
                 if (_validationError != null) ...[
-                  const SizedBox(height: 8),
+                  SizedBox(
+                    height: context.getAdaptiveSpacing(
+                      mobile: 6,
+                      tablet: 8,
+                      desktop: 10,
+                    ),
+                  ),
                   Container(
-                    padding: const EdgeInsets.all(8),
+                    padding: context.getAdaptivePadding(
+                      mobileAll: 6,
+                      tabletAll: 8,
+                      desktopAll: 10,
+                    ),
                     decoration: BoxDecoration(
                       color: AppColors.errorThemed(context),
-                      borderRadius: BorderRadius.circular(8),
+                      borderRadius: BorderRadius.circular(
+                        context.getAdaptiveBorderRadius(
+                          mobile: 6,
+                          tablet: 8,
+                          desktop: 10,
+                        ),
+                      ),
                       border: Border.all(color: AppColors.errorThemed(context)),
                     ),
                     child: Row(
@@ -260,9 +286,19 @@ class _TimeSlotGridState extends ConsumerState<TimeSlotGrid> {
                         Icon(
                           Icons.error,
                           color: AppColors.errorThemed(context),
-                          size: 16,
+                          size: context.getAdaptiveIconSize(
+                            mobile: 14,
+                            tablet: 16,
+                            desktop: 18,
+                          ),
                         ),
-                        const SizedBox(width: 8),
+                        SizedBox(
+                          width: context.getAdaptiveSpacing(
+                            mobile: 6,
+                            tablet: 8,
+                            desktop: 10,
+                          ),
+                        ),
                         Expanded(
                           child: Text(
                             _validationError!,
@@ -373,7 +409,9 @@ class _TimeSlotGridState extends ConsumerState<TimeSlotGrid> {
           ],
         ),
 
-        const SizedBox(height: 8),
+        SizedBox(
+          height: context.getAdaptiveSpacing(mobile: 6, tablet: 8, desktop: 10),
+        ),
 
         // Usage info
         Text(
@@ -387,7 +425,13 @@ class _TimeSlotGridState extends ConsumerState<TimeSlotGrid> {
           ),
         ),
 
-        const SizedBox(height: 16),
+        SizedBox(
+          height: context.getAdaptiveSpacing(
+            mobile: 12,
+            tablet: 16,
+            desktop: 20,
+          ),
+        ),
 
         // Time slots grid
         Expanded(
@@ -406,10 +450,20 @@ class _TimeSlotGridState extends ConsumerState<TimeSlotGrid> {
         children: [
           Icon(
             Icons.schedule_outlined,
-            size: 80,
+            size: context.getAdaptiveIconSize(
+              mobile: 60,
+              tablet: 72,
+              desktop: 80,
+            ),
             color: theme.colorScheme.onSurface.withValues(alpha: 0.5),
           ),
-          const SizedBox(height: 16),
+          SizedBox(
+            height: context.getAdaptiveSpacing(
+              mobile: 12,
+              tablet: 16,
+              desktop: 20,
+            ),
+          ),
           Text(
             AppLocalizations.of(context).noTimeSlotsConfigured,
             style: theme.textTheme.titleMedium?.copyWith(
@@ -417,7 +471,13 @@ class _TimeSlotGridState extends ConsumerState<TimeSlotGrid> {
               fontWeight: FontWeight.w600,
             ),
           ),
-          const SizedBox(height: 8),
+          SizedBox(
+            height: context.getAdaptiveSpacing(
+              mobile: 6,
+              tablet: 8,
+              desktop: 10,
+            ),
+          ),
           Text(
             AppLocalizations.of(context).addTimeSlotsDescription,
             textAlign: TextAlign.center,
@@ -425,7 +485,13 @@ class _TimeSlotGridState extends ConsumerState<TimeSlotGrid> {
               color: theme.colorScheme.onSurface.withValues(alpha: 0.5),
             ),
           ),
-          const SizedBox(height: 24),
+          SizedBox(
+            height: context.getAdaptiveSpacing(
+              mobile: 18,
+              tablet: 24,
+              desktop: 30,
+            ),
+          ),
           ElevatedButton.icon(
             onPressed: _addTimeSlot,
             icon: const Icon(Icons.add),
@@ -471,7 +537,11 @@ class _TimeSlotGridState extends ConsumerState<TimeSlotGrid> {
                 tablet: 12,
                 desktop: 16,
               ),
-              childAspectRatio: context.isDesktop ? 2.5 : 2.0,
+              childAspectRatio: context.getAdaptiveAspectRatio(
+                mobile: 2.0,
+                tablet: 2.0,
+                desktop: 2.5,
+              ),
             ),
             itemCount: _workingSlots.length,
             itemBuilder: (context, index) {
@@ -559,14 +629,28 @@ class _TimeSlotGridState extends ConsumerState<TimeSlotGrid> {
             // Edit button
             IconButton(
               onPressed: () => _editTimeSlot(index),
-              icon: const Icon(Icons.edit, size: 20),
+              icon: Icon(
+                Icons.edit,
+                size: context.getAdaptiveIconSize(
+                  mobile: 18,
+                  tablet: 20,
+                  desktop: 22,
+                ),
+              ),
               tooltip: AppLocalizations.of(context).editTimeSlotTooltip,
             ),
 
             // Delete button
             IconButton(
               onPressed: () => _deleteTimeSlot(index),
-              icon: const Icon(Icons.delete, size: 20),
+              icon: Icon(
+                Icons.delete,
+                size: context.getAdaptiveIconSize(
+                  mobile: 18,
+                  tablet: 20,
+                  desktop: 22,
+                ),
+              ),
               color: AppColors.errorThemed(context),
               tooltip: AppLocalizations.of(context).deleteTimeSlotTooltip,
             ),

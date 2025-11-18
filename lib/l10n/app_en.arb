@@ -141,11 +141,7 @@
   "@adjustmentReason": {},
   "adjustmentReasonHint": "e.g., car seat, maintenance",
   "@adjustmentReasonHint": {},
-  "admin": "Admin",
-  "@admin": {
-    "description": "Admin role label (short form)"
-  },
-  "adminCanManageMembers": "Admin can manage family members",
+    "adminCanManageMembers": "Admin can manage family members",
   "@adminCanManageMembers": {
     "description": "Description of admin role permissions"
   },
@@ -211,10 +207,6 @@
   },
   "assignedChildren": "Assigned Child",
   "@assignedChildren": {},
-  "available": "Available",
-  "@available": {
-    "description": "Available status"
-  },
   "availableOptions": "Available Options",
   "@availableOptions": {
     "description": "Section header for available options"
@@ -343,6 +335,18 @@
   "enterChildAge": "Enter age",
   "@enterChildAge": {
     "description": "Hint text for child age input field"
+  },
+  "childNameInvalidCharacters": "Name can only contain letters, spaces, hyphens, and apostrophes",
+  "@childNameInvalidCharacters": {
+    "description": "Error message for invalid child name format"
+  },
+  "childNotFound": "Child not found",
+  "@childNotFound": {
+    "description": "Error message when child is not found"
+  },
+  "years": "years",
+  "@years": {
+    "description": "Age unit in years"
   },
   "childTransportCapacity": "{count, plural, =0{This vehicle cannot transport children (driver seat excluded)} =1{This vehicle can transport up to {count} child (driver seat excluded)} other{This vehicle can transport up to {count} children (driver seat excluded)}}",
   "@childTransportCapacity": {
@@ -2230,6 +2234,10 @@
   "@inviteNewMember": {
     "description": "Button text to invite new family member"
   },
+  "sendInvitationDescription": "Send an invitation to join your family. They will receive an email with instructions to accept the invitation.",
+  "@sendInvitationDescription": {
+    "description": "Description text explaining how family invitations work"
+  },
   "inviteToGroup": "Invite to group",
   "@inviteToGroup": {
     "description": "Menu item to invite to group"
@@ -2318,6 +2326,10 @@
   "language": "Language",
   "@language": {
     "description": "Language section title"
+  },
+  "languageAndToolsMore": "Language, Developer Tools & More",
+  "@languageAndToolsMore": {
+    "description": "Description for settings page menu item"
   },
   "languageChanged": "Language changed successfully",
   "@languageChanged": {
@@ -2622,6 +2634,18 @@
   "@memberActions": {
     "description": "Title for member actions menu"
   },
+  "groupActions": "Group Actions",
+  "@groupActions": {
+    "description": "Title for group actions section"
+  },
+  "createNewGroupDescription": "Create a new transport group for organizing family schedules",
+  "@createNewGroupDescription": {
+    "description": "Description for creating a new group"
+  },
+  "joinExistingGroupDescription": "Join an existing group using an invitation code or link",
+  "@joinExistingGroupDescription": {
+    "description": "Description for joining an existing group"
+  },
   "memberCount": "{count, plural, =1{1 member} other{{count} members}}",
   "@memberCount": {
     "description": "Number of members in family",
@@ -2751,6 +2775,10 @@
   "navigationDashboard": "Dashboard",
   "@navigationDashboard": {
     "description": "Navigation label for dashboard"
+  },
+  "navigationDashboardShort": "Home",
+  "@navigationDashboardShort": {
+    "description": "Short navigation label for dashboard (mobile)"
   },
   "navigationFamily": "Family",
   "@navigationFamily": {
@@ -2908,6 +2936,10 @@
   "noRecentActivity": "No recent activity",
   "@noRecentActivity": {
     "description": "Empty state message for no recent activity"
+  },
+  "noRecentActivityMessage": "Your activity will appear here",
+  "@noRecentActivityMessage": {
+    "description": "Empty state subtext for no recent activity section"
   },
   "noSentInvitations": "No sent invitations",
   "@noSentInvitations": {
@@ -3194,10 +3226,6 @@
   "save": "Save",
   "@save": {
     "description": "Save button text"
-  },
-  "saveChanges": "Save Changes",
-  "@saveChanges": {
-    "description": "Button to save changes"
   },
   "saved": "Saved",
   "@saved": {
@@ -4228,7 +4256,7 @@
   "@familyNameTooShortValidation": {
     "description": "Validation error when family name is too short"
   },
-  "defaultGroupConfigInfo": "No schedule configured yet. Configure departure hours for each day and save to activate the schedule.",
+  "defaultGroupConfigInfo": "Configure departure hours for each day and save to activate the schedule.",
   "@defaultGroupConfigInfo": {
     "description": "Information banner for new group default configuration"
   },
@@ -5078,6 +5106,10 @@
   "@unknown": {
     "description": "Unknown or unspecified value"
   },
+  "unnamedGroup": "Unnamed Group",
+  "@unnamedGroup": {
+    "description": "Fallback text for group without name"
+  },
   "unknownVehicle": "Unknown Vehicle",
   "@unknownVehicle": {
     "description": "Fallback name for vehicle with no name"
@@ -5394,6 +5426,92 @@
         "example": "Europe/Paris"
       }
     }
+  },
+  "currentTimezone": "Current: {timezone}",
+  "@currentTimezone": {
+    "description": "Current timezone display",
+    "placeholders": {
+      "timezone": {
+        "type": "String",
+        "example": "Europe/Paris"
+      }
+    }
+  },
+  "localTime": "Local time: {time}",
+  "@localTime": {
+    "description": "Local time display with timezone offset",
+    "placeholders": {
+      "time": {
+        "type": "String",
+        "example": "14:30 (UTC+2)"
+      }
+    }
+  },
+  "searchTimezones": "Search timezones...",
+  "@searchTimezones": {
+    "description": "Search placeholder for timezone field"
+  },
+  "noTimezonesFound": "No timezones found",
+  "@noTimezonesFound": {
+    "description": "Message when timezone search returns no results"
+  },
+  "selectTimezone": "Select timezone",
+  "@selectTimezone": {
+    "description": "Label for timezone dropdown"
+  },
+  "tryDifferentSearchTerm": "Try a different search term",
+  "@tryDifferentSearchTerm": {
+    "description": "Helper text for empty timezone search"
+  },
+  "timezonesAvailable": "{count} timezones available",
+  "@timezonesAvailable": {
+    "description": "Helper text showing number of available timezones",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "50"
+      }
+    }
+  },
+  "automaticallySyncTimezone": "Automatically sync timezone",
+  "@automaticallySyncTimezone": {
+    "description": "Title for auto-sync timezone checkbox"
+  },
+  "keepTimezoneSyncedWithDevice": "Keep timezone synchronized with device",
+  "@keepTimezoneSyncedWithDevice": {
+    "description": "Subtitle for auto-sync timezone checkbox"
+  },
+  "autoSyncEnabled": "Auto-sync enabled",
+  "@autoSyncEnabled": {
+    "description": "Success message when auto-sync is enabled"
+  },
+  "autoSyncDisabled": "Auto-sync disabled",
+  "@autoSyncDisabled": {
+    "description": "Success message when auto-sync is disabled"
+  },
+  "invalidTimezoneFormat": "Invalid timezone format",
+  "@invalidTimezoneFormat": {
+    "description": "Error message for invalid timezone"
+  },
+  "timezoneUpdatedSuccessfully": "Timezone updated successfully",
+  "@timezoneUpdatedSuccessfully": {
+    "description": "Success message when timezone is updated"
+  },
+  "failedToUpdateTimezone": "Failed to update timezone. Please try again.",
+  "@failedToUpdateTimezone": {
+    "description": "Error message when timezone update fails"
+  },
+  "failedToDetectTimezone": "Failed to detect timezone. Please try again.",
+  "@failedToDetectTimezone": {
+    "description": "Error message when timezone detection fails"
+  },
+  "failedToUpdateAutoSyncPreference": "Failed to update auto-sync preference",
+  "@failedToUpdateAutoSyncPreference": {
+    "description": "Error message when auto-sync preference update fails"
+  },
+  "unknownTimezone": "Unknown",
+  "@unknownTimezone": {
+    "description": "Fallback text for unknown timezone"
   },
   "todayTransports": "Today's Transports",
   "@todayTransports": {

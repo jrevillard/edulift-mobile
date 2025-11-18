@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:edulift/core/domain/entities/schedule/vehicle_assignment.dart';
+import '../utils/responsive_breakpoints.dart';
 
 /// Badge compact affichant la capacité du véhicule (X/Y)
 ///
@@ -56,7 +57,7 @@ class VehicleCapacityBadge extends StatelessWidget {
     return Container(
       key: const Key('vehicle_capacity_badge'),
       padding: EdgeInsets.symmetric(
-        horizontal: compact ? 6 : 8,
+        horizontal: compact ? 4 : 8,
         vertical: compact ? 2 : 4,
       ),
       decoration: BoxDecoration(
@@ -69,7 +70,17 @@ class VehicleCapacityBadge extends StatelessWidget {
         children: [
           Icon(
             _getCapacityStatusIcon(status),
-            size: compact ? 12 : 14,
+            size: compact
+                ? context.getAdaptiveIconSize(
+                    mobile: 10,
+                    tablet: 12,
+                    desktop: 14,
+                  )
+                : context.getAdaptiveIconSize(
+                    mobile: 12,
+                    tablet: 14,
+                    desktop: 16,
+                  ),
             color: backgroundColor,
           ),
           SizedBox(width: compact ? 3 : 4),
@@ -79,7 +90,17 @@ class VehicleCapacityBadge extends StatelessWidget {
             style: Theme.of(context).textTheme.bodySmall?.copyWith(
               fontWeight: FontWeight.w600,
               color: textColor,
-              fontSize: compact ? 10 : 11,
+              fontSize: compact
+                  ? context.getAdaptiveFontSize(
+                      mobile: 10,
+                      tablet: 11,
+                      desktop: 12,
+                    )
+                  : context.getAdaptiveFontSize(
+                      mobile: 11,
+                      tablet: 12,
+                      desktop: 13,
+                    ),
             ),
           ),
         ],
