@@ -83,10 +83,12 @@ jobs:
           ./scripts/validate-ci-versions.sh
 
       - name: Setup Flutter Environment
-        uses: ./.github/actions/setup-flutter
+        uses: subosito/flutter-action@v2
         with:
           flutter-version: ${{ steps.load-versions.outputs.FLUTTER_VERSION }}
-          java-version: ${{ steps.load-versions.outputs.JAVA_VERSION }}
+          channel: ${{ steps.load-versions.outputs.FLUTTER_CHANNEL }}
+          cache: true
+          cache-key: 'flutter-${{ steps.load-versions.outputs.FLUTTER_CHANNEL }}-${{ steps.load-versions.outputs.FLUTTER_VERSION }}'
 
       - name: Cache Gradle dependencies
         uses: actions/cache@v4
@@ -390,7 +392,17 @@ jobs:
         with:
           files: artifacts/**/*
           tag_name: ${{ github.ref_name }}
-          name: EduLift Mobile ${{ github.ref_name }}
+          name: EduLift Mobile Android ${{ (contains(github.ref_name, '-') && 'staging') || 'production' }} ${{ github.ref_name }}
+          body: |
+            EduLift Mobile Android ${{ (contains(github.ref_name, '-') && 'staging') || 'production' }} release
+
+            - Version: ${{ github.ref_name }}
+            - Platform: Android
+            - Environment: ${{ (contains(github.ref_name, '-') && 'staging') || 'production' }}
+            - Commit: ${{ github.sha }}
+            - Build: ${{ github.run_number }}
+
+            Firebase App Distribution links are also available for testers.
           draft: false
           prerelease: contains(github.ref_name, '-')
 

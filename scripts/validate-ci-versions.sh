@@ -66,12 +66,21 @@ else
     validation_errors=$((validation_errors + 1))
 fi
 
-# Validate GitHub Actions setup action
-echo "🔍 Checking .github/actions/setup-flutter/action.yml..."
-if grep -q "required: true" ".github/actions/setup-flutter/action.yml"; then
-    echo "✅ Setup action requires flutter-version parameter"
+# Validate GitHub Actions setup action usage
+echo "🔍 Checking Flutter setup action usage in workflows..."
+# Check that CI workflow uses subosito/flutter-action@v2
+if grep -q "uses: subosito/flutter-action@v2" ".github/workflows/ci.yml"; then
+    echo "✅ CI workflow uses subosito/flutter-action@v2"
 else
-    echo -e "${RED}❌ Setup action should require flutter-version parameter${NC}"
+    echo -e "${RED}❌ CI workflow should use subosito/flutter-action@v2${NC}"
+    validation_errors=$((validation_errors + 1))
+fi
+
+# Check that CD workflow uses subosito/flutter-action@v2
+if grep -q "uses: subosito/flutter-action@v2" ".github/workflows/cd.yml"; then
+    echo "✅ CD workflow uses subosito/flutter-action@v2"
+else
+    echo -e "${RED}❌ CD workflow should use subosito/flutter-action@v2${NC}"
     validation_errors=$((validation_errors + 1))
 fi
 
@@ -106,11 +115,13 @@ fi
 echo ""
 echo "📋 Validating other versions..."
 
-# Validate Java version - check if workflow uses steps.load-versions.outputs.JAVA_VERSION
+# Validate Java version - check if workflow uses steps.load-versions.outputs.JAVA_VERSION OR if it's handled by flutter-action
 if grep -q "steps.*outputs.*JAVA_VERSION" ".github/workflows/cd.yml"; then
     echo "✅ Java version loaded from ci-versions.env"
+elif grep -q "uses: subosito/flutter-action@v2" ".github/workflows/cd.yml"; then
+    echo "✅ Java version handled by flutter-action (auto-managed)"
 else
-    echo -e "${RED}❌ Java version not loaded from ci-versions.env${NC}"
+    echo -e "${RED}❌ Java version not configured${NC}"
     validation_errors=$((validation_errors + 1))
 fi
 
@@ -148,6 +159,31 @@ if grep -q "GITHUB_OUTPUT" ".github/workflows/ci.yml"; then
     echo "✅ CI workflow uses GITHUB_OUTPUT to load variables"
 else
     echo -e "${RED}❌ CI workflow doesn't use GITHUB_OUTPUT approach${NC}"
+    validation_errors=$((validation_errors + 1))
+fi
+
+# Validate CI loads configuration JSON for flavors
+if grep -q "dart-define-from-file=config/development.json" ".github/workflows/ci.yml"; then
+    echo "✅ CI workflow loads configuration JSON for development flavor"
+else
+    echo -e "${RED}❌ CI workflow missing dart-define-from-file for development flavor${NC}"
+    validation_errors=$((validation_errors + 1))
+fi
+
+# Validate Codemagic version update for iOS
+echo ""
+echo "📋 Validating Codemagic iOS version management..."
+if grep -q "update-version" "codemagic.yaml"; then
+    echo "✅ Codemagic has version update script for iOS"
+else
+    echo -e "${RED}❌ Codemagic missing version update script for iOS${NC}"
+    validation_errors=$((validation_errors + 1))
+fi
+
+if grep -q "Update version from tag" "codemagic.yaml"; then
+    echo "✅ Codemagic updates pubspec.yaml from tag"
+else
+    echo -e "${RED}❌ Codemagic missing pubspec.yaml update from tag${NC}"
     validation_errors=$((validation_errors + 1))
 fi
 

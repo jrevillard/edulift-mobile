@@ -59,7 +59,6 @@ definitions:
 
         # Clean previous builds
         echo "🧹 Cleaning previous builds..."
-        rm -rf build/ios/ipa/
         rm -rf ios/build/
 
         # Run the build script
@@ -71,30 +70,25 @@ definitions:
           exit 1
         fi
 
-        # Move IPA to expected location
-        if [[ -f "ios/build/ipa/edulift-$FLAVOR.ipa" ]]; then
-          echo "📦 Moving IPA to build/ios/ipa/"
-          mkdir -p build/ios/ipa/
-          cp "ios/build/ipa/edulift-$FLAVOR.ipa" "build/ios/ipa/"
-        else
-          echo "❌ IPA not found at expected location"
-          echo "🔍 Available files:"
-          find ios/build -name "*.ipa" 2>/dev/null || echo "No IPA files found"
-          exit 1
-        fi
+        # Find IPA from build location
+        echo "🔍 Looking for IPA: ios/build/ipa/edulift-$FLAVOR.ipa"
+        echo "🔍 FLAVOR value: $FLAVOR"
+        echo "🔍 Available IPA files:"
+        find ios/build -name "*.ipa" 2>/dev/null || echo "No IPA files found"
 
-        # Final verification
-        IPA_PATH=$(find build/ios/ipa -name "*.ipa" | head -n 1)
-        echo "📦 Final IPA: $IPA_PATH"
+        IPA_PATH="ios/build/ipa/edulift-$FLAVOR.ipa"
 
         if [[ -f "$IPA_PATH" ]]; then
-          echo "✅ IPA ready for AltStore PAL!"
+          echo "✅ IPA found at build location: $IPA_PATH"
+          echo "✅ IPA ready!"
           echo "📊 IPA details:"
           ls -lh "$IPA_PATH"
           file "$IPA_PATH"
           echo "📦 Size: $(du -h "$IPA_PATH" | cut -f1)"
         else
-          echo "❌ IPA not found in final location"
+          echo "❌ IPA not found at expected location"
+          echo "🔍 Available files:"
+          find ios/build -name "*.ipa" 2>/dev/null || echo "No IPA files found"
           exit 1
         fi
 
@@ -113,8 +107,11 @@ definitions:
         echo "✅ GitHub token is valid"
 
         # Get build info and commit info
-        IPA_PATH=$(find build/ios/ipa -name "*.ipa" | head -n 1)
-        VERSION=$(flutter --version | head -n 1 | cut -d' ' -f2)
+        IPA_PATH="ios/build/ipa/edulift-$FLAVOR.ipa"
+        if [[ ! -f "$IPA_PATH" ]]; then
+          echo "❌ IPA not found at expected location: $IPA_PATH"
+          exit 1
+        fi
         BUILD_NUMBER=$(date +%s)
         IPA_SIZE=$(du -h "$IPA_PATH" | cut -f1)
 
@@ -122,14 +119,43 @@ definitions:
         COMMIT_SHA=$(git rev-parse HEAD)
 
         echo "IPA Path: $IPA_PATH"
-        echo "Version: $VERSION"
         echo "Build Number: $BUILD_NUMBER"
         echo "Size: $IPA_SIZE"
         echo "Commit SHA: $COMMIT_SHA"
 
-        # Create release using GitHub API
-        RELEASE_TAG="v$VERSION-$BUILD_NUMBER"
-        RELEASE_NAME="EduLift iOS $FLAVOR v$VERSION"
+        # Extract version from pubspec.yaml (managed by Android CD)
+        if [[ ! -f "pubspec.yaml" ]]; then
+          echo "❌ pubspec.yaml not found!"
+          echo "This is a critical error - the app version must be defined in pubspec.yaml"
+          exit 1
+        fi
+
+        # Extract current version from pubspec.yaml (Android CD updates this)
+        FULL_VERSION=$(grep "^version:" pubspec.yaml | cut -d':' -f2 | xargs)
+
+        # Parse version and build number (format: "1.0.0+123")
+        VERSION=$(echo "$FULL_VERSION" | cut -d'+' -f1)
+        # Use iOS timestamp build number instead of Android run number to avoid conflicts
+        IOS_BUILD_NUMBER=$(date +%s)
+        echo "📌 Found pubspec.yaml version: $FULL_VERSION"
+        echo "📌 Using iOS build number: $IOS_BUILD_NUMBER (different from Android run number to avoid conflicts)"
+
+        BUILD_NUMBER=$IOS_BUILD_NUMBER
+
+        echo "Version: $VERSION (from pubspec.yaml: $FULL_VERSION)"
+        echo "Build Number: $BUILD_NUMBER (iOS timestamp)"
+
+        # Create release using GitHub API with tag if on tagged build, otherwise commit SHA
+        if [[ -n "${GITHUB_REF_NAME}" && "${GITHUB_REF_TYPE}" == "tag" ]]; then
+          # Tagged build: use tag-based release
+          RELEASE_TAG="${GITHUB_REF_NAME}"
+          echo "🏷️  Using tag-based release: $RELEASE_TAG"
+        else
+          # Commit-based build: use commit SHA for precision
+          RELEASE_TAG="v$VERSION-$COMMIT_SHA"
+          echo "🔗 Using commit-based release: $RELEASE_TAG"
+        fi
+        RELEASE_NAME="EduLift iOS $FLAVOR $RELEASE_TAG"
 
         # Set prerelease based on flavor
         IS_PRERELEASE=true
@@ -143,7 +169,7 @@ definitions:
           "target_commitish": "$COMMIT_SHA",
           "name": "$RELEASE_NAME",
           "body": "EduLift iOS $FLAVOR build\n\n- Version: $VERSION\n- Build: $BUILD_NUMBER\n- Size: $IPA_SIZE\n- Environment: $FLAVOR\n- Commit: $COMMIT_SHA",
-          "draft": false,
+          "draft": true,
           "prerelease": $IS_PRERELEASE
         }
         EOF
@@ -151,20 +177,39 @@ definitions:
 
         # Create release
         echo "🏷️  Creating release $RELEASE_TAG..."
+        API_URL="https://api.github.com/repos/jrevillard/edulift-mobile/releases"
+
+        echo "🌐 API URL: $API_URL"
+        echo "📝 Release data preview:"
+        echo "$RELEASE_DATA" | head -5
+        echo "   ..."
+
+        # Make the API call
+        echo "🚀 Making API call..."
         RELEASE_RESPONSE=$(curl -s -X POST \
           -H "Accept: application/vnd.github+json" \
           -H "Authorization: Bearer $GITHUB_TOKEN" \
           -H "X-GitHub-Api-Version: 2022-11-28" \
-          https://api.github.com/repos/jrevillard/edulift-mobile/releases \
+          "$API_URL" \
           -d "$RELEASE_DATA")
 
         # Extract upload URL from response
-        UPLOAD_URL=$(echo "$RELEASE_RESPONSE" | jq -r '.upload_url' | sed 's/{?name,label}//')
-        RELEASE_ID=$(echo "$RELEASE_RESPONSE" | jq -r '.id')
+        UPLOAD_URL=$(echo "$RELEASE_RESPONSE" | jq -r '.upload_url' | sed 's/{?name,label}//' 2>/dev/null || echo "")
+        RELEASE_ID=$(echo "$RELEASE_RESPONSE" | jq -r '.id' 2>/dev/null || echo "")
+        ERROR_MESSAGE=$(echo "$RELEASE_RESPONSE" | jq -r '.message' 2>/dev/null || echo "")
 
         if [[ "$UPLOAD_URL" == "null" || "$UPLOAD_URL" == "" ]]; then
+          echo ""
           echo "❌ Failed to create release"
-          echo "Response: $RELEASE_RESPONSE"
+          echo "🐛 Debugging info:"
+          echo "   - HTTP Status: $HTTP_STATUS"
+          echo "   - Error Message: $ERROR_MESSAGE"
+          echo "   - JSON Response: $JSON_RESPONSE"
+          echo "   - Full Response: $RELEASE_RESPONSE"
+          echo ""
+          echo "🔧 Try running the test script:"
+          echo "   export GITHUB_TOKEN=your_token"
+          echo "   ./scripts/test-github-api.sh"
           exit 1
         fi
 
@@ -191,21 +236,52 @@ definitions:
         fi
 
         echo "✅ IPA uploaded successfully!"
-        echo "🔗 Download URL: $DOWNLOAD_URL"
+        echo "🔗 Temporary Download URL: $DOWNLOAD_URL"
 
-        # Save download URL for next step
-        echo "DOWNLOAD_URL=$DOWNLOAD_URL" >> $GITHUB_ENV
+        # Publish the release (make it non-draft)
+        echo "📢 Publishing release..."
+        PUBLISH_RESPONSE=$(curl -s -X PATCH \
+          -H "Accept: application/vnd.github+json" \
+          -H "Authorization: Bearer $GITHUB_TOKEN" \
+          -H "X-GitHub-Api-Version: 2022-11-28" \
+          https://api.github.com/repos/jrevillard/edulift-mobile/releases/$RELEASE_ID \
+          -d '{"draft": false}')
+
+        echo "📡 Publish response: $PUBLISH_RESPONSE"
+
+        # Get the correct download URL after publishing
+        echo "🔄 Getting final download URL..."
+        FINAL_DOWNLOAD_URL="https://github.com/jrevillard/edulift-mobile/releases/download/$RELEASE_TAG/$IPA_FILENAME"
+        echo "🔗 Final Download URL: $FINAL_DOWNLOAD_URL"
+
+        # Update the download URL variable for next step
+        DOWNLOAD_URL="$FINAL_DOWNLOAD_URL"
+        echo "✅ Updated to proper download URL: $DOWNLOAD_URL"
+
+        # Save download URL to temp file for next script (Codemagic doesn't have GITHUB_ENV)
+        echo "$DOWNLOAD_URL" > /tmp/download_url.txt
 
     - &update-altstore
       name: Prepare AltStore PAL source update
       script: |
         echo "📱 Preparing AltStore PAL source update for $FLAVOR"
 
-        # Use GitHub Release URL instead of Firebase
-        DOWNLOAD_URL="$DOWNLOAD_URL"
+        # Load download URL from previous script (Codemagic environment sharing)
+        if [[ -f "/tmp/download_url.txt" ]]; then
+          DOWNLOAD_URL=$(cat /tmp/download_url.txt)
+          echo "✅ Loaded download URL from previous step: $DOWNLOAD_URL"
+        else
+          echo "❌ Download URL file not found - previous step must have failed"
+          exit 1
+        fi
+
+        if [[ -z "$DOWNLOAD_URL" ]]; then
+          echo "❌ Download URL is empty - previous step must have failed"
+          exit 1
+        fi
         VERSION=$(flutter --version | head -n 1 | cut -d' ' -f2)
         BUILD_NUMBER=$(date +%s)
-        IPA_SIZE=$(du -h "$(find build/ios/ipa -name '*.ipa' | head -n 1)" | cut -f1)
+        IPA_SIZE=$(du -h "ios/build/ipa/edulift-$FLAVOR.ipa" | cut -f1)
 
         echo "Download URL: $DOWNLOAD_URL"
         echo "Version: $VERSION"
@@ -322,6 +398,8 @@ workflows:
         BUNDLE_ID: "com.edulift.app.staging"
         ALTSTORE_REPO: "jrevillard/my-altstore"
         ALTSTORE_BRANCH: "main"
+        GITHUB_REF_NAME: "${{ github.ref_name }}"
+        GITHUB_REF_TYPE: "${{ github.ref_type }}"
       # Note: Set GITHUB_TOKEN in Codemagic environment variables
       # Create Personal Access Token at: https://github.com/settings/tokens
       # Required permissions: repo (full control of private repositories)
@@ -339,6 +417,35 @@ workflows:
       - *get-packages
       - *code-generation
       - *install-tools
+      - &update-version
+        name: Update version from tag
+        script: |
+          # Update pubspec.yaml version from tag (same logic as Android CD)
+          if [[ -n "${GITHUB_REF_NAME}" && "${GITHUB_REF_TYPE}" == "tag" && "${GITHUB_REF_NAME}" =~ ^v.* ]]; then
+            echo "🏷️  Updating pubspec.yaml from tag: ${GITHUB_REF_NAME}"
+
+            # Remove 'v' prefix
+            TAG_NAME="${GITHUB_REF_NAME}"
+            VERSION="${TAG_NAME#v}"
+
+            # Extract base version (remove pre-release suffix)
+            BASE_VERSION=$(echo "$VERSION" | sed -E 's/(-alpha|-beta|-rc).*//')
+
+            # Use timestamp for iOS build number
+            IOS_BUILD_NUMBER=$(date +%s)
+
+            echo "📌 Tag: $TAG_NAME"
+            echo "📌 Extracted version: $BASE_VERSION"
+            echo "📌 iOS build number: $IOS_BUILD_NUMBER"
+
+            # Update pubspec.yaml with new version
+            sed -i '' "s/^version: .*/version: $BASE_VERSION+$IOS_BUILD_NUMBER/" pubspec.yaml
+
+            echo "✅ Updated pubspec.yaml:"
+            grep "^version:" pubspec.yaml
+          else
+            echo "ℹ️  Not a version tag, keeping existing pubspec.yaml version"
+          fi
       - *configure-ios
       - *build-ios
       - *upload-github
@@ -346,7 +453,7 @@ workflows:
       - *commit-altstore
 
     artifacts:
-      - build/ios/ipa/*.ipa
+      - ios/build/ipa/*.ipa
       - altstore_temp/**
 
     publishing:
@@ -391,6 +498,8 @@ workflows:
         BUNDLE_ID: "com.edulift.app"
         ALTSTORE_REPO: "jrevillard/my-altstore"
         ALTSTORE_BRANCH: "main"
+        GITHUB_REF_NAME: "${ github.ref_name }}"
+        GITHUB_REF_TYPE: "${ github.ref_type }"
       # Note: Set GITHUB_TOKEN in Codemagic environment variables
       # Create Personal Access Token at: https://github.com/settings/tokens
       # Required permissions: repo (full control of private repositories)
@@ -406,6 +515,7 @@ workflows:
       - *get-packages
       - *code-generation
       - *install-tools
+      - *update-version
       - *configure-ios
       - *build-ios
       - *upload-github
@@ -413,7 +523,7 @@ workflows:
       - *commit-altstore
 
     artifacts:
-      - build/ios/ipa/*.ipa
+      - ios/build/ipa/*.ipa
       - altstore_temp/**
 
     publishing:
