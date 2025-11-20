@@ -19,6 +19,12 @@ echo "   Workflow: $WORKFLOW_ID"
 echo "   Branch: $BRANCH"
 echo "   Reason: $BUILD_REASON"
 
+if [[ -z "$CODEMAGIC_API_TOKEN" ]]; then
+  echo "❌ ERROR: CODEMAGIC_API_TOKEN environment variable is not set"
+  echo "❌ Make sure the token is properly configured in GitHub Secrets"
+  exit 1
+fi
+
 TRIGGER_DATA=$(cat <<EOF
 {
   "appId": "$APP_ID",

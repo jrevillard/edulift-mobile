@@ -104,9 +104,14 @@ workflows:
         - $FLUTTER_ROOT/.pub-cache
         - $HOME/.gradle/caches
         - $HOME/Library/Caches/CocoaPods
+        - $HOME/.cocoapods/cache
         - ios/Pods
-        - ios/Pods/.lock
+        - ios/Podfile.lock
         - .dart_tool
+        - build/.dart_tool
+        - ios/.symlinks
+        - ios/Flutter/flutter_assets
+        - ios/Flutter/Flutter.framework
 
     environment:
       groups:
@@ -142,9 +147,14 @@ workflows:
         - $FLUTTER_ROOT/.pub-cache
         - $HOME/.gradle/caches
         - $HOME/Library/Caches/CocoaPods
+        - $HOME/.cocoapods/cache
         - ios/Pods
-        - ios/Pods/.lock
+        - ios/Podfile.lock
         - .dart_tool
+        - build/.dart_tool
+        - ios/.symlinks
+        - ios/Flutter/flutter_assets
+        - ios/Flutter/Flutter.framework
 
     environment:
       groups:
