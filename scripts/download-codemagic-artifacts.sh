@@ -30,7 +30,7 @@ while [[ $INDEX -lt $ARTIFACT_COUNT ]]; do
 
   echo "📦 Downloading: $ARTIFACT_NAME ($ARTIFACT_TYPE)"
 
-  curl -L -o "$OUTPUT_DIR/$ARTIFACT_NAME" "$ARTIFACT_URL"
+  curl -L -H "x-auth-token: $CODEMAGIC_API_TOKEN" -o "$OUTPUT_DIR/$ARTIFACT_NAME" "$ARTIFACT_URL"
 
   if [[ $? -eq 0 ]]; then
     echo "✅ Downloaded: $OUTPUT_DIR/$ARTIFACT_NAME"
