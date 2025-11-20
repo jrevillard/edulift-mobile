@@ -1,557 +1,498 @@
-name: CD Pipeline
+# .github/workflows/cd.yml - Complete rewrite
+name: Mobile Unified Release
 
 on:
   push:
-    branches: [ main ]
     tags:
-      - 'v*'  # All version tags trigger builds
-  workflow_dispatch:
-    inputs:
-      build_type:
-        description: 'Build type'
-        required: true
-        default: 'debug'
-        type: choice
-        options:
-          - debug
-          - release
-      platform:
-        description: 'Platform to build'
-        required: true
-        default: 'both'
-        type: choice
-        options:
-          - android
-          - ios
-          - both
-          - android-fast  # Android dev flavor only
+      - 'v*'
 
-# Cancel in-progress runs when a new commit is pushed
-# Note: Tags are not cancelled to ensure release builds complete
-concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: ${{ !startsWith(github.ref, 'refs/tags/') }}
-
-permissions:
-  contents: write  # Required for GitHub Release creation
-  deployments: write  # Required for deployment tracking
-
-#env:
-  # Versions are loaded from .github/ci-versions.env
-  # This is the single source of truth for all version numbers
-  # See .github/VERSION_MANAGEMENT.md for documentation
+env:
+  # Flutter configuration
+  FLUTTER_VERSION: ${{ vars.FLUTTER_VERSION || '3.38.2' }}
+  JAVA_VERSION: ${{ vars.JAVA_VERSION || '17' }}
 
 jobs:
-  # Android build job
-  build-android:
-    name: Build Android
+  # Job 1: Prepare release environment
+  prepare-release:
+    name: Prepare Release
     runs-on: ubuntu-latest
-    timeout-minutes: 60
-    # Run on all non-dispatch events OR on dispatch if platform is not exclusively 'ios'
-    if: github.event_name != 'workflow_dispatch' || github.event.inputs.platform != 'ios'
-
-    env:
-      # Centralized build type logic - tags always build release, manual dispatch uses input, push defaults to debug
-      BUILD_TYPE: ${{ (startsWith(github.ref, 'refs/tags/') && 'release') || github.event.inputs.build_type || 'debug' }}
-      # Centralized flavor logic - simplified and maintainable
-      FLAVOR: ${{ (github.event.inputs.platform == 'android-fast' && 'development') || (github.ref == 'refs/heads/main' && github.event_name == 'push' && 'development') || (startsWith(github.ref, 'refs/tags/v') && (contains(github.ref, '-rc') || contains(github.ref, '-beta') || contains(github.ref, '-alpha')) && 'staging') || (startsWith(github.ref, 'refs/tags/v') && 'production') || 'development' }}
+    outputs:
+      version: ${{ steps.version.outputs.version }}
+      flavor: ${{ steps.version.outputs.flavor }}
+      tag_name: ${{ steps.version.outputs.tag_name }}
+      is_staging: ${{ steps.version.outputs.is_staging }}
+      base_version: ${{ steps.version.outputs.base_version }}
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Load CI/CD versions from .env
+      - name: Load CI/CD versions
         id: load-versions
         run: |
-          echo "🔧 Loading versions from .github/ci-versions.env"
-          # Source the .env file and export to GITHUB_OUTPUT
-          while IFS='=' read -r key value; do
-            # Skip comments and empty lines
-            [[ $key =~ ^[[:space:]]*# ]] && continue
-            [[ -z $key ]] && continue
+          if [[ -f ".github/ci-versions.env" ]]; then
+            while IFS='=' read -r key value; do
+              echo "$key=$value" >> $GITHUB_OUTPUT
+            done < .github/ci-versions.env
+          fi
 
-            # Remove any surrounding quotes from value
-            value=$(echo "$value" | sed 's/^["\x27]//' | sed 's/["\x27]$//')
-
-            echo "$key=$value" >> $GITHUB_OUTPUT
-            echo "✅ Loaded $key=$value"
-          done < .github/ci-versions.env
-
-      - name: Validate CI/CD Versions
-        run: |
-          echo "🔍 Validating CI/CD version consistency..."
-          ./scripts/validate-ci-versions.sh
-
-      - name: Setup Flutter Environment
+      - name: Setup Flutter
         uses: subosito/flutter-action@v2
         with:
           flutter-version: ${{ steps.load-versions.outputs.FLUTTER_VERSION }}
           channel: ${{ steps.load-versions.outputs.FLUTTER_CHANNEL }}
           cache: true
-          cache-key: 'flutter-${{ steps.load-versions.outputs.FLUTTER_CHANNEL }}-${{ steps.load-versions.outputs.FLUTTER_VERSION }}'
 
-      - name: Cache Gradle dependencies
-        uses: actions/cache@v4
-        with:
-          path: |
-            ~/.gradle/caches
-            ~/.gradle/wrapper
-            android/.gradle
-          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties', '**/gradle.properties') }}
-          restore-keys: |
-            ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*') }}
-            ${{ runner.os }}-gradle-
-            ${{ runner.os }}-
-
-      - name: Run code generation
-        run: flutter packages pub run build_runner build --delete-conflicting-outputs
-
-      - name: Extract version from tag and update pubspec.yaml
-        if: startsWith(github.ref, 'refs/tags/v')
+      - name: Extract version and flavor from tag
+        id: version
         run: |
-          # Extract version from tag (e.g., v0.1.0-alpha1 -> 0.1.0)
-          TAG_NAME="${{ github.ref_name }}"
+          TAG_NAME="${GITHUB_REF_NAME}"
+          echo "Processing tag: $TAG_NAME"
 
-          # Remove 'v' prefix if present
+          # Remove 'v' prefix for version
           VERSION="${TAG_NAME#v}"
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "tag_name=$TAG_NAME" >> $GITHUB_OUTPUT
 
-          # Extract base version (remove pre-release suffix like -alpha1, -rc1, etc.)
+          # Extract base version (remove pre-release)
           BASE_VERSION=$(echo "$VERSION" | sed -E 's/(-alpha|-beta|-rc).*//')
+          echo "base_version=$BASE_VERSION" >> $GITHUB_OUTPUT
 
-          # Use GitHub run number as versionCode for uniqueness
-          VERSION_CODE="${{ github.run_number }}"
+          # Determine flavor from tag pattern
+          if [[ "$TAG_NAME" =~ (alpha|beta|rc) ]]; then
+            FLAVOR="staging"
+            IS_STAGING="true"
+          else
+            FLAVOR="production"
+            IS_STAGING="false"
+          fi
 
-          echo "📌 Tag: $TAG_NAME"
-          echo "📌 Extracted version: $BASE_VERSION"
-          echo "📌 Version code: $VERSION_CODE"
+          echo "flavor=$FLAVOR" >> $GITHUB_OUTPUT
+          echo "is_staging=$IS_STAGING" >> $GITHUB_OUTPUT
 
-          # Update pubspec.yaml with new version
-          sed -i "s/^version: .*/version: $BASE_VERSION+$VERSION_CODE/" pubspec.yaml
+          echo "📋 Release Info:"
+          echo "   Version: $VERSION"
+          echo "   Base Version: $BASE_VERSION"
+          echo "   Flavor: $FLAVOR"
+          echo "   Staging: $IS_STAGING"
 
-          # Verify the change
+      - name: Update pubspec.yaml
+        run: |
+          # Use run number as build number
+          BUILD_NUMBER="${{ github.run_number }}"
+          BASE_VERSION="${{ steps.version.outputs.base_version }}"
+
+          sed -i "s/^version: .*/version: $BASE_VERSION+$BUILD_NUMBER/" pubspec.yaml
+
           echo "✅ Updated pubspec.yaml:"
           grep "^version:" pubspec.yaml
 
-      - name: Create Android keystore (debug)
-        if: env.BUILD_TYPE == 'debug'
+      - name: Commit version update
         run: |
-          # Create debug keystore for CI builds
-          # Default values from .github/ci-versions.env if not loaded
-          KEYSTORE_KEY_SIZE=${{ steps.load-versions.outputs.KEYSTORE_KEY_SIZE || '2048' }}
-          KEYSTORE_VALIDITY_DAYS=${{ steps.load-versions.outputs.KEYSTORE_VALIDITY_DAYS || '10000' }}
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add pubspec.yaml
+          git commit -m "chore: update version to ${{ steps.version.outputs.base_version }}+${{ github.run_number }} [skip ci]"
+          git push
 
-          keytool -genkey -v -keystore android/app/debug.keystore -alias androiddebugkey -keyalg RSA -keysize $KEYSTORE_KEY_SIZE -validity $KEYSTORE_VALIDITY_DAYS -storepass android -keypass android -dname "CN=edulift,O=Debug,C=FR"
-
-      - name: Setup Android keystore (release)
-        if: env.BUILD_TYPE == 'release'
-        env:
-          ANDROID_KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE }}
-          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
-          KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
-        run: |
-          echo "$ANDROID_KEYSTORE_BASE64" | base64 -d > android/app/release.keystore
-          chmod 600 android/app/release.keystore
-          # PKCS12 keystores use the same password for store and key
-          printf "storePassword=%s\n" "$KEYSTORE_PASSWORD" > android/key.properties
-          printf "keyPassword=%s\n" "$KEYSTORE_PASSWORD" >> android/key.properties
-          printf "keyAlias=%s\n" "$KEY_ALIAS" >> android/key.properties
-          printf "storeFile=%s\n" "release.keystore" >> android/key.properties
-      
-      - name: Build Android APK (debug)
-        if: env.BUILD_TYPE == 'debug'
-        run: flutter build apk --debug --flavor ${{ env.FLAVOR }} --dart-define-from-file=config/${{ env.FLAVOR }}.json
-
-      # APK: Built ONLY for staging (Firebase App Distribution)
-      - name: Build Android APK (staging only)
-        if: env.BUILD_TYPE == 'release' && env.FLAVOR == 'staging'
-        run: |
-          echo "📱 Building APK for Firebase App Distribution (staging)"
-          flutter build apk --release --flavor ${{ env.FLAVOR }} --dart-define-from-file=config/${{ env.FLAVOR }}.json
-
-      # AAB: Built ONLY for production (Google Play Store)
-      - name: Build Android App Bundle (production only)
-        if: env.BUILD_TYPE == 'release' && env.FLAVOR == 'production'
-        run: |
-          echo "📦 Building AAB for Play Store distribution (production)"
-          flutter build appbundle --release --flavor ${{ env.FLAVOR }} --dart-define-from-file=config/${{ env.FLAVOR }}.json
-
-      - name: Upload Android APK (staging)
-        if: env.FLAVOR == 'staging'
-        uses: actions/upload-artifact@v4
-        with:
-          name: android-apk-${{ env.FLAVOR }}-${{ env.BUILD_TYPE }}
-          path: build/app/outputs/flutter-apk/*.apk
-
-      - name: Upload Android AAB (production)
-        if: env.FLAVOR == 'production'
-        uses: actions/upload-artifact@v4
-        with:
-          name: android-apk-${{ env.FLAVOR }}-${{ env.BUILD_TYPE }}
-          path: build/app/outputs/bundle/**/*.aab
-
-      - name: Clean up Android keystore files
-        if: always() && env.BUILD_TYPE == 'release'
-        run: |
-          rm -f android/key.properties
-          rm -f android/app/release.keystore
-
-  # iOS build job - DISABLED (requires Apple Developer Program for distribution)
-  # Re-enable when Apple Developer Program account is available
+  # Job 2: Build iOS (trigger Codemagic)
   build-ios:
     name: Build iOS
-    runs-on: macos-latest
-    timeout-minutes: 60
-    if: false  # Disabled - free Apple account cannot distribute to Firebase/TestFlight
-    # Original condition: (github.event.inputs.platform == 'ios' || github.event.inputs.platform == 'both' || github.event.inputs.platform == null) && (github.event_name == 'push' || github.event_name == 'workflow_dispatch' || startsWith(github.ref, 'refs/tags/'))
+    runs-on: ubuntu-latest
+    needs: prepare-release
+    if: always()
+    outputs:
+      ios_artifacts_dir: ${{ steps.download.outputs.artifacts_dir }}
 
-    env:
-      # Centralized build type logic - same as Android job
-      BUILD_TYPE: ${{ (startsWith(github.ref, 'refs/tags/') && 'release') || github.event.inputs.build_type || 'debug' }}
-      # Centralized flavor logic - platform-agnostic (no android-fast for iOS)
-      FLAVOR: ${{ (github.ref == 'refs/heads/main' && github.event_name == 'push' && 'development') || (startsWith(github.ref, 'refs/tags/v') && (contains(github.ref, '-rc') || contains(github.ref, '-beta') || contains(github.ref, '-alpha')) && 'staging') || (startsWith(github.ref, 'refs/tags/v') && 'production') || 'development' }}
-    
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Load CI/CD versions from .env
-        id: load-ios-versions
+      - name: Trigger Codemagic iOS build
+        id: trigger-ios
+        env:
+          CODEMAGIC_API_TOKEN: ${{ secrets.CODEMAGIC_API_TOKEN }}
         run: |
-          echo "🔧 Loading versions from .github/ci-versions.env"
-          # Source the .env file and export to GITHUB_OUTPUT
-          while IFS='=' read -r key value; do
-            # Skip comments and empty lines
-            [[ $key =~ ^[[:space:]]*# ]] && continue
-            [[ -z $key ]] && continue
+          # Map flavor to workflow ID
+          FLAVOR="${{ needs.prepare-release.outputs.flavor }}"
+          if [[ "$FLAVOR" == "staging" ]]; then
+            WORKFLOW_ID="ios-staging"
+          elif [[ "$FLAVOR" == "production" ]]; then
+            WORKFLOW_ID="ios-production"
+          else
+            echo "❌ Unknown flavor: $FLAVOR"
+            exit 1
+          fi
 
-            # Remove any surrounding quotes from value
-            value=$(echo "$value" | sed 's/^["\x27]//' | sed 's/["\x27]$//')
+          ./scripts/trigger-codemagic-api.sh \
+            "${{ vars.CODEMAGIC_APP_ID }}" \
+            "$WORKFLOW_ID" \
+            "main" \
+            "${{ needs.prepare-release.outputs.tag_name }}"
 
-            echo "$key=$value" >> $GITHUB_OUTPUT
-            echo "✅ Loaded $key=$value"
-          done < .github/ci-versions.env
-
-      - name: Validate CI/CD Versions
+      - name: Wait for iOS build completion
+        id: wait-ios
+        env:
+          CODEMAGIC_API_TOKEN: ${{ secrets.CODEMAGIC_API_TOKEN }}
         run: |
-          echo "🔍 Validating CI/CD version consistency..."
-          ./scripts/validate-ci-versions.sh
+          ./scripts/wait-codemagic-build.sh \
+            "${{ steps.trigger-ios.outputs.BUILD_ID }}" \
+            "1800" "30"  # 30 minutes max, 30 second polling
+
+      - name: Download iOS artifacts
+        id: download
+        run: |
+          ARTIFACTS_DIR="ios-artifacts-${{ needs.prepare-release.outputs.flavor }}"
+
+          # Verify FINAL_BUILD_INFO is available and valid
+          if [[ -z "$FINAL_BUILD_INFO" ]]; then
+            echo "❌ FINAL_BUILD_INFO not available - build polling may have failed"
+            exit 1
+          fi
+
+          # Validate FINAL_BUILD_INFO JSON format
+          if ! echo "$FINAL_BUILD_INFO" | jq -e '.build.artefacts' >/dev/null 2>&1; then
+            echo "❌ Invalid FINAL_BUILD_INFO JSON format - build polling may have failed"
+            echo "📡 FINAL_BUILD_INFO content:"
+            echo "$FINAL_BUILD_INFO" | head -c 500
+            exit 1
+          fi
+
+          echo "✅ FINAL_BUILD_INFO validated successfully"
+          echo "📡 Using build info: $(echo "$FINAL_BUILD_INFO" | jq -r '.build.status') - Artifacts: $(echo "$FINAL_BUILD_INFO" | jq -r '.build.artefacts | length')"
+
+          ./scripts/download-codemagic-artifacts.sh \
+            "${FINAL_BUILD_INFO}" \
+            "$ARTIFACTS_DIR"
+
+          echo "artifacts_dir=$ARTIFACTS_DIR" >> $GITHUB_OUTPUT
+
+      - name: Verify iOS IPA
+        run: |
+          ARTIFACTS_DIR="${{ steps.download.outputs.artifacts_dir }}"
+
+          if [[ -f "$ARTIFACTS_DIR"/*.ipa ]]; then
+            echo "✅ iOS IPA found:"
+            ls -la "$ARTIFACTS_DIR"/*.ipa
+            file "$ARTIFACTS_DIR"/*.ipa
+          else
+            echo "❌ No IPA found in artifacts"
+            echo "Available files:"
+            ls -la "$ARTIFACTS_DIR"
+            exit 1
+          fi
+
+      - name: Upload iOS artifacts for release
+        uses: actions/upload-artifact@v4
+        with:
+          name: ios-builds
+          path: ${{ steps.download.outputs.artifacts_dir }}/
+
+  # Job 3: Build Android (parallel)
+  build-android:
+    name: Build Android
+    runs-on: ubuntu-latest
+    needs: prepare-release
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Load CI/CD versions
+        id: load-versions
+        run: |
+          if [[ -f ".github/ci-versions.env" ]]; then
+            while IFS='=' read -r key value; do
+              echo "$key=$value" >> $GITHUB_OUTPUT
+            done < .github/ci-versions.env
+          fi
 
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: ${{ steps.load-ios-versions.outputs.FLUTTER_VERSION }}
-          channel: ${{ steps.load-ios-versions.outputs.FLUTTER_CHANNEL }}
+          flutter-version: ${{ steps.load-versions.outputs.FLUTTER_VERSION }}
+          channel: ${{ steps.load-versions.outputs.FLUTTER_CHANNEL }}
           cache: true
-          cache-key: 'flutter-${{ steps.load-ios-versions.outputs.FLUTTER_CHANNEL }}-${{ steps.load-ios-versions.outputs.FLUTTER_VERSION }}'
 
-      - name: Skip Flutter analyze (known issue)
-        run: echo "Skipping flutter analyze due to known SemanticsService.sendAnnouncement issue"
-      
-      - name: Get dependencies
-        run: flutter pub get
-      
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: ${{ steps.load-versions.outputs.JAVA_VERSION }}
+
+      - name: Get packages
+        run: flutter packages pub get
+
       - name: Run code generation
         run: flutter packages pub run build_runner build --delete-conflicting-outputs
-      
-      - name: Setup Xcode
-        uses: maxim-lobanov/setup-xcode@v1
-        with:
-          xcode-version: ${{ steps.load-ios-versions.outputs.XCODE_VERSION }}
 
-      # iOS flavor build configurations are already created in project.pbxproj
-      # - name: Setup iOS flavor build configurations (one-time)
-      #   run: |
-      #     gem install bundler
-      #     bundle install
-      #     bundle exec ruby scripts/setup_ios_flavors.rb
-      #
-      # - name: Commit modified project.pbxproj if changed
-      #   run: |
-      #     if git diff --quiet ios/Runner.xcodeproj/project.pbxproj; then
-      #       echo "No changes to project.pbxproj - configurations already exist"
-      #     else
-      #       echo "Committing modified project.pbxproj with flavor configurations"
-      #       git config user.name "github-actions[bot]"
-      #       git config user.email "github-actions[bot]@users.noreply.github.com"
-      #       git add ios/Runner.xcodeproj/project.pbxproj
-      #       git commit -m "chore: Add iOS flavor build configurations to project.pbxproj [skip ci]"
-      #       git push
-      #     fi
-
-      - name: Cache CocoaPods
-        uses: actions/cache@v4
-        with:
-          path: |
-            ios/Pods
-            ~/Library/Caches/CocoaPods
-          key: ${{ runner.os }}-pods-${{ hashFiles('ios/Podfile.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-pods-
-
-      - name: Install jq for JSON parsing
+      - name: Build Android
         run: |
-          # Install jq for parsing DEEP_LINK_BASE_URL from config files
-          brew install jq
+          FLAVOR="${{ needs.prepare-release.outputs.flavor }}"
+          echo "🔧 Building Android $FLAVOR..."
 
-      - name: Configure iOS Deep Links
-        run: |
-          # Configure iOS deep links from config/DEEP_LINK_BASE_URL
-          # This script automatically:
-          # - Reads DEEP_LINK_BASE_URL from config/${{ env.FLAVOR }}.json
-          # - Updates Info.plist with URL schemes
-          # - Creates/updates Runner.entitlements with Associated Domains
-          echo "🔧 Configuring iOS deep links for ${{ env.FLAVOR }} environment"
-          ./scripts/configure_ios.sh ${{ env.FLAVOR }}
-
-          # Verify configuration
-          echo "📱 iOS Configuration Summary:"
-          echo "✅ Info.plist updated with URL schemes"
-          if [[ -f "ios/Runner/Runner.entitlements" ]]; then
-            echo "✅ Entitlements file created/updated"
-            if grep -q "com.apple.developer.associated-domains" ios/Runner/Runner.entitlements; then
-              echo "🌐 Universal Links configured"
-            else
-              echo "📱 Custom URL scheme only (no Universal Links)"
-            fi
+          if [[ "${{ needs.prepare-release.outputs.is_staging }}" == "true" ]]; then
+            echo "📱 Building APK for staging"
+            flutter build apk --release \
+              --flavor $FLAVOR \
+              --dart-define-from-file=config/$FLAVOR.json
           else
-            echo "📱 Custom URL scheme only (no entitlements needed)"
+            echo "📦 Building AAB for production"
+            flutter build appbundle --release \
+              --flavor $FLAVOR \
+              --dart-define-from-file=config/$FLAVOR.json
           fi
 
-      - name: Install CocoaPods
+      - name: Prepare Android artifacts
         run: |
-          cd ios
-          pod install
+          FLAVOR="${{ needs.prepare-release.outputs.flavor }}"
+          mkdir -p android-artifacts
 
-      - name: Setup iOS certificates and provisioning profiles
-        if: env.BUILD_TYPE == 'release'
-        env:
-          IOS_CERTIFICATE_BASE64: ${{ secrets.IOS_CERTIFICATE }}
-          IOS_CERTIFICATE_PASSWORD: ${{ secrets.IOS_CERTIFICATE_PASSWORD }}
-          IOS_PROVISIONING_PROFILE_BASE64: ${{ secrets.IOS_PROVISIONING_PROFILE }}
-        run: |
-          # Create temporary keychain
-          # KEYCHAIN_TIMEOUT from .github/ci-versions.env (default: 6 hours)
-          KEYCHAIN_TIMEOUT=${{ steps.load-ios-versions.outputs.KEYCHAIN_TIMEOUT || '21600' }}
+          if [[ "$FLAVOR" == "staging" ]]; then
+            cp build/app/outputs/flutter-apk/app-release.apk \
+              android-artifacts/edulift-$FLAVOR.apk
+          else
+            cp build/app/outputs/bundle/release/app-release.aab \
+              android-artifacts/edulift-$FLAVOR.aab
+          fi
 
-          security create-keychain -p "temppass" build.keychain
-          security set-keychain-settings -lut $KEYCHAIN_TIMEOUT build.keychain
-          security unlock-keychain -p "temppass" build.keychain
+          echo "✅ Android artifacts prepared:"
+          ls -la android-artifacts/
 
-          # Import certificate
-          echo "$IOS_CERTIFICATE_BASE64" | base64 -d > certificate.p12
-          chmod 600 certificate.p12
-          security import certificate.p12 -P "$IOS_CERTIFICATE_PASSWORD" -k build.keychain -T /usr/bin/codesign
-
-          # Install provisioning profile
-          mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
-          echo "$IOS_PROVISIONING_PROFILE_BASE64" | base64 -d > ~/Library/MobileDevice/Provisioning\ Profiles/profile.mobileprovision
-          chmod 600 ~/Library/MobileDevice/Provisioning\ Profiles/profile.mobileprovision
-
-      - name: Build iOS (debug)
-        if: env.BUILD_TYPE == 'debug'
-        run: |
-          flutter build ios --debug --flavor ${{ env.FLAVOR }} --dart-define-from-file=config/${{ env.FLAVOR }}.json --no-codesign
-
-      - name: Build iOS IPA (release)
-        if: env.BUILD_TYPE == 'release'
-        run: |
-          flutter build ipa --release --flavor ${{ env.FLAVOR }} --dart-define-from-file=config/${{ env.FLAVOR }}.json
-
-      - name: Upload iOS App
+      - name: Upload Android artifacts for release
         uses: actions/upload-artifact@v4
         with:
-          name: ios-app-${{ env.FLAVOR }}-${{ env.BUILD_TYPE }}
-          path: |
-            build/ios/ipa/*.ipa
-            build/ios/iphoneos/*.app
+          name: android-builds
+          path: android-artifacts/
 
-      - name: Clean up keychain and provisioning profile
-        if: always() && env.BUILD_TYPE == 'release'
-        run: |
-          security delete-keychain build.keychain
-          rm -f ~/Library/MobileDevice/Provisioning\ Profiles/profile.mobileprovision
-          rm -f certificate.p12
-
-  # GitHub Release - Centralized release creation for tags
-  create-github-release:
-    name: Create GitHub Release
+  # Job 4: Create unified release
+  create-unified-release:
+    name: Create Unified Release
     runs-on: ubuntu-latest
-    needs: [build-android, build-ios]
-    # TODO: When iOS is enabled, add: && needs.build-ios.result == 'success'
-    if: startsWith(github.ref, 'refs/tags/') && needs.build-android.result == 'success'
-    timeout-minutes: 10
+    needs: [prepare-release, build-ios, build-android]
+    if: always() && needs.build-ios.result == 'success' && needs.build-android.result == 'success'
 
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
       - name: Download all build artifacts
         uses: actions/download-artifact@v4
         with:
-          path: artifacts/
+          path: build-artifacts/
 
-      - name: Create GitHub Release
+      - name: Prepare release files
+        run: |
+          VERSION="${{ needs.prepare-release.outputs.version }}"
+          FLAVOR="${{ needs.prepare-release.outputs.flavor }}"
+          TAG_NAME="${{ needs.prepare-release.outputs.tag_name }}"
+
+          mkdir -p release-files
+
+          # Copy iOS IPA
+          IOS_IPA=$(find build-artifacts/ios-builds -name "*.ipa" | head -1)
+          if [[ -n "$IOS_IPA" ]]; then
+            cp "$IOS_IPA" release-files/edulift-$FLAVOR.ipa
+            echo "✅ iOS IPA: $(basename $IOS_IPA)"
+          else
+            echo "❌ No iOS IPA found"
+            exit 1
+          fi
+
+          # Copy Android artifact
+          if [[ "$FLAVOR" == "staging" ]]; then
+            ANDROID_FILE=$(find build-artifacts/android-builds -name "*.apk" | head -1)
+            if [[ -n "$ANDROID_FILE" ]]; then
+              cp "$ANDROID_FILE" release-files/edulift-$FLAVOR.apk
+              echo "✅ Android APK: $(basename $ANDROID_FILE)"
+            else
+              echo "❌ No Android APK found"
+              exit 1
+            fi
+          else
+            ANDROID_FILE=$(find build-artifacts/android-builds -name "*.aab" | head -1)
+            if [[ -n "$ANDROID_FILE" ]]; then
+              cp "$ANDROID_FILE" release-files/edulift-$FLAVOR.aab
+              echo "✅ Android AAB: $(basename $ANDROID_FILE)"
+            else
+              echo "❌ No Android AAB found"
+              exit 1
+            fi
+          fi
+
+          echo "📦 Final release files:"
+          ls -la release-files/
+
+      - name: Create unified GitHub release
         uses: softprops/action-gh-release@v1
         with:
-          files: artifacts/**/*
-          tag_name: ${{ github.ref_name }}
-          name: EduLift Mobile Android ${{ (contains(github.ref_name, '-') && 'staging') || 'production' }} ${{ github.ref_name }}
+          tag_name: ${{ needs.prepare-release.outputs.tag_name }}
+          name: EduLift Mobile ${{ needs.prepare-release.outputs.flavor }} ${{ needs.prepare-release.outputs.version }}
           body: |
-            EduLift Mobile Android ${{ (contains(github.ref_name, '-') && 'staging') || 'production' }} release
+            EduLift Mobile ${{ needs.prepare-release.outputs.flavor }} release
 
-            - Version: ${{ github.ref_name }}
-            - Platform: Android
-            - Environment: ${{ (contains(github.ref_name, '-') && 'staging') || 'production' }}
-            - Commit: ${{ github.sha }}
-            - Build: ${{ github.run_number }}
+            **Version:** ${{ needs.prepare-release.outputs.version }}
+            **Platform:** iOS + Android (Unified)
+            **Environment:** ${{ needs.prepare-release.outputs.flavor }}
+            **Commit:** ${{ github.sha }}
+            **Build:** ${{ github.run_number }}
 
-            Firebase App Distribution links are also available for testers.
+            ## 📱 Downloads
+
+            **iOS (AltStore PAL):**
+            - 📦 `edulift-${{ needs.prepare-release.outputs.flavor }}.ipa`
+            - Unsigned build for AltStore PAL distribution
+
+            **Android:**
+            ${{ needs.prepare-release.outputs.is_staging == 'true' && '- 📦 `edulift-staging.apk`\n- For Firebase App Distribution testing' || '- 📦 `edulift-production.aab`\n- For Google Play Store release' }}
+
+            ## 🔗 Links
+
+            - **Download:** Click assets below ⬇️
+            - **Commit:** [${{ github.sha }}](https://github.com/${{ github.repository }}/commit/${{ github.sha }})
+            ${{ needs.prepare-release.outputs.is_staging == 'true' && '- **Testing:** Firebase App Distribution' || '- **Store:** Google Play Console' }}
+
+          files: release-files/*
           draft: false
-          prerelease: contains(github.ref_name, '-')
+          prerelease: ${{ needs.prepare-release.outputs.is_staging }}
+          generate_release_notes: true
 
-      # iOS distribution disabled - requires Apple Developer Program
-      # - name: Download iOS IPA
-      #   if: github.event.inputs.platform == 'ios' || github.event.inputs.platform == 'both' || github.event.inputs.platform == null
-      #   uses: actions/download-artifact@v4
-      #   with:
-      #     name: ios-app-development-debug
-      #     path: ./ipa
-      #
-      # - name: Distribute iOS to Firebase
-      #   if: github.event.inputs.platform == 'ios' || github.event.inputs.platform == 'both' || github.event.inputs.platform == null
-      #   run: |
-      #     # iOS development uses edulift-staging project
-      #     firebase appdistribution:distribute ipa/*.ipa \
-      #       --app ${{ env.FIREBASE_IOS_STAGING_APP_ID }} \
-      #       --groups "${{ secrets.FIREBASE_GROUPS_STAGING || 'internal-testers' }}" \
-      #       --release-notes "Automated iOS development build from commit ${{ github.sha }}"
-      #   continue-on-error: true
+      - name: Get download URL for AltStore
+        id: urls
+        run: |
+          FLAVOR="${{ needs.prepare-release.outputs.flavor }}"
+          TAG_NAME="${{ needs.prepare-release.outputs.tag_name }}"
 
-  # Firebase App Distribution - Staging Release (Android only - iOS disabled)
-  # For pre-release tags: v1.0.0-rc.1, v1.0.0-beta.1, v1.0.0-alpha.1
-  firebase-distribution-staging:
-    name: Firebase App Distribution (Staging Release)
+          IPA_DOWNLOAD_URL="https://github.com/${{ github.repository }}/releases/download/$TAG_NAME/edulift-$FLAVOR.ipa"
+
+          echo "ipa_download_url=$IPA_DOWNLOAD_URL" >> $GITHUB_OUTPUT
+          echo "🔗 IPA Download URL: $IPA_DOWNLOAD_URL"
+
+      - name: Update AltStore PAL source
+        run: |
+          FLAVOR="${{ needs.prepare-release.outputs.flavor }}"
+          IPA_PATH="release-files/edulift-$FLAVOR.ipa"
+          DOWNLOAD_URL="${{ steps.urls.outputs.ipa_download_url }}"
+
+          echo "📱 Updating AltStore PAL source..."
+          echo "   Flavor: $FLAVOR"
+          echo "   IPA: $IPA_PATH"
+          echo "   Download URL: $DOWNLOAD_URL"
+
+          # Setup git for AltStore repo updates
+          ALTSTORE_REPO="jrevillard/my-altstore"
+          ALTSTORE_BRANCH="main"
+
+          mkdir -p altstore_temp
+          cd altstore_temp
+
+          # Clone AltStore repo
+          if [[ -n "${{ secrets.GITHUB_TOKEN }}" ]]; then
+            git clone https://${{ secrets.GITHUB_TOKEN }}@github.com/$ALTSTORE_REPO.git .
+          else
+            git clone https://github.com/$ALTSTORE_REPO.git .
+          fi
+
+          git checkout $ALTSTORE_BRANCH
+
+          # Get app info
+          VERSION=$(flutter --version | head -n 1 | cut -d' ' -f2)
+          BUILD_NUMBER="${{ github.run_number }}"
+          IPA_SIZE=$(du -h "../$IPA_PATH" | cut -f1)
+
+          # Generate AltStore PAL JSON
+          mkdir -p apps
+          APP_JSON="apps/${FLAVOR}.json"
+
+          # Use jq to generate JSON safely
+          jq -n \
+            --arg name "EduLift" \
+            --arg bundleId "com.edulift.app${FLAVOR:+:.staging}" \
+            --arg version "$VERSION" \
+            --arg versionDate "$(date -u +%Y-%m-%dT%H:%M:%SZ)" \
+            --arg localizedDescription "Version $VERSION - Build $BUILD_NUMBER" \
+            --arg downloadURL "$DOWNLOAD_URL" \
+            --arg size "$IPA_SIZE" \
+            --arg iconURL "https://raw.githubusercontent.com/jrevillard/edulift-mobile/main/docs/edulift-icon.png" \
+            --arg tintColor "#1976d2" \
+            '{
+              "name": $name,
+              "bundleIdentifier": $bundleId,
+              "version": $version,
+              "versionDate": $versionDate,
+              "localizedDescription": $localizedDescription,
+              "downloadURL": $downloadURL,
+              "size": ($size | tonumber),
+              "iconURL": $iconURL,
+              "tintColor": $tintColor
+            }' > "$APP_JSON"
+
+          echo "✅ Generated $APP_JSON:"
+          echo "   Name: EduLift $FLAVOR"
+          echo "   Bundle ID: com.edulift.app${FLAVOR:+:.staging}"
+          echo "   Download URL: $DOWNLOAD_URL"
+          echo "   Size: $IPA_SIZE"
+
+          # Commit and push
+          git config user.name "GitHub Actions"
+          git config user.email "action@github.com"
+
+          if git diff --quiet; then
+            echo "ℹ️ No changes to AltStore source"
+          else
+            git add .
+            git commit -m "feat: update EduLift $FLAVOR to version $VERSION"
+            git push origin $ALTSTORE_BRANCH
+            echo "✅ AltStore PAL source updated"
+          fi
+
+          cd ..
+          rm -rf altstore_temp
+
+      - name: Release summary
+        run: |
+          echo "🎉 Unified release completed!"
+          echo ""
+          echo "📋 Release Details:"
+          echo "   Tag: ${{ needs.prepare-release.outputs.tag_name }}"
+          echo "   Version: ${{ needs.prepare-release.outputs.version }}"
+          echo "   Environment: ${{ needs.prepare-release.outputs.flavor }}"
+          echo "   Platforms: iOS + Android"
+          echo "   AltStore: ✅ Updated"
+          echo ""
+          echo "🔗 View release: https://github.com/${{ github.repository }}/releases/tag/${{ needs.prepare-release.outputs.tag_name }}"
+
+  # Job 5: Handle build failures (notification)
+  handle-failures:
+    name: Handle Build Failures
     runs-on: ubuntu-latest
-    needs: [build-android]
-    if: startsWith(github.ref, 'refs/tags/v') && (contains(github.ref, '-rc') || contains(github.ref, '-beta') || contains(github.ref, '-alpha'))
-    timeout-minutes: 15
+    needs: [prepare-release, build-ios, build-android]
+    if: always() && (needs.build-ios.result == 'failure' || needs.build-android.result == 'failure')
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Download Android Build Artifacts
-        uses: actions/download-artifact@v4
-        with:
-          name: android-apk-staging-release
-          path: ./build_artifacts
-
-      - name: Verify APK exists
-        id: verify-apk
+      - name: Notify build failures
         run: |
-          echo "📂 Listing downloaded artifacts structure:"
-          find build_artifacts -type f -name "*.apk" || echo "No APK files found"
+          echo "❌ Build failures detected!"
           echo ""
-          if find build_artifacts -type f -name "*.apk" | grep -q .; then
-            APK_PATH=$(find build_artifacts -type f -name "*.apk" | head -n 1)
-            echo "apk_found=true" >> $GITHUB_OUTPUT
-            echo "✅ APK found: $APK_PATH"
-          else
-            echo "apk_found=false" >> $GITHUB_OUTPUT
-            echo "❌ No APK found in artifacts"
-            exit 1
-          fi
-
-      - name: Setup Firebase CLI
-        uses: w9jds/setup-firebase@main
-        with:
-          gcp_sa_key: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_STAGING }}
-
-      - name: Distribute Android APK to Firebase
-        run: |
-          APK_FILE=$(find build_artifacts -type f -name "*.apk" | head -n 1)
-          echo "Distributing STAGING APK: $APK_FILE"
-          echo "ℹ️  Note: Using APK instead of AAB (AAB requires Google Play Developer account)"
-          firebase appdistribution:distribute "$APK_FILE" \
-            --app ${{ env.FIREBASE_ANDROID_STAGING_APP_ID }} \
-            --groups "${{ secrets.FIREBASE_GROUPS_STAGING || 'internal-testers' }}" \
-            --release-notes "Pre-release ${{ github.ref_name }} from commit ${{ github.sha }}"
-
-  # Firebase App Distribution - Production (Android only - iOS disabled)
-  firebase-distribution-production:
-    name: Firebase App Distribution (Production)
-    runs-on: ubuntu-latest
-    needs: [build-android]
-    if: startsWith(github.ref, 'refs/tags/v') && !(contains(github.ref, '-rc') || contains(github.ref, '-beta') || contains(github.ref, '-alpha'))
-    timeout-minutes: 15
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Download Android Build Artifacts
-        uses: actions/download-artifact@v4
-        with:
-          name: android-apk-production-release
-          path: ./build_artifacts
-
-      - name: Verify APK exists
-        id: verify-apk
-        run: |
-          echo "📂 Listing downloaded artifacts structure:"
-          find build_artifacts -type f -name "*.apk" || echo "No APK files found"
+          echo "📋 Build Status Summary:"
+          echo "   Prepare Release: ${{ needs.prepare-release.result }}"
+          echo "   Build iOS: ${{ needs.build-ios.result }}"
+          echo "   Build Android: ${{ needs.build-android.result }}"
           echo ""
-          if find build_artifacts -type f -name "*.apk" | grep -q .; then
-            APK_PATH=$(find build_artifacts -type f -name "*.apk" | head -n 1)
-            echo "apk_found=true" >> $GITHUB_OUTPUT
-            echo "✅ APK found: $APK_PATH"
-          else
-            echo "apk_found=false" >> $GITHUB_OUTPUT
-            echo "❌ No APK found in artifacts"
-            exit 1
+
+          if [[ "${{ needs.build-ios.result }}" == "failure" ]]; then
+            echo "🔍 iOS build failed - check Codemagic logs"
           fi
 
-      - name: Setup Firebase CLI
-        uses: w9jds/setup-firebase@main
-        with:
-          gcp_sa_key: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_PROD }}
-
-      - name: Distribute Android APK to Firebase
-        run: |
-          APK_FILE=$(find build_artifacts -type f -name "*.apk" | head -n 1)
-          echo "Distributing PRODUCTION APK: $APK_FILE"
-          echo "ℹ️  Note: Using APK instead of AAB (AAB requires Google Play Developer account)"
-          firebase appdistribution:distribute "$APK_FILE" \
-            --app ${{ env.FIREBASE_ANDROID_PROD_APP_ID }} \
-            --groups "${{ secrets.FIREBASE_GROUPS_PROD || 'production-testers' }}" \
-            --release-notes "Production release ${{ github.ref_name }} from commit ${{ github.sha }}"
-
-  # Deployment summary
-  deployment-summary:
-    name: Deployment Summary
-    runs-on: ubuntu-latest
-    needs: [build-android, create-github-release, firebase-distribution-staging, firebase-distribution-production]
-    if: always()
-    timeout-minutes: 5
-
-    steps:
-      - name: Create deployment summary
-        run: |
-          echo "## 🚀 Build Summary" >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
-          echo "**Platform**: Android only (iOS disabled - requires Apple Developer Program)" >> $GITHUB_STEP_SUMMARY
-          echo "**Build Type**: ${{ (startsWith(github.ref, 'refs/tags/') && 'release') || github.event.inputs.build_type || 'debug' }}" >> $GITHUB_STEP_SUMMARY
-          echo "**Commit**: \`${{ github.sha }}\`" >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
-          echo "**Android Build**: ${{ needs.build-android.result }}" >> $GITHUB_STEP_SUMMARY
-
-          # Only show Firebase distribution results that actually ran (not skipped)
-          if [[ "${{ needs.firebase-distribution-staging.result }}" != "skipped" ]]; then
-            echo "**Firebase Distribution (Staging Release)**: ${{ needs.firebase-distribution-staging.result }}" >> $GITHUB_STEP_SUMMARY
-          fi
-          if [[ "${{ needs.firebase-distribution-production.result }}" != "skipped" ]]; then
-            echo "**Firebase Distribution (Production)**: ${{ needs.firebase-distribution-production.result }}" >> $GITHUB_STEP_SUMMARY
+          if [[ "${{ needs.build-android.result }}" == "failure" ]]; then
+            echo "🔍 Android build failed - check GitHub Actions logs"
           fi
 
-          echo "" >> $GITHUB_STEP_SUMMARY
-          if [[ "${{ startsWith(github.ref, 'refs/tags/') }}" == "true" ]]; then
-            echo "**🎉 Release build completed for tag**: ${{ github.ref_name }}" >> $GITHUB_STEP_SUMMARY
+          echo "🔗 Monitor builds:"
+          echo "   GitHub Actions: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+          if [[ -n "${{ vars.CODEMAGIC_APP_ID }}" ]]; then
+            echo "   Codemagic: https://codemagic.io/app/${{ vars.CODEMAGIC_APP_ID }}/builds"
           fi
-
-      

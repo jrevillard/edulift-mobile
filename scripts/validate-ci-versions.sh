@@ -51,7 +51,7 @@ echo "📋 Validating Flutter versions..."
 # Validate GitHub Actions workflow
 echo "🔍 Checking .github/workflows/cd.yml..."
 # Check that the workflow loads from ci-versions.env using new approach
-if grep -q "Load CI/CD versions from .env" ".github/workflows/cd.yml"; then
+if grep -q "Load CI/CD versions" ".github/workflows/cd.yml"; then
     echo "✅ Workflow loads versions from ci-versions.env"
 else
     echo -e "${RED}❌ Workflow doesn't load from ci-versions.env${NC}"
@@ -126,11 +126,11 @@ else
 fi
 
 # Validate Xcode version - check if workflow uses steps.*outputs.*XCODE_VERSION
+# Note: CD workflow runs on Ubuntu (Android build only), so Xcode version is only used by Codemagic
 if grep -q "steps.*outputs.*XCODE_VERSION" ".github/workflows/cd.yml"; then
     echo "✅ Xcode version loaded from ci-versions.env"
 else
-    echo -e "${RED}❌ Xcode version not loaded from ci-versions.env${NC}"
-    validation_errors=$((validation_errors + 1))
+    echo "✅ Xcode version managed by Codemagic (CD workflow builds Android only)"
 fi
 
 echo ""
@@ -170,20 +170,21 @@ else
     validation_errors=$((validation_errors + 1))
 fi
 
-# Validate Codemagic version update for iOS
+# Validate Codemagic version management for iOS (unified architecture)
 echo ""
 echo "📋 Validating Codemagic iOS version management..."
-if grep -q "update-version" "codemagic.yaml"; then
-    echo "✅ Codemagic has version update script for iOS"
+if grep -q "build-complete" "codemagic.yaml"; then
+    echo "✅ Codemagic is configured as build-only (unified architecture)"
 else
-    echo -e "${RED}❌ Codemagic missing version update script for iOS${NC}"
+    echo -e "${RED}❌ Codemagic missing build-complete notification${NC}"
     validation_errors=$((validation_errors + 1))
 fi
 
-if grep -q "Update version from tag" "codemagic.yaml"; then
-    echo "✅ Codemagic updates pubspec.yaml from tag"
+# Check that Codemagic doesn't handle version updates (centralized in GitHub Actions)
+if ! grep -q "update-version\|Update version from tag" "codemagic.yaml"; then
+    echo "✅ Codemagic correctly delegates version management to GitHub Actions"
 else
-    echo -e "${RED}❌ Codemagic missing pubspec.yaml update from tag${NC}"
+    echo -e "${RED}❌ Codemagic should not handle version updates (unified architecture)${NC}"
     validation_errors=$((validation_errors + 1))
 fi
 

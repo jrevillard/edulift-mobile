@@ -116,3 +116,4 @@ android/app/src/production/AndroidManifest.xml
 android/app/src/staging/AndroidManifest.xml
 android/app/src/e2e/AndroidManifest.xml
 android/app/src/development/AndroidManifest.xml
+android/.kotlin
