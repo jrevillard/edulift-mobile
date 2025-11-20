@@ -35,6 +35,10 @@
 #
 name: Mobile Unified Release
 
+permissions:
+  contents: write
+  pull-requests: write
+
 on:
   push:
     branches:
@@ -66,16 +70,12 @@ jobs:
         run: |
           if [[ -f ".github/ci-versions.env" ]]; then
             while IFS='=' read -r key value; do
-              echo "$key=$value" >> $GITHUB_OUTPUT
+              # Skip empty lines and comments
+              if [[ -n "$key" && ! "$key" =~ ^[[:space:]]*# ]]; then
+                echo "$key=$value" >> $GITHUB_OUTPUT
+              fi
             done < .github/ci-versions.env
           fi
-
-      - name: Setup Flutter
-        uses: subosito/flutter-action@v2
-        with:
-          flutter-version: ${{ steps.load-versions.outputs.FLUTTER_VERSION }}
-          channel: ${{ steps.load-versions.outputs.FLUTTER_CHANNEL }}
-          cache: true
 
       - name: Validate version format
         id: validate-version
@@ -156,7 +156,7 @@ jobs:
           echo "✅ Updated pubspec.yaml:"
           grep "^version:" pubspec.yaml
 
-      - name: Commit version update and create tag
+      - name: Commit version update
         run: |
           # Configure git
           git config --local user.email "action@github.com"
@@ -166,34 +166,48 @@ jobs:
           git add pubspec.yaml
           git commit -m "[skip ci] chore: update version to ${{ steps.version.outputs.base_version }}+${{ github.run_number }}"
 
-          # Create tag for this release
-          TAG_NAME="${{ steps.version.outputs.tag_name }}"
-          git tag -a "$TAG_NAME" -m "Release ${{ steps.version.outputs.version }}"
-
-          # Push commit and tag
+          # Push commit to release branch
           git push origin release/${{ steps.version.outputs.version }}
-          git push origin "$TAG_NAME"
 
-          echo "✅ Created and pushed tag: $TAG_NAME"
+          echo "✅ Committed version update to release/${{ steps.version.outputs.version }}"
 
-      - name: Merge to main
+      - name: Merge to main and create tag
         run: |
+          set -e
+
           # Configure git
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
 
-          # Target branch (make configurable in the future)
           TARGET_BRANCH="main"
+          RELEASE_BRANCH="release/${{ steps.version.outputs.version }}"
+          TAG_NAME="${{ steps.version.outputs.tag_name }}"
 
-          # Checkout target branch and merge release branch
+          echo "🔄 Fetching target branch '$TARGET_BRANCH'..."
+          git fetch origin $TARGET_BRANCH
+
+          echo "📋 Checking out '$TARGET_BRANCH'..."
           git checkout $TARGET_BRANCH
-          git pull origin $TARGET_BRANCH
-          git merge release/${{ steps.version.outputs.version }} --no-ff -m "Release ${{ steps.version.outputs.version }}"
 
-          # Push merge to target branch
+          echo "🔄 Resetting local branch to match remote..."
+          git reset --hard origin/$TARGET_BRANCH
+
+          echo "🔀 Merging '$RELEASE_BRANCH' into '$TARGET_BRANCH'..."
+          git merge "$RELEASE_BRANCH" --no-ff -m "chore(release): Release ${{ steps.version.outputs.version }} [skip ci]"
+
+          echo "📤 Pushing merge to '$TARGET_BRANCH'..."
           git push origin $TARGET_BRANCH
 
-          echo "✅ Merged release/${{ steps.version.outputs.version }} to $TARGET_BRANCH"
+          echo "🏷️ Creating tag '$TAG_NAME' on '$TARGET_BRANCH'..."
+          git tag -a "$TAG_NAME" -m "Release ${{ steps.version.outputs.version }}"
+          git push origin "$TAG_NAME"
+
+          echo "🧹 Cleaning up release branch '$RELEASE_BRANCH'..."
+          git push origin --delete "$RELEASE_BRANCH"
+
+          echo "✅ Successfully merged $RELEASE_BRANCH to $TARGET_BRANCH"
+          echo "✅ Created and pushed tag: $TAG_NAME"
+          echo "✅ Deleted release branch: $RELEASE_BRANCH"
 
   # Job 2: Build iOS (trigger Codemagic)
   build-ios:
@@ -312,7 +326,10 @@ jobs:
         run: |
           if [[ -f ".github/ci-versions.env" ]]; then
             while IFS='=' read -r key value; do
-              echo "$key=$value" >> $GITHUB_OUTPUT
+              # Skip empty lines and comments
+              if [[ -n "$key" && ! "$key" =~ ^[[:space:]]*# ]]; then
+                echo "$key=$value" >> $GITHUB_OUTPUT
+              fi
             done < .github/ci-versions.env
           fi
 
@@ -570,6 +587,46 @@ jobs:
           echo "   AltStore: ✅ Updated"
           echo ""
           echo "🔗 View release: https://github.com/${{ github.repository }}/releases/tag/${{ needs.prepare-release.outputs.tag_name }}"
+
+      - name: Reset pubspec.yaml for development
+        if: success()  # Only run if all previous steps succeeded
+        run: |
+          set -e
+          echo "🔄 Resetting pubspec.yaml for development after successful release..."
+
+          # Configure git
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+
+          TARGET_BRANCH="main"
+
+          echo "🔄 Fetching target branch '$TARGET_BRANCH'..."
+          git fetch origin $TARGET_BRANCH
+
+          echo "📋 Checking out '$TARGET_BRANCH'..."
+          git checkout $TARGET_BRANCH
+
+          echo "🔄 Resetting local branch to match remote..."
+          git reset --hard origin/$TARGET_BRANCH
+
+          # Reset pubspec.yaml to development version after successful release
+          BASE_VERSION="${{ needs.prepare-release.outputs.base_version }}"
+
+          # Calculate next patch version for development
+          # Example: 0.1.0 → 0.1.1-dev+1
+          NEXT_PATCH=$(echo "$BASE_VERSION" | awk -F. '{print $1"."$2"."($3+1)}')
+          DEV_VERSION="${NEXT_PATCH}-dev+1"
+
+          sed -i "s/^version: .*/version: $DEV_VERSION/" pubspec.yaml
+          echo "🔢 Development version calculated: $DEV_VERSION (from $BASE_VERSION)"
+
+          # Commit the development version reset
+          git add pubspec.yaml
+          git commit -m "chore: reset pubspec.yaml to development version $DEV_VERSION [skip ci]"
+          git push origin $TARGET_BRANCH
+
+          echo "✅ Successfully reset pubspec.yaml to development version: $DEV_VERSION"
+          echo "🚀 Ready for next development cycle!"
 
   # Job 5: Handle build failures (notification)
   handle-failures:
