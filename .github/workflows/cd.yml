@@ -77,13 +77,6 @@ jobs:
             done < .github/ci-versions.env
           fi
 
-      - name: Setup Flutter
-        uses: subosito/flutter-action@v2
-        with:
-          flutter-version: ${{ steps.load-versions.outputs.FLUTTER_VERSION }}
-          channel: ${{ steps.load-versions.outputs.FLUTTER_CHANNEL }}
-          cache: true
-
       - name: Validate version format
         id: validate-version
         run: |
@@ -163,7 +156,7 @@ jobs:
           echo "✅ Updated pubspec.yaml:"
           grep "^version:" pubspec.yaml
 
-      - name: Commit version update and create tag
+      - name: Commit version update
         run: |
           # Configure git
           git config --local user.email "action@github.com"
@@ -173,17 +166,12 @@ jobs:
           git add pubspec.yaml
           git commit -m "[skip ci] chore: update version to ${{ steps.version.outputs.base_version }}+${{ github.run_number }}"
 
-          # Create tag for this release
-          TAG_NAME="${{ steps.version.outputs.tag_name }}"
-          git tag -a "$TAG_NAME" -m "Release ${{ steps.version.outputs.version }}"
-
-          # Push commit and tag
+          # Push commit to release branch
           git push origin release/${{ steps.version.outputs.version }}
-          git push origin "$TAG_NAME"
 
-          echo "✅ Created and pushed tag: $TAG_NAME"
+          echo "✅ Committed version update to release/${{ steps.version.outputs.version }}"
 
-      - name: Merge to main
+      - name: Merge to main and create tag
         run: |
           # Configure git
           git config --local user.email "action@github.com"
@@ -200,7 +188,13 @@ jobs:
           # Push merge to target branch
           git push origin $TARGET_BRANCH
 
+          # Create tag AFTER merge (so tag points to main)
+          TAG_NAME="${{ steps.version.outputs.tag_name }}"
+          git tag -a "$TAG_NAME" -m "Release ${{ steps.version.outputs.version }}"
+          git push origin "$TAG_NAME"
+
           echo "✅ Merged release/${{ steps.version.outputs.version }} to $TARGET_BRANCH"
+          echo "✅ Created and pushed tag: $TAG_NAME (points to main)"
 
   # Job 2: Build iOS (trigger Codemagic)
   build-ios:
