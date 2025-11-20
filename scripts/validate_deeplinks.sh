@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 # EduLift Mobile - Production Deeplink Validation Script
 # Tests all 4 backend deeplink types for production readiness

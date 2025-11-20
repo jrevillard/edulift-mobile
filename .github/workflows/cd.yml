@@ -1,10 +1,44 @@
-# .github/workflows/cd.yml - Complete rewrite
+# .github/workflows/cd.yml - Mobile Unified Release System
+#
+# OVERVIEW:
+# =========
+# This workflow implements a unified release system that coordinates iOS builds (via Codemagic)
+# and Android builds (via GitHub Actions) using a branch-based approach.
+#
+# TRIGGER:
+# =======
+# - push to branches matching pattern: 'release/*'
+# - Validates semantic version format (e.g., 2.1.0, 2.1.0-beta2, 2.1.0-rc1)
+# - Rejects invalid branch names (test, fix, hotfix, experimental, wip, temp)
+#
+# WORKFLOW FLOW:
+# ===============
+# 1. prepare-release: Extract version, update pubspec.yaml, create git tag, merge to main
+# 2. build-ios: Trigger Codemagic build, wait completion, download artifacts
+# 3. build-android: Build APK/AAB in parallel
+# 4. create-unified-release: Create GitHub release, update AltStore PAL source
+# 5. handle-failures: Notify on build failures
+#
+# SECURITY:
+# ==========
+# - Semantic version regex validation prevents unauthorized releases
+# - All secrets properly stored in GitHub Actions secrets
+# - No hardcoded credentials in any scripts or configurations
+# - Fail-fast on any validation errors
+#
+# ARCHITECTURE:
+# ============
+# - GitHub Actions: Central coordinator and version management
+# - Codemagic: Build-only iOS execution (no version management conflicts)
+# - AltStore PAL: Automatic source updates for iOS distribution
+# - Firebase: App Distribution integration for testing
+#
 name: Mobile Unified Release
 
 on:
   push:
-    tags:
-      - 'v*'
+    branches:
+      - 'release/*'
 
 env:
   # Flutter configuration
@@ -43,23 +77,45 @@ jobs:
           channel: ${{ steps.load-versions.outputs.FLUTTER_CHANNEL }}
           cache: true
 
-      - name: Extract version and flavor from tag
-        id: version
+      - name: Validate version format
+        id: validate-version
         run: |
-          TAG_NAME="${GITHUB_REF_NAME}"
-          echo "Processing tag: $TAG_NAME"
+          BRANCH_NAME="${GITHUB_REF_NAME}"
+          echo "Processing release branch: $BRANCH_NAME"
 
-          # Remove 'v' prefix for version
-          VERSION="${TAG_NAME#v}"
+          # Extract version from branch name (remove 'release/' prefix)
+          VERSION="${BRANCH_NAME#release/}"
           echo "version=$VERSION" >> $GITHUB_OUTPUT
-          echo "tag_name=$TAG_NAME" >> $GITHUB_OUTPUT
+
+          # Validate semantic version format
+          # Patterns:
+          # - 2.1.0 (production)
+          # - 2.1.0-alpha1, 2.1.0-beta2, 2.1.0-rc1 (staging)
+          if [[ ! "$VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+(-((alpha|beta|rc)[0-9]*))?$ ]]; then
+            echo "❌ Invalid version format: $VERSION"
+            echo ""
+            echo "Expected formats:"
+            echo "  - 2.1.0 (production)"
+            echo "  - 2.1.0-alpha1 (staging)"
+            echo "  - 2.1.0-beta2 (staging)"
+            echo "  - 2.1.0-rc1 (staging)"
+            echo ""
+            echo "Rejected: test, fix, hotfix, bugfix, experimental, wip, temp, etc."
+            echo ""
+            echo "Please use semantic versioning format in release/ branches."
+            exit 1
+          fi
 
           # Extract base version (remove pre-release)
           BASE_VERSION=$(echo "$VERSION" | sed -E 's/(-alpha|-beta|-rc).*//')
           echo "base_version=$BASE_VERSION" >> $GITHUB_OUTPUT
 
-          # Determine flavor from tag pattern
-          if [[ "$TAG_NAME" =~ (alpha|beta|rc) ]]; then
+          # Create tag name for later use
+          TAG_NAME="v$VERSION"
+          echo "tag_name=$TAG_NAME" >> $GITHUB_OUTPUT
+
+          # Determine flavor from version pattern
+          if [[ "$VERSION" =~ (alpha|beta|rc) ]]; then
             FLAVOR="staging"
             IS_STAGING="true"
           else
@@ -70,11 +126,24 @@ jobs:
           echo "flavor=$FLAVOR" >> $GITHUB_OUTPUT
           echo "is_staging=$IS_STAGING" >> $GITHUB_OUTPUT
 
+          echo "✅ Version format validated: $VERSION"
           echo "📋 Release Info:"
+          echo "   Branch: $BRANCH_NAME"
           echo "   Version: $VERSION"
+          echo "   Tag: $TAG_NAME"
           echo "   Base Version: $BASE_VERSION"
           echo "   Flavor: $FLAVOR"
           echo "   Staging: $IS_STAGING"
+
+      - name: Extract version and flavor from branch
+        id: version
+        run: |
+          # This step now just passes through the validated values
+          echo "version=${{ steps.validate-version.outputs.version }}" >> $GITHUB_OUTPUT
+          echo "base_version=${{ steps.validate-version.outputs.base_version }}" >> $GITHUB_OUTPUT
+          echo "tag_name=${{ steps.validate-version.outputs.tag_name }}" >> $GITHUB_OUTPUT
+          echo "flavor=${{ steps.validate-version.outputs.flavor }}" >> $GITHUB_OUTPUT
+          echo "is_staging=${{ steps.validate-version.outputs.is_staging }}" >> $GITHUB_OUTPUT
 
       - name: Update pubspec.yaml
         run: |
@@ -87,13 +156,44 @@ jobs:
           echo "✅ Updated pubspec.yaml:"
           grep "^version:" pubspec.yaml
 
-      - name: Commit version update
+      - name: Commit version update and create tag
         run: |
+          # Configure git
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
+
+          # Add and commit version update
           git add pubspec.yaml
-          git commit -m "chore: update version to ${{ steps.version.outputs.base_version }}+${{ github.run_number }} [skip ci]"
-          git push
+          git commit -m "[skip ci] chore: update version to ${{ steps.version.outputs.base_version }}+${{ github.run_number }}"
+
+          # Create tag for this release
+          TAG_NAME="${{ steps.version.outputs.tag_name }}"
+          git tag -a "$TAG_NAME" -m "Release ${{ steps.version.outputs.version }}"
+
+          # Push commit and tag
+          git push origin release/${{ steps.version.outputs.version }}
+          git push origin "$TAG_NAME"
+
+          echo "✅ Created and pushed tag: $TAG_NAME"
+
+      - name: Merge to main
+        run: |
+          # Configure git
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+
+          # Target branch (make configurable in the future)
+          TARGET_BRANCH="main"
+
+          # Checkout target branch and merge release branch
+          git checkout $TARGET_BRANCH
+          git pull origin $TARGET_BRANCH
+          git merge release/${{ steps.version.outputs.version }} --no-ff -m "Release ${{ steps.version.outputs.version }}"
+
+          # Push merge to target branch
+          git push origin $TARGET_BRANCH
+
+          echo "✅ Merged release/${{ steps.version.outputs.version }} to $TARGET_BRANCH"
 
   # Job 2: Build iOS (trigger Codemagic)
   build-ios:
@@ -139,14 +239,15 @@ jobs:
             "${{ steps.trigger-ios.outputs.BUILD_ID }}" \
             "1800" "30"  # 30 minutes max, 30 second polling
 
-      - name: Download iOS artifacts
-        id: download
+      - name: Validate build info availability
         run: |
-          ARTIFACTS_DIR="ios-artifacts-${{ needs.prepare-release.outputs.flavor }}"
+          echo "🔍 Checking FINAL_BUILD_INFO availability..."
 
           # Verify FINAL_BUILD_INFO is available and valid
           if [[ -z "$FINAL_BUILD_INFO" ]]; then
             echo "❌ FINAL_BUILD_INFO not available - build polling may have failed"
+            echo "💡 This usually means the wait-codemagic-build.sh script did not complete properly"
+            echo "🔗 Check the previous step logs for build polling errors"
             exit 1
           fi
 
@@ -155,11 +256,19 @@ jobs:
             echo "❌ Invalid FINAL_BUILD_INFO JSON format - build polling may have failed"
             echo "📡 FINAL_BUILD_INFO content:"
             echo "$FINAL_BUILD_INFO" | head -c 500
+            echo ""
+            echo "💡 The FINAL_BUILD_INFO should be valid JSON with 'build.artefacts' array"
             exit 1
           fi
 
           echo "✅ FINAL_BUILD_INFO validated successfully"
-          echo "📡 Using build info: $(echo "$FINAL_BUILD_INFO" | jq -r '.build.status') - Artifacts: $(echo "$FINAL_BUILD_INFO" | jq -r '.build.artefacts | length')"
+          echo "📡 Build status: $(echo "$FINAL_BUILD_INFO" | jq -r '.build.status')"
+          echo "📦 Artifact count: $(echo "$FINAL_BUILD_INFO" | jq -r '.build.artefacts | length')"
+
+      - name: Download iOS artifacts
+        id: download
+        run: |
+          ARTIFACTS_DIR="ios-artifacts-${{ needs.prepare-release.outputs.flavor }}"
 
           ./scripts/download-codemagic-artifacts.sh \
             "${FINAL_BUILD_INFO}" \
@@ -395,8 +504,8 @@ jobs:
 
           git checkout $ALTSTORE_BRANCH
 
-          # Get app info
-          VERSION=$(flutter --version | head -n 1 | cut -d' ' -f2)
+          # Get app info from pre-extracted version
+          VERSION="${{ needs.prepare-release.outputs.version }}"
           BUILD_NUMBER="${{ github.run_number }}"
           IPA_SIZE=$(du -h "../$IPA_PATH" | cut -f1)
 

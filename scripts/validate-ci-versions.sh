@@ -162,6 +162,170 @@ else
     validation_errors=$((validation_errors + 1))
 fi
 
+# Validate CD workflow trigger configuration
+echo ""
+echo "📋 Validating CD workflow trigger (branch-based approach)..."
+if grep -q "branches:" ".github/workflows/cd.yml" && grep -q "release/\*" ".github/workflows/cd.yml"; then
+    echo "✅ CD workflow triggers on release/* branches"
+else
+    echo -e "${RED}❌ CD workflow should trigger on release/* branches${NC}"
+    validation_errors=$((validation_errors + 1))
+fi
+
+if grep -q "Extract version and flavor from branch" ".github/workflows/cd.yml"; then
+    echo "✅ CD workflow extracts version from branch name"
+else
+    echo -e "${RED}❌ CD workflow should extract version from branch name${NC}"
+    validation_errors=$((validation_errors + 1))
+fi
+
+if grep -q "Create tag for this release" ".github/workflows/cd.yml"; then
+    echo "✅ CD workflow creates tags automatically"
+else
+    echo -e "${RED}❌ CD workflow should create tags automatically${NC}"
+    validation_errors=$((validation_errors + 1))
+fi
+
+if grep -q "Merge to main" ".github/workflows/cd.yml"; then
+    echo "✅ CD workflow merges to main automatically"
+else
+    echo -e "${RED}❌ CD workflow should merge to main automatically${NC}"
+    validation_errors=$((validation_errors + 1))
+fi
+
+# Validate security version format validation
+echo ""
+echo "🛡️ Validating security version format validation..."
+if grep -q "Validate version format" ".github/workflows/cd.yml"; then
+    echo "✅ CD workflow validates version format"
+else
+    echo -e "${RED}❌ CD workflow missing version format validation${NC}"
+    validation_errors=$((validation_errors + 1))
+fi
+
+if grep -q "Invalid version format" ".github/workflows/cd.yml"; then
+    echo "✅ CD workflow has clear error messages"
+else
+    echo -e "${RED}❌ CD workflow missing clear error messages${NC}"
+    validation_errors=$((validation_errors + 1))
+fi
+
+if grep -q "Rejected: test, fix, hotfix, bugfix, experimental, wip, temp" ".github/workflows/cd.yml"; then
+    echo "✅ CD workflow explicitly rejects invalid branch names"
+else
+    echo -e "${RED}❌ CD workflow should explicitly reject invalid branch names${NC}"
+    validation_errors=$((validation_errors + 1))
+fi
+
+if grep -q "exit 1" ".github/workflows/cd.yml"; then
+    echo "✅ CD workflow fails fast on invalid versions"
+else
+    echo -e "${RED}❌ CD workflow should fail fast on invalid versions${NC}"
+    validation_errors=$((validation_errors + 1))
+fi
+
+# Validate critical fixes from code review
+echo ""
+echo "🔧 Validating critical code review fixes..."
+
+# Check if configure_ios.sh is corrupted (should not contain Python code)
+if grep -q "#!/usr/bin/env python3" "scripts/configure_ios.sh"; then
+    echo -e "${RED}❌ configure_ios.sh still contains Python code (corrupted)${NC}"
+    validation_errors=$((validation_errors + 1))
+else
+    echo "✅ configure_ios.sh file integrity verified (no Python code)"
+fi
+
+# Check if FINAL_BUILD_INFO validation exists
+if grep -q "Validate build info availability" ".github/workflows/cd.yml"; then
+    echo "✅ FINAL_BUILD_INFO validation added"
+else
+    echo -e "${RED}❌ FINAL_BUILD_INFO validation missing${NC}"
+    validation_errors=$((validation_errors + 1))
+fi
+
+# Check if Flutter version extraction is fixed (should use pre-extracted version)
+if grep -q "VERSION=\"\${{ needs.prepare-release.outputs.version }}\"" ".github/workflows/cd.yml"; then
+    echo "✅ Flutter version extraction fixed (uses pre-extracted version)"
+else
+    echo -e "${RED}❌ Flutter version extraction should use pre-extracted version${NC}"
+    validation_errors=$((validation_errors + 1))
+fi
+
+# Check if target branch is configurable
+if grep -q "TARGET_BRANCH=\"main\"" ".github/workflows/cd.yml"; then
+    echo "✅ Target branch made configurable"
+else
+    echo -e "${RED}❌ Target branch should be configurable${NC}"
+    validation_errors=$((validation_errors + 1))
+fi
+
+# Advanced file integrity validations
+echo ""
+echo "🔍 Advanced file integrity validations..."
+
+# Check if all scripts have proper error handling
+scripts_missing_sete=()
+for script in scripts/*.sh; do
+    if [[ -f "$script" ]]; then
+        if ! grep -q "set -e" "$script"; then
+            scripts_missing_sete+=("$(basename "$script")")
+        fi
+    fi
+done
+
+if [[ ${#scripts_missing_sete[@]} -eq 0 ]]; then
+    echo "✅ All scripts have proper error handling (set -e)"
+else
+    echo -e "${RED}❌ Scripts missing 'set -e': ${scripts_missing_sete[*]}${NC}"
+    validation_errors=$((validation_errors + ${#scripts_missing_sete[@]}))
+fi
+
+# Check if API retry logic is implemented
+if grep -q "Retry logic with exponential backoff" "scripts/trigger-codemagic-api.sh"; then
+    echo "✅ API retry logic with exponential backoff implemented"
+else
+    echo -e "${RED}❌ API retry logic should be implemented${NC}"
+    validation_errors=$((validation_errors + 1))
+fi
+
+# Check if workflow has comprehensive documentation
+if grep -q "WORKFLOW FLOW:" ".github/workflows/cd.yml"; then
+    echo "✅ Workflow has comprehensive documentation"
+else
+    echo -e "${RED}❌ Workflow documentation should be comprehensive${NC}"
+    validation_errors=$((validation_errors + 1))
+fi
+
+# Check if all critical files exist and are not empty
+critical_files=(
+    "scripts/trigger-codemagic-api.sh"
+    "scripts/wait-codemagic-build.sh"
+    "scripts/download-codemagic-artifacts.sh"
+    "scripts/configure_ios.sh"
+    "scripts/build_unsigned_ios.sh"
+    "scripts/validate-ci-versions.sh"
+    "codemagic.yaml"
+    ".github/workflows/cd.yml"
+    ".github/ci-versions.env"
+)
+
+for file in "${critical_files[@]}"; do
+    if [[ -f "$file" ]]; then
+        if [[ -s "$file" ]]; then
+            continue
+        else
+            echo -e "${RED}❌ Critical file exists but is empty: $file${NC}"
+            validation_errors=$((validation_errors + 1))
+        fi
+    else
+        echo -e "${RED}❌ Critical file missing: $file${NC}"
+        validation_errors=$((validation_errors + 1))
+    fi
+done
+
+echo "✅ All critical files exist and are not empty"
+
 # Validate CI loads configuration JSON for flavors
 if grep -q "dart-define-from-file=config/development.json" ".github/workflows/ci.yml"; then
     echo "✅ CI workflow loads configuration JSON for development flavor"

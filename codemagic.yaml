@@ -19,36 +19,7 @@ definitions:
       script: |
         cd ios && pod install
 
-    - &update-version
-      name: Update version from tag
-      script: |
-        # Update pubspec.yaml version from environment (set by GitHub Actions trigger)
-        if [[ -n "$GITHUB_TAG" ]]; then
-          echo "🏷️ Updating pubspec.yaml from tag: $GITHUB_TAG"
-
-          # Remove 'v' prefix
-          TAG_NAME="$GITHUB_TAG"
-          VERSION="${TAG_NAME#v}"
-
-          # Extract base version
-          BASE_VERSION=$(echo "$VERSION" | sed -E 's/(-alpha|-beta|-rc).*//')
-
-          # Use timestamp for iOS build number (ensures uniqueness)
-          IOS_BUILD_NUMBER=$(date +%s)
-
-          echo "📌 Tag: $TAG_NAME"
-          echo "📌 Version: $BASE_VERSION"
-          echo "📌 iOS build number: $IOS_BUILD_NUMBER"
-
-          # Update pubspec.yaml
-          sed -i '' "s/^version: .*/version: $BASE_VERSION+$IOS_BUILD_NUMBER/" pubspec.yaml
-
-          echo "✅ Updated pubspec.yaml:"
-          grep "^version:" pubspec.yaml
-        else
-          echo "ℹ️ No GITHUB_TAG provided, keeping existing version"
-        fi
-
+  
     - &configure-ios
       name: Configure iOS Deep Links
       script: |
@@ -152,7 +123,6 @@ workflows:
     scripts:
       - *get-packages
       - *code-generation
-      - *update-version
       - *install-tools
       - *configure-ios
       - *build-ios
@@ -206,7 +176,6 @@ workflows:
     scripts:
       - *get-packages
       - *code-generation
-      - *update-version
       - *install-tools
       - *configure-ios
       - *build-ios

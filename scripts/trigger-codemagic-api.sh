@@ -38,11 +38,43 @@ if [[ "$DRY_RUN" == "--dry-run" ]]; then
   BUILD_ID="dry-run-build-id"
 else
   echo "📡 Sending trigger request..."
-  RESPONSE=$(curl -s -X POST \
-    -H "Content-Type: application/json" \
-    -H "x-auth-token: $CODEMAGIC_API_TOKEN" \
-    -d "$TRIGGER_DATA" \
-    "https://api.codemagic.io/v1/apps/$APP_ID/builds")
+
+  # Retry logic with exponential backoff
+  MAX_RETRIES=3
+  RETRY_DELAY=5
+  RETRY_COUNT=0
+
+  while [ $RETRY_COUNT -lt $MAX_RETRIES ]; do
+    if [ $RETRY_COUNT -gt 0 ]; then
+      echo "🔄 Retry attempt $RETRY_COUNT/$MAX_RETRIES (waiting ${RETRY_DELAY}s)..."
+      sleep $RETRY_DELAY
+      RETRY_DELAY=$((RETRY_DELAY * 2))  # Exponential backoff
+    fi
+
+    RESPONSE=$(curl -s -w "%{http_code}" -X POST \
+      -H "Content-Type: application/json" \
+      -H "x-auth-token: $CODEMAGIC_API_TOKEN" \
+      -d "$TRIGGER_DATA" \
+      "https://api.codemagic.io/v1/apps/$APP_ID/builds")
+
+    HTTP_CODE="${RESPONSE: -3}"
+    RESPONSE_BODY="${RESPONSE%???}"
+
+    if [ "$HTTP_CODE" = "200" ]; then
+      echo "✅ API call successful"
+      RESPONSE="$RESPONSE_BODY"
+      break
+    else
+      echo "❌ API call failed (HTTP $HTTP_CODE)"
+      if [ $RETRY_COUNT -eq $((MAX_RETRIES - 1)) ]; then
+        echo "🚨 All retry attempts exhausted"
+        echo "Last response: $RESPONSE_BODY"
+        exit 1
+      fi
+    fi
+
+    RETRY_COUNT=$((RETRY_COUNT + 1))
+  done
 fi
 
 if [[ "$DRY_RUN" == "--dry-run" ]]; then
