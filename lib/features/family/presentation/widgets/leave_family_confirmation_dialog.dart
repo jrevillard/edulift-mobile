@@ -283,13 +283,34 @@ class _LeaveFamilyConfirmationDialogState
     try {
       final familyNotifier = ref.read(familyComposedProvider.notifier);
       await familyNotifier.leaveFamily();
+
       if (mounted) {
-        // Call success callback BEFORE pop to ensure parent context is valid
-        widget.onSuccess?.call();
-        Navigator.of(context).pop(true);
+        // Check if the operation actually succeeded by examining the state
+        final familyState = ref.read(familyComposedProvider);
+
+        // Check both error and errorInfo to detect failure
+        final errorMessage = familyState.error ?? familyState.errorInfo;
+        if (errorMessage?.isNotEmpty == true) {
+          // Operation failed - show error message
+          setState(() => _isLoading = false);
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(
+                AppLocalizations.of(context).failedToLeaveFamily(errorMessage!),
+              ),
+              backgroundColor: Theme.of(context).colorScheme.error,
+            ),
+          );
+          // Clear the error state for future attempts
+          familyNotifier.clearError();
+        } else {
+          // Operation succeeded - call success callback and close dialog
+          widget.onSuccess?.call();
+          Navigator.of(context).pop(true);
+        }
       }
     } catch (e) {
-      AppLogger.error('Failed to leave family', e);
+      AppLogger.error('Unexpected error leaving family', e);
       if (mounted) {
         setState(() => _isLoading = false);
         ScaffoldMessenger.of(context).showSnackBar(
