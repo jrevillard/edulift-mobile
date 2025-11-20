@@ -149,8 +149,8 @@ void main() {
       // Verify email displays
       await $.waitUntilVisible(find.byKey(const Key('profile_user_email')));
 
-      // Verify family role displays
-      await $.waitUntilVisible(find.byKey(const Key('profile_family_role')));
+      // Note: Family role no longer displays in profile page after mobile-first migration
+      // The profile page has been simplified to show only basic user info
 
       debugPrint('✅ Profile page displays user info correctly');
 
