@@ -36,7 +36,14 @@ class _EditChildPageState extends ConsumerState<EditChildPage> {
   @override
   void initState() {
     super.initState();
-    _loadChildData();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (_isLoading) {
+      _loadChildData();
+    }
   }
 
   @override
