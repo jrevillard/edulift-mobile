@@ -286,9 +286,10 @@ void main() {
     // so they CAN create groups. This is expected behavior.
     // Verifying that create button IS visible (this validates the permission system)
     expect(
-      find.byKey(const Key('create_group_button')),
+      find.byKey(const Key('groups_fab')),
       findsOneWidget,
-      reason: 'Family admin (regardless of group role) can create groups',
+      reason:
+          'Family admin (regardless of group role) can create groups - FAB should be visible',
     );
     debugPrint(
       '✅ GC-02: Verified - create button visible for family admin (expected behavior)',
@@ -732,7 +733,7 @@ void main() {
 
     await $.tap(find.byKey(const Key('navigation_groups')));
     await $.waitUntilVisible(
-      find.byKey(const Key('create_group_button')),
+      find.byKey(const Key('groups_fab')),
       timeout: const Duration(seconds: 5),
     );
 
