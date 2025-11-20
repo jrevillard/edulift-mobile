@@ -173,28 +173,41 @@ jobs:
 
       - name: Merge to main and create tag
         run: |
+          set -e
+
           # Configure git
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
 
-          # Target branch (make configurable in the future)
           TARGET_BRANCH="main"
+          RELEASE_BRANCH="release/${{ steps.version.outputs.version }}"
+          TAG_NAME="${{ steps.version.outputs.tag_name }}"
 
-          # Checkout target branch and merge release branch
+          echo "🔄 Fetching target branch '$TARGET_BRANCH'..."
+          git fetch origin $TARGET_BRANCH
+
+          echo "📋 Checking out '$TARGET_BRANCH'..."
           git checkout $TARGET_BRANCH
-          git pull origin $TARGET_BRANCH
-          git merge release/${{ steps.version.outputs.version }} --no-ff -m "Release ${{ steps.version.outputs.version }}"
 
-          # Push merge to target branch
+          echo "🔄 Resetting local branch to match remote..."
+          git reset --hard origin/$TARGET_BRANCH
+
+          echo "🔀 Merging '$RELEASE_BRANCH' into '$TARGET_BRANCH'..."
+          git merge "$RELEASE_BRANCH" --no-ff -m "chore(release): Release ${{ steps.version.outputs.version }} [skip ci]"
+
+          echo "📤 Pushing merge to '$TARGET_BRANCH'..."
           git push origin $TARGET_BRANCH
 
-          # Create tag AFTER merge (so tag points to main)
-          TAG_NAME="${{ steps.version.outputs.tag_name }}"
+          echo "🏷️ Creating tag '$TAG_NAME' on '$TARGET_BRANCH'..."
           git tag -a "$TAG_NAME" -m "Release ${{ steps.version.outputs.version }}"
           git push origin "$TAG_NAME"
 
-          echo "✅ Merged release/${{ steps.version.outputs.version }} to $TARGET_BRANCH"
-          echo "✅ Created and pushed tag: $TAG_NAME (points to main)"
+          echo "🧹 Cleaning up release branch '$RELEASE_BRANCH'..."
+          git push origin --delete "$RELEASE_BRANCH"
+
+          echo "✅ Successfully merged $RELEASE_BRANCH to $TARGET_BRANCH"
+          echo "✅ Created and pushed tag: $TAG_NAME"
+          echo "✅ Deleted release branch: $RELEASE_BRANCH"
 
   # Job 2: Build iOS (trigger Codemagic)
   build-ios:
@@ -578,14 +591,23 @@ jobs:
       - name: Reset pubspec.yaml for development
         if: success()  # Only run if all previous steps succeeded
         run: |
+          set -e
           echo "🔄 Resetting pubspec.yaml for development after successful release..."
 
           # Configure git
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
 
-          # Checkout main branch
-          git checkout main
+          TARGET_BRANCH="main"
+
+          echo "🔄 Fetching target branch '$TARGET_BRANCH'..."
+          git fetch origin $TARGET_BRANCH
+
+          echo "📋 Checking out '$TARGET_BRANCH'..."
+          git checkout $TARGET_BRANCH
+
+          echo "🔄 Resetting local branch to match remote..."
+          git reset --hard origin/$TARGET_BRANCH
 
           # Reset pubspec.yaml to development version after successful release
           BASE_VERSION="${{ needs.prepare-release.outputs.base_version }}"
@@ -601,7 +623,7 @@ jobs:
           # Commit the development version reset
           git add pubspec.yaml
           git commit -m "chore: reset pubspec.yaml to development version $DEV_VERSION [skip ci]"
-          git push origin main
+          git push origin $TARGET_BRANCH
 
           echo "✅ Successfully reset pubspec.yaml to development version: $DEV_VERSION"
           echo "🚀 Ready for next development cycle!"
