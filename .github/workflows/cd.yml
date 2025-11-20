@@ -310,6 +310,7 @@ jobs:
         with:
           name: ios-builds
           path: ${{ steps.download.outputs.artifacts_dir }}/
+          retention-days: 1
 
   # Job 3: Build Android (parallel)
   build-android:
@@ -392,6 +393,7 @@ jobs:
         with:
           name: android-builds
           path: android-artifacts/
+          retention-days: 1
 
   # Job 4: Create unified release
   create-unified-release:
