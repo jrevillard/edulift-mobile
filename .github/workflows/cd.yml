@@ -35,6 +35,10 @@
 #
 name: Mobile Unified Release
 
+permissions:
+  contents: write
+  pull-requests: write
+
 on:
   push:
     branches:
@@ -576,6 +580,37 @@ jobs:
           echo "   AltStore: ✅ Updated"
           echo ""
           echo "🔗 View release: https://github.com/${{ github.repository }}/releases/tag/${{ needs.prepare-release.outputs.tag_name }}"
+
+      - name: Reset pubspec.yaml for development
+        if: success()  # Only run if all previous steps succeeded
+        run: |
+          echo "🔄 Resetting pubspec.yaml for development after successful release..."
+
+          # Configure git
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+
+          # Checkout main branch
+          git checkout main
+
+          # Reset pubspec.yaml to development version after successful release
+          BASE_VERSION="${{ needs.prepare-release.outputs.base_version }}"
+
+          # Calculate next patch version for development
+          # Example: 0.1.0 → 0.1.1-dev+1
+          NEXT_PATCH=$(echo "$BASE_VERSION" | awk -F. '{print $1"."$2"."($3+1)}')
+          DEV_VERSION="${NEXT_PATCH}-dev+1"
+
+          sed -i "s/^version: .*/version: $DEV_VERSION/" pubspec.yaml
+          echo "🔢 Development version calculated: $DEV_VERSION (from $BASE_VERSION)"
+
+          # Commit the development version reset
+          git add pubspec.yaml
+          git commit -m "chore: reset pubspec.yaml to development version $DEV_VERSION [skip ci]"
+          git push origin main
+
+          echo "✅ Successfully reset pubspec.yaml to development version: $DEV_VERSION"
+          echo "🚀 Ready for next development cycle!"
 
   # Job 5: Handle build failures (notification)
   handle-failures:
