@@ -168,8 +168,8 @@ jobs:
           git add pubspec.yaml
           git commit -m "[skip ci] chore: update version to ${{ steps.version.outputs.base_version }}+${{ github.run_number }}"
 
-          # Push commit to release branch
-          git push origin release/${{ steps.version.outputs.version }}
+          # Push commit to release branch (force to avoid conflicts with automation)
+          git push origin release/${{ steps.version.outputs.version }} --force
 
           echo "✅ Committed version update to release/${{ steps.version.outputs.version }}"
 
