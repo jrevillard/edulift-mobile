@@ -11,6 +11,12 @@ echo "   Build ID: $BUILD_ID"
 echo "   Max wait: $MAX_WAIT_TIME seconds"
 echo "   Poll interval: $POLL_INTERVAL seconds"
 
+if [[ -z "$CODEMAGIC_API_TOKEN" ]]; then
+  echo "❌ ERROR: CODEMAGIC_API_TOKEN environment variable is not set"
+  echo "❌ Make sure the token is properly passed to this script"
+  exit 1
+fi
+
 WAIT_TIME=0
 
 while [[ $WAIT_TIME -lt $MAX_WAIT_TIME ]]; do

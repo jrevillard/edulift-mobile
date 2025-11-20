@@ -10,6 +10,12 @@ if [[ -z "$FINAL_BUILD_INFO" || -z "$OUTPUT_DIR" ]]; then
   exit 1
 fi
 
+if [[ -z "$CODEMAGIC_API_TOKEN" ]]; then
+  echo "❌ ERROR: CODEMAGIC_API_TOKEN environment variable is not set"
+  echo "❌ Make sure the token is properly passed to this script"
+  exit 1
+fi
+
 echo "📥 Downloading Codemagic artifacts..."
 echo "   To directory: $OUTPUT_DIR"
 
