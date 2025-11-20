@@ -40,6 +40,18 @@ while [[ $INDEX -lt $ARTIFACT_COUNT ]]; do
 
   if [[ $? -eq 0 ]]; then
     echo "✅ Downloaded: $OUTPUT_DIR/$ARTIFACT_NAME"
+
+    # Verify minimum file size (IPA should be at least 5MB)
+    DOWNLOADED_SIZE=$(stat -c%s "$OUTPUT_DIR/$ARTIFACT_NAME" || echo "0")
+    echo "📊 File size: $DOWNLOADED_SIZE bytes"
+
+    if [[ "$ARTIFACT_TYPE" == "ipa" && $DOWNLOADED_SIZE -lt 5242880 ]]; then  # 5MB minimum for IPA
+      echo "❌ IPA file is too small ($DOWNLOADED_SIZE bytes), likely corrupted or incomplete"
+      echo "❌ Expected at least 5MB for a valid IPA"
+      exit 1
+    fi
+
+    echo "✅ File size looks good"
     echo "ARTIFACT_$ARTIFACT_TYPE=$OUTPUT_DIR/$ARTIFACT_NAME" >> $GITHUB_OUTPUT
   else
     echo "❌ Failed to download: $ARTIFACT_NAME"
