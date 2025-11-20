@@ -298,7 +298,7 @@ jobs:
         with:
           name: ios-builds
           path: ${{ steps.download.outputs.artifacts_dir }}/
-          retention-days: 1
+          retention-days: 0
 
   # Job 3: Build Android (parallel)
   build-android:
@@ -367,7 +367,7 @@ jobs:
           path: |
             build/app/outputs/flutter-apk/app-staging-release.apk
             build/app/outputs/bundle/release/app-production-release.aab
-          retention-days: 1
+          retention-days: 0
 
   # Job 4: Create unified release
   create-unified-release:
