@@ -66,7 +66,10 @@ jobs:
         run: |
           if [[ -f ".github/ci-versions.env" ]]; then
             while IFS='=' read -r key value; do
-              echo "$key=$value" >> $GITHUB_OUTPUT
+              # Skip empty lines and comments
+              if [[ -n "$key" && ! "$key" =~ ^[[:space:]]*# ]]; then
+                echo "$key=$value" >> $GITHUB_OUTPUT
+              fi
             done < .github/ci-versions.env
           fi
 
@@ -312,7 +315,10 @@ jobs:
         run: |
           if [[ -f ".github/ci-versions.env" ]]; then
             while IFS='=' read -r key value; do
-              echo "$key=$value" >> $GITHUB_OUTPUT
+              # Skip empty lines and comments
+              if [[ -n "$key" && ! "$key" =~ ^[[:space:]]*# ]]; then
+                echo "$key=$value" >> $GITHUB_OUTPUT
+              fi
             done < .github/ci-versions.env
           fi
 
