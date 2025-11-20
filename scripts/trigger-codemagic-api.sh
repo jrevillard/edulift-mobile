@@ -34,7 +34,7 @@ EOF
 if [[ "$DRY_RUN" == "--dry-run" ]]; then
   echo "🔍 DRY RUN: Would trigger build with data:"
   echo "$TRIGGER_DATA" | jq '.'
-  echo "🔗 API URL: https://api.codemagic.io/v1/apps/$APP_ID/builds"
+  echo "🔗 API URL: https://api.codemagic.io/builds"
   BUILD_ID="dry-run-build-id"
 else
   echo "📡 Sending trigger request..."
@@ -55,7 +55,7 @@ else
       -H "Content-Type: application/json" \
       -H "x-auth-token: $CODEMAGIC_API_TOKEN" \
       -d "$TRIGGER_DATA" \
-      "https://api.codemagic.io/v1/apps/$APP_ID/builds")
+      "https://api.codemagic.io/builds")
 
     HTTP_CODE="${RESPONSE: -3}"
     RESPONSE_BODY="${RESPONSE%???}"

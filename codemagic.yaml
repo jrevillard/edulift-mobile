@@ -131,21 +131,6 @@ workflows:
     artifacts:
       - ios/build/ipa/*.ipa
 
-    publishing:
-      firebase:
-        firebase_service_account: $FIREBASE_SERVICE_ACCOUNT_STAGING
-        ios:
-          app_id: 1:390712570284:ios:11ab124204e6c10c054a09
-          groups:
-            - staging-team
-
-      email:
-        recipients:
-          - jerome.revillard@wanadoo.fr
-        notify:
-          success: true
-          failure: true
-
   # iOS Production Build - Triggered by API only
   ios-production:
     name: iOS Production
@@ -183,18 +168,3 @@ workflows:
 
     artifacts:
       - ios/build/ipa/*.ipa
-
-    publishing:
-      firebase:
-        firebase_service_account: $FIREBASE_SERVICE_ACCOUNT_PROD
-        ios:
-          app_id: 1:928262951410:ios:139da35e9a165907779b6b
-          groups:
-            - production-team
-
-      email:
-        recipients:
-          - jerome.revillard@wanadoo.fr
-        notify:
-          success: true
-          failure: true
