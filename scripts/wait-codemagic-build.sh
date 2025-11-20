@@ -19,7 +19,7 @@ while [[ $WAIT_TIME -lt $MAX_WAIT_TIME ]]; do
   STATUS_RESPONSE=$(curl -s -X GET \
     -H "Content-Type: application/json" \
     -H "x-auth-token: $CODEMAGIC_API_TOKEN" \
-    "https://api.codemagic.io/v1/builds/$BUILD_ID")
+    "https://api.codemagic.io/builds/$BUILD_ID")
 
   BUILD_STATUS=$(echo "$STATUS_RESPONSE" | jq -r '.build.status')
   echo "📋 Current status: $BUILD_STATUS"
