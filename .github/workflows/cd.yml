@@ -360,27 +360,13 @@ jobs:
               --dart-define-from-file=config/$FLAVOR.json
           fi
 
-      - name: Prepare Android artifacts
-        run: |
-          FLAVOR="${{ needs.prepare-release.outputs.flavor }}"
-          mkdir -p android-artifacts
-
-          if [[ "$FLAVOR" == "staging" ]]; then
-            cp build/app/outputs/flutter-apk/app-release.apk \
-              android-artifacts/edulift-$FLAVOR.apk
-          else
-            cp build/app/outputs/bundle/release/app-release.aab \
-              android-artifacts/edulift-$FLAVOR.aab
-          fi
-
-          echo "✅ Android artifacts prepared:"
-          ls -la android-artifacts/
-
       - name: Upload Android artifacts for release
         uses: actions/upload-artifact@v4
         with:
           name: android-builds
-          path: android-artifacts/
+          path: |
+            build/app/outputs/flutter-apk/app-staging-release.apk
+            build/app/outputs/bundle/release/app-production-release.aab
           retention-days: 1
 
   # Job 4: Create unified release
