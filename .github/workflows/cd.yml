@@ -352,11 +352,26 @@ jobs:
           distribution: 'temurin'
           java-version: ${{ steps.load-versions.outputs.JAVA_VERSION }}
 
-      - name: Get packages
-        run: flutter packages pub get
+      - name: Cache Flutter dependencies
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.pub-cache
+            .dart_tool
+          key: v1-${{ runner.os }}-flutter-${{ steps.load-versions.outputs.FLUTTER_VERSION }}-${{ hashFiles('**/pubspec.lock') }}
+          restore-keys: |
+            v1-${{ runner.os }}-flutter-${{ steps.load-versions.outputs.FLUTTER_VERSION }}-
 
-      - name: Run code generation
-        run: flutter packages pub run build_runner build --delete-conflicting-outputs
+      - name: Cache Android Gradle dependencies
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+            android/.gradle
+          key: v1-${{ runner.os }}-gradle-${{ hashFiles('**/gradle-wrapper.properties') }}-${{ hashFiles('**/*.gradle*', '**/libs.versions.toml', '**/gradle/libs.versions.toml') }}
+          restore-keys: |
+            v1-${{ runner.os }}-gradle-${{ hashFiles('**/gradle-wrapper.properties') }}-
 
       - name: Build Android
         run: |
@@ -367,12 +382,16 @@ jobs:
             echo "📱 Building APK for staging"
             flutter build apk --release \
               --flavor $FLAVOR \
-              --dart-define-from-file=config/$FLAVOR.json
+              --dart-define-from-file=config/$FLAVOR.json \
+              --split-debug-info=build/debug-info \
+              --obfuscate
           else
             echo "📦 Building AAB for production"
             flutter build appbundle --release \
               --flavor $FLAVOR \
-              --dart-define-from-file=config/$FLAVOR.json
+              --dart-define-from-file=config/$FLAVOR.json \
+              --split-debug-info=build/debug-info \
+              --obfuscate
           fi
 
       - name: Setup Firebase CLI (Staging)
@@ -386,6 +405,23 @@ jobs:
         uses: w9jds/setup-firebase@main
         with:
           gcp_sa_key: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_PROD }}
+
+      - name: Upload symbols to Firebase Crashlytics
+        run: |
+          FLAVOR="${{ needs.prepare-release.outputs.flavor }}"
+          echo "🔍 Uploading debug symbols to Firebase Crashlytics for $FLAVOR..."
+
+          # Determine Firebase App ID based on flavor
+          if [[ "$FLAVOR" == "staging" ]]; then
+            FIREBASE_APP_ID="${{ steps.load-versions.outputs.FIREBASE_ANDROID_STAGING_APP_ID }}"
+          else
+            FIREBASE_APP_ID="${{ steps.load-versions.outputs.FIREBASE_ANDROID_PROD_APP_ID }}"
+          fi
+
+          # Upload symbols to Firebase Crashlytics
+          firebase crashlytics:symbols:upload --app="$FIREBASE_APP_ID" build/debug-info
+
+          echo "✅ Debug symbols uploaded to Firebase Crashlytics for app: $FIREBASE_APP_ID"
 
       - name: Distribute to Firebase
         run: |
