@@ -237,7 +237,6 @@ jobs:
     runs-on: ubuntu-latest
     needs: prepare-release
     outputs:
-      ios_artifacts_dir: ${{ steps.download.outputs.artifacts_dir }}
       final_build_info: ${{ steps.wait-ios.outputs.build_info }}
 
     steps:
@@ -279,43 +278,30 @@ jobs:
 
       - name: Validate build info availability
         run: |
-          echo "🔍 Checking FINAL_BUILD_INFO availability..."
+          echo "🔍 Checking build info availability..."
 
-          # Verify FINAL_BUILD_INFO is available and valid
-          if [[ -z "$FINAL_BUILD_INFO" ]]; then
-            echo "❌ FINAL_BUILD_INFO not available - build polling may have failed"
+          # Verify build_info is available and valid
+          BUILD_INFO="${{ steps.wait-ios.outputs.build_info }}"
+          if [[ -z "$BUILD_INFO" ]]; then
+            echo "❌ Build info not available - build polling may have failed"
             echo "💡 This usually means the wait-codemagic-build.sh script did not complete properly"
             echo "🔗 Check the previous step logs for build polling errors"
             exit 1
           fi
 
-          # Validate FINAL_BUILD_INFO JSON format
-          if ! echo "$FINAL_BUILD_INFO" | jq -e '.build.artefacts' >/dev/null 2>&1; then
-            echo "❌ Invalid FINAL_BUILD_INFO JSON format - build polling may have failed"
-            echo "📡 FINAL_BUILD_INFO content:"
-            echo "$FINAL_BUILD_INFO" | head -c 500
+          # Validate build info JSON format
+          if ! echo "$BUILD_INFO" | jq -e '.build.artefacts' >/dev/null 2>&1; then
+            echo "❌ Invalid build info JSON format - build polling may have failed"
+            echo "📡 Build info content:"
+            echo "$BUILD_INFO" | head -c 500
             echo ""
-            echo "💡 The FINAL_BUILD_INFO should be valid JSON with 'build.artefacts' array"
+            echo "💡 The build info should be valid JSON with 'build.artefacts' array"
             exit 1
           fi
 
-          echo "✅ FINAL_BUILD_INFO validated successfully"
-          echo "📡 Build status: $(echo "$FINAL_BUILD_INFO" | jq -r '.build.status')"
-          echo "📦 Artifact count: $(echo "$FINAL_BUILD_INFO" | jq -r '.build.artefacts | length')"
-
-      - name: Download iOS artifacts
-        id: download
-        env:
-          CODEMAGIC_API_TOKEN: ${{ secrets.CODEMAGIC_API_TOKEN }}
-          FINAL_BUILD_INFO: "${{ steps.wait-ios.outputs.build_info }}"
-        run: |
-          ARTIFACTS_DIR="ios-artifacts-${{ needs.prepare-release.outputs.flavor }}"
-
-          ./scripts/download-codemagic-artifacts.sh \
-            "$FINAL_BUILD_INFO" \
-            "$ARTIFACTS_DIR"
-
-          echo "artifacts_dir=$ARTIFACTS_DIR" >> $GITHUB_OUTPUT
+          echo "✅ Build info validated successfully"
+          echo "📡 Build status: $(echo "$BUILD_INFO" | jq -r '.build.status')"
+          echo "📦 Artifact count: $(echo "$BUILD_INFO" | jq -r '.build.artefacts | length')"
 
   # Job 3: Build Android (parallel)
   build-android:
@@ -468,8 +454,8 @@ jobs:
           mkdir -p release-files
 
           # iOS: Utiliser le script Codemagic existant pour télécharger l'IPA
-          FINAL_BUILD_INFO="${{ needs.build-ios.outputs.FINAL_BUILD_INFO }}"
-          ./scripts/download-codemagic-artifacts.sh "$FINAL_BUILD_INFO" "ios-artifacts-temp"
+          BUILD_INFO="${{ needs.build-ios.outputs.final_build_info }}"
+          ./scripts/download-codemagic-artifacts.sh "$BUILD_INFO" "ios-artifacts-temp"
           IOS_IPA=$(find ios-artifacts-temp -name "*.ipa" | head -1)
           if [[ -n "$IOS_IPA" ]]; then
             cp "$IOS_IPA" "release-files/edulift-$FLAVOR.ipa"

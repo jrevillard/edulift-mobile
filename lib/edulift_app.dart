@@ -66,6 +66,13 @@ class _EduLiftAppState extends ConsumerState<EduLiftApp>
   void didChangeAppLifecycleState(AppLifecycleState state) {
     super.didChangeAppLifecycleState(state);
 
+    // When app goes to background, flush breadcrumbs to Crashlytics
+    // This ensures we have context if the app crashes in background
+    if (state == AppLifecycleState.paused ||
+        state == AppLifecycleState.inactive) {
+      AppLogger.flushBreadcrumbs();
+    }
+
     // When app resumes from background, check and sync timezone if auto-sync is enabled
     if (state == AppLifecycleState.resumed) {
       _checkAndSyncTimezoneOnResume();

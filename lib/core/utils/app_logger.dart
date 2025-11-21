@@ -10,6 +10,26 @@ import '../config/feature_flags.dart';
 Logger? _appLogger;
 BaseConfig? _cachedConfig;
 
+// =============================================================================
+// CRASHLYTICS BREADCRUMB OPTIMIZATION
+// =============================================================================
+// Best practice: Buffer breadcrumbs locally and flush only on error/crash
+// This prevents ANR from excessive Crashlytics calls during startup
+
+/// Circular buffer for breadcrumbs (max 30 entries)
+final List<String> _breadcrumbBuffer = [];
+const int _maxBreadcrumbBuffer = 30;
+
+/// Rate limiter state (token bucket algorithm)
+int _rateLimiterTokens = 10;
+DateTime _rateLimiterLastRefill = DateTime.now();
+const int _rateLimiterMaxTokens = 10;
+const Duration _rateLimiterRefillRate = Duration(seconds: 2);
+
+/// Flag to track if we're in startup phase (first 5 seconds)
+bool _isStartupPhase = true;
+final DateTime _appStartTime = DateTime.now();
+
 Future<Logger> get appLogger async {
   if (_appLogger == null) {
     final level = await _getLogLevel();
@@ -540,7 +560,15 @@ class AppLogger {
     );
   }
 
-  /// SMARTER: Add breadcrumbs to Crashlytics with context-aware filtering
+  // ===========================================================================
+  // CRASHLYTICS BREADCRUMB SYSTEM (ANR-OPTIMIZED)
+  // ===========================================================================
+  // Strategy: Buffer breadcrumbs locally, flush only on error/crash/background
+  // This prevents ANR from excessive Crashlytics calls during startup
+  // ===========================================================================
+
+  /// Add breadcrumb to buffer (not directly to Crashlytics)
+  /// Breadcrumbs are flushed to Crashlytics only on error/fatal/app pause
   static void _addBreadcrumbToCrashlytics(
     String category,
     String level,
@@ -551,106 +579,179 @@ class AppLogger {
     if (!FeatureFlags.crashReporting) return;
 
     try {
-      // SMART filtering based on category and context
+      // STRICT filtering based on environment
       final shouldLog = _shouldLogBreadcrumb(category, level, message, data);
+      if (!shouldLog) return;
 
-      if (shouldLog) {
-        // Enhanced format for Crashlytics with context
-        var logMessage = '[$level] $category: $message';
+      // Format breadcrumb message
+      var logMessage = '[$level] $category: $message';
 
-        // Add key context data for important categories
-        if (category == 'USER_ACTION' && data != null) {
-          final action = data['action'] ?? 'unknown';
-          logMessage += ' | Action: $action';
-        } else if (category == 'NAVIGATION' && data != null) {
-          final route = data['route'] ?? 'unknown';
-          logMessage += ' | Route: $route';
-        } else if (category == 'WIDGET_STATE' && data != null) {
-          final widget = data['widget_name'] ?? 'unknown';
-          logMessage += ' | Widget: $widget';
-        }
+      // Add key context data for important categories
+      if (category == 'USER_ACTION' && data != null) {
+        final action = data['action'] ?? 'unknown';
+        logMessage += ' | Action: $action';
+      } else if (category == 'NAVIGATION' && data != null) {
+        final route = data['route'] ?? 'unknown';
+        logMessage += ' | Route: $route';
+      }
 
-        // Truncate if too long (keep more margin for context)
-        const maxLength = 900; // Stay under 1024 chars with margin
-        if (logMessage.length > maxLength) {
-          logMessage = '${logMessage.substring(0, maxLength - 3)}...';
-        }
+      // Truncate if too long
+      const maxLength = 900;
+      if (logMessage.length > maxLength) {
+        logMessage = '${logMessage.substring(0, maxLength - 3)}...';
+      }
 
-        // CRITICAL ANR FIX: Use microtask to prevent blocking main thread during startup
-        // See commit 649dbaf for similar pattern in network_error_handler.dart
+      // Add to circular buffer instead of directly to Crashlytics
+      _addToBuffer(logMessage);
+
+      // Check if we're past startup phase (5 seconds)
+      _updateStartupPhase();
+
+      // For ERROR/FATAL levels, flush immediately
+      if (level == 'ERROR' || level == 'FATAL') {
+        _flushBreadcrumbsToFirebase();
+      }
+      // After startup phase, allow rate-limited direct logging for warnings
+      else if (!_isStartupPhase &&
+          level == 'WARNING' &&
+          _tryConsumeRateToken()) {
         Future.microtask(() {
           FirebaseCrashlytics.instance.log(logMessage);
         });
       }
     } catch (e) {
-      // Failsafe to avoid recursive errors
       if (kDebugMode) {
         print('❌ Failed to add breadcrumb: $e');
       }
     }
   }
 
-  /// Context-aware filtering for breadcrumbs
+  /// Add message to circular buffer
+  static void _addToBuffer(String message) {
+    _breadcrumbBuffer.add(message);
+    // Keep buffer size limited (circular)
+    while (_breadcrumbBuffer.length > _maxBreadcrumbBuffer) {
+      _breadcrumbBuffer.removeAt(0);
+    }
+  }
+
+  /// Update startup phase flag
+  static void _updateStartupPhase() {
+    if (_isStartupPhase) {
+      final elapsed = DateTime.now().difference(_appStartTime);
+      if (elapsed.inSeconds >= 5) {
+        _isStartupPhase = false;
+      }
+    }
+  }
+
+  /// Token bucket rate limiter - returns true if a token is available
+  static bool _tryConsumeRateToken() {
+    // Refill tokens based on time elapsed
+    final now = DateTime.now();
+    final elapsed = now.difference(_rateLimiterLastRefill);
+    final refillCount =
+        elapsed.inMilliseconds ~/ _rateLimiterRefillRate.inMilliseconds;
+    if (refillCount > 0) {
+      _rateLimiterTokens = (_rateLimiterTokens + refillCount).clamp(
+        0,
+        _rateLimiterMaxTokens,
+      );
+      _rateLimiterLastRefill = now;
+    }
+
+    // Try to consume a token
+    if (_rateLimiterTokens > 0) {
+      _rateLimiterTokens--;
+      return true;
+    }
+    return false;
+  }
+
+  /// Flush all buffered breadcrumbs to Firebase Crashlytics
+  /// Called on: error(), fatal(), app going to background
+  static Future<void> _flushBreadcrumbsToFirebase() async {
+    if (!FeatureFlags.crashReporting) return;
+    if (_breadcrumbBuffer.isEmpty) return;
+
+    try {
+      // Copy and clear buffer to avoid issues during async operation
+      final breadcrumbsToFlush = List<String>.from(_breadcrumbBuffer);
+      _breadcrumbBuffer.clear();
+
+      // Send all buffered breadcrumbs to Crashlytics
+      for (final msg in breadcrumbsToFlush) {
+        await FirebaseCrashlytics.instance.log(msg);
+      }
+    } catch (e) {
+      if (kDebugMode) {
+        print('❌ Failed to flush breadcrumbs: $e');
+      }
+    }
+  }
+
+  /// Public method to flush breadcrumbs (call from AppLifecycleObserver)
+  static Future<void> flushBreadcrumbs() async {
+    await _flushBreadcrumbsToFirebase();
+  }
+
+  /// STRICT environment-based filtering for breadcrumbs
+  /// Production: WARNING, ERROR, FATAL only
+  /// Staging: WARNING+ and critical categories (AUTH_EVENT, NETWORK_ERROR)
+  /// Development: Current behavior (more permissive)
   static bool _shouldLogBreadcrumb(
     String category,
     String level,
     String message,
     Map<String, dynamic>? data,
   ) {
-    // ALWAYS log important categories regardless of level
-    const importantCategories = {
+    // ALWAYS log errors and fatals
+    if (level == 'ERROR' || level == 'FATAL') {
+      return true;
+    }
+
+    // Get current environment
+    String environment;
+    try {
+      final config = EnvironmentConfig.getConfig();
+      environment = config.environmentName;
+    } catch (e) {
+      environment = 'production'; // Default to most restrictive
+    }
+
+    // PRODUCTION: Only WARNING, ERROR, FATAL
+    if (environment == 'production') {
+      return level == 'WARNING';
+    }
+
+    // STAGING: WARNING+ and critical categories only
+    if (environment == 'staging') {
+      if (level == 'WARNING') return true;
+
+      // Only critical categories for non-warning logs
+      const criticalCategories = {
+        'AUTH_EVENT',
+        'NETWORK_ERROR',
+        'LAYOUT_ERROR',
+      };
+      return criticalCategories.contains(category);
+    }
+
+    // DEVELOPMENT: More permissive (but not DEBUG spam)
+    // Allow USER_ACTION, NAVIGATION, AUTH_EVENT, NETWORK_ERROR
+    const devAllowedCategories = {
       'USER_ACTION',
       'NAVIGATION',
-      'WIDGET_STATE',
       'AUTH_EVENT',
       'NETWORK_ERROR',
-      'API_CALL',
       'LAYOUT_ERROR',
     };
 
-    if (importantCategories.contains(category)) {
-      return true;
-    }
+    if (level == 'WARNING') return true;
+    if (devAllowedCategories.contains(category)) return true;
+    if (level == 'INFO' && message.length < 200) return true;
 
-    // ALWAYS log errors and warnings
-    if (level == 'WARNING' || level == 'ERROR' || level == 'FATAL') {
-      return true;
-    }
-
-    // Get current config for environment-specific filtering
-    try {
-      final config = EnvironmentConfig.getConfig();
-
-      switch (level) {
-        case 'DEBUG':
-          // DEBUG logs in development and staging, plus important ones in production
-          if (config.environmentName == 'development' ||
-              config.environmentName == 'staging') {
-            return true;
-          }
-          // In production, only allow DEBUG for specific important cases
-          return category == 'WIDGET_STATE' || message.contains('layout');
-
-        case 'INFO':
-          // INFO logs: filter out noise but keep important ones
-          // Avoid frequent/performance logs
-          if (message.contains('⚡') ||
-              message.contains('Timer:') ||
-              message.contains('Frame:') ||
-              message.contains('performance tick')) {
-            return false;
-          }
-
-          // Keep INFO logs that are meaningful
-          return message.length < 300; // Allow longer but still reasonable
-
-        default:
-          return false;
-      }
-    } catch (e) {
-      // If config fails, be conservative and log
-      return true;
-    }
+    return false;
   }
 
   /// Send Flutter-specific errors to Crashlytics with enhanced context
