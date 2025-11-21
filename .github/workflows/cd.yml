@@ -292,14 +292,6 @@ jobs:
 
           echo "artifacts_dir=$ARTIFACTS_DIR" >> $GITHUB_OUTPUT
 
-      
-      - name: Upload iOS artifacts for release
-        uses: actions/upload-artifact@v4
-        with:
-          name: ios-builds
-          path: ${{ steps.download.outputs.artifacts_dir }}/
-          retention-days: 0
-
   # Job 3: Build Android (parallel)
   build-android:
     name: Build Android
@@ -360,14 +352,39 @@ jobs:
               --dart-define-from-file=config/$FLAVOR.json
           fi
 
-      - name: Upload Android artifacts for release
-        uses: actions/upload-artifact@v4
+      - name: Setup Firebase CLI (Staging)
+        if: needs.prepare-release.outputs.flavor == 'staging'
+        uses: w9jds/setup-firebase@main
         with:
-          name: android-builds
-          path: |
-            build/app/outputs/flutter-apk/app-staging-release.apk
-            build/app/outputs/bundle/release/app-production-release.aab
-          retention-days: 0
+          gcp_sa_key: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_STAGING }}
+
+      - name: Setup Firebase CLI (Production)
+        if: needs.prepare-release.outputs.flavor == 'production'
+        uses: w9jds/setup-firebase@main
+        with:
+          gcp_sa_key: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_PROD }}
+
+      - name: Distribute to Firebase
+        run: |
+          FLAVOR="${{ needs.prepare-release.outputs.flavor }}"
+          VERSION="${{ needs.prepare-release.outputs.version }}"
+          TAG_NAME="${{ needs.prepare-release.outputs.tag_name }}"
+
+          if [[ "$FLAVOR" == "staging" ]]; then
+            APK_PATH="build/app/outputs/flutter-apk/app-staging-release.apk"
+
+            firebase appdistribution:distribute "$APK_PATH" \
+              --app "${{ steps.load-versions.outputs.FIREBASE_ANDROID_STAGING_APP_ID }}" \
+              --groups "${{ secrets.FIREBASE_GROUPS_STAGING || 'internal-testers' }}" \
+              --release-notes "Pre-release $TAG_NAME from commit ${{ github.sha }}"
+          else
+            AAB_PATH="build/app/outputs/bundle/release/app-production-release.aab"
+
+            firebase appdistribution:distribute "$AAB_PATH" \
+              --app "${{ steps.load-versions.outputs.FIREBASE_ANDROID_PROD_APP_ID }}" \
+              --groups "${{ secrets.FIREBASE_GROUPS_PROD || 'production-testers' }}" \
+              --release-notes "Production release $TAG_NAME from commit ${{ github.sha }}"
+          fi
 
   # Job 4: Create unified release
   create-unified-release:
@@ -382,48 +399,40 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Download all build artifacts
-        uses: actions/download-artifact@v4
-        with:
-          path: build-artifacts/
-
       - name: Prepare release files
         run: |
           VERSION="${{ needs.prepare-release.outputs.version }}"
           FLAVOR="${{ needs.prepare-release.outputs.flavor }}"
           TAG_NAME="${{ needs.prepare-release.outputs.tag_name }}"
-
           mkdir -p release-files
 
-          # Copy iOS IPA
-          IOS_IPA=$(find build-artifacts/ios-builds -name "*.ipa" | head -1)
+          # iOS: Utiliser le script Codemagic existant pour télécharger l'IPA
+          FINAL_BUILD_INFO="${{ needs.build-ios.outputs.FINAL_BUILD_INFO }}"
+          ./scripts/download-codemagic-artifacts.sh "$FINAL_BUILD_INFO" "ios-artifacts-temp"
+          IOS_IPA=$(find ios-artifacts-temp -name "*.ipa" | head -1)
           if [[ -n "$IOS_IPA" ]]; then
-            cp "$IOS_IPA" release-files/edulift-$FLAVOR.ipa
+            cp "$IOS_IPA" "release-files/edulift-$FLAVOR.ipa"
             echo "✅ iOS IPA: $(basename $IOS_IPA)"
           else
             echo "❌ No iOS IPA found"
             exit 1
           fi
 
-          # Copy Android artifact
+          # Android: Utiliser les fichiers locaux construits dans build-android (pas d'artifacts)
           if [[ "$FLAVOR" == "staging" ]]; then
-            ANDROID_FILE=$(find build-artifacts/android-builds -name "*.apk" | head -1)
-            if [[ -n "$ANDROID_FILE" ]]; then
-              cp "$ANDROID_FILE" release-files/edulift-$FLAVOR.apk
-              echo "✅ Android APK: $(basename $ANDROID_FILE)"
-            else
-              echo "❌ No Android APK found"
-              exit 1
-            fi
+            ANDROID_FILE="build/app/outputs/flutter-apk/app-staging-release.apk"
+            TARGET_FILE="edulift-$FLAVOR.apk"
           else
-            ANDROID_FILE=$(find build-artifacts/android-builds -name "*.aab" | head -1)
-            if [[ -n "$ANDROID_FILE" ]]; then
-              cp "$ANDROID_FILE" release-files/edulift-$FLAVOR.aab
-              echo "✅ Android AAB: $(basename $ANDROID_FILE)"
-            else
-              echo "❌ No Android AAB found"
-              exit 1
-            fi
+            ANDROID_FILE="build/app/outputs/bundle/release/app-production-release.aab"
+            TARGET_FILE="edulift-$FLAVOR.aab"
+          fi
+
+          if [[ -f "$ANDROID_FILE" ]]; then
+            cp "$ANDROID_FILE" "release-files/$TARGET_FILE"
+            echo "✅ Android: $(basename $ANDROID_FILE)"
+          else
+            echo "❌ No Android file found: $ANDROID_FILE"
+            exit 1
           fi
 
           echo "📦 Final release files:"
