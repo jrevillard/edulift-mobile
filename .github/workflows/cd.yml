@@ -277,9 +277,10 @@ jobs:
             "1800" "30"  # 30 minutes max, 30 second polling
 
       - name: Validate build info availability
+        env:
+          BUILD_INFO: ${{ steps.wait-ios.outputs.build_info }}
         run: |
           echo "Checking build info availability..."
-          BUILD_INFO="${{ steps.wait-ios.outputs.build_info }}"
 
           # Verify build_info is available and valid
           if [[ -z "$BUILD_INFO" ]]; then
@@ -289,19 +290,19 @@ jobs:
             exit 1
           fi
 
-          # Validate build info JSON format
-          if ! echo "$BUILD_INFO" | jq -e '.build.artefacts' >/dev/null 2>&1; then
+          # Validate build info JSON format using safer approach
+          if ! printf '%s\n' "$BUILD_INFO" | jq -e '.build.artefacts' >/dev/null 2>&1; then
             echo "ERROR:  Invalid build info JSON format - build polling may have failed"
-            echo "DATA:  Build info content:"
-            echo "$BUILD_INFO" | head -c 500
+            echo "DATA:  Build info content (first 500 chars):"
+            printf '%s\n' "$BUILD_INFO" | head -c 500
             echo ""
             echo "INFO:  The build info should be valid JSON with 'build.artefacts' array"
             exit 1
           fi
 
           echo "SUCCESS:  Build info validated successfully"
-          echo "DATA:  Build status: $(echo "$BUILD_INFO" | jq -r '.build.status')"
-          echo "FILES:  Artifact count: $(echo "$BUILD_INFO" | jq -r '.build.artefacts | length')"
+          echo "DATA:  Build status: $(printf '%s\n' "$BUILD_INFO" | jq -r '.build.status')"
+          echo "FILES:  Artifact count: $(printf '%s\n' "$BUILD_INFO" | jq -r '.build.artefacts | length')"
 
   # Job 3: Build Android (parallel)
   build-android:
@@ -454,7 +455,7 @@ jobs:
           mkdir -p release-files
 
           # iOS: Utiliser le script Codemagic existant pour télécharger l'IPA
-          BUILD_INFO="${{ needs.build-ios.outputs.final_build_info }}"
+          export BUILD_INFO="${{ needs.build-ios.outputs.final_build_info }}"
           ./scripts/download-codemagic-artifacts.sh "$BUILD_INFO" "ios-artifacts-temp"
           IOS_IPA=$(find ios-artifacts-temp -name "*.ipa" | head -1)
           if [[ -n "$IOS_IPA" ]]; then
