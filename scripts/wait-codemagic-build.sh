@@ -33,9 +33,9 @@ while [[ $WAIT_TIME -lt $MAX_WAIT_TIME ]]; do
   case "$BUILD_STATUS" in
     "finished")
       echo "✅ Build completed successfully!"
-      echo "FINAL_BUILD_INFO<<EOF" >> $GITHUB_ENV
-      echo "$STATUS_RESPONSE" >> $GITHUB_ENV
-      echo "EOF" >> $GITHUB_ENV
+      echo "build_info<<EOF" >> $GITHUB_OUTPUT
+      echo "$STATUS_RESPONSE" >> $GITHUB_OUTPUT
+      echo "EOF" >> $GITHUB_OUTPUT
       exit 0
       ;;
     "failed")
