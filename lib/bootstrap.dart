@@ -68,8 +68,11 @@ Future<ProviderContainer> bootstrap() async {
       AppLogger.error('Uncaught async error', error, stack);
 
       // Report to Firebase only if initialized and enabled
+      // CRITICAL ANR FIX: Use microtask to prevent blocking main thread
       if (firebaseInitialized && FeatureFlags.crashReporting) {
-        FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
+        Future.microtask(() {
+          FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
+        });
       }
 
       return true; // Mark error as handled

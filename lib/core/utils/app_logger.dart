@@ -576,7 +576,11 @@ class AppLogger {
           logMessage = '${logMessage.substring(0, maxLength - 3)}...';
         }
 
-        FirebaseCrashlytics.instance.log(logMessage);
+        // CRITICAL ANR FIX: Use microtask to prevent blocking main thread during startup
+        // See commit 649dbaf for similar pattern in network_error_handler.dart
+        Future.microtask(() {
+          FirebaseCrashlytics.instance.log(logMessage);
+        });
       }
     } catch (e) {
       // Failsafe to avoid recursive errors
