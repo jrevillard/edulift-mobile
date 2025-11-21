@@ -238,6 +238,7 @@ jobs:
     needs: prepare-release
     outputs:
       ios_artifacts_dir: ${{ steps.download.outputs.artifacts_dir }}
+      final_build_info: ${{ steps.wait-ios.outputs.build_info }}
 
     steps:
       - name: Checkout code
@@ -306,11 +307,12 @@ jobs:
         id: download
         env:
           CODEMAGIC_API_TOKEN: ${{ secrets.CODEMAGIC_API_TOKEN }}
+          FINAL_BUILD_INFO: "${{ steps.wait-ios.outputs.build_info }}"
         run: |
           ARTIFACTS_DIR="ios-artifacts-${{ needs.prepare-release.outputs.flavor }}"
 
           ./scripts/download-codemagic-artifacts.sh \
-            "${FINAL_BUILD_INFO}" \
+            "$FINAL_BUILD_INFO" \
             "$ARTIFACTS_DIR"
 
           echo "artifacts_dir=$ARTIFACTS_DIR" >> $GITHUB_OUTPUT
