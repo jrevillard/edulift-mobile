@@ -15,7 +15,7 @@ void main() {
     });
 
     group('Encryption/Decryption Round Trip Tests', () {
-      test('should encrypt and decrypt successfully with master key', () {
+      test('should encrypt and decrypt successfully with master key', () async {
         // Arrange
         const plaintext = 'Test sensitive data';
         final masterKey = Uint8List.fromList(
@@ -23,10 +23,10 @@ void main() {
         ); // 256-bit key
 
         // Act
-        final encryptResult = cryptoService.encrypt(plaintext, masterKey);
+        final encryptResult = await cryptoService.encrypt(plaintext, masterKey);
         expect(encryptResult.isSuccess, true);
 
-        final decryptResult = cryptoService.decrypt(
+        final decryptResult = await cryptoService.decrypt(
           encryptResult.value!,
           masterKey,
         );
@@ -36,17 +36,20 @@ void main() {
         expect(decryptResult.value!.plaintext, equals(plaintext));
       });
 
-      test('should fail decryption with wrong master key', () {
+      test('should fail decryption with wrong master key', () async {
         // Arrange
         const plaintext = 'Test sensitive data';
         final correctKey = Uint8List.fromList(List.generate(32, (i) => i));
         final wrongKey = Uint8List.fromList(List.generate(32, (i) => i + 1));
 
         // Act
-        final encryptResult = cryptoService.encrypt(plaintext, correctKey);
+        final encryptResult = await cryptoService.encrypt(
+          plaintext,
+          correctKey,
+        );
         expect(encryptResult.isSuccess, true);
 
-        final decryptResult = cryptoService.decrypt(
+        final decryptResult = await cryptoService.decrypt(
           encryptResult.value!,
           wrongKey,
         );
@@ -56,16 +59,16 @@ void main() {
         expect(decryptResult.error, isA<CryptographyException>());
       });
 
-      test('should handle empty plaintext', () {
+      test('should handle empty plaintext', () async {
         // Arrange
         const plaintext = '';
         final masterKey = Uint8List.fromList(List.generate(32, (i) => i));
 
         // Act
-        final encryptResult = cryptoService.encrypt(plaintext, masterKey);
+        final encryptResult = await cryptoService.encrypt(plaintext, masterKey);
         expect(encryptResult.isSuccess, true);
 
-        final decryptResult = cryptoService.decrypt(
+        final decryptResult = await cryptoService.decrypt(
           encryptResult.value!,
           masterKey,
         );
@@ -75,16 +78,16 @@ void main() {
         expect(decryptResult.value!.plaintext, equals(plaintext));
       });
 
-      test('should handle special characters', () {
+      test('should handle special characters', () async {
         // Arrange
         const plaintext = '🔐 Special chars: àáâãäå ñ ç 中文 العربية 🚀';
         final masterKey = Uint8List.fromList(List.generate(32, (i) => i));
 
         // Act
-        final encryptResult = cryptoService.encrypt(plaintext, masterKey);
+        final encryptResult = await cryptoService.encrypt(plaintext, masterKey);
         expect(encryptResult.isSuccess, true);
 
-        final decryptResult = cryptoService.decrypt(
+        final decryptResult = await cryptoService.decrypt(
           encryptResult.value!,
           masterKey,
         );
@@ -94,16 +97,16 @@ void main() {
         expect(decryptResult.value!.plaintext, equals(plaintext));
       });
 
-      test('should handle long text', () {
+      test('should handle long text', () async {
         // Arrange
         final longText = 'A' * 1000; // 1KB of text
         final masterKey = Uint8List.fromList(List.generate(32, (i) => i));
 
         // Act
-        final encryptResult = cryptoService.encrypt(longText, masterKey);
+        final encryptResult = await cryptoService.encrypt(longText, masterKey);
         expect(encryptResult.isSuccess, true);
 
-        final decryptResult = cryptoService.decrypt(
+        final decryptResult = await cryptoService.decrypt(
           encryptResult.value!,
           masterKey,
         );
@@ -113,14 +116,14 @@ void main() {
         expect(decryptResult.value!.plaintext, equals(longText));
       });
 
-      test('should produce different ciphertext for same plaintext', () {
+      test('should produce different ciphertext for same plaintext', () async {
         // Arrange
         const plaintext = 'Same plaintext';
         final masterKey = Uint8List.fromList(List.generate(32, (i) => i));
 
         // Act
-        final encrypted1 = cryptoService.encrypt(plaintext, masterKey);
-        final encrypted2 = cryptoService.encrypt(plaintext, masterKey);
+        final encrypted1 = await cryptoService.encrypt(plaintext, masterKey);
+        final encrypted2 = await cryptoService.encrypt(plaintext, masterKey);
 
         // Assert
         expect(encrypted1.isSuccess, true);
@@ -183,26 +186,26 @@ void main() {
     });
 
     group('Error Handling Tests', () {
-      test('should handle corrupted encrypted data', () {
+      test('should handle corrupted encrypted data', () async {
         // Arrange
         final masterKey = Uint8List.fromList(List.generate(32, (i) => i));
         const corruptedData = 'invalid-base64-data!@#';
 
         // Act
-        final result = cryptoService.decrypt(corruptedData, masterKey);
+        final result = await cryptoService.decrypt(corruptedData, masterKey);
 
         // Assert
         expect(result.isSuccess, false);
         expect(result.error, isA<CryptographyException>());
       });
 
-      test('should handle insufficient data length', () {
+      test('should handle insufficient data length', () async {
         // Arrange
         final masterKey = Uint8List.fromList(List.generate(32, (i) => i));
         final shortData = base64Encode([1, 2, 3]); // Too short
 
         // Act
-        final result = cryptoService.decrypt(shortData, masterKey);
+        final result = await cryptoService.decrypt(shortData, masterKey);
 
         // Assert
         expect(result.isSuccess, false);
@@ -212,12 +215,12 @@ void main() {
         expect(result.error!.algorithm, equals('AES-256-GCM'));
       });
 
-      test('should handle tampered authentication tag', () {
+      test('should handle tampered authentication tag', () async {
         // Arrange
         const plaintext = 'Test data';
         final masterKey = Uint8List.fromList(List.generate(32, (i) => i));
 
-        final encryptResult = cryptoService.encrypt(plaintext, masterKey);
+        final encryptResult = await cryptoService.encrypt(plaintext, masterKey);
         expect(encryptResult.isSuccess, true);
 
         // Tamper with the last few bytes (authentication tag area)
@@ -228,7 +231,10 @@ void main() {
           final tamperedData = base64Encode(originalBytes);
 
           // Act
-          final decryptResult = cryptoService.decrypt(tamperedData, masterKey);
+          final decryptResult = await cryptoService.decrypt(
+            tamperedData,
+            masterKey,
+          );
 
           // Assert
           expect(decryptResult.isSuccess, false);
@@ -236,12 +242,12 @@ void main() {
         }
       });
 
-      test('should handle invalid version in encrypted data', () {
+      test('should handle invalid version in encrypted data', () async {
         // Arrange
         final masterKey = Uint8List.fromList(List.generate(32, (i) => i));
         const plaintext = 'Test data';
 
-        final encryptResult = cryptoService.encrypt(plaintext, masterKey);
+        final encryptResult = await cryptoService.encrypt(plaintext, masterKey);
         expect(encryptResult.isSuccess, true);
 
         // Change version byte to invalid version
@@ -250,7 +256,7 @@ void main() {
         final invalidVersionData = base64Encode(originalBytes);
 
         // Act
-        final decryptResult = cryptoService.decrypt(
+        final decryptResult = await cryptoService.decrypt(
           invalidVersionData,
           masterKey,
         );
@@ -268,7 +274,7 @@ void main() {
     group('Performance and Security', () {
       // Performance timing test removed - arbitrary timeout assertion
 
-      test('should handle concurrent operations', () {
+      test('should handle concurrent operations', () async {
         // Arrange
         const plaintext = 'Concurrent test data';
         final masterKey = Uint8List.fromList(List.generate(32, (i) => i));
@@ -276,7 +282,7 @@ void main() {
         // Act - Multiple operations
         final results = <Result<String, CryptographyException>>[];
         for (var i = 0; i < 10; i++) {
-          results.add(cryptoService.encrypt('$plaintext $i', masterKey));
+          results.add(await cryptoService.encrypt('$plaintext $i', masterKey));
         }
 
         // Assert

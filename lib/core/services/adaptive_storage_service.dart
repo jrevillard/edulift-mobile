@@ -94,8 +94,8 @@ class AdaptiveStorageService {
         );
       }
 
-      // Encrypt token
-      final tokenResult = _cryptoService.encrypt(token, encryptionKey);
+      // Encrypt token - CRITICAL: Use async to prevent ANR
+      final tokenResult = await _cryptoService.encrypt(token, encryptionKey);
 
       final String encryptedToken;
       if (tokenResult.isSuccess) {
@@ -168,7 +168,8 @@ class AdaptiveStorageService {
         '[AdaptiveStorageService] Using encryption key',
         encryptionKey,
       );
-      final decryptResult = _cryptoService.decrypt(
+      // CRITICAL: Use async to prevent ANR
+      final decryptResult = await _cryptoService.decrypt(
         encryptedToken,
         encryptionKey,
       );
@@ -239,7 +240,11 @@ class AdaptiveStorageService {
       }
 
       final encryptionKey = await _keyManager.getDeviceEncryptionKey();
-      final encryptResult = _cryptoService.encrypt(userData, encryptionKey);
+      // CRITICAL: Use async to prevent ANR
+      final encryptResult = await _cryptoService.encrypt(
+        userData,
+        encryptionKey,
+      );
 
       final String encryptedValue;
       if (encryptResult.isSuccess) {
@@ -272,7 +277,8 @@ class AdaptiveStorageService {
       if (encryptedValue == null || encryptedValue.isEmpty) return null;
 
       final encryptionKey = await _keyManager.getDeviceEncryptionKey();
-      final decryptResult = _cryptoService.decrypt(
+      // CRITICAL: Use async to prevent ANR
+      final decryptResult = await _cryptoService.decrypt(
         encryptedValue,
         encryptionKey,
       );
@@ -334,10 +340,14 @@ class AdaptiveStorageService {
   // ========== GENERIC STORAGE OPERATIONS ==========
 
   /// Store arbitrary data with encryption
+  ///
+  /// CRITICAL ANR FIX: Uses encryptAsync() to run PBKDF2 key derivation
+  /// in a background isolate, preventing main thread blocking.
   Future<void> store(String key, String value) async {
     try {
       final encryptionKey = await _keyManager.getDeviceEncryptionKey();
-      final encryptResult = _cryptoService.encrypt(value, encryptionKey);
+      // CRITICAL: Use async version to prevent ANR from PBKDF2 blocking main thread
+      final encryptResult = await _cryptoService.encrypt(value, encryptionKey);
 
       final String encryptedValue;
       if (encryptResult.isSuccess) {
@@ -363,13 +373,17 @@ class AdaptiveStorageService {
   }
 
   /// Read arbitrary data with decryption
+  ///
+  /// CRITICAL ANR FIX: Uses decryptAsync() to run PBKDF2 key derivation
+  /// in a background isolate, preventing main thread blocking.
   Future<String?> read(String key) async {
     try {
       final encryptedValue = await _storage.read(key: key);
       if (encryptedValue == null) return null;
 
       final encryptionKey = await _keyManager.getDeviceEncryptionKey();
-      final decryptResult = _cryptoService.decrypt(
+      // CRITICAL: Use async version to prevent ANR from PBKDF2 blocking main thread
+      final decryptResult = await _cryptoService.decrypt(
         encryptedValue,
         encryptionKey,
       );
@@ -407,6 +421,9 @@ class AdaptiveStorageService {
   }
 
   /// Get all stored keys and values with automatic decryption
+  ///
+  /// CRITICAL ANR FIX: Uses decryptAsync() for each entry to prevent
+  /// main thread blocking from PBKDF2 operations.
   Future<Map<String, String>> readAll() async {
     try {
       final allEncryptedData = await _storage.readAll();
@@ -414,7 +431,8 @@ class AdaptiveStorageService {
       final encryptionKey = await _keyManager.getDeviceEncryptionKey();
 
       for (final entry in allEncryptedData.entries) {
-        final decryptResult = _cryptoService.decrypt(
+        // CRITICAL: Use async to prevent ANR
+        final decryptResult = await _cryptoService.decrypt(
           entry.value,
           encryptionKey,
         );
@@ -443,7 +461,8 @@ class AdaptiveStorageService {
       if (encryptedValue == null) return null;
 
       final encryptionKey = await _keyManager.getDeviceEncryptionKey();
-      final decryptResult = _cryptoService.decrypt(
+      // CRITICAL: Use async to prevent ANR
+      final decryptResult = await _cryptoService.decrypt(
         encryptedValue,
         encryptionKey,
       );
@@ -465,7 +484,8 @@ class AdaptiveStorageService {
   Future<void> storeUserDataLegacy(String dataKey, String value) async {
     try {
       final encryptionKey = await _keyManager.getDeviceEncryptionKey();
-      final encryptResult = _cryptoService.encrypt(value, encryptionKey);
+      // CRITICAL: Use async to prevent ANR
+      final encryptResult = await _cryptoService.encrypt(value, encryptionKey);
 
       final String encryptedValue;
       if (encryptResult.isSuccess) {
@@ -537,18 +557,12 @@ class AdaptiveStorageService {
       await _storage.read(key: '_perf_test');
       final readTime = stopwatch.elapsedMicroseconds;
 
-      // Test encryption performance
-      stopwatch.reset();
-      await _cryptoService.benchmarkEncryption(1024);
-      final encryptTime = stopwatch.elapsedMicroseconds;
-
       // Cleanup
       await _storage.delete(key: '_perf_test');
 
       return {
         'write_time_microseconds': writeTime,
         'read_time_microseconds': readTime,
-        'encrypt_time_microseconds': encryptTime,
         'test_data_size_bytes': 1024,
         'timestamp': DateTime.now().toIso8601String(),
       };

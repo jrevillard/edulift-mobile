@@ -90,7 +90,7 @@ void main() {
         ).thenAnswer((_) async => SecurityTestFixtures.testKeyStorage);
         when(
           mockCryptoService.encrypt(SecurityTestFixtures.testPlaintext, any),
-        ).thenReturn(CryptoTestResults.encryptionSuccess);
+        ).thenAnswer((_) async => CryptoTestResults.encryptionSuccess);
 
         // Act
         final result = await dataProtectionService.encrypt(
@@ -129,7 +129,7 @@ void main() {
           ).thenAnswer((_) async => null);
           when(
             mockCryptoService.encrypt(SecurityTestFixtures.testPlaintext, any),
-          ).thenReturn(CryptoTestResults.encryptionSuccess);
+          ).thenAnswer((_) async => CryptoTestResults.encryptionSuccess);
 
           // Act
           final result = await dataProtectionService.encrypt(
@@ -202,7 +202,7 @@ void main() {
         ).thenAnswer((_) async => SecurityTestFixtures.testKeyStorage);
         when(
           mockCryptoService.encrypt(SecurityTestFixtures.testPlaintext, any),
-        ).thenReturn(CryptoTestResults.encryptionFailure);
+        ).thenAnswer((_) async => CryptoTestResults.encryptionFailure);
 
         // Act
         final result = await dataProtectionService.encrypt(
@@ -235,7 +235,7 @@ void main() {
         ).thenAnswer((_) async => SecurityTestFixtures.testKeyStorage);
         when(
           mockCryptoService.decrypt(SecurityTestFixtures.testCiphertext, any),
-        ).thenReturn(CryptoTestResults.decryptionSuccess);
+        ).thenAnswer((_) async => CryptoTestResults.decryptionSuccess);
 
         // Act
         final result = await dataProtectionService.decrypt(
@@ -266,7 +266,7 @@ void main() {
         ).thenAnswer((_) async => SecurityTestFixtures.testKeyStorage);
         when(
           mockCryptoService.decrypt(SecurityTestFixtures.testCiphertext, any),
-        ).thenReturn(CryptoTestResults.decryptionFailure);
+        ).thenAnswer((_) async => CryptoTestResults.decryptionFailure);
 
         // Act
         final result = await dataProtectionService.decrypt(
@@ -420,7 +420,7 @@ void main() {
         ).thenAnswer((_) async => SecurityTestFixtures.testKeyStorage);
         when(
           mockCryptoService.encrypt(SecurityTestFixtures.testPlaintext, any),
-        ).thenReturn(CryptoTestResults.encryptionSuccess);
+        ).thenAnswer((_) async => CryptoTestResults.encryptionSuccess);
 
         // Act - Multiple encrypt operations
         await dataProtectionService.encrypt(SecurityTestFixtures.testPlaintext);
@@ -452,7 +452,7 @@ void main() {
         ).thenAnswer((_) async => null);
         when(
           mockCryptoService.encrypt(SecurityTestFixtures.testPlaintext, any),
-        ).thenReturn(CryptoTestResults.encryptionSuccess);
+        ).thenAnswer((_) async => CryptoTestResults.encryptionSuccess);
 
         // Act - Encrypt, rotate, encrypt again
         await dataProtectionService.encrypt(SecurityTestFixtures.testPlaintext);

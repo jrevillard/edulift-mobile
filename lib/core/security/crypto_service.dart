@@ -1,19 +1,49 @@
 import 'dart:convert';
 import 'dart:math';
 import 'dart:typed_data';
+import 'package:flutter/foundation.dart' show compute;
 import 'package:pointycastle/export.dart';
 import '../errors/exceptions.dart';
 import '../utils/result.dart';
 import 'crypto_config.dart';
+
+/// Parameters for PBKDF2 key derivation in isolate
+class _Pbkdf2Params {
+  final Uint8List masterKey;
+  final Uint8List salt;
+  final int iterations;
+  final int keyLength;
+
+  _Pbkdf2Params({
+    required this.masterKey,
+    required this.salt,
+    required this.iterations,
+    required this.keyLength,
+  });
+}
+
+/// Top-level function for PBKDF2 key derivation (required for compute())
+Uint8List _deriveKeyIsolate(_Pbkdf2Params params) {
+  final pbkdf2 = PBKDF2KeyDerivator(HMac(SHA256Digest(), 64));
+  pbkdf2.init(
+    Pbkdf2Parameters(params.salt, params.iterations, params.keyLength),
+  );
+  return pbkdf2.process(params.masterKey);
+}
 
 /// Production-grade cryptographic service
 ///
 /// Provides AES-256-GCM authenticated encryption with PBKDF2 key derivation
 /// following NIST recommendations and OWASP 2024 security standards.
 ///
+/// CRITICAL: All encryption/decryption operations run PBKDF2 in a background
+/// isolate via Flutter's compute() to prevent ANR on Android devices.
+/// PBKDF2 with 600,000 iterations is intentionally CPU-intensive and would
+/// block the main thread for several seconds if run synchronously.
+///
 /// Features:
 /// - AES-256-GCM authenticated encryption
-/// - PBKDF2-SHA256 key derivation with configurable iterations
+/// - PBKDF2-SHA256 key derivation with configurable iterations (async)
 /// - Cryptographically secure random number generation
 /// - Memory-safe operations with secure disposal
 /// - Versioned encrypted blob format for future compatibility
@@ -54,26 +84,37 @@ class CryptoService {
   ///
   /// This method provides authenticated encryption with the following process:
   /// 1. Generate cryptographically secure salt and IV
-  /// 2. Derive encryption key using PBKDF2-SHA256
+  /// 2. Derive encryption key using PBKDF2-SHA256 (in background isolate)
   /// 3. Encrypt plaintext using AES-256-GCM
   /// 4. Return versioned blob: version(1) + keyId(4) + salt(16) + iv(12) + ciphertext + tag(16)
   ///
   /// The result is base64-encoded for safe string storage.
-  Result<String, CryptographyException> encrypt(
+  ///
+  /// CRITICAL ANR FIX: PBKDF2 runs in background isolate via compute()
+  Future<Result<String, CryptographyException>> encrypt(
     String plaintext,
     Uint8List masterKey, [
     int keyId = 1,
-  ]) {
+  ]) async {
     try {
       // Generate cryptographically secure salt and IV
       final salt = _generateRandomBytes(_saltLength);
       final iv = _generateRandomBytes(_ivLength);
 
-      // Derive encryption key using PBKDF2-SHA256
-      final derivedKey = _deriveKey(masterKey, salt);
+      // Derive encryption key in background isolate to prevent ANR
+      final derivedKey = await compute(
+        _deriveKeyIsolate,
+        _Pbkdf2Params(
+          masterKey: masterKey,
+          salt: salt,
+          iterations: _pbkdf2Iterations,
+          keyLength: _keyLength,
+        ),
+      );
+
       final plaintextBytes = utf8.encode(plaintext);
 
-      // Perform AES-256-GCM encryption
+      // Perform AES-256-GCM encryption (fast, OK on main thread)
       final encryptionResult = _performAesGcmEncryption(
         plaintextBytes,
         derivedKey,
@@ -115,13 +156,13 @@ class CryptoService {
   /// This method performs authenticated decryption with the following process:
   /// 1. Decode and validate the encrypted blob format
   /// 2. Extract version, key ID, salt, IV, ciphertext, and authentication tag
-  /// 3. Derive decryption key using stored salt
+  /// 3. Derive decryption key using stored salt (in background isolate)
   /// 4. Verify authentication tag and decrypt if valid
   /// 5. Return original plaintext, key ID, or detailed error
-  Result<({String plaintext, int keyId}), CryptographyException> decrypt(
-    String encryptedData,
-    Uint8List masterKey,
-  ) {
+  ///
+  /// CRITICAL ANR FIX: PBKDF2 runs in background isolate via compute()
+  Future<Result<({String plaintext, int keyId}), CryptographyException>>
+  decrypt(String encryptedData, Uint8List masterKey) async {
     try {
       // Decode base64 data
       final encryptedBlob = base64Decode(encryptedData);
@@ -152,7 +193,9 @@ class CryptoService {
       }
 
       final keyId = _bytesToInt(encryptedBlob.sublist(1, 5));
-      final salt = encryptedBlob.sublist(5, 5 + _saltLength);
+      final salt = Uint8List.fromList(
+        encryptedBlob.sublist(5, 5 + _saltLength),
+      );
       final iv = encryptedBlob.sublist(
         5 + _saltLength,
         5 + _saltLength + _ivLength,
@@ -180,10 +223,18 @@ class CryptoService {
         ciphertextAndTag.length - _tagLength,
       );
 
-      // Derive decryption key using stored salt
-      final derivedKey = _deriveKey(masterKey, salt);
+      // Derive decryption key in background isolate to prevent ANR
+      final derivedKey = await compute(
+        _deriveKeyIsolate,
+        _Pbkdf2Params(
+          masterKey: masterKey,
+          salt: salt,
+          iterations: _pbkdf2Iterations,
+          keyLength: _keyLength,
+        ),
+      );
 
-      // Perform AES-256-GCM decryption with authentication
+      // Perform AES-256-GCM decryption with authentication (fast, OK on main thread)
       final decryptionResult = _performAesGcmDecryption(
         ciphertext,
         derivedKey,
@@ -218,16 +269,6 @@ class CryptoService {
   /// This method generates a 256-bit master key using a cryptographically
   /// secure random number generator suitable for use as a root encryption key.
   Uint8List generateMasterKey() => _generateRandomBytes(_keyLength);
-
-  /// Derive encryption key from master key using PBKDF2-SHA256
-  ///
-  /// Uses configurable iterations: 600,000 for production (OWASP 2024),
-  /// 1,000 for testing to maintain reasonable test execution speed.
-  Uint8List _deriveKey(Uint8List masterKey, Uint8List salt) {
-    final pbkdf2 = PBKDF2KeyDerivator(HMac(SHA256Digest(), 64));
-    pbkdf2.init(Pbkdf2Parameters(salt, _pbkdf2Iterations, _keyLength));
-    return pbkdf2.process(masterKey);
-  }
 
   /// Perform AES-256-GCM encryption with authentication
   Result<({Uint8List ciphertext, Uint8List tag}), CryptographyException>
@@ -358,22 +399,5 @@ class CryptoService {
       result = (result << 8) | bytes[i];
     }
     return result;
-  }
-
-  /// Benchmark encryption performance for the given data size
-  /// Returns encryption time in microseconds
-  Future<int> benchmarkEncryption(int dataSize) async {
-    final testData = String.fromCharCodes(
-      List.generate(dataSize, (i) => 65 + (i % 26)),
-    );
-    final testKey = generateMasterKey();
-
-    final stopwatch = Stopwatch()..start();
-    encrypt(testData, testKey);
-    stopwatch.stop();
-
-    _securelyZeroMemory(testKey);
-
-    return stopwatch.elapsedMicroseconds;
   }
 }

@@ -62,12 +62,15 @@ class DataProtectionService {
   /// Handles master key generation and storage on first run.
   /// Uses production-grade AES-256-GCM encryption with authentication.
   /// Implements session-based key caching for performance with OWASP 600k iterations.
+  ///
+  /// CRITICAL ANR FIX: Uses encryptAsync() to run PBKDF2 in background isolate.
   Future<Result<String, CryptographyException>> encrypt(
     String plaintext,
   ) async {
     try {
       final keyData = await _getCurrentKeyData();
-      final result = _cryptoService.encrypt(
+      // CRITICAL: Use async to prevent ANR from PBKDF2 blocking main thread
+      final result = await _cryptoService.encrypt(
         plaintext,
         keyData.masterKey,
         keyData.keyId,
@@ -109,25 +112,24 @@ class DataProtectionService {
         keyStorage.currentKeyId,
         keyStorage,
       );
-      final decryptResult = _cryptoService.decrypt(ciphertext, anyKey);
+      // CRITICAL: Use async to prevent ANR from PBKDF2 blocking main thread
+      final decryptResult = await _cryptoService.decrypt(ciphertext, anyKey);
 
-      return decryptResult.when(
-        ok: (result) {
-          // If we used the wrong key, get the correct one and retry
-          if (result.keyId != keyStorage.currentKeyId) {
-            return _decryptWithSpecificKey(
-              ciphertext,
-              result.keyId,
-              keyStorage,
-            );
-          }
-          return Result.ok(result.plaintext);
-        },
-        err: (error) {
-          // If decryption failed, try all available keys
-          return _tryDecryptWithAllKeys(ciphertext, keyStorage);
-        },
-      );
+      if (decryptResult.isSuccess) {
+        final result = decryptResult.value!;
+        // If we used the wrong key, get the correct one and retry
+        if (result.keyId != keyStorage.currentKeyId) {
+          return await _decryptWithSpecificKey(
+            ciphertext,
+            result.keyId,
+            keyStorage,
+          );
+        }
+        return Result.ok(result.plaintext);
+      } else {
+        // If decryption failed, try all available keys
+        return await _tryDecryptWithAllKeys(ciphertext, keyStorage);
+      }
     } on StorageException catch (e) {
       return Result.err(
         CryptographyException(
@@ -211,11 +213,13 @@ class DataProtectionService {
   }
 
   /// Attempts decryption with a specific key ID
-  Result<String, CryptographyException> _decryptWithSpecificKey(
+  ///
+  /// CRITICAL ANR FIX: Uses decryptAsync() to run PBKDF2 in background isolate.
+  Future<Result<String, CryptographyException>> _decryptWithSpecificKey(
     String ciphertext,
     int keyId,
     _KeyStorage keyStorage,
-  ) {
+  ) async {
     try {
       final masterKey = keyStorage.keys[keyId];
       if (masterKey == null) {
@@ -229,7 +233,8 @@ class DataProtectionService {
       }
 
       final keyBytes = base64Decode(masterKey);
-      final result = _cryptoService.decrypt(ciphertext, keyBytes);
+      // CRITICAL: Use async to prevent ANR
+      final result = await _cryptoService.decrypt(ciphertext, keyBytes);
 
       if (result.isSuccess) {
         return Result.ok(result.value!.plaintext);
@@ -248,16 +253,19 @@ class DataProtectionService {
   }
 
   /// Tries decryption with all available keys (fallback)
-  Result<String, CryptographyException> _tryDecryptWithAllKeys(
+  ///
+  /// CRITICAL ANR FIX: Uses decryptAsync() to run PBKDF2 in background isolate.
+  Future<Result<String, CryptographyException>> _tryDecryptWithAllKeys(
     String ciphertext,
     _KeyStorage keyStorage,
-  ) {
+  ) async {
     CryptographyException? lastError;
 
     for (final entry in keyStorage.keys.entries) {
       try {
         final keyBytes = base64Decode(entry.value);
-        final result = _cryptoService.decrypt(ciphertext, keyBytes);
+        // CRITICAL: Use async to prevent ANR
+        final result = await _cryptoService.decrypt(ciphertext, keyBytes);
 
         if (result.isSuccess) {
           return Result.ok(result.value!.plaintext);

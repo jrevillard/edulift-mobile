@@ -3221,55 +3221,85 @@ class MockCryptoService extends _i1.Mock implements _i60.CryptoService {
           as int);
 
   @override
-  _i47.Result<String, _i61.CryptographyException> encrypt(
+  _i21.Future<_i47.Result<String, _i61.CryptographyException>> encrypt(
     String? plaintext,
     _i59.Uint8List? masterKey, [
     int? keyId = 1,
   ]) =>
       (super.noSuchMethod(
             Invocation.method(#encrypt, [plaintext, masterKey, keyId]),
-            returnValue: _i43
-                .dummyValue<_i47.Result<String, _i61.CryptographyException>>(
-                  this,
-                  Invocation.method(#encrypt, [plaintext, masterKey, keyId]),
+            returnValue:
+                _i21.Future<
+                  _i47.Result<String, _i61.CryptographyException>
+                >.value(
+                  _i43.dummyValue<
+                    _i47.Result<String, _i61.CryptographyException>
+                  >(
+                    this,
+                    Invocation.method(#encrypt, [plaintext, masterKey, keyId]),
+                  ),
                 ),
-            returnValueForMissingStub: _i43
-                .dummyValue<_i47.Result<String, _i61.CryptographyException>>(
-                  this,
-                  Invocation.method(#encrypt, [plaintext, masterKey, keyId]),
+            returnValueForMissingStub:
+                _i21.Future<
+                  _i47.Result<String, _i61.CryptographyException>
+                >.value(
+                  _i43.dummyValue<
+                    _i47.Result<String, _i61.CryptographyException>
+                  >(
+                    this,
+                    Invocation.method(#encrypt, [plaintext, masterKey, keyId]),
+                  ),
                 ),
           )
-          as _i47.Result<String, _i61.CryptographyException>);
+          as _i21.Future<_i47.Result<String, _i61.CryptographyException>>);
 
   @override
-  _i47.Result<({int keyId, String plaintext}), _i61.CryptographyException>
+  _i21.Future<
+    _i47.Result<({int keyId, String plaintext}), _i61.CryptographyException>
+  >
   decrypt(String? encryptedData, _i59.Uint8List? masterKey) =>
       (super.noSuchMethod(
             Invocation.method(#decrypt, [encryptedData, masterKey]),
-            returnValue: _i43
-                .dummyValue<
+            returnValue:
+                _i21.Future<
                   _i47.Result<
                     ({int keyId, String plaintext}),
                     _i61.CryptographyException
                   >
-                >(
-                  this,
-                  Invocation.method(#decrypt, [encryptedData, masterKey]),
+                >.value(
+                  _i43.dummyValue<
+                    _i47.Result<
+                      ({int keyId, String plaintext}),
+                      _i61.CryptographyException
+                    >
+                  >(
+                    this,
+                    Invocation.method(#decrypt, [encryptedData, masterKey]),
+                  ),
                 ),
-            returnValueForMissingStub: _i43
-                .dummyValue<
+            returnValueForMissingStub:
+                _i21.Future<
                   _i47.Result<
                     ({int keyId, String plaintext}),
                     _i61.CryptographyException
                   >
-                >(
-                  this,
-                  Invocation.method(#decrypt, [encryptedData, masterKey]),
+                >.value(
+                  _i43.dummyValue<
+                    _i47.Result<
+                      ({int keyId, String plaintext}),
+                      _i61.CryptographyException
+                    >
+                  >(
+                    this,
+                    Invocation.method(#decrypt, [encryptedData, masterKey]),
+                  ),
                 ),
           )
-          as _i47.Result<
-            ({int keyId, String plaintext}),
-            _i61.CryptographyException
+          as _i21.Future<
+            _i47.Result<
+              ({int keyId, String plaintext}),
+              _i61.CryptographyException
+            >
           >);
 
   @override
@@ -3298,15 +3328,6 @@ class MockCryptoService extends _i1.Mock implements _i60.CryptoService {
             returnValueForMissingStub: _i59.Uint8List(0),
           )
           as _i59.Uint8List);
-
-  @override
-  _i21.Future<int> benchmarkEncryption(int? dataSize) =>
-      (super.noSuchMethod(
-            Invocation.method(#benchmarkEncryption, [dataSize]),
-            returnValue: _i21.Future<int>.value(0),
-            returnValueForMissingStub: _i21.Future<int>.value(0),
-          )
-          as _i21.Future<int>);
 }
 
 /// A class which mocks [IMagicLinkService].
