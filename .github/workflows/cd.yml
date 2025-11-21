@@ -147,6 +147,29 @@ jobs:
           echo "flavor=${{ steps.validate-version.outputs.flavor }}" >> $GITHUB_OUTPUT
           echo "is_staging=${{ steps.validate-version.outputs.is_staging }}" >> $GITHUB_OUTPUT
 
+      - name: Check if release already exists
+        id: check-release
+        run: |
+          TAG_NAME="${{ steps.version.outputs.tag_name }}"
+          VERSION="${{ steps.version.outputs.version }}"
+          BRANCH_NAME="${GITHUB_REF_NAME}"
+
+          echo "🔍 Checking if release $TAG_NAME already exists..."
+
+          # Check if tag already exists
+          if git rev-parse "$TAG_NAME" >/dev/null 2>&1; then
+            echo "❌ Release $TAG_NAME already exists!"
+            echo "🚫 This version has already been released."
+            echo ""
+            echo "📋 To rebuild this release:"
+            echo "   git tag -d $TAG_NAME"
+            echo "   git push origin --delete $TAG_NAME"
+            echo "   Then re-run the workflow"
+            echo ""
+            echo "🎯 Skipping build to avoid duplicate release"
+            exit 1
+          fi
+
       - name: Update pubspec.yaml
         run: |
           # Use run number as build number
