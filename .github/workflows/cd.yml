@@ -373,15 +373,27 @@ jobs:
               --flavor $FLAVOR \
               --dart-define-from-file=config/$FLAVOR.json \
               --split-debug-info=build/debug-info \
-              --obfuscate
+              --obfuscate \
+              --no-shrink \
+              --analyze-size \
+              --tree-shake-icons
           else
             echo "FILES:  Building AAB for production"
             flutter build appbundle --release \
               --flavor $FLAVOR \
               --dart-define-from-file=config/$FLAVOR.json \
               --split-debug-info=build/debug-info \
-              --obfuscate
+              --obfuscate \
+              --no-shrink \
+              --analyze-size \
+              --tree-shake-icons
           fi
+
+          echo "INFO:  Build artifacts generated:"
+          echo "   Flutter debug symbols: build/debug-info/"
+          echo "   Mapping files: build/debug-info/*.map"
+          echo "   Size analysis: build/size-analysis/"
+          echo "   APK/AAB: build/app/outputs/"
 
       - name: Setup Firebase CLI (Staging)
         if: needs.prepare-release.outputs.flavor == 'staging'
@@ -407,18 +419,51 @@ jobs:
             FIREBASE_APP_ID="${{ steps.load-versions.outputs.FIREBASE_ANDROID_PROD_APP_ID }}"
           fi
 
-          # Upload symbols to Firebase Crashlytics
-          firebase crashlytics:symbols:upload --app="$FIREBASE_APP_ID" build/debug-info
+          # Check if debug symbols exist before uploading
+          if [[ -d "build/debug-info" ]] && [[ "$(ls -A build/debug-info 2>/dev/null)" ]]; then
+            echo "INFO:  Uploading debug symbols with obfuscation mappings to Firebase Crashlytics..."
+            echo "INFO:  Debug symbols directory contents:"
+            ls -lh build/debug-info/
 
-          echo "SUCCESS:  Debug symbols uploaded to Firebase Crashlytics for app: $FIREBASE_APP_ID"
+            # Upload all .symbols files - these contain BOTH debug info AND obfuscation mappings
+            # Flutter generates .symbols files (NOT .map files) that include embedded obfuscation data
+            if firebase crashlytics:symbols:upload --app="$FIREBASE_APP_ID" build/debug-info/; then
+              echo "SUCCESS:  Debug symbols uploaded (includes obfuscation mappings)"
+
+              # Verify upload with Firebase CLI
+              echo "INFO:  Verifying symbol upload..."
+              firebase crashlytics:mappingfile:list --app="$FIREBASE_APP_ID" | tail -5 || echo "INFO:  Verification skipped (CLI limitation)"
+            else
+              echo "ERROR:  Symbol upload failed!"
+              echo "IMPACT: Production crashes cannot be de-obfuscated!"
+              exit 1
+            fi
+
+            # Check for native symbols (if using NDK or native plugins)
+            NATIVE_LIBS_DIR="build/app/intermediates/merged_native_libs/${FLAVOR}/release/out/lib"
+            if [[ -d "$NATIVE_LIBS_DIR" ]] && [[ "$(find "$NATIVE_LIBS_DIR" -name "*.so" 2>/dev/null)" ]]; then
+              echo "INFO:  Found native symbols, uploading from: $NATIVE_LIBS_DIR"
+              firebase crashlytics:symbols:upload --app="$FIREBASE_APP_ID" "$NATIVE_LIBS_DIR" || echo "WARNING:  Native symbol upload failed (non-critical if no NDK plugins)"
+            else
+              echo "INFO:  No native symbols found (this is normal if not using NDK plugins)"
+            fi
+
+            echo "SUCCESS:  Crashlytics symbol upload completed"
+            echo "INFO:  Production crashes can now be properly analyzed and de-obfuscated"
+          else
+            echo "ERROR:  No debug symbols found - crash analysis will be impossible!"
+            echo "PATH:   build/debug-info contents:"
+            ls -la build/debug-info 2>/dev/null || echo "         Directory does not exist"
+            exit 1
+          fi
 
       - name: Upload Android artifacts
         uses: actions/upload-artifact@v4
         with:
           name: android-${{ needs.prepare-release.outputs.flavor }}
           path: |
-            build/app/outputs/flutter-apk/app-staging-release.apk
-            build/app/outputs/bundle/release/app-production-release.aab
+            build/app/outputs/flutter-apk/edulift-staging-release.apk
+            build/app/outputs/bundle/productionRelease/edulift-production-release.aab
           retention-days: 7
 
       - name: Distribute to Firebase
@@ -484,18 +529,28 @@ jobs:
 
           # Android: Fichiers téléchargés depuis les artifacts du job build-android
           if [[ "$FLAVOR" == "staging" ]]; then
-            ANDROID_FILE="build/app/outputs/flutter-apk/app-staging-release.apk"
+            ANDROID_FILE="build/app/outputs/flutter-apk/edulift-staging-release.apk"
             TARGET_FILE="edulift-$FLAVOR.apk"
           else
-            ANDROID_FILE="build/app/outputs/bundle/release/app-production-release.aab"
+            ANDROID_FILE="build/app/outputs/bundle/productionRelease/edulift-production-release.aab"
             TARGET_FILE="edulift-$FLAVOR.aab"
           fi
 
+          # Verify artifact was downloaded correctly
           if [[ -f "$ANDROID_FILE" ]]; then
+            FILE_SIZE=$(stat -c%s "$ANDROID_FILE")
+            echo "SUCCESS:  Android artifact found: $(basename $ANDROID_FILE) ($FILE_SIZE bytes)"
+
+            # Validate minimum file size (10MB)
+            if [[ $FILE_SIZE -lt 10485760 ]]; then
+              echo "WARNING:  Artifact seems unusually small (< 10MB) - may be corrupted"
+            fi
+
             cp "$ANDROID_FILE" "release-files/$TARGET_FILE"
-            echo "SUCCESS:  Android: $(basename $ANDROID_FILE)"
           else
             echo "ERROR:  No Android file found: $ANDROID_FILE"
+            echo "Available files in build/app/outputs:"
+            find build/app/outputs -type f -name "*.apk" -o -name "*.aab" 2>/dev/null || echo "No APK/AAB files found"
             exit 1
           fi
 
@@ -565,14 +620,22 @@ jobs:
           mkdir -p altstore_temp
           cd altstore_temp
 
-          # Clone AltStore repo
-          if [[ -n "${{ secrets.GITHUB_TOKEN }}" ]]; then
-            git clone https://${{ secrets.GITHUB_TOKEN }}@github.com/$ALTSTORE_REPO.git .
+          # Configure git with GitHub CLI for proper authentication
+          # GitHub CLI uses GITHUB_TOKEN automatically with correct permissions
+          if command -v gh &> /dev/null; then
+            echo "INFO:  Using GitHub CLI for authenticated clone..."
+            gh repo clone $ALTSTORE_REPO .
           else
-            git clone https://github.com/$ALTSTORE_REPO.git .
+            echo "INFO:  GitHub CLI not available, using git with token..."
+            # Fallback to git clone with token (requires GITHUB_TOKEN with repo scope)
+            git clone https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/$ALTSTORE_REPO.git .
           fi
 
           git checkout $ALTSTORE_BRANCH
+
+          # Configure git for commits
+          git config user.name "GitHub Actions"
+          git config user.email "action@github.com"
 
           # Get app info from pre-extracted version
           VERSION="${{ needs.prepare-release.outputs.version }}"
@@ -612,17 +675,28 @@ jobs:
           echo "   Download URL: $DOWNLOAD_URL"
           echo "   Size: $IPA_SIZE"
 
-          # Commit and push
-          git config user.name "GitHub Actions"
-          git config user.email "action@github.com"
-
+          # Commit and push changes
           if git diff --quiet; then
-            echo "ℹ️ No changes to AltStore source"
+            echo "INFO:  No changes to AltStore source (version already up to date)"
           else
             git add .
             git commit -m "feat: update EduLift $FLAVOR to version $VERSION"
-            git push origin $ALTSTORE_BRANCH
-            echo "SUCCESS:  AltStore PAL source updated"
+
+            # Push with retry logic (handles race conditions)
+            MAX_RETRIES=3
+            for i in $(seq 1 $MAX_RETRIES); do
+              if git push origin $ALTSTORE_BRANCH; then
+                echo "SUCCESS:  AltStore PAL source updated successfully"
+                break
+              elif [[ $i -lt $MAX_RETRIES ]]; then
+                echo "WARNING:  Push failed (attempt $i/$MAX_RETRIES), retrying..."
+                git pull --rebase origin $ALTSTORE_BRANCH
+                sleep 2
+              else
+                echo "ERROR:  Failed to push AltStore updates after $MAX_RETRIES attempts"
+                exit 1
+              fi
+            done
           fi
 
           cd ..

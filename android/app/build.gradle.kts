@@ -238,11 +238,12 @@ android {
         }
     }
     
-    // Set custom APK name with flavor
+    // Set custom output name with flavor (supports both APK and AAB)
     applicationVariants.all { variant ->
         variant.outputs.all { output ->
             val outputImpl = output as com.android.build.gradle.internal.api.BaseVariantOutputImpl
-            outputImpl.outputFileName = "edulift-${variant.flavorName}-${variant.buildType.name}.apk"
+            val extension = if (output.outputFile.name.endsWith(".aab")) "aab" else "apk"
+            outputImpl.outputFileName = "edulift-${variant.flavorName}-${variant.buildType.name}.${extension}"
             return@all true
         }
     }
