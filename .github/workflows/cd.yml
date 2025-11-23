@@ -412,6 +412,15 @@ jobs:
 
           echo "SUCCESS:  Debug symbols uploaded to Firebase Crashlytics for app: $FIREBASE_APP_ID"
 
+      - name: Upload Android artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: android-${{ needs.prepare-release.outputs.flavor }}
+          path: |
+            build/app/outputs/flutter-apk/app-staging-release.apk
+            build/app/outputs/bundle/release/app-production-release.aab
+          retention-days: 7
+
       - name: Distribute to Firebase
         run: |
           FLAVOR="${{ needs.prepare-release.outputs.flavor }}"
@@ -447,7 +456,15 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Download Android artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: android-${{ needs.prepare-release.outputs.flavor }}
+          path: build/app/outputs/
+
       - name: Prepare release files
+        env:
+          BUILD_INFO: ${{ needs.build-ios.outputs.final_build_info }}
         run: |
           VERSION="${{ needs.prepare-release.outputs.version }}"
           FLAVOR="${{ needs.prepare-release.outputs.flavor }}"
@@ -455,7 +472,6 @@ jobs:
           mkdir -p release-files
 
           # iOS: Utiliser le script Codemagic existant pour télécharger l'IPA
-          export BUILD_INFO="${{ needs.build-ios.outputs.final_build_info }}"
           ./scripts/download-codemagic-artifacts.sh "$BUILD_INFO" "ios-artifacts-temp"
           IOS_IPA=$(find ios-artifacts-temp -name "*.ipa" | head -1)
           if [[ -n "$IOS_IPA" ]]; then
@@ -466,7 +482,7 @@ jobs:
             exit 1
           fi
 
-          # Android: Utiliser les fichiers locaux construits dans build-android (pas d'artifacts)
+          # Android: Fichiers téléchargés depuis les artifacts du job build-android
           if [[ "$FLAVOR" == "staging" ]]; then
             ANDROID_FILE="build/app/outputs/flutter-apk/app-staging-release.apk"
             TARGET_FILE="edulift-$FLAVOR.apk"
