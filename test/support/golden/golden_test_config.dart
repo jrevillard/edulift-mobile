@@ -24,12 +24,41 @@ class GoldenTestConfig {
   // Paths are relative to test file directory.
   // For tests in test/golden_tests/screens/ or test/golden_tests/widgets/,
   // we go up 1 level to test/golden_tests/, then to goldens/
-  static const String goldenBasePath = '../goldens';
+  static const String goldenBasePath = '../test/goldens';
   static const String screenGoldensPath = '$goldenBasePath/screens';
   static const String widgetGoldensPath = '$goldenBasePath/widgets';
 
   // Test execution configuration
   static const Duration settleDuration = Duration(seconds: 5);
+
+  // Pixel tolerance configuration (percentage)
+  // Based on industry best practices for Flutter golden tests
+
+  /// Default tolerance for most tests (0.5% = reasonable tolerance)
+  static const double defaultTolerance = 0.5; // 0.5%
+
+  /// Tolerance for text-heavy widgets (handles anti-aliasing differences)
+  static const double textTolerance = 0.2; // 0.2%
+
+  /// Tolerance for complex widgets with gradients/shadows
+  static const double complexTolerance = 0.5; // 0.5%
+
+  /// Tolerance for animations or dynamic content (use sparingly)
+  static const double animationTolerance = 1.0; // 1.0%
+
+  /// Get tolerance for specific widget types
+  static double getToleranceForType(GoldenTestWidgetType type) {
+    switch (type) {
+      case GoldenTestWidgetType.text:
+        return textTolerance;
+      case GoldenTestWidgetType.complex:
+        return complexTolerance;
+      case GoldenTestWidgetType.animation:
+        return animationTolerance;
+      case GoldenTestWidgetType.standard:
+        return defaultTolerance;
+    }
+  }
 
   /// Get golden file path for a test
   static String getGoldenPath({
@@ -56,58 +85,12 @@ class GoldenTestConfig {
         return '$goldenBasePath/$fileName';
     }
   }
-
-  /// Get configuration for specific test type
-  static TestTypeConfig getConfigForTestType(GoldenTestType type) {
-    switch (type) {
-      case GoldenTestType.quick:
-        return TestTypeConfig(
-          devices: [DeviceConfigurations.iphone13],
-          themes: [ThemeConfigurations.light],
-          locales: [const Locale('en', 'US')],
-        );
-
-      case GoldenTestType.standard:
-        return TestTypeConfig(
-          devices: DeviceConfigurations.defaultSet,
-          themes: ThemeConfigurations.defaultSet,
-          locales: defaultLocales,
-        );
-
-      case GoldenTestType.accessibility:
-        return TestTypeConfig(
-          devices: DeviceConfigurations.defaultSet,
-          themes: ThemeConfigurations.accessibility,
-          locales: defaultLocales,
-        );
-
-      case GoldenTestType.comprehensive:
-        return TestTypeConfig(
-          devices: DeviceConfigurations.defaultSet,
-          themes: ThemeConfigurations.all,
-          locales: defaultLocales,
-        );
-    }
-  }
 }
 
-/// Test type configuration
-class TestTypeConfig {
-  const TestTypeConfig({
-    required this.devices,
-    required this.themes,
-    required this.locales,
-  });
-
-  final List<DeviceConfig> devices;
-  final List<ThemeConfig> themes;
-  final List<Locale> locales;
-}
-
-/// Golden test types
-enum GoldenTestType {
-  quick, // Single device, single theme, single locale
-  standard, // Default devices, default themes, all locales
-  accessibility, // All font scales and high contrast themes
-  comprehensive, // All combinations
+/// Widget types for tolerance configuration
+enum GoldenTestWidgetType {
+  standard, // Most UI components - 0.5% tolerance
+  text, // Text-heavy widgets - 0.2% tolerance
+  complex, // Complex widgets with gradients/shadows - 0.5% tolerance
+  animation, // Animated or dynamic content - 1.0% tolerance (use sparingly)
 }

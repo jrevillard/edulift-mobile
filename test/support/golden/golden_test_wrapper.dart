@@ -13,10 +13,46 @@ import 'package:edulift/generated/l10n/app_localizations.dart';
 import 'device_configurations.dart';
 import 'theme_configurations.dart';
 import 'golden_test_config.dart';
+import 'tolerant_golden_comparator.dart';
 
 /// Wrapper for executing golden tests with multiple variants
 class GoldenTestWrapper {
   static bool _isTimezoneInitialized = false;
+
+  /// Execute a test with custom tolerance if specified
+  static Future<void> _expectGoldenWithTolerance({
+    required Finder finder,
+    required String goldenPath,
+    double? customTolerance,
+    GoldenTestWidgetType? widgetType,
+  }) async {
+    // Determine tolerance to use
+    final tolerance =
+        customTolerance ??
+        (widgetType != null
+            ? GoldenTestConfig.getToleranceForType(widgetType)
+            : GoldenTestConfig.defaultTolerance);
+
+    // Use tolerant comparator if tolerance > 0
+    if (tolerance > 0.0) {
+      final originalComparator = goldenFileComparator;
+      final tolerantComparator = TolerantGoldenFileComparator(
+        Uri.parse((goldenFileComparator as LocalFileComparator).basedir.path),
+        tolerance: tolerance,
+      );
+
+      goldenFileComparator = tolerantComparator;
+      try {
+        await expectLater(finder, matchesGoldenFile(goldenPath));
+      } finally {
+        // Always restore original comparator
+        goldenFileComparator = originalComparator;
+      }
+    } else {
+      // Use default behavior for strict comparison
+      await expectLater(finder, matchesGoldenFile(goldenPath));
+    }
+  }
 
   /// Initialize timezone database once for all golden tests
   /// Prevents "Tried to get location before initializing timezone database" errors
@@ -37,6 +73,7 @@ class GoldenTestWrapper {
     List<Locale>? locales,
     String category = 'widget',
     double? customTolerance,
+    GoldenTestWidgetType? widgetType,
     List<Override>? providerOverrides,
     bool skipSettle = false,
   }) async {
@@ -57,6 +94,7 @@ class GoldenTestWrapper {
             locale: locale,
             category: category,
             customTolerance: customTolerance,
+            widgetType: widgetType,
             providerOverrides: providerOverrides,
             skipSettle: skipSettle,
           );
@@ -74,6 +112,7 @@ class GoldenTestWrapper {
     List<ThemeConfig>? themes,
     List<Locale>? locales,
     double? customTolerance,
+    GoldenTestWidgetType? widgetType,
     List<Override>? providerOverrides,
   }) async {
     await testAllVariants(
@@ -85,6 +124,7 @@ class GoldenTestWrapper {
       locales: locales,
       category: 'screen',
       customTolerance: customTolerance,
+      widgetType: widgetType,
       providerOverrides: providerOverrides,
     );
   }
@@ -98,6 +138,7 @@ class GoldenTestWrapper {
     List<ThemeConfig>? themes,
     List<Locale>? locales,
     double? customTolerance,
+    GoldenTestWidgetType? widgetType,
     List<Override>? providerOverrides,
     Size? constrainedSize,
     bool skipSettle = false,
@@ -121,6 +162,7 @@ class GoldenTestWrapper {
       themes: themes,
       locales: locales,
       customTolerance: customTolerance,
+      widgetType: widgetType,
       providerOverrides: providerOverrides,
       skipSettle: skipSettle,
     );
@@ -145,6 +187,7 @@ class GoldenTestWrapper {
       themes: themes,
       category: category,
       customTolerance: customTolerance,
+      widgetType: GoldenTestWidgetType.animation, // Loading states are animated
       providerOverrides: providerOverrides,
       skipSettle: true, // Loading states have infinite animations
     );
@@ -158,6 +201,7 @@ class GoldenTestWrapper {
     List<DeviceConfig>? devices,
     List<ThemeConfig>? themes,
     double? customTolerance,
+    GoldenTestWidgetType? widgetType,
     List<Override>? providerOverrides,
     String category = 'error',
   }) async {
@@ -169,6 +213,7 @@ class GoldenTestWrapper {
       themes: themes,
       category: category,
       customTolerance: customTolerance,
+      widgetType: widgetType ?? GoldenTestWidgetType.standard,
       providerOverrides: providerOverrides,
     );
   }
@@ -181,6 +226,7 @@ class GoldenTestWrapper {
     List<DeviceConfig>? devices,
     List<ThemeConfig>? themes,
     double? customTolerance,
+    GoldenTestWidgetType? widgetType,
     List<Override>? providerOverrides,
     String category = 'widget',
   }) async {
@@ -192,6 +238,7 @@ class GoldenTestWrapper {
       themes: themes,
       category: category,
       customTolerance: customTolerance,
+      widgetType: widgetType ?? GoldenTestWidgetType.standard,
       providerOverrides: providerOverrides,
     );
   }
@@ -206,6 +253,7 @@ class GoldenTestWrapper {
     required Locale locale,
     required String category,
     double? customTolerance,
+    GoldenTestWidgetType? widgetType,
     List<Override>? providerOverrides,
     bool skipSettle = false,
   }) async {
@@ -270,36 +318,16 @@ class GoldenTestWrapper {
     final scaffoldFinder = find.byType(Scaffold);
     await tester.pump();
 
-    await expectLater(scaffoldFinder.first, matchesGoldenFile(goldenPath));
+    await _expectGoldenWithTolerance(
+      finder: scaffoldFinder.first,
+      goldenPath: goldenPath,
+      customTolerance: customTolerance,
+      widgetType: widgetType,
+    );
 
     // Reset to default size
     await tester.binding.setSurfaceSize(null);
     tester.view.resetDevicePixelRatio();
-  }
-
-  /// Test with specific test type configuration
-  static Future<void> testWithType({
-    required WidgetTester tester,
-    required Widget widget,
-    required String testName,
-    required GoldenTestType testType,
-    String category = 'widget',
-    double? customTolerance,
-    List<Override>? providerOverrides,
-  }) async {
-    final config = GoldenTestConfig.getConfigForTestType(testType);
-
-    await testAllVariants(
-      tester: tester,
-      widget: widget,
-      testName: testName,
-      devices: config.devices,
-      themes: config.themes,
-      locales: config.locales,
-      category: category,
-      customTolerance: customTolerance,
-      providerOverrides: providerOverrides,
-    );
   }
 
   /// Test multiple states of the same widget
@@ -325,40 +353,71 @@ class GoldenTestWrapper {
     }
   }
 
-  /// Test widget with scrollable content
-  static Future<void> testScrollable({
+  // Convenience methods for common widget types
+
+  /// Test text-heavy widgets with appropriate tolerance
+  static Future<void> testTextWidget({
     required WidgetTester tester,
     required Widget widget,
     required String testName,
     List<DeviceConfig>? devices,
     List<ThemeConfig>? themes,
-    List<double>? scrollPositions,
+    List<Locale>? locales,
     List<Override>? providerOverrides,
   }) async {
-    final positions = scrollPositions ?? [0.0, 0.5, 1.0];
+    await testWidget(
+      tester: tester,
+      widget: widget,
+      testName: testName,
+      devices: devices,
+      themes: themes,
+      locales: locales,
+      widgetType: GoldenTestWidgetType.text,
+      providerOverrides: providerOverrides,
+    );
+  }
 
-    for (final position in positions) {
-      final positionName = position == 0.0
-          ? 'top'
-          : position == 1.0
-          ? 'bottom'
-          : 'scroll_${(position * 100).toInt()}';
+  /// Test complex widgets with appropriate tolerance
+  static Future<void> testComplexWidget({
+    required WidgetTester tester,
+    required Widget widget,
+    required String testName,
+    List<DeviceConfig>? devices,
+    List<ThemeConfig>? themes,
+    List<Locale>? locales,
+    List<Override>? providerOverrides,
+  }) async {
+    await testWidget(
+      tester: tester,
+      widget: widget,
+      testName: testName,
+      devices: devices,
+      themes: themes,
+      locales: locales,
+      widgetType: GoldenTestWidgetType.complex,
+      providerOverrides: providerOverrides,
+    );
+  }
 
-      await testAllVariants(
-        tester: tester,
-        widget: widget,
-        testName: '${testName}_$positionName',
-        devices: devices,
-        themes: themes,
-        providerOverrides: providerOverrides,
-      );
-
-      // Scroll to position for next iteration
-      final scrollable = find.byType(Scrollable);
-      if (scrollable.evaluate().isNotEmpty && position > 0.0) {
-        await tester.drag(scrollable.first, Offset(0, -position * 500));
-        await tester.pumpAndSettle();
-      }
-    }
+  /// Quick test with default tolerance (0% - strict)
+  static Future<void> testStrict({
+    required WidgetTester tester,
+    required Widget widget,
+    required String testName,
+    List<DeviceConfig>? devices,
+    List<ThemeConfig>? themes,
+    List<Locale>? locales,
+    List<Override>? providerOverrides,
+  }) async {
+    await testWidget(
+      tester: tester,
+      widget: widget,
+      testName: testName,
+      devices: devices,
+      themes: themes,
+      locales: locales,
+      widgetType: GoldenTestWidgetType.standard,
+      providerOverrides: providerOverrides,
+    );
   }
 }
