@@ -23,6 +23,7 @@ class DayCardWidget extends StatelessWidget {
   final Function(DisplayableTimeSlot)? onAddVehicle;
   final Function(DisplayableTimeSlot, VehicleAssignment, String)?
   onVehicleAction;
+  final Function(DisplayableTimeSlot, VehicleAssignment)? onVehicleTap;
   final Map<String, Vehicle?>? vehicles;
   final Map<String, Child> childrenMap;
   final bool Function(DisplayableTimeSlot)? isSlotInPast;
@@ -34,6 +35,7 @@ class DayCardWidget extends StatelessWidget {
     required this.onSlotTap,
     this.onAddVehicle,
     this.onVehicleAction,
+    this.onVehicleTap,
     this.vehicles,
     required this.childrenMap,
     this.isSlotInPast,
@@ -74,6 +76,7 @@ class DayCardWidget extends StatelessWidget {
                         onSlotTap: onSlotTap,
                         onAddVehicle: onAddVehicle,
                         onVehicleAction: onVehicleAction,
+                        onVehicleTap: onVehicleTap,
                         vehicles: vehicles,
                         childrenMap: childrenMap,
                         isSlotInPast: isSlotInPast,

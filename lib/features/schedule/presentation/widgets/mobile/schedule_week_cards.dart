@@ -25,6 +25,9 @@ class ScheduleWeekCards extends ConsumerWidget {
   final Function(DisplayableTimeSlot, VehicleAssignment, String)?
   onVehicleAction;
 
+  /// Callback when vehicle card is tapped (to assign children)
+  final Function(DisplayableTimeSlot, VehicleAssignment)? onVehicleTap;
+
   /// Days to display (filtered from config)
   final List<DayOfWeek> configuredDays;
 
@@ -43,6 +46,7 @@ class ScheduleWeekCards extends ConsumerWidget {
     required this.onSlotTap,
     this.onAddVehicle,
     this.onVehicleAction,
+    this.onVehicleTap,
     this.configuredDays = DayOfWeek.values,
     required this.vehicles,
     required this.childrenMap,
@@ -58,6 +62,7 @@ class ScheduleWeekCards extends ConsumerWidget {
       onSlotTap: onSlotTap,
       onAddVehicle: onAddVehicle,
       onVehicleAction: onVehicleAction,
+      onVehicleTap: onVehicleTap,
       configuredDays: configuredDays,
       vehicles: vehicles,
       childrenMap: childrenMap,
@@ -72,6 +77,7 @@ class WeekViewPage extends StatelessWidget {
   final Function(DisplayableTimeSlot)? onAddVehicle;
   final Function(DisplayableTimeSlot, VehicleAssignment, String)?
   onVehicleAction;
+  final Function(DisplayableTimeSlot, VehicleAssignment)? onVehicleTap;
   final List<DayOfWeek> configuredDays;
   final Map<String, Vehicle?> vehicles;
   final Map<String, Child> childrenMap;
@@ -85,6 +91,7 @@ class WeekViewPage extends StatelessWidget {
     required this.onSlotTap,
     this.onAddVehicle,
     this.onVehicleAction,
+    this.onVehicleTap,
     required this.configuredDays,
     required this.vehicles,
     required this.childrenMap,
@@ -137,6 +144,7 @@ class WeekViewPage extends StatelessWidget {
           onSlotTap: onSlotTap,
           onAddVehicle: onAddVehicle,
           onVehicleAction: onVehicleAction,
+          onVehicleTap: onVehicleTap,
           vehicles: vehicles,
           childrenMap: childrenMap,
           isSlotInPast: isSlotInPast,

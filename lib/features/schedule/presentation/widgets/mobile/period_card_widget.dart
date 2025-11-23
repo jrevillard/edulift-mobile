@@ -12,6 +12,7 @@ class PeriodCardWidget extends StatelessWidget {
   final Function(DisplayableTimeSlot)? onAddVehicle;
   final Function(DisplayableTimeSlot, VehicleAssignment, String)?
   onVehicleAction;
+  final Function(DisplayableTimeSlot, VehicleAssignment)? onVehicleTap;
   final Map<String, Vehicle?>? vehicles;
   final Map<String, Child> childrenMap;
   final bool Function(DisplayableTimeSlot)? isSlotInPast;
@@ -23,6 +24,7 @@ class PeriodCardWidget extends StatelessWidget {
     required this.onSlotTap,
     this.onAddVehicle,
     this.onVehicleAction,
+    this.onVehicleTap,
     this.vehicles,
     required this.childrenMap,
     this.isSlotInPast,
@@ -121,6 +123,8 @@ class PeriodCardWidget extends StatelessWidget {
         displayableSlot: displayableSlot,
         onVehicleAction: (vehicleAssignment, action) =>
             onVehicleAction?.call(displayableSlot, vehicleAssignment, action),
+        onVehicleTap: (vehicleAssignment) =>
+            onVehicleTap?.call(displayableSlot, vehicleAssignment),
         onAddVehicle: onAddVehicle,
         childrenMap: childrenMap,
         vehicles: vehicles,

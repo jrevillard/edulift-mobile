@@ -36,6 +36,7 @@ import '../../models/displayable_time_slot.dart';
 ///   displayableSlot: displayableSlot,
 ///   onAddVehicle: (slot) => handleAddVehicle(slot),
 ///   onVehicleAction: (vehicle, action) => handleAction(vehicle, action),
+///   onVehicleTap: (vehicle) => handleVehicleTap(vehicle),
 ///   childrenMap: childrenIdToEntityMap,
 /// )
 /// ```
@@ -48,6 +49,9 @@ class EnhancedSlotCard extends ConsumerWidget {
 
   /// Callback when vehicle action is selected (remove)
   final Function(VehicleAssignment vehicle, String action)? onVehicleAction;
+
+  /// Callback when vehicle card is tapped (to assign children)
+  final Function(VehicleAssignment vehicle)? onVehicleTap;
 
   /// Compact mode for reduced display
   final bool compact;
@@ -66,6 +70,7 @@ class EnhancedSlotCard extends ConsumerWidget {
     required this.displayableSlot,
     this.onAddVehicle,
     this.onVehicleAction,
+    this.onVehicleTap,
     this.compact = false,
     required this.childrenMap,
     this.vehicles,
@@ -486,16 +491,22 @@ class EnhancedSlotCard extends ConsumerWidget {
       children: [
         // Shared VehicleCard component (from dashboard)
         // Padding-right reserves space for remove button to prevent overlap with capacity badge
+        // Wrapped in InkWell to make it tappable for child assignment
         Padding(
           padding: const EdgeInsets.only(right: 40),
-          child: VehicleCard(
-            vehicleName: vehicle.vehicleName,
-            childrenNames: childrenNames,
-            isFamilyFlags: isFamilyFlags,
-            assignedCount: vehicle.childAssignments.length,
-            capacity: vehicle.effectiveCapacity,
-            compact: compact,
-            isDisabled: isPast,
+          child: InkWell(
+            key: Key('vehicle_card_tap_${vehicle.vehicleId}'),
+            onTap: isPast ? null : () => onVehicleTap?.call(vehicle),
+            borderRadius: BorderRadius.circular(12),
+            child: VehicleCard(
+              vehicleName: vehicle.vehicleName,
+              childrenNames: childrenNames,
+              isFamilyFlags: isFamilyFlags,
+              assignedCount: vehicle.childAssignments.length,
+              capacity: vehicle.effectiveCapacity,
+              compact: compact,
+              isDisabled: isPast,
+            ),
           ),
         ),
 
@@ -622,7 +633,7 @@ class EnhancedSlotCard extends ConsumerWidget {
       child: OutlinedButton.icon(
         onPressed: () => onAddVehicle?.call(displayableSlot),
         icon: const Icon(Icons.add),
-        label: const Text('Add Vehicle'),
+        label: Text(l10n.addVehicle),
       ),
     );
   }

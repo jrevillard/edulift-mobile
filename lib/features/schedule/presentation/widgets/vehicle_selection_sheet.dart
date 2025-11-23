@@ -293,6 +293,20 @@ class _VehicleSelectionSheetState extends ConsumerState<VehicleSelectionSheet> {
         return;
       }
 
+      // Get child IDs already assigned to OTHER vehicles in this same slot
+      // (filter out children assigned to existing vehicles when adding a new vehicle to the slot)
+      final childIdsAssignedToOtherVehicles = widget
+          .scheduleSlot
+          .vehicleAssignments
+          .expand((va) => va.childAssignments)
+          .map((assignment) => assignment.childId)
+          .toSet();
+
+      // Filter out children already assigned to other vehicles in this slot
+      final availableChildren = allChildren
+          .where((child) => !childIdsAssignedToOtherVehicles.contains(child.id))
+          .toList();
+
       // Open ChildAssignmentSheet with vehicleToCreate parameter
       if (mounted) {
         await showModalBottomSheet(
@@ -304,7 +318,7 @@ class _VehicleSelectionSheetState extends ConsumerState<VehicleSelectionSheet> {
             week: widget.scheduleSlot.week,
             slotId: 'temp-slot', // Temporary slot ID for creation
             vehicleToCreate: vehicle, // Vehicle to create slot with
-            availableChildren: allChildren,
+            availableChildren: availableChildren,
             currentlyAssignedChildIds: const [],
             day: widget.scheduleSlot.dayOfWeek.name,
             time: widget.scheduleSlot.timeOfDay.toApiFormat(),

@@ -11,6 +11,7 @@ import '../../domain/usecases/remove_vehicle_from_slot.dart';
 import '../models/displayable_time_slot.dart';
 import '../widgets/mobile/schedule_week_cards.dart';
 import '../widgets/vehicle_selection_sheet.dart';
+import '../widgets/child_assignment_sheet.dart';
 import '../../../groups/providers.dart';
 import '../../../groups/presentation/providers/group_schedule_config_provider.dart';
 import '../../../../core/domain/entities/groups/group.dart';
@@ -262,6 +263,7 @@ class _SchedulePageState extends ConsumerState<SchedulePage>
       onSlotTap: _handleDisplayableSlotTap,
       onAddVehicle: _handleAddVehicleToDisplayableSlot,
       onVehicleAction: _handleVehicleAction,
+      onVehicleTap: _handleVehicleTap,
       isSlotInPast: _isSlotInPast,
     );
   }
@@ -1107,6 +1109,53 @@ class _SchedulePageState extends ConsumerState<SchedulePage>
     } catch (e) {
       _showErrorSnackBar('Impossible d\'ajouter le véhicule: $e');
     }
+  }
+
+  /// Handle vehicle tap to assign children
+  void _handleVehicleTap(
+    DisplayableTimeSlot displayableSlot,
+    VehicleAssignment vehicleAssignment,
+  ) {
+    if (displayableSlot.scheduleSlot == null) return;
+    if (_selectedGroupId == null) return;
+
+    // Get family children for assignment
+    final familyState = ref.read(familyProvider);
+    final allChildren = familyState.children;
+
+    // Get currently assigned child IDs for this vehicle
+    final currentlyAssignedChildIds = vehicleAssignment.childAssignments
+        .map((assignment) => assignment.childId)
+        .toList();
+
+    // Get child IDs already assigned to OTHER vehicles in this same slot
+    final childIdsAssignedToOtherVehicles = displayableSlot
+        .scheduleSlot!
+        .vehicleAssignments
+        .where((va) => va.id != vehicleAssignment.id) // Exclude current vehicle
+        .expand((va) => va.childAssignments)
+        .map((assignment) => assignment.childId)
+        .toSet();
+
+    // Filter out children already assigned to other vehicles in this slot
+    final availableChildren = allChildren
+        .where((child) => !childIdsAssignedToOtherVehicles.contains(child.id))
+        .toList();
+
+    // Open ChildAssignmentSheet for existing vehicle
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (context) => ChildAssignmentSheet(
+        groupId: _selectedGroupId!,
+        week: displayableSlot.week,
+        slotId: displayableSlot.scheduleSlot!.id,
+        vehicleAssignment: vehicleAssignment,
+        availableChildren: availableChildren,
+        currentlyAssignedChildIds: currentlyAssignedChildIds,
+      ),
+    );
   }
 
   /// Handle vehicle actions for DisplayableTimeSlot
