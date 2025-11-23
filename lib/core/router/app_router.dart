@@ -366,15 +366,30 @@ class AppRouter {
 
         // DECLARATIVE MAGIC LINK HANDLING: Check for pending email (magic link sent) - HIGHEST PRIORITY
         // CRITICAL FIX: Only redirect to login if on waiting page without pendingEmail
+        // CRITICAL FIX: Also check if /auth/verify navigation is in progress - don't redirect if yes
         // BUT allow /auth/verify routes to proceed (user clicked magic link)
+        final hasPendingAuthVerifyNavigation =
+            navigationState.pendingRoute?.startsWith('/auth/verify') == true;
         if (state.matchedLocation.startsWith(AppRoutes.magicLink) &&
             !state.matchedLocation.startsWith('/auth/verify') &&
+            !hasPendingAuthVerifyNavigation &&
             !isAuthenticated &&
             authState.pendingEmail == null) {
           core_logger.AppLogger.info(
             '🔄 [GoRouter Redirect] DECISION: On magic link waiting page but no pending email (logout) - redirecting to login',
           );
           return AppRoutes.login;
+        }
+
+        // CRITICAL FIX: If /auth/verify navigation is in progress, allow it to proceed without interference
+        if (hasPendingAuthVerifyNavigation) {
+          core_logger.AppLogger.info(
+            '🔄 [GoRouter Redirect] DECISION: /auth/verify navigation in progress - allowing navigation to proceed without interference\n'
+            '   - Pending route: ${navigationState.pendingRoute}\n'
+            '   - Current location: ${state.matchedLocation}\n'
+            '   - Trigger: ${navigationState.trigger}',
+          );
+          // Don't return anything - let the navigation proceed
         }
 
         // If user has sent magic link, navigate to waiting page (HIGHEST PRIORITY - overrides pending navigation)

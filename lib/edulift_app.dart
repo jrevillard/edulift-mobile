@@ -180,26 +180,9 @@ class _EduLiftAppState extends ConsumerState<EduLiftApp>
         );
       }
 
-      // CRITICAL FIX: Clear pendingEmail when magic link deep link arrives
-      // This prevents router from redirecting to magic link waiting page instead of verification
-      try {
-        final authState = ref.read(authStateProvider);
-        if (authState.pendingEmail != null) {
-          AppLogger.info(
-            '🪄 DEEP_LINK_DEBUG: Clearing pendingEmail for magic link verification\n'
-            '   - Previous pendingEmail: ${authState.pendingEmail}\n'
-            '   - Clear at: ${DateTime.now().toIso8601String()}\n'
-            '   - Reason: Magic link deep link received - no longer need waiting page',
-          );
-          ref.read(authStateProvider.notifier).clearPendingEmail();
-        }
-      } catch (e) {
-        AppLogger.error(
-          '🪄 DEEP_LINK_ERROR: Failed to clear pendingEmail\n'
-          '   - Error at: ${DateTime.now().toIso8601String()}\n'
-          '   - Error: $e',
-        );
-      }
+      // CRITICAL FIX: Clear pendingEmail AFTER navigation to avoid router redirect timing issue
+      // Moving this after navigation prevents auth state change from interfering with /auth/verify navigation
+      // This fixes the issue where router redirect to login overrides magic link verification
 
       // Build the complete verification URL with all parameters
       var verifyUrl = '/auth/verify?token=${deepLink.magicToken}';
@@ -221,6 +204,28 @@ class _EduLiftAppState extends ConsumerState<EduLiftApp>
             route: verifyUrl,
             trigger: nav.NavigationTrigger.deepLink,
           );
+
+      // CRITICAL FIX: Clear pendingEmail AFTER navigation to prevent router redirect timing issue
+      // This ensures navigation to /auth/verify completes before auth state change triggers router redirect
+      try {
+        final authState = ref.read(authStateProvider);
+        if (authState.pendingEmail != null) {
+          AppLogger.info(
+            '🪄 DEEP_LINK_DEBUG: Clearing pendingEmail AFTER navigation setup\n'
+            '   - Previous pendingEmail: ${authState.pendingEmail}\n'
+            '   - Clear at: ${DateTime.now().toIso8601String()}\n'
+            '   - Reason: Navigation to /auth/verify configured - now safe to clear pendingEmail',
+          );
+          ref.read(authStateProvider.notifier).clearPendingEmail();
+        }
+      } catch (e) {
+        AppLogger.error(
+          '🪄 DEEP_LINK_ERROR: Failed to clear pendingEmail\n'
+          '   - Error at: ${DateTime.now().toIso8601String()}\n'
+          '   - Error: $e',
+        );
+      }
+
       return;
     }
 

@@ -14,6 +14,7 @@
 
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../config/feature_flags.dart';
 import '../utils/app_logger.dart';
 
 /// Data sensitivity levels for tiered storage
@@ -81,7 +82,8 @@ enum DataSensitivity {
 /// ```
 class TieredStorageService {
   /// Hardware-backed secure storage (Android Keystore / iOS Keychain)
-  late final FlutterSecureStorage _secureStorage;
+  /// Null in development mode when FeatureFlags.useSecureStorage is false
+  FlutterSecureStorage? _secureStorage;
 
   /// Standard preferences for non-sensitive data
   SharedPreferences? _sharedPrefs;
@@ -93,14 +95,21 @@ class TieredStorageService {
   ///
   /// Creates a new instance with proper secure storage configuration.
   /// Use via Riverpod provider for proper DI management.
+  ///
+  /// In development mode (when FeatureFlags.useSecureStorage is false),
+  /// secure storage is disabled to avoid Linux keyring unlock issues.
+  /// All data is stored in SharedPreferences instead.
   TieredStorageService() {
-    _secureStorage = const FlutterSecureStorage(
-      // STATE-OF-THE-ART: flutter_secure_storage uses EncryptedSharedPreferences
-      // by default on Android (hardware-backed Keystore) - NO custom PBKDF2 needed!
-      iOptions: IOSOptions(
-        accessibility: KeychainAccessibility.first_unlock_this_device,
-      ),
-    );
+    // Only initialize secure storage if enabled (production/staging)
+    if (FeatureFlags.useSecureStorage) {
+      _secureStorage = const FlutterSecureStorage(
+        // STATE-OF-THE-ART: flutter_secure_storage uses EncryptedSharedPreferences
+        // by default on Android (hardware-backed Keystore) - NO custom PBKDF2 needed!
+        iOptions: IOSOptions(
+          accessibility: KeychainAccessibility.first_unlock_this_device,
+        ),
+      );
+    }
   }
 
   /// Initialize the storage service
@@ -112,10 +121,17 @@ class TieredStorageService {
     _sharedPrefs = await SharedPreferences.getInstance();
     _isInitialized = true;
 
-    AppLogger.info(
-      '🔐 TieredStorageService initialized - '
-      'Hardware-backed secure storage + SharedPreferences ready',
-    );
+    if (FeatureFlags.useSecureStorage) {
+      AppLogger.info(
+        '🔐 TieredStorageService initialized - '
+        'Hardware-backed secure storage + SharedPreferences ready',
+      );
+    } else {
+      AppLogger.warning(
+        '🔓 TieredStorageService initialized in DEVELOPMENT mode - '
+        'Using SharedPreferences only (secure storage disabled to avoid keyring issues)',
+      );
+    }
   }
 
   /// Ensure service is initialized
@@ -146,12 +162,20 @@ class TieredStorageService {
     switch (sensitivity) {
       case DataSensitivity.high:
       case DataSensitivity.medium:
-        // Hardware-backed secure storage (Keystore/Keychain)
-        // NO additional encryption needed - platform handles it
-        await _secureStorage.write(key: key, value: value);
-        AppLogger.debug(
-          '🔐 Stored [${sensitivity.name}] data: $key (secure storage)',
-        );
+        // In development mode, fallback to SharedPreferences
+        if (_secureStorage == null) {
+          await _sharedPrefs!.setString(key, value);
+          AppLogger.debug(
+            '🔓 Stored [${sensitivity.name}] data: $key (shared prefs - dev mode)',
+          );
+        } else {
+          // Hardware-backed secure storage (Keystore/Keychain)
+          // NO additional encryption needed - platform handles it
+          await _secureStorage!.write(key: key, value: value);
+          AppLogger.debug(
+            '🔐 Stored [${sensitivity.name}] data: $key (secure storage)',
+          );
+        }
         break;
 
       case DataSensitivity.low:
@@ -176,7 +200,12 @@ class TieredStorageService {
     switch (sensitivity) {
       case DataSensitivity.high:
       case DataSensitivity.medium:
-        return await _secureStorage.read(key: key);
+        // In development mode, fallback to SharedPreferences
+        if (_secureStorage == null) {
+          return _sharedPrefs!.getString(key);
+        } else {
+          return await _secureStorage!.read(key: key);
+        }
 
       case DataSensitivity.low:
         return _sharedPrefs!.getString(key);
@@ -193,7 +222,12 @@ class TieredStorageService {
     switch (sensitivity) {
       case DataSensitivity.high:
       case DataSensitivity.medium:
-        await _secureStorage.delete(key: key);
+        // In development mode, fallback to SharedPreferences
+        if (_secureStorage == null) {
+          await _sharedPrefs!.remove(key);
+        } else {
+          await _secureStorage!.delete(key: key);
+        }
         AppLogger.debug('🗑️ Deleted [${sensitivity.name}] data: $key');
         break;
 
@@ -211,7 +245,12 @@ class TieredStorageService {
     switch (sensitivity) {
       case DataSensitivity.high:
       case DataSensitivity.medium:
-        return await _secureStorage.containsKey(key: key);
+        // In development mode, fallback to SharedPreferences
+        if (_secureStorage == null) {
+          return _sharedPrefs!.containsKey(key);
+        } else {
+          return await _secureStorage!.containsKey(key: key);
+        }
 
       case DataSensitivity.low:
         return _sharedPrefs!.containsKey(key);
@@ -227,8 +266,16 @@ class TieredStorageService {
     switch (sensitivity) {
       case DataSensitivity.high:
       case DataSensitivity.medium:
-        await _secureStorage.deleteAll();
-        AppLogger.warning('⚠️ Cleared all secure storage data');
+        // In development mode, fallback to SharedPreferences
+        if (_secureStorage == null) {
+          // Clear only keys that would have been in secure storage
+          // In dev mode, all keys are in SharedPreferences, so we clear all
+          await _sharedPrefs!.clear();
+          AppLogger.warning('⚠️ Cleared all shared preferences (dev mode)');
+        } else {
+          await _secureStorage!.deleteAll();
+          AppLogger.warning('⚠️ Cleared all secure storage data');
+        }
         break;
 
       case DataSensitivity.low:
