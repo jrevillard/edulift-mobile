@@ -81,9 +81,12 @@ void main() {
       expect(vehicle.capacity, 5);
       expect(vehicle.familyId, ScheduleTestHelpers.testFamilyId);
       expect(vehicle.initials, 'TC');
-      expect(vehicle.availablePassengerSeats, 4);
-      expect(vehicle.canAccommodate(4), true);
-      expect(vehicle.canAccommodate(5), false);
+      expect(
+        vehicle.availablePassengerSeats,
+        5,
+      ); // Capacity = child seats (driver NOT included)
+      expect(vehicle.canAccommodate(5), true);
+      expect(vehicle.canAccommodate(6), false);
     });
 
     test('createTestVehicles creates multiple vehicles', () {
