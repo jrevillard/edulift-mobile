@@ -375,7 +375,6 @@ jobs:
               --split-debug-info=build/debug-info \
               --obfuscate \
               --no-shrink \
-              --analyze-size \
               --tree-shake-icons
           else
             echo "FILES:  Building AAB for production"
@@ -385,14 +384,12 @@ jobs:
               --split-debug-info=build/debug-info \
               --obfuscate \
               --no-shrink \
-              --analyze-size \
               --tree-shake-icons
           fi
 
           echo "INFO:  Build artifacts generated:"
           echo "   Flutter debug symbols: build/debug-info/"
           echo "   Mapping files: build/debug-info/*.map"
-          echo "   Size analysis: build/size-analysis/"
           echo "   APK/AAB: build/app/outputs/"
 
       - name: Setup Firebase CLI (Staging)
