@@ -94,7 +94,7 @@ jobs:
           # - 2.1.0 (production)
           # - 2.1.0-alpha1, 2.1.0-beta2, 2.1.0-rc1 (staging)
           if [[ ! "$VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+(-((alpha|beta|rc)[0-9]*))?$ ]]; then
-            echo "❌ Invalid version format: $VERSION"
+            echo "ERROR:  Invalid version format: $VERSION"
             echo ""
             echo "Expected formats:"
             echo "  - 2.1.0 (production)"
@@ -128,8 +128,8 @@ jobs:
           echo "flavor=$FLAVOR" >> $GITHUB_OUTPUT
           echo "is_staging=$IS_STAGING" >> $GITHUB_OUTPUT
 
-          echo "✅ Version format validated: $VERSION"
-          echo "📋 Release Info:"
+          echo "SUCCESS:  Version format validated: $VERSION"
+          echo "INFO:  Release Info:"
           echo "   Branch: $BRANCH_NAME"
           echo "   Version: $VERSION"
           echo "   Tag: $TAG_NAME"
@@ -154,14 +154,14 @@ jobs:
           VERSION="${{ steps.version.outputs.version }}"
           BRANCH_NAME="${GITHUB_REF_NAME}"
 
-          echo "🔍 Checking if release $TAG_NAME already exists..."
+          echo " Checking if release $TAG_NAME already exists..."
 
           # Check if tag already exists
           if git rev-parse "$TAG_NAME" >/dev/null 2>&1; then
-            echo "❌ Release $TAG_NAME already exists!"
+            echo "ERROR:  Release $TAG_NAME already exists!"
             echo "🚫 This version has already been released."
             echo ""
-            echo "📋 To rebuild this release:"
+            echo "INFO:  To rebuild this release:"
             echo "   git tag -d $TAG_NAME"
             echo "   git push origin --delete $TAG_NAME"
             echo "   Then re-run the workflow"
@@ -178,7 +178,7 @@ jobs:
 
           sed -i "s/^version: .*/version: $BASE_VERSION+$BUILD_NUMBER/" pubspec.yaml
 
-          echo "✅ Updated pubspec.yaml:"
+          echo "SUCCESS:  Updated pubspec.yaml:"
           grep "^version:" pubspec.yaml
 
       - name: Commit version update
@@ -194,7 +194,7 @@ jobs:
           # Push commit to release branch (force to avoid conflicts with automation)
           git push origin release/${{ steps.version.outputs.version }} --force
 
-          echo "✅ Committed version update to release/${{ steps.version.outputs.version }}"
+          echo "SUCCESS:  Committed version update to release/${{ steps.version.outputs.version }}"
 
       - name: Merge to main and create tag
         run: |
@@ -211,7 +211,7 @@ jobs:
           echo "🔄 Fetching target branch..."
           git fetch origin $TARGET_BRANCH
 
-          echo "📋 Checking out '$TARGET_BRANCH'..."
+          echo "INFO:  Checking out '$TARGET_BRANCH'..."
           git checkout $TARGET_BRANCH
 
           echo "🔀 Merging '$RELEASE_BRANCH' into '$TARGET_BRANCH'..."
@@ -227,9 +227,9 @@ jobs:
           echo "🧹 Cleaning up release branch '$RELEASE_BRANCH'..."
           git push origin --delete "$RELEASE_BRANCH"
 
-          echo "✅ Successfully merged $RELEASE_BRANCH to $TARGET_BRANCH"
-          echo "✅ Created and pushed tag: $TAG_NAME"
-          echo "✅ Deleted release branch: $RELEASE_BRANCH"
+          echo "SUCCESS:  Successfully merged $RELEASE_BRANCH to $TARGET_BRANCH"
+          echo "SUCCESS:  Created and pushed tag: $TAG_NAME"
+          echo "SUCCESS:  Deleted release branch: $RELEASE_BRANCH"
 
   # Job 2: Build iOS (trigger Codemagic)
   build-ios:
@@ -257,7 +257,7 @@ jobs:
           elif [[ "$FLAVOR" == "production" ]]; then
             WORKFLOW_ID="ios-production"
           else
-            echo "❌ Unknown flavor: $FLAVOR"
+            echo "ERROR:  Unknown flavor: $FLAVOR"
             exit 1
           fi
 
@@ -278,30 +278,30 @@ jobs:
 
       - name: Validate build info availability
         run: |
-          echo "🔍 Checking build info availability..."
+          echo "Checking build info availability..."
+          BUILD_INFO="${{ steps.wait-ios.outputs.build_info }}"
 
           # Verify build_info is available and valid
-          BUILD_INFO="${{ steps.wait-ios.outputs.build_info }}"
           if [[ -z "$BUILD_INFO" ]]; then
-            echo "❌ Build info not available - build polling may have failed"
-            echo "💡 This usually means the wait-codemagic-build.sh script did not complete properly"
-            echo "🔗 Check the previous step logs for build polling errors"
+            echo "ERROR:  Build info not available - build polling may have failed"
+            echo "INFO:  This usually means the wait-codemagic-build.sh script did not complete properly"
+            echo "LINK:  Check the previous step logs for build polling errors"
             exit 1
           fi
 
           # Validate build info JSON format
           if ! echo "$BUILD_INFO" | jq -e '.build.artefacts' >/dev/null 2>&1; then
-            echo "❌ Invalid build info JSON format - build polling may have failed"
-            echo "📡 Build info content:"
+            echo "ERROR:  Invalid build info JSON format - build polling may have failed"
+            echo "DATA:  Build info content:"
             echo "$BUILD_INFO" | head -c 500
             echo ""
-            echo "💡 The build info should be valid JSON with 'build.artefacts' array"
+            echo "INFO:  The build info should be valid JSON with 'build.artefacts' array"
             exit 1
           fi
 
-          echo "✅ Build info validated successfully"
-          echo "📡 Build status: $(echo "$BUILD_INFO" | jq -r '.build.status')"
-          echo "📦 Artifact count: $(echo "$BUILD_INFO" | jq -r '.build.artefacts | length')"
+          echo "SUCCESS:  Build info validated successfully"
+          echo "DATA:  Build status: $(echo "$BUILD_INFO" | jq -r '.build.status')"
+          echo "FILES:  Artifact count: $(echo "$BUILD_INFO" | jq -r '.build.artefacts | length')"
 
   # Job 3: Build Android (parallel)
   build-android:
@@ -364,17 +364,17 @@ jobs:
       - name: Build Android
         run: |
           FLAVOR="${{ needs.prepare-release.outputs.flavor }}"
-          echo "🔧 Building Android $FLAVOR..."
+          echo "BUILD:  Building Android $FLAVOR..."
 
           if [[ "${{ needs.prepare-release.outputs.is_staging }}" == "true" ]]; then
-            echo "📱 Building APK for staging"
+            echo "ANDROID:  Building APK for staging"
             flutter build apk --release \
               --flavor $FLAVOR \
               --dart-define-from-file=config/$FLAVOR.json \
               --split-debug-info=build/debug-info \
               --obfuscate
           else
-            echo "📦 Building AAB for production"
+            echo "FILES:  Building AAB for production"
             flutter build appbundle --release \
               --flavor $FLAVOR \
               --dart-define-from-file=config/$FLAVOR.json \
@@ -397,7 +397,7 @@ jobs:
       - name: Upload symbols to Firebase Crashlytics
         run: |
           FLAVOR="${{ needs.prepare-release.outputs.flavor }}"
-          echo "🔍 Uploading debug symbols to Firebase Crashlytics for $FLAVOR..."
+          echo " Uploading debug symbols to Firebase Crashlytics for $FLAVOR..."
 
           # Determine Firebase App ID based on flavor
           if [[ "$FLAVOR" == "staging" ]]; then
@@ -409,7 +409,7 @@ jobs:
           # Upload symbols to Firebase Crashlytics
           firebase crashlytics:symbols:upload --app="$FIREBASE_APP_ID" build/debug-info
 
-          echo "✅ Debug symbols uploaded to Firebase Crashlytics for app: $FIREBASE_APP_ID"
+          echo "SUCCESS:  Debug symbols uploaded to Firebase Crashlytics for app: $FIREBASE_APP_ID"
 
       - name: Distribute to Firebase
         run: |
@@ -459,9 +459,9 @@ jobs:
           IOS_IPA=$(find ios-artifacts-temp -name "*.ipa" | head -1)
           if [[ -n "$IOS_IPA" ]]; then
             cp "$IOS_IPA" "release-files/edulift-$FLAVOR.ipa"
-            echo "✅ iOS IPA: $(basename $IOS_IPA)"
+            echo "SUCCESS:  iOS IPA: $(basename $IOS_IPA)"
           else
-            echo "❌ No iOS IPA found"
+            echo "ERROR:  No iOS IPA found"
             exit 1
           fi
 
@@ -476,13 +476,13 @@ jobs:
 
           if [[ -f "$ANDROID_FILE" ]]; then
             cp "$ANDROID_FILE" "release-files/$TARGET_FILE"
-            echo "✅ Android: $(basename $ANDROID_FILE)"
+            echo "SUCCESS:  Android: $(basename $ANDROID_FILE)"
           else
-            echo "❌ No Android file found: $ANDROID_FILE"
+            echo "ERROR:  No Android file found: $ANDROID_FILE"
             exit 1
           fi
 
-          echo "📦 Final release files:"
+          echo "FILES:  Final release files:"
           ls -la release-files/
 
       - name: Create unified GitHub release
@@ -528,7 +528,7 @@ jobs:
           IPA_DOWNLOAD_URL="https://github.com/${{ github.repository }}/releases/download/$TAG_NAME/edulift-$FLAVOR.ipa"
 
           echo "ipa_download_url=$IPA_DOWNLOAD_URL" >> $GITHUB_OUTPUT
-          echo "🔗 IPA Download URL: $IPA_DOWNLOAD_URL"
+          echo "LINK:  IPA Download URL: $IPA_DOWNLOAD_URL"
 
       - name: Update AltStore PAL source
         run: |
@@ -536,7 +536,7 @@ jobs:
           IPA_PATH="release-files/edulift-$FLAVOR.ipa"
           DOWNLOAD_URL="${{ steps.urls.outputs.ipa_download_url }}"
 
-          echo "📱 Updating AltStore PAL source..."
+          echo "ANDROID:  Updating AltStore PAL source..."
           echo "   Flavor: $FLAVOR"
           echo "   IPA: $IPA_PATH"
           echo "   Download URL: $DOWNLOAD_URL"
@@ -589,7 +589,7 @@ jobs:
               "tintColor": $tintColor
             }' > "$APP_JSON"
 
-          echo "✅ Generated $APP_JSON:"
+          echo "SUCCESS:  Generated $APP_JSON:"
           echo "   Name: EduLift $FLAVOR"
           echo "   Bundle ID: com.edulift.app${FLAVOR:+:.staging}"
           echo "   Download URL: $DOWNLOAD_URL"
@@ -605,7 +605,7 @@ jobs:
             git add .
             git commit -m "feat: update EduLift $FLAVOR to version $VERSION"
             git push origin $ALTSTORE_BRANCH
-            echo "✅ AltStore PAL source updated"
+            echo "SUCCESS:  AltStore PAL source updated"
           fi
 
           cd ..
@@ -615,14 +615,14 @@ jobs:
         run: |
           echo "🎉 Unified release completed!"
           echo ""
-          echo "📋 Release Details:"
+          echo "INFO:  Release Details:"
           echo "   Tag: ${{ needs.prepare-release.outputs.tag_name }}"
           echo "   Version: ${{ needs.prepare-release.outputs.version }}"
           echo "   Environment: ${{ needs.prepare-release.outputs.flavor }}"
           echo "   Platforms: iOS + Android"
-          echo "   AltStore: ✅ Updated"
+          echo "   AltStore: SUCCESS: Updated"
           echo ""
-          echo "🔗 View release: https://github.com/${{ github.repository }}/releases/tag/${{ needs.prepare-release.outputs.tag_name }}"
+          echo "LINK:  View release: https://github.com/${{ github.repository }}/releases/tag/${{ needs.prepare-release.outputs.tag_name }}"
 
       - name: Reset pubspec.yaml for development
         if: success()  # Only run if all previous steps succeeded
@@ -639,7 +639,7 @@ jobs:
           echo "🔄 Fetching target branch '$TARGET_BRANCH'..."
           git fetch origin $TARGET_BRANCH
 
-          echo "📋 Checking out '$TARGET_BRANCH'..."
+          echo "INFO:  Checking out '$TARGET_BRANCH'..."
           git checkout $TARGET_BRANCH
 
           echo "🔄 Resetting local branch to match remote..."
@@ -661,7 +661,7 @@ jobs:
           git commit -m " [skip ci] chore: reset pubspec.yaml to development version $DEV_VERSION"
           git push origin $TARGET_BRANCH
 
-          echo "✅ Successfully reset pubspec.yaml to development version: $DEV_VERSION"
+          echo "SUCCESS:  Successfully reset pubspec.yaml to development version: $DEV_VERSION"
           echo "🚀 Ready for next development cycle!"
 
   # Job 5: Handle build failures (notification)
@@ -679,23 +679,23 @@ jobs:
 
       - name: Notify build failures
         run: |
-          echo "❌ Build failures detected!"
+          echo "ERROR:  Build failures detected!"
           echo ""
-          echo "📋 Build Status Summary:"
+          echo "INFO:  Build Status Summary:"
           echo "   Prepare Release: ${{ needs.prepare-release.result }}"
           echo "   Build iOS: ${{ needs.build-ios.result }}"
           echo "   Build Android: ${{ needs.build-android.result }}"
           echo ""
 
           if [[ "${{ needs.build-ios.result }}" == "failure" ]]; then
-            echo "🔍 iOS build failed - check Codemagic logs"
+            echo " iOS build failed - check Codemagic logs"
           fi
 
           if [[ "${{ needs.build-android.result }}" == "failure" ]]; then
-            echo "🔍 Android build failed - check GitHub Actions logs"
+            echo " Android build failed - check GitHub Actions logs"
           fi
 
-          echo "🔗 Monitor builds:"
+          echo "LINK:  Monitor builds:"
           echo "   GitHub Actions: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"
           if [[ -n "${{ vars.CODEMAGIC_APP_ID }}" ]]; then
             echo "   Codemagic: https://codemagic.io/app/${{ vars.CODEMAGIC_APP_ID }}/builds"
