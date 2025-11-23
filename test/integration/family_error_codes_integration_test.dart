@@ -5,7 +5,7 @@ import 'package:edulift/core/utils/result.dart';
 import 'package:mockito/mockito.dart';
 
 import '../test_mocks/test_mocks.mocks.dart';
-import '../support/mock_fallbacks.dart' as fallbacks;
+import '../test_mocks/test_mocks.dart' as fallbacks;
 import '../support/test_environment.dart';
 
 /// **REAL FAMILY ERROR HANDLING INTEGRATION TEST**

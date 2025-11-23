@@ -7,7 +7,7 @@ import 'package:flutter/foundation.dart';
 
 import '../../core/config/base_config.dart';
 import '../../core/errors/exceptions.dart';
-import '../../core/services/adaptive_storage_service.dart';
+import '../../core/security/tiered_storage_service.dart';
 import '../../core/utils/app_logger.dart';
 
 /// Base API client providing shared functionality for all domain-specific clients
@@ -45,7 +45,7 @@ abstract class BaseApiModule {
   // REMOVED: Dio get dio => Dio(); // Architecture violation - direct Dio access not allowed
 
   Dio createApiDio(
-    AdaptiveStorageService secureStorageService,
+    TieredStorageService secureStorageService,
     BaseConfig config,
   ) {
     final dio = Dio(
@@ -87,7 +87,7 @@ abstract class BaseApiModule {
 
 /// Authentication interceptor for automatic token handling
 class AuthInterceptor extends Interceptor {
-  final AdaptiveStorageService _secureStorage;
+  final TieredStorageService _secureStorage;
   final Set<String> _publicEndpoints = {
     '/auth/magic-link',
     '/auth/verify',
@@ -110,7 +110,7 @@ class AuthInterceptor extends Interceptor {
       }
 
       // Get token from secure storage
-      final token = await _secureStorage.getToken();
+      final token = await _secureStorage.getAccessToken();
       if (token != null && token.isNotEmpty) {
         // Add Authorization header with Bearer token
         options.headers['Authorization'] = 'Bearer $token';
@@ -142,8 +142,7 @@ class AuthInterceptor extends Interceptor {
       try {
         // CENTRALIZED: Use AuthService to handle token expiry
         // This eliminates code duplication and uses the centralized method
-        await _secureStorage.clearToken();
-        await _secureStorage.clearUserData();
+        await _secureStorage.clearAuthData();
         AppLogger.info(
           '🚨 CENTRALIZED: Token expired - auth data cleared via interceptor',
         );

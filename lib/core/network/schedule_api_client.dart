@@ -3,7 +3,8 @@
 // Agent: FlutterSpecialist - Phase 2C API Client Decomposition
 
 import 'package:dio/dio.dart';
-import 'package:retrofit/retrofit.dart';
+import 'package:retrofit/retrofit.dart' hide ParseErrorLogger;
+import '../utils/error_logger.dart'; // Override Retrofit's ParseErrorLogger
 
 import '../../core/network/models/schedule/schedule_slot_dto.dart';
 import '../../core/network/models/schedule/schedule_slot_with_details_dto.dart';

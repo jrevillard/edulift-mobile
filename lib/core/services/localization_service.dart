@@ -2,7 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import '../utils/result.dart';
 import '../errors/failures.dart';
-import '../services/adaptive_storage_service.dart';
+import '../security/tiered_storage_service.dart';
 import '../domain/services/localization_service.dart';
 import '../domain/entities/locale_info.dart';
 
@@ -15,7 +15,7 @@ class LocalizationServiceImpl implements LocalizationService {
     LocaleInfo(languageCode: 'fr', countryCode: 'FR'),
   ];
 
-  final AdaptiveStorageService _storage;
+  final TieredStorageService _storage;
   late final StreamController<LocaleInfo> _localeController;
   LocaleInfo _currentLocale = const LocaleInfo(
     languageCode: 'fr',
@@ -107,7 +107,7 @@ class LocalizationServiceImpl implements LocalizationService {
   /// Load persisted locale from storage
   Future<Result<LocaleInfo, Failure>> _loadPersistedLocale() async {
     try {
-      final localeString = await _storage.read(_localeKey);
+      final localeString = await _storage.read(_localeKey, DataSensitivity.low);
       if (localeString == null) {
         return Result.ok(_currentLocale); // Use default
       }
@@ -138,7 +138,7 @@ class LocalizationServiceImpl implements LocalizationService {
   Future<Result<void, Failure>> _persistLocale(LocaleInfo locale) async {
     try {
       final localeString = '${locale.languageCode}_${locale.countryCode ?? ''}';
-      await _storage.store(_localeKey, localeString);
+      await _storage.store(_localeKey, localeString, DataSensitivity.low);
       return const Result.ok(());
     } catch (e) {
       return Result.err(StorageFailure('Failed to persist locale: $e'));

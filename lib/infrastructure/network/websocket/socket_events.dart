@@ -306,3 +306,9 @@ class ConflictTypes {
   static const String VEHICLE_DOUBLE_BOOKING = 'VEHICLE_DOUBLE_BOOKING';
   static const String CAPACITY_EXCEEDED = 'CAPACITY_EXCEEDED';
 }
+
+/// Storage key constants for TieredStorageService
+/// Prevents hardcoded strings in WebSocket service
+class StorageKeys {
+  static const String USER_ID = 'user_id';
+}

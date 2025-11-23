@@ -3,13 +3,13 @@ import 'dart:math';
 import 'dart:developer' as developer;
 import 'package:crypto/crypto.dart';
 import 'package:flutter/foundation.dart';
-import '../services/adaptive_storage_service.dart';
+import 'tiered_storage_service.dart';
 
 /// Security headers service implementing state-of-the-art HTTP security
 /// Provides OWASP-compliant security headers and request signing
 
 class SecurityHeadersService {
-  final AdaptiveStorageService _secureStorage;
+  final TieredStorageService _secureStorage;
   SecurityHeadersService(this._secureStorage);
 
   static const String _nonceKey = 'request_nonce';
@@ -134,9 +134,10 @@ class SecurityHeadersService {
     final random = Random().nextInt(999999);
     final nonce = 'nonce_${timestamp}_$random';
 
-    await _secureStorage.storeEncryptedData(
+    await _secureStorage.store(
       _nonceKey,
       jsonEncode({'nonce': nonce, 'timestamp': timestamp}),
+      DataSensitivity.medium,
     );
 
     return nonce;
@@ -145,7 +146,10 @@ class SecurityHeadersService {
   /// Get or generate CSRF token
   Future<String> _getOrGenerateCSRFToken() async {
     try {
-      final stored = await _secureStorage.getEncryptedData(_csrfTokenKey);
+      final stored = await _secureStorage.read(
+        _csrfTokenKey,
+        DataSensitivity.medium,
+      );
       if (stored != null) {
         final data = jsonDecode(stored);
         final timestamp = data['timestamp'] as int?;
@@ -173,9 +177,10 @@ class SecurityHeadersService {
     final random = Random().nextInt(999999999);
     final token = 'csrf_${timestamp}_$random';
 
-    await _secureStorage.storeEncryptedData(
+    await _secureStorage.store(
       _csrfTokenKey,
       jsonEncode({'token': token, 'timestamp': timestamp}),
+      DataSensitivity.medium,
     );
 
     return token;
@@ -214,7 +219,7 @@ class SecurityHeadersService {
   Future<String> _getIntegrityKey() async {
     const keyName = 'integrity_key';
     try {
-      final stored = await _secureStorage.getEncryptedData(keyName);
+      final stored = await _secureStorage.read(keyName, DataSensitivity.high);
       if (stored != null) {
         final data = jsonDecode(stored);
         if (data['key'] != null) {
@@ -235,9 +240,10 @@ class SecurityHeadersService {
     final keyBytes = List.generate(32, (index) => random.nextInt(256));
     final key = base64Encode(keyBytes);
 
-    await _secureStorage.storeEncryptedData(
+    await _secureStorage.store(
       keyName,
       jsonEncode({'key': key, 'generated': DateTime.now().toIso8601String()}),
+      DataSensitivity.high,
     );
 
     return key;
@@ -297,9 +303,10 @@ class SecurityHeadersService {
     final hash = sha256.convert(utf8.encode(sessionData));
     final sessionId = base64Encode(hash.bytes);
 
-    await _secureStorage.storeEncryptedData(
+    await _secureStorage.store(
       _sessionIdKey,
       jsonEncode({'sessionId': sessionId, 'created': timestamp}),
+      DataSensitivity.medium,
     );
 
     return sessionId;
@@ -308,7 +315,10 @@ class SecurityHeadersService {
   /// Get current session ID
   Future<String?> getCurrentSessionId() async {
     try {
-      final stored = await _secureStorage.getEncryptedData(_sessionIdKey);
+      final stored = await _secureStorage.read(
+        _sessionIdKey,
+        DataSensitivity.medium,
+      );
       if (stored != null) {
         final data = jsonDecode(stored);
         final created = data['created'] as int?;
@@ -338,9 +348,17 @@ class SecurityHeadersService {
   Future<void> clearSecurityTokens() async {
     try {
       await Future.wait([
-        _secureStorage.storeEncryptedData(_nonceKey, jsonEncode({})),
-        _secureStorage.storeEncryptedData(_csrfTokenKey, jsonEncode({})),
-        _secureStorage.storeEncryptedData(_sessionIdKey, jsonEncode({})),
+        _secureStorage.store(_nonceKey, jsonEncode({}), DataSensitivity.medium),
+        _secureStorage.store(
+          _csrfTokenKey,
+          jsonEncode({}),
+          DataSensitivity.medium,
+        ),
+        _secureStorage.store(
+          _sessionIdKey,
+          jsonEncode({}),
+          DataSensitivity.medium,
+        ),
       ]);
     } catch (e) {
       if (kDebugMode) {
@@ -391,7 +409,7 @@ class SecurityHeadersService {
   Future<String> _getSigningKey() async {
     const keyName = 'api_signing_key';
     try {
-      final stored = await _secureStorage.getEncryptedData(keyName);
+      final stored = await _secureStorage.read(keyName, DataSensitivity.high);
       if (stored != null) {
         final data = jsonDecode(stored);
         if (data['key'] != null) {
@@ -412,9 +430,10 @@ class SecurityHeadersService {
     final keyBytes = List.generate(64, (index) => random.nextInt(256));
     final key = base64Encode(keyBytes);
 
-    await _secureStorage.storeEncryptedData(
+    await _secureStorage.store(
       keyName,
       jsonEncode({'key': key, 'generated': DateTime.now().toIso8601String()}),
+      DataSensitivity.high,
     );
 
     return key;

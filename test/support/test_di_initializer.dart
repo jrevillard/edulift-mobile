@@ -14,7 +14,7 @@ import 'package:edulift/features/auth/domain/repositories/auth_repository.dart';
 // Import all the services we need to mock - USING CORRECT DOMAIN SERVICE INTERFACES
 import 'package:edulift/core/domain/services/auth_service.dart';
 import 'package:edulift/core/services/user_status_service.dart';
-import 'package:edulift/core/services/adaptive_storage_service.dart';
+import 'package:edulift/core/security/tiered_storage_service.dart';
 import 'package:edulift/core/security/biometric_service.dart';
 import 'package:edulift/core/domain/services/localization_service.dart';
 // Removed: ValidationService and UnifiedInvitationService no longer exist
@@ -304,7 +304,7 @@ class TestDIInitializer {
     // Create mock services
     final authService = MockAuthService();
     final userStatusService = MockUserStatusService();
-    final storageService = MockAdaptiveStorageService();
+    final storageService = MockTieredStorageService();
     final biometricService = MockBiometricService();
     final localizationService = MockLocalizationService();
     final familyRepository = MockFamilyRepository();
@@ -315,7 +315,7 @@ class TestDIInitializer {
     // Store mocks for later access
     _mocks[AuthService] = authService;
     _mocks[UserStatusService] = userStatusService;
-    _mocks[AdaptiveStorageService] = storageService;
+    _mocks[TieredStorageService] = storageService;
     _mocks[BiometricService] = biometricService;
     _mocks[LocalizationService] = localizationService;
     _mocks[FamilyRepository] = familyRepository;

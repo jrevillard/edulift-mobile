@@ -7,7 +7,7 @@ import 'package:edulift/core/errors/failures.dart';
 import 'package:edulift/core/domain/entities/auth_entities.dart';
 
 // Generated mocks
-import '../generated_mocks.dart';
+import '../test_mocks.mocks.dart';
 
 /// Core Services Mock Factory
 /// TRUTH: Provides consistent core service mock behavior
@@ -32,21 +32,18 @@ class CoreServicesMockFactory {
     return mock;
   }
 
-  static MockSecureStorageService createSecureStorageService({
+  static MockTieredStorageService createSecureStorageService({
     Map<String, String> initialData = const {},
   }) {
-    final mock = MockSecureStorageService();
+    final mock = MockTieredStorageService();
 
     // Setup storage behavior
     final storage = <String, String>{...initialData};
 
-    when(mock.store(any, any)).thenAnswer((invocation) async {
-      final key = invocation.positionalArguments[0] as String;
-      final value = invocation.positionalArguments[1] as String;
-      storage[key] = value;
-    });
+    // Setup mock methods with proper TieredStorageService API
+    when(mock.store(any, any, any)).thenAnswer((_) async => null);
 
-    when(mock.retrieve(any)).thenAnswer((invocation) async {
+    when(mock.read(any, any)).thenAnswer((invocation) async {
       final key = invocation.positionalArguments[0] as String;
       return storage[key];
     });

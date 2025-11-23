@@ -7,7 +7,7 @@ import 'package:edulift/core/errors/failures.dart';
 import 'package:edulift/core/domain/entities/family.dart';
 
 // Generated mocks
-import '../generated_mocks.dart';
+import '../test_mocks.mocks.dart';
 
 /// Invitation Repository Mock Factory
 /// TRUTH: Provides consistent invitation mock behavior for BOTH invitation repositories

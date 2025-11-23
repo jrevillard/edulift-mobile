@@ -8,7 +8,7 @@ import 'package:edulift/core/errors/failures.dart';
 import 'package:edulift/core/utils/result.dart';
 
 import '../../../test_mocks/test_mocks.dart';
-import '../../../support/mock_fallbacks.dart' as mock_fallbacks;
+import '../../../test_mocks/test_mocks.dart' as mock_fallbacks;
 
 /// Tests for ComprehensiveFamilyDataServiceImpl - Clean Architecture implementation
 ///

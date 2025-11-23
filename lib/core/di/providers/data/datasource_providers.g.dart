@@ -7,7 +7,7 @@ part of 'datasource_providers.dart';
 // **************************************************************************
 
 String _$authLocalDatasourceHash() =>
-    r'87a2d4e8be8023271a204b594687e9bd5628e8b0';
+    r'657f868bfe7a75cd7ea74542fab5a0e3602d0261';
 
 /// AuthLocalDatasource provider
 ///

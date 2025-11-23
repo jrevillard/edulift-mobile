@@ -7,7 +7,7 @@ import 'package:edulift/core/errors/failures.dart';
 import 'package:edulift/core/domain/entities/groups/group.dart';
 
 // Generated mocks
-import '../generated_mocks.dart';
+import '../test_mocks.mocks.dart';
 
 /// Group Repository Mock Factory
 /// TRUTH: Provides consistent group mock behavior

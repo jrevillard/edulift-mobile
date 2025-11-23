@@ -670,6 +670,8 @@ class AppLogger {
 
   /// Flush all buffered breadcrumbs to Firebase Crashlytics
   /// Called on: error(), fatal(), app going to background
+  /// PERFORMANCE FIX: Use Future.wait() to send all breadcrumbs in parallel
+  /// instead of sequential awaits that block the main thread and cause ANR
   static Future<void> _flushBreadcrumbsToFirebase() async {
     if (!FeatureFlags.crashReporting) return;
     if (_breadcrumbBuffer.isEmpty) return;
@@ -679,10 +681,10 @@ class AppLogger {
       final breadcrumbsToFlush = List<String>.from(_breadcrumbBuffer);
       _breadcrumbBuffer.clear();
 
-      // Send all buffered breadcrumbs to Crashlytics
-      for (final msg in breadcrumbsToFlush) {
-        await FirebaseCrashlytics.instance.log(msg);
-      }
+      final crashlytics = FirebaseCrashlytics.instance;
+
+      // Send all buffered breadcrumbs to Crashlytics in parallel
+      await Future.wait(breadcrumbsToFlush.map((msg) => crashlytics.log(msg)));
     } catch (e) {
       if (kDebugMode) {
         print('❌ Failed to flush breadcrumbs: $e');
@@ -755,6 +757,8 @@ class AppLogger {
   }
 
   /// Send Flutter-specific errors to Crashlytics with enhanced context
+  /// PERFORMANCE FIX: Use Future.wait() to parallelize setCustomKey calls
+  /// and prevent blocking the main thread
   static Future<void> _sendFlutterErrorToCrashlytics(
     String message, {
     required String errorType,
@@ -791,36 +795,38 @@ class AppLogger {
           'Recent Breadcrumbs: ${context['recent_breadcrumbs']}',
       ];
 
-      // Set custom keys for better filtering
-      await FirebaseCrashlytics.instance.setCustomKey(
-        'error_type',
-        'flutter_error',
-      );
-      await FirebaseCrashlytics.instance.setCustomKey(
-        'flutter_error_subtype',
-        errorType,
-      );
-      await FirebaseCrashlytics.instance.setCustomKey(
-        'current_route',
-        context['current_route'] ?? 'unknown',
-      );
+      final crashlytics = FirebaseCrashlytics.instance;
+
+      // Build list of setCustomKey futures to execute in parallel
+      final keyFutures = <Future<void>>[
+        crashlytics.setCustomKey('error_type', 'flutter_error'),
+        crashlytics.setCustomKey('flutter_error_subtype', errorType),
+        crashlytics.setCustomKey(
+          'current_route',
+          context['current_route'] ?? 'unknown',
+        ),
+      ];
 
       if (context.containsKey('error_category')) {
-        await FirebaseCrashlytics.instance.setCustomKey(
-          'error_category',
-          context['error_category'],
+        keyFutures.add(
+          crashlytics.setCustomKey('error_category', context['error_category']),
         );
       }
 
       if (context.containsKey('overflow_pixels')) {
-        await FirebaseCrashlytics.instance.setCustomKey(
-          'overflow_pixels',
-          context['overflow_pixels'],
+        keyFutures.add(
+          crashlytics.setCustomKey(
+            'overflow_pixels',
+            context['overflow_pixels'],
+          ),
         );
       }
 
+      // Execute all setCustomKey calls in parallel, then record error
+      await Future.wait(keyFutures);
+
       // Send to Crashlytics as non-fatal
-      await FirebaseCrashlytics.instance.recordError(
+      await crashlytics.recordError(
         effectiveError,
         effectiveStackTrace,
         information: information,

@@ -1,14 +1,15 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:edulift/core/storage/auth_local_datasource.dart';
+import 'package:edulift/core/security/tiered_storage_service.dart';
 import 'package:edulift/core/utils/result.dart';
 import 'package:edulift/core/errors/failures.dart';
 
-import '../../../../test_mocks/generated_mocks.dart';
+import '../../../../test_mocks/test_mocks.mocks.dart';
 
 /// AUTH LOCAL DATASOURCE TOKEN TESTING
 ///
-/// Tests the middle layer of token storage that validates and delegates to AdaptiveStorageService.
+/// Tests the middle layer of token storage that validates and delegates to TieredStorageService.
 /// Focuses on:
 /// - Token validation logic (empty token rejection)
 /// - Error handling and Result pattern usage
@@ -17,7 +18,7 @@ import '../../../../test_mocks/generated_mocks.dart';
 void main() {
   group('AuthLocalDatasource Token Management', () {
     late AuthLocalDatasource datasource;
-    late MockAdaptiveStorageService mockStorageService;
+    late MockTieredStorageService mockStorageService;
 
     // Test data
     const validToken =
@@ -27,7 +28,7 @@ void main() {
     const shortToken = 'abc';
 
     setUp(() {
-      mockStorageService = MockAdaptiveStorageService();
+      mockStorageService = MockTieredStorageService();
       datasource = AuthLocalDatasource(mockStorageService);
     });
 
@@ -35,18 +36,20 @@ void main() {
       test('should store valid token successfully', () async {
         // ARRANGE
         when(
-          mockStorageService.storeToken(validToken),
+          mockStorageService.storeAccessToken(validToken),
         ).thenAnswer((_) async => {});
-        when(mockStorageService.write(any, any)).thenAnswer((_) async => {});
+        when(
+          mockStorageService.store(any, any, any),
+        ).thenAnswer((_) async => {});
 
         // ACT
         final result = await datasource.storeToken(validToken);
 
         // ASSERT
         expect(result, isA<Ok<void, ApiFailure>>());
-        verify(mockStorageService.storeToken(validToken)).called(1);
+        verify(mockStorageService.storeAccessToken(validToken)).called(1);
         verify(
-          mockStorageService.write(any, any),
+          mockStorageService.store(any, any, any),
         ).called(1); // Timestamp storage
       });
 
@@ -64,8 +67,8 @@ void main() {
             result.unwrapErr().message,
             contains('Cannot store empty access token'),
           );
-          verifyNever(mockStorageService.storeToken(any));
-          verifyNever(mockStorageService.write(any, any));
+          verifyNever(mockStorageService.storeAccessToken(any));
+          verifyNever(mockStorageService.store(any, any, any));
         },
       );
 
@@ -81,22 +84,24 @@ void main() {
           result.unwrapErr().message,
           contains('Cannot store empty access token'),
         );
-        verifyNever(mockStorageService.storeToken(any));
+        verifyNever(mockStorageService.storeAccessToken(any));
       });
 
       test('should accept short but non-empty token', () async {
         // ARRANGE
         when(
-          mockStorageService.storeToken(shortToken),
+          mockStorageService.storeAccessToken(shortToken),
         ).thenAnswer((_) async => {});
-        when(mockStorageService.write(any, any)).thenAnswer((_) async => {});
+        when(
+          mockStorageService.store(any, any, any),
+        ).thenAnswer((_) async => {});
 
         // ACT
         final result = await datasource.storeToken(shortToken);
 
         // ASSERT
         expect(result, isA<Ok<void, ApiFailure>>());
-        verify(mockStorageService.storeToken(shortToken)).called(1);
+        verify(mockStorageService.storeAccessToken(shortToken)).called(1);
       });
     });
 
@@ -104,7 +109,7 @@ void main() {
       test('should handle storage service exceptions', () async {
         // ARRANGE
         when(
-          mockStorageService.storeToken(validToken),
+          mockStorageService.storeAccessToken(validToken),
         ).thenThrow(Exception('Storage backend failure'));
 
         // ACT
@@ -121,10 +126,10 @@ void main() {
       test('should handle timestamp storage failure', () async {
         // ARRANGE
         when(
-          mockStorageService.storeToken(validToken),
+          mockStorageService.storeAccessToken(validToken),
         ).thenAnswer((_) async => {});
         when(
-          mockStorageService.write(any, any),
+          mockStorageService.store(any, any, any),
         ).thenThrow(Exception('Timestamp storage failure'));
 
         // ACT
@@ -132,14 +137,16 @@ void main() {
 
         // ASSERT
         expect(result, isA<Err<void, ApiFailure>>());
-        verify(mockStorageService.storeToken(validToken)).called(1);
+        verify(mockStorageService.storeAccessToken(validToken)).called(1);
       });
     });
 
     group('Token Retrieval', () {
       test('should retrieve stored token successfully', () async {
         // ARRANGE
-        when(mockStorageService.getToken()).thenAnswer((_) async => validToken);
+        when(
+          mockStorageService.getAccessToken(),
+        ).thenAnswer((_) async => validToken);
 
         // ACT
         final result = await datasource.getToken();
@@ -147,12 +154,12 @@ void main() {
         // ASSERT
         expect(result, isA<Ok<String?, ApiFailure>>());
         expect(result.value, equals(validToken));
-        verify(mockStorageService.getToken()).called(1);
+        verify(mockStorageService.getAccessToken()).called(1);
       });
 
       test('should handle null token from storage', () async {
         // ARRANGE
-        when(mockStorageService.getToken()).thenAnswer((_) async => null);
+        when(mockStorageService.getAccessToken()).thenAnswer((_) async => null);
 
         // ACT
         final result = await datasource.getToken();
@@ -165,7 +172,7 @@ void main() {
       test('should handle storage retrieval exceptions', () async {
         // ARRANGE
         when(
-          mockStorageService.getToken(),
+          mockStorageService.getAccessToken(),
         ).thenThrow(Exception('Storage read failure'));
 
         // ACT
@@ -183,20 +190,24 @@ void main() {
     group('Token Cleanup', () {
       test('should clear token successfully', () async {
         // ARRANGE
-        when(mockStorageService.clearToken()).thenAnswer((_) async => {});
+        when(
+          mockStorageService.delete('access_token', DataSensitivity.medium),
+        ).thenAnswer((_) async => {});
 
         // ACT
         final result = await datasource.clearToken();
 
         // ASSERT
         expect(result, isA<Ok<void, ApiFailure>>());
-        verify(mockStorageService.clearToken()).called(1);
+        verify(
+          mockStorageService.delete('access_token', DataSensitivity.medium),
+        ).called(1);
       });
 
       test('should handle clear token exceptions', () async {
         // ARRANGE
         when(
-          mockStorageService.clearToken(),
+          mockStorageService.delete('access_token', DataSensitivity.medium),
         ).thenThrow(Exception('Clear token failure'));
 
         // ACT

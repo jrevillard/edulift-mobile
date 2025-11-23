@@ -47,28 +47,6 @@ final biometricAuthServiceProvider =
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
 typedef BiometricAuthServiceRef = AutoDisposeProviderRef<BiometricService>;
-String _$serviceAdaptiveStorageHash() =>
-    r'263f500dc1757ddde7290ee9b8b7ce63e44a3657';
-
-/// AdaptiveStorageService provider - use foundation provider
-///
-/// Copied from [serviceAdaptiveStorage].
-@ProviderFor(serviceAdaptiveStorage)
-final serviceAdaptiveStorageProvider =
-    AutoDisposeProvider<AdaptiveStorageService>.internal(
-      serviceAdaptiveStorage,
-      name: r'serviceAdaptiveStorageProvider',
-      debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-          ? null
-          : _$serviceAdaptiveStorageHash,
-      dependencies: null,
-      allTransitiveDependencies: null,
-    );
-
-@Deprecated('Will be removed in 3.0. Use Ref instead')
-// ignore: unused_element
-typedef ServiceAdaptiveStorageRef =
-    AutoDisposeProviderRef<AdaptiveStorageService>;
 String _$authServiceHash() => r'98e649cb8fd55402e624b797eb38c7fefe766aa3';
 
 /// AuthService provider - fully implemented core service with error handling
@@ -143,7 +121,7 @@ final tokenRefreshServiceProvider =
 // ignore: unused_element
 typedef TokenRefreshServiceRef = AutoDisposeProviderRef<TokenRefreshService>;
 String _$localizationServiceHash() =>
-    r'8b695d58ccb3e56768368aa1317f9e9b19a7b5f1';
+    r'f7e8bb36a21b39b8365ddc56edb20bac4b83a161';
 
 /// LocalizationService provider
 ///
@@ -208,7 +186,7 @@ final comprehensiveFamilyDataServiceProvider =
 // ignore: unused_element
 typedef ComprehensiveFamilyDataServiceRef =
     AutoDisposeProviderRef<ComprehensiveFamilyDataService>;
-String _$webSocketServiceHash() => r'271db1b5e695eeb6193af02f35b5958138040a00';
+String _$webSocketServiceHash() => r'16430ea8d6c813e04562f554f43fac8cd26e5903';
 
 /// WebSocketService provider - returns proper WebSocketService instance
 ///

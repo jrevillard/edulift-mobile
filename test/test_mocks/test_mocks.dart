@@ -39,7 +39,7 @@ import 'package:edulift/core/network/auth_api_client.dart';
 import 'package:edulift/core/network/family_api_client.dart';
 import 'package:edulift/core/network/children_api_client.dart' as children_api;
 import 'package:edulift/core/network/requests/index.dart' as api_requests;
-import 'package:edulift/core/services/adaptive_storage_service.dart';
+import 'package:edulift/core/security/tiered_storage_service.dart';
 import 'package:edulift/core/security/biometric_service.dart';
 import 'package:edulift/core/services/user_status_service.dart';
 import 'package:edulift/core/domain/services/localization_service.dart';
@@ -73,7 +73,8 @@ import 'package:edulift/features/groups/data/datasources/group_remote_datasource
 import 'package:edulift/features/schedule/domain/repositories/schedule_repository.dart';
 
 // Domain Use Cases
-import 'package:edulift/features/family/domain/usecases/get_family_usecase.dart';
+import 'package:edulift/features/family/domain/usecases/get_family_usecase.dart'
+    show GetFamilyUsecase, FamilyData, NoParams;
 import 'package:edulift/features/family/domain/usecases/leave_family_usecase.dart';
 import 'package:edulift/features/family/domain/usecases/create_family_usecase.dart';
 import 'package:edulift/features/family/domain/usecases/clear_all_family_data_usecase.dart';
@@ -114,7 +115,7 @@ import 'package:edulift/core/network/schedule_api_client.dart' as schedule;
   MockSpec<FamilyApiClient>(),
   MockSpec<children_api.ChildrenApiClient>(),
   MockSpec<AuthService>(),
-  MockSpec<AdaptiveStorageService>(),
+  MockSpec<TieredStorageService>(),
   MockSpec<BiometricService>(),
   MockSpec<UserStatusService>(),
   MockSpec<LocalizationService>(),
@@ -381,6 +382,10 @@ void setupMockFallbacks() {
   provideDummy(_createDummyCreateGroupCommand());
   provideDummy(_createDummyApiCreateChildRequest());
   provideDummy(_createDummyDomainCreateChildRequest());
+
+  // Add dummies for FamilyData and NoParams
+  provideDummy(_createDummyFamilyData());
+  provideDummy(NoParams());
 }
 
 /// Internal method to setup Result<T,E> dummy values
@@ -485,6 +490,9 @@ void _setupResultDummies() {
 
   // CRITICAL FIX: Add missing ComprehensiveFamilyDataService result dummy
   provideDummy(const Result<String?, Failure>.ok(null));
+
+  // CRITICAL FIX: Add missing FamilyData Result dummy for GetFamilyUsecase
+  provideDummy(Result<FamilyData, ApiFailure>.ok(_createDummyFamilyData()));
 
   // CRYPTO SERVICE DUMMY VALUES - INTEGRATION TEST FIXES
   provideDummy(
@@ -738,6 +746,16 @@ AuthResult _createDummyAuthResult() {
   );
 }
 
+/// Create dummy FamilyData with all required fields
+FamilyData _createDummyFamilyData() {
+  return FamilyData(
+    family: _createDummyFamily(),
+    children: [_createDummyChild()],
+    vehicles: [_createDummyVehicle()],
+    members: [_createDummyFamilyMember()],
+  );
+}
+
 /// Create dummy ChildAssignment entity with all required fields
 ChildAssignment _createDummyChildAssignment() {
   return ChildAssignment(
@@ -780,8 +798,6 @@ T getFreshMock<T>() {
         (_) async => const Result.err(AuthFailure(message: 'Biometric failed')),
       );
       return mock as T;
-    case MockAdaptiveStorageService:
-      return MockAdaptiveStorageService() as T;
     case MockBiometricService:
       return MockBiometricService() as T;
     case MockUserStatusService:

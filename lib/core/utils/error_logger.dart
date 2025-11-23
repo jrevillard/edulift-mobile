@@ -3,6 +3,7 @@
 
 import 'dart:async';
 import 'package:flutter/foundation.dart';
+import 'package:dio/dio.dart';
 import 'app_logger.dart';
 
 class ErrorLogger {
@@ -152,6 +153,27 @@ class ErrorLogger {
         'source': 'Zone Error Handler',
         'timestamp': DateTime.now().toIso8601String(),
       },
+    );
+  }
+}
+
+/// ParseErrorLogger - Workaround for Retrofit generator bug
+///
+/// The retrofit_generator 9.7.0 generates code that calls logError with 3 arguments,
+/// but retrofit 4.9+ expects 4 arguments. This class provides a compatible implementation.
+///
+/// This is a known issue in retrofit_generator and should be removed when fixed upstream.
+class ParseErrorLogger {
+  /// Log error from generated API clients (3-argument version)
+  ///
+  /// Note: Retrofit's abstract class expects 4 arguments (error, stack, options, response)
+  /// but the generator produces code calling with only 3 (error, stack, options).
+  void logError(Object error, StackTrace stackTrace, RequestOptions options) {
+    ErrorLogger.logApiError(
+      endpoint: options.path,
+      method: options.method,
+      error: error,
+      stackTrace: stackTrace,
     );
   }
 }

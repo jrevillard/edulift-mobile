@@ -26,8 +26,8 @@ part 'datasource_providers.g.dart';
 /// AuthLocalDatasource provider
 @riverpod
 AuthLocalDatasource authLocalDatasource(Ref ref) {
-  final adaptiveStorageService = ref.watch(adaptiveStorageServiceProvider);
-  return AuthLocalDatasource(adaptiveStorageService);
+  final tieredStorageService = ref.watch(tieredStorageServiceProvider);
+  return AuthLocalDatasource(tieredStorageService);
 }
 
 // =============================================================================

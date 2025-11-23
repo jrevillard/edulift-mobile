@@ -3,8 +3,9 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:edulift/core/services/secure_token_storage.dart';
+import 'package:edulift/core/security/tiered_storage_service.dart';
 
-import '../../../../test_mocks/generated_mocks.dart';
+import '../../../../test_mocks/test_mocks.mocks.dart';
 
 /// COMPREHENSIVE SECURE TOKEN STORAGE TEST SUITE
 ///
@@ -27,7 +28,7 @@ void main() {
 
   group('SecureTokenStorage - Comprehensive Test Suite', () {
     late SecureTokenStorage tokenStorage;
-    late MockAdaptiveSecureStorage mockSecureStorage;
+    late MockTieredStorageService mockSecureStorage;
 
     // Test data - realistic token patterns
     const validJwtToken =
@@ -42,7 +43,7 @@ void main() {
         : AppConstants.tokenKey;
 
     setUp(() {
-      mockSecureStorage = MockAdaptiveSecureStorage();
+      mockSecureStorage = MockTieredStorageService();
       tokenStorage = SecureTokenStorage(mockSecureStorage);
 
       // Reset mock interactions
@@ -53,7 +54,11 @@ void main() {
       test('should store valid JWT token successfully', () async {
         // ARRANGE
         when(
-          mockSecureStorage.write(key: authTokenKey, value: validJwtToken),
+          mockSecureStorage.store(
+            authTokenKey,
+            validJwtToken,
+            DataSensitivity.medium,
+          ),
         ).thenAnswer((_) async {});
 
         // ACT
@@ -61,14 +66,22 @@ void main() {
 
         // ASSERT
         verify(
-          mockSecureStorage.write(key: authTokenKey, value: validJwtToken),
+          mockSecureStorage.store(
+            authTokenKey,
+            validJwtToken,
+            DataSensitivity.medium,
+          ),
         ).called(1);
       });
 
       test('should store short token successfully', () async {
         // ARRANGE
         when(
-          mockSecureStorage.write(key: authTokenKey, value: shortToken),
+          mockSecureStorage.store(
+            authTokenKey,
+            shortToken,
+            DataSensitivity.medium,
+          ),
         ).thenAnswer((_) async {});
 
         // ACT
@@ -76,14 +89,22 @@ void main() {
 
         // ASSERT
         verify(
-          mockSecureStorage.write(key: authTokenKey, value: shortToken),
+          mockSecureStorage.store(
+            authTokenKey,
+            shortToken,
+            DataSensitivity.medium,
+          ),
         ).called(1);
       });
 
       test('should store empty token without error', () async {
         // ARRANGE
         when(
-          mockSecureStorage.write(key: authTokenKey, value: emptyToken),
+          mockSecureStorage.store(
+            authTokenKey,
+            emptyToken,
+            DataSensitivity.medium,
+          ),
         ).thenAnswer((_) async {});
 
         // ACT
@@ -91,14 +112,22 @@ void main() {
 
         // ASSERT
         verify(
-          mockSecureStorage.write(key: authTokenKey, value: emptyToken),
+          mockSecureStorage.store(
+            authTokenKey,
+            emptyToken,
+            DataSensitivity.medium,
+          ),
         ).called(1);
       });
 
       test('should store long token successfully', () async {
         // ARRANGE
         when(
-          mockSecureStorage.write(key: authTokenKey, value: longToken),
+          mockSecureStorage.store(
+            authTokenKey,
+            longToken,
+            DataSensitivity.medium,
+          ),
         ).thenAnswer((_) async {});
 
         // ACT
@@ -106,16 +135,21 @@ void main() {
 
         // ASSERT
         verify(
-          mockSecureStorage.write(key: authTokenKey, value: longToken),
+          mockSecureStorage.store(
+            authTokenKey,
+            longToken,
+            DataSensitivity.medium,
+          ),
         ).called(1);
       });
 
       test('should store token with special characters', () async {
         // ARRANGE
         when(
-          mockSecureStorage.write(
-            key: authTokenKey,
-            value: tokenWithSpecialChars,
+          mockSecureStorage.store(
+            authTokenKey,
+            tokenWithSpecialChars,
+            DataSensitivity.medium,
           ),
         ).thenAnswer((_) async {});
 
@@ -124,9 +158,10 @@ void main() {
 
         // ASSERT
         verify(
-          mockSecureStorage.write(
-            key: authTokenKey,
-            value: tokenWithSpecialChars,
+          mockSecureStorage.store(
+            authTokenKey,
+            tokenWithSpecialChars,
+            DataSensitivity.medium,
           ),
         ).called(1);
       });
@@ -135,7 +170,11 @@ void main() {
         // ARRANGE
         const errorMessage = 'Storage write failed';
         when(
-          mockSecureStorage.write(key: authTokenKey, value: validJwtToken),
+          mockSecureStorage.store(
+            authTokenKey,
+            validJwtToken,
+            DataSensitivity.medium,
+          ),
         ).thenThrow(Exception(errorMessage));
 
         // ACT & ASSERT
@@ -151,14 +190,22 @@ void main() {
         );
 
         verify(
-          mockSecureStorage.write(key: authTokenKey, value: validJwtToken),
+          mockSecureStorage.store(
+            authTokenKey,
+            validJwtToken,
+            DataSensitivity.medium,
+          ),
         ).called(1);
       });
 
       test('should handle storage timeout gracefully', () async {
         // ARRANGE
         when(
-          mockSecureStorage.write(key: authTokenKey, value: validJwtToken),
+          mockSecureStorage.store(
+            authTokenKey,
+            validJwtToken,
+            DataSensitivity.medium,
+          ),
         ).thenThrow(
           TimeoutException(
             'Storage operation timed out',
@@ -184,7 +231,7 @@ void main() {
       test('should retrieve stored JWT token successfully', () async {
         // ARRANGE
         when(
-          mockSecureStorage.read(key: authTokenKey),
+          mockSecureStorage.read(authTokenKey, DataSensitivity.medium),
         ).thenAnswer((_) async => validJwtToken);
 
         // ACT
@@ -192,13 +239,15 @@ void main() {
 
         // ASSERT
         expect(result, equals(validJwtToken));
-        verify(mockSecureStorage.read(key: authTokenKey)).called(1);
+        verify(
+          mockSecureStorage.read(authTokenKey, DataSensitivity.medium),
+        ).called(1);
       });
 
       test('should return null when no token is stored', () async {
         // ARRANGE
         when(
-          mockSecureStorage.read(key: authTokenKey),
+          mockSecureStorage.read(authTokenKey, DataSensitivity.medium),
         ).thenAnswer((_) async => null);
 
         // ACT
@@ -206,13 +255,15 @@ void main() {
 
         // ASSERT
         expect(result, isNull);
-        verify(mockSecureStorage.read(key: authTokenKey)).called(1);
+        verify(
+          mockSecureStorage.read(authTokenKey, DataSensitivity.medium),
+        ).called(1);
       });
 
       test('should return empty string when empty token is stored', () async {
         // ARRANGE
         when(
-          mockSecureStorage.read(key: authTokenKey),
+          mockSecureStorage.read(authTokenKey, DataSensitivity.medium),
         ).thenAnswer((_) async => emptyToken);
 
         // ACT
@@ -220,13 +271,15 @@ void main() {
 
         // ASSERT
         expect(result, equals(emptyToken));
-        verify(mockSecureStorage.read(key: authTokenKey)).called(1);
+        verify(
+          mockSecureStorage.read(authTokenKey, DataSensitivity.medium),
+        ).called(1);
       });
 
       test('should retrieve long token successfully', () async {
         // ARRANGE
         when(
-          mockSecureStorage.read(key: authTokenKey),
+          mockSecureStorage.read(authTokenKey, DataSensitivity.medium),
         ).thenAnswer((_) async => longToken);
 
         // ACT
@@ -234,13 +287,15 @@ void main() {
 
         // ASSERT
         expect(result, equals(longToken));
-        verify(mockSecureStorage.read(key: authTokenKey)).called(1);
+        verify(
+          mockSecureStorage.read(authTokenKey, DataSensitivity.medium),
+        ).called(1);
       });
 
       test('should return null when storage read fails', () async {
         // ARRANGE
         when(
-          mockSecureStorage.read(key: authTokenKey),
+          mockSecureStorage.read(authTokenKey, DataSensitivity.medium),
         ).thenThrow(Exception('Storage read failed'));
 
         // ACT
@@ -248,13 +303,15 @@ void main() {
 
         // ASSERT
         expect(result, isNull);
-        verify(mockSecureStorage.read(key: authTokenKey)).called(1);
+        verify(
+          mockSecureStorage.read(authTokenKey, DataSensitivity.medium),
+        ).called(1);
       });
 
       test('should handle storage corruption gracefully', () async {
         // ARRANGE
         when(
-          mockSecureStorage.read(key: authTokenKey),
+          mockSecureStorage.read(authTokenKey, DataSensitivity.medium),
         ).thenThrow(const FormatException('Corrupted storage data'));
 
         // ACT
@@ -262,12 +319,16 @@ void main() {
 
         // ASSERT
         expect(result, isNull);
-        verify(mockSecureStorage.read(key: authTokenKey)).called(1);
+        verify(
+          mockSecureStorage.read(authTokenKey, DataSensitivity.medium),
+        ).called(1);
       });
 
       test('should handle concurrent read operations', () async {
         // ARRANGE
-        when(mockSecureStorage.read(key: authTokenKey)).thenAnswer((_) async {
+        when(
+          mockSecureStorage.read(authTokenKey, DataSensitivity.medium),
+        ).thenAnswer((_) async {
           // Simulate some processing delay
           await Future.delayed(const Duration(milliseconds: 10));
           return validJwtToken;
@@ -280,7 +341,9 @@ void main() {
         // ASSERT
         expect(results, hasLength(5));
         expect(results, everyElement(equals(validJwtToken)));
-        verify(mockSecureStorage.read(key: authTokenKey)).called(5);
+        verify(
+          mockSecureStorage.read(authTokenKey, DataSensitivity.medium),
+        ).called(5);
       });
     });
 
@@ -288,34 +351,38 @@ void main() {
       test('should clear stored token successfully', () async {
         // ARRANGE
         when(
-          mockSecureStorage.delete(key: authTokenKey),
+          mockSecureStorage.delete(authTokenKey, DataSensitivity.medium),
         ).thenAnswer((_) async {});
 
         // ACT
         await tokenStorage.clearToken();
 
         // ASSERT
-        verify(mockSecureStorage.delete(key: authTokenKey)).called(1);
+        verify(
+          mockSecureStorage.delete(authTokenKey, DataSensitivity.medium),
+        ).called(1);
       });
 
       test('should handle clearing non-existent token gracefully', () async {
         // ARRANGE
         when(
-          mockSecureStorage.delete(key: authTokenKey),
+          mockSecureStorage.delete(authTokenKey, DataSensitivity.medium),
         ).thenAnswer((_) async {});
 
         // ACT
         await tokenStorage.clearToken();
 
         // ASSERT
-        verify(mockSecureStorage.delete(key: authTokenKey)).called(1);
+        verify(
+          mockSecureStorage.delete(authTokenKey, DataSensitivity.medium),
+        ).called(1);
       });
 
       test('should throw Exception when storage delete fails', () async {
         // ARRANGE
         const errorMessage = 'Storage delete failed';
         when(
-          mockSecureStorage.delete(key: authTokenKey),
+          mockSecureStorage.delete(authTokenKey, DataSensitivity.medium),
         ).thenThrow(Exception(errorMessage));
 
         // ACT & ASSERT
@@ -330,13 +397,15 @@ void main() {
           ),
         );
 
-        verify(mockSecureStorage.delete(key: authTokenKey)).called(1);
+        verify(
+          mockSecureStorage.delete(authTokenKey, DataSensitivity.medium),
+        ).called(1);
       });
 
       test('should handle storage permission errors', () async {
         // ARRANGE
         when(
-          mockSecureStorage.delete(key: authTokenKey),
+          mockSecureStorage.delete(authTokenKey, DataSensitivity.medium),
         ).thenThrow(SecurityException('Storage access denied'));
 
         // ACT & ASSERT
@@ -355,7 +424,7 @@ void main() {
       test('should handle multiple consecutive clear operations', () async {
         // ARRANGE
         when(
-          mockSecureStorage.delete(key: authTokenKey),
+          mockSecureStorage.delete(authTokenKey, DataSensitivity.medium),
         ).thenAnswer((_) async {});
 
         // ACT
@@ -364,7 +433,9 @@ void main() {
         await tokenStorage.clearToken();
 
         // ASSERT
-        verify(mockSecureStorage.delete(key: authTokenKey)).called(3);
+        verify(
+          mockSecureStorage.delete(authTokenKey, DataSensitivity.medium),
+        ).called(3);
       });
     });
 
@@ -372,7 +443,7 @@ void main() {
       test('should return true when valid token exists', () async {
         // ARRANGE
         when(
-          mockSecureStorage.read(key: authTokenKey),
+          mockSecureStorage.read(authTokenKey, DataSensitivity.medium),
         ).thenAnswer((_) async => validJwtToken);
 
         // ACT
@@ -380,13 +451,15 @@ void main() {
 
         // ASSERT
         expect(result, isTrue);
-        verify(mockSecureStorage.read(key: authTokenKey)).called(1);
+        verify(
+          mockSecureStorage.read(authTokenKey, DataSensitivity.medium),
+        ).called(1);
       });
 
       test('should return false when no token exists', () async {
         // ARRANGE
         when(
-          mockSecureStorage.read(key: authTokenKey),
+          mockSecureStorage.read(authTokenKey, DataSensitivity.medium),
         ).thenAnswer((_) async => null);
 
         // ACT
@@ -394,13 +467,15 @@ void main() {
 
         // ASSERT
         expect(result, isFalse);
-        verify(mockSecureStorage.read(key: authTokenKey)).called(1);
+        verify(
+          mockSecureStorage.read(authTokenKey, DataSensitivity.medium),
+        ).called(1);
       });
 
       test('should return false when empty token exists', () async {
         // ARRANGE
         when(
-          mockSecureStorage.read(key: authTokenKey),
+          mockSecureStorage.read(authTokenKey, DataSensitivity.medium),
         ).thenAnswer((_) async => emptyToken);
 
         // ACT
@@ -408,14 +483,16 @@ void main() {
 
         // ASSERT
         expect(result, isFalse);
-        verify(mockSecureStorage.read(key: authTokenKey)).called(1);
+        verify(
+          mockSecureStorage.read(authTokenKey, DataSensitivity.medium),
+        ).called(1);
       });
 
       test('should return true when token contains only whitespace', () async {
         // ARRANGE - Note: Based on implementation, only checks isNotEmpty, not trimmed
         const whitespaceToken = '   ';
         when(
-          mockSecureStorage.read(key: authTokenKey),
+          mockSecureStorage.read(authTokenKey, DataSensitivity.medium),
         ).thenAnswer((_) async => whitespaceToken);
 
         // ACT
@@ -426,13 +503,15 @@ void main() {
           result,
           isTrue,
         ); // Implementation uses isNotEmpty, not trimmed check
-        verify(mockSecureStorage.read(key: authTokenKey)).called(1);
+        verify(
+          mockSecureStorage.read(authTokenKey, DataSensitivity.medium),
+        ).called(1);
       });
 
       test('should return false when storage read fails', () async {
         // ARRANGE
         when(
-          mockSecureStorage.read(key: authTokenKey),
+          mockSecureStorage.read(authTokenKey, DataSensitivity.medium),
         ).thenThrow(Exception('Storage read failed'));
 
         // ACT
@@ -440,13 +519,15 @@ void main() {
 
         // ASSERT
         expect(result, isFalse);
-        verify(mockSecureStorage.read(key: authTokenKey)).called(1);
+        verify(
+          mockSecureStorage.read(authTokenKey, DataSensitivity.medium),
+        ).called(1);
       });
 
       test('should handle storage access denial gracefully', () async {
         // ARRANGE
         when(
-          mockSecureStorage.read(key: authTokenKey),
+          mockSecureStorage.read(authTokenKey, DataSensitivity.medium),
         ).thenThrow(SecurityException('Storage access denied'));
 
         // ACT
@@ -454,7 +535,9 @@ void main() {
 
         // ASSERT
         expect(result, isFalse);
-        verify(mockSecureStorage.read(key: authTokenKey)).called(1);
+        verify(
+          mockSecureStorage.read(authTokenKey, DataSensitivity.medium),
+        ).called(1);
       });
     });
 
@@ -464,19 +547,27 @@ void main() {
         () async {
           // ARRANGE
           when(
-            mockSecureStorage.write(key: authTokenKey, value: validJwtToken),
+            mockSecureStorage.store(
+              authTokenKey,
+              validJwtToken,
+              DataSensitivity.medium,
+            ),
           ).thenAnswer((_) async {});
           when(
-            mockSecureStorage.read(key: authTokenKey),
+            mockSecureStorage.read(authTokenKey, DataSensitivity.medium),
           ).thenAnswer((_) async => validJwtToken);
           when(
-            mockSecureStorage.delete(key: authTokenKey),
+            mockSecureStorage.delete(authTokenKey, DataSensitivity.medium),
           ).thenAnswer((_) async {});
 
           // ACT & ASSERT - Store
           await tokenStorage.storeToken(validJwtToken);
           verify(
-            mockSecureStorage.write(key: authTokenKey, value: validJwtToken),
+            mockSecureStorage.store(
+              authTokenKey,
+              validJwtToken,
+              DataSensitivity.medium,
+            ),
           ).called(1);
 
           // ACT & ASSERT - Check existence
@@ -489,7 +580,9 @@ void main() {
 
           // ACT & ASSERT - Clear
           await tokenStorage.clearToken();
-          verify(mockSecureStorage.delete(key: authTokenKey)).called(1);
+          verify(
+            mockSecureStorage.delete(authTokenKey, DataSensitivity.medium),
+          ).called(1);
         },
       );
 
@@ -499,13 +592,10 @@ void main() {
         const newToken = 'new_token_456';
 
         when(
-          mockSecureStorage.write(
-            key: anyNamed('key'),
-            value: anyNamed('value'),
-          ),
+          mockSecureStorage.store(any, any, DataSensitivity.medium),
         ).thenAnswer((_) async {});
         when(
-          mockSecureStorage.read(key: authTokenKey),
+          mockSecureStorage.read(authTokenKey, DataSensitivity.medium),
         ).thenAnswer((_) async => newToken);
 
         // ACT - Store original token
@@ -520,20 +610,32 @@ void main() {
         // ASSERT
         expect(retrievedToken, equals(newToken));
         verify(
-          mockSecureStorage.write(key: authTokenKey, value: originalToken),
+          mockSecureStorage.store(
+            authTokenKey,
+            originalToken,
+            DataSensitivity.medium,
+          ),
         ).called(1);
         verify(
-          mockSecureStorage.write(key: authTokenKey, value: newToken),
+          mockSecureStorage.store(
+            authTokenKey,
+            newToken,
+            DataSensitivity.medium,
+          ),
         ).called(1);
       });
 
       test('should maintain consistency after storage errors', () async {
         // ARRANGE - First operation succeeds, second fails
         when(
-          mockSecureStorage.write(key: authTokenKey, value: validJwtToken),
+          mockSecureStorage.store(
+            authTokenKey,
+            validJwtToken,
+            DataSensitivity.medium,
+          ),
         ).thenAnswer((_) async {});
         when(
-          mockSecureStorage.read(key: authTokenKey),
+          mockSecureStorage.read(authTokenKey, DataSensitivity.medium),
         ).thenThrow(Exception('Storage corrupted'));
 
         // ACT - Store token successfully
@@ -545,9 +647,15 @@ void main() {
         // ASSERT
         expect(retrievedToken, isNull);
         verify(
-          mockSecureStorage.write(key: authTokenKey, value: validJwtToken),
+          mockSecureStorage.store(
+            authTokenKey,
+            validJwtToken,
+            DataSensitivity.medium,
+          ),
         ).called(1);
-        verify(mockSecureStorage.read(key: authTokenKey)).called(1);
+        verify(
+          mockSecureStorage.read(authTokenKey, DataSensitivity.medium),
+        ).called(1);
       });
     });
 
@@ -559,10 +667,14 @@ void main() {
         // ARRANGE - Create a very long token (10KB)
         final extremelyLongToken = 'x' * 10240;
         when(
-          mockSecureStorage.write(key: authTokenKey, value: extremelyLongToken),
+          mockSecureStorage.store(
+            authTokenKey,
+            extremelyLongToken,
+            DataSensitivity.medium,
+          ),
         ).thenAnswer((_) async {});
         when(
-          mockSecureStorage.read(key: authTokenKey),
+          mockSecureStorage.read(authTokenKey, DataSensitivity.medium),
         ).thenAnswer((_) async => extremelyLongToken);
 
         // ACT
@@ -572,19 +684,29 @@ void main() {
         // ASSERT
         expect(retrievedToken, equals(extremelyLongToken));
         verify(
-          mockSecureStorage.write(key: authTokenKey, value: extremelyLongToken),
+          mockSecureStorage.store(
+            authTokenKey,
+            extremelyLongToken,
+            DataSensitivity.medium,
+          ),
         ).called(1);
-        verify(mockSecureStorage.read(key: authTokenKey)).called(1);
+        verify(
+          mockSecureStorage.read(authTokenKey, DataSensitivity.medium),
+        ).called(1);
       });
 
       test('should handle Unicode characters in tokens', () async {
         // ARRANGE
         const unicodeToken = 'token_with_unicode_🔐_characters_测试_🚀';
         when(
-          mockSecureStorage.write(key: authTokenKey, value: unicodeToken),
+          mockSecureStorage.store(
+            authTokenKey,
+            unicodeToken,
+            DataSensitivity.medium,
+          ),
         ).thenAnswer((_) async {});
         when(
-          mockSecureStorage.read(key: authTokenKey),
+          mockSecureStorage.read(authTokenKey, DataSensitivity.medium),
         ).thenAnswer((_) async => unicodeToken);
 
         // ACT
@@ -594,9 +716,15 @@ void main() {
         // ASSERT
         expect(retrievedToken, equals(unicodeToken));
         verify(
-          mockSecureStorage.write(key: authTokenKey, value: unicodeToken),
+          mockSecureStorage.store(
+            authTokenKey,
+            unicodeToken,
+            DataSensitivity.medium,
+          ),
         ).called(1);
-        verify(mockSecureStorage.read(key: authTokenKey)).called(1);
+        verify(
+          mockSecureStorage.read(authTokenKey, DataSensitivity.medium),
+        ).called(1);
       });
     });
   });

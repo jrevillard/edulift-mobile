@@ -12,7 +12,7 @@ import 'package:dartz/dartz.dart';
 
 import '../../../test_mocks/test_mocks.dart';
 import '../../../test_mocks/test_specialized_mocks.dart';
-import '../../../test_mocks/generated_mocks.mocks.dart' as gen_mocks;
+import '../../../test_mocks/test_mocks.mocks.dart' as gen_mocks;
 // Removed conflicting generated_mocks import - using centralized test_mocks.dart only
 
 void main() {

@@ -122,14 +122,14 @@ class TestDIConfig {
   static List<Override> _getMockServiceOverrides() {
     // Create mocks
     final mockAuthService = MockAuthService();
-    final mockStorageService = MockAdaptiveStorageService();
+    final mockStorageService = MockTieredStorageService();
     final mockFamilyRepository = MockFamilyRepository();
     // Note: Children and vehicle operations are now part of FamilyRepository
     final mockInvitationRepository = MockInvitationRepository();
     // MockFamilyMembersRepository removed - family members accessed via family.members
     final mockBiometricService = TestMockFactory.createMockBiometricService();
     final mockUserStatusService = MockUserStatusService();
-    final mockSecureStorage = MockAdaptiveSecureStorage();
+    // REMOVED: mockSecureStorage - migrated to tiered storage service
     final mockMagicLinkService = MockIMagicLinkService();
     // mockFamilyDataService removed - Clean Architecture: auth tests separated from family services
 
@@ -140,7 +140,7 @@ class TestDIConfig {
     return [
       // Core service providers
       authServiceProvider.overrideWithValue(mockAuthService),
-      adaptiveStorageServiceProvider.overrideWithValue(mockStorageService),
+      tieredStorageServiceProvider.overrideWithValue(mockStorageService),
       userStatusServiceProvider.overrideWithValue(mockUserStatusService),
       biometricServiceProvider.overrideWithValue(mockBiometricService),
       magicLinkServiceProvider.overrideWithValue(mockMagicLinkService),
@@ -152,8 +152,7 @@ class TestDIConfig {
       invitationRepositoryProvider.overrideWithValue(mockInvitationRepository),
       // familyMembersRepositoryProvider removed - family members accessed via family.members
 
-      // Storage providers
-      adaptiveSecureStorageProvider.overrideWithValue(mockSecureStorage),
+      // REMOVED: adaptiveSecureStorageProvider - migrated to tiered storage service
     ];
   }
 

@@ -6,7 +6,6 @@
 
 // Services (from services/)
 export 'services/auth_service.dart';
-export 'services/adaptive_storage_service.dart';
 export 'services/app_state_provider.dart';
 export 'services/invitation_error_mapper.dart';
 

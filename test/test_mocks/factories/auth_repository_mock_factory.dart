@@ -7,7 +7,7 @@ import 'package:edulift/core/errors/failures.dart';
 import 'package:edulift/core/utils/result.dart';
 
 // Generated mocks
-import '../generated_mocks.dart';
+import '../test_mocks.mocks.dart';
 
 /// Auth Repository Mock Factory
 /// TRUTH: Provides consistent authentication mock behavior

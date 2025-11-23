@@ -18,7 +18,7 @@ import 'package:edulift/features/family/providers.dart';
 
 import '../../support/golden/golden_test_wrapper.dart';
 import '../../support/factories/test_data_factory.dart';
-import '../../support/mock_fallbacks.dart';
+import '../../test_mocks/test_mocks.dart' show setupMockFallbacks;
 import '../../support/network_mocking.dart';
 
 void main() {

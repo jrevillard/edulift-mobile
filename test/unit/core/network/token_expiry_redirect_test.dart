@@ -2,8 +2,9 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:dio/dio.dart';
 import 'package:edulift/core/network/interceptors/network_interceptors.dart';
+import 'package:edulift/core/security/tiered_storage_service.dart';
 
-import '../../../test_mocks/generated_mocks.dart';
+import '../../../test_mocks/test_mocks.mocks.dart';
 
 /// TOKEN EXPIRY REDIRECT TEST SUITE
 ///
@@ -25,11 +26,11 @@ class MockErrorInterceptorHandler extends Mock
 void main() {
   group('Token Expiry Redirect - NetworkAuthInterceptor', () {
     late NetworkAuthInterceptor interceptor;
-    late MockAdaptiveStorageService mockStorageService;
+    late MockTieredStorageService mockStorageService;
     late MockErrorInterceptorHandler mockHandler;
 
     setUp(() {
-      mockStorageService = MockAdaptiveStorageService();
+      mockStorageService = MockTieredStorageService();
       interceptor = NetworkAuthInterceptor(
         mockStorageService,
       ); // No ref for unit tests
@@ -50,7 +51,9 @@ void main() {
           type: DioExceptionType.badResponse,
         );
 
-        when(mockStorageService.clearToken()).thenAnswer((_) async {});
+        when(
+          mockStorageService.delete('access_token', DataSensitivity.medium),
+        ).thenAnswer((_) async {});
 
         // ACT
         interceptor.onError(dioException, mockHandler);
@@ -59,7 +62,9 @@ void main() {
         await Future.delayed(Duration.zero);
 
         // ASSERT
-        verify(mockStorageService.clearToken()).called(1);
+        verify(
+          mockStorageService.delete('access_token', DataSensitivity.medium),
+        ).called(1);
         verify(mockHandler.next(dioException)).called(1);
       });
 
@@ -76,7 +81,7 @@ void main() {
         );
 
         when(
-          mockStorageService.clearToken(),
+          mockStorageService.delete('access_token', DataSensitivity.medium),
         ).thenThrow(Exception('Storage failure'));
 
         // ACT & ASSERT
@@ -88,7 +93,9 @@ void main() {
         // Allow async operation to complete
         await Future.delayed(Duration.zero);
 
-        verify(mockStorageService.clearToken()).called(1);
+        verify(
+          mockStorageService.delete('access_token', DataSensitivity.medium),
+        ).called(1);
         verify(mockHandler.next(dioException)).called(1);
       });
     });
@@ -117,7 +124,9 @@ void main() {
         await Future.delayed(Duration.zero);
 
         // ASSERT
-        verifyNever(mockStorageService.clearToken());
+        verifyNever(
+          mockStorageService.delete('access_token', DataSensitivity.medium),
+        );
         verify(mockHandler.next(dioException)).called(1);
       });
 
@@ -140,7 +149,9 @@ void main() {
         await Future.delayed(Duration.zero);
 
         // ASSERT - 403 should NOT clear tokens (authorization != authentication)
-        verifyNever(mockStorageService.clearToken());
+        verifyNever(
+          mockStorageService.delete('access_token', DataSensitivity.medium),
+        );
         verify(mockHandler.next(dioException)).called(1);
       });
     });
@@ -163,7 +174,9 @@ void main() {
         await Future.delayed(Duration.zero);
 
         // ASSERT
-        verifyNever(mockStorageService.clearToken());
+        verifyNever(
+          mockStorageService.delete('access_token', DataSensitivity.medium),
+        );
         verify(mockHandler.next(dioException)).called(1);
       });
 
@@ -184,7 +197,9 @@ void main() {
         await Future.delayed(Duration.zero);
 
         // ASSERT
-        verifyNever(mockStorageService.clearToken());
+        verifyNever(
+          mockStorageService.delete('access_token', DataSensitivity.medium),
+        );
         verify(mockHandler.next(dioException)).called(1);
       });
 
@@ -205,7 +220,9 @@ void main() {
         await Future.delayed(Duration.zero);
 
         // ASSERT
-        verifyNever(mockStorageService.clearToken());
+        verifyNever(
+          mockStorageService.delete('access_token', DataSensitivity.medium),
+        );
         verify(mockHandler.next(dioException)).called(1);
       });
     });
@@ -224,7 +241,9 @@ void main() {
         await Future.delayed(Duration.zero);
 
         // ASSERT
-        verifyNever(mockStorageService.clearToken());
+        verifyNever(
+          mockStorageService.delete('access_token', DataSensitivity.medium),
+        );
         verify(mockHandler.next(dioException)).called(1);
       });
 
@@ -241,7 +260,9 @@ void main() {
         await Future.delayed(Duration.zero);
 
         // ASSERT
-        verifyNever(mockStorageService.clearToken());
+        verifyNever(
+          mockStorageService.delete('access_token', DataSensitivity.medium),
+        );
         verify(mockHandler.next(dioException)).called(1);
       });
     });
@@ -260,7 +281,9 @@ void main() {
         await Future.delayed(Duration.zero);
 
         // ASSERT
-        verifyNever(mockStorageService.clearToken());
+        verifyNever(
+          mockStorageService.delete('access_token', DataSensitivity.medium),
+        );
         verify(mockHandler.next(dioException)).called(1);
       });
 
@@ -280,7 +303,9 @@ void main() {
         await Future.delayed(Duration.zero);
 
         // ASSERT
-        verifyNever(mockStorageService.clearToken());
+        verifyNever(
+          mockStorageService.delete('access_token', DataSensitivity.medium),
+        );
         verify(mockHandler.next(dioException)).called(1);
       });
     });
@@ -308,7 +333,9 @@ void main() {
           type: DioExceptionType.badResponse,
         );
 
-        when(mockStorageService.clearToken()).thenAnswer((_) async {});
+        when(
+          mockStorageService.delete('access_token', DataSensitivity.medium),
+        ).thenAnswer((_) async {});
 
         // ACT
         interceptor.onError(exception401, mockHandler);
@@ -320,7 +347,9 @@ void main() {
         // ASSERT
         // Only 401 should clear token (authentication issue)
         // 403 should NOT clear token (authorization issue)
-        verify(mockStorageService.clearToken()).called(1);
+        verify(
+          mockStorageService.delete('access_token', DataSensitivity.medium),
+        ).called(1);
       });
     });
   });

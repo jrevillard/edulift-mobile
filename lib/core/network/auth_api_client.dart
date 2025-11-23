@@ -1,8 +1,9 @@
 import 'package:dio/dio.dart';
-import 'package:retrofit/retrofit.dart';
+import 'package:retrofit/retrofit.dart' hide ParseErrorLogger;
 import 'models/auth/index.dart';
 import 'models/user/user_profile_dto.dart';
 import 'requests/auth_requests.dart';
+import '../utils/error_logger.dart'; // Override Retrofit's ParseErrorLogger
 
 part 'auth_api_client.g.dart';
 

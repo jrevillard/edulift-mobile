@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:json_annotation/json_annotation.dart';
-import 'package:retrofit/retrofit.dart';
+import 'package:retrofit/retrofit.dart' hide ParseErrorLogger;
+import '../utils/error_logger.dart'; // Override Retrofit's ParseErrorLogger
 import 'requests/fcm_requests.dart';
 
 part 'fcm_api_client.g.dart';

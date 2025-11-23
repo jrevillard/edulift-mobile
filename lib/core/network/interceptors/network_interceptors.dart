@@ -6,7 +6,7 @@
 /// These are separate from API client interceptors to avoid architectural violations.
 
 import 'package:dio/dio.dart';
-import '../../services/adaptive_storage_service.dart';
+import '../../security/tiered_storage_service.dart';
 import '../../services/providers/token_expiry_provider.dart';
 import '../../data/services/token_refresh_service.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -27,7 +27,7 @@ import '../../utils/app_logger.dart';
 /// - Queue management to prevent concurrent refresh operations
 /// - Clean integration with TokenRefreshService
 class NetworkAuthInterceptor extends QueuedInterceptor {
-  final AdaptiveStorageService _secureStorage;
+  final TieredStorageService _secureStorage;
   final TokenRefreshService? _tokenRefreshService;
   final Ref? _ref; // Optional ref for triggering auth state updates
 
@@ -64,7 +64,7 @@ class NetworkAuthInterceptor extends QueuedInterceptor {
       }
 
       // Add token to request headers
-      final token = await _secureStorage.getToken();
+      final token = await _secureStorage.getAccessToken();
       if (token != null && token.isNotEmpty) {
         options.headers['Authorization'] = 'Bearer $token';
       }
@@ -96,7 +96,7 @@ class NetworkAuthInterceptor extends QueuedInterceptor {
           );
 
           // Retry the original request with new token
-          final token = await _secureStorage.getToken();
+          final token = await _secureStorage.getAccessToken();
           final opts = err.requestOptions;
           opts.headers['Authorization'] = 'Bearer $token';
 
@@ -123,7 +123,7 @@ class NetworkAuthInterceptor extends QueuedInterceptor {
 
           // Refresh failed → clear tokens and notify logout
           try {
-            await _secureStorage.clearToken();
+            await _secureStorage.delete('access_token', DataSensitivity.medium);
 
             // Notify token expiry (SKIP for logout endpoint to prevent cascade)
             final isLogoutEndpoint = err.requestOptions.path.contains(
@@ -159,7 +159,7 @@ class NetworkAuthInterceptor extends QueuedInterceptor {
       } else {
         // No refresh service available → fallback to old behavior
         try {
-          await _secureStorage.clearToken();
+          await _secureStorage.delete('access_token', DataSensitivity.medium);
           AppLogger.info('[AuthInterceptor] Cleared expired token (HTTP 401)');
 
           // Notify token expiry (SKIP for logout endpoint to prevent cascade)

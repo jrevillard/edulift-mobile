@@ -40,7 +40,7 @@ final refreshDioProvider = AutoDisposeProvider<Dio>.internal(
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
 typedef RefreshDioRef = AutoDisposeProviderRef<Dio>;
-String _$apiDioHash() => r'c22bed161665709b0764e6ca3b4e30c6a3f9ca77';
+String _$apiDioHash() => r'9d8ffe44b9c0da533a2a3b54e40309af92d9aeea';
 
 /// Provider for 'apiDio' HTTP client instance with full API configuration
 ///

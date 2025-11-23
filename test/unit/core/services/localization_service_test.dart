@@ -17,27 +17,27 @@ class LocalizationTestDataBuilder {
   );
   static const frenchLocale = LocaleInfo(languageCode: 'fr', countryCode: 'FR');
 
-  static void setupStorageService(
-    MockAdaptiveStorageService mockStorageService,
-  ) {
+  static void setupStorageService(MockTieredStorageService mockStorageService) {
     // Setup default behavior that can be overridden in specific tests
-    when(mockStorageService.read('app_locale')).thenAnswer((_) async => null);
     when(
-      mockStorageService.store('app_locale', any),
+      mockStorageService.read('app_locale', any),
     ).thenAnswer((_) async => null);
+    when(
+      mockStorageService.store('app_locale', any, any),
+    ).thenAnswer((_) async {});
   }
 }
 
 void main() {
   group('LocalizationService Tests - TDD London', () {
     late LocalizationService localizationService;
-    late MockAdaptiveStorageService mockStorageService;
+    late MockTieredStorageService mockStorageService;
 
     const englishLocale = LocalizationTestDataBuilder.englishLocale;
     const frenchLocale = LocalizationTestDataBuilder.frenchLocale;
 
     setUp(() {
-      mockStorageService = MockAdaptiveStorageService();
+      mockStorageService = MockTieredStorageService();
       LocalizationTestDataBuilder.setupStorageService(mockStorageService);
       localizationService = LocalizationServiceImpl(mockStorageService);
     });
@@ -103,8 +103,8 @@ void main() {
       test('should successfully change to supported locale', () async {
         // Arrange
         when(
-          mockStorageService.store('app_locale', 'en_US'),
-        ).thenAnswer((_) async => null);
+          mockStorageService.store('app_locale', 'en_US', any),
+        ).thenAnswer((_) async {});
 
         // Act
         final result = await localizationService.setLocale(englishLocale);
@@ -117,7 +117,7 @@ void main() {
         );
 
         // Verify storage was called with specific locale code
-        verify(mockStorageService.store('app_locale', 'en_US')).called(1);
+        verify(mockStorageService.store('app_locale', 'en_US', any)).called(1);
       });
 
       test('should fail to change to unsupported locale', () async {
@@ -138,7 +138,7 @@ void main() {
       test('should handle storage failures gracefully', () async {
         // Arrange
         when(
-          mockStorageService.store('app_locale', 'en_US'),
+          mockStorageService.store('app_locale', 'en_US', any),
         ).thenThrow(Exception('Storage error'));
 
         // Act
@@ -152,20 +152,20 @@ void main() {
         );
 
         // Verify the specific storage call was attempted
-        verify(mockStorageService.store('app_locale', 'en_US')).called(1);
+        verify(mockStorageService.store('app_locale', 'en_US', any)).called(1);
       });
     });
 
     group('Locale Persistence', () {
       test('should load persisted English locale', () async {
         // Arrange - Create fresh mock for this test
-        final freshMockStorageService = MockAdaptiveStorageService();
+        final freshMockStorageService = MockTieredStorageService();
         when(
-          freshMockStorageService.read('app_locale'),
+          freshMockStorageService.read('app_locale', any),
         ).thenAnswer((_) async => 'en_US');
         when(
-          freshMockStorageService.store('app_locale', any),
-        ).thenAnswer((_) async => null);
+          freshMockStorageService.store('app_locale', any, any),
+        ).thenAnswer((_) async {});
 
         // Create new service instance to trigger initialization
         final newService = LocalizationServiceImpl(freshMockStorageService);
@@ -184,18 +184,18 @@ void main() {
         );
 
         // Verify specific read call was made
-        verify(freshMockStorageService.read('app_locale')).called(1);
+        verify(freshMockStorageService.read('app_locale', any)).called(1);
       });
 
       test('should use default locale when storage returns null', () async {
         // Arrange - Create fresh mock for this test
-        final freshMockStorageService = MockAdaptiveStorageService();
+        final freshMockStorageService = MockTieredStorageService();
         when(
-          freshMockStorageService.read('app_locale'),
+          freshMockStorageService.read('app_locale', any),
         ).thenAnswer((_) async => null);
         when(
-          freshMockStorageService.store('app_locale', any),
-        ).thenAnswer((_) async => null);
+          freshMockStorageService.store('app_locale', any, any),
+        ).thenAnswer((_) async {});
 
         // Create new service instance to trigger initialization
         final newService = LocalizationServiceImpl(freshMockStorageService);
@@ -214,18 +214,18 @@ void main() {
         ); // Default French
 
         // Verify read call was made
-        verify(freshMockStorageService.read('app_locale')).called(1);
+        verify(freshMockStorageService.read('app_locale', any)).called(1);
       });
 
       test('should handle invalid persisted locale format', () async {
         // Arrange - Create fresh mock for this test
-        final freshMockStorageService = MockAdaptiveStorageService();
+        final freshMockStorageService = MockTieredStorageService();
         when(
-          freshMockStorageService.read('app_locale'),
+          freshMockStorageService.read('app_locale', any),
         ).thenAnswer((_) async => 'invalid_format');
         when(
-          freshMockStorageService.store('app_locale', any),
-        ).thenAnswer((_) async => null);
+          freshMockStorageService.store('app_locale', any, any),
+        ).thenAnswer((_) async {});
 
         // Create new service instance to trigger initialization
         final newService = LocalizationServiceImpl(freshMockStorageService);
@@ -244,7 +244,7 @@ void main() {
         ); // Default French
 
         // Verify read call was made
-        verify(freshMockStorageService.read('app_locale')).called(1);
+        verify(freshMockStorageService.read('app_locale', any)).called(1);
       });
     });
 
@@ -252,11 +252,11 @@ void main() {
       test('should emit locale changes via stream', () async {
         // Arrange - Setup specific storage calls
         when(
-          mockStorageService.store('app_locale', 'en_US'),
-        ).thenAnswer((_) async => null);
+          mockStorageService.store('app_locale', 'en_US', any),
+        ).thenAnswer((_) async {});
         when(
-          mockStorageService.store('app_locale', 'fr_FR'),
-        ).thenAnswer((_) async => null);
+          mockStorageService.store('app_locale', 'fr_FR', any),
+        ).thenAnswer((_) async {});
 
         final localeStream = localizationService.localeChanges;
         final receivedLocales = <LocaleInfo>[];
@@ -279,8 +279,8 @@ void main() {
         expect(receivedLocales[2], equals(englishLocale));
 
         // Verify storage calls were made for each locale change
-        verify(mockStorageService.store('app_locale', 'en_US')).called(2);
-        verify(mockStorageService.store('app_locale', 'fr_FR')).called(1);
+        verify(mockStorageService.store('app_locale', 'en_US', any)).called(2);
+        verify(mockStorageService.store('app_locale', 'fr_FR', any)).called(1);
 
         // Cleanup
         await subscription.cancel();
@@ -302,11 +302,11 @@ void main() {
       test('should handle concurrent locale changes', () async {
         // Arrange - Setup specific storage calls
         when(
-          mockStorageService.store('app_locale', 'en_US'),
-        ).thenAnswer((_) async => null);
+          mockStorageService.store('app_locale', 'en_US', any),
+        ).thenAnswer((_) async {});
         when(
-          mockStorageService.store('app_locale', 'fr_FR'),
-        ).thenAnswer((_) async => null);
+          mockStorageService.store('app_locale', 'fr_FR', any),
+        ).thenAnswer((_) async {});
 
         // Act - Start multiple concurrent locale changes
         final futures = [
@@ -323,8 +323,8 @@ void main() {
         }
 
         // Verify specific storage calls were made
-        verify(mockStorageService.store('app_locale', 'en_US')).called(2);
-        verify(mockStorageService.store('app_locale', 'fr_FR')).called(1);
+        verify(mockStorageService.store('app_locale', 'en_US', any)).called(2);
+        verify(mockStorageService.store('app_locale', 'fr_FR', any)).called(1);
       });
     });
   });

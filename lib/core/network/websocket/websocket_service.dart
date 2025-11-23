@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 import 'package:web_socket_channel/io.dart';
-import '../../../core/services/adaptive_storage_service.dart';
+import '../../../core/security/tiered_storage_service.dart';
 import '../../../core/config/base_config.dart';
 import '../api_endpoints.dart';
 import '../../../core/network/websocket/websocket_invitation_events.dart';
@@ -16,7 +16,7 @@ import 'websocket_event_models.dart';
 /// Implements reconnection logic and conflict detection
 
 class WebSocketService {
-  final AdaptiveStorageService _secureStorage;
+  final TieredStorageService _secureStorage;
   final BaseConfig _config;
 
   WebSocketService(this._secureStorage, this._config);
@@ -169,7 +169,7 @@ class WebSocketService {
       _isReconnecting = true;
       _connectionStatusController.add(ConnectionStatus.connecting);
 
-      final token = await _secureStorage.getToken();
+      final token = await _secureStorage.getAccessToken();
       if (token == null) {
         throw Exception('No token available');
       }
@@ -667,7 +667,11 @@ class WebSocketService {
   /// Send initial subscriptions after connection
   Future<void> _sendInitialSubscriptions() async {
     // Subscribe to user-specific channels based on stored data
-    final userId = await _secureStorage.getUserId();
+    // TODO: Refactor to get userId from auth state provider instead of storage
+    final userId = await _secureStorage.read(
+      StorageKeys.USER_ID,
+      DataSensitivity.medium,
+    );
     if (userId != null) {
       _sendMessage({
         'type': SocketMessageTypes.SUBSCRIBE,

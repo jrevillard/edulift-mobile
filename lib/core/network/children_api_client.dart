@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
-import 'package:retrofit/retrofit.dart';
+import 'package:retrofit/retrofit.dart' hide ParseErrorLogger;
+import '../utils/error_logger.dart'; // Override Retrofit's ParseErrorLogger
 import 'models/child/index.dart';
 import 'requests/children_requests.dart';
 

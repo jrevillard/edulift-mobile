@@ -8,7 +8,7 @@ import 'package:edulift/core/domain/entities/schedule.dart';
 // Schedule entity removed from family domain
 
 // Generated mocks
-import '../generated_mocks.dart';
+import '../test_mocks.mocks.dart';
 
 /// Schedule Repository Mock Factory
 /// TRUTH: Provides consistent schedule mock behavior for GroupScheduleRepository

@@ -32,7 +32,7 @@ import '../../support/factories/group_data_factory.dart';
 import '../../support/factories/family_data_factory.dart';
 import '../../support/factories/test_data_factory.dart';
 import '../../support/network_mocking.dart';
-import '../../test_mocks/generated_mocks.mocks.dart';
+import '../../test_mocks/test_mocks.mocks.dart';
 
 /// Helper to create a test schedule config using centralized configuration
 ScheduleConfig createTestScheduleConfig(String groupId) {

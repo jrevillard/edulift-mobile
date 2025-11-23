@@ -27,8 +27,9 @@ import 'package:edulift/core/errors/failures.dart';
 import '../../support/golden/golden_test_wrapper.dart';
 import '../../support/factories/family_data_factory.dart';
 import '../../support/factories/test_data_factory.dart';
-import '../../test_mocks/generated_mocks.mocks.dart';
-import '../../support/mock_fallbacks.dart';
+import '../../test_mocks/test_mocks.mocks.dart';
+import '../../test_mocks/test_mocks.dart'
+    show setupMockFallbacks, MockChildrenService;
 import '../../support/network_mocking.dart';
 
 /// Custom FamilyNotifier that pre-initializes with test data

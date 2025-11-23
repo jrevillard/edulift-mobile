@@ -3,8 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:edulift/core/network/error_handler_service.dart';
 import 'package:edulift/core/errors/failures.dart';
 
-import '../../../test_mocks/test_mocks.mocks.dart';
-import '../../../support/mock_fallbacks.dart';
+import '../../../test_mocks/test_mocks.dart';
 
 void main() {
   setUpAll(() {

@@ -2,8 +2,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/domain/entities/user.dart';
 import '../../../core/security/biometric_service.dart';
+import '../../../core/security/tiered_storage_service.dart';
 import '../../../core/domain/services/auth_service.dart';
-import '../../../core/services/adaptive_storage_service.dart';
 import '../../../core/errors/failures.dart';
 import '../../../core/utils/app_logger.dart';
 import '../../network/error_handler_service.dart';
@@ -40,7 +40,7 @@ class BiometricAuthState {
 class BiometricAuthService extends StateNotifier<BiometricAuthState> {
   final BiometricService _biometricService;
   final AuthService _authService;
-  final AdaptiveStorageService _storageService;
+  final TieredStorageService _storageService;
   final ErrorHandlerService _errorHandlerService;
 
   BiometricAuthService(
@@ -86,7 +86,10 @@ class BiometricAuthService extends StateNotifier<BiometricAuthState> {
         AppLogger.info('✅ BiometricAuth: Biometric authentication successful');
 
         // Get stored email from secure storage
-        final storedEmail = await _storageService.getStoredEmail();
+        final storedEmail = await _storageService.read(
+          'stored_email',
+          DataSensitivity.medium,
+        );
         if (storedEmail != null) {
           AppLogger.info(
             '📧 BiometricAuth: Using stored email for auth: $storedEmail',

@@ -230,7 +230,7 @@ class TestAuthNotifier extends AuthNotifier {
   TestAuthNotifier._internal(Ref ref)
     : super(
         mocks.MockAuthService(),
-        mocks.MockAdaptiveStorageService(),
+        mocks.MockTieredStorageService(),
         mocks.MockBiometricService(),
         AppStateNotifier(), // Use real notifier instead of mock
         mocks.MockUserStatusService(),

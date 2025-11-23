@@ -48,7 +48,7 @@ void main() {
           authStateProvider.overrideWith(
             (ref) => AuthNotifier(
               mockAuthService,
-              MockAdaptiveStorageService(),
+              MockTieredStorageService(),
               MockBiometricService(),
               MockAppStateNotifier(),
               MockUserStatusService(),

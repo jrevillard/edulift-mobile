@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../../core/services/adaptive_storage_service.dart';
+import '../../../core/security/tiered_storage_service.dart';
 import '../../../core/di/providers/providers.dart';
 
 import '../../../core/presentation/themes/app_theme.dart';
@@ -32,7 +32,7 @@ class ThemeState {
 
 class ThemeNotifier extends StateNotifier<ThemeState> {
   static const String _themeKey = 'theme_mode';
-  final AdaptiveStorageService _storage;
+  final TieredStorageService _storage;
 
   ThemeNotifier(this._storage)
     : super(
@@ -47,7 +47,7 @@ class ThemeNotifier extends StateNotifier<ThemeState> {
 
   Future<void> _loadThemeMode() async {
     try {
-      final savedTheme = await _storage.read(_themeKey);
+      final savedTheme = await _storage.read(_themeKey, DataSensitivity.low);
       if (savedTheme != null) {
         final themeMode = ThemeMode.values.firstWhere(
           (mode) => mode.toString() == savedTheme,
@@ -63,7 +63,7 @@ class ThemeNotifier extends StateNotifier<ThemeState> {
 
   Future<void> setThemeMode(ThemeMode mode) async {
     try {
-      await _storage.write(_themeKey, mode.toString());
+      await _storage.store(_themeKey, mode.toString(), DataSensitivity.low);
       state = state.copyWith(themeMode: mode);
     } catch (e) {
       // Handle error silently, keep current theme
@@ -83,6 +83,6 @@ class ThemeNotifier extends StateNotifier<ThemeState> {
 }
 
 final themeProvider = StateNotifierProvider<ThemeNotifier, ThemeState>((ref) {
-  final adaptiveStorage = ref.watch(adaptiveStorageServiceProvider);
-  return ThemeNotifier(adaptiveStorage);
+  final tieredStorage = ref.watch(tieredStorageServiceProvider);
+  return ThemeNotifier(tieredStorage);
 });

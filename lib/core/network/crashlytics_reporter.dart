@@ -163,39 +163,36 @@ class CrashlyticsReporter {
   }
 
   /// Set custom keys for better filtering in Crashlytics dashboard
+  /// PERFORMANCE FIX: Use Future.wait() to parallelize all setCustomKey calls
+  /// instead of sequential awaits that block the main thread
   static Future<void> _setCustomKeys(
     ErrorClassification classification,
     ErrorContext context,
   ) async {
-    await FirebaseCrashlytics.instance.setCustomKey(
-      'error_category',
-      classification.category.name,
-    );
-    await FirebaseCrashlytics.instance.setCustomKey(
-      'error_severity',
-      classification.severity.name,
-    );
-    await FirebaseCrashlytics.instance.setCustomKey('feature', context.feature);
-    await FirebaseCrashlytics.instance.setCustomKey(
-      'operation',
-      context.operation,
-    );
-    await FirebaseCrashlytics.instance.setCustomKey(
-      'is_retryable',
-      classification.isRetryable,
-    );
-    await FirebaseCrashlytics.instance.setCustomKey(
-      'requires_user_action',
-      classification.requiresUserAction,
-    );
+    final crashlytics = FirebaseCrashlytics.instance;
 
-    // Add metadata
+    // Build list of all setCustomKey futures to execute in parallel
+    final futures = <Future<void>>[
+      crashlytics.setCustomKey('error_category', classification.category.name),
+      crashlytics.setCustomKey('error_severity', classification.severity.name),
+      crashlytics.setCustomKey('feature', context.feature),
+      crashlytics.setCustomKey('operation', context.operation),
+      crashlytics.setCustomKey('is_retryable', classification.isRetryable),
+      crashlytics.setCustomKey(
+        'requires_user_action',
+        classification.requiresUserAction,
+      ),
+    ];
+
+    // Add metadata keys to the parallel batch
     for (final entry in context.metadata.entries) {
-      await FirebaseCrashlytics.instance.setCustomKey(
-        'ctx_${entry.key}',
-        entry.value.toString(),
+      futures.add(
+        crashlytics.setCustomKey('ctx_${entry.key}', entry.value.toString()),
       );
     }
+
+    // Execute all setCustomKey calls in parallel
+    await Future.wait(futures);
   }
 
   /// Build information array for Crashlytics

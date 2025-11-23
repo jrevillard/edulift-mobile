@@ -20,7 +20,7 @@ import 'package:edulift/core/utils/result.dart';
 import '../../support/golden/golden_test_wrapper.dart';
 import '../../support/factories/group_data_factory.dart';
 import '../../support/factories/test_data_factory.dart';
-import '../../test_mocks/generated_mocks.mocks.dart';
+import '../../test_mocks/test_mocks.mocks.dart';
 import '../../support/network_mocking.dart';
 
 /// Custom GroupsNotifier that pre-initializes with test data

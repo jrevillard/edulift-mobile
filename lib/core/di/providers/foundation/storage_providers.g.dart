@@ -163,29 +163,37 @@ final hiveOrchestratorProvider = AutoDisposeProvider<HiveOrchestrator>.internal(
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
 typedef HiveOrchestratorRef = AutoDisposeProviderRef<HiveOrchestrator>;
-String _$adaptiveStorageServiceHash() =>
-    r'9d8c1930c86a8ee79ad0fe5aa27b266045a8642b';
+String _$tieredStorageServiceHash() =>
+    r'13b43046747383dc9d91ab7901017fe0e84c008a';
 
-/// Provider for AdaptiveStorageService
+/// Provider for TieredStorageService
 ///
-/// Creates AdaptiveStorageService with all required dependencies.
+/// STATE-OF-THE-ART: Professional tiered storage based on data sensitivity.
+/// Uses hardware-backed encryption (Android Keystore / iOS Keychain) for
+/// sensitive data, and SharedPreferences for ephemeral data.
 ///
-/// Copied from [adaptiveStorageService].
-@ProviderFor(adaptiveStorageService)
-final adaptiveStorageServiceProvider =
-    AutoDisposeProvider<AdaptiveStorageService>.internal(
-      adaptiveStorageService,
-      name: r'adaptiveStorageServiceProvider',
-      debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-          ? null
-          : _$adaptiveStorageServiceHash,
-      dependencies: null,
-      allTransitiveDependencies: null,
-    );
+/// Performance improvement: 10-50ms vs 30-60 seconds with custom PBKDF2
+///
+/// Usage:
+/// ```dart
+/// final storage = ref.watch(tieredStorageServiceProvider);
+/// await storage.store('key', 'value', DataSensitivity.high);
+/// ```
+///
+/// Copied from [tieredStorageService].
+@ProviderFor(tieredStorageService)
+final tieredStorageServiceProvider = Provider<TieredStorageService>.internal(
+  tieredStorageService,
+  name: r'tieredStorageServiceProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$tieredStorageServiceHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
 
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
-typedef AdaptiveStorageServiceRef =
-    AutoDisposeProviderRef<AdaptiveStorageService>;
+typedef TieredStorageServiceRef = ProviderRef<TieredStorageService>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

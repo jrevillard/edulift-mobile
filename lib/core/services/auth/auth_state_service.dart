@@ -3,7 +3,7 @@ import 'package:meta/meta.dart';
 
 import '../../../core/domain/entities/user.dart';
 import '../../../core/domain/services/auth_service.dart';
-import '../../../core/services/adaptive_storage_service.dart';
+import '../../../core/security/tiered_storage_service.dart';
 import '../../../core/utils/app_logger.dart';
 import '../../network/error_handler_service.dart';
 
@@ -45,7 +45,7 @@ class AuthenticationState {
 /// Following Single Responsibility Principle - only handles auth state
 class AuthStateService extends StateNotifier<AuthenticationState> {
   final AuthService _authService;
-  final AdaptiveStorageService _storageService;
+  final TieredStorageService _storageService;
   final ErrorHandlerService _errorHandlerService;
 
   AuthStateService(
@@ -60,7 +60,7 @@ class AuthStateService extends StateNotifier<AuthenticationState> {
   Future<void> _initializeAuth() async {
     try {
       state = state.copyWith(isLoading: true);
-      final token = await _storageService.getToken();
+      final token = await _storageService.getAccessToken();
       if (token != null) {
         final result = await _authService.getCurrentUser();
         if (result.isErr) {
@@ -139,7 +139,10 @@ class AuthStateService extends StateNotifier<AuthenticationState> {
   /// Validate stored token
   Future<void> validateToken() async {
     try {
-      final hasToken = await _storageService.hasStoredToken();
+      final hasToken = await _storageService.containsKey(
+        'access_token',
+        DataSensitivity.medium,
+      );
       if (!hasToken) {
         AppLogger.warning('No token found, clearing auth state');
         await clearAuth();
@@ -153,7 +156,7 @@ class AuthStateService extends StateNotifier<AuthenticationState> {
   }
 
   Future<void> _clearAuthData() async {
-    await _storageService.clearToken();
-    await _storageService.clearUserData();
+    await _storageService.delete('access_token', DataSensitivity.medium);
+    await _storageService.delete('user_data', DataSensitivity.medium);
   }
 }

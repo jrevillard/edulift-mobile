@@ -67,7 +67,7 @@ import 'package:edulift/core/network/schedule_api_client.dart' as _i37;
 import 'package:edulift/core/security/biometric_service.dart' as _i14;
 import 'package:edulift/core/security/crypto_service.dart' as _i60;
 import 'package:edulift/core/security/secure_key_manager.dart' as _i58;
-import 'package:edulift/core/services/adaptive_storage_service.dart' as _i51;
+import 'package:edulift/core/security/tiered_storage_service.dart' as _i51;
 import 'package:edulift/core/services/app_state_provider.dart' as _i24;
 import 'package:edulift/core/services/providers/auth_provider.dart' as _i26;
 import 'package:edulift/core/services/user_family_service.dart' as _i66;
@@ -2262,270 +2262,188 @@ class MockAuthService extends _i1.Mock implements _i25.AuthService {
           as _i21.Future<_i47.Result<void, _i48.Failure>>);
 }
 
-/// A class which mocks [AdaptiveStorageService].
+/// A class which mocks [TieredStorageService].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockAdaptiveStorageService extends _i1.Mock
-    implements _i51.AdaptiveStorageService {
+class MockTieredStorageService extends _i1.Mock
+    implements _i51.TieredStorageService {
   @override
-  _i21.Future<void> storeToken(String? token) =>
+  _i21.Future<void> initialize() =>
       (super.noSuchMethod(
-            Invocation.method(#storeToken, [token]),
+            Invocation.method(#initialize, []),
             returnValue: _i21.Future<void>.value(),
             returnValueForMissingStub: _i21.Future<void>.value(),
           )
           as _i21.Future<void>);
 
   @override
-  _i21.Future<String?> getToken() =>
+  _i21.Future<void> store(
+    String? key,
+    String? value,
+    _i51.DataSensitivity? sensitivity,
+  ) =>
       (super.noSuchMethod(
-            Invocation.method(#getToken, []),
+            Invocation.method(#store, [key, value, sensitivity]),
+            returnValue: _i21.Future<void>.value(),
+            returnValueForMissingStub: _i21.Future<void>.value(),
+          )
+          as _i21.Future<void>);
+
+  @override
+  _i21.Future<String?> read(String? key, _i51.DataSensitivity? sensitivity) =>
+      (super.noSuchMethod(
+            Invocation.method(#read, [key, sensitivity]),
             returnValue: _i21.Future<String?>.value(),
             returnValueForMissingStub: _i21.Future<String?>.value(),
           )
           as _i21.Future<String?>);
 
   @override
-  _i21.Future<void> clearToken() =>
+  _i21.Future<void> delete(String? key, _i51.DataSensitivity? sensitivity) =>
       (super.noSuchMethod(
-            Invocation.method(#clearToken, []),
+            Invocation.method(#delete, [key, sensitivity]),
             returnValue: _i21.Future<void>.value(),
             returnValueForMissingStub: _i21.Future<void>.value(),
           )
           as _i21.Future<void>);
 
   @override
-  _i21.Future<bool> hasStoredToken() =>
+  _i21.Future<bool> containsKey(
+    String? key,
+    _i51.DataSensitivity? sensitivity,
+  ) =>
       (super.noSuchMethod(
-            Invocation.method(#hasStoredToken, []),
+            Invocation.method(#containsKey, [key, sensitivity]),
             returnValue: _i21.Future<bool>.value(false),
             returnValueForMissingStub: _i21.Future<bool>.value(false),
           )
           as _i21.Future<bool>);
 
   @override
-  _i21.Future<void> storeUserData(String? userData) =>
+  _i21.Future<void> clearTier(_i51.DataSensitivity? sensitivity) =>
       (super.noSuchMethod(
-            Invocation.method(#storeUserData, [userData]),
+            Invocation.method(#clearTier, [sensitivity]),
             returnValue: _i21.Future<void>.value(),
             returnValueForMissingStub: _i21.Future<void>.value(),
           )
           as _i21.Future<void>);
 
   @override
-  _i21.Future<String?> getUserData() =>
+  _i21.Future<void> storeRefreshToken(String? token) =>
       (super.noSuchMethod(
-            Invocation.method(#getUserData, []),
+            Invocation.method(#storeRefreshToken, [token]),
+            returnValue: _i21.Future<void>.value(),
+            returnValueForMissingStub: _i21.Future<void>.value(),
+          )
+          as _i21.Future<void>);
+
+  @override
+  _i21.Future<String?> getRefreshToken() =>
+      (super.noSuchMethod(
+            Invocation.method(#getRefreshToken, []),
             returnValue: _i21.Future<String?>.value(),
             returnValueForMissingStub: _i21.Future<String?>.value(),
           )
           as _i21.Future<String?>);
 
   @override
-  _i21.Future<void> clearUserData() =>
+  _i21.Future<void> storeAccessToken(String? token) =>
       (super.noSuchMethod(
-            Invocation.method(#clearUserData, []),
+            Invocation.method(#storeAccessToken, [token]),
             returnValue: _i21.Future<void>.value(),
             returnValueForMissingStub: _i21.Future<void>.value(),
           )
           as _i21.Future<void>);
 
   @override
-  _i21.Future<String?> getUserId() =>
+  _i21.Future<String?> getAccessToken() =>
       (super.noSuchMethod(
-            Invocation.method(#getUserId, []),
+            Invocation.method(#getAccessToken, []),
             returnValue: _i21.Future<String?>.value(),
             returnValueForMissingStub: _i21.Future<String?>.value(),
           )
           as _i21.Future<String?>);
 
   @override
-  _i21.Future<void> setBiometricEnabled(bool? enabled) =>
+  _i21.Future<void> storePkceVerifier(String? verifier) =>
       (super.noSuchMethod(
-            Invocation.method(#setBiometricEnabled, [enabled]),
+            Invocation.method(#storePkceVerifier, [verifier]),
             returnValue: _i21.Future<void>.value(),
             returnValueForMissingStub: _i21.Future<void>.value(),
           )
           as _i21.Future<void>);
 
   @override
-  _i21.Future<bool> getBiometricEnabled() =>
+  _i21.Future<String?> getPkceVerifier() =>
       (super.noSuchMethod(
-            Invocation.method(#getBiometricEnabled, []),
-            returnValue: _i21.Future<bool>.value(false),
-            returnValueForMissingStub: _i21.Future<bool>.value(false),
-          )
-          as _i21.Future<bool>);
-
-  @override
-  _i21.Future<void> storeEmail(String? email) =>
-      (super.noSuchMethod(
-            Invocation.method(#storeEmail, [email]),
-            returnValue: _i21.Future<void>.value(),
-            returnValueForMissingStub: _i21.Future<void>.value(),
-          )
-          as _i21.Future<void>);
-
-  @override
-  _i21.Future<String?> getStoredEmail() =>
-      (super.noSuchMethod(
-            Invocation.method(#getStoredEmail, []),
+            Invocation.method(#getPkceVerifier, []),
             returnValue: _i21.Future<String?>.value(),
             returnValueForMissingStub: _i21.Future<String?>.value(),
           )
           as _i21.Future<String?>);
 
   @override
-  _i21.Future<void> store(String? key, String? value) =>
+  _i21.Future<void> clearPkceVerifier() =>
       (super.noSuchMethod(
-            Invocation.method(#store, [key, value]),
+            Invocation.method(#clearPkceVerifier, []),
             returnValue: _i21.Future<void>.value(),
             returnValueForMissingStub: _i21.Future<void>.value(),
           )
           as _i21.Future<void>);
 
   @override
-  _i21.Future<void> write(String? key, String? value) =>
+  _i21.Future<void> storeOAuthState(String? state) =>
       (super.noSuchMethod(
-            Invocation.method(#write, [key, value]),
+            Invocation.method(#storeOAuthState, [state]),
             returnValue: _i21.Future<void>.value(),
             returnValueForMissingStub: _i21.Future<void>.value(),
           )
           as _i21.Future<void>);
 
   @override
-  _i21.Future<String?> read(String? key) =>
+  _i21.Future<String?> getOAuthState() =>
       (super.noSuchMethod(
-            Invocation.method(#read, [key]),
+            Invocation.method(#getOAuthState, []),
             returnValue: _i21.Future<String?>.value(),
             returnValueForMissingStub: _i21.Future<String?>.value(),
           )
           as _i21.Future<String?>);
 
   @override
-  _i21.Future<void> delete(String? key) =>
+  _i21.Future<void> storeMagicLinkEmail(String? email) =>
       (super.noSuchMethod(
-            Invocation.method(#delete, [key]),
+            Invocation.method(#storeMagicLinkEmail, [email]),
             returnValue: _i21.Future<void>.value(),
             returnValueForMissingStub: _i21.Future<void>.value(),
           )
           as _i21.Future<void>);
 
   @override
-  _i21.Future<bool> containsKey(String? key) =>
+  _i21.Future<String?> getMagicLinkEmail() =>
       (super.noSuchMethod(
-            Invocation.method(#containsKey, [key]),
-            returnValue: _i21.Future<bool>.value(false),
-            returnValueForMissingStub: _i21.Future<bool>.value(false),
-          )
-          as _i21.Future<bool>);
-
-  @override
-  _i21.Future<void> clearAll() =>
-      (super.noSuchMethod(
-            Invocation.method(#clearAll, []),
-            returnValue: _i21.Future<void>.value(),
-            returnValueForMissingStub: _i21.Future<void>.value(),
-          )
-          as _i21.Future<void>);
-
-  @override
-  _i21.Future<void> clear() =>
-      (super.noSuchMethod(
-            Invocation.method(#clear, []),
-            returnValue: _i21.Future<void>.value(),
-            returnValueForMissingStub: _i21.Future<void>.value(),
-          )
-          as _i21.Future<void>);
-
-  @override
-  _i21.Future<Map<String, String>> readAll() =>
-      (super.noSuchMethod(
-            Invocation.method(#readAll, []),
-            returnValue: _i21.Future<Map<String, String>>.value(
-              <String, String>{},
-            ),
-            returnValueForMissingStub: _i21.Future<Map<String, String>>.value(
-              <String, String>{},
-            ),
-          )
-          as _i21.Future<Map<String, String>>);
-
-  @override
-  _i21.Future<String?> getUserDataLegacy(String? dataKey) =>
-      (super.noSuchMethod(
-            Invocation.method(#getUserDataLegacy, [dataKey]),
+            Invocation.method(#getMagicLinkEmail, []),
             returnValue: _i21.Future<String?>.value(),
             returnValueForMissingStub: _i21.Future<String?>.value(),
           )
           as _i21.Future<String?>);
 
   @override
-  _i21.Future<void> storeUserDataLegacy(String? dataKey, String? value) =>
+  _i21.Future<void> clearMagicLinkEmail() =>
       (super.noSuchMethod(
-            Invocation.method(#storeUserDataLegacy, [dataKey, value]),
+            Invocation.method(#clearMagicLinkEmail, []),
             returnValue: _i21.Future<void>.value(),
             returnValueForMissingStub: _i21.Future<void>.value(),
           )
           as _i21.Future<void>);
 
   @override
-  _i21.Future<void> clearAllUserData() =>
+  _i21.Future<void> clearAuthData() =>
       (super.noSuchMethod(
-            Invocation.method(#clearAllUserData, []),
+            Invocation.method(#clearAuthData, []),
             returnValue: _i21.Future<void>.value(),
             returnValueForMissingStub: _i21.Future<void>.value(),
           )
           as _i21.Future<void>);
-
-  @override
-  _i21.Future<void> storeEncryptedData(String? key, String? value) =>
-      (super.noSuchMethod(
-            Invocation.method(#storeEncryptedData, [key, value]),
-            returnValue: _i21.Future<void>.value(),
-            returnValueForMissingStub: _i21.Future<void>.value(),
-          )
-          as _i21.Future<void>);
-
-  @override
-  _i21.Future<String?> getEncryptedData(String? key) =>
-      (super.noSuchMethod(
-            Invocation.method(#getEncryptedData, [key]),
-            returnValue: _i21.Future<String?>.value(),
-            returnValueForMissingStub: _i21.Future<String?>.value(),
-          )
-          as _i21.Future<String?>);
-
-  @override
-  _i21.Future<String?> get(String? key) =>
-      (super.noSuchMethod(
-            Invocation.method(#get, [key]),
-            returnValue: _i21.Future<String?>.value(),
-            returnValueForMissingStub: _i21.Future<String?>.value(),
-          )
-          as _i21.Future<String?>);
-
-  @override
-  _i21.Future<bool> isStorageAvailable() =>
-      (super.noSuchMethod(
-            Invocation.method(#isStorageAvailable, []),
-            returnValue: _i21.Future<bool>.value(false),
-            returnValueForMissingStub: _i21.Future<bool>.value(false),
-          )
-          as _i21.Future<bool>);
-
-  @override
-  _i21.Future<Map<String, dynamic>> getPerformanceMetrics() =>
-      (super.noSuchMethod(
-            Invocation.method(#getPerformanceMetrics, []),
-            returnValue: _i21.Future<Map<String, dynamic>>.value(
-              <String, dynamic>{},
-            ),
-            returnValueForMissingStub: _i21.Future<Map<String, dynamic>>.value(
-              <String, dynamic>{},
-            ),
-          )
-          as _i21.Future<Map<String, dynamic>>);
 }
 
 /// A class which mocks [BiometricService].

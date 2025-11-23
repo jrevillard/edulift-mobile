@@ -16,7 +16,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 // Import consolidated mock classes
-import '../test_mocks/generated_mocks.mocks.dart';
+import '../test_mocks/test_mocks.mocks.dart';
 
 // Import localization support
 import 'package:edulift/generated/l10n/app_localizations.dart';

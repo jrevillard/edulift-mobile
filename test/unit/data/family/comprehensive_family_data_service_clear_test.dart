@@ -7,7 +7,7 @@ import 'package:edulift/core/utils/result.dart';
 import 'package:edulift/core/domain/usecases/usecase.dart';
 
 import '../../../test_mocks/test_mocks.dart';
-import '../../../support/mock_fallbacks.dart' as mock_fallbacks;
+import '../../../test_mocks/test_mocks.dart' as mock_fallbacks;
 
 /// Tests for clearFamilyData functionality in ComprehensiveFamilyDataServiceImpl
 ///

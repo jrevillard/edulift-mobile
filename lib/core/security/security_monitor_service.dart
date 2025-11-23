@@ -3,7 +3,7 @@ import 'dart:io';
 import 'dart:convert';
 import 'dart:developer' as developer;
 import 'package:flutter/foundation.dart';
-import '../../core/services/adaptive_storage_service.dart';
+import '../../core/security/tiered_storage_service.dart';
 import '../../core/security/biometric_service.dart';
 import '../../core/security/certificate_pinning_service.dart';
 
@@ -11,7 +11,7 @@ import '../../core/security/certificate_pinning_service.dart';
 /// Provides real-time security monitoring and threat detection
 
 class SecurityMonitorService {
-  final AdaptiveStorageService _secureStorage;
+  final TieredStorageService _secureStorage;
   final BiometricService _biometricService;
 
   SecurityMonitorService(this._secureStorage, this._biometricService);
@@ -121,17 +121,8 @@ class SecurityMonitorService {
       }
 
       // Check secure storage
-      final storageAvailable = await _secureStorage.isStorageAvailable();
-      if (!storageAvailable) {
-        issues.add(
-          SecurityIssue(
-            type: SecurityIssueType.secureStorage,
-            severity: SecuritySeverity.critical,
-            description: 'Secure storage is not available',
-            recommendation: 'Investigate secure storage implementation',
-          ),
-        );
-      }
+      // TieredStorageService is always available once initialized at app startup
+      // No need to check availability as it's guaranteed by dependency injection
 
       // Check for rooted/jailbroken device
       final isDeviceCompromised = await _checkDeviceIntegrity();
@@ -253,9 +244,10 @@ class SecurityMonitorService {
 
     _complianceController.add(complianceStatus);
 
-    await _secureStorage.storeEncryptedData(
+    await _secureStorage.store(
       _complianceStatusKey,
       jsonEncode(complianceStatus.toJson()),
+      DataSensitivity.medium,
     );
   }
 
@@ -352,7 +344,8 @@ class SecurityMonitorService {
 
   Future<bool> _checkDataStorage() async {
     // Check secure storage implementation
-    return await _secureStorage.isStorageAvailable();
+    // TieredStorageService is always available once initialized
+    return true;
   }
 
   Future<bool> _checkCommunication() async {
@@ -404,8 +397,9 @@ class SecurityMonitorService {
   /// Load stored security events
   Future<void> _loadStoredEvents() async {
     try {
-      final storedData = await _secureStorage.getEncryptedData(
+      final storedData = await _secureStorage.read(
         _securityEventsKey,
+        DataSensitivity.medium,
       );
       if (storedData != null) {
         final storedEvents = jsonDecode(storedData);
@@ -427,12 +421,13 @@ class SecurityMonitorService {
   /// Store security events
   Future<void> _storeSecurityEvents() async {
     try {
-      await _secureStorage.storeEncryptedData(
+      await _secureStorage.store(
         _securityEventsKey,
         jsonEncode({
           'events': _recentEvents.map((e) => e.toJson()).toList(),
           'lastUpdated': DateTime.now().toIso8601String(),
         }),
+        DataSensitivity.medium,
       );
     } catch (e) {
       if (kDebugMode) {

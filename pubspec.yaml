@@ -30,7 +30,7 @@ dependencies:
   # API Integration (Corrected Endpoints) - Compatible
   dio: ^5.4.0
   json_annotation: ^4.9.0
-  retrofit: ^4.0.3
+  retrofit: ^4.9.0
   
   # Security (State-of-the-Art) - Compatible
   flutter_secure_storage: ^10.0.0-beta.4

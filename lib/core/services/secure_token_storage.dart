@@ -1,16 +1,20 @@
 // EduLift Mobile - Secure Token Storage Implementation (Infrastructure Layer)
-// Concrete implementation of TokenStorage using AdaptiveSecureStorage
+// Migrated to use TieredStorageService for consistency with new storage architecture
 
 import 'package:flutter/foundation.dart';
 import '../../core/utils/app_logger.dart';
 import '../../core/constants/app_constants.dart';
-import '../storage/adaptive_secure_storage.dart';
+import '../../core/security/tiered_storage_service.dart';
 import '../../core/interfaces/token_storage_interface.dart';
 
-/// Secure token storage implementation using AdaptiveSecureStorage
+/// Secure token storage implementation using TieredStorageService
+///
+/// MIGRATION NOTE: This class now uses TieredStorageService instead of AdaptiveSecureStorage
+/// to maintain consistency with the new storage architecture. All token operations
+/// use DataSensitivity.medium for hardware-backed encryption.
 
 class SecureTokenStorage implements TokenStorageInterface {
-  final AdaptiveSecureStorage _secureStorage;
+  final TieredStorageService _storageService;
 
   /// Development mode flag - matches AdaptiveStorageService behavior
   static bool get _isDevelopmentMode => kDebugMode;
@@ -20,14 +24,14 @@ class SecureTokenStorage implements TokenStorageInterface {
       ? '${AppConstants.tokenKey}_dev'
       : AppConstants.tokenKey;
 
-  SecureTokenStorage(this._secureStorage);
+  SecureTokenStorage(this._storageService);
 
   @override
   Future<void> storeToken(String token) async {
     try {
       AppLogger.info('🔐 Storing authentication token securely...');
       AppLogger.info('🔑 Using storage key: "${_tokenKey}"');
-      await _secureStorage.write(key: _tokenKey, value: token);
+      await _storageService.store(_tokenKey, token, DataSensitivity.medium);
       AppLogger.info('✅ Token stored successfully');
     } catch (e) {
       AppLogger.error('❌ Failed to store token securely: $e');
@@ -41,7 +45,10 @@ class SecureTokenStorage implements TokenStorageInterface {
     try {
       AppLogger.info('🔍 Retrieving authentication token...');
       AppLogger.info('🔑 Using storage key: "${_tokenKey}"');
-      final token = await _secureStorage.read(key: _tokenKey);
+      final token = await _storageService.read(
+        _tokenKey,
+        DataSensitivity.medium,
+      );
       if (token != null) {
         AppLogger.info(
           '✅ Token retrieved successfully (${token.length} chars)',
@@ -64,7 +71,7 @@ class SecureTokenStorage implements TokenStorageInterface {
     try {
       AppLogger.info('🗑️ Clearing authentication token...');
       AppLogger.info('🔑 Using storage key: "${_tokenKey}"');
-      await _secureStorage.delete(key: _tokenKey);
+      await _storageService.delete(_tokenKey, DataSensitivity.medium);
       AppLogger.info('✅ Token cleared successfully');
     } catch (e) {
       AppLogger.error('❌ Failed to clear token: $e');
@@ -78,7 +85,10 @@ class SecureTokenStorage implements TokenStorageInterface {
     try {
       AppLogger.info('🔍 Checking if token exists...');
       AppLogger.info('🔑 Using storage key: "${_tokenKey}"');
-      final token = await _secureStorage.read(key: _tokenKey);
+      final token = await _storageService.read(
+        _tokenKey,
+        DataSensitivity.medium,
+      );
       final hasToken = token != null && token.isNotEmpty;
       AppLogger.info('${hasToken ? "✅" : "❌"} Token exists: $hasToken');
       return hasToken;

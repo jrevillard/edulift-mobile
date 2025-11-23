@@ -6,10 +6,11 @@ import '../../../core/domain/entities/user.dart';
 import '../../../core/errors/failures.dart';
 import '../../../core/utils/result.dart';
 import '../../../core/security/biometric_service.dart';
+import '../../../core/security/tiered_storage_service.dart';
 import '../../../core/di/providers/service_providers.dart';
+import '../../../core/di/providers/foundation/storage_providers.dart';
 import '../../../core/services/user_status_service.dart';
 import '../../../core/domain/services/auth_service.dart';
-import '../../../core/services/adaptive_storage_service.dart';
 import '../../../core/utils/app_logger.dart';
 // REMOVED: Data layer import violation - use composition root instead
 // import '../../../features/family/data/providers/family_provider.dart';
@@ -113,7 +114,7 @@ class AuthState {
 
 class AuthNotifier extends StateNotifier<AuthState> {
   final AuthService _authService;
-  final AdaptiveStorageService _storageService;
+  final TieredStorageService _storageService;
   final BiometricService _biometricService;
   final AppStateNotifier _appStateNotifier;
   final UserStatusService _userStatusService;
@@ -202,10 +203,12 @@ class AuthNotifier extends StateNotifier<AuthState> {
         '🔍 DEBUG: State after isLoading=true - isLoading: ${state.isLoading}, isInitialized: ${state.isInitialized}',
       );
       // Try to restore session from secure storage
-      AppLogger.info('🔍 DEBUG: About to call _storageService.getToken()');
-      final token = await _storageService.getToken();
       AppLogger.info(
-        '🔍 DEBUG: _storageService.getToken() returned - token: ${token != null ? "EXISTS (${token.length} chars)" : "NULL"}',
+        '🔍 DEBUG: About to call _storageService.getAccessToken()',
+      );
+      final token = await _storageService.getAccessToken();
+      AppLogger.info(
+        '🔍 DEBUG: _storageService.getAccessToken() returned - token: ${token != null ? "EXISTS (${token.length} chars)" : "NULL"}',
       );
       if (token != null) {
         AppLogger.info(
@@ -482,7 +485,10 @@ class AuthNotifier extends StateNotifier<AuthState> {
   Future<void> validateToken() async {
     try {
       // Single token architecture: check if token exists
-      final hasToken = await _storageService.hasStoredToken();
+      final hasToken = await _storageService.containsKey(
+        'access_token',
+        DataSensitivity.medium,
+      );
       if (!hasToken) {
         AppLogger.warning('No token found, logging out user');
         state = state.copyWith(error: 'errorInvalidToken');
@@ -491,7 +497,7 @@ class AuthNotifier extends StateNotifier<AuthState> {
       }
 
       // If token exists, try to authenticate with it (magic link token validation)
-      final token = await _storageService.getToken();
+      final token = await _storageService.getAccessToken();
       if (token != null) {
         final authResult = await _authService.authenticateWithMagicLink(token);
         if (authResult.isOk) {
@@ -572,8 +578,8 @@ class AuthNotifier extends StateNotifier<AuthState> {
   }
 
   Future<void> _clearAuthData() async {
-    await _storageService.clearToken();
-    await _storageService.clearUserData();
+    await _storageService.delete('access_token', DataSensitivity.medium);
+    await _storageService.delete('user_data', DataSensitivity.medium);
     // CRITICAL FIX: Also clear auth-specific data that contains familyId
     // This ensures auth_user_profile key is properly cleared during logout
     await _authService.clearUserData();
@@ -738,7 +744,10 @@ class AuthNotifier extends StateNotifier<AuthState> {
       );
       if (biometricResult.isSuccess) {
         // Get stored email from secure storage
-        final storedEmail = await _storageService.getStoredEmail();
+        final storedEmail = await _storageService.read(
+          'stored_email',
+          DataSensitivity.medium,
+        );
         if (storedEmail != null) {
           // Authenticate with stored credentials
           final authResult = await _authService.authenticateWithBiometrics(
@@ -798,13 +807,13 @@ class AuthNotifier extends StateNotifier<AuthState> {
 // Provider for auth state
 final authStateProvider = StateNotifierProvider<AuthNotifier, AuthState>((ref) {
   final authService = ref.watch(authServiceProvider);
-  final adaptiveStorageService = ref.watch(serviceAdaptiveStorageProvider);
+  final tieredStorageService = ref.watch(tieredStorageServiceProvider);
   final biometricService = ref.watch(biometricAuthServiceProvider);
   final userStatusService = ref.watch(userStatusServiceProvider);
   final errorHandlerService = ref.watch(coreErrorHandlerServiceProvider);
   final notifier = AuthNotifier(
     authService,
-    adaptiveStorageService,
+    tieredStorageService,
     biometricService,
     ref.read(appStateProvider.notifier),
     userStatusService,

@@ -95,7 +95,7 @@ Dio refreshDio(Ref ref) {
 Dio apiDio(Ref ref) {
   // Get configuration dependencies
   final config = ref.watch(appConfigProvider);
-  final adaptiveStorageService = ref.watch(adaptiveStorageServiceProvider);
+  final tieredStorageService = ref.watch(tieredStorageServiceProvider);
 
   // Create Dio instance with configured base options
   final dio = Dio(
@@ -124,7 +124,7 @@ Dio apiDio(Ref ref) {
   // Import tokenRefreshService from service_providers
   final tokenRefreshService = ref.watch(tokenRefreshServiceProvider);
   dio.interceptors.add(
-    NetworkAuthInterceptor(adaptiveStorageService, tokenRefreshService, ref),
+    NetworkAuthInterceptor(tieredStorageService, tokenRefreshService, ref),
   );
   // Add logging interceptor (debug only)
   if (kDebugMode) {

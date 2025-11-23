@@ -1,9 +1,8 @@
 import '../utils/result.dart';
 import '../errors/failures.dart';
-import '../services/adaptive_storage_service.dart';
+import '../security/tiered_storage_service.dart';
 import '../utils/app_logger.dart';
 import 'dart:convert';
-import 'package:flutter/foundation.dart';
 
 /// Authentication entity for user profile storage
 class AuthUserProfile {
@@ -135,23 +134,16 @@ abstract class IAuthLocalDatasource {
 /// Uses encrypted secure storage for sensitive authentication data.
 
 class AuthLocalDatasource implements IAuthLocalDatasource {
-  final AdaptiveStorageService _secureStorage;
+  final TieredStorageService _storage;
 
-  // Storage keys for auth data - MUST match AdaptiveStorageService keys!
-  // Token key reserved for future use
-  // static const String _tokenKey = AppConstants.tokenKey;
-  // REFRESH TOKEN SUPPORT: Separate keys for access and refresh tokens
-  static const String _refreshTokenKey = 'refresh_token_key';
-  static const String _refreshTokenKeyDev = 'refresh_token_key_dev';
+  // Storage keys for auth data (only custom keys, TieredStorageService handles built-in keys)
   static const String _tokenExpiresAtKey = 'token_expires_at';
   static const String _userProfileKey = 'auth_user_profile';
   static const String _authStateKey = 'auth_state';
   static const String _tokenTimestampKey = 'auth_token_timestamp';
   static const String _healthCheckKey = 'auth_health_check';
-  static const String _pkceVerifierKey = 'pkce_code_verifier';
-  static const String _magicLinkEmailKey = 'magic_link_email';
 
-  AuthLocalDatasource(this._secureStorage);
+  AuthLocalDatasource(this._storage);
 
   @override
   Future<Result<void, ApiFailure>> saveToken(String token) async {
@@ -167,12 +159,13 @@ class AuthLocalDatasource implements IAuthLocalDatasource {
     AppLogger.debug('💾 Storing token: $preview (${token.length} chars)');
 
     try {
-      // Use storeToken method which handles dev suffix properly!
-      await _secureStorage.storeToken(token);
-      // Store timestamp for expiration tracking
-      await _secureStorage.write(
+      // Store access token with MEDIUM sensitivity (short-lived)
+      await _storage.storeAccessToken(token);
+      // Store timestamp for expiration tracking with LOW sensitivity (metadata)
+      await _storage.store(
         _tokenTimestampKey,
         DateTime.now().millisecondsSinceEpoch.toString(),
+        DataSensitivity.low,
       );
       return const Result.ok(null);
     } catch (e) {
@@ -185,8 +178,8 @@ class AuthLocalDatasource implements IAuthLocalDatasource {
   @override
   Future<Result<String?, ApiFailure>> getToken() async {
     try {
-      // Use getToken method which handles dev suffix properly!
-      final token = await _secureStorage.getToken();
+      // Retrieve access token with MEDIUM sensitivity
+      final token = await _storage.getAccessToken();
       return Result.ok(token);
     } catch (e) {
       return Result.err(
@@ -220,24 +213,18 @@ class AuthLocalDatasource implements IAuthLocalDatasource {
     }
 
     try {
-      // 1. Store access token using existing method
-      await _secureStorage.storeToken(accessToken);
+      // 1. Store access token with MEDIUM sensitivity (short-lived)
+      await _storage.storeAccessToken(accessToken);
 
-      // 2. Store refresh token separately (with encryption in production)
-      if (kReleaseMode) {
-        // Production: store encrypted refresh token
-        await _secureStorage.store(_refreshTokenKey, refreshToken);
-        AppLogger.info('🔒 Stored encrypted refresh token in production mode');
-      } else {
-        // Development: store plain refresh token for debugging
-        await _secureStorage.write(_refreshTokenKeyDev, refreshToken);
-        AppLogger.info('🔓 Stored plain refresh token in development mode');
-      }
+      // 2. Store refresh token with HIGH sensitivity (long-lived, can mint new tokens)
+      await _storage.storeRefreshToken(refreshToken);
+      AppLogger.info('🔒 Stored refresh token with HIGH sensitivity');
 
-      // 3. Store expiration time
-      await _secureStorage.write(
+      // 3. Store expiration time with LOW sensitivity (metadata)
+      await _storage.store(
         _tokenExpiresAtKey,
         expiresAt.toIso8601String(),
+        DataSensitivity.low,
       );
 
       AppLogger.info(
@@ -258,26 +245,13 @@ class AuthLocalDatasource implements IAuthLocalDatasource {
   @override
   Future<Result<String?, ApiFailure>> getRefreshToken() async {
     try {
-      String? refreshToken;
-
-      if (kReleaseMode) {
-        // Production: read encrypted refresh token
-        refreshToken = await _secureStorage.read(_refreshTokenKey);
-        if (refreshToken != null) {
-          AppLogger.info(
-            '🔒 Retrieved encrypted refresh token from production storage',
-          );
-        }
-      } else {
-        // Development: read plain refresh token
-        refreshToken = await _secureStorage.read(_refreshTokenKeyDev);
-        if (refreshToken != null) {
-          AppLogger.info(
-            '🔓 Retrieved plain refresh token from development storage',
-          );
-        }
+      // Retrieve refresh token with HIGH sensitivity
+      final refreshToken = await _storage.getRefreshToken();
+      if (refreshToken != null) {
+        AppLogger.info(
+          '🔒 Retrieved refresh token with HIGH sensitivity from secure storage',
+        );
       }
-
       return Result.ok(refreshToken);
     } catch (e) {
       AppLogger.error('❌ Failed to retrieve refresh token: $e');
@@ -291,7 +265,11 @@ class AuthLocalDatasource implements IAuthLocalDatasource {
   @override
   Future<Result<DateTime?, ApiFailure>> getTokenExpiry() async {
     try {
-      final expiryStr = await _secureStorage.read(_tokenExpiresAtKey);
+      // Retrieve expiration time with LOW sensitivity (metadata)
+      final expiryStr = await _storage.read(
+        _tokenExpiresAtKey,
+        DataSensitivity.low,
+      );
 
       if (expiryStr == null) {
         return const Result.ok(null);
@@ -312,18 +290,12 @@ class AuthLocalDatasource implements IAuthLocalDatasource {
   @override
   Future<Result<void, ApiFailure>> clearTokens() async {
     try {
-      // Clear access token using existing method
-      await _secureStorage.clearToken();
+      // Use the convenience method to clear all auth data at once
+      await _storage.clearAuthData();
 
-      // Clear refresh token (both dev and prod keys to be safe)
-      await _secureStorage.delete(_refreshTokenKey);
-      await _secureStorage.delete(_refreshTokenKeyDev);
-
-      // Clear expiration
-      await _secureStorage.delete(_tokenExpiresAtKey);
-
-      // Also clear the timestamp
-      await _secureStorage.delete(_tokenTimestampKey);
+      // Also clear our custom metadata keys
+      await _storage.delete(_tokenExpiresAtKey, DataSensitivity.low);
+      await _storage.delete(_tokenTimestampKey, DataSensitivity.low);
 
       AppLogger.info('✅ Successfully cleared all authentication tokens');
       return const Result.ok(null);
@@ -343,7 +315,12 @@ class AuthLocalDatasource implements IAuthLocalDatasource {
   ) async {
     try {
       final profileJson = jsonEncode(profile.toJson());
-      await _secureStorage.write(_userProfileKey, profileJson);
+      // Store user profile with MEDIUM sensitivity (contains PII)
+      await _storage.store(
+        _userProfileKey,
+        profileJson,
+        DataSensitivity.medium,
+      );
       return const Result.ok(null);
     } catch (e) {
       return Result.err(
@@ -355,7 +332,11 @@ class AuthLocalDatasource implements IAuthLocalDatasource {
   @override
   Future<Result<AuthUserProfile?, ApiFailure>> getUserProfile() async {
     try {
-      final profileJson = await _secureStorage.read(_userProfileKey);
+      // Retrieve user profile with MEDIUM sensitivity (contains PII)
+      final profileJson = await _storage.read(
+        _userProfileKey,
+        DataSensitivity.medium,
+      );
       if (profileJson == null) {
         return const Result.ok(null);
       }
@@ -374,7 +355,8 @@ class AuthLocalDatasource implements IAuthLocalDatasource {
   Future<Result<void, ApiFailure>> saveAuthState(AuthState state) async {
     try {
       final stateJson = jsonEncode(state.toJson());
-      await _secureStorage.write(_authStateKey, stateJson);
+      // Store auth state with MEDIUM sensitivity (session data)
+      await _storage.store(_authStateKey, stateJson, DataSensitivity.medium);
       return const Result.ok(null);
     } catch (e) {
       return Result.err(
@@ -386,7 +368,11 @@ class AuthLocalDatasource implements IAuthLocalDatasource {
   @override
   Future<Result<AuthState?, ApiFailure>> getAuthState() async {
     try {
-      final stateJson = await _secureStorage.read(_authStateKey);
+      // Retrieve auth state with MEDIUM sensitivity (session data)
+      final stateJson = await _storage.read(
+        _authStateKey,
+        DataSensitivity.medium,
+      );
       if (stateJson == null) {
         return const Result.ok(null);
       }
@@ -404,12 +390,14 @@ class AuthLocalDatasource implements IAuthLocalDatasource {
   @override
   Future<Result<void, ApiFailure>> clearSession() async {
     try {
-      // Use clearToken method to handle dev suffix properly
-      await _secureStorage.clearToken();
+      // Clear all authentication-related data
+      await _storage.clearAuthData();
+
+      // Clear additional session data with appropriate sensitivity levels
       await Future.wait([
-        _secureStorage.delete(_userProfileKey),
-        _secureStorage.delete(_authStateKey),
-        _secureStorage.delete(_tokenTimestampKey),
+        _storage.delete(_userProfileKey, DataSensitivity.medium),
+        _storage.delete(_authStateKey, DataSensitivity.medium),
+        _storage.delete(_tokenTimestampKey, DataSensitivity.low),
       ]);
       return const Result.ok(null);
     } catch (e) {
@@ -422,7 +410,11 @@ class AuthLocalDatasource implements IAuthLocalDatasource {
   @override
   Future<Result<void, ApiFailure>> cleanupExpiredTokens() async {
     try {
-      final timestampStr = await _secureStorage.read(_tokenTimestampKey);
+      // Retrieve timestamp with LOW sensitivity (metadata)
+      final timestampStr = await _storage.read(
+        _tokenTimestampKey,
+        DataSensitivity.low,
+      );
       if (timestampStr == null) {
         return const Result.ok(null);
       }
@@ -433,8 +425,8 @@ class AuthLocalDatasource implements IAuthLocalDatasource {
 
       // Clear tokens older than 24 hours
       if (now.difference(tokenTime).inHours > 24) {
-        await _secureStorage.clearToken();
-        await _secureStorage.delete(_tokenTimestampKey);
+        await _storage.clearAuthData();
+        await _storage.delete(_tokenTimestampKey, DataSensitivity.low);
       }
 
       return const Result.ok(null);
@@ -450,14 +442,17 @@ class AuthLocalDatasource implements IAuthLocalDatasource {
     try {
       const testValue = 'health_test';
 
-      // Test write operation
-      await _secureStorage.write(_healthCheckKey, testValue);
+      // Test write operation with LOW sensitivity (temporary test data)
+      await _storage.store(_healthCheckKey, testValue, DataSensitivity.low);
 
-      // Test read operation
-      final readValue = await _secureStorage.read(_healthCheckKey);
+      // Test read operation with LOW sensitivity
+      final readValue = await _storage.read(
+        _healthCheckKey,
+        DataSensitivity.low,
+      );
 
-      // Test delete operation
-      await _secureStorage.delete(_healthCheckKey);
+      // Test delete operation with LOW sensitivity
+      await _storage.delete(_healthCheckKey, DataSensitivity.low);
 
       final isHealthy = readValue == testValue;
       return Result.ok(isHealthy);
@@ -477,9 +472,10 @@ class AuthLocalDatasource implements IAuthLocalDatasource {
   @override
   Future<Result<void, ApiFailure>> clearToken() async {
     try {
-      // Use clearToken method which handles dev suffix properly!
-      await _secureStorage.clearToken();
-      await _secureStorage.delete(_tokenTimestampKey);
+      // Clear access token using convenience method
+      await _storage.delete('access_token', DataSensitivity.medium);
+      // Clear timestamp metadata
+      await _storage.delete(_tokenTimestampKey, DataSensitivity.low);
       return const Result.ok(null);
     } catch (e) {
       return Result.err(
@@ -524,8 +520,11 @@ class AuthLocalDatasource implements IAuthLocalDatasource {
     String codeVerifier,
   ) async {
     try {
-      AppLogger.info('🔐 PKCE: Storing code_verifier securely');
-      await _secureStorage.write(_pkceVerifierKey, codeVerifier);
+      AppLogger.info(
+        '🔐 PKCE: Storing code_verifier with LOW sensitivity (ephemeral)',
+      );
+      // Store PKCE verifier with LOW sensitivity (temporary, single-use, no encryption needed)
+      await _storage.storePkceVerifier(codeVerifier);
       return const Result.ok(null);
     } catch (error) {
       AppLogger.error('❌ PKCE: Failed to store code_verifier: $error');
@@ -542,9 +541,12 @@ class AuthLocalDatasource implements IAuthLocalDatasource {
   @override
   Future<Result<String?, ApiFailure>> getPKCEVerifier() async {
     try {
-      final codeVerifier = await _secureStorage.read(_pkceVerifierKey);
+      // Retrieve PKCE verifier with LOW sensitivity (ephemeral)
+      final codeVerifier = await _storage.getPkceVerifier();
       if (codeVerifier != null) {
-        AppLogger.info('🔐 PKCE: Retrieved code_verifier from secure storage');
+        AppLogger.info(
+          '🔐 PKCE: Retrieved code_verifier from storage (LOW sensitivity)',
+        );
       }
       return Result.ok(codeVerifier);
     } catch (error) {
@@ -562,8 +564,11 @@ class AuthLocalDatasource implements IAuthLocalDatasource {
   @override
   Future<Result<void, ApiFailure>> clearPKCEVerifier() async {
     try {
-      AppLogger.info('🔐 PKCE: Clearing code_verifier from secure storage');
-      await _secureStorage.delete(_pkceVerifierKey);
+      AppLogger.info(
+        '🔐 PKCE: Clearing code_verifier from storage (LOW sensitivity)',
+      );
+      // Use convenience method to clear PKCE verifier
+      await _storage.clearPkceVerifier();
       return const Result.ok(null);
     } catch (error) {
       AppLogger.error('❌ PKCE: Failed to clear code_verifier: $error');
@@ -582,8 +587,11 @@ class AuthLocalDatasource implements IAuthLocalDatasource {
   @override
   Future<Result<void, ApiFailure>> storeMagicLinkEmail(String email) async {
     try {
-      AppLogger.info('🔐 SECURITY: Storing magic link original email securely');
-      await _secureStorage.write(_magicLinkEmailKey, email);
+      AppLogger.info(
+        '🔐 SECURITY: Storing magic link original email with LOW sensitivity (temporary)',
+      );
+      // Store magic link email with LOW sensitivity (temporary validation data)
+      await _storage.storeMagicLinkEmail(email);
       return const Result.ok(null);
     } catch (error) {
       AppLogger.error('❌ SECURITY: Failed to store magic link email: $error');
@@ -600,10 +608,11 @@ class AuthLocalDatasource implements IAuthLocalDatasource {
   @override
   Future<Result<String?, ApiFailure>> getMagicLinkEmail() async {
     try {
-      final email = await _secureStorage.read(_magicLinkEmailKey);
+      // Retrieve magic link email with LOW sensitivity (temporary validation data)
+      final email = await _storage.getMagicLinkEmail();
       if (email != null) {
         AppLogger.info(
-          '🔐 SECURITY: Retrieved magic link original email from secure storage',
+          '🔐 SECURITY: Retrieved magic link original email from storage (LOW sensitivity)',
         );
       }
       return Result.ok(email);
@@ -625,9 +634,10 @@ class AuthLocalDatasource implements IAuthLocalDatasource {
   Future<Result<void, ApiFailure>> clearMagicLinkEmail() async {
     try {
       AppLogger.info(
-        '🔐 SECURITY: Clearing magic link email from secure storage',
+        '🔐 SECURITY: Clearing magic link email from storage (LOW sensitivity)',
       );
-      await _secureStorage.delete(_magicLinkEmailKey);
+      // Use convenience method to clear magic link email
+      await _storage.clearMagicLinkEmail();
       return const Result.ok(null);
     } catch (error) {
       AppLogger.error('❌ SECURITY: Failed to clear magic link email: $error');
@@ -645,10 +655,10 @@ class AuthLocalDatasource implements IAuthLocalDatasource {
   Future<Result<void, ApiFailure>> clearUserData() async {
     try {
       await Future.wait([
-        _secureStorage.delete(_userProfileKey),
-        _secureStorage.delete(_authStateKey),
+        _storage.delete(_userProfileKey, DataSensitivity.medium),
+        _storage.delete(_authStateKey, DataSensitivity.medium),
         // CRITICAL SECURITY: Also clear magic link email on user data clear
-        _secureStorage.delete(_magicLinkEmailKey),
+        _storage.clearMagicLinkEmail(),
       ]);
       return const Result.ok(null);
     } catch (e) {

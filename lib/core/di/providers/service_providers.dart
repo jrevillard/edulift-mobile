@@ -21,7 +21,6 @@ import '../../services/notifications/notification_bridge_service.dart';
 import '../../network/websocket/realtime_websocket_service.dart';
 import '../../network/websocket/websocket_service.dart';
 // Note: ComprehensiveFamilyDataService interface doesn't exist yet, using stub
-import '../../services/adaptive_storage_service.dart';
 import '../../security/biometric_service.dart';
 import 'foundation/network_providers.dart';
 import 'foundation/storage_providers.dart';
@@ -66,12 +65,6 @@ UserStatusService userStatusService(Ref ref) {
 @riverpod
 BiometricService biometricAuthService(Ref ref) {
   return ref.watch(biometricServiceProvider);
-}
-
-/// AdaptiveStorageService provider - use foundation provider
-@riverpod
-AdaptiveStorageService serviceAdaptiveStorage(Ref ref) {
-  return ref.watch(adaptiveStorageServiceProvider);
 }
 
 /// AuthService provider - fully implemented core service with error handling
@@ -142,7 +135,7 @@ TokenRefreshService tokenRefreshService(Ref ref) {
 /// LocalizationService provider
 @riverpod
 localization_interface.LocalizationService localizationService(Ref ref) {
-  final storage = ref.watch(adaptiveStorageServiceProvider);
+  final storage = ref.watch(tieredStorageServiceProvider);
   return LocalizationServiceImpl(storage);
 }
 
@@ -170,7 +163,7 @@ ComprehensiveFamilyDataService comprehensiveFamilyDataService(Ref ref) {
 /// WebSocketService provider - returns proper WebSocketService instance
 @riverpod
 WebSocketService webSocketService(Ref ref) {
-  final storage = ref.watch(adaptiveStorageServiceProvider);
+  final storage = ref.watch(tieredStorageServiceProvider);
   final config = ref.watch(appConfigProvider);
   return WebSocketService(storage, config);
 }

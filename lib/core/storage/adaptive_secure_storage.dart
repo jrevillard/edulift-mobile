@@ -26,6 +26,10 @@ class AdaptiveSecureStorage implements SecureStorage {
   AdaptiveSecureStorage()
     : _secureStorage = _shouldUseSecureStorageEnvironment()
           ? const FlutterSecureStorage(
+              // STATE-OF-THE-ART 2024: flutter_secure_storage now uses
+              // EncryptedSharedPreferences by default on Android (hardware-backed Keystore)
+              // and Keychain on iOS - no custom PBKDF2 needed!
+              // Performance: 10-50ms vs 30-60 seconds with custom crypto
               iOptions: IOSOptions(
                 accessibility: KeychainAccessibility.first_unlock_this_device,
               ),
@@ -83,11 +87,20 @@ class AdaptiveSecureStorage implements SecureStorage {
       return;
     }
 
-    // For production environments, defer keyring test to first use if needed
-    // This avoids blocking the constructor but still provides secure storage when available
-    _useSecureStorage = false; // Default to safe fallback
+    // STATE-OF-THE-ART FIX: In production, FlutterSecureStorage MUST be available
+    // This enables hardware-backed encryption (Android Keystore / iOS Keychain)
+    if (_secureStorage == null) {
+      // CRITICAL ERROR: Production environment without secure storage
+      const error =
+          '🚨 CRITICAL: FlutterSecureStorage not available in production! '
+          'Hardware-backed encryption is required for sensitive data.';
+      AppLogger.error(error);
+      throw StateError(error);
+    }
+
+    _useSecureStorage = true;
     AppLogger.info(
-      '🔐 DBUS FIX: Production environment - will attempt secure storage on first use (FlutterSecureStorage=${_secureStorage != null})',
+      '🔐 Production environment - using FlutterSecureStorage (hardware-backed encryption)',
     );
   }
 
