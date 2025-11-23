@@ -171,6 +171,23 @@ Future<ProviderContainer> bootstrap() async {
     // These services can be initialized concurrently as they don't depend on each other
     // OBSERVABILITY FIX: Added specific error logging for each service to improve debugging
     final parallelInitializationFuture = Future.wait([
+      // Initialize TieredStorageService FIRST - Required by all auth/storage services
+      container
+          .read(tieredStorageServiceProvider)
+          .initialize()
+          .then((_) {
+            AppLogger.info('✅ TieredStorageService initialized successfully');
+          })
+          .catchError((e, stackTrace) {
+            AppLogger.error(
+              '❌ TieredStorageService initialization failed',
+              e,
+              stackTrace,
+            );
+            // Re-throw to fail the bootstrap process - critical service
+            throw e;
+          }),
+
       // Initialize timezone database for proper datetime handling
       TimezoneService.initialize()
           .then((_) {
