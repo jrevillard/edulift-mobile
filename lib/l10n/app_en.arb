@@ -275,7 +275,7 @@
       }
     }
   },
-  "capacityHelpText": "Include the driver seat in the total count",
+  "capacityHelpText": "Number of child seats available (do not include driver)",
   "@capacityHelpText": {
     "description": "Help text explaining how to count vehicle capacity"
   },
@@ -348,7 +348,7 @@
   "@years": {
     "description": "Age unit in years"
   },
-  "childTransportCapacity": "{count, plural, =0{This vehicle cannot transport children (driver seat excluded)} =1{This vehicle can transport up to {count} child (driver seat excluded)} other{This vehicle can transport up to {count} children (driver seat excluded)}}",
+  "childTransportCapacity": "{count, plural, =0{This vehicle cannot transport children} =1{This vehicle can transport up to {count} child} other{This vehicle can transport up to {count} children}}",
   "@childTransportCapacity": {
     "description": "Child transport capacity with driver exclusion note and ICU pluralization",
     "placeholders": {
@@ -3665,7 +3665,7 @@
       }
     }
   },
-  "totalSeatsHint": "Total number of seats",
+  "totalSeatsHint": "Number of child seats available",
   "@totalSeatsHint": {
     "description": "Vehicle capacity field hint text"
   },

@@ -275,7 +275,7 @@
       }
     }
   },
-  "capacityHelpText": "Inclure le siège conducteur dans le nombre total",
+  "capacityHelpText": "Nombre de places pour enfants (ne pas inclure le conducteur)",
   "@capacityHelpText": {
     "description": "Texte d'aide pour la capacité du véhicule"
   },
@@ -350,7 +350,7 @@
   "@years": {
     "description": "Unité d'âge en années"
   },
-  "childTransportCapacity": "{count, plural, =0{Ce véhicule ne peut pas transporter d'enfants (siège conducteur exclu)} =1{Ce véhicule peut transporter jusqu'à {count} enfant (siège conducteur exclu)} other{Ce véhicule peut transporter jusqu'à {count} enfants (siège conducteur exclu)}}",
+  "childTransportCapacity": "{count, plural, =0{Ce véhicule ne peut pas transporter d'enfants} =1{Ce véhicule peut transporter jusqu'à {count} enfant} other{Ce véhicule peut transporter jusqu'à {count} enfants}}",
   "@childTransportCapacity": {
     "description": "Capacité transport enfants avec note exclusion conducteur et pluralisation ICU",
     "placeholders": {
@@ -3678,7 +3678,7 @@
       }
     }
   },
-  "totalSeatsHint": "Nombre total de sièges",
+  "totalSeatsHint": "Nombre de places pour enfants",
   "@totalSeatsHint": {
     "description": "Texte d'indication du champ capacité"
   },

@@ -76,8 +76,8 @@ class Vehicle extends Equatable {
         .toUpperCase();
   }
 
-  /// Get available seats for passengers (excluding driver)
-  int get availablePassengerSeats => capacity - 1;
+  /// Get available seats for passengers (capacity already excludes driver)
+  int get availablePassengerSeats => capacity;
 
   /// Check if vehicle can accommodate number of children
   bool canAccommodate(int childrenCount) {
@@ -85,7 +85,7 @@ class Vehicle extends Equatable {
   }
 
   /// Get vehicle display name with capacity
-  String get displayNameWithCapacity => '$name (${capacity} seats)';
+  String get displayNameWithCapacity => '$name ($capacity places enfants)';
 
   @override
   List<Object?> get props => [

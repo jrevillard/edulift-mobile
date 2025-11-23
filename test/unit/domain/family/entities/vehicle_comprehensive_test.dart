@@ -141,14 +141,15 @@ void main() {
     group('Available Passenger Seats Logic', () {
       test('should calculate available passenger seats correctly', () {
         // Test cases: capacity -> expected passenger seats
+        // IMPORTANT: capacity = child seats only (driver NOT included)
         final testCases = {
-          1: 0, // Single seat (driver only)
-          2: 1, // Driver + 1 passenger
-          5: 4, // Standard sedan
-          7: 6, // Family van
-          8: 7, // Large van
-          15: 14, // Mini bus
-          50: 49, // Bus
+          1: 1, // 1 child seat
+          2: 2, // 2 child seats
+          5: 5, // Standard sedan - 5 child seats
+          7: 7, // Family van - 7 child seats
+          8: 8, // Large van - 8 child seats
+          15: 15, // Mini bus - 15 child seats
+          50: 50, // Bus - 50 child seats
         };
 
         testCases.forEach((capacity, expectedPassengerSeats) {
@@ -184,7 +185,7 @@ void main() {
         );
 
         // Act & Assert
-        expect(zeroCapacityVehicle.availablePassengerSeats, equals(-1));
+        expect(zeroCapacityVehicle.availablePassengerSeats, equals(0));
       });
 
       test('should handle negative capacity gracefully', () {
@@ -199,7 +200,7 @@ void main() {
         );
 
         // Act & Assert
-        expect(negativeVehicle.availablePassengerSeats, equals(-2));
+        expect(negativeVehicle.availablePassengerSeats, equals(-1));
       });
     });
 
@@ -211,7 +212,7 @@ void main() {
           final familyVan = Vehicle(
             id: 'vehicle-van',
             name: 'Family Van',
-            capacity: 7, // 6 passenger seats
+            capacity: 7, // 7 child seats (driver NOT included)
             familyId: 'family-456',
             createdAt: testCreatedAt,
             updatedAt: testUpdatedAt,
@@ -221,17 +222,17 @@ void main() {
           expect(familyVan.canAccommodate(0), isTrue); // No children
           expect(familyVan.canAccommodate(1), isTrue); // 1 child
           expect(familyVan.canAccommodate(3), isTrue); // 3 children
-          expect(familyVan.canAccommodate(6), isTrue); // Exactly max capacity
-          expect(familyVan.canAccommodate(7), isFalse); // Over capacity
+          expect(familyVan.canAccommodate(7), isTrue); // Exactly max capacity
+          expect(familyVan.canAccommodate(8), isFalse); // Over capacity
           expect(familyVan.canAccommodate(10), isFalse); // Way over capacity
         },
       );
 
       test('should handle edge case vehicles for accommodation', () {
-        // Arrange - Single seat vehicle (driver only)
+        // Arrange - Single child seat vehicle
         final singleSeat = Vehicle(
           id: 'vehicle-single',
-          name: 'Motorcycle',
+          name: 'Small Car',
           capacity: 1,
           familyId: 'family-456',
           createdAt: testCreatedAt,
@@ -240,12 +241,13 @@ void main() {
 
         // Act & Assert
         expect(singleSeat.canAccommodate(0), isTrue); // No passengers
+        expect(singleSeat.canAccommodate(1), isTrue); // Can accommodate 1 child
         expect(
-          singleSeat.canAccommodate(1),
+          singleSeat.canAccommodate(2),
           isFalse,
-        ); // Cannot accommodate any children
+        ); // Cannot accommodate 2 children
 
-        // Arrange - Two seat vehicle
+        // Arrange - Two child seat vehicle
         final twoSeat = Vehicle(
           id: 'vehicle-two',
           name: 'Sports Car',
@@ -257,8 +259,9 @@ void main() {
 
         // Act & Assert
         expect(twoSeat.canAccommodate(0), isTrue);
-        expect(twoSeat.canAccommodate(1), isTrue); // 1 passenger seat available
-        expect(twoSeat.canAccommodate(2), isFalse);
+        expect(twoSeat.canAccommodate(1), isTrue);
+        expect(twoSeat.canAccommodate(2), isTrue); // 2 child seats available
+        expect(twoSeat.canAccommodate(3), isFalse);
       });
 
       test('should handle negative child count', () {
@@ -294,12 +297,12 @@ void main() {
         // Act & Assert
         expect(
           zeroCapacity.canAccommodate(0),
-          isFalse,
-        ); // Zero capacity cannot accommodate anything
+          isTrue,
+        ); // Zero capacity can accommodate zero children
         expect(
           zeroCapacity.canAccommodate(1),
           isFalse,
-        ); // Cannot accommodate any
+        ); // Cannot accommodate any children
       });
     });
 
@@ -310,22 +313,22 @@ void main() {
           {
             'name': 'Honda Civic',
             'capacity': 5,
-            'expected': 'Honda Civic (5 seats)',
+            'expected': 'Honda Civic (5 places enfants)',
           },
           {
             'name': 'Family Van',
             'capacity': 7,
-            'expected': 'Family Van (7 seats)',
+            'expected': 'Family Van (7 places enfants)',
           },
           {
             'name': 'School Bus',
             'capacity': 50,
-            'expected': 'School Bus (50 seats)',
+            'expected': 'School Bus (50 places enfants)',
           },
           {
-            'name': 'Motorcycle',
+            'name': 'Small Car',
             'capacity': 1,
-            'expected': 'Motorcycle (1 seats)',
+            'expected': 'Small Car (1 places enfants)',
           },
         ];
 
@@ -362,7 +365,7 @@ void main() {
         );
 
         // Act & Assert
-        expect(vehicle.displayNameWithCapacity, equals(' (5 seats)'));
+        expect(vehicle.displayNameWithCapacity, equals(' (5 places enfants)'));
       });
 
       test('should handle zero capacity in display', () {
@@ -379,7 +382,7 @@ void main() {
         // Act & Assert
         expect(
           vehicle.displayNameWithCapacity,
-          equals('No Capacity Vehicle (0 seats)'),
+          equals('No Capacity Vehicle (0 places enfants)'),
         );
       });
 
@@ -397,7 +400,10 @@ void main() {
         );
 
         // Act & Assert
-        expect(vehicle.displayNameWithCapacity, equals('$longName (8 seats)'));
+        expect(
+          vehicle.displayNameWithCapacity,
+          equals('$longName (8 places enfants)'),
+        );
       });
     });
 
@@ -438,8 +444,9 @@ void main() {
           // Test consistency between capacity and passenger seats
           expect(
             vehicle.availablePassengerSeats,
-            equals(vehicle.capacity - 1),
-            reason: 'Passenger seats should always be capacity - 1',
+            equals(vehicle.capacity),
+            reason:
+                'Passenger seats equals capacity (driver NOT included in capacity)',
           );
 
           // Test that canAccommodate is consistent with passenger seats
@@ -466,7 +473,7 @@ void main() {
 
           expect(
             vehicle.displayNameWithCapacity,
-            contains('${vehicle.capacity} seats'),
+            contains('${vehicle.capacity} places enfants'),
             reason: 'Display name should contain the capacity',
           );
 
@@ -492,7 +499,7 @@ void main() {
         final familyCar = Vehicle(
           id: 'family-sedan',
           name: 'Toyota Camry',
-          capacity: 5, // 4 passenger seats
+          capacity: 5, // 5 child seats (driver NOT included)
           familyId: 'family-smith',
           createdAt: testCreatedAt,
           updatedAt: testUpdatedAt,
@@ -501,7 +508,7 @@ void main() {
         final familyVan = Vehicle(
           id: 'family-van',
           name: 'Honda Odyssey',
-          capacity: 8, // 7 passenger seats
+          capacity: 8, // 8 child seats (driver NOT included)
           familyId: 'family-smith',
           createdAt: testCreatedAt,
           updatedAt: testUpdatedAt,
@@ -514,25 +521,33 @@ void main() {
         expect(familyVan.canAccommodate(2), isTrue);
 
         // Medium family (4 children)
-        expect(familyCar.canAccommodate(4), isTrue); // Exactly fits
+        expect(familyCar.canAccommodate(4), isTrue);
         expect(familyVan.canAccommodate(4), isTrue);
+
+        // Medium family (5 children)
+        expect(familyCar.canAccommodate(5), isTrue); // Exactly fits
+        expect(familyVan.canAccommodate(5), isTrue);
 
         // Large family (6 children)
         expect(familyCar.canAccommodate(6), isFalse); // Doesn't fit
         expect(familyVan.canAccommodate(6), isTrue);
 
-        // Very large family (8 children)
+        // Large family (8 children)
         expect(familyCar.canAccommodate(8), isFalse);
-        expect(familyVan.canAccommodate(8), isFalse); // Over van capacity
+        expect(familyVan.canAccommodate(8), isTrue); // Exactly fits
+
+        // Very large family (9 children)
+        expect(familyCar.canAccommodate(9), isFalse);
+        expect(familyVan.canAccommodate(9), isFalse); // Over van capacity
 
         // Test display information is helpful
         expect(
           familyCar.displayNameWithCapacity,
-          equals('Toyota Camry (5 seats)'),
+          equals('Toyota Camry (5 places enfants)'),
         );
         expect(
           familyVan.displayNameWithCapacity,
-          equals('Honda Odyssey (8 seats)'),
+          equals('Honda Odyssey (8 places enfants)'),
         );
 
         // Test initials are generated
@@ -554,12 +569,12 @@ void main() {
         );
 
         // Act & Assert
-        expect(largeBus.availablePassengerSeats, equals(99));
-        expect(largeBus.canAccommodate(99), isTrue);
-        expect(largeBus.canAccommodate(100), isFalse);
+        expect(largeBus.availablePassengerSeats, equals(100));
+        expect(largeBus.canAccommodate(100), isTrue);
+        expect(largeBus.canAccommodate(101), isFalse);
         expect(
           largeBus.displayNameWithCapacity,
-          equals('Mega Bus (100 seats)'),
+          equals('Mega Bus (100 places enfants)'),
         );
         expect(largeBus.initials, equals('MB'));
       });
@@ -614,9 +629,9 @@ void main() {
 
         // Act & Assert - Should handle without overflow
         expect(extremeVehicle.capacity, equals(maxInt));
-        expect(extremeVehicle.availablePassengerSeats, equals(maxInt - 1));
-        expect(extremeVehicle.canAccommodate(maxInt - 1), isTrue);
-        expect(extremeVehicle.canAccommodate(maxInt), isFalse);
+        expect(extremeVehicle.availablePassengerSeats, equals(maxInt));
+        expect(extremeVehicle.canAccommodate(maxInt), isTrue);
+        expect(extremeVehicle.canAccommodate(maxInt + 1), isFalse);
       });
     });
   });

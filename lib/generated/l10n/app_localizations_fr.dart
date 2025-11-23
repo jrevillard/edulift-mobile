@@ -244,7 +244,7 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get capacityHelpText =>
-      'Inclure le siège conducteur dans le nombre total';
+      'Nombre de places pour enfants (ne pas inclure le conducteur)';
 
   @override
   String get capacityInformation => 'Informations de capacité';
@@ -303,12 +303,9 @@ class AppLocalizationsFr extends AppLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other:
-          'Ce véhicule peut transporter jusqu\'à $count enfants (siège conducteur exclu)',
-      one:
-          'Ce véhicule peut transporter jusqu\'à $count enfant (siège conducteur exclu)',
-      zero:
-          'Ce véhicule ne peut pas transporter d\'enfants (siège conducteur exclu)',
+      other: 'Ce véhicule peut transporter jusqu\'à $count enfants',
+      one: 'Ce véhicule peut transporter jusqu\'à $count enfant',
+      zero: 'Ce véhicule ne peut pas transporter d\'enfants',
     );
     return '$_temp0';
   }
@@ -2960,7 +2957,7 @@ class AppLocalizationsFr extends AppLocalizations {
   }
 
   @override
-  String get totalSeatsHint => 'Nombre total de sièges';
+  String get totalSeatsHint => 'Nombre de places pour enfants';
 
   @override
   String get transferOwnership => 'Transférer la propriété';

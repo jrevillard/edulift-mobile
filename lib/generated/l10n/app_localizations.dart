@@ -515,7 +515,7 @@ abstract class AppLocalizations {
   /// Help text explaining how to count vehicle capacity
   ///
   /// In en, this message translates to:
-  /// **'Include the driver seat in the total count'**
+  /// **'Number of child seats available (do not include driver)'**
   String get capacityHelpText;
 
   /// Section header for capacity information
@@ -611,7 +611,7 @@ abstract class AppLocalizations {
   /// Child transport capacity with driver exclusion note and ICU pluralization
   ///
   /// In en, this message translates to:
-  /// **'{count, plural, =0{This vehicle cannot transport children (driver seat excluded)} =1{This vehicle can transport up to {count} child (driver seat excluded)} other{This vehicle can transport up to {count} children (driver seat excluded)}}'**
+  /// **'{count, plural, =0{This vehicle cannot transport children} =1{This vehicle can transport up to {count} child} other{This vehicle can transport up to {count} children}}'**
   String childTransportCapacity(int count);
 
   /// Success message after updating child
@@ -4805,7 +4805,7 @@ abstract class AppLocalizations {
   /// Vehicle capacity field hint text
   ///
   /// In en, this message translates to:
-  /// **'Total number of seats'**
+  /// **'Number of child seats available'**
   String get totalSeatsHint;
 
   /// Option to transfer ownership

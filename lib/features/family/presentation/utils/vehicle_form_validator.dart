@@ -115,6 +115,6 @@ class VehicleFormValidator {
 
   /// Get passenger seats count from capacity
   static int getPassengerSeats(int capacity) {
-    return capacity - 1; // Excluding driver
+    return capacity; // Capacity already excludes driver (backend contract)
   }
 }
