@@ -191,8 +191,8 @@ jobs:
           git add pubspec.yaml
           git commit -m "[skip ci] chore: update version to ${{ steps.version.outputs.base_version }}+${{ github.run_number }}"
 
-          # Push commit to release branch (force to avoid conflicts with automation)
-          git push origin release/${{ steps.version.outputs.version }} --force
+          # Push commit to release branch (force-with-lease for safety)
+          git push origin release/${{ steps.version.outputs.version }} --force-with-lease
 
           echo "SUCCESS:  Committed version update to release/${{ steps.version.outputs.version }}"
 
@@ -454,15 +454,7 @@ jobs:
             exit 1
           fi
 
-      - name: Upload Android artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          name: android-${{ needs.prepare-release.outputs.flavor }}
-          path: |
-            build/app/outputs/flutter-apk/edulift-staging-release.apk
-            build/app/outputs/bundle/productionRelease/edulift-production-release.aab
-          retention-days: 7
-
+  
       - name: Distribute to Firebase
         run: |
           FLAVOR="${{ needs.prepare-release.outputs.flavor }}"
@@ -498,11 +490,101 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Download Android artifacts
-        uses: actions/download-artifact@v4
+      - name: Load CI/CD versions
+        id: load-versions
+        run: |
+          if [[ -f ".github/ci-versions.env" ]]; then
+            while IFS='=' read -r key value; do
+              # Skip empty lines and comments
+              if [[ -n "$key" && ! "$key" =~ ^[[:space:]]*# ]]; then
+                echo "$key=$value" >> $GITHUB_OUTPUT
+              fi
+            done < .github/ci-versions.env
+          fi
+
+      - name: Setup Firebase CLI (Staging)
+        if: needs.prepare-release.outputs.flavor == 'staging'
+        uses: w9jds/setup-firebase@main
         with:
-          name: android-${{ needs.prepare-release.outputs.flavor }}
-          path: build/app/outputs/
+          gcp_sa_key: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_STAGING }}
+
+      - name: Setup Firebase CLI (Production)
+        if: needs.prepare-release.outputs.flavor == 'production'
+        uses: w9jds/setup-firebase@main
+        with:
+          gcp_sa_key: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_PROD }}
+
+      - name: Download Android artifacts from Firebase
+        run: |
+          FLAVOR="${{ needs.prepare-release.outputs.flavor }}"
+          VERSION="${{ needs.prepare-release.outputs.version }}"
+          TAG_NAME="${{ needs.prepare-release.outputs.tag_name }}"
+
+          echo "📱 Downloading Android artifacts from Firebase App Distribution..."
+          mkdir -p build/app/outputs/{flutter-apk,bundle/release}
+
+          # Récupérer l'App ID Firebase en fonction du flavor
+          if [[ "$FLAVOR" == "staging" ]]; then
+            FIREBASE_APP_ID="${{ steps.load-versions.outputs.FIREBASE_ANDROID_STAGING_APP_ID }}"
+            EXPECTED_FILE="app-staging-release.apk"
+            TARGET_PATH="build/app/outputs/flutter-apk/app-staging-release.apk"
+          else
+            FIREBASE_APP_ID="${{ steps.load-versions.outputs.FIREBASE_ANDROID_PROD_APP_ID }}"
+            EXPECTED_FILE="app-production-release.aab"
+            TARGET_PATH="build/app/outputs/bundle/release/app-production-release.aab"
+          fi
+
+          echo "INFO:  Looking for app: $FIREBASE_APP_ID"
+          echo "INFO:  Expected file: $EXPECTED_FILE"
+
+          # Attendre plus longtemps que Firebase traite l'upload avec tentatives progressives
+          echo "INFO:  Waiting for Firebase to process the upload..."
+          for i in {1..5}; do
+            echo "INFO:  Attempt $i/5 - Waiting 30s for Firebase processing..."
+            sleep 30
+
+            # Récupérer la liste des releases et télécharger la plus récente
+            RELEASE_INFO=$(firebase appdistribution:distribute list --app="$FIREBASE_APP_ID" --format=json 2>/dev/null)
+
+            if [[ $? -eq 0 && -n "$RELEASE_INFO" ]]; then
+              # Extraire l'URL de téléchargement de la release la plus récente
+              DOWNLOAD_URL=$(echo "$RELEASE_INFO" | jq -r '.releases[0].downloadUrl')
+              RELEASE_VERSION=$(echo "$RELEASE_INFO" | jq -r '.releases[0].version')
+
+              if [[ -n "$DOWNLOAD_URL" && "$DOWNLOAD_URL" != "null" ]]; then
+                echo "SUCCESS: Found release $RELEASE_VERSION"
+                echo "INFO:  Downloading from: $DOWNLOAD_URL"
+
+                # Télécharger le fichier avec timeout augmenté et plus de tentatives
+                wget -O "$TARGET_PATH" "$DOWNLOAD_URL" --timeout=600 --tries=5 --wait=10 || {
+                  echo "ERROR: Failed to download from Firebase"
+                  echo "INFO:  Continuing to next attempt..."
+                  continue
+                }
+
+                # Vérifier que le fichier a été téléchargé
+                if [[ -f "$TARGET_PATH" && -s "$TARGET_PATH" ]]; then
+                  FILE_SIZE=$(stat -c%s "$TARGET_PATH")
+                  echo "SUCCESS: Downloaded $(basename $TARGET_PATH) ($FILE_SIZE bytes)"
+                  break  # Sortir de la boucle for
+                else
+                  echo "WARNING: Downloaded file is empty or missing, retrying..."
+                  continue
+                fi
+              else
+                echo "WARNING: No download URL found in latest release, retrying..."
+                continue
+              fi
+            else
+              echo "WARNING: Failed to get releases from Firebase App Distribution (attempt $i/5)"
+              if [[ $i -eq 5 ]]; then
+                echo "ERROR: All attempts failed"
+                echo "INFO:  Make sure the app was uploaded successfully in build-android job"
+                echo "INFO:  Check Firebase App Distribution for upload status"
+                exit 1
+              fi
+            fi
+          done
 
       - name: Prepare release files
         env:
@@ -526,10 +608,10 @@ jobs:
 
           # Android: Fichiers téléchargés depuis les artifacts du job build-android
           if [[ "$FLAVOR" == "staging" ]]; then
-            ANDROID_FILE="build/app/outputs/flutter-apk/edulift-staging-release.apk"
+            ANDROID_FILE="build/app/outputs/flutter-apk/app-staging-release.apk"
             TARGET_FILE="edulift-$FLAVOR.apk"
           else
-            ANDROID_FILE="build/app/outputs/bundle/productionRelease/edulift-production-release.aab"
+            ANDROID_FILE="build/app/outputs/bundle/release/app-production-release.aab"
             TARGET_FILE="edulift-$FLAVOR.aab"
           fi
 
