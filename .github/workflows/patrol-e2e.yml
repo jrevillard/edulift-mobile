@@ -146,4 +146,4 @@ jobs:
             integration_test/build/
             integration_test/screenshots/
             patrol_docker_logs.txt
-          retention-days: 7
+          retention-days: 1
