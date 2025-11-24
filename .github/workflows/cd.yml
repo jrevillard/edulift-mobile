@@ -374,7 +374,6 @@ jobs:
               --dart-define-from-file=config/$FLAVOR.json \
               --split-debug-info=build/debug-info \
               --obfuscate \
-              --no-shrink \
               --tree-shake-icons
           else
             echo "FILES:  Building AAB for production"
@@ -383,14 +382,47 @@ jobs:
               --dart-define-from-file=config/$FLAVOR.json \
               --split-debug-info=build/debug-info \
               --obfuscate \
-              --no-shrink \
               --tree-shake-icons
           fi
 
           echo "INFO:  Build artifacts generated:"
-          echo "   Flutter debug symbols: build/debug-info/"
-          echo "   Mapping files: build/debug-info/*.map"
           echo "   APK/AAB: build/app/outputs/"
+          echo ""
+          echo "🔍 DEBUG: Checking build directory structure..."
+
+          # List build directory contents for debugging
+          echo "DEBUG: build/ directory contents:"
+          find build -type f -name "*.symbols" -o -name "*.map" -o -name "*.info" 2>/dev/null | head -10 || echo "         No debug symbols found"
+
+          echo "DEBUG: build directory structure:"
+          find build -type d | head -10 || echo "         No build directories found"
+
+          echo "DEBUG: build/ size:"
+          du -sh build 2>/dev/null || echo "         Cannot access build directory"
+
+          echo "DEBUG: Current working directory:"
+          pwd
+
+          echo "DEBUG: Runner environment:"
+          echo "   Runner OS: $(uname -a)"
+          echo "   Disk space: $(df -h . | tail -1)"
+          echo "   Memory: $(free -h | grep Mem)"
+          echo "   Flutter version: $(flutter --version | head -1)"
+          echo "   Build directory permissions: $(ls -la build/ 2>/dev/null | head -5 || echo 'Cannot access build/')"
+
+          echo "DEBUG: build/debug-info exists:"
+          if [[ -d "build/debug-info" ]]; then
+            echo "         ✅ Directory exists"
+            echo "DEBUG: build/debug-info contents:"
+            ls -la build/debug-info/ | head -10
+            echo "DEBUG: build/debug-info size:"
+            du -sh build/debug-info/
+          else
+            echo "         ❌ Directory does NOT exist"
+            echo "DEBUG: Looking for alternative debug info locations:"
+            find . -name "*debug*" -type d 2>/dev/null | head -5
+            find . -name "*.symbols" -type f 2>/dev/null | head -5
+          fi
 
       - name: Setup Firebase CLI (Staging)
         if: needs.prepare-release.outputs.flavor == 'staging'
