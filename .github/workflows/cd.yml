@@ -670,7 +670,50 @@ jobs:
           echo "FILES:  Final release files:"
           ls -la release-files/
 
-      - name: Create unified GitHub release
+          # Final verification: ensure BOTH files exist before creating release
+          echo ""
+          echo "🔍 Final verification before release creation:"
+          EXPECTED_IPA="release-files/edulift-$FLAVOR.ipa"
+          EXPECTED_APK="release-files/edulift-$FLAVOR.apk"
+          EXPECTED_AAB="release-files/edulift-$FLAVOR.aab"
+
+          if [[ ! -f "$EXPECTED_IPA" ]]; then
+            echo "❌ ERROR: IPA file missing: $EXPECTED_IPA"
+            exit 1
+          fi
+
+          if [[ "$FLAVOR" == "staging" ]]; then
+            if [[ ! -f "$EXPECTED_APK" ]]; then
+              echo "❌ ERROR: APK file missing: $EXPECTED_APK"
+              exit 1
+            fi
+            echo "✅ Both files ready: IPA + APK"
+          else
+            if [[ ! -f "$EXPECTED_AAB" ]]; then
+              echo "❌ ERROR: AAB file missing: $EXPECTED_AAB"
+              exit 1
+            fi
+            echo "✅ Both files ready: IPA + AAB"
+          fi
+
+          echo "✅ All release files verified and ready for atomic upload"
+
+      - name: Delete existing release if present
+        continue-on-error: true
+        run: |
+          TAG_NAME="${{ needs.prepare-release.outputs.tag_name }}"
+          echo "🔍 Checking if release $TAG_NAME already exists..."
+
+          # Try to delete existing release (will fail silently if doesn't exist)
+          if gh release delete "$TAG_NAME" --yes 2>/dev/null; then
+            echo "✅ Deleted existing release: $TAG_NAME"
+          else
+            echo "ℹ️  No existing release found (this is normal for first-time releases)"
+          fi
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Create draft release and upload assets
         uses: softprops/action-gh-release@v1
         with:
           tag_name: ${{ needs.prepare-release.outputs.tag_name }}
@@ -691,7 +734,7 @@ jobs:
             - Unsigned build for AltStore PAL distribution
 
             **Android:**
-            ${{ needs.prepare-release.outputs.is_staging == 'true' && '- 📦 `edulift-staging.apk`\n- For Firebase App Distribution testing' || '- 📦 `edulift-production.aab`\n- For Google Play Store release' }}
+            ${{ needs.prepare-release.outputs.is_staging == 'true' && '- 📦 `edulift-staging.apk` - For Firebase App Distribution testing' || '- 📦 `edulift-production.aab`\n- For Google Play Store release' }}
 
             ## 🔗 Links
 
@@ -700,9 +743,16 @@ jobs:
             ${{ needs.prepare-release.outputs.is_staging == 'true' && '- **Testing:** Firebase App Distribution' || '- **Store:** Google Play Console' }}
 
           files: release-files/*
-          draft: false
+          draft: true
           prerelease: ${{ needs.prepare-release.outputs.is_staging }}
           generate_release_notes: true
+
+      - name: Publish release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: ${{ needs.prepare-release.outputs.tag_name }}
+          draft: false
+          prerelease: ${{ needs.prepare-release.outputs.is_staging }}
 
       - name: Get download URL for AltStore
         id: urls
