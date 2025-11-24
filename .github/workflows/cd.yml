@@ -622,6 +622,7 @@ jobs:
       - name: Prepare release files
         env:
           BUILD_INFO: ${{ needs.build-ios.outputs.final_build_info }}
+          CODEMAGIC_API_TOKEN: ${{ secrets.CODEMAGIC_API_TOKEN }}
         run: |
           VERSION="${{ needs.prepare-release.outputs.version }}"
           FLAVOR="${{ needs.prepare-release.outputs.flavor }}"
