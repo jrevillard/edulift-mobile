@@ -713,8 +713,15 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+      # IMPORTANT: Two-step release pattern required for GitHub release immutability
+      # 1. Create DRAFT release (mutable) and upload all assets
+      # 2. Publish draft → becomes immutable
+      # This prevents "Cannot upload assets to an immutable release" error
+      # DO NOT combine steps or specify 'files' in publish step
+
       - name: Create draft release and upload assets
-        uses: softprops/action-gh-release@v1
+        id: create_draft
+        uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ needs.prepare-release.outputs.tag_name }}
           name: EduLift Mobile ${{ needs.prepare-release.outputs.flavor }} ${{ needs.prepare-release.outputs.version }}
@@ -747,12 +754,23 @@ jobs:
           prerelease: ${{ needs.prepare-release.outputs.is_staging }}
           generate_release_notes: true
 
+      - name: Verify draft creation
+        run: |
+          if [ -z "${{ steps.create_draft.outputs.id }}" ]; then
+            echo "❌ ERROR: Draft release creation failed"
+            echo "INFO:  Check previous step logs for errors"
+            exit 1
+          fi
+          echo "✅ Draft release created successfully"
+          echo "   Release ID: ${{ steps.create_draft.outputs.id }}"
+          echo "   URL: ${{ steps.create_draft.outputs.url }}"
+
       - name: Publish release
-        uses: softprops/action-gh-release@v1
+        uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ needs.prepare-release.outputs.tag_name }}
           draft: false
-          prerelease: ${{ needs.prepare-release.outputs.is_staging }}
+          # All other fields (name, body, assets, prerelease) are preserved from the draft
 
       - name: Get download URL for AltStore
         id: urls
@@ -766,6 +784,8 @@ jobs:
           echo "LINK:  IPA Download URL: $IPA_DOWNLOAD_URL"
 
       - name: Update AltStore PAL source
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           FLAVOR="${{ needs.prepare-release.outputs.flavor }}"
           IPA_PATH="release-files/edulift-$FLAVOR.ipa"
