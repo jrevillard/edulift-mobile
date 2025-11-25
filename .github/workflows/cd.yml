@@ -772,118 +772,105 @@ jobs:
           draft: false
           # All other fields (name, body, assets, prerelease) are preserved from the draft
 
-      - name: Get download URL for AltStore
-        id: urls
+      - name: Create release on my-altstore repo with IPA
+        id: altstore_release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           FLAVOR="${{ needs.prepare-release.outputs.flavor }}"
           TAG_NAME="${{ needs.prepare-release.outputs.tag_name }}"
+          IPA_PATH="release-files/edulift-$FLAVOR.ipa"
+          ALTSTORE_REPO="jrevillard/my-altstore"
 
-          IPA_DOWNLOAD_URL="https://github.com/${{ github.repository }}/releases/download/$TAG_NAME/edulift-$FLAVOR.ipa"
+          echo "📦 Creating release on $ALTSTORE_REPO..."
+          echo "   Tag: $TAG_NAME"
+          echo "   IPA: $IPA_PATH"
 
+          # Delete existing release if present (for re-runs)
+          if gh release view "$TAG_NAME" --repo "$ALTSTORE_REPO" >/dev/null 2>&1; then
+            echo "🗑️  Deleting existing release..."
+            gh release delete "$TAG_NAME" --repo "$ALTSTORE_REPO" --yes
+          fi
+
+          # Create release on my-altstore repo and upload IPA
+          gh release create "$TAG_NAME" \
+            --repo "$ALTSTORE_REPO" \
+            --title "EduLift $FLAVOR ${{ needs.prepare-release.outputs.version }}" \
+            --notes "EduLift Mobile $FLAVOR build
+
+          **Version:** ${{ needs.prepare-release.outputs.version }}
+          **Build:** ${{ github.run_number }}
+          **Commit:** ${{ github.sha }}
+
+          This release contains the IPA file for AltStore PAL distribution." \
+            "$IPA_PATH"
+
+          echo "✅ Release created on $ALTSTORE_REPO"
+
+          # Get download URL for JSON
+          IPA_DOWNLOAD_URL="https://github.com/$ALTSTORE_REPO/releases/download/$TAG_NAME/edulift-$FLAVOR.ipa"
           echo "ipa_download_url=$IPA_DOWNLOAD_URL" >> $GITHUB_OUTPUT
           echo "LINK:  IPA Download URL: $IPA_DOWNLOAD_URL"
 
       - name: Update AltStore PAL source
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.MY_ALTSTORE_TOKEN }}
         run: |
+          set -e
+
           FLAVOR="${{ needs.prepare-release.outputs.flavor }}"
+          VERSION="${{ needs.prepare-release.outputs.version }}"
           IPA_PATH="release-files/edulift-$FLAVOR.ipa"
-          DOWNLOAD_URL="${{ steps.urls.outputs.ipa_download_url }}"
+          DOWNLOAD_URL="${{ steps.altstore_release.outputs.ipa_download_url }}"
+          IPA_SIZE=$(stat -c%s "$IPA_PATH")
 
-          echo "ANDROID:  Updating AltStore PAL source..."
+          echo "📱 Updating AltStore PAL source..."
           echo "   Flavor: $FLAVOR"
-          echo "   IPA: $IPA_PATH"
+          echo "   Version: $VERSION"
           echo "   Download URL: $DOWNLOAD_URL"
+          echo "   IPA Size: $IPA_SIZE bytes"
 
-          # Setup git for AltStore repo updates
+          # Clone AltStore repo
           ALTSTORE_REPO="jrevillard/my-altstore"
           ALTSTORE_BRANCH="main"
 
           mkdir -p altstore_temp
           cd altstore_temp
 
-          # Configure git with GitHub CLI for proper authentication
-          # GitHub CLI uses GITHUB_TOKEN automatically with correct permissions
-          if command -v gh &> /dev/null; then
-            echo "INFO:  Using GitHub CLI for authenticated clone..."
-            gh repo clone $ALTSTORE_REPO .
-          else
-            echo "INFO:  GitHub CLI not available, using git with token..."
-            # Fallback to git clone with token (requires GITHUB_TOKEN with repo scope)
-            git clone https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/$ALTSTORE_REPO.git .
-          fi
-
+          echo "📦 Cloning $ALTSTORE_REPO..."
+          gh repo clone $ALTSTORE_REPO .
           git checkout $ALTSTORE_BRANCH
 
           # Configure git for commits
           git config user.name "GitHub Actions"
           git config user.email "action@github.com"
 
-          # Get app info from pre-extracted version
-          VERSION="${{ needs.prepare-release.outputs.version }}"
-          BUILD_NUMBER="${{ github.run_number }}"
-          IPA_SIZE=$(du -h "../$IPA_PATH" | cut -f1)
+          # Run the update script from my-altstore repo
+          echo "🚀 Running update-altstore.sh script..."
+          chmod +x scripts/update-altstore.sh
 
-          # Generate AltStore PAL JSON
-          mkdir -p apps
-          APP_JSON="apps/${FLAVOR}.json"
-
-          # Use jq to generate JSON safely
-          jq -n \
-            --arg name "EduLift" \
-            --arg bundleId "com.edulift.app${FLAVOR:+:.staging}" \
-            --arg version "$VERSION" \
-            --arg versionDate "$(date -u +%Y-%m-%dT%H:%M:%SZ)" \
-            --arg localizedDescription "Version $VERSION - Build $BUILD_NUMBER" \
-            --arg downloadURL "$DOWNLOAD_URL" \
-            --arg size "$IPA_SIZE" \
-            --arg iconURL "https://raw.githubusercontent.com/jrevillard/edulift-mobile/main/docs/edulift-icon.png" \
-            --arg tintColor "#1976d2" \
-            '{
-              "name": $name,
-              "bundleIdentifier": $bundleId,
-              "version": $version,
-              "versionDate": $versionDate,
-              "localizedDescription": $localizedDescription,
-              "downloadURL": $downloadURL,
-              "size": ($size | tonumber),
-              "iconURL": $iconURL,
-              "tintColor": $tintColor
-            }' > "$APP_JSON"
-
-          echo "SUCCESS:  Generated $APP_JSON:"
-          echo "   Name: EduLift $FLAVOR"
-          echo "   Bundle ID: com.edulift.app${FLAVOR:+:.staging}"
-          echo "   Download URL: $DOWNLOAD_URL"
-          echo "   Size: $IPA_SIZE"
+          ./scripts/update-altstore.sh \
+            "edulift" \
+            "$FLAVOR" \
+            "$DOWNLOAD_URL" \
+            "$VERSION" \
+            "$IPA_SIZE"
 
           # Commit and push changes
-          if git diff --quiet; then
-            echo "INFO:  No changes to AltStore source (version already up to date)"
+          if git diff --quiet && git diff --staged --quiet; then
+            echo "ℹ️  No changes to commit"
           else
-            git add .
+            git add -A
             git commit -m "feat: update EduLift $FLAVOR to version $VERSION"
-
-            # Push with retry logic (handles race conditions)
-            MAX_RETRIES=3
-            for i in $(seq 1 $MAX_RETRIES); do
-              if git push origin $ALTSTORE_BRANCH; then
-                echo "SUCCESS:  AltStore PAL source updated successfully"
-                break
-              elif [[ $i -lt $MAX_RETRIES ]]; then
-                echo "WARNING:  Push failed (attempt $i/$MAX_RETRIES), retrying..."
-                git pull --rebase origin $ALTSTORE_BRANCH
-                sleep 2
-              else
-                echo "ERROR:  Failed to push AltStore updates after $MAX_RETRIES attempts"
-                exit 1
-              fi
-            done
+            git push origin $ALTSTORE_BRANCH
+            echo "✅ AltStore PAL source updated successfully"
           fi
 
           cd ..
           rm -rf altstore_temp
+
+          echo "🎉 AltStore update completed!"
+          echo "📋 View changes: https://github.com/$ALTSTORE_REPO/commits/$ALTSTORE_BRANCH"
 
       - name: Release summary
         run: |
