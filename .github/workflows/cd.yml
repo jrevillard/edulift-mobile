@@ -883,6 +883,10 @@ jobs:
           git config user.name "GitHub Actions"
           git config user.email "action@github.com"
 
+          # Configure git to use the GitHub token for authentication
+          git config credential.helper store
+          echo "https://x-access-token:${GH_TOKEN}@github.com" > ~/.git-credentials
+
           # Run the update script from my-altstore repo
           echo "🚀 Running update-altstore.sh script..."
           chmod +x scripts/update-altstore.sh
