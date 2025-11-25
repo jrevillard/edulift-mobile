@@ -501,27 +501,60 @@ jobs:
       - name: Distribute to Firebase
         id: firebase-upload
         run: |
+          set -e  # Exit on any error
+
           FLAVOR="${{ needs.prepare-release.outputs.flavor }}"
           VERSION="${{ needs.prepare-release.outputs.version }}"
           TAG_NAME="${{ needs.prepare-release.outputs.tag_name }}"
 
+          # Determine file paths and verify existence
           if [[ "$FLAVOR" == "staging" ]]; then
-            APK_PATH="build/app/outputs/flutter-apk/app-staging-release.apk"
+            ARTIFACT_PATH="build/app/outputs/flutter-apk/app-staging-release.apk"
+            ARTIFACT_TYPE="APK"
+          else
+            ARTIFACT_PATH="build/app/outputs/bundle/productionRelease/app-production-release.aab"
+            ARTIFACT_TYPE="AAB"
+          fi
 
-            UPLOAD_OUTPUT=$(firebase appdistribution:distribute "$APK_PATH" \
+          # Verify artifact exists before upload
+          if [[ ! -f "$ARTIFACT_PATH" ]]; then
+            echo "ERROR: $ARTIFACT_TYPE file not found: $ARTIFACT_PATH"
+            echo "DEBUG: Available files in build/app/outputs:"
+            find build/app/outputs -type f 2>/dev/null || echo "No files found"
+            exit 1
+          fi
+
+          FILE_SIZE=$(stat -c%s "$ARTIFACT_PATH")
+          echo "INFO:  Found $ARTIFACT_TYPE: $ARTIFACT_PATH ($FILE_SIZE bytes)"
+
+          # Upload to Firebase with proper error handling
+          echo "INFO:  Uploading $ARTIFACT_TYPE to Firebase App Distribution..."
+
+          if [[ "$FLAVOR" == "staging" ]]; then
+            UPLOAD_OUTPUT=$(firebase appdistribution:distribute "$ARTIFACT_PATH" \
               --app "${{ steps.load-versions.outputs.FIREBASE_ANDROID_STAGING_APP_ID }}" \
               --groups "${{ secrets.FIREBASE_GROUPS_STAGING || 'internal-testers' }}" \
-              --release-notes "Pre-release $TAG_NAME from commit ${{ github.sha }}" 2>&1)
+              --release-notes "Pre-release $TAG_NAME from commit ${{ github.sha }}" 2>&1) || {
+              echo "ERROR: Firebase upload failed"
+              echo "DEBUG: Firebase CLI output:"
+              echo "$UPLOAD_OUTPUT"
+              exit 1
+            }
           else
-            AAB_PATH="build/app/outputs/bundle/release/app-production-release.aab"
-
-            UPLOAD_OUTPUT=$(firebase appdistribution:distribute "$AAB_PATH" \
+            UPLOAD_OUTPUT=$(firebase appdistribution:distribute "$ARTIFACT_PATH" \
               --app "${{ steps.load-versions.outputs.FIREBASE_ANDROID_PROD_APP_ID }}" \
               --groups "${{ secrets.FIREBASE_GROUPS_PROD || 'production-testers' }}" \
-              --release-notes "Production release $TAG_NAME from commit ${{ github.sha }}" 2>&1)
+              --release-notes "Production release $TAG_NAME from commit ${{ github.sha }}" 2>&1) || {
+              echo "ERROR: Firebase upload failed"
+              echo "DEBUG: Firebase CLI output:"
+              echo "$UPLOAD_OUTPUT"
+              exit 1
+            }
           fi
 
           # Display upload output for debugging
+          echo "INFO:  Firebase upload completed"
+          echo "DEBUG: Firebase CLI output:"
           echo "$UPLOAD_OUTPUT"
 
           # Extract download URL from Firebase CLI output
@@ -531,8 +564,13 @@ jobs:
 
           if [[ -z "$DOWNLOAD_URL" ]]; then
             echo "ERROR: Failed to extract download URL from Firebase CLI output"
-            echo "DEBUG: Firebase CLI output:"
+            echo "DEBUG: Full Firebase CLI output:"
             echo "$UPLOAD_OUTPUT"
+            echo ""
+            echo "INFO:  This could mean:"
+            echo "  1. Firebase CLI output format changed"
+            echo "  2. Upload succeeded but URL extraction regex needs updating"
+            echo "  3. Firebase authentication issue"
             exit 1
           fi
 
@@ -590,13 +628,13 @@ jobs:
           DOWNLOAD_URL="${{ needs.build-android.outputs.download_url }}"
 
           echo "📱 Downloading Android artifacts from Firebase App Distribution..."
-          mkdir -p build/app/outputs/{flutter-apk,bundle/release}
+          mkdir -p build/app/outputs/{flutter-apk,bundle/productionRelease}
 
           # Determine target path based on flavor
           if [[ "$FLAVOR" == "staging" ]]; then
             TARGET_PATH="build/app/outputs/flutter-apk/app-staging-release.apk"
           else
-            TARGET_PATH="build/app/outputs/bundle/release/app-production-release.aab"
+            TARGET_PATH="build/app/outputs/bundle/productionRelease/app-production-release.aab"
           fi
 
           echo "INFO:  Download URL: $DOWNLOAD_URL"
@@ -645,7 +683,7 @@ jobs:
             ANDROID_FILE="build/app/outputs/flutter-apk/app-staging-release.apk"
             TARGET_FILE="edulift-$FLAVOR.apk"
           else
-            ANDROID_FILE="build/app/outputs/bundle/release/app-production-release.aab"
+            ANDROID_FILE="build/app/outputs/bundle/productionRelease/app-production-release.aab"
             TARGET_FILE="edulift-$FLAVOR.aab"
           fi
 
