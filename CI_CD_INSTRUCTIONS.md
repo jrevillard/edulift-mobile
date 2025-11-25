@@ -8,7 +8,7 @@ The deep link configuration is now completely automated and reads from `DEEP_LIN
 
 - **Development**: `edulift://` → Custom URL scheme only
 - **E2E**: `edulift://` → Custom URL scheme only
-- **Staging**: `https://transport.tanjama.fr:50443/` → Custom scheme + Universal Links
+- **Staging**: `https://transport.tanjama.fr/` → Custom scheme + Universal Links
 - **Production**: `https://transport.tanjama.fr/` → Custom scheme + Universal Links
 
 ## Android Configuration
@@ -49,7 +49,7 @@ iOS uses an automated script that modifies the build files before building.
 ### Verified Results ✅
 - **Development**: `edulift://` → Custom scheme only, empty entitlements
 - **E2E**: `edulift://` → Custom scheme only, empty entitlements
-- **Staging**: `https://transport.tanjama.fr:50443/` → Custom scheme + `applinks:transport.tanjama.fr:50443`
+- **Staging**: `https://transport.tanjama.fr/` → Custom scheme + `applinks:transport.tanjama.fr`
 - **Production**: `https://transport.tanjama.fr/` → Custom scheme + `applinks:transport.tanjama.fr`
 
 ### CI/CD Integration
