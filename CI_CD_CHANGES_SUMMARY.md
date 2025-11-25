@@ -69,7 +69,7 @@ All CI/CD pipelines have been updated to automatically configure iOS and Android
 |-------------|-------------|-------------------|------------|-----------------|
 | Development | `config/development.json` | `edulift://` | Custom scheme only | Custom scheme only |
 | E2E | `config/e2e.json` | `edulift://` | Custom scheme only | Custom scheme only |
-| Staging | `config/staging.json` | `https://transport.tanjama.fr/` | Custom scheme + Universal Links | Custom scheme + App Links |
+| Staging | `config/staging.json` | `https://transport.tanjama.fr:50443/` | Custom scheme + Universal Links | Custom scheme + App Links |
 | Production | `config/production.json` | `https://transport.tanjama.fr/` | Custom scheme + Universal Links | Custom scheme + App Links |
 
 ## 🚀 Usage Examples
@@ -93,7 +93,7 @@ All CI/CD pipelines have been updated to automatically configure iOS and Android
 ```bash
 # iOS staging builds automatically configure:
 # - Custom URL scheme: edulift
-# - Universal Links: applinks:transport.tanjama.fr
+# - Universal Links: applinks:transport.tanjama.fr:50443
 
 # iOS production builds automatically configure:
 # - Custom URL scheme: edulift

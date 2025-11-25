@@ -100,7 +100,7 @@ flutter build apk --flavor production --dart-define-from-file=config/production.
 
 Each flavor has its own configuration file in `config/`:
 - `config/development.json` - Local development (localhost:3001)
-- `config/staging.json` - Pre-production
+- `config/staging.json` - Pre-production (https://transport.tanjama.fr:50443)
 - `config/e2e.json` - E2E testing (Android emulator loopback)
 - `config/production.json` - Production environment
 

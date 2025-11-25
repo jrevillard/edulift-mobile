@@ -145,13 +145,13 @@ class StagingConfig implements BaseConfig {
   @override
   String get apiBaseUrl => const String.fromEnvironment(
     'API_BASE_URL',
-    defaultValue: 'https://transport.tanjama.fr/api/v1',
+    defaultValue: 'https://transport.tanjama.fr:50443/api/v1',
   );
 
   @override
   String get websocketUrl => const String.fromEnvironment(
     'WEBSOCKET_URL',
-    defaultValue: 'wss://transport.tanjama.fr',
+    defaultValue: 'wss://transport.tanjama.fr:50443',
   );
 
   @override
