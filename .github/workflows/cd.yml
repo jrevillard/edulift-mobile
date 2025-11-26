@@ -397,14 +397,9 @@ jobs:
           printf "storeFile=%s\n" "edulift-release.keystore" > android/key.properties
           printf "keyAlias=%s\n" "$KEY_ALIAS" >> android/key.properties
 
-          # For JKS, use keyPassword first, fallback to storePassword if needed
-          if [ -n "$KEY_PASSWORD" ] && [ "$KEY_PASSWORD" != "" ]; then
-            printf "keyPassword=%s\n" "$KEY_PASSWORD" >> android/key.properties
-            echo "INFO:  Using KEY_PASSWORD for key password"
-          else
-            printf "keyPassword=%s\n" "$KEYSTORE_PASSWORD" >> android/key.properties
-            echo "INFO:  Using KEYSTORE_PASSWORD for key password (JKS fallback)"
-          fi
+          # For JKS keystore, keyPassword should equal storePassword
+          printf "keyPassword=%s\n" "$KEYSTORE_PASSWORD" >> android/key.properties
+          echo "INFO:  Using KEYSTORE_PASSWORD for key password (JKS requirement)"
 
           printf "storePassword=%s\n" "$KEYSTORE_PASSWORD" >> android/key.properties
           # No storeType needed for JKS (default)
