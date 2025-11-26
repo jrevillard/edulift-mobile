@@ -7,7 +7,7 @@ This document explains how to configure iOS deep links to read from the `config/
 The iOS project is now configured to read deep link URLs from `DEEP_LINK_BASE_URL` in the config files:
 - `config/development.json` → `"edulift://"`
 - `config/e2e.json` → `"edulift://"`
-- `config/staging.json` → `"https://transport.tanjama.fr/"`
+- `config/staging.json` → `"https://transport.tanjama.fr:50443/"`
 - `config/production.json` → `"https://transport.tanjama.fr/"`
 
 ## Files Created/Modified
@@ -90,7 +90,7 @@ OUTPUT_FILE="${TARGET_TEMP_DIR}/generated_config.xcconfig"
 3. Python script reads appropriate `config/{environment}.json`
 4. Extracts `DEEP_LINK_BASE_URL` and generates:
    - `CUSTOM_URL_SCHEME` (e.g., "edulift")
-   - `ASSOCIATED_DOMAIN` (e.g., "applinks:transport.tanjama.fr")
+   - `ASSOCIATED_DOMAIN` (e.g., "applinks:transport.tanjama.fr:50443")
 5. Xcode includes these variables via `Config.xcconfig`
 6. `Info.plist` uses `$(CUSTOM_URL_SCHEME)` for custom URL schemes
 7. `Runner.entitlements` uses `$(ASSOCIATED_DOMAIN)` for Universal Links
