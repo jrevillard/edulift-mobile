@@ -372,23 +372,48 @@ jobs:
         run: |
           echo "🔐 Configuring Android keystore for release signing..."
 
-          # Decode keystore from base64 and save as P12 file
-          echo "$ANDROID_KEYSTORE" | base64 --decode > android/app/edulift-release.p12
+          # Decode keystore from base64 and save as JKS file
+          echo "$ANDROID_KEYSTORE" | base64 --decode > android/app/edulift-release.keystore
+
+          # Verify the decoded file
+          echo "🔍 Verifying keystore file..."
+          if [ ! -f "android/app/edulift-release.keystore" ]; then
+            echo "❌ ERROR: Keystore file was not created!"
+            exit 1
+          fi
+
+          # Check file size and type
+          KEYSTORE_SIZE=$(stat -c%s "android/app/edulift-release.keystore")
+          echo "INFO:  Keystore file size: $KEYSTORE_SIZE bytes"
+
+          # For JKS keystore, keypass might not be used or equals storepass
+          # Try both keypass and storepass for the key password
+          echo "INFO:  Keystore format: JKS (Java Keystore)"
+          echo "INFO:  Key alias: $KEY_ALIAS"
 
           # Create key.properties file in android/ directory
-          # For PKCS12 format, storeFile path is relative to android/app/ (where build.gradle.kts is located)
+          # storeFile path is relative to android/app/ (where build.gradle.kts is located)
           # Use printf to safely handle special characters in passwords
-          printf "storeFile=%s\n" "edulift-release.p12" > android/key.properties
+          printf "storeFile=%s\n" "edulift-release.keystore" > android/key.properties
           printf "keyAlias=%s\n" "$KEY_ALIAS" >> android/key.properties
-          printf "keyPassword=%s\n" "$KEY_PASSWORD" >> android/key.properties
+
+          # For JKS, use keyPassword first, fallback to storePassword if needed
+          if [ -n "$KEY_PASSWORD" ] && [ "$KEY_PASSWORD" != "" ]; then
+            printf "keyPassword=%s\n" "$KEY_PASSWORD" >> android/key.properties
+            echo "INFO:  Using KEY_PASSWORD for key password"
+          else
+            printf "keyPassword=%s\n" "$KEYSTORE_PASSWORD" >> android/key.properties
+            echo "INFO:  Using KEYSTORE_PASSWORD for key password (JKS fallback)"
+          fi
+
           printf "storePassword=%s\n" "$KEYSTORE_PASSWORD" >> android/key.properties
-          printf "storeType=%s\n" "PKCS12" >> android/key.properties
+          # No storeType needed for JKS (default)
 
           echo "✅ Keystore configured successfully"
-          echo "INFO:  Keystore location: android/app/edulift-release.p12"
-          echo "INFO:  Keystore type: PKCS12 (P12)"
+          echo "INFO:  Keystore location: android/app/edulift-release.keystore"
+          echo "INFO:  Keystore type: JKS (Java Keystore)"
           echo "INFO:  Properties file: android/key.properties"
-          echo "INFO:  storeFile path: edulift-release.p12 (relative to android/app/)"
+          echo "INFO:  storeFile path: edulift-release.keystore (relative to android/app/)"
 
       - name: Build Android
         run: |
