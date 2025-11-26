@@ -375,6 +375,32 @@ jobs:
           # Decode keystore from base64 and save as P12 file
           echo "$ANDROID_KEYSTORE" | base64 --decode > android/app/edulift-release.p12
 
+          # Verify the decoded file
+          echo "🔍 Verifying keystore file..."
+          if [ ! -f "android/app/edulift-release.p12" ]; then
+            echo "❌ ERROR: Keystore file was not created!"
+            exit 1
+          fi
+
+          # Check file size and type
+          KEYSTORE_SIZE=$(stat -c%s "android/app/edulift-release.p12")
+          echo "INFO:  Keystore file size: $KEYSTORE_SIZE bytes"
+
+          # Verify it's a valid PKCS12 file using OpenSSL
+          if command -v openssl >/dev/null 2>&1; then
+            echo "INFO:  Verifying PKCS12 format with OpenSSL..."
+            if openssl pkcs12 -info -in "android/app/edulift-release.p12" -noout -passin pass:"$KEYSTORE_PASSWORD" 2>/dev/null; then
+              echo "✅ Keystore is valid PKCS12 format"
+            else
+              echo "❌ ERROR: Keystore is not valid PKCS12 format or password is incorrect"
+              echo "DEBUG: Listing first 100 bytes of keystore file:"
+              hexdump -C "android/app/edulift-release.p12" | head -10
+              exit 1
+            fi
+          else
+            echo "WARNING: OpenSSL not available, skipping format verification"
+          fi
+
           # Create key.properties file in android/ directory
           # For PKCS12 format, storeFile path is relative to android/app/ (where build.gradle.kts is located)
           # Use printf to safely handle special characters in passwords
