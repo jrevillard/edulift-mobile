@@ -363,6 +363,29 @@ jobs:
           restore-keys: |
             v1-${{ runner.os }}-gradle-${{ hashFiles('**/gradle-wrapper.properties') }}-
 
+      - name: Configure Android keystore
+        env:
+          ANDROID_KEYSTORE: ${{ secrets.ANDROID_KEYSTORE }}
+          KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
+          KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+        run: |
+          echo "🔐 Configuring Android keystore for release signing..."
+
+          # Decode keystore from base64 and save to file
+          echo "$ANDROID_KEYSTORE" | base64 --decode > android/app/edulift-release.keystore
+
+          # Create key.properties file in android/ directory
+          # Use printf to safely handle special characters in passwords
+          printf "storeFile=%s\n" "app/edulift-release.keystore" > android/key.properties
+          printf "keyAlias=%s\n" "$KEY_ALIAS" >> android/key.properties
+          printf "keyPassword=%s\n" "$KEY_PASSWORD" >> android/key.properties
+          printf "storePassword=%s\n" "$KEYSTORE_PASSWORD" >> android/key.properties
+
+          echo "✅ Keystore configured successfully"
+          echo "INFO:  Keystore location: android/app/edulift-release.keystore"
+          echo "INFO:  Properties file: android/key.properties"
+
       - name: Build Android
         run: |
           FLAVOR="${{ needs.prepare-release.outputs.flavor }}"
