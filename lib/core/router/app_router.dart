@@ -327,9 +327,10 @@ class AppRouter {
         // Wait for auth initialization before making routing decisions
         // CRITICAL FIX: Allow magic link verification even when auth not initialized
         // User may click magic link from email before having an active session
-        final isMagicLinkVerifyRoute = state.matchedLocation.startsWith(
-          '/auth/verify',
-        );
+        // CRITICAL FIX: Also check for /verify (alias route for GoRouter custom scheme limitation)
+        final isMagicLinkVerifyRoute =
+            state.matchedLocation.startsWith('/auth/verify') ||
+            state.matchedLocation.startsWith('/verify');
         if (!authState.isInitialized && !isMagicLinkVerifyRoute) {
           core_logger.AppLogger.debug(
             '🔄 [GoRouter Redirect] Auth not yet initialized - showing splash',

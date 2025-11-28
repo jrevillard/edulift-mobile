@@ -184,8 +184,18 @@ class _EduLiftAppState extends ConsumerState<EduLiftApp>
       // Moving this after navigation prevents auth state change from interfering with /auth/verify navigation
       // This fixes the issue where router redirect to login overrides magic link verification
 
-      // Build the complete verification URL with all parameters
-      var verifyUrl = '/auth/verify?token=${deepLink.magicToken}';
+      // CRITICAL FIX: Use DeepLinkResult.routerPath instead of hardcoded path
+      // This ensures the correct path is used when DeepLinkResult is properly parsed
+      var verifyUrl = '${deepLink.routerPath}?token=${deepLink.magicToken}';
+
+      // FALLBACK: If DeepLinkResult path is incorrect (e.g., "auth" instead of "auth/verify"), fix it
+      if (deepLink.path == 'auth' || deepLink.routerPath == '/auth') {
+        verifyUrl = '/auth/verify?token=${deepLink.magicToken}';
+        AppLogger.warning(
+          '🔧 DEEP_LINK_FALLBACK: Fixed incorrect path "${deepLink.path}" -> "/auth/verify"',
+        );
+      }
+
       if (deepLink.inviteCode != null) {
         verifyUrl += '&inviteCode=${deepLink.inviteCode}';
       }

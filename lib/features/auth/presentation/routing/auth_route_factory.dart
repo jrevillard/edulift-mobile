@@ -68,6 +68,43 @@ class AuthRouteFactory implements AppRouteFactory {
         );
       },
     ),
+
+    // CRITICAL FIX: Alias route for GoRouter custom scheme host limitation
+    // GoRouter ignores the host component in custom scheme URIs
+    // For edulift://auth/verify, GoRouter sees only "/verify"
+    GoRoute(
+      path: '/verify',
+      name: 'verify-magic-link-alias',
+      builder: (context, state) {
+        final token = state.uri.queryParameters['token'];
+        final inviteCode = state.uri.queryParameters['inviteCode'];
+        final email = state.uri.queryParameters['email'];
+
+        if (token == null) {
+          return const _ErrorPage(error: 'No verification token provided');
+        }
+
+        // CRITICAL FIX: Wrap in Consumer to ensure proper ProviderScope inheritance
+        return Consumer(
+          builder: (context, ref, child) {
+            // Add debug logging to verify the fix
+            WidgetsBinding.instance.addPostFrameCallback((_) {
+              AppLogger.info(
+                '🔧 PROVIDER_FIX: Consumer wrapper ensuring proper provider scope\n'
+                '   - GoRouter builder context hashCode: ${context.hashCode}\n'
+                '   - Consumer ref.hashCode: ${ref.hashCode}\n'
+                '   - This should match other parts of the app',
+              );
+            });
+            return MagicLinkVerifyPage(
+              token: token,
+              inviteCode: inviteCode,
+              email: email,
+            );
+          },
+        );
+      },
+    ),
   ];
 }
 

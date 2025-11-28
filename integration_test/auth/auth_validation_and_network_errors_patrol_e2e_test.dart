@@ -664,6 +664,7 @@ void main() {
 
     patrolTest(
       'user receives proper error during magic link verification network failure then expects verification error handling',
+      tags: ['current'],
       ($) async {
         // STEP 1: Generate test data
         final userProfile = TestDataGenerator.generateUniqueUserProfile(
