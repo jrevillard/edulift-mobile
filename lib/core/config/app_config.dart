@@ -94,6 +94,16 @@ class DevelopmentConfig implements BaseConfig {
   );
 
   @override
+  String get customUrlScheme => const String.fromEnvironment(
+    'CUSTOM_URL_SCHEME',
+    defaultValue: 'edulift',
+  );
+
+  @override
+  bool get universalLinksEnabled =>
+      const bool.fromEnvironment('UNIVERSAL_LINKS_ENABLED');
+
+  @override
   bool get firebaseEnabled => const bool.fromEnvironment('FIREBASE_ENABLED');
 
   @override
@@ -220,6 +230,16 @@ class StagingConfig implements BaseConfig {
   );
 
   @override
+  String get customUrlScheme => const String.fromEnvironment(
+    'CUSTOM_URL_SCHEME',
+    defaultValue: 'edulift',
+  );
+
+  @override
+  bool get universalLinksEnabled =>
+      const bool.fromEnvironment('UNIVERSAL_LINKS_ENABLED', defaultValue: true);
+
+  @override
   bool get firebaseEnabled =>
       const bool.fromEnvironment('FIREBASE_ENABLED', defaultValue: true);
 
@@ -341,6 +361,16 @@ class E2EConfig implements BaseConfig {
     'DEEP_LINK_BASE_URL',
     defaultValue: 'edulift://',
   );
+
+  @override
+  String get customUrlScheme => const String.fromEnvironment(
+    'CUSTOM_URL_SCHEME',
+    defaultValue: 'edulift',
+  );
+
+  @override
+  bool get universalLinksEnabled =>
+      const bool.fromEnvironment('UNIVERSAL_LINKS_ENABLED');
 
   @override
   bool get firebaseEnabled => const bool.fromEnvironment('FIREBASE_ENABLED');
@@ -470,6 +500,16 @@ class ProductionConfig implements BaseConfig {
     'DEEP_LINK_BASE_URL',
     defaultValue: 'https://transport.tanjama.fr/',
   );
+
+  @override
+  String get customUrlScheme => const String.fromEnvironment(
+    'CUSTOM_URL_SCHEME',
+    defaultValue: 'edulift',
+  );
+
+  @override
+  bool get universalLinksEnabled =>
+      const bool.fromEnvironment('UNIVERSAL_LINKS_ENABLED', defaultValue: true);
 
   @override
   bool get firebaseEnabled =>

@@ -50,6 +50,12 @@ class _MockGoldenTestConfig implements BaseConfig {
   bool get firebaseEnabled => false;
 
   @override
+  String get customUrlScheme => 'edulift';
+
+  @override
+  bool get universalLinksEnabled => true;
+
+  @override
   Map<String, String> get defaultHeaders => {
     'Content-Type': 'application/json',
     'Accept': 'application/json',

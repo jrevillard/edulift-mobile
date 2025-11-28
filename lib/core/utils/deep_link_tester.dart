@@ -113,21 +113,16 @@ class DeepLinkTester {
   }
 
   /// Generate test URLs for various scenarios
-  static List<String> generateTestUrls(DeepLinkService deepLinkService) {
+  static List<String> generateTestUrls() {
     return [
       // Basic magic link
-      deepLinkService.generateNativeDeepLink('test_token_123'),
+      'edulift://auth/verify?token=test_token_123',
 
       // Magic link with invitation
-      deepLinkService.generateNativeDeepLink(
-        'test_token_456',
-        inviteCode: 'FAM789',
-      ),
+      'edulift://auth/verify?token=test_token_456&inviteCode=FAM789',
 
       // Complex token
-      deepLinkService.generateNativeDeepLink(
-        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c',
-      ),
+      'edulift://auth/verify?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c',
     ];
   }
 
@@ -162,8 +157,8 @@ class DeepLinkTester {
         AppLogger.debug('✅ Basic URL parsing successful');
       }
 
-      // Test URL generation
-      final generatedUrl = deepLinkService.generateNativeDeepLink('test_token');
+      // Test URL generation (using hardcoded test URL since generation is backend responsibility)
+      const generatedUrl = 'edulift://auth/verify?token=test_token';
       if (!generatedUrl.startsWith('edulift://')) {
         AppLogger.error('❌ URL generation failed');
         isValid = false;

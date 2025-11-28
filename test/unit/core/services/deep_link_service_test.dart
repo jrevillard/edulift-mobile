@@ -294,68 +294,6 @@ void main() {
       });
     });
 
-    group('Deep Link Generation Logic', () {
-      test('should generate consistent deep links', () {
-        // Given
-        const token = 'abc123xyz';
-        const inviteCode = 'fam456';
-
-        // When
-        final result1 = deepLinkService.generateNativeDeepLink(
-          token,
-          inviteCode: inviteCode,
-        );
-        final result2 = deepLinkService.generateNativeDeepLink(
-          token,
-          inviteCode: inviteCode,
-        );
-
-        // Then
-        expect(result1, equals(result2));
-        expect(result1, contains('token=abc123xyz'));
-        expect(result1, contains('inviteCode=fam456'));
-        expect(result1, contains('auth/verify'));
-      });
-
-      test('should generate parsable deep links', () {
-        // Given
-        const token = 'token123xyz';
-        const inviteCode = 'invite456';
-
-        // When
-        final generated = deepLinkService.generateNativeDeepLink(
-          token,
-          inviteCode: inviteCode,
-        );
-        final parsed = deepLinkService.parseDeepLink(generated);
-
-        // Then
-        expect(parsed, isNotNull);
-        expect(parsed!.path, equals('auth/verify'));
-        expect(parsed.magicToken, equals(token));
-        expect(parsed.inviteCode, equals(inviteCode));
-        expect(parsed.hasMagicLink, isTrue);
-        expect(parsed.hasInvitation, isTrue);
-      });
-
-      test('should handle special characters in generation', () {
-        // Given
-        const token = 'abc 123&test';
-        const inviteCode = 'fam@456#test';
-
-        // When
-        final result = deepLinkService.generateNativeDeepLink(
-          token,
-          inviteCode: inviteCode,
-        );
-
-        // Then
-        expect(result, contains('token=abc%20123%26test'));
-        expect(result, contains('inviteCode=fam%40456%23test'));
-        expect(result, contains('auth/verify'));
-      });
-    });
-
     group('DeepLinkResult Entity Logic', () {
       test('should correctly identify magic link presence', () {
         // Given

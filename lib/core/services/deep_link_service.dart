@@ -25,8 +25,9 @@ class DeepLinkServiceImpl implements DeepLinkService {
   Function(DeepLinkResult)? _deepLinkHandler;
   Timer? _fileWatcher;
   late final List<String> _authorizedDomains;
+  late final String _customScheme;
+  late final bool _universalLinksEnabled;
 
-  static const String _customScheme = 'edulift';
   static const String _devLinkFile = '/tmp/edulift-deeplink';
 
   // SINGLETON PATTERN - Prevents multiple protocol handlers
@@ -36,7 +37,14 @@ class DeepLinkServiceImpl implements DeepLinkService {
   /// CRITICAL: This prevents multiple DeepLinkServiceImpl instances
   /// that cause conflicting protocol handlers and file watchers.
   DeepLinkServiceImpl._() {
+    final config = EnvironmentConfig.getConfig();
+    _customScheme = config.customUrlScheme;
+    _universalLinksEnabled = config.universalLinksEnabled;
     _authorizedDomains = _loadAuthorizedDomains();
+
+    AppLogger.info(
+      '🔗 DeepLinkService initialized with scheme: $_customScheme, universal links: $_universalLinksEnabled',
+    );
   }
 
   /// Test constructor - allows injection of authorized domains for testing
@@ -86,10 +94,12 @@ class DeepLinkServiceImpl implements DeepLinkService {
         );
         try {
           await protocolHandler.register(_customScheme);
-          AppLogger.info('✅ Protocol handler registered successfully');
+          AppLogger.info(
+            '✅ Protocol handler registered for scheme: $_customScheme',
+          );
         } catch (e) {
           AppLogger.warning(
-            '⚠️ Protocol handler registration failed (non-critical): $e',
+            '⚠️ Protocol handler registration failed for scheme $_customScheme (non-critical): $e',
           );
         }
       }
@@ -182,9 +192,11 @@ class DeepLinkServiceImpl implements DeepLinkService {
           );
           return null;
         }
-      } else if (uri.scheme != 'edulift') {
-        // Only support edulift:// custom scheme (legacy support)
-        AppLogger.debug('⏭️ Ignoring unsupported scheme: ${uri.scheme}');
+      } else if (uri.scheme != _customScheme) {
+        // Only support our custom scheme (configurable)
+        AppLogger.debug(
+          '⏭️ Ignoring unsupported scheme: ${uri.scheme} (expected: $_customScheme)',
+        );
         return null;
       }
 
@@ -299,33 +311,6 @@ class DeepLinkServiceImpl implements DeepLinkService {
     return path.isEmpty ? null : path;
   }
 
-  @override
-  String generateNativeDeepLink(String token, {String? inviteCode}) {
-    final config = EnvironmentConfig.getConfig();
-    final baseUrl = config.deepLinkBaseUrl;
-
-    final params = {'token': token};
-    if (inviteCode != null) {
-      params['inviteCode'] = inviteCode;
-    }
-
-    final query = params.entries
-        .map(
-          (e) =>
-              '${Uri.encodeComponent(e.key)}=${Uri.encodeComponent(e.value)}',
-        )
-        .join('&');
-
-    // Build URL based on config base URL
-    if (baseUrl.startsWith('https://')) {
-      // HTTPS App Link
-      return '${baseUrl}auth/verify?$query';
-    } else {
-      // Custom scheme (edulift://)
-      return '${baseUrl}auth/verify?$query';
-    }
-  }
-
   void _handleIncomingDeepLink(Uri uri) {
     final result = parseDeepLink(uri.toString());
 
@@ -378,7 +363,7 @@ class DeepLinkServiceImpl implements DeepLinkService {
             final url = content.trim();
 
             // Process all valid deep links (allow reuse for error recovery)
-            if (url.isNotEmpty && url.startsWith(_customScheme)) {
+            if (url.isNotEmpty && url.startsWith('$_customScheme://')) {
               AppLogger.info('📂 Dev file deep link detected: $url');
 
               // Parse and handle the deep link

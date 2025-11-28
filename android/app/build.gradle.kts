@@ -51,7 +51,14 @@ fun getDeepLinkBaseUrl(flavor: String): String {
 }
 
 // Function to parse deep link URL and extract scheme, host, and port separately
-data class DeepLinkConfig(val scheme: String, val host: String?, val port: String?)
+data class DeepLinkConfig(val scheme: String, val host: String?, val port: String?) {
+    // Generate the host attribute that matches Google's format (with dot before port)
+    val hostWithDot: String? = if (!port.isNullOrEmpty()) {
+        "${host}."
+    } else {
+        host
+    }
+}
 
 fun parseDeepLinkUrl(url: String): DeepLinkConfig {
     return when {
@@ -94,39 +101,75 @@ fun parseDeepLinkUrl(url: String): DeepLinkConfig {
     }
 }
 
-// Function to generate intent filters as XML (single section with conditional host and port)
-fun generateAllIntentFilters(config: DeepLinkConfig): String {
-    val autoVerify = config.scheme == "https"
-    val hostAttribute = if (config.host.isNullOrEmpty()) "" else " android:host=\"${config.host}\""
+// Function to generate intent filters as XML (dual strategy: Universal Links + Custom Scheme fallback)
+fun generateAllIntentFilters(config: DeepLinkConfig, customScheme: String = "edulift"): String {
+    val hostAttribute = if (config.host.isNullOrEmpty()) "" else " android:host=\"${config.hostWithDot}\""
     val portAttribute = if (config.port.isNullOrEmpty()) "" else " android:port=\"${config.port}\""
 
-    return """
-      <!-- Intent filters generated from config (host and port included if present) -->
-      <intent-filter android:autoVerify="$autoVerify">
+    // Build the result
+    val result = StringBuilder()
+
+    // Add Universal Links intent filters (if HTTPS is configured)
+    if (config.scheme == "https") {
+        result.append("""
+      <!-- Intent filters generated from config (Universal Links - host and port included if present) -->
+      <intent-filter android:autoVerify="true">
         <action android:name="android.intent.action.VIEW"/>
         <category android:name="android.intent.category.DEFAULT"/>
         <category android:name="android.intent.category.BROWSABLE"/>
         <data android:scheme="${config.scheme}"$hostAttribute$portAttribute android:pathPrefix="/auth"/>
       </intent-filter>
-      <intent-filter android:autoVerify="$autoVerify">
+      <intent-filter android:autoVerify="true">
         <action android:name="android.intent.action.VIEW"/>
         <category android:name="android.intent.category.DEFAULT"/>
         <category android:name="android.intent.category.BROWSABLE"/>
         <data android:scheme="${config.scheme}"$hostAttribute$portAttribute android:pathPrefix="/groups"/>
       </intent-filter>
-      <intent-filter android:autoVerify="$autoVerify">
+      <intent-filter android:autoVerify="true">
         <action android:name="android.intent.action.VIEW"/>
         <category android:name="android.intent.category.DEFAULT"/>
         <category android:name="android.intent.category.BROWSABLE"/>
         <data android:scheme="${config.scheme}"$hostAttribute$portAttribute android:pathPrefix="/families"/>
       </intent-filter>
-      <intent-filter android:autoVerify="$autoVerify">
+      <intent-filter android:autoVerify="true">
         <action android:name="android.intent.action.VIEW"/>
         <category android:name="android.intent.category.DEFAULT"/>
         <category android:name="android.intent.category.BROWSABLE"/>
         <data android:scheme="${config.scheme}"$hostAttribute$portAttribute android:pathPrefix="/invite"/>
       </intent-filter>
-    """.trimIndent()
+""")
+    }
+
+    // Always add Custom URL Scheme intent filters as fallback
+    result.append("""
+      <!-- Custom URL Scheme - Always works as fallback -->
+      <intent-filter>
+        <action android:name="android.intent.action.VIEW"/>
+        <category android:name="android.intent.category.DEFAULT"/>
+        <category android:name="android.intent.category.BROWSABLE"/>
+        <data android:scheme="$customScheme" android:pathPrefix="/auth"/>
+      </intent-filter>
+      <intent-filter>
+        <action android:name="android.intent.action.VIEW"/>
+        <category android:name="android.intent.category.DEFAULT"/>
+        <category android:name="android.intent.category.BROWSABLE"/>
+        <data android:scheme="$customScheme" android:pathPrefix="/groups"/>
+      </intent-filter>
+      <intent-filter>
+        <action android:name="android.intent.action.VIEW"/>
+        <category android:name="android.intent.category.DEFAULT"/>
+        <category android:name="android.intent.category.BROWSABLE"/>
+        <data android:scheme="$customScheme" android:pathPrefix="/families"/>
+      </intent-filter>
+      <intent-filter>
+        <action android:name="android.intent.action.VIEW"/>
+        <category android:name="android.intent.category.DEFAULT"/>
+        <category android:name="android.intent.category.BROWSABLE"/>
+        <data android:scheme="$customScheme" android:pathPrefix="/invite"/>
+      </intent-filter>
+""")
+
+    return result.toString().trimIndent()
 }
 
 android {
@@ -298,7 +341,14 @@ android.applicationVariants.all {
             // 2. Read configuration and generate <intent-filter> block
             val deepLinkUrl = getDeepLinkBaseUrl(flavorName)
             val config = parseDeepLinkUrl(deepLinkUrl)
-            val intentFilters = generateAllIntentFilters(config)
+
+            // Parse JSON config to get CUSTOM_URL_SCHEME
+            val jsonSlurper = groovy.json.JsonSlurper()
+            @Suppress("UNCHECKED_CAST")
+            val json = jsonSlurper.parse(configJsonFile) as Map<String, Any>
+            val customScheme = json["CUSTOM_URL_SCHEME"] as? String ?: "edulift"
+
+            val intentFilters = generateAllIntentFilters(config, customScheme)
 
             if (intentFilters.isBlank()) {
                 println("No intent filters generated for flavor '$flavorName'. Skipping manifest creation.")

@@ -8,24 +8,24 @@ import json
 import sys
 import os
 
-def parse_deep_link_base_url(deep_link_url):
-    """Parse DEEP_LINK_BASE_URL and extract custom scheme and associated domain."""
-    if deep_link_url.startswith("edulift://"):
-        # Custom URL scheme
-        custom_scheme = "edulift"
-        associated_domain = ""
-    elif deep_link_url.startswith("https://"):
-        # HTTPS Universal Link
-        # Extract host (with port if present)
-        url_without_scheme = deep_link_url.removeprefix("https://").strip('/')
-        associated_domain = f"applinks:{url_without_scheme}"
-        # For Universal Links, we still need a custom scheme for the app
-        # Use a fallback scheme based on the environment
-        custom_scheme = "edulift"
-    else:
-        raise ValueError(f"Unsupported deep link URL format: {deep_link_url}")
+def parse_deep_link_config(config):
+    """Parse deep link configuration and extract custom scheme and associated domains."""
+    deep_link_base_url = config.get('DEEP_LINK_BASE_URL', '')
+    custom_url_scheme = config.get('CUSTOM_URL_SCHEME', 'edulift')
+    universal_links_enabled = config.get('UNIVERSAL_LINKS_ENABLED', False)
 
-    return custom_scheme, associated_domain
+    # Always include custom scheme
+    custom_scheme = custom_url_scheme
+
+    # Build associated domains list based on configuration
+    associated_domains = []
+
+    if universal_links_enabled and deep_link_base_url.startswith("https://"):
+        # Extract host (with port if present) for Universal Links
+        url_without_scheme = deep_link_base_url.removeprefix("https://").strip('/')
+        associated_domains.append(f"applinks:{url_without_scheme}")
+
+    return custom_scheme, associated_domains
 
 def main():
     if len(sys.argv) != 4:
@@ -45,25 +45,24 @@ def main():
         with open(config_file_path, 'r') as f:
             config = json.load(f)
 
-        deep_link_base_url = config.get('DEEP_LINK_BASE_URL', '')
-        if not deep_link_base_url:
-            print("Error: DEEP_LINK_BASE_URL not found in config file")
-            sys.exit(1)
-
-        # Parse the URL
-        custom_scheme, associated_domain = parse_deep_link_base_url(deep_link_base_url)
+        # Parse the deep link configuration
+        custom_scheme, associated_domains = parse_deep_link_config(config)
 
         print(f"Environment: {environment}")
-        print(f"DEEP_LINK_BASE_URL: {deep_link_base_url}")
         print(f"Custom URL Scheme: {custom_scheme}")
-        print(f"Associated Domain: {associated_domain}")
+        print(f"Associated Domains: {associated_domains}")
 
         # Write to .xcconfig file
         with open(output_xcconfig_path, 'w') as f:
             f.write(f"// Auto-generated configuration for {environment}\n")
             f.write(f"// Generated from {config_file_path}\n\n")
             f.write(f"CUSTOM_URL_SCHEME = {custom_scheme}\n")
-            f.write(f"ASSOCIATED_DOMAIN = {associated_domain}\n")
+
+            # Write associated domains as space-separated list for Info.plist
+            if associated_domains:
+                f.write(f"ASSOCIATED_DOMAINS = {' '.join(associated_domains)}\n")
+            else:
+                f.write(f"ASSOCIATED_DOMAINS = \n")
 
         print(f"Configuration written to: {output_xcconfig_path}")
 

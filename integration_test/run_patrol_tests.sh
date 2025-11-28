@@ -239,10 +239,10 @@ run_patrol_tests() {
     mkdir -p screenshots/
     
     # Build the app for testing (if needed)
-    log_info "Ensuring app is built for testing..."
-    if [[ ! -f "build/app/outputs/flutter-apk/app-debug.apk" ]] && [[ "$OSTYPE" == "linux-gnu"* || "$OSTYPE" == "darwin"* ]]; then
+    log_info "Ensuring app is built for testing with e2e flavor..."
+    if [[ ! -f "build/app/outputs/flutter-apk/app-e2e-debug.apk" ]] && [[ "$OSTYPE" == "linux-gnu"* || "$OSTYPE" == "darwin"* ]]; then
         log_info "Building Android APK for testing..."
-        flutter build apk --debug
+        flutter build apk --debug --flavor e2e --dart-define-from-file=config/e2e.json
     fi
     
     log_info "🧪 Running tests..."
@@ -262,9 +262,9 @@ run_patrol_tests() {
     # PHASE 2: PATROL E2E TESTS (Full app interaction with Flavors)
     log_info "🚀 PHASE 2: PATROL E2E TESTS (using Flutter Flavors)"
     log_info "📱 Full application testing with UI interaction"
-    log_info "🎯 Using E2E flavor: configured in pubspec.yaml (flavor: e2e)"
+    log_info "🎯 Using E2E flavor: explicitly configured with CUSTOM_URL_SCHEME=edulift"
     
-    local patrol_command="patrol test"
+    local patrol_command="patrol test --flavor e2e --dart-define-from-file=config/e2e.json"
     local test_description="Patrol E2E execution with Flavors"
     
     if [[ "$parallel_mode" == "true" ]]; then
@@ -279,9 +279,10 @@ run_patrol_tests() {
     log_info "🧪 Starting E2E tests ($test_description)..."
     log_info "Command: $patrol_command"
     log_info "🔧 Configuration:"
-    log_info "   • Flavor: e2e (pubspec.yaml default + unified main.dart)"
-    log_info "   • Command: patrol test (no --flavor needed, reads pubspec.yaml)"
-    log_info "   • Entry Point: lib/main.dart (auto-detects flavor from environment)"
+    log_info "   • Flavor: e2e (explicitly specified with --flavor)"
+    log_info "   • Config: config/e2e.json (CUSTOM_URL_SCHEME=edulift)"
+    log_info "   • Command: patrol test --flavor e2e --dart-define-from-file=config/e2e.json"
+    log_info "   • Entry Point: lib/main.dart (loads e2e configuration)"
     log_info "   • Test Bundle: test_bundle.dart (Patrol managed)"
     log_info "   • API URL: http://10.0.2.2:8030/api/v1"
     log_info "   • WebSocket: ws://10.0.2.2:8030"

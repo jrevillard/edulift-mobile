@@ -165,44 +165,33 @@ void main() {
     });
   });
 
-  group('Auth Issue 2: Family Invitation Deeplink vs Web URL Generation', () {
-    test(
-      'should generate native deeplink with correct format for family invitation',
-      () {
-        // ARRANGE: Family invitation parameters
-        const inviteCode = 'FAM123ABC';
-        const magicToken = 'magic_token_xyz';
-        const expectedDeeplink =
-            'edulift://families/join?code=FAM123ABC&token=magic_token_xyz';
+  group('Auth Issue 2: Family Invitation Deeplink Parsing', () {
+    test('should correctly parse family invitation deeplink format', () {
+      // ARRANGE: Family invitation parameters (backend responsibility to generate)
+      const inviteCode = 'FAM123ABC';
+      const magicToken = 'magic_token_xyz';
+      const receivedDeeplink =
+          'edulift://families/join?code=FAM123ABC&token=magic_token_xyz';
 
-        when(
-          mockDeepLinkService.generateNativeDeepLink(
-            magicToken,
-            inviteCode: inviteCode,
-          ),
-        ).thenReturn(expectedDeeplink);
-
-        // ACT
-        final result = mockDeepLinkService.generateNativeDeepLink(
-          magicToken,
+      when(mockDeepLinkService.parseDeepLink(receivedDeeplink)).thenReturn(
+        const DeepLinkResult(
           inviteCode: inviteCode,
-        );
+          magicToken: magicToken,
+          path: 'families/join',
+        ),
+      );
 
-        // ASSERT: Should match expected native deeplink format
-        expect(result, expectedDeeplink);
-        expect(result, startsWith('edulift://'));
-        expect(result, contains('families/join'));
-        expect(result, contains('code=FAM123ABC'));
-        expect(result, contains('token=magic_token_xyz'));
+      // ACT
+      final result = mockDeepLinkService.parseDeepLink(receivedDeeplink);
 
-        verify(
-          mockDeepLinkService.generateNativeDeepLink(
-            magicToken,
-            inviteCode: inviteCode,
-          ),
-        ).called(1);
-      },
-    );
+      // ASSERT: Should match expected native deeplink format
+      expect(result, isNotNull);
+      expect(result!.inviteCode, inviteCode);
+      expect(result.magicToken, magicToken);
+      expect(result.path, 'families/join');
+
+      verify(mockDeepLinkService.parseDeepLink(receivedDeeplink)).called(1);
+    });
 
     test('should correctly parse deeplink with family invitation parameters', () {
       // ARRANGE: Incoming deeplink URL
@@ -241,43 +230,42 @@ void main() {
       verify(mockDeepLinkService.parseDeepLink(deeplinkUrl)).called(1);
     });
 
-    test('should handle web URL vs native deeplink generation correctly', () {
-      // ARRANGE: Test both web and native URL generation
+    test('should handle web URL vs native deeplink parsing correctly', () {
+      // ARRANGE: Test both web and native URL parsing (backend generates, mobile parses)
       const magicToken = 'token123';
       const inviteCode = 'INV456';
 
-      // Web URL format (what backend might generate)
+      // Web URL format (what backend might generate for Universal Links)
       const webUrl =
-          'https://app.edulift.com/families/join?code=INV456&token=token123';
-      // Native deeplink format (what app should use)
+          'https://transport.tanjama.fr.:50443/families/join?code=INV456&token=token123';
+      // Native deeplink format (what backend might generate for Custom Scheme)
       const nativeDeeplink =
           'edulift://families/join?code=INV456&token=token123';
 
-      when(
-        mockDeepLinkService.generateNativeDeepLink(
-          magicToken,
-          inviteCode: inviteCode,
-        ),
-      ).thenReturn(nativeDeeplink);
-
-      // ACT
-      final nativeResult = mockDeepLinkService.generateNativeDeepLink(
-        magicToken,
+      const expectedResult = DeepLinkResult(
         inviteCode: inviteCode,
+        magicToken: magicToken,
+        path: 'families/join',
       );
 
-      // ASSERT: Should generate native format, not web format
-      expect(nativeResult, nativeDeeplink);
-      expect(nativeResult, isNot(webUrl));
-      expect(nativeResult, startsWith('edulift://'));
-      expect(nativeResult, isNot(startsWith('https://')));
+      when(
+        mockDeepLinkService.parseDeepLink(webUrl),
+      ).thenReturn(expectedResult);
+      when(
+        mockDeepLinkService.parseDeepLink(nativeDeeplink),
+      ).thenReturn(expectedResult);
 
-      verify(
-        mockDeepLinkService.generateNativeDeepLink(
-          magicToken,
-          inviteCode: inviteCode,
-        ),
-      ).called(1);
+      // ACT
+      final webResult = mockDeepLinkService.parseDeepLink(webUrl);
+      final nativeResult = mockDeepLinkService.parseDeepLink(nativeDeeplink);
+
+      // ASSERT: Both formats should parse to the same result
+      expect(webResult, expectedResult);
+      expect(nativeResult, expectedResult);
+      expect(nativeResult, webResult);
+
+      verify(mockDeepLinkService.parseDeepLink(webUrl)).called(1);
+      verify(mockDeepLinkService.parseDeepLink(nativeDeeplink)).called(1);
     });
   });
 

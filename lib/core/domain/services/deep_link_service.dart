@@ -12,6 +12,5 @@ abstract class DeepLinkService {
   Future<DeepLinkResult?> getInitialDeepLink();
   void setDeepLinkHandler(Function(DeepLinkResult)? handler);
   DeepLinkResult? parseDeepLink(String url);
-  String generateNativeDeepLink(String token, {String? inviteCode});
   void dispose();
 }

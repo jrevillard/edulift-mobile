@@ -4,6 +4,8 @@
   "API_BASE_URL": "https://transport.tanjama.fr/api/v1",
   "WEBSOCKET_URL": "wss://transport.tanjama.fr",
   "DEEP_LINK_BASE_URL": "https://transport.tanjama.fr/",
+  "CUSTOM_URL_SCHEME": "edulift",
+  "UNIVERSAL_LINKS_ENABLED": true,
   "CONNECT_TIMEOUT_SECONDS": 5,
   "RECEIVE_TIMEOUT_SECONDS": 10,
   "SEND_TIMEOUT_SECONDS": 10,

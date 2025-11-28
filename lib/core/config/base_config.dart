@@ -47,6 +47,12 @@ abstract class BaseConfig {
   /// Deep link base URL for generating deep links
   String get deepLinkBaseUrl;
 
+  /// Custom URL scheme (e.g., 'edulift')
+  String get customUrlScheme;
+
+  /// Whether Universal Links are enabled for this environment
+  bool get universalLinksEnabled;
+
   /// Firebase project configuration enabled
   bool get firebaseEnabled;
 

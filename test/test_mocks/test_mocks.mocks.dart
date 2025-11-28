@@ -3378,33 +3378,6 @@ class MockDeepLinkService extends _i1.Mock implements _i64.DeepLinkService {
           as _i63.DeepLinkResult?);
 
   @override
-  String generateNativeDeepLink(String? token, {String? inviteCode}) =>
-      (super.noSuchMethod(
-            Invocation.method(
-              #generateNativeDeepLink,
-              [token],
-              {#inviteCode: inviteCode},
-            ),
-            returnValue: _i43.dummyValue<String>(
-              this,
-              Invocation.method(
-                #generateNativeDeepLink,
-                [token],
-                {#inviteCode: inviteCode},
-              ),
-            ),
-            returnValueForMissingStub: _i43.dummyValue<String>(
-              this,
-              Invocation.method(
-                #generateNativeDeepLink,
-                [token],
-                {#inviteCode: inviteCode},
-              ),
-            ),
-          )
-          as String);
-
-  @override
   void dispose() => super.noSuchMethod(
     Invocation.method(#dispose, []),
     returnValueForMissingStub: null,
