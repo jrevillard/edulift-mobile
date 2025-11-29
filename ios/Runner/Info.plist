@@ -61,25 +61,5 @@
 	</array>
 	<key>FirebaseAppDelegateProxyEnabled</key>
 	<false/>
-	<!-- Deep Link Configuration - Custom URL Scheme + Universal Links -->
-	<key>CFBundleURLTypes</key>
-	<array>
-		<dict>
-			<key>CFBundleURLName</key>
-			<string>com.edulift.app</string>
-			<key>CFBundleURLSchemes</key>
-			<array>
-				<string>$(CUSTOM_URL_SCHEME)</string>
-			</array>
-			<key>CFBundleURLRole</key>
-			<string>Editor</key>
-		</dict>
-	</array>
-	<!-- Universal Links Configuration - Associated Domains -->
-	<key>com.apple.developer.associated-domains</key>
-	<array>
-		<!-- Dynamically generated from build configuration -->
-		<string>$(ASSOCIATED_DOMAINS)</string>
-	</array>
 </dict>
 </plist>
