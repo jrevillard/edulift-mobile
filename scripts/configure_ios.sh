@@ -33,8 +33,10 @@ if ! command -v jq &> /dev/null; then
     exit 1
 fi
 
-# Extract DEEP_LINK_BASE_URL from JSON
+# Extract configuration from JSON
 DEEP_LINK_BASE_URL=$(jq -r '.DEEP_LINK_BASE_URL' "$CONFIG_FILE")
+CUSTOM_URL_SCHEME=$(jq -r '.CUSTOM_URL_SCHEME // "edulift"' "$CONFIG_FILE")
+UNIVERSAL_LINKS_ENABLED=$(jq -r '.UNIVERSAL_LINKS_ENABLED // false' "$CONFIG_FILE")
 
 if [ "$DEEP_LINK_BASE_URL" = "null" ] || [ -z "$DEEP_LINK_BASE_URL" ]; then
     echo "❌ Error: DEEP_LINK_BASE_URL not found in '$CONFIG_FILE'"
@@ -42,35 +44,24 @@ if [ "$DEEP_LINK_BASE_URL" = "null" ] || [ -z "$DEEP_LINK_BASE_URL" ]; then
 fi
 
 echo "🔗 DEEP_LINK_BASE_URL: $DEEP_LINK_BASE_URL"
+echo "🔗 CUSTOM_URL_SCHEME: $CUSTOM_URL_SCHEME"
+echo "🔗 UNIVERSAL_LINKS_ENABLED: $UNIVERSAL_LINKS_ENABLED"
 
-# Parse deep link URL to extract scheme and associated domain
-parse_deep_link_url() {
-    local url="$1"
+# Always use the custom URL scheme from config
+URL_SCHEME="$CUSTOM_URL_SCHEME"
 
-    if [[ "$url" == https://* ]]; then
-        # HTTPS Universal Link - no custom URL scheme, only associated domain
-        # Extract host and remove port for associated domains (iOS doesn't support ports)
-        local host_with_port=$(echo "$url" | sed 's|https://||' | sed 's|/$||')
-        local host=$(echo "$host_with_port" | cut -d':' -f1)
-
-        # For HTTPS URLs, only use Universal Links (no custom scheme needed)
-        URL_SCHEME=""
-        ASSOCIATED_DOMAIN="applinks:$host"
-    elif [[ "$url" == *"://"* ]]; then
-        # Extract scheme from custom URL (like tanjama://, transport://, etc.)
-        local extracted_scheme=$(echo "$url" | cut -d':' -f1)
-        URL_SCHEME="$extracted_scheme"
-        ASSOCIATED_DOMAIN=""
-    else
-        echo "❌ Error: Unsupported deep link URL format: $url"
-        exit 1
-    fi
-}
-
-parse_deep_link_url "$DEEP_LINK_BASE_URL"
+# Parse deep link URL to extract associated domain for Universal Links if enabled
+if [ "$UNIVERSAL_LINKS_ENABLED" = "true" ] && [[ "$DEEP_LINK_BASE_URL" == https://* ]]; then
+    # Extract host for Universal Links (iOS doesn't support ports in associated domains)
+    host_with_port=$(echo "$DEEP_LINK_BASE_URL" | sed 's|https://||' | sed 's|/$||')
+    host=$(echo "$host_with_port" | cut -d':' -f1)
+    ASSOCIATED_DOMAIN="applinks:$host"
+else
+    ASSOCIATED_DOMAIN=""
+fi
 
 echo "📱 Custom URL Scheme: $URL_SCHEME"
-echo "🌐 Associated Domain: $ASSOCIATED_DOMAIN"
+echo "🌐 Associated Domain: ${ASSOCIATED_DOMAIN:-'(none)'}"
 
 # --- Update Info.plist for Custom URL Schemes ---
 
@@ -103,7 +94,6 @@ with open('$PLIST_FILE', 'w') as f:
 
     # Insert new CFBundleURLTypes before CFBundleDisplayName
     sed -i.bak "/<key>CFBundleDisplayName<\/key>/i\\
-\\t<!-- Deep linking support (auto-generated for $ENVIRONMENT) -->\\
 \\t<key>CFBundleURLTypes<\/key>\\
 \\t<array>\\
 \\t\t<dict>\\
@@ -215,7 +205,6 @@ else
     # Add new associated domains only if not empty
     if [ -n "$ASSOCIATED_DOMAIN" ]; then
         sed -i.tmp "/<\/dict>/i\\
-\\t<!-- Associated Domains (auto-generated for $ENVIRONMENT) -->\\
 \\t<key>com.apple.developer.associated-domains<\/key>\\
 \\t<array>\\
 \\t\t<string>$ASSOCIATED_DOMAIN<\/string>\\
